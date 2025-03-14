@@ -175,36 +175,74 @@ const handleClose =()=>{
     }
   };
   
-
   const handleMobileChange = (e) => {
     const value = e.target.value;
-
+  
     const pattern = /^\d*$/;
-
     if (pattern.test(value)) {
       setVendor_Mobile(value);
       setGeneralError("");
       setIsChangedError("");
       setCountryCodeError("");
       setMobileError("");
-      setVendorPhoneError("")
+      setVendorPhoneError("");
       dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
-
-      if (value.length === 10) {
-        setErrors((prevErrors) => ({ ...prevErrors, vendor_Mobile: "" }));
+  
+      // Show error while typing if length is less than 10
+      if (value.length === 0) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          setMobileError: "Mobile Number is required",
+        }));
+      } else if (value.length < 10) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          setMobileError: "Please Enter Valid Mobile Number",
+        }));
       } else {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          vendor_Mobile: "Invalid mobile number *",
+          setMobileError: "",
         }));
       }
+  
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        vendor_Mobile: "Mobile number can only contain digits *",
+        mobileError: "Mobile number can only contain digits",
       }));
     }
   };
+  
+  // const handleMobileChange = (e) => {
+  //   const value = e.target.value;
+
+  //   const pattern = /^\d*$/;
+
+  //   if (pattern.test(value)) {
+  //     setVendor_Mobile(value);
+  //     setGeneralError("");
+  //     setIsChangedError("");
+  //     setCountryCodeError("");
+  //     setMobileError("");
+  //     setVendorPhoneError("")
+  //     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+
+  //     if (value.length === 10) {
+  //       setErrors((prevErrors) => ({ ...prevErrors, vendor_Mobile: "" }));
+  //     } else {
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         vendor_Mobile: "Invalid mobile number *",
+  //       }));
+  //     }
+  //   } else {
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       vendor_Mobile: "Mobile number can only contain digits *",
+  //     }));
+  //   }
+  // };
 
   const handleAddressChange = (e) => {
     const value = e.target.value;
@@ -278,7 +316,7 @@ const handleClose =()=>{
       !country &&
       !pinCode
     ) {
-      setGeneralError("Please fill in all the required fields.");
+      setGeneralError("Please fill in all the Required Fields");
       isValid = false;
     }
 
@@ -328,11 +366,11 @@ const handleClose =()=>{
 
     if (emailInvalid || mobileInvalid) {
       if (emailInvalid) {
-        setEmailError("Enter  valid Email ID");
+        setEmailError("Enter valid Email ID");
         isValid = false;
       }
       if (mobileInvalid) {
-        setMobileError("Enter Valid 10 Digit  Mobile Number");
+        setMobileError("Enter Valid Mobile Number");
         isValid = false;
       }
       return;

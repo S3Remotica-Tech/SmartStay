@@ -1300,7 +1300,9 @@ function EB_Hostel() {
                       <tbody style={{ fontSize: "12px" }}>
                         {currentRoomelectricity.map((v) => {
 
-
+const formattedDate = v.reading_date
+  ? v.reading_date.split("-").reverse().join("-")
+  : "";
 
                           return (
                             <tr key={v.id}>
@@ -1464,7 +1466,7 @@ function EB_Hostel() {
                                     whiteSpace: "nowrap",
                                   }}
                                 >
-                                  {v.reading_date}
+                                  {formattedDate}
                                 </span>
                               </td>
                               <td

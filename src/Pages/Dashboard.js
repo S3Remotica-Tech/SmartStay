@@ -1684,7 +1684,7 @@ console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatu
                                 textAlign: "center",  width: "33.33%",
                                                              }}
                             >
-                              Invoice number
+                              Invoice Number
                             </th>
                             <th
                               style={{

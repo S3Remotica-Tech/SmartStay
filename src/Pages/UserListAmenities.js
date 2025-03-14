@@ -41,7 +41,7 @@ function UserListAmenities(props) {
     }
   
     const amenitiesHistory = state.UsersList?.amnetieshistory?.filter((item) => {
-      return item.amenity_Id === value;
+      return String(item.amenity_Id) === String(value);
     });
   
     if (amenitiesHistory && amenitiesHistory.length > 0) {
@@ -164,11 +164,7 @@ const handleAmnitiesSelect = ()=>{
     
   };
 
-  useEffect(() => {
-    if (state.UsersList.statusCustomerAddUser === 200) {
-      setaddamenityShow(false);
-    }
-  }, [state.UsersList.statusCustomerAddUser]);
+  
 
   const handleEdit = (v) => {
     setaddamenityShow(true);
@@ -178,7 +174,13 @@ const handleAmnitiesSelect = ()=>{
   const handleFormClose = ()=>{
     setSelectError("")
     setaddamenityShow(false);
+    dispatch({type:'CLEAR_ERROR_USER_AMENITIES'})
   }
+  useEffect(() => {
+    if (state.UsersList.statusCustomerAddUser === 200) {
+      handleFormClose()
+    }
+  }, [state.UsersList.statusCustomerAddUser]);
 
   const [amentiesrowsPerPage, setAmentiesrowsPerPage] = useState(10);
   const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
@@ -206,6 +208,10 @@ const handleAmnitiesSelect = ()=>{
   useEffect(() => {
     setamnitiesFilterddata(state.UsersList?.amnetieshistory);
   }, [state.UsersList?.amnetieshistory]);
+
+ 
+
+
   return (
     <div className="container mt-3">
       {state.UsersList?.customerdetails?.all_amenities &&
@@ -319,71 +325,52 @@ const handleAmnitiesSelect = ()=>{
         centered
         
       >
-        {/* <Modal.Header
-          closeButton
-          style={{}}
-          className="text-center"
-        >
-          <Modal.Title
-            style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
-            className="text-center"
-          >
-            Add Amenities
-            
-          </Modal.Title>
-          <style>
-    {`
-      .btn-close {
-       width: 20px !important;
-        height: 20px !important;
-        border-radius: 50% !important;
-        background-color: white !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-        opacity: 1 !important;
-        position: absolute !important;
-        top: 10px !important;
-        right: 10px !important;
-        border: 2px solid black !important;
-      }
-     
-    `}
-  </style>
-        </Modal.Header> */}
-        <Modal.Header
-  closeButton
-  style={{ position: "relative"}}
-  className="text-center"
->
-  <Modal.Title
-    style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
-    className="text-center"
-  >
-    Add Amenities
-  </Modal.Title>
-
-  <style>
-    {`
-      .btn-close {
-        width: 12px !important; /* Smaller size */
-        height: 12px !important; /* Smaller size */
-        border-radius: 50% !important;
-        background-color: white !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        box-shadow: 0 1px 1px rgba(241, 235, 235, 0.1) !important;
-        opacity: 1 !important;
-        position: absolute !important;
-        top: 22px !important;
-        right: 22px !important;
-        border: 2px solid black !important;
-      }
-    `}
-  </style>
-</Modal.Header>
+       <Modal.Header
+                          style={{ marginBottom: "30px", position: "relative" }}
+                        >
+                          <div
+                            style={{
+                              // marginTop: -20,
+                              fontSize: 18,
+                              fontWeight: 600,
+                              fontFamily: "Gilroy", textAlign: "start",
+      
+                            }}
+                          >
+                           Add Amenities
+                          </div>
+                          <button
+                            type="button"
+                            className="close"
+                            aria-label="Close"
+                            onClick={handleFormClose}
+                            style={{
+                              position: "absolute",
+                              right: "15px",
+                              marginTop: -10,
+                              border: "1px solid black",
+                              background: "transparent",
+                              cursor: "pointer",
+                              padding: "0",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "24px",
+                              height: "24px",
+                              borderRadius: "50%",
+                            }}
+                          >
+                            <span
+                              aria-hidden="true"
+                              style={{
+                                fontSize: "30px",
+                                paddingBottom: "6px",
+                              }}
+                            >
+                              &times;
+                            </span>
+                          </button>
+                        </Modal.Header>
 
         <Modal.Body>
           <div className="mb-3 ps-2 pe-2">
@@ -391,7 +378,7 @@ const handleAmnitiesSelect = ()=>{
               className="mb-1"
               style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
             >
-              AmenitiesName
+              Amenities Name
             </label>
             <Form.Control
               placeholder="Amnities Name"
@@ -431,7 +418,7 @@ const handleAmnitiesSelect = ()=>{
               className="mb-1"
               style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
             >
-              HostelName
+              Hostel Name
             </label>
             <Form.Control
               placeholder="HostelName"
@@ -528,6 +515,7 @@ const handleAmnitiesSelect = ()=>{
             </div>
           )}
         </Modal.Body>
+       
         <Modal.Footer className="d-flex justify-content-center">
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"

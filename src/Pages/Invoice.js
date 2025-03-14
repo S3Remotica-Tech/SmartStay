@@ -811,7 +811,7 @@ console.log('invoiceDetails',invoiceDetails)
         endDateChanged ||
         invoiceDateChanged ||
         dueDateChanged ||
-        rowsCountChanged ||  // **Now detects added/deleted rows**
+        rowsCountChanged || 
         amenitiesChanged
       );
     })();
@@ -829,7 +829,7 @@ console.log('invoiceDetails',invoiceDetails)
     // });
 
     if (!isChanged) {
-      setAllFieldErrmsg("No changes detected.");
+      setAllFieldErrmsg("No Changes Detected");
       isValid = false;
       return;
     }
@@ -1001,7 +1001,7 @@ console.log('invoiceDetails',invoiceDetails)
     }
 
     if (!invoiceList.transaction || invoiceList.transaction === "select") {
-      setPaymodeErrmsg("Please select a valid Paymode Type");
+      setPaymodeErrmsg("Please Select a Valid Paymode Type");
       return;
     }
 
@@ -2645,7 +2645,7 @@ console.log('invoiceDetails',invoiceDetails)
                               outline: "none",
                               borderColor: "rgb(207,213,219)",
                               borderRight: "none",
-                              width: "250px"
+                              width: "170px"
                             }}
                             value={filterInput}
                             onChange={(e) => handlefilterInput(e)}
@@ -3644,7 +3644,7 @@ console.log('invoiceDetails',invoiceDetails)
                                         marginTop: 2,
                                       }}
                                     >
-                                      Mode of transaction
+                                      Mode of Transaction
                                       <span
                                         style={{
                                           color: "red",

@@ -198,7 +198,7 @@ const AddReceiptForm = (props) => {
         // setGeneralError("");
         // setPaymentError("");
         if(!e.target.value){
-          setPaymentError("Please Select payment method")
+          setPaymentError("Please Select Payment Method")
         }
         else{
           setPaymentError('')
@@ -354,7 +354,7 @@ const AddReceiptForm = (props) => {
           // (props.editvalue.notes ? String(props.editvalue.notes) !== String(notes) : notes !== ""); 
         
         if (!isChanged) {
-          setAllFieldErrmsg("No Changes detected");
+          setAllFieldErrmsg("No Changes Detected");
           return;
         }
         

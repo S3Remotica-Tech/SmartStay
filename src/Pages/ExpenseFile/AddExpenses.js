@@ -232,7 +232,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     }
   
     if (!price) {
-      setPriceError("Please Enter Valid Price");
+      setPriceError("Please Enter Valid Amount");
       hasError = true;
     } else if (isNaN(price) || price <= 0) {
       setPriceError("Price Must be a Positive Number");
@@ -638,7 +638,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                     value={count}
                     onChange={handleCountChange}
                     type="text"
-                    placeholder="Enter unit count"
+                    placeholder="Enter Unit Count"
                     maxLength={10}
                     style={{
                       fontSize: 16,
@@ -697,7 +697,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                     value={price}
                     onChange={handlePriceChange}
                     type="text"
-                    placeholder="Enter amount"
+                    placeholder="Enter Unit Amount"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",

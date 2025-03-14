@@ -174,16 +174,31 @@ function Banking() {
 
   useEffect(() => {
     const handleClickOutsideAccount = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
+      const clickedInside = event.target.closest('.account-type-wrapper');
+      if (!clickedInside) {
         setShowAccountTypeOptions(null);
       }
     };
-    document.addEventListener("mousedown", handleClickOutsideAccount);
-
+  
+    document.addEventListener('mousedown', handleClickOutsideAccount);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutsideAccount);
+      document.removeEventListener('mousedown', handleClickOutsideAccount);
     };
   }, []);
+  
+
+  // useEffect(() => {
+  //   const handleClickOutsideAccount = (event) => {
+  //     if (popupRef.current && !popupRef.current.contains(event.target)) {
+  //       setShowAccountTypeOptions(null);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutsideAccount);
+
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutsideAccount);
+  //   };
+  // }, []);
 
   const handleAccountTypeSelection = (e) => {
     const selectedValue = parseInt(e.target.value);
@@ -347,7 +362,7 @@ function Banking() {
   };
   const handleAddAmountSubmit = () => {
     if (!AddBankAmount.trim()) {
-      setAmountError("Please enter an amount");
+      setAmountError("Please Enter Amount");
       return;
     }
     dispatch({
@@ -574,7 +589,7 @@ function Banking() {
                             outline: "none",
                             borderColor: "rgb(207,213,219)",
                             borderRight: "none",
-                            width:"230px",
+                            width:"160px",
                             height:40
                           }}
                           value={filterInput}
@@ -978,58 +993,55 @@ function Banking() {
                         </span>
                       </div>
                       {showAccountTypeOptions === item.id && (
-                        <div
-                          style={{
-                            position: "absolute",
-                            top: 70,
-                            left: 50,
-                            backgroundColor: "#FFFFFF",
-                            border: "1px solid #EBEBEB",
-                            borderRadius: "10px",
-                            padding: "10px",
-                            zIndex: 1000,
-                            width: 150,
-                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                          }}
-                        >
-                          <label
-                            style={{ display: "block", marginBottom: "5px" }}
-                          >
-                            <input
-                              type="radio"
-                              name={`accountType-${item.id}`}
-                              value={1}
-                              checked={selectedAccountType === 1}
-                              onChange={handleAccountTypeSelection}
-                            />{" "}
-                            Credit A/C
-                          </label>
-                          <label
-                            style={{ display: "block", marginBottom: "5px" }}
-                          >
-                            <input
-                              type="radio"
-                              name={`accountType-${item.id}`}
-                              value={2}
-                              checked={selectedAccountType === 2}
-                              onChange={handleAccountTypeSelection}
-                            />{" "}
-                            Debit A/C
-                          </label>
-                          <label
-                            style={{ display: "block", marginBottom: "5px" }}
-                          >
-                            <input
-                              type="radio"
-                              name={`accountType-${item.id}`}
-                              value={3}
-                              checked={selectedAccountType === 3}
-                              onChange={handleAccountTypeSelection}
-                            />{" "}
-                            Both A/C
-                          </label>
-                        </div>
-                      )}
+  <div
+    className="account-type-dropdown"
+    onMouseDown={(e) => e.stopPropagation()} // ← this line is key
+    style={{
+      position: "absolute",
+      top: 70,
+      left: 50,
+      backgroundColor: "#FFFFFF",
+      border: "1px solid #EBEBEB",
+      borderRadius: "10px",
+      padding: "10px",
+      zIndex: 1000,
+      width: 150,
+      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+    }}
+  >
+    <label style={{ display: "block", marginBottom: "5px" }}>
+      <input
+        type="radio"
+        name={`accountType-${item.id}`}
+        value={1}
+        checked={selectedAccountType === 1}
+        onChange={handleAccountTypeSelection}
+      />{" "}
+      Credit A/C
+    </label>
+    <label style={{ display: "block", marginBottom: "5px" }}>
+      <input
+        type="radio"
+        name={`accountType-${item.id}`}
+        value={2}
+        checked={selectedAccountType === 2}
+        onChange={handleAccountTypeSelection}
+      />{" "}
+      Debit A/C
+    </label>
+    <label style={{ display: "block", marginBottom: "5px" }}>
+      <input
+        type="radio"
+        name={`accountType-${item.id}`}
+        value={3}
+        checked={selectedAccountType === 3}
+        onChange={handleAccountTypeSelection}
+      />{" "}
+      Both A/C
+    </label>
+  </div>
+)}
+
                     </div>
 
                     {/* Card Footer */}
@@ -1153,7 +1165,7 @@ function Banking() {
                       </th>
                       <th
                         style={{
-                          textAlign: "start",
+                          textAlign: "center",
                           padding: "10px",
                           color: "rgb(147, 147, 147)",
                           fontSize: "14px",
@@ -1277,7 +1289,7 @@ function Banking() {
                             style={{
                               paddingTop: 15,
                               border: "none",
-                              textAlign: "start",
+                              textAlign: "center",
                               fontSize: "16px",
                               fontWeight: 500,
                               fontFamily: "Gilroy",

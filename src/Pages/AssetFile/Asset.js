@@ -523,47 +523,39 @@ function Asset() {
                         getData.length > 0 && searchQuery !== '' && showDropDown && (
 
                           <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                            <ul className='show-scroll' style={{
-                              // position: 'absolute',
-                              // top: '50px',
-                              // left: 0,
-                              width: 260,
-                              backgroundColor: '#fff',
-                              // border: '1px solid #D9D9D9',
-                              // borderRadius: '4px',
-                              maxHeight: 174,
-                              minHeight: 100,
-                              overflowY: 'auto',
-                              padding: '5px 10px',
-                              margin: '0',
-                              listStyleType: 'none',
+                           <ul
+  className="show-scroll"
+  style={{
+    width: 260,
+    backgroundColor: '#fff',
+    maxHeight: getData.length > 2 ? 174 : 'auto',
+    overflowY: getData.length > 2 ? 'auto' : 'visible',
+    minHeight: getData.length > 1 ? 100 : 'auto',
+    padding: '5px 10px',
+    margin: 0,
+    listStyleType: 'none',
+    borderRadius: 8,
+    boxSizing: 'border-box',
+  }}
+>
+  {getData.map((user, index) => (
+    <li
+      key={index}
+      onClick={() => handleDropDown(user.asset_name)}
+      style={{
+        padding: '10px',
+        cursor: 'pointer',
+        borderBottom: index !== getData.length - 1 ? '1px solid #dcdcdc' : 'none',
+        fontSize: '14px',
+        fontFamily: 'Gilroy',
+        fontWeight: 500,
+      }}
+    >
+      {user.asset_name}
+    </li>
+  ))}
+</ul>
 
-                              borderRadius: 8,
-                              boxSizing: 'border-box'
-                            }}>
-                              {
-                                getData.map((user, index) => (
-                                  <li
-                                    key={index}
-                                    onClick={() => {
-                                      handleDropDown(user.asset_name);
-
-                                    }}
-                                    style={{
-                                      padding: '10px',
-                                      cursor: 'pointer',
-                                      borderBottom: '1px solid #dcdcdc',
-                                      fontSize: '14px',
-                                      fontFamily: 'Gilroy',
-                                      fontWeight: 500,
-
-                                    }}
-                                  >
-                                    {user.asset_name}
-                                  </li>
-                                ))
-                              }
-                            </ul>
                           </div>
                         )
                       }

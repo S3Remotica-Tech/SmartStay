@@ -185,17 +185,17 @@ function StaticExample({ show, handleClose, currentItem }) {
         // }
 
         if (!Floor) {
-            setFloorError('Please select a Floor');
+            setFloorError('Please Select a Floor');
             // return;
         }
 
         if (!room) {
-            setRoomError('Please select a Room');
+            setRoomError('Please Select a Room');
             // return;
         }
 
         if (!selectedDate) {
-            setDateError('Please select a Date');
+            setDateError('Please Select a Date');
             // return;
         }
 

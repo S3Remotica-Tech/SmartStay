@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */ 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -86,28 +86,25 @@ function DeleteFloor({ show, handleClose, currentItem }) {
 
   //   console.log("filtered",filtered);
   // }, [currentItem.hostel_Id, currentItem.floor_Id, state.PgList.roomCount]);
-
+const [deleteFloorForm,setDeleteFloor] = useState("")
 
   useEffect(() => {
     if (state.UsersList?.deleteFloorError) {
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_DELETE_FLOOR_ERROR' });
-      }, 3000);
+      setDeleteFloor(state.UsersList?.deleteFloorError)
     }
   }, [state.UsersList?.deleteFloorError]);
 
 
-
+  const handleCloseFormFloor = ()=>{
+    handleClose()
+    setDeleteFloor("")
+    dispatch({type:'CLEAR_DELETE_FLOOR_ERROR'})
+  }
 
   return (
     <div>
-      <Modal show={show} onHide={handleClose} centered backdrop="static"
-        style={{
-          width: 388,
-          height: 250,
-          marginLeft: "500px",
-          marginTop: "200px",
-        }}>
+      <Modal show={show} onHide={handleCloseFormFloor} centered backdrop="static" dialogClassName="custom-delete-modal"
+       >
         <Modal.Header style={{
           borderBottom: "none",
           justifyContent: "center",
@@ -118,23 +115,32 @@ function DeleteFloor({ show, handleClose, currentItem }) {
             fontWeight: 600,
             fontFamily: "Gilroy"
           }}>Delete floor ?</Modal.Title>
-          {/* <CloseCircle size="24" color="#000"  onClick={handleClose}/> */}
         </Modal.Header>
 
 
-        {state.UsersList?.deleteFloorError && (
-          <div className="d-flex align-items-center p-1 mb-2">
-            <MdError style={{ color: "red", marginRight: '5px' }} />
-            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-              {state.UsersList?.deleteFloorError}
-            </label>
-          </div>
-        )}
+       
         <Modal.Body style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
           {`Are you sure you want to delete the ${currentItem.floor_Name}?`}
         </Modal.Body>
+       {deleteFloorForm && (
+                 <div className="d-flex justify-content-center align-items-center gap-2 ">
+                   <MdError style={{ color: "red" }} />
+                   <label
+                     className="mb-0"
+                     style={{
+                       color: "red",
+                       fontSize: "12px",
+                       fontFamily: "Gilroy",
+                       fontWeight: 500,
+                       textAlign: "center",
+                     }}
+                   >
+                     {deleteFloorForm}
+                   </label>
+                 </div>
+               )}
         <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-          <Button onClick={handleClose} style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+          <Button onClick={handleCloseFormFloor} style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
             Cancel
           </Button>
 
