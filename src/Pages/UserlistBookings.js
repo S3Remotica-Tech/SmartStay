@@ -367,12 +367,42 @@ if (!pattern.test(value)) {
     }
   };
   const handleSubmit = () => {
+    let hasError = false;
     const isFirstnameValid = validateAssignField(firstName, "firstName");
     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
     const isamountValid = validateAssignField(amount, "amount");
     const isphoneValid = validateAssignField(Phone, "Phone");
     const isHostelValid = validateAssignField(HostelIds, "paying");
     const isaddressValid = validateAssignField(Address, "Address");
+
+
+
+    
+    if (!Phone) {
+      setPhoneError("Mobile Number is Required");
+      hasError = true;
+    }
+    else if (Phone.length !== 10) {
+      setPhoneError("Please Enter Valid Mobile Number");
+      hasError = true;
+    } else {
+      setPhoneError(""); 
+    }
+
+    if (Email) {
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+      const isValidEmail = emailRegex.test(Email.toLowerCase());
+      if (!isValidEmail) {
+        setEmailError("Please Enter a Valid Email ID");
+        hasError = true;
+      } else {
+        setEmailError("");
+      }
+    } else {
+      setEmailError(""); 
+    }
+    
+    if (hasError) return;
 
     if (
       !isFirstnameValid ||

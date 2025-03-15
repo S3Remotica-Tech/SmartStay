@@ -217,35 +217,35 @@ function UserList(props) {
 
     // Validate Customer
     if (!customername) {
-      setCustomerErrmsg("Customer is required.");
+      setCustomerErrmsg("Customer is Required");
       isValid = false;
     }
 
     // Validate Invoice Number
     if (!invoicenumber) {
-      setInvoicenumberErrmsg("Invoice number is required.");
+      setInvoicenumberErrmsg("Invoice Number is Required");
       isValid = false;
     }
 
     // Validate Start Date
     if (!startdate) {
-      setStartdateErrmsg("Start date is required.");
+      setStartdateErrmsg("Start Date is Required");
       isValid = false;
     }
     if (!enddate) {
-      setEnddateErrmsg("End date is required.");
+      setEnddateErrmsg("End Date is Required");
       isValid = false;
     }
 
     // Validate Invoice Date
     if (!invoicedate) {
-      setInvoiceDateErrmsg("Invoice date is required.");
+      setInvoiceDateErrmsg("Invoice Date is Required");
       isValid = false;
     }
 
     // Validate Due Date
     if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Due date is required.");
+      setInvoiceDueDateErrmsg("Due Date is Required");
       isValid = false;
     }
 
@@ -258,7 +258,7 @@ function UserList(props) {
       !invoiceduedate ||
       !enddate
     ) {
-      setAllFieldErrmsg("Please fill out all required fields.");
+      setAllFieldErrmsg("Please Fill Out All Required Fields");
       isValid = false;
     }
 
@@ -350,7 +350,7 @@ function UserList(props) {
     })();
 
     if (!isChanged) {
-      setAllFieldErrmsg("No changes detected.");
+      setAllFieldErrmsg("No Changes Detected");
       isValid = false;
     }
 

@@ -206,18 +206,18 @@ function AddPg({ show, handleClose, currentItem }) {
     // Email Format Validation
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     if (email && !emailRegex.test(email)) {
-      setEmailError("Enter a valid Email ID");
+      setEmailError("Enter a Valid Email ID");
       hasError = true;
     }
   
     // Mobile format check (10 digit validation, optional)
     if (mobile && mobile.length !== 10) {
-      setMobileError("Enter a valid 10 digit mobile number");
+      setMobileError("Please Enter Valid Mobile No");
       hasError = true;
     }
   
     if (!pgName && !mobile && !location && !countryCode) {
-      setGeneralError("Please fill in all the required fields.");
+      setGeneralError("Please Fill In All The Required Fields");
       return;
     }
   
@@ -243,7 +243,7 @@ function AddPg({ show, handleClose, currentItem }) {
       !arraysAreEqual(images, initialState.imageUrls);
   
     if (!isChanged) {
-      setIsChangedError("No changes detected");
+      setIsChangedError("No Changes Detected");
       return;
     }
   

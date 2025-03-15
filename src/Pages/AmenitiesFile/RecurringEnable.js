@@ -114,14 +114,14 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
         let isValid = true;
 
         if (!startDate) {
-            setErrorStartDate('Start Date is required.');
+            setErrorStartDate('Start Date is Required.');
             isValid = false;
         } else {
             setErrorStartDate('');
         }
 
         if (!endDate) {
-            setErrorEndDate('End Date is required.');
+            setErrorEndDate('End Date is Required.');
             isValid = false;
         } else {
             setErrorEndDate('');

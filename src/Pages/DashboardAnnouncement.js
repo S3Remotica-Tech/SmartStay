@@ -268,10 +268,10 @@ function DashboardAnnouncement() {
       switch (fieldName) {
 
         case "title":
-          setTitleError("Title is required");
+          setTitleError("Title is Required");
           break;
         case "description":
-          setDescriptionError("Description is required");
+          setDescriptionError("Description is Required");
           break;
         default:
           break;

@@ -289,11 +289,10 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       description !== initialState.description;
   
     if (editDetails && !hasChanges) {
-      setError("No changes detected");
+      setError("No Changes Detected");
       isValid = false;
     }
   
-    // ⛔ Prevent save if mobile error is already set from handleMobileChange
     if (mobileError) {
       isValid = false;
     }

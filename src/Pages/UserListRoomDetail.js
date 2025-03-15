@@ -98,7 +98,7 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
-  }, [props.id]);
+  }, [props]);
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerAllDetails === 200) {
@@ -391,6 +391,9 @@ function UserListRoomDetail(props) {
 
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+   useEffect(() => {
+    setEmailErrorMessage(state.UsersList.emailError);
+    }, [state.UsersList.emailError]);
   const handleEmail = (e) => {
     const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
@@ -653,6 +656,8 @@ function UserListRoomDetail(props) {
     setPhoneError("");
     setDateError("");
     setActiveRow(null)
+    setEmailErrorMessage("")
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
   const [firstnameError, setFirstnameError] = useState("");
@@ -664,48 +669,77 @@ function UserListRoomDetail(props) {
   const validateField = (value, fieldName) => {
     // Ensure value is a string before using trim
     const stringValue = String(value).trim();
-
+  
+    // Special case: Skip validation for Email if value is N/A or similar
+    if (
+      fieldName === "Email" &&
+      ["n/a", "na"].includes(stringValue.toLowerCase())
+    ) {
+      setEmailError(""); // No error for N/A email
+      return true;
+    }
+  
     if (!stringValue) {
       switch (fieldName) {
         case "First Name":
-          setFirstnameError("First Name is required");
+          setFirstnameError("First Name is Required");
           break;
         case "Phone Number":
-          setPhoneError("Phone Number is required");
+          setPhoneError("Phone Number is Required");
           break;
         case "Email":
-          setEmailError("Email is required");
+          setEmailError("Email is Required");
           break;
         case "Address":
-          setAddressError("Address is required");
+          setAddressError("Address is Required");
           break;
         case "Hostel ID":
-          setHostelIdError("Hostel ID is required");
+          setHostelIdError("Hostel ID is Required");
           break;
         default:
           break;
       }
       return false;
     }
+  
     return true;
   };
+  
 
   const handleSaveUserlist = () => {
+    let hasError = false;
     if (!validateField(firstname, "First Name")) return;
     if (!validateField(Phone, "Phone Number")) return;
     if (!validateField(Address, "Address")) return;
     if (!validateField(hostel_Id, "Hostel ID")) return;
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
-      setHostelIdError("Please select a valid PG"); // Set the error message if not already set
+      setHostelIdError("Please select a valid PG"); 
       return;
     }
-    if (phoneError === "Invalid mobile number") {
-      setPhoneErrorMessage("Please enter a valid 10-digit phone number");
-      return;
+    if (Phone.length !== 10) {
+      setPhoneError("Please Enter Valid Mobile Number");
+      hasError = true;
     } else {
+      setPhoneError("");
       setPhoneErrorMessage("");
     }
+  
+    if (Email && !["n/a", "na"].includes(Email.toLowerCase().trim())) {
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+      const isValidEmail = emailRegex.test(Email.toLowerCase());
+      if (!isValidEmail) {
+        setEmailError("Please Enter Valid Email ID");
+        hasError = true;
+      } else {
+        setEmailError("");
+      }
+    } else {
+      setEmailError(""); // Don't show error if Email is empty or "N/A"
+    }
+    
+
+    if (hasError) return;
     const isChanged = !(
       firstname === initialState.firstname &&
       lastname === initialState.lastname &&
@@ -759,7 +793,7 @@ function UserListRoomDetail(props) {
 
    
 
-    setFormShow(false);
+    // setFormShow(false);
   };
   const [generateForm,seGenerateForm]= useState(false)
 const handlegenerateForm = ()=>{
@@ -806,22 +840,22 @@ const handleGenerateAdvance=()=>{
     if (isValueEmpty) {
       switch (fieldName) {
         case "Floor":
-          setfloorError("Floor is required");
+          setfloorError("Floor is Required");
           break;
         case "RoomId":
-          setRoomError("Room is required");
+          setRoomError("Room is Required");
           break;
         case "BedId":
-          setBedError("Bed is required");
+          setBedError("Bed is Required");
           break;
         case "selectedDate":
-          setDateError("date is required");
+          setDateError("date is Required");
           break;
         case "AdvanceAmount":
-          setAdvanceAmountError("Advance Amount is required");
+          setAdvanceAmountError("Advance Amount is Required");
           break;
         case "RoomRent":
-          setRoomRentError("Room Rent is required");
+          setRoomRentError("Room Rent is Required");
           break;
         default:
           break;
@@ -868,7 +902,7 @@ const handleGenerateAdvance=()=>{
     const isValidDate = (date) => !isNaN(Date.parse(date));
 
     if (!isValidDate(selectedDate)) {
-      setDateError("Joining Date is required.");
+      setDateError("Joining Date is Required");
       return;
     } else {
       setDateError("");
@@ -984,7 +1018,10 @@ const handleGenerateAdvance=()=>{
 
   useEffect(() => {
     if (state.UsersList.statusCodeForAddUser === 200) {
+      handleCloseEditcustomer()
       dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
+      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
       }, 100);

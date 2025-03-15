@@ -74,22 +74,22 @@ function AssignBooking(props) {
     ) {
       switch (fieldName) {
         case "floor":
-          setfloorError("Floor is required");
+          setfloorError("Floor is Required");
           break;
         case "room":
-          setRoomError("Room is required");
+          setRoomError("Room is Required");
           break;
         case "bed":
-          setBedError("Bed is required");
+          setBedError("Bed is Required");
           break;
         case "joiningDate":
-          setDateError("Joining Date is required");
+          setDateError("Joining Date is Required");
           break;
         case "advanceAmount":
-          setAdavanceError("Advance Amount is required");
+          setAdavanceError("Advance Amount is Required");
           break;
         case "rentAmount":
-          setRentError("Rent Amount is required");
+          setRentError("Rent Amount is Required");
           break;
 
         default:
@@ -154,7 +154,7 @@ function AssignBooking(props) {
       date.setDate(date.getDate() + 1);
       formattedDate = date.toISOString().split("T")[0];
     } catch {
-      setDateError("Date is required.");
+      setDateError("Date is Required");
       return;
     }
     const payload = {

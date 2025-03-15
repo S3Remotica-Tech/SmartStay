@@ -153,7 +153,7 @@ function SettingCompliance({ hostelid }) {
 
     const handleEditType = () => {
         if (complaintTypeName === originalComplaintTypeName) {
-            setIsChangedError('No changes detected');
+            setIsChangedError('No Changes Detected');
         } else {
             dispatch({
                 type: 'COMPLAINT-TYPE-EDIT',

@@ -366,7 +366,7 @@ function CreateAccountPage() {
     const isValidMobileNo = phonePattern.test(phoneNo);
 
     if (!isValidMobileNo) {
-      setPhoneError('Please Enter Valid 10-digit Mobile Number')
+      setPhoneError('Please Enter Valid Mobile Number')
       
     }
 

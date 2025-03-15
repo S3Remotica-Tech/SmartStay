@@ -199,7 +199,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
         if (!name && !mobile && !countryCode && !walkInDate) {
-            setGeneralError('Please fill in all the required fields.');
+            setGeneralError('Please Fill in All The Required Fields');
             return;
         }
 
@@ -292,7 +292,7 @@ function CustomerForm({ show, handleClose, initialData }) {
         if (value.trim() !== '') {
             setErrors(prev => ({ ...prev, name: '' }));
         } else {
-            setErrors(prev => ({ ...prev, name: 'Name is required.' }));
+            setErrors(prev => ({ ...prev, name: 'Name is Required' }));
         }
     };
 

@@ -169,7 +169,7 @@ function BankingEditTransaction(props) {
       String(describtion) !== String(initialStateAssign.describtion);
 
     if (!isChanged) {
-      setError("No changes detected");
+      setError("No Changes Detected");
       return;
     }
 

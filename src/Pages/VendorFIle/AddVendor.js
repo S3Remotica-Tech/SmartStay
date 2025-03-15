@@ -175,44 +175,66 @@ const handleClose =()=>{
     }
   };
   
+
+
   const handleMobileChange = (e) => {
-    const value = e.target.value;
+    const input = e.target.value;
+    const numericInput = input.replace(/\D/g, "");
+    setVendor_Mobile(numericInput);
   
-    const pattern = /^\d*$/;
-    if (pattern.test(value)) {
-      setVendor_Mobile(value);
-      setGeneralError("");
-      setIsChangedError("");
-      setCountryCodeError("");
-      setMobileError("");
-      setVendorPhoneError("");
-      dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
-  
-      // Show error while typing if length is less than 10
-      if (value.length === 0) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          setMobileError: "Mobile Number is required",
-        }));
-      } else if (value.length < 10) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          setMobileError: "Please Enter Valid Mobile Number",
-        }));
-      } else {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          setMobileError: "",
-        }));
-      }
-  
+    if (input.length === 0) {
+      setMobileError(""); 
+    } else if (!/^\d{10}$/.test(numericInput)) {
+      setMobileError("Invalid Mobile Number");
     } else {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        mobileError: "Mobile number can only contain digits",
-      }));
+      setMobileError("");
     }
+  
+    setVendorPhoneError("");
+    setGeneralError("");
+    setCountryCodeError("");
+    setIsChangedError("");
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
   };
+  
+  // const handleMobileChange = (e) => {
+  //   const value = e.target.value;
+  
+  //   const pattern = /^\d*$/;
+  //   if (pattern.test(value)) {
+  //     setVendor_Mobile(value);
+  //     setGeneralError("");
+  //     setIsChangedError("");
+  //     setCountryCodeError("");
+  //     setMobileError("");
+  //     setVendorPhoneError("");
+  //     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+  
+  //     // Show error while typing if length is less than 10
+  //     if (value.length === 0) {
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         setMobileError: "Mobile Number is required",
+  //       }));
+  //     } else if (value.length < 10) {
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         setMobileError: "Please Enter Valid Mobile Number",
+  //       }));
+  //     } else {
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         setMobileError: "",
+  //       }));
+  //     }
+  
+  //   } else {
+  //     setErrors((prevErrors) => ({
+  //       ...prevErrors,
+  //       mobileError: "Mobile number can only contain digits",
+  //     }));
+  //   }
+  // };
   
   // const handleMobileChange = (e) => {
   //   const value = e.target.value;
@@ -304,8 +326,9 @@ const handleClose =()=>{
   const handleAddVendor = () => {
     let isValid = true;
 
-    const emailInvalid = errors.email_Id === "Invalid Email Id *";
-    const mobileInvalid = errors.vendor_Mobile === "Invalid mobile number *";
+    const emailInvalid = emailError !== "";
+    // const mobileInvalid = errors.vendor_Mobile === "Invalid mobile number *";
+    const mobileInvalid = mobileError !== "";
 
     if (
       !first_Name &&
@@ -334,6 +357,11 @@ const handleClose =()=>{
       setMobileError("Please Enter  Mobile Number");
       isValid = false;
     }
+    if (mobileInvalid) {
+      setMobileError("Enter Valid Mobile Number");
+      isValid = false;
+    }
+    
 
     // if (!email_Id) {
     //   setEmailError('Please enter an email');
@@ -366,14 +394,12 @@ const handleClose =()=>{
 
     if (emailInvalid || mobileInvalid) {
       if (emailInvalid) {
-        setEmailError("Enter valid Email ID");
-        isValid = false;
+        setEmailError("Enter Valid Email ID");
       }
       if (mobileInvalid) {
         setMobileError("Enter Valid Mobile Number");
-        isValid = false;
       }
-      return;
+      isValid = false;
     }
 
     const isChanged =
@@ -837,6 +863,23 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     />
                   </InputGroup>
 
+                  {mobileError && (
+                    <div className="d-flex align-items-center p-1 mb-2">
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                      <label
+                        className="mb-0"
+                        style={{
+                          color: "red",
+                          fontSize: "12px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {mobileError}
+                      </label>
+                    </div>
+                  )}
+
                   {countryCodeError && (
                     <div className="d-flex align-items-center p-1 mb-2">
                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
@@ -854,22 +897,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     </div>
                   )}
 
-                  {mobileError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {mobileError}
-                      </label>
-                    </div>
-                  )}
+                 
                 </Form.Group>
 
                 {vendorPhoneError && (

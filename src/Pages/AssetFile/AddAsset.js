@@ -399,7 +399,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
     if (!isChanged) {
       setIsChangedError(
-        "No changes detected"
+        "No Changes Detected"
       );
       return;
     }

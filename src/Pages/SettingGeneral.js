@@ -117,7 +117,7 @@ function SettingGeneral() {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "checkPassword":
-          setPassError("Current Password is required");
+          setPassError("Current Password is Required");
           break;
 
 
@@ -434,6 +434,7 @@ function SettingGeneral() {
   //   }
   // };
   const handleSave = () => {
+    let hasError = false;
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
   
 
@@ -442,8 +443,32 @@ function SettingGeneral() {
     const isPhoneValid = validateField(Phone, "Phone");
     const isAddressValid = validateField(address, "address");
     const isPasswordValid = !edit ? validateField(password, "password") : true;
-  
 
+
+    if (!Phone) {
+      setPhoneError("Mobile Number Required");
+      hasError = true;
+    }
+    else if (Phone.length !== 10) {
+      setPhoneError("Please Enter Valid Mobile Number");
+      hasError = true;
+    } else {
+      setPhoneError(""); 
+    }
+
+    if (emilId && isEmailValid) {
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+      const isValidEmailFormat = emailRegex.test(emilId.toLowerCase());
+      if (!isValidEmailFormat) {
+        setEmailError("Please Enter a Valid Email ID");
+        hasError = true;
+      } else {
+        setEmailError("");
+      }
+    }
+  
+  
+    if (hasError) return;
     if ( 
       !isFirstNameValid ||
       !isEmailValid ||
@@ -679,10 +704,10 @@ function SettingGeneral() {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "newPassword":
-          setNewPassError("New Password is required");
+          setNewPassError("New Password is Required");
           break;
         case "confirmPassword":
-          setConformPasswordError("Confirm Password is required");
+          setConformPasswordError("Confirm Password is Required");
           break;
 
         default:

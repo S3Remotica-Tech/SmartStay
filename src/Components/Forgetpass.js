@@ -294,7 +294,7 @@ function ForgetPasswordPage() {
 
   const handleAccountVerification = () => {
     if (!email) {
-      setGeneralError('Please enter an email address');
+      setGeneralError('Please Enter Email Address');
       return;
     }
   

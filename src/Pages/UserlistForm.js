@@ -548,6 +548,7 @@ const handleBed = (selectedOption) => {
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleSaveUserlist = () => {
+    let hasError = false;
     if (!validateField(firstname, "First Name"));
     if (!validateField(Phone, "Phone Number"));
 
@@ -558,13 +559,34 @@ const handleBed = (selectedOption) => {
       setHostelIdError("Please select a Valid PG");
       // return;
     }
+    if (!Phone) {
+      setPhoneError("Mobile Number is Required");
+      hasError = true;
+    }
 
-    if (phoneError === "Invalid mobile number *") {
-      setPhoneErrorMessage("Please Enter a Valid 10-digit Phone Number");
-      // return;
+    if (Phone.length !== 10) {
+      setPhoneError("Please Enter Valid Mobile Number");
+      hasError = true;
     } else {
+      setPhoneError("");
       setPhoneErrorMessage("");
     }
+  
+    if (Email) {
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+      const isValidEmail = emailRegex.test(Email.toLowerCase());
+      if (!isValidEmail) {
+        setEmailError("Please Enter Valid Email ID");
+        hasError = true;
+      } else {
+        setEmailError("");
+      }
+    } else {
+      setEmailError(""); // No error shown if email is empty
+    }
+
+    // Final check — block saving if any error
+    if (hasError) return;
     const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     };

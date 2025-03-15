@@ -277,16 +277,16 @@ useEffect(() => {
     if (isValueEmpty) {
       switch (fieldName) {
         case "reading":
-          setReadingError("reading is required");
+          setReadingError("reading is Required");
           break;
         case "Floor":
-          setfloorError("Floor is required");
+          setfloorError("Floor is Required");
           break;
         case "Rooms":
-          setRoomError("Rooms is required");
+          setRoomError("Rooms is Required");
           break;
         case "selectedDate":
-          setDateErrorMesg("Date is required");
+          setDateErrorMesg("Date is Required");
           break;
 
         default:

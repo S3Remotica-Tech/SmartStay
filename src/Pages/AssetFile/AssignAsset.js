@@ -175,7 +175,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
         if (!pglist && !room && !selectedDate && !Floor) {
-            setGeneralError('Please enter all required fields')
+            setGeneralError('Please Enter All Required Fields')
             return;
         }
 
@@ -232,7 +232,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
 
         if (!isChanged) {
-            setNoChangeError('No changes detected');
+            setNoChangeError('No Changes Detected');
             return;
         }
 

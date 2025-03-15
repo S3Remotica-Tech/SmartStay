@@ -181,7 +181,7 @@ const ComplianceList = (props) => {
     if (isValueEmpty) {
       switch (fieldName) {
         case "comments":
-          setCommentError("Comments is required");
+          setCommentError("Comments is Required");
           break;
 
         default:
@@ -291,7 +291,7 @@ const ComplianceList = (props) => {
 
 
     if (alreadyAssigned === compliant && compliant !== "") {
-      setStatusErrorType("No changes detected");
+      setStatusErrorType("No Changes Detected");
       return;
     }
 

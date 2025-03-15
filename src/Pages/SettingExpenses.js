@@ -312,7 +312,7 @@ function SettingExpenses({ hostelid }) {
 
     if (subcategory_Id && subType) {
       if (subType === initialSubCategory.name) {
-        setFormError("No changes detected.");
+        setFormError("No Changes Detected");
         return;
       } else {
         setFormError(""); 
@@ -329,7 +329,7 @@ function SettingExpenses({ hostelid }) {
     else {
 
       if (type.label === initialCategory.name) {
-        setFormCategoryError("No changes detected.");
+        setFormCategoryError("No Changes Detected");
         return;
       } else {
         setFormCategoryError(""); 

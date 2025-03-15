@@ -46,10 +46,10 @@ function ContactUs() {
 
     const validateForm = () => {
         let newErrors = {};
-        if (!formData.user_name.trim()) newErrors.user_name = 'Name is required';
-        if (!formData.user_city.trim()) newErrors.user_city = 'City is required';
-        if (!formData.user_phone.trim()) newErrors.user_phone = 'Phone number is required';
-        if (!formData.message.trim()) newErrors.message = 'Course Select required';
+        if (!formData.user_name.trim()) newErrors.user_name = 'Name is Required';
+        if (!formData.user_city.trim()) newErrors.user_city = 'City is Required';
+        if (!formData.user_phone.trim()) newErrors.user_phone = 'Phone Number is Required';
+        if (!formData.message.trim()) newErrors.message = 'Course Select Required';
 
        
 
