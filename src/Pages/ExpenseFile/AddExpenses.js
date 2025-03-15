@@ -152,12 +152,19 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setCategoryError("");
     setIsChangedError("");
   };
-  const handleAccount = (e) => {
-    setAccount(e.target.value);
+  // const handleAccount = (e) => {
+  //   setAccount(e.target.value);
+  //   setAccountError("");
+  //   setIsChangedError("");
+  //   setNetPaymentError("")
+  //   dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
+  // };
+  const handleAccount = (selectedOption) => {
+    setAccount(selectedOption?.value || "");
     setAccountError("");
     setIsChangedError("");
-    setNetPaymentError("")
-    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
+    setNetPaymentError("");
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
   };
 
   const handleModeOfPaymentChange = (e) => {
@@ -862,13 +869,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       label: u.bank_name,
     })).find((opt) => opt.value === account) || null
   }
-  onChange={(selectedOption) => {
-    setAccount(selectedOption?.value || "");
-    setAccountError("");
-    setIsChangedError("");
-    setNetPaymentError("");
-    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
-  }}
+  onChange={handleAccount}
   styles={{
     control: (base) => ({
       ...base,

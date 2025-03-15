@@ -831,7 +831,7 @@ const AddReceiptForm = (props) => {
                       fontWeight: 500,
                     }}
                   >
-                    Mode of transaction{" "}
+                    Mode of Transaction{" "}
                     <span
                       style={{
                         color: "#FF0000",

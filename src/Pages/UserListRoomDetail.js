@@ -884,7 +884,7 @@ const handleGenerateAdvance=()=>{
 
     // Check if advance amount is valid
     if (Number(AdvanceAmount) <= 0) {
-      setAdvanceAmountError("Advance Amount must be greater than 0");
+      setAdvanceAmountError("Please Enter Valid Advance Amount");
       return;
     } else {
       setAdvanceAmountError("");

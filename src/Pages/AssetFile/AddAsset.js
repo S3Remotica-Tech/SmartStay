@@ -166,12 +166,19 @@ function StaticExample({ show, setShow, currentItem }) {
     // setPaymentError("");
     // setIsChangedError("");
   };
-  const handleAccount = (e) => {
-    setAccount(e.target.value);
+  // const handleAccount = (e) => {
+  //   setAccount(e.target.value);
+  //   setAccountError("");
+  //   setIsChangedError("");
+  //   setBankingError("")
+  //   dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
+  // };
+  const handleAccount = (selectedOption) => {
+    setAccount(selectedOption?.value || "");
     setAccountError("");
     setIsChangedError("");
-    setBankingError("")
-    dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
+    setBankingError("");
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
   };
 
   const handleAssetNameChange = (e) => {
@@ -1043,38 +1050,74 @@ function StaticExample({ show, setShow, currentItem }) {
                   </Form.Label>
                  
 
-                  <Form.Select
-                    aria-label="Default select example"
-                    placeholder="Select no. of floor"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                    id="form-selects"
-                    className="border"
-                    value={account}
-                    onChange={(e) => handleAccount(e)}
-                    disabled={currentItem}
-                  >
-                    <option value="">Select Account</option>
-                    {bankking?.length > 0 ? (
-                      bankking.map((u) => (
-                        <option key={u.id} value={u.id}>
-                          {u.bank_name}
-                        </option>
-                      ))
-                    ) : (
-                      <option value="" disabled>
-                        No accounts available
-                      </option>
-                    )}
-                  </Form.Select>
+               <Select
+                 placeholder="Select Account"
+                 options={
+                  bankking?.length > 0
+                     ? bankking.map((u) => ({
+                         value: u.id,
+                         label: u.bank_name,
+                       }))
+                     : []
+                 }
+                 value={
+                   bankking.map((u) => ({
+                     value: u.id,
+                     label: u.bank_name,
+                   })).find((opt) => opt.value === account) || null
+                 }
+                 onChange={handleAccount}
+                 styles={{
+                   control: (base) => ({
+                     ...base,
+                     height: "48px",
+                     border: "1px solid #D9D9D9",
+                     borderRadius: "8px",
+                     fontSize: "16px",
+                     color: "#4B4B4B",
+                     fontFamily: "Gilroy",
+                     fontWeight: 500,
+                     boxShadow: "none",
+                   }),
+                   menu: (base) => ({
+                     ...base,
+                     backgroundColor: "#f8f9fa",
+                     border: "1px solid #ced4da",
+                   }),
+                   menuList: (base) => ({
+                     ...base,
+                     backgroundColor: "#f8f9fa",
+                     maxHeight: "120px",
+                     padding: 0,
+                     scrollbarWidth: "thin",
+                     overflowY: "auto",
+                   }),
+                   placeholder: (base) => ({
+                     ...base,
+                     color: "#555",
+                   }),
+                   dropdownIndicator: (base) => ({
+                     ...base,
+                     color: "#555",
+                     cursor: "pointer",
+                   }),
+                   indicatorSeparator: () => ({
+                     display: "none",
+                   }),
+                   option: (base, state) => ({
+                     ...base,
+                     cursor: "pointer", 
+                     backgroundColor: state.isFocused ? "#f0f0f0" : "white", 
+                     color: "#000",
+                   }),
+                 }}
+                 isDisabled={currentItem}
+                 noOptionsMessage={() =>
+                  bankking?.length === 0
+                     ? "No accounts available"
+                     : "No match found"
+                 }
+               />
 
 
 

@@ -260,10 +260,15 @@ const InvoicePage = () => {
     dispatch({ type: "GET_REFERENCE_ID" });
   };
 
-  const handleAccount = (e) => {
-    setAccount(e.target.value);
+  // const handleAccount = (e) => {
+  //   setAccount(e.target.value);
+  //   setAccountError("");
+  //   // setIsChangedError("");
+  // };
+  const handleAccount = (selectedOption) => {
+    setAccount(selectedOption?.value || "");
     setAccountError("");
-    // setIsChangedError("");
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
   };
 
   const handleTransaction = (selectedOption) => {
@@ -683,197 +688,125 @@ console.log('invoiceDetails',invoiceDetails)
 
   const handleEditBill = () => {
     let isValid = true;
-
-    // Reset error messages
+  
+    // Reset all error messages
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
     setStartdateErrmsg("");
+    setEnddateErrmsg("");
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
-
+  
     // Validate Customer
     if (!customername) {
       setCustomerErrmsg("Customer is Required");
       isValid = false;
     }
-
+  
     // Validate Invoice Number
     if (!invoicenumber) {
       setInvoicenumberErrmsg("Invoice Number is Required");
       isValid = false;
     }
-
-    // Validate Start Date
-    if (!startdate) {
-      setStartdateErrmsg("Start Date is Required");
-      isValid = false;
+  
+    // Validate Start & End Date only if NOT advance invoice
+    if (invoiceDetails?.action !== "advance") {
+      if (!startdate) {
+        setStartdateErrmsg("Start Date is Required");
+        isValid = false;
+      }
+      if (!enddate) {
+        setEnddateErrmsg("End Date is Required");
+        isValid = false;
+      }
     }
-    if (!enddate) {
-      setEnddateErrmsg("End Date is Required");
-      isValid = false;
-    }
-
+  
     // Validate Invoice Date
     if (!invoicedate) {
       setInvoiceDateErrmsg("Invoice Date is Required");
       isValid = false;
     }
-
+  
     // Validate Due Date
     if (!invoiceduedate) {
       setInvoiceDueDateErrmsg("Due Date is Required");
       isValid = false;
     }
-
-    // Check All Required Fields
+  
+    // Global required field check again
+    let isValiding = true;
     if (
       !customername ||
       !invoicenumber ||
-      !startdate ||
       !invoicedate ||
       !invoiceduedate ||
-      !enddate
+      (invoiceDetails?.action !== "advance" && (!startdate || !enddate))
     ) {
       setAllFieldErrmsg("Please Fill Out All Required Fields");
-      isValid = false;
+      isValiding = false;
     }
-
-    const formatDateToStartdate = (startdate) => {
-      if (!startdate) return "";
-      const d = new Date(startdate);
-      return (
-        d.getFullYear() +
-        "-" +
-        String(d.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(d.getDate()).padStart(2, "0")
-      );
+  
+    // Format functions
+    const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
     };
-
-    const formatDateTowenddate = (enddate) => {
-      if (!enddate) return "";
-      const d = new Date(enddate);
-      return (
-        d.getFullYear() +
-        "-" +
-        String(d.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(d.getDate()).padStart(2, "0")
-      );
-    };
-
-    const formatDateToInvoicedate = (invoicedate) => {
-      if (!invoicedate) return "";
-      const d = new Date(invoicedate);
-      return (
-        d.getFullYear() +
-        "-" +
-        String(d.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(d.getDate()).padStart(2, "0")
-      );
-    };
-
-    const formatDateToSInvoiceDuedate = (invoiceduedate) => {
-      if (!invoiceduedate) return "";
-      const d = new Date(invoiceduedate);
-      return (
-        d.getFullYear() +
-        "-" +
-        String(d.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(d.getDate()).padStart(2, "0")
-      );
-    };
-
+  
+    // Check if any value has changed
     const isChanged = (() => {
       const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
-      const startDateChanged = formatDateToStartdate(invoiceDetails?.start_date) !== formatDateToStartdate(startdate);
+      const startDateChanged = formatDate(invoiceDetails?.start_date) !== formatDate(startdate);
+      const endDateChanged = formatDate(invoiceDetails?.end_date) !== formatDate(enddate);
       const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
-      const endDateChanged = formatDateTowenddate(invoiceDetails?.end_date) !== formatDateTowenddate(enddate);
-      const invoiceDateChanged = formatDateToInvoicedate(invoiceDetails?.Date) !== formatDateToInvoicedate(invoicedate);
-      const dueDateChanged = formatDateToSInvoiceDuedate(invoiceDetails?.DueDate) !== formatDateToSInvoiceDuedate(invoiceduedate);
-
-      // **New Condition: Check if rows are added or removed**
+      const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
+      const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
       const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
-
-      // Check if any row content is changed
+  
       const amenitiesChanged = newRows.some((row, index) => {
         const originalRow = invoiceDetails?.amenity?.[index] || {};
         return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
       });
-
+  
       return (
         userChanged ||
-        startDateChanged ||
         invoiceChanged ||
-        endDateChanged ||
         invoiceDateChanged ||
         dueDateChanged ||
-        rowsCountChanged || 
+        (invoiceDetails?.action !== "advance" && (startDateChanged || endDateChanged)) ||
+        rowsCountChanged ||
         amenitiesChanged
       );
     })();
-
-    // const isDataChanged =
-    // customername !== String(invoiceDetails?.hos_user_id) ||
-    // invoicenumber !== invoiceDetails?.Invoices ||
-    // startdate?.toISOString().split("T")[0] !== new Date(invoiceDetails?.start_date)?.toISOString().split("T")[0] ||
-    // enddate?.toISOString().split("T")[0] !== new Date(invoiceDetails?.end_date)?.toISOString().split("T")[0] ||
-    // invoicedate?.toISOString().split("T")[0] !== new Date(invoiceDetails?.Date)?.toISOString().split("T")[0] ||
-    // invoiceduedate?.toISOString().split("T")[0] !== new Date(invoiceDetails?.DueDate)?.toISOString().split("T")[0] ||
-    // newRows.some((row, index) => {
-    //   const originalRow = invoiceDetails?.amenity?.[index];
-    //   return row.am_name !== originalRow?.am_name || row.amount !== originalRow?.amount;
-    // });
-
+  
+    // If no changes
     if (!isChanged) {
       setAllFieldErrmsg("No Changes Detected");
-      isValid = false;
       return;
     }
-
-    if (isValid && isChanged) {
-      const dueDateObject = new Date(invoiceduedate);
-      const formatduedate = `${dueDateObject.getFullYear()}-${String(
-        dueDateObject.getMonth() + 1
-      ).padStart(2, "0")}-${String(dueDateObject.getDate()).padStart(2, "0")}`;
-
-      const dateObject = new Date(invoicedate);
-      const year = dateObject.getFullYear();
-      const month = dateObject.getMonth() + 1;
-      const day = dateObject.getDate();
-      const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
-        day
-      ).padStart(2, "0")}`;
-
-      const startDateObject = new Date(startdate);
-      const formattedStartDate = `${startDateObject.getFullYear()}-${String(
-        startDateObject.getMonth() + 1
-      ).padStart(2, "0")}-${String(startDateObject.getDate()).padStart(
-        2,
-        "0"
-      )}`;
-
-      const endDateObject = new Date(enddate);
-      const formattedEndDate = `${endDateObject.getFullYear()}-${String(
-        endDateObject.getMonth() + 1
-      ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
-
+  
+    // Final Save Condition
+    if (isValid && isValiding && isChanged) {
+      const formattedInvoiceDate = formatDate(invoicedate);
+      const formattedDueDate = formatDate(invoiceduedate);
+      const formattedStartDate = formatDate(startdate);
+      const formattedEndDate = formatDate(enddate);
+  
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
         payload: {
           user_id: customername,
-          date: formattedDate,
-          due_date: formatduedate,
+          date: formattedInvoiceDate,
+          due_date: formattedDueDate,
           id: invoiceDetails.id,
           amenity: amenityArray.length > 0 ? amenityArray : [],
-          start_date: formattedStartDate,
-          end_date: formattedEndDate,
+          start_date: invoiceDetails?.action === "advance" ? null : formattedStartDate,
+          end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
         },
       });
-
+  
+      // Reset Form State
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
@@ -884,11 +817,8 @@ console.log('invoiceDetails',invoiceDetails)
       setEndDate("");
       setInvoiceDate("");
       setInvoiceDueDate("");
-
       setTotalAmount("");
-      // setBillAmounts([]);
       setNewRows([]);
-
       setCustomerErrmsg("");
       setStartdateErrmsg("");
       setInvoiceDateErrmsg("");
@@ -896,6 +826,7 @@ console.log('invoiceDetails',invoiceDetails)
       setAllFieldErrmsg("");
     }
   };
+  
 
   const handleShowForm = (props) => {
     setShowform(true);
@@ -1569,8 +1500,10 @@ console.log('invoiceDetails',invoiceDetails)
         user_id: customername,
         date: formatinvoicedate,
         due_date: formatduedate,
-        start_date: formattedStartDate,
-        end_date: formattedEndDate,
+        // start_date: formattedStartDate,
+        // end_date: formattedEndDate,
+        start_date: invoiceDetails?.action === "advance" ? null : formattedStartDate,
+    end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
         invoice_id: invoicenumber,
         total_amount: totalAmount,
         amenity: amenityArray.length > 0 ? amenityArray : [],
@@ -3767,37 +3700,75 @@ console.log('invoiceDetails',invoiceDetails)
                                         *{" "}
                                       </span>
                                     </Form.Label>
-                                    <Form.Select
-                                      aria-label="Default select example"
-                                      placeholder="Select no. of floor"
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
-                                      }}
-                                      id="form-selects"
-                                      className="border"
-                                      value={account}
-                                      onChange={(e) => handleAccount(e)}
-                                    >
-                                      <option value="">Select Account</option>
-                                      {bankking?.length > 0 ? (
-                                        bankking.map((u) => (
-                                          <option key={u.id} value={u.id}>
-                                            {u.bank_name}
-                                          </option>
-                                        ))
-                                      ) : (
-                                        <option value="" disabled>
-                                          No accounts available
-                                        </option>
-                                      )}
-                                    </Form.Select>
+                                   <Select
+                                                   placeholder="Select Account"
+                                                   options={
+                                                    bankking?.length > 0
+                                                       ? bankking.map((u) => ({
+                                                           value: u.id,
+                                                           label: u.bank_name,
+                                                         }))
+                                                       : []
+                                                   }
+                                                   value={
+                                                     bankking.map((u) => ({
+                                                       value: u.id,
+                                                       label: u.bank_name,
+                                                     })).find((opt) => opt.value === account) || null
+                                                   }
+                                                   onChange={handleAccount}
+                                                   styles={{
+                                                     control: (base) => ({
+                                                       ...base,
+                                                       height: "48px",
+                                                       border: "1px solid #D9D9D9",
+                                                       borderRadius: "8px",
+                                                       fontSize: "16px",
+                                                       color: "#4B4B4B",
+                                                       fontFamily: "Gilroy",
+                                                       fontWeight: 500,
+                                                       boxShadow: "none",
+                                                     }),
+                                                     menu: (base) => ({
+                                                       ...base,
+                                                       backgroundColor: "#f8f9fa",
+                                                       border: "1px solid #ced4da",
+                                                     }),
+                                                     menuList: (base) => ({
+                                                       ...base,
+                                                       backgroundColor: "#f8f9fa",
+                                                       maxHeight: "120px",
+                                                       padding: 0,
+                                                       scrollbarWidth: "thin",
+                                                       overflowY: "auto",
+                                                     }),
+                                                     placeholder: (base) => ({
+                                                       ...base,
+                                                       color: "#555",
+                                                     }),
+                                                     dropdownIndicator: (base) => ({
+                                                       ...base,
+                                                       color: "#555",
+                                                       cursor: "pointer",
+                                                     }),
+                                                     indicatorSeparator: () => ({
+                                                       display: "none",
+                                                     }),
+                                                     option: (base, state) => ({
+                                                       ...base,
+                                                       cursor: "pointer", 
+                                                       backgroundColor: state.isFocused ? "#f0f0f0" : "white", 
+                                                       color: "#000",
+                                                     }),
+                                                   }}
+                                                   isDisabled={currentItem}
+                                                   noOptionsMessage={() =>
+                                                    bankking?.length === 0
+                                                       ? "No accounts available"
+                                                       : "No match found"
+                                                   }
+                                                 />
+                                  
                                     {accountError.trim() !== "" && (
                                       <div>
                                         <p

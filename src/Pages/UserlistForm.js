@@ -145,19 +145,19 @@ const value = e.target.value
     if (!trimmedValue) {
       switch (fieldName) {
         case "First Name":
-          setFirstnameError("First Name is required");
+          setFirstnameError("First Name is Required");
           break;
         case "Phone Number":
-          setPhoneError("Phone Number is required");
+          setPhoneError("Phone Number is Required");
           break;
         case "Email":
-          setEmailError("Email is required");
+          setEmailError("Email is Required");
           break;
         case "Address":
-          setAddressError("Address is required");
+          setAddressError("Address is Required");
           break;
         case "Hostel ID":
-          setHostelIdError("Hostel ID is required");
+          setHostelIdError("Hostel ID is Required");
           break;
         default:
           break;
@@ -313,22 +313,22 @@ const value = e.target.value
     ) {
       switch (fieldName) {
         case "Floor":
-          setfloorError("Floor is required");
+          setfloorError("Floor is Required");
           break;
         case "Rooms":
-          setRoomError("Room is required");
+          setRoomError("Room is Required");
           break;
         case "Bed":
-          setBedError("Bed is required");
+          setBedError("Bed is Required");
           break;
         case "selectedDate":
-          setDateError("SelectedDate is required");
+          setDateError("Joning Date is Required");
           break;
         case "AdvanceAmount":
-          setAdvanceAmountError("Reading is required");
+          setAdvanceAmountError("Advance Amount is Required");
           break;
         case "RoomRent":
-          setRoomRentError("Reading is required");
+          setRoomRentError("Rental Amount is Required");
           break;
         default:
           break;
@@ -631,11 +631,11 @@ const handleBed = (selectedOption) => {
 
     }
     if (RoomRent <= 0) {
-      setRoomRentError("Roomrent Must be Greater Than 0");
+      setRoomRentError("Please Enter Valid Rental Amount");
       return;
     }
     if (AdvanceAmount <= 0) {
-      setAdvanceAmountError("Advanceamount must be greater than 0");
+      setAdvanceAmountError("Please Enter Valid Advance Amount");
       return;
     }
     if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
@@ -1800,7 +1800,7 @@ const handleBed = (selectedOption) => {
                         />
                       </Form.Group>
                       {roomrentError && (
-                        <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
+                        <div className="d-flex align-items-center justify-content-start" style={{ color: "red" }}>
                           <MdError  style={{ fontSize: "13px", marginRight: "5px"}}/>
                           <label
                             className="mb-0"
