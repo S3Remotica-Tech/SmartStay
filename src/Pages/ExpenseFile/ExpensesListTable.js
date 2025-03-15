@@ -516,35 +516,48 @@ function ExpensesListTable(props) {
     '& .MuiOutlinedInput-notchedOutline': {
       border: 'none', // Remove extra inner border
     },
+    
    
    
   }}
 >
   {/* <InputLabel id="asset-select-label">Select an Asset</InputLabel> */}
   <Select
-    labelId="asset-select-label"
-    id="vendor-select"
-    value={assetname}
-    onChange={handleAssetname}
-    label="Select"
-    displayEmpty
-   
-    MenuProps={{
-      PaperProps: {
-        sx: {
-          maxHeight: 100,
-          zIndex: 1300,
-          overflowY: 'auto',
+  labelId="asset-select-label"
+  id="vendor-select"
+  value={assetname}
+  onChange={handleAssetname}
+  label="Select"
+  displayEmpty
+  MenuProps={{
+    PaperProps: {
+      sx: {
+        maxHeight: 150,
+        overflowY: 'auto',
+        '&::-webkit-scrollbar': {
+          width: '6px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: '#c0c0c0',
+          borderRadius: '4px',
+        },
+        '&::-webkit-scrollbar-track': {
+          backgroundColor: '#f1f1f1',
         },
       },
-    }}
-    renderValue={(selected) => {
-      if (!selected) {
-        return <span style={{ color: '#BDBDBD' }}>Select Asset</span>;
-      }
-      return selected;
-    }}
-  >
+      style: {
+        scrollbarWidth: 'thin', // Firefox support
+      },
+    },
+  }}
+  renderValue={(selected) => {
+    if (!selected) {
+      return <span style={{ color: '#BDBDBD' }}>Select Asset</span>;
+    }
+    return selected;
+  }}
+>
+
    
     {state.AssetList.assetList.length > 0 ? (
       state.AssetList.assetList.map((view) => (

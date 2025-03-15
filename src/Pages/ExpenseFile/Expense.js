@@ -831,7 +831,18 @@ function Expenses({ allPageHostel_Id }) {
                 </div>
 
               </div>
+              
               <div className="d-flex  flex-wrap justify-content-between align-items-center">
+              {
+                  !showFilterExpense &&
+
+                  <div onClick={handleShowSearch} style={{ paddingRight: 11 }}>
+                    <SearchNormal1
+                      color="#222"
+                      style={{ height: "34px", width: "34px", cursor: 'pointer', paddingRight: 10, marginTop: 13 }}
+                    />
+                  </div>
+                }
 
                 <div style={{ position: 'relative', paddingRight: 20, marginTop: 11,background:"white" }}>
                   <Sort
@@ -993,17 +1004,8 @@ function Expenses({ allPageHostel_Id }) {
 
 
                 </div>
-
-                {
-                  !showFilterExpense &&
-
-                  <div onClick={handleShowSearch} style={{ paddingRight: 11 }}>
-                    <SearchNormal1
-                      color="#222"
-                      style={{ height: "34px", width: "34px", cursor: 'pointer', paddingRight: 10, marginTop: 9 }}
-                    />
-                  </div>
-                }
+                
+               
                 {
                   showFilterExpense &&
                   <div className='me-3 ' style={{ position: 'relative' }}>
@@ -1011,6 +1013,7 @@ function Expenses({ allPageHostel_Id }) {
                       display: 'flex',
                       flexWrap: 'nowrap',
                       width: '100%',
+                      marginTop:10
                     }}>
 
                       <FormControl size="lg"
@@ -1085,14 +1088,14 @@ function Expenses({ allPageHostel_Id }) {
                 }
 
 
-                <div style={{ paddingRight: "21px", cursor: 'pointer', marginTop: 11 }}>
+                <div className='me-3' style={{ cursor: 'pointer', marginTop: 11 }}>
                   <img src={excelimg} alt='excel' width={38} height={38}
                     onClick={handleExpenceExcel}
                   />
                 </div>
 
 
-                <div style={{ marginTop: 9 }}>
+                <div className='me-3' style={{ marginTop: 9 }}>
                   <Button disabled={expenceAddPermission} onClick={handleShow}
                     // style={{
                     //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,

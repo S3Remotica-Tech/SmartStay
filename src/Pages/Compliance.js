@@ -832,7 +832,7 @@ const Compliance = () => {
                         <div
                           style={{
                             position: "relative",
-                            width: "100%",
+                            width: "160",
                             marginRight: 20,
                           }}
                         >
@@ -842,7 +842,7 @@ const Compliance = () => {
                               display: "flex",
                               alignItems: "center",
                               width: "100%",
-                              marginTop: '10px',
+                              marginTop: '15px',
                               marginBottom: '10px',
                             }}
                           >
@@ -878,6 +878,7 @@ const Compliance = () => {
                                   outline: "none",
                                   borderColor: "rgb(207,213,219)",
                                   borderRight: "none",
+                                  width:160
                                
 
                                 }}
@@ -964,7 +965,17 @@ const Compliance = () => {
                       </>
                     ) : (
                       <>
-                        <div style={{ marginTop: 10, paddingRight: 7,cursor:"pointer"}}>
+                       <div style={{ marginTop: 13, paddingRight: 21,cursor:"pointer" }}>
+                          <Image
+                            src={searchteam}
+                            roundedCircle
+                            style={{ height: "24px", width: "24px" }}
+                            onClick={handleSearch}
+                          />
+                        </div>
+                        </>
+                    )}
+<div style={{ marginTop: 10, paddingRight: 7,cursor:"pointer"}}>
                           <Image
                             src={Filters}
                             roundedCircle
@@ -972,7 +983,6 @@ const Compliance = () => {
                             onClick={handleFilterd}
                           />
                         </div>
-
 
                         {
                           filterStatus &&
@@ -998,17 +1008,8 @@ const Compliance = () => {
                         }
 
 
-                        <div style={{ marginTop: 6, paddingRight: 21,cursor:"pointer" }}>
-                          <Image
-                            src={searchteam}
-                            roundedCircle
-                            style={{ height: "24px", width: "24px" }}
-                            onClick={handleSearch}
-                          />
-                        </div>
-                      </>
-                    )}
 
+                   
                     {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
         
             <div className='me-3'>

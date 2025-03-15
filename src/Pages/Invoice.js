@@ -1001,7 +1001,7 @@ console.log('invoiceDetails',invoiceDetails)
     }
 
     if (!invoiceList.transaction || invoiceList.transaction === "select") {
-      setPaymodeErrmsg("Please Select a Valid Paymode Type");
+      setPaymodeErrmsg("Please Select a Valid Transaction Type");
       return;
     }
 
@@ -2682,10 +2682,13 @@ console.log('invoiceDetails',invoiceDetails)
                               style={{
                                 backgroundColor: "#fff",
                                 borderRadius: "4px",
-                                maxHeight: bills?.length > 1 ? "174px" : "auto",
-                                minHeight: 100,
-                                overflowY:
-                                  bills?.length > 1 ? "auto" : "hidden",
+                                // maxHeight: bills?.length > 1 ? "174px" : "auto",
+                                // minHeight: 100,
+                                // overflowY:
+                                //   bills?.length > 1 ? "auto" : "hidden",
+                                maxHeight: "174px",
+                                minHeight: bills?.length > 1 ? "100px" : "auto",
+                                overflowY: bills?.length > 3 ? "auto" : "hidden",
                                 margin: "0",
                                 listStyleType: "none",
                                 boxSizing: "border-box",
@@ -2891,7 +2894,7 @@ console.log('invoiceDetails',invoiceDetails)
                     style={{
                       border: "1px solid #D4D4D4",
                       borderRadius: 8,
-                      width: search ? "180px" : "120px",
+                      width: search ? "120px" : "120px",
                       marginTop: "20px",
                     }}
                   >
@@ -2921,7 +2924,7 @@ console.log('invoiceDetails',invoiceDetails)
                     style={{
                       border: "1px solid #D4D4D4",
                       borderRadius: 8,
-                      width: search ? "180px" : "120px",
+                      width: search ? "120px" : "120px",
                       marginTop: "20px",
                     }}
                   >
@@ -3654,36 +3657,7 @@ console.log('invoiceDetails',invoiceDetails)
                                         *
                                       </span>
                                     </Form.Label>
-                                    {/* <Form.Select
-                                      className="border"
-                                      value={invoiceList.transaction}
-                                      
-                                      onChange={(e) => handleTransaction(e)}
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy, sans-serif",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 49,
-                                        borderRadius: 8,
-                                        marginTop: 6,
-                                      }}
-                                    >
-                                      <option selected>select </option>
-                                      <option value="Cash">Cash </option>
-                                      <option value="Debit Card">
-                                        Debit Card
-                                      </option>
-                                      <option value="Credit Card">
-                                        Credit Card
-                                      </option>
-                                      <option value="UPI">UPI</option>
-                                      <option value="Net Banking">
-                                        Banking
-                                      </option>
-                                    </Form.Select> */}
+                                   
 
                                     <Select
                                       options={[
@@ -3702,7 +3676,7 @@ console.log('invoiceDetails',invoiceDetails)
                                           }
                                           : null
                                       }
-                                      placeholder="Select"
+                                      placeholder="Please Select"
                                       classNamePrefix="custom"
                                       menuPlacement="auto"
                                       noOptionsMessage={() => "No options available"}

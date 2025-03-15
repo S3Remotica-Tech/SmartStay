@@ -227,12 +227,12 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     }
   
     if (!modeOfPayment) {
-      setPaymentError("Please Enter Mode Of Payment");
+      setPaymentError("Please Enter Mode Of Transaction");
       hasError = true;
     }
   
     if (!price) {
-      setPriceError("Please Enter Valid Amount");
+      setPriceError("Please Enter Valid Unit Amount");
       hasError = true;
     } else if (isNaN(price) || price <= 0) {
       setPriceError("Price Must be a Positive Number");
@@ -845,68 +845,81 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       *{" "}
                     </span>
                   </Form.Label>
-                  {/* <Form.Select
-                    aria-label="Default select example"
-                    placeholder="Select no. of floor"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                    id="form-selects"
-                    className="border"
-                    value={account}
-                    onChange={(e) => handleAccount(e)}
-                    disabled={currentItem}
-                  >
-                    <option value="">Select Account</option>
-                    {state.bankingDetails?.bankingList?.banks?.map((u) => (
-                      <option key={u.id} value={u.id}>
-                        {u.bank_name}
-                      </option>
-                    ))}
-                  </Form.Select> */}
-
-
-
-
-                  <Form.Select
-                    aria-label="Default select example"
-                    placeholder="Select no. of floor"
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                      height: 50,
-                      borderRadius: 8,
-                    }}
-                    id="form-selects"
-                    className="border"
-                    value={account}
-                    onChange={(e) => handleAccount(e)}
-                    disabled={currentItem}
-                  >
-                    <option value="">Select Account</option>
-                    {state.bankingDetails?.bankingList?.banks?.length > 0 ? (
-                      state.bankingDetails.bankingList.banks.map((u) => (
-                        <option key={u.id} value={u.id}>
-                          {u.bank_name}
-                        </option>
-                      ))
-                    ) : (
-                      <option value="" disabled>
-                        No accounts available
-                      </option>
-                    )}
-                  </Form.Select>
+               
+<Select
+  placeholder="Select Account"
+  options={
+    state.bankingDetails?.bankingList?.banks?.length > 0
+      ? state.bankingDetails.bankingList.banks.map((u) => ({
+          value: u.id,
+          label: u.bank_name,
+        }))
+      : []
+  }
+  value={
+    state.bankingDetails?.bankingList?.banks?.map((u) => ({
+      value: u.id,
+      label: u.bank_name,
+    })).find((opt) => opt.value === account) || null
+  }
+  onChange={(selectedOption) => {
+    setAccount(selectedOption?.value || "");
+    setAccountError("");
+    setIsChangedError("");
+    setNetPaymentError("");
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+  }}
+  styles={{
+    control: (base) => ({
+      ...base,
+      height: "48px",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      fontSize: "16px",
+      color: "#4B4B4B",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      boxShadow: "none",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      maxHeight: "120px",
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      cursor: "pointer",
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer", 
+      backgroundColor: state.isFocused ? "#f0f0f0" : "white", 
+      color: "#000",
+    }),
+  }}
+  isDisabled={currentItem}
+  noOptionsMessage={() =>
+    state.bankingDetails?.bankingList?.banks?.length === 0
+      ? "No accounts available"
+      : "No match found"
+  }
+/>
 
                   {accountError && (
                     <div className="d-flex align-items-center p-1 mb-2">

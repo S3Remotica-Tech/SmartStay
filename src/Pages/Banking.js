@@ -608,27 +608,22 @@ function Banking() {
                         style={{
                           border: "1px solid #d9d9d9 ",
                           position: "absolute",
-                          top: 60,
+                          top: 45,
                           left: 0,
                           zIndex: 1000,
                           padding: 10,
                           borderRadius: 8,
                           backgroundColor: "#fff",
-                          width: "94%",
+                          width: "100%",
                         }}
                       >
                         <ul
                           className="show-scroll p-0"
                           style={{
                             backgroundColor: "#fff",
-                            // borderRadius: "4px",
-                            // maxHeight: 174,
-                            maxHeight:
-                              transactionFilterddata?.length > 1 ? "174px" : "auto",
-                            minHeight: 100,
-                            overflowY:
-                              transactionFilterddata?.length > 1 ? "auto" : "hidden",
-
+                            maxHeight: "174px",
+                            minHeight: transactionFilterddata?.length > 1 ? "100px" : "auto",
+                            overflowY: transactionFilterddata?.length > 3 ? "auto" : "hidden",
                             margin: "0",
                             listStyleType: "none",
                             borderRadius: 8,
