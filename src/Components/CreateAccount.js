@@ -167,7 +167,7 @@ function CreateAccountPage() {
       if (isValidMobileNo && input.length === 10) {
         mobileNumberError.innerHTML = '';
       } else {
-        mobileNumberError.innerHTML = 'Invalid mobile number *';
+        mobileNumberError.innerHTML = 'Invalid Mobile Number';
       }
     }
   };
@@ -196,29 +196,44 @@ function CreateAccountPage() {
   //   setPassword(e.target.value);
   //   };
 
+  // const handleEmailID = (e) => {
+  //   const emailInput = e.target.value.toLowerCase();
+  //   setEmailID(emailInput);
+  
+  //   setEmailError('');
+  //   dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+  //   dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+  
+  //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+  //   const isValidEmail = emailRegex.test(emailInput);
+  //   const emailIDError = document.getElementById('emailIDError');
+  
+  //   if (emailIDError) {
+  //     if (emailInput && !isValidEmail) {
+  //       emailIDError.innerHTML = 'Invalid Email Id';
+  //     } else {
+  //       emailIDError.innerHTML = '';
+  //     }
+  //   }
+  // };
+  
   const handleEmailID = (e) => {
     const emailInput = e.target.value.toLowerCase();
     setEmailID(emailInput);
-
-    setEmailError('');
+  
     dispatch({ type: 'CLEAR_EMAIL_ERROR' });
     dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
-
-
+  
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const isValidEmail = emailRegex.test(emailInput);
-    const emailIDError = document.getElementById('emailIDError');
-
-    if (emailIDError) {
-      if (isValidEmail) {
-        emailIDError.innerHTML = '';
-      } else {
-        emailIDError.innerHTML = 'Invalid Email Id *';
-      }
+  
+    if (emailInput && !isValidEmail) {
+      setEmailError('Invalid Email ID');
+    } else {
+      setEmailError('');
     }
   };
-
-
+  
 
 
 
@@ -300,8 +315,7 @@ function CreateAccountPage() {
 
 
   const handleCreateAccount = async () => {
-    const emailElement = document.getElementById('emailIDError');
-    const emailError = emailElement ? emailElement.innerHTML : '';
+    let hasError = false;
 
 
 
@@ -331,21 +345,16 @@ function CreateAccountPage() {
     }
 
     if (!emailID) {
-
-      setEmailError('Please Enter Email ID')
-
-      
+      setEmailError('Please Enter Email ID');
+      hasError = true;
+    } else {
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+      if (!emailRegex.test(emailID)) {
+        setEmailError('Please Enter Valid Email ID');
+        hasError = true;
+      }
     }
-
-
-
-    if (emailError === 'Invalid Email Id *') {
-
-      setEmailError('Please Enter Valid Email Address')
-
-      
-    }
-
+    if (hasError) return;
     if (!countryCode) {
 
       setCountryCodeError('Please Select Country Code')
