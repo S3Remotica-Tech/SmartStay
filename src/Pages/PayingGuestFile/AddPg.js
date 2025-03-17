@@ -61,27 +61,51 @@ function AddPg({ show, handleClose, currentItem }) {
       }
     }
   };
+
+
   const handleMobileChange = (e) => {
     const value = e.target.value;
-
-    const pattern = /^\d*$/;
-
+  
+    const pattern = /^\d*$/; // Only allow digits
+  
     if (pattern.test(value)) {
       setMobile(value);
-      setMobileError("");
       setGeneralError("");
       setIsChangedError("");
-
-      // if (value.length === 10) {
-      //   setErrors((prevErrors) => ({ ...prevErrors, mobile: "" }));
-      // } else {
-      //   setErrors((prevErrors) => ({
-      //     ...prevErrors,
-      //     mobile: "Invalid mobile number *",
-      //   }));
-      // }
+  
+      if (value === "") {
+        setMobileError("Mobile Number is Required");
+      } else if (value.length < 10) {
+        setMobileError("Invalid Mobile Number");
+      } else if (value.length === 10) {
+        setMobileError(""); // Clear error when valid
+      }
+    } else {
+      setMobileError("Invalid Mobile Number");
     }
   };
+  
+  // const handleMobileChange = (e) => {
+  //   const value = e.target.value;
+
+  //   const pattern = /^\d*$/;
+
+  //   if (pattern.test(value)) {
+  //     setMobile(value);
+  //     setMobileError("");
+  //     setGeneralError("");
+  //     setIsChangedError("");
+
+  //     // if (value.length === 10) {
+  //     //   setErrors((prevErrors) => ({ ...prevErrors, mobile: "" }));
+  //     // } else {
+  //     //   setErrors((prevErrors) => ({
+  //     //     ...prevErrors,
+  //     //     mobile: "Invalid mobile number *",
+  //     //   }));
+  //     // }
+  //   }
+  // };
 
   const handleEmailChange = (e) => {
     const emailValue = e.target.value.toLowerCase();

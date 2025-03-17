@@ -1928,353 +1928,266 @@ const handleBack = () => {
       {userList && (
         // <div style={{ margin: "12px" }}>
         <div className="container">
-          <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
-            <div style={{ marginTop: 2 }}>
-              <label
+        <div className="row align-items-center mt-3">
+  {/* Left Title Section */}
+  <div className="col-12 col-md-3 d-flex align-items-center mb-2 mb-md-0">
+    <label
+      className="mb-0"
+      style={{
+        fontSize: 18,
+        color: "#000000",
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        marginLeft: 11,
+      }}
+    >
+      Customers
+    </label>
+  </div>
+
+  {/* Right Controls Section */}
+  <div className="col-12 col-md-9">
+    <div className="d-flex flex-wrap justify-content-md-end align-items-center gap-2 gap-md-3">
+      
+      {/* Search Box */}
+      {search ? (
+        <div style={{ position: "relative", width: "240px" }}>
+          <div className="input-group">
+            <span className="input-group-text bg-white border-end-0">
+              <Image
+                src={searchteam}
+                alt="search"
+                style={{ height: 20, width: 20, cursor: "pointer" }}
+              />
+            </span>
+            <input
+              type="text"
+              className="form-control border-start-0"
+              placeholder="Search"
+              value={filterInput}
+              onChange={(e) => handlefilterInput(e)}
+              style={{ boxShadow: "none", borderRight: "none" }}
+            />
+            <span className="input-group-text bg-white border-start-0">
+              <img
+                src={closecircle}
+                alt="close"
+                style={{ height: 20, width: 20, cursor: "pointer" }}
+                onClick={handleCloseSearch}
+              />
+            </span>
+          </div>
+
+          {/* Dropdown */}
+          {isDropdownVisible && filteredUsers?.length > 0 && (
+            <div
+              style={{
+                border: "1px solid #d9d9d9",
+                position: "absolute",
+                top: 48,
+                left: 0,
+                zIndex: 1000,
+                padding: 10,
+                borderRadius: 8,
+                backgroundColor: "#fff",
+                width: "100%",
+              }}
+            >
+              <ul
+                className="show-scroll p-0"
                 style={{
-                  fontSize: 18,
-                  color: "#000000",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  marginLeft: 11,
-                  marginRight: 20,
-                  marginTop: -8,
+                  backgroundColor: "#fff",
+                  maxHeight: "174px",
+                  minHeight: filteredUsers?.length > 1 ? "100px" : "auto",
+                  overflowY: filteredUsers?.length > 3 ? "auto" : "hidden",
+                  margin: 0,
+                  listStyleType: "none",
+                  borderRadius: 8,
+                  boxSizing: "border-box",
                 }}
               >
-                Customers
-              </label>
-            </div>
-
-            <div className="d-flex flex-wrap flex-md-nowrap">
-              {search ? (
-                <>
-                  <div
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      marginRight: 20,
-                      marginTop: "8px",
-                    }}
-                  >
-                    <div
+                {filteredUsers?.map((user, index) => {
+                  const imagedrop = user.profile || Profile;
+                  return (
+                    <li
+                      key={index}
+                      className="list-group-item d-flex align-items-center"
                       style={{
-                        position: "relative",
-                        display: "flex",
-                        alignItems: "center",
-                        width: "100%",
-                        marginTop: "20px",
-                        marginBottom: "10px",
+                        cursor: "pointer",
+                        padding: "10px 5px",
+                        borderBottom:
+                          index !== filteredUsers.length - 1
+                            ? "1px solid #eee"
+                            : "none",
                       }}
+                      onClick={() => handleUserSelect(user)}
                     >
                       <Image
-                        src={searchteam}
-                        alt="Search"
+                        src={imagedrop}
+                        alt={user.Name || "Default Profile"}
+                        roundedCircle
                         style={{
-                          position: "absolute",
-                          left: "10px",
-                          width: "24px",
-                          height: "24px",
-                          pointerEvents: "none",
+                          height: "30px",
+                          width: "30px",
+                          marginRight: "10px",
+                        }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = Profile;
                         }}
                       />
-
-                      <div
-                        className="input-group"
-                        style={{
-                          display: "flex",
-                          width: "240px", // Fix width
-                          marginRight: 20,
-                        }}
-                      >
-                        <span className="input-group-text bg-white border-end-0">
-                          <Image
-                            src={searchteam}
-                            style={{ height: 20, width: 20, cursor: "pointer" }}
-                          />
-                        </span>
-                        <input
-                          type="text"
-                          className="form-control border-start-0"
-                          placeholder="Search"
-                          aria-label="Search"
-                          style={{
-                            boxShadow: "none",
-                            outline: "none",
-                            borderColor: "rgb(207,213,219)",
-                            borderRight: "none",
-                          }}
-                          value={filterInput}
-                          onChange={(e) => handlefilterInput(e)}
-                        />
-                        <span className="input-group-text bg-white border-start-0">
-                          <img
-                            src={closecircle}
-                          alt="close"
-                            onClick={handleCloseSearch}
-                            style={{ height: 20, width: 20, cursor: "pointer" }}
-                          />
-                        </span>
-                      </div>
-                    </div>
-
-                    {isDropdownVisible && filteredUsers?.length > 0 && (
-                      <div
-                        style={{
-                          border: "1px solid #d9d9d9 ",
-                          position: "absolute",
-                          top: 60,
-                          left: 0,
-                          zIndex: 1000,
-                          padding: 10,
-                          borderRadius: 8,
-                          backgroundColor: "#fff",
-                          width: "94%",
-                        }}
-                      >
-                       <ul
-  className="show-scroll p-0"
-  style={{
-    backgroundColor: "#fff",
-    maxHeight: "174px",
-    minHeight: filteredUsers?.length > 1 ? "100px" : "auto",
-    overflowY: filteredUsers?.length > 3 ? "auto" : "hidden",
-    margin: 0,
-    listStyleType: "none",
-    borderRadius: 8,
-    boxSizing: "border-box",
-  }}
->
-                          {filteredUsers?.map((user, index) => {
-                            const imagedrop = user.profile || Profile;
-                            return (
-                              <li
-                                key={index}
-                                className="list-group-item d-flex align-items-center"
-                                style={{
-                                  cursor: "pointer",
-                                  padding: "10px 5px",
-                                  borderBottom:
-                                    index !== filteredUsers.length - 1
-                                      ? "1px solid #eee"
-                                      : "none",
-                                }}
-                                onClick={() => handleUserSelect(user)}
-                              >
-                                <Image
-                                  src={imagedrop}
-                                  alt={user.Name || "Default Profile"}
-                                  roundedCircle
-                                  style={{
-                                    height: "30px",
-                                    width: "30px",
-                                    marginRight: "10px",
-                                  }}
-                                  onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = Profile;
-                                  }}
-                                />
-                                {/* <span>{user.Name}</span> */}
-                                {/* <span>
-                                  {value === "1"
-                                    ? user.Name
-                                    : value === "2"
-                                    ? user.first_name
-                                    : ""}
-                                </span> */}
-                                <span>
-                                  {value === "1"
-                                    ? user.Name
-                                    : value === "2"
-                                    ? [user?.first_name, user?.last_name]
-                                        .filter(Boolean)
-                                        .join(" ")
-                                    : value === "3"
-                                    ? user.Name
-                                    : value === "4"
-                                    ? user.first_name
-                                    : ""}
-                                </span>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div style={{ paddingRight: 45, marginTop: 33 }}>
-                    <Image
-                      src={searchteam}
-                      style={{
-                        height: "24px",
-                        width: "24px",
-                        cursor: "pointer",
-                      }}
-                      onClick={handleShowSearch}
-                    />
-                  </div>
-                </>
-              )}
-
-              {/* <div className="me-4 " style={{}}>
-                <Image
-                  src={Filters}
-
-                  style={{ height: "50px", width: "50px", cursor: "pointer" }}
-                  onClick={handleShowSearch}
-                />
-              </div> */}
-              <div style={{ paddingRight: "17px", marginTop: 23 }}>
-                {value === "1" && (
-                  <img
-                    src={excelimg}
-                    alt="excel"
-                    width={38}
-                    height={38}
-                    style={{
-                      marginLeft: "-20px",
-                      marginTop: 5,
-                      cursor: "pointer",
-                    }}
-                    onClick={handleCustomerExcel}
-                  />
-                )}
-                {value === "2" && (
-                  <img
-                    src={excelimg}
-                    alt="excel"
-                    width={38}
-                    height={38}
-                    style={{
-                      marginLeft: "-20px",
-                      marginTop: 5,
-                      cursor: "pointer",
-                    }}
-                    onClick={handleBookingExcel}
-                  />
-                )}
-                {value === "3" && (
-                  <img
-                    src={excelimg}
-                    alt="excel"
-                    width={38}
-                    height={38}
-                    style={{
-                      marginLeft: "-20px",
-                      marginTop: 5,
-                      cursor: "pointer",
-                    }}
-                    onClick={handlecheckoutExcel}
-                  />
-                )}
-                {value === "4" && (
-                  <img
-                    src={excelimg}
-                    alt="excel"
-                    width={38}
-                    height={38}
-                    style={{
-                      marginLeft: "-20px",
-                      marginTop: 5,
-                      cursor: "pointer",
-                    }}
-                    onClick={handlewalkinExcel}
-                  />
-                )}
-              </div>
-
-              <div className="buttons  me-3" style={{ marginTop: 22 }}>
-                {value === "1" && (
-                  <Button
-                    disabled={customerAddPermission}
-                    onClick={handleShow}
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: "8px",
-                      padding: "12px 34px",
-                      paddingRight: 36,
-                      marginBottom: "10px",
-                      maxHeight: 45,
-                      whiteSpace: "nowrap",
-                      // marginLeft: search ? "20px !important" : "5px",
-                    }}
-                  >
-                    + Customer
-                  </Button>
-                )}
-                {value === "2" && (
-                  <Button
-                    disabled={customerBookingAddPermission}
-                    onClick={toggleForm}
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: "8px",
-                      padding: "12px 36px",
-                      paddingLeft: 38,
-                      marginBottom: "10px",
-                      maxHeight: 45,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    + Bookings
-                  </Button>
-                )}
-                {value === "3" && (
-                  <Button
-                    disabled={customerCheckoutPermission}
-                    onClick={checkOutForm}
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: "8px",
-                      padding: "12px 33px",
-                      paddingRight: 30,
-                      marginBottom: "10px",
-                      maxHeight: 45,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    + Check-out
-                  </Button>
-                )}
-                {value === "4" && (
-                  <Button
-                    disabled={customerWalkInAddPermission}
-                    onClick={walkinForm}
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: "8px",
-                      padding: "12px 38px",
-                      paddingLeft: 44,
-                      marginBottom: "10px",
-                      maxHeight: 45,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    + Walk-in
-                  </Button>
-                )}
-              </div>
+                      <span>
+                        {value === "1"
+                          ? user.Name
+                          : value === "2"
+                          ? [user?.first_name, user?.last_name]
+                              .filter(Boolean)
+                              .join(" ")
+                          : value === "3"
+                          ? user.Name
+                          : value === "4"
+                          ? user.first_name
+                          : ""}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
-          </div>
+          )}
+        </div>
+      ) : (
+        <Image
+          src={searchteam}
+          alt="search"
+          style={{ height: "24px", width: "24px", cursor: "pointer" }}
+          onClick={handleShowSearch}
+        />
+      )}
+
+      {/* Excel Button */}
+      <div>
+        {value === "1" && (
+          <img
+            src={excelimg}
+            alt="excel"
+            width={38}
+            height={38}
+            style={{ cursor: "pointer" }}
+            onClick={handleCustomerExcel}
+          />
+        )}
+        {value === "2" && (
+          <img
+            src={excelimg}
+            alt="excel"
+            width={38}
+            height={38}
+            style={{ cursor: "pointer" }}
+            onClick={handleBookingExcel}
+          />
+        )}
+        {value === "3" && (
+          <img
+            src={excelimg}
+            alt="excel"
+            width={38}
+            height={38}
+            style={{ cursor: "pointer" }}
+            onClick={handlecheckoutExcel}
+          />
+        )}
+        {value === "4" && (
+          <img
+            src={excelimg}
+            alt="excel"
+            width={38}
+            height={38}
+            style={{ cursor: "pointer" }}
+            onClick={handlewalkinExcel}
+          />
+        )}
+      </div>
+
+      {/* Action Button */}
+      <div>
+        {value === "1" && (
+          <Button
+            disabled={customerAddPermission}
+            onClick={handleShow}
+            style={{
+              backgroundColor: "#1E45E1",
+              color: "white",
+              fontWeight: 600,
+              borderRadius: "8px",
+              padding: "10px 20px",
+              whiteSpace: "nowrap",
+              fontFamily: "Gilroy",
+              fontSize: 14,
+            }}
+          >
+            + Customer
+          </Button>
+        )}
+        {value === "2" && (
+          <Button
+            disabled={customerBookingAddPermission}
+            onClick={toggleForm}
+            style={{
+              backgroundColor: "#1E45E1",
+              color: "white",
+              fontWeight: 600,
+              borderRadius: "8px",
+              padding: "10px 20px",
+              whiteSpace: "nowrap",
+              fontFamily: "Gilroy",
+              fontSize: 14,
+            }}
+          >
+            + Bookings
+          </Button>
+        )}
+        {value === "3" && (
+          <Button
+            disabled={customerCheckoutPermission}
+            onClick={checkOutForm}
+            style={{
+              backgroundColor: "#1E45E1",
+              color: "white",
+              fontWeight: 600,
+              borderRadius: "8px",
+              padding: "10px 20px",
+              whiteSpace: "nowrap",
+              fontFamily: "Gilroy",
+              fontSize: 14,
+            }}
+          >
+            + Check-out
+          </Button>
+        )}
+        {value === "4" && (
+          <Button
+            disabled={customerWalkInAddPermission}
+            onClick={walkinForm}
+            style={{
+              backgroundColor: "#1E45E1",
+              color: "white",
+              fontWeight: 600,
+              borderRadius: "8px",
+              padding: "10px 20px",
+              whiteSpace: "nowrap",
+              fontFamily: "Gilroy",
+              fontSize: 14,
+            }}
+          >
+            + Walk-In
+          </Button>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+
           {filterInput && (
             <div
               className="container ms-4 mb-4"
@@ -2338,7 +2251,6 @@ const handleBack = () => {
               fontSize: 16,
               fontWeight: 500,
               textAlign: "left",
-              marginTop: "-20px",
             }}
           >
             <TabContext value={value}>

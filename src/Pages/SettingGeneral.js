@@ -477,12 +477,12 @@ function SettingGeneral() {
       !isPasswordValid
      
     ) {
-      console.log("Form validation failed.");
+      console.log("Form validation failed");
       return;
     }
   
     if (!isValidEmail(emilId)) {
-      setEmailError("Please enter a valid Email ID.");
+      setEmailError("Please enter a valid Email ID");
       return;
     }
   
@@ -1513,7 +1513,7 @@ function SettingGeneral() {
                   id="form-controls"
                    autoComplete="off"
                     autoCorrect="off"
-                  placeholder="Enter Email"
+                  placeholder="Enter Email ID"
                   value={emilId}
                   onChange={(e) => handleEmailId(e)}
                   style={{

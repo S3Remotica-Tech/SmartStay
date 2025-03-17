@@ -1326,7 +1326,9 @@ const ComplianceList = (props) => {
                               justifyContent: "center",
                               alignItems: "center",
                               cursor: "pointer",
+                             
                             }}
+                            onClick={handleAddComment}
                           >
                             <img
                               src={send}

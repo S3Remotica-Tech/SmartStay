@@ -112,14 +112,29 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
   };
 
+  // const handlePhone = (e) => {
+  //   setPhoneError("");
+  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
+  //   const value = e.target.value;
+  //   if (/^\d*$/.test(value) && value.length <= 10) {
+  //     setPhone(value);
+  //   }
+  // };
   const handlePhone = (e) => {
-    setPhoneError("");
-    dispatch({ type: "CLEAR_PHONE_ERROR" });
-    const value = e.target.value;
-    if (/^\d*$/.test(value) && value.length <= 10) {
-      setPhone(value);
+    const input = e.target.value.replace(/\D/g, ""); 
+    setPhone(input);
+  
+    if (input.length === 0) {
+      setPhoneError("Phone Number is Required");
+    } else if (input.length < 10) {
+      setPhoneError("Invalid Mobile Number");
+    } else if (input.length === 10) {
+      setPhoneError(""); // Valid input
     }
+  
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
+  
 
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
@@ -127,22 +142,40 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   //   setCountryCodeError("");
   // };
 
+  // const handleEmail = (e) => {
+  //   const email = e.target.value;
+  //   setEmail(email);
+  //   dispatch({ type: "CLEAR_EMAIL_ERROR" });
+  //   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  //   const isValidEmail = emailRegex.test(email);
+
+  //   if (isValidEmail) {
+  //     setEmailError("");
+  //   } else {
+  //     setEmailError("Invalid Email Id *");
+  //   }
+
+  //   if (!email) {
+  //     setEmailError("");
+  //   }
+  // };
+
+
   const handleEmail = (e) => {
-    const email = e.target.value;
-    setEmail(email);
-    dispatch({ type: "CLEAR_EMAIL_ERROR" });
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    const isValidEmail = emailRegex.test(email);
+    const emailValue = e.target.value.toLowerCase();
+    setEmail(emailValue);
 
-    if (isValidEmail) {
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    const isValidEmail = emailRegex.test(emailValue);
+    if (!emailValue) {
       setEmailError("");
+    } 
+    else if (!isValidEmail) {
+      setEmailError("Invalid Email ID");
     } else {
-      setEmailError("Invalid Email Id *");
-    }
-
-    if (!email) {
       setEmailError("");
     }
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
   const calendarRef = useRef(null);
@@ -188,6 +221,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   };
 
   const handleAddCustomerDetails = () => {
+    let hasError = false;
     const Hostel_Id = currentItem.room.Hostel_Id;
     const Floor_Id = currentItem.room.Floor_Id;
     const Room_Id = currentItem.room.Room_Id;
@@ -244,7 +278,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
 
     if (phone.length < 10) {
-      setPhoneError("Phone Number must be 10 digits long");
+      setPhoneError("Phone Enter Valid Mobile No");
       return;
     }
 
@@ -253,10 +287,23 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     //   return;
     // }
 
-    if (emailError) {
-      setEmailError(emailError);
-      // return;
+    // if (emailError) {
+    //   setEmailError(emailError);
+    //   // return;
+    // }
+    if (email) {
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+      const isValidEmail = emailRegex.test(email.toLowerCase());
+      if (!isValidEmail) {
+        setEmailError("Please Enter Valid Email ID");
+        hasError = true;
+      } else {
+        setEmailError("");
+      }
+    } else {
+      setEmailError(""); 
     }
+    if (hasError) return;
 
     if (isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
       setAdvanceAmountError("Please enter a Valid Advance Amount");
@@ -646,7 +693,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
                     {phoneError && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginTop:"-32px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginTop:"-12px" }} />
                         <label
                           className=""
                           style={{
@@ -715,7 +762,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                     </Form.Group>
 
                     {emailError && (
-                      <div className="d-flex align-items-center p-1 mb-2">
+                      <div className="d-flex align-items-center p-1" style={{marginTop:"-15px"}}>
                         <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
                         <label
                           className="mb-0"
@@ -731,7 +778,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       </div>
                     )}
                     {state.UsersList.emailError && (
-                      <div className="d-flex align-items-center p-1 mb-2">
+                      <div className="d-flex align-items-center p-1">
                         <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
                         <label
                           className="mb-0"
@@ -914,7 +961,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       <FormControl
                         type="text"
                         id="form-controls"
-                        placeholder="Enter amount"
+                        placeholder="Enter Rental Amount"
                         value={RoomRent}
                         onChange={(e) => handleRoomRent(e)}
                         style={{

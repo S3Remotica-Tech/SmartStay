@@ -240,7 +240,7 @@ function AddRole({ showRole,setShowRole, editRoleDetails,addRole }) {
         let isValid = true;
 
         if (!roleName.trim()) {
-            setErrorForm("Role name cannot be empty.");
+            setErrorForm("Role Name Cannot Be Empty");
             isValid = false;
         }
         const hasPermissionSelected = permissionRole.some(permission =>
@@ -248,7 +248,7 @@ function AddRole({ showRole,setShowRole, editRoleDetails,addRole }) {
         )
 
         if (!hasPermissionSelected) {
-            setErrorPermission("At least one permission must be selected.");
+            setErrorPermission("At Least One Mermission Must Be Selected");
             isValid = false;
         }
 

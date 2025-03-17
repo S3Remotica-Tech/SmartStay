@@ -251,12 +251,21 @@ function CheckOut(props) {
 
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = (top + height / 2) - 15;
-    const popupLeft = left - 200;
+    // const popupLeft = left - 220;
+
+    const popupLeft = left - (checkOutconfirm.isActive === 0 || checkOutconfirm.isActive === '0' ? 250 : 290);
+    
 
     setPopupPosition({ top: popupTop, left: popupLeft });
 
 
-
+    setTimeout(() => {
+      if (popupRef.current) {
+        const popupWidth = popupRef.current.offsetWidth;
+        const popupLeft = left - popupWidth + 0; // fine-tune +40 as needed
+        setPopupPosition({ top: popupTop, left: popupLeft });
+      }
+    }, 0);
 
 
 
@@ -839,8 +848,8 @@ function CheckOut(props) {
                                       position: "fixed",
                                       top:   popupPosition.top,
                                       left:  popupPosition.left,
-                                      
-                                      width: 200,
+                                      // width: 200,
+                                      width:checkout.isActive === 0 ? 100:200,
                                       border: "1px solid #F9F9F9",
                                       borderRadius: 12,
                                       display: "flex",
@@ -854,7 +863,7 @@ function CheckOut(props) {
                                     }}
                                   >
 
-                                    <div className="d-flex align-items-center"
+                                    {/* <div className="d-flex align-items-center"
                                       onClick={() => {
                                         if (!checkOutEditPermissionError) {
                                           handleConfirmCheckout(checkout);
@@ -883,70 +892,85 @@ function CheckOut(props) {
                                       >
                                         Confirm Check-Out
                                       </label>
-                                    </div>
+                                    </div> */}
 
-                                    {/* <div  className="d-flex align-items-center mt-2" >
-                            <img
-                              src={Addbtn}
-                              style={{
-                                height: 16,
-                                width: 16,
-                                marginRight: "8px",
-                              }}
-                              alt="checkout icon"
-                            />
-                            <label
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                // color: "#FF0000",
-                              }}
-                            >
-                              Reassign bed
-                            </label>
-                          </div> */}
+{checkout.isActive !== 0 && (
+  <div
+    className="d-flex align-items-center"
+    onClick={() => {
+      if (!checkOutEditPermissionError) {
+        handleConfirmCheckout(checkout);
+      }
+    }}
+  >
+    <img
+      src={Addbtn}
+      style={{
+        height: 16,
+        width: 16,
+        marginRight: "8px",
+      }}
+      alt="checkout icon"
+    />
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
+      }}
+    >
+      Confirm Check-Out
+    </label>
+  </div>
+  
+)}
 
-                                    <div
-                                      className="mb-2 mt-2 d-flex align-items-center"
-                                      onClick={() => {
-                                        if (!checkOutEditPermissionError) {
-                                          handleEdit(checkout);
-                                        }
-                                      }}
-                                      style={{
-                                        cursor: checkOutEditPermissionError
-                                          ? "not-allowed"
-                                          : "pointer",
-                                        pointerEvents: checkOutEditPermissionError
-                                          ? "none"
-                                          : "auto",
-                                        opacity: checkOutEditPermissionError ? 0.5 : 1,
-                                      }}
-                                    >
-                                      <img
-                                        src={Edit}
-                                        style={{
-                                          height: 16,
-                                          width: 16,
-                                          marginRight: "8px",
-                                        }}
-                                        alt="Edit icon"
-                                      />
-                                      <label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          color: "#222222",
-                                          cursor: checkOutEditPermissionError
-                                          ? "not-allowed"
-                                          : "pointer",
-                                        }}
-                                      >
-                                        Edit
-                                      </label>
-                                    </div>
+{
+  checkout.isActive !== 0 && (
+    <div
+    className="mb-2 mt-2 d-flex align-items-center"
+    onClick={() => {
+      if (!checkOutEditPermissionError) {
+        handleEdit(checkout);
+      }
+    }}
+    style={{
+      cursor: checkOutEditPermissionError
+        ? "not-allowed"
+        : "pointer",
+      pointerEvents: checkOutEditPermissionError
+        ? "none"
+        : "auto",
+      opacity: checkOutEditPermissionError ? 0.5 : 1,
+    }}
+  >
+    <img
+      src={Edit}
+      style={{
+        height: 16,
+        width: 16,
+        marginRight: "8px",
+      }}
+      alt="Edit icon"
+    />
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        color: "#222222",
+        cursor: checkOutEditPermissionError
+        ? "not-allowed"
+        : "pointer",
+      }}
+    >
+      Edit
+    </label>
+  </div>
+  )
+}
+                                   
 
                                     <div
                                       className="d-flex align-items-center"

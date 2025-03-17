@@ -175,7 +175,7 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
                         <div className='row mt-2 row-gap-2'>
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities Calculation Start Date will be
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities Calculation Start Date Will Be
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                             {errorStartDate && (
                             <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorStartDate}</div>
@@ -212,7 +212,7 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
 
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities Calculation End Date will be
+                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities Calculation End Date Will Be
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                                         {errorEndDate && (
                         <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorEndDate}</div>

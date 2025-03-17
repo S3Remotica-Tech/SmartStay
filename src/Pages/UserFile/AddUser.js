@@ -266,7 +266,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       setMobileError('Please Enter Mobile Number');
       isValid = false;
     } else if (mobile.length !== 10) {
-      setMobileError('Mobile Number must be 10 Digits');
+      setMobileError('Please Enter Valid Mobile Number');
       isValid = false;
     }
   
@@ -558,7 +558,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                     type="text"
                     autoComplete="off"
                     autoCorrect="off"
-                    placeholder="Enter Email"
+                    placeholder="Enter Email ID"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",

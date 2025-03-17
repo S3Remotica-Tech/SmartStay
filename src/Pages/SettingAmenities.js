@@ -553,7 +553,7 @@ function SettingAmenities({ hostelid }) {
                                                 </div>
                                             </div>
                                             <div className="col-lg-4 col-md-4 col-12">
-                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation type</p>
+                                                <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation Type</p>
                                                 <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Monthly</p>
                                             </div>
                                             <div className="col-lg-4 col-md-4 col-12">

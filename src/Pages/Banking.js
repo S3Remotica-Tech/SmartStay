@@ -1255,7 +1255,7 @@ function Banking() {
 
                       let formattedMonth = monthNames[month];
 
-                      let formattedDate = `${year} ${formattedMonth} ${day}`;
+                      let formattedDate = `${day} ${formattedMonth} ${year}`;
 
                       return (
                         <tr
