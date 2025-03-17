@@ -155,7 +155,13 @@ function UserlistWalkin(props) {
 
 
   const handleDotsClick = (id, event) => {
-    setDotsButton((prevId) => (prevId === id ? null : id));
+    // setDotsButton((prevId) => (prevId === id ? null : id));
+    // setCheckOutConfirm(checkout)
+    if (dotsButton === id) {
+      setDotsButton(null);
+    } else {
+      setDotsButton(id);
+    }
 
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
@@ -186,9 +192,10 @@ function UserlistWalkin(props) {
   };
 
   const handleEdit = (customer) => {
+    setDotsButton(null);
     setSelectedCustomer(customer);
     setShowForm(true);
-    setDotsButton(null);
+    
   };
 
   const handleFormClose = () => {

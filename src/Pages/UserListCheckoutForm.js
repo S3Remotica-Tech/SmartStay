@@ -292,7 +292,7 @@ const CheckOutForm = ({
     // }
 
     if (!checkOutDate) {
-      setCheckOutDateError("Please Select a Checkout Date");
+      setCheckOutDateError("Please Select a Check-Out Date");
       // isValid = false;
     }
 

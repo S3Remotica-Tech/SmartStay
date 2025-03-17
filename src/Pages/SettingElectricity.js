@@ -221,10 +221,10 @@ const SettingElectricity = ({ hostelid }) => {
     if (!calculatedstartdate || !calculatedenddate) {
 
       if (!calculatedstartdate) {
-        setCalculatedstartdateErrmsg('Please Select date')
+        setCalculatedstartdateErrmsg('Please Select Date')
       }
       if (!calculatedenddate) {
-        setCalculatedEnddateErrMsg('Please Select date')
+        setCalculatedEnddateErrMsg('Please Select Date')
       }
       return;
     }

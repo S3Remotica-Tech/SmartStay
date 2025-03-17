@@ -140,7 +140,7 @@ function StaticExample({
                 fontWeight: 600,
               }}
             >
-              {updateFloor ? " Edit Floor" : "Add floor"}
+              {updateFloor ? " Edit Floor" : "Add Floor"}
             </Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
@@ -160,14 +160,14 @@ function StaticExample({
                       fontWeight: 600,
                     }}
                   >
-                    Floor name or no
+                    Floor Name or No
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
                     value={floorNo}
                     onChange={handleFloorChange}
                     type="text"
-                    placeholder="Enter floor name or no"
+                    placeholder="Enter Floor Name or No"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",

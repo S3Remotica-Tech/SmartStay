@@ -659,290 +659,176 @@ console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatu
 
                   <div className="circulardes">
                     <div className="animated-text" style={{ flex: 1 }}>
-                      <div
-                        className="w-full"
-                        style={{
-                          paddingTop: "20px",
-                          border: "1px solid #e0e0e0",
-                          borderRadius: "20px",
-                          backgroundColor: "#fff",
-                          marginLeft: "-3px",
-                          paddingRight: 20,
-                          width: "98%",
-                          marginTop: 10,
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: "10px 10px",
-                            marginTop: "-15px",
-                          }}
-                        >
-                          <div
-                            style={{
-                              flex: "1 1 auto",
-                              textAlign: "start",
-                              paddingLeft: 15,
-                              marginBottom: "0",
-                            }}
-                          >
-                            <p
-                              style={{
-                                fontFamily: "Montserrat",
-                                fontSize: 18,
-                                fontWeight: 600,
-                                margin: 0, // Removes extra margin
-                              }}
-                            >
-                              Expenses Vs Revenue
-                            </p>
-                          </div>
-
-                          <div
-                            style={{
-                              flex: "0 0 auto",
-                              maxWidth: "350px",
-                              marginLeft: "auto",
-                            }}
-                          >
-                            <div
-                              style={{
-                                position: "relative",
-                                width: "150px",
-                                height: 36,
-                              }}
-                            >
-                              <select
-                                aria-label="Default select example"
-                                value={selectRevenu}
-                                onChange={(e) => handleSelectedRevenue(e)}
-                                style={{
-                                  fontSize: 12,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 600,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 36,
-                                  width: "100%",
-                                  borderRadius: 60,
-                                  padding: "6px 10px",
-                                  appearance: "none",
-                                  background: `url(${drop}) no-repeat right 10px center`,
-                                  backgroundSize: "16px 16px",
-                                  cursor:'pointer'
-                                }}
-                              >
-                                <option value="six_month">
-                                  last six month
-                                </option>
-                                <option value="this_year">this year</option>
-                                <option>last year</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Chart Container */}
-                        <div
-                          className="chart-container"
-                          style={{
-                            position: "relative",
-                            height: 350,
-                            overflowX: "auto",
-                          }}
-                        >
-                          <div
-                            style={{
-                              minWidth: "100%",
-                            }}
-                            className="chart-wrapper"
-                          >
-                            {/* <div
+                    <div
+  className="w-full"
+  style={{
+    paddingTop: "20px",
+    border: "1px solid #e0e0e0",
+    borderRadius: "20px",
+    backgroundColor: "#fff",
+    marginLeft: "-3px",
+    paddingRight: 20,
+    width: "98%",
+    marginTop: 10,
+  }}
+>
+  {/* Header Section */}
+  <div
+    style={{
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "10px 10px",
+      marginTop: "-15px",
+    }}
+  >
+    <div
       style={{
-        position: "absolute",
-        top: "10px",
-        left: "20px",
-        display: "flex",
-        alignItems: "center",
+        flex: "1 1 60%",
+        textAlign: "start",
+        paddingLeft: 15,
+        marginBottom: "10px",
       }}
     >
-      <img
-        src={arrow}
-        alt="Arrow"
-        style={{ width: "10px", height: "30px", marginLeft: "10px" }}
-      />
-      <div
+      <p
         style={{
-          transform: "rotate(-90deg)",
-          transformOrigin: "left center",
-          marginTop: "150px",
-          color: "#000",
+          fontFamily: "Montserrat",
+          fontSize: 18,
+          fontWeight: 600,
+          margin: 0,
         }}
       >
-        <p
-          className="me-3"
+        Expenses Vs Revenue
+      </p>
+    </div>
+
+    {/* Select Dropdown */}
+    <div
+      style={{
+        flex: "1 1 40%",
+        maxWidth: "300px",
+        marginLeft: "auto",
+        display: "flex",
+        justifyContent: "flex-end",
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          height: 36,
+        }}
+      >
+        <select
+          value={selectRevenu}
+          onChange={(e) => handleSelectedRevenue(e)}
           style={{
-            fontFamily: "Montserrat",
-            fontWeight: 600,
             fontSize: 12,
             color: "#4B4B4B",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            boxShadow: "none",
+            border: "1px solid #D9D9D9",
+            height: 36,
+            width: "100%",
+            borderRadius: 60,
+            padding: "6px 10px",
+            appearance: "none",
+            background: `url(${drop}) no-repeat right 10px center`,
+            backgroundSize: "16px 16px",
+            cursor: "pointer",
           }}
         >
-          {" "}
-          Amount
-        </p>
+          <option value="six_month">last six months</option>
+          <option value="this_year">this year</option>
+          <option value="last_year">last year</option>
+        </select>
       </div>
-</div> */}
-                            <ResponsiveContainer width="100%" height={350}>
-                              <BarChart
-                                data={data}
-                                margin={{
-                                  top: 10,
-                                  left: 20,
-                                  bottom: 40,
-                                  right: 10,
-                                }}
-                                barGap={0}
-                                barCategoryGap="5%"
-                              >
-                                <CartesianGrid
-                                  horizontal
-                                  vertical={false}
-                                  stroke="#e0e0e0"
-                                />
-                                <XAxis
-                                  dataKey="month"
-                                  // interval={1}
-                                  // interval={"six_month" ? '0' : '1'}
-                                  interval={
-                                    selectRevenu === "six_month" ? 0 : 1
-                                  }
-                                  tick={{
-                                    fontFamily: "Gilroy",
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                  }}
-                                  tickFormatter={(month) => {
-                                    // const date = new Date(month);
-                                    const date = new Date(`${month}-01`);
-                                    const options = {
-                                      month: "short",
-                                      year: "numeric",
-                                    };
-                                    return date.toLocaleDateString(
-                                      "en-US",
-                                      options
-                                    );
-                                  }}
-                                >
-                                  <Label
-                                    value=""
-                                    position="insideBottom"
-                                    offset={-15}
-                                  />
-                                </XAxis>
-                                <YAxis
-                                  domain={[0, "dataMax"]}
-                                  axisLine={false}
-                                  tickLine={false}
-                                  tickCount={12}
-                                  // tickFormatter={formatYAxis}
-                                  formatter={(value) => `₹ ${value}`}
-                                  dx={-10}
-                                  tick={{
-                                    fontFamily: "Gilroy",
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                  }}
-                                />
-                                <Tooltip formatter={(value) => `${value}`} />
+    </div>
+  </div>
 
-                                <Bar
-                                  dataKey="revenue"
-                                  fill="#E34B4B"
-                                  barSize={50}
-                                  radius={[5, 5, 0, 0]}
-                                >
-                                  <LabelList
-                                    dataKey="revenue"
-                                    position="inside"
-                                    angle={270}
-                                    style={{
-                                      fill: "white",
-                                      fontSize: 12,
-                                      fontWeight: "bold",
-                                    }}
-                                  />
-                                </Bar>
-                                <Bar
-                                  dataKey="expense"
-                                  fill="#00A32E"
-                                  barSize={50}
-                                  radius={[5, 5, 0, 0]}
-                                >
-                                  {/* <LabelList
+  {/* Chart Section */}
+  <div
+    className="chart-container"
+    style={{
+      position: "relative",
+      height: 350,
+      overflowX: "auto",
+    }}
+  >
+    <div
+      className="chart-wrapper"
+      style={{
+        minWidth: "100%",
+      }}
+    >
+      <ResponsiveContainer width="100%" height={350}>
+        <BarChart
+          data={data}
+          margin={{
+            top: 10,
+            left: 20,
+            bottom: 40,
+            right: 10,
+          }}
+          barGap={0}
+          barCategoryGap="5%"
+        >
+          <CartesianGrid horizontal vertical={false} stroke="#e0e0e0" />
+          <XAxis
+  dataKey="month"
+  interval="auto"
+  tick={{ fontFamily: "Gilroy", fontSize: 12, fontWeight: 500 }}
+  tickFormatter={(month) => {
+    const date = new Date(`${month}-01`);
+    return date.toLocaleDateString("en-US", { month: "short" }); // Only "Jan", "Feb", etc.
+  }}
+/>
+          <YAxis
+            domain={[0, "dataMax"]}
+            axisLine={false}
+            tickLine={false}
+            tickCount={12}
+            dx={-10}
+            tick={{
+              fontFamily: "Gilroy",
+              fontSize: 12,
+              fontWeight: 500,
+            }}
+          />
+          <Tooltip formatter={(value) => `${value}`} />
+          <Bar dataKey="revenue" fill="#E34B4B" barSize={50} radius={[5, 5, 0, 0]}>
+            <LabelList
+              dataKey="revenue"
+              position="inside"
+              angle={270}
+              style={{
+                fill: "white",
+                fontSize: 12,
+                fontWeight: "bold",
+              }}
+            />
+          </Bar>
+          <Bar dataKey="expense" fill="#00A32E" barSize={50} radius={[5, 5, 0, 0]}>
+            <LabelList
               dataKey="expense"
               position="inside"
               angle={270}
-              style={{ fill: "white", fontSize: 12, fontWeight: "bold" }}
-            /> */}
-                                  <LabelList
-                                    dataKey="expense"
-                                    position="inside"
-                                    angle={270}
-                                    // formatter={(value) => `₹ ${value}`}
-                                    style={{
-                                      fill: "white",
-                                      fontSize: 12,
-                                      fontWeight: "bold",
-                                      whiteSpace: "nowrap",
-                                    }}
-                                  />
-                                </Bar>
-                                <Legend
-                                  content={<CustomLegend />}
-                                  verticalAlign="bottom"
-                                  height={36}
-                                />
-                              </BarChart>
-                            </ResponsiveContainer>
+              style={{
+                fill: "white",
+                fontSize: 12,
+                fontWeight: "bold",
+              }}
+            />
+          </Bar>
+          <Legend content={<CustomLegend />} verticalAlign="bottom" height={36} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  </div>
+</div>
 
-                            {/* <div
-      style={{
-        position: "absolute",
-        bottom: "50px",
-        left: "50%",
-        transform: "translateX(-50%)",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "row",
-      }}
-    >
-      <span
-        style={{
-          marginRight: "5px",
-          fontFamily: "Montserrat",
-          fontWeight: 600,
-          fontSize: 12,
-          color: "#4B4B4B",
-        }}
-      >
-        Month
-      </span>
-      <img
-        src={leftarrow}
-        alt="Arrow"
-        style={{ width: "30px", height: "10px" }}
-      />
-    </div> */}
-                          </div>
-                        </div>
-                      </div>
 
                       <Card
                         className="animated-text"

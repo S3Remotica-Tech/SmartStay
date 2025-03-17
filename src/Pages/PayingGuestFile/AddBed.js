@@ -184,14 +184,14 @@ useEffect(()=>{
                       fontWeight: 500,
                     }}
                   >
-                    Bed name or no{" "}
+                    Bed Name or No{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
                     value={bedNo}
                     onChange={handleBedNoChange}
                     type="text"
-                    placeholder="Enter bed name or no"
+                    placeholder="Enter Bed Name or No"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -242,7 +242,7 @@ useEffect(()=>{
                     value={amount}
                     onChange={handleAmountChange}
                     type="text"
-                    placeholder="Enter amount"
+                    placeholder="Enter Amount"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",

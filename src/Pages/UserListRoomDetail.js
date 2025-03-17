@@ -2343,7 +2343,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                                   </div>
                                                   <div className="col-sm-4 text-center">
                                                     <p className="mb-1 small fw-medium">
-                                                      Mobile no
+                                                      Mobile No
                                                     </p>
                                                     <p className="mb-0 fw-semibold">
                                                       +
