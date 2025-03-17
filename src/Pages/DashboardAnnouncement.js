@@ -1363,7 +1363,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                               !comment.profile || ["0", "", "undefined", "null", "NULL",null,undefined,0].includes(String(comment.profile).trim()) 
                                 ? Profile 
                                 : comment.profile
-                            } width={30} height={30}/>
+                            } width={30} height={30} alt="profile"/>
                                 <div className="ms-2">
                                     <p className="mb-0 fw-bold" style={{ fontSize: "14px" }}>{comment.name}</p>
                                     <p className="mb-0 text-muted" style={{ fontSize: "12px" }}>{new Date(comment.created_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}</p>

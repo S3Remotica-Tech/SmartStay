@@ -22,7 +22,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const [vendor_Mobile, setVendor_Mobile] = useState("");
   const [address, setAddress] = useState("");
   const [email_Id, setEmail_Id] = useState("");
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
   const [business_Name, setBusiness_Name] = useState("");
   const [id, setId] = useState("");
   // const [vendor_Id, setVendor_Id] = useState("");
@@ -93,16 +93,16 @@ const handleClose =()=>{
     setBusinessNameError("");
     if (value === "") {
       setBusiness_Name(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        businessName: "Business name cannot be empty or spaces only",
-      }));
+      // setErrors((prevErrors) => ({
+      //   ...prevErrors,
+      //   businessName: "Business name cannot be empty or spaces only",
+      // }));
       return;
     }
 
     if (value.trim() !== "") {
       setBusiness_Name(value);
-      setErrors((prevErrors) => ({ ...prevErrors, businessName: "" }));
+      // setErrors((prevErrors) => ({ ...prevErrors, businessName: "" }));
     }
   };
 
@@ -142,16 +142,16 @@ const handleClose =()=>{
 
     if (value === "") {
       setFirst_Name(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        firstName: "First name cannot be empty or spaces only",
-      }));
+      // setErrors((prevErrors) => ({
+      //   ...prevErrors,
+      //   firstName: "First name cannot be empty or spaces only",
+      // }));
       return;
     }
 
     if (value.trim() !== "") {
       setFirst_Name(value);
-      setErrors((prevErrors) => ({ ...prevErrors, firstName: "" }));
+      // setErrors((prevErrors) => ({ ...prevErrors, firstName: "" }));
     }
   };
 
@@ -163,15 +163,15 @@ const handleClose =()=>{
     }
     if (value === "") {
       setLast_Name(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        lastName: "Last name cannot be empty or spaces only",
-      }));
+      // setErrors((prevErrors) => ({
+      //   ...prevErrors,
+      //   lastName: "Last name cannot be empty or spaces only",
+      // }));
       return;
     }
     if (value.trim() !== "") {
       setLast_Name(value);
-      setErrors((prevErrors) => ({ ...prevErrors, lastName: "" }));
+      // setErrors((prevErrors) => ({ ...prevErrors, lastName: "" }));
     }
   };
   
@@ -273,16 +273,16 @@ const handleClose =()=>{
     setIsChangedError("");
     if (value === "") {
       setAddress(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        address: "Address cannot be empty or spaces only",
-      }));
+      // setErrors((prevErrors) => ({
+      //   ...prevErrors,
+      //   address: "Address cannot be empty or spaces only",
+      // }));
       return;
     }
 
     if (value.trim() !== "") {
       setAddress(value);
-      setErrors((prevErrors) => ({ ...prevErrors, address: "" }));
+      // setErrors((prevErrors) => ({ ...prevErrors, address: "" }));
     }
   };
 

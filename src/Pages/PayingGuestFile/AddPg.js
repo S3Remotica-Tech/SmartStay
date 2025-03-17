@@ -23,7 +23,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
   const [location, setLocation] = useState("");
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
   const [initialState, setInitialState] = useState({});
   const [displayLayer, setDisplayLayer] = useState(null);
   const [pgNameError, setPgNameError] = useState("");
@@ -72,14 +72,14 @@ function AddPg({ show, handleClose, currentItem }) {
       setGeneralError("");
       setIsChangedError("");
 
-      if (value.length === 10) {
-        setErrors((prevErrors) => ({ ...prevErrors, mobile: "" }));
-      } else {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          mobile: "Invalid mobile number *",
-        }));
-      }
+      // if (value.length === 10) {
+      //   setErrors((prevErrors) => ({ ...prevErrors, mobile: "" }));
+      // } else {
+      //   setErrors((prevErrors) => ({
+      //     ...prevErrors,
+      //     mobile: "Invalid mobile number *",
+      //   }));
+      // }
     }
   };
 
@@ -96,10 +96,10 @@ function AddPg({ show, handleClose, currentItem }) {
       setEmailError("");
     }
 
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      email: emailValue && !emailRegex.test(emailValue) ? "Invalid Email Id" : "",
-    }));
+    // setErrors((prevErrors) => ({
+    //   ...prevErrors,
+    //   email: emailValue && !emailRegex.test(emailValue) ? "Invalid Email Id" : "",
+    // }));
   };
 
   // const handleEmailChange = (e) => {
@@ -128,16 +128,16 @@ function AddPg({ show, handleClose, currentItem }) {
     setIsChangedError("");
     if (value === "") {
       setPgName(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        pgName: "PG name cannot be empty or spaces only *",
-      }));
+      // setErrors((prevErrors) => ({
+      //   ...prevErrors,
+      //   pgName: "PG name cannot be empty or spaces only *",
+      // }));
       return;
     }
 
     if (value.trim() !== "") {
       setPgName(value);
-      setErrors((prevErrors) => ({ ...prevErrors, pgName: "" }));
+      // setErrors((prevErrors) => ({ ...prevErrors, pgName: "" }));
     }
   };
 
