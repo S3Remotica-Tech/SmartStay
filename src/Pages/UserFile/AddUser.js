@@ -124,7 +124,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   
       // Show error if length is less than 10 digits (but not empty)
       if (value && value.length < 10) {
-        setMobileError('Mobile Number must be 10 Digits');
+        setMobileError('Please Enter Valid Mobile Number');
       } else {
         setMobileError('');
       }
