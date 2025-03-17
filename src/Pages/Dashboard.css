@@ -19,9 +19,6 @@
 
 }
 
-.spacedash{
-  margin-left: -40px;
-}
 .texrtalii {
   display: flex;
   flex-direction: column;
@@ -62,7 +59,7 @@
 
 
 .complaints-container {
-  width: 95%;
+  width: 97%;
   /* max-width: 600px; */
   margin: 0 auto;
   background: #fff;
@@ -241,7 +238,7 @@
 
 
 .expenses-container {
-  width: 94%;
+  width: 97%;
   
   margin: 0 auto;
   padding: 20px;
@@ -505,42 +502,7 @@
 }
 
 
-.dashfirst{
-  display: flex;
-  flex-direction: row;
-}
-/* .dashtwo{
-  display: flex;
-  flex-direction: row;
-  width: auto;
-  margin-top: -20px;
-  margin-left: 25px;
-  
-} */
-.dashthree{
-margin-left: -30px;
-}
-.eigthdesign{
-  margin-left: 18px;
-}
-.dashfour{
- 
-margin-left: 10px;
-width: 210px;
-padding-top: 6px;
-padding-bottom: 8px;
 
-}
-.spacecard{
-  margin-left: -15px;
-  width: 210px;
-  margin-top: -15px;
-}
-.dashfive{
-  width: 210px;
-height: 70px;
-
-}
 
 /* .center-text{
   margin-left: -37px;
@@ -570,43 +532,16 @@ height: 70px;
   .complaints-container{
     height: auto;
   }
-  .firstcard{
-    height: 170px;
-    width: 150px;
-    margin-top: -15px;
-  }
+ 
   .secondcard{
     width: 210x;
     height: 80px;
     
   }
-  .thirdcard{
-    width: 210x;
-    height: 80px;
-  }
-  .fourthcard{
-    width: 210px;
-    height: 80px;
-   
-  }
-  .fifthcard{
-    width: 210px;
-    height: 80px;
-  }
-  .sixthcard{
-    width: 210px;
-    height: 80px;
-  }
-  .seventhcard{
-    width: 210px;
-    height: 80px; 
-  }
-  .eighthcard{
-    height: 173px;
-    width: 160px;
-    padding-top: 8px;
-    margin-top: 9px;
-  }
+  
+
+
+  
   .chatwidth{
     width: 489px;
   }
@@ -634,33 +569,19 @@ height: 70px;
   .invoicepending{
     margin-left: 0px;
   }
-  .dashfirst{
-    display: flex;
-    flex-direction: column;
-  }
+ 
   .chatwidth{
     width:auto;
   }
 
-  .firstcard{
-    height:auto;
-    width: auto;
-  }
-  .spacecard{
-    margin-left: 0px;
-    width:auto;
-  }
+  
+
   .secondcard{
     width: auto;
     height:auto;
     
   }
-  .eighthcard{
-    height: auto;
-    width:auto;
-    /* padding-top: 8px; */
-    margin-top: 9px;
-  }
+ 
   .dashtwo{
     display: flex;
     flex-direction: column;
@@ -670,34 +591,14 @@ height: 70px;
     margin-top: 10px;
 
   }
-  .dashthree{
-    width:auto;
-    height: auto;
-    margin-left:0px;
-    }
-    .dashfour{
-      width:auto;
-    height:auto;
-    margin-left:10px;
-    }
-    .dashfive{
-      width:auto;
-      height:auto;
-      margin-left:10px; 
-    }
-    .spacedash{
-      margin-top: 20px;
-    }
-    .booking{
+  .booking{
       display: flex;
       flex-direction:column;
     }
     .complaints-container{
       height: auto;
     }
-    .eigthdesign{
-      margin-left: 0px;
-    }
+   
     .chatwidth{
       width: auto;
     }
@@ -715,33 +616,18 @@ height: 70px;
     .invoicepending{
       margin-left: 0px;
     }
-    .dashfirst{
-      display: flex;
-      flex-direction: column;
-    }
+   
     .chatwidth{
       width:auto;
     }
   
-    .firstcard{
-      height:auto;
-      width: auto;
-    }
-    .spacecard{
-      margin-left: 0px;
-      width:auto;
-    }
+    
     .secondcard{
       width: auto;
       height:auto;
       
     }
-    .eighthcard{
-      height: auto;
-      width:auto;
-      /* padding-top: 8px; */
-      margin-top: 9px;
-    }
+   
     .dashtwo{
       display: flex;
       flex-direction: row;
@@ -751,24 +637,7 @@ height: 70px;
       margin-top: 10px;
   
     }
-    .dashthree{
-      width:auto;
-      height: auto;
-      margin-left:0px;
-      }
-      .dashfour{
-        width:auto;
-      height:auto;
-      margin-left:10px;
-      }
-      .dashfive{
-        width:auto;
-        height:auto;
-        margin-left:10px; 
-      }
-      .spacedash{
-        margin-top: 20px;
-      }
+   
       .booking{
         display: flex;
         flex-direction:column;
@@ -776,201 +645,10 @@ height: 70px;
       .complaints-container{
         height: auto;
       }
-      .eigthdesign{
-        margin-left: 0px;
-      }
+      
       .chatwidth{
         width: auto;
       }
-      /* .center-text{
-  }
-  
-  
-  @media only screen and (max-width: 1200px) and (min-width: 900px) {
-    .dashfirst{
-      display: flex;
-      flex-direction: column;
-      width: auto;
-     
-      
-    }
-    .firstcard{
-      height:auto;
-      width: auto;
-    }
-    .dashtwo{
-      display: flex;
-      flex-direction:row;
-      height:auto;
-      width:auto;
-      margin-left: 0px;
-      margin-top: 10px;
-    }
-    .firstcard{
-      height: auto;
-      width: auto;
-      margin-top:10px;
-    }
-    .spacedash{
-      margin-top: 10px;
-      margin-left: 20px;
-    }
-    .spacecard{
-      margin-left:20px;
-      width: auto;
-      height: auto;
-      margin-top: 0px;
-    }
    
-  
-  }
-  
-  
-  @media only screen and (max-width: 1295px) and (min-width: 1200px) {
-    .dashfirst{
-      display: flex;
-      flex-direction: row;
-      width: auto;
-     
-      
-    }
-    /* .firstcard{
-      height:auto;
-      width: auto;
-    } */
-    .firstcard{
-      height: 170px;
-      width: auto;
-      margin-top: 0px;
-    }
-    .dashtwo{
-      display: flex;
-      flex-direction:row;
-      height:auto;
-      width:auto;
-      margin-left: 40px;
-      margin-top: 10px;
-    }
-    
-    .spacedash{
-      margin-top: 0px;
-    }
-    /* .spacecard{
-      margin-left:0;
-      width: auto;
-      height: auto;
-      margin-top: 0px;
-    } */
-    .spacecard{
-      margin-left: 10px;
-      width: auto;
-      margin-top: 10px;
-      padding-left: 30px;
-    }
-    .eigthdesign{
-      margin-left: 10px;
-    }
-    .eighthcard{
-      height: 173px;
-      width: 150px;
-      padding-top: 8px;
-      margin-top: 9px;
-    }
-   
-  
-  }
-
-
-
-@media only screen and (max-width: 1200px) and (min-width: 900px) {
-  .dashfirst{
-    display: flex;
-    flex-direction: column;
-    width: auto;
-   
-    
-  }
-  .firstcard{
-    height:auto;
-    width: auto;
-  }
-  .dashtwo{
-    display: flex;
-    flex-direction:row;
-    height:auto;
-    width:auto;
-    margin-left: 0px;
-    margin-top: 10px;
-  }
-  .firstcard{
-    height: auto;
-    width: auto;
-    margin-top:10px;
-  }
-  .spacedash{
-    margin-top: 10px;
-    margin-left: 20px;
-  }
-  .spacecard{
-    margin-left:20px;
-    width: auto;
-    height: auto;
-    margin-top: 0px;
-  }
- 
-
-}
-
-
-@media only screen and (max-width: 1295px) and (min-width: 1200px) {
-  .dashfirst{
-    display: flex;
-    flex-direction: row;
-    width: auto;
-   
-    
-  }
-  /* .firstcard{
-    height:auto;
-    width: auto;
-  } */
-  .firstcard{
-    height: 170px;
-    width: 140px;
-    margin-top: 0px;
-  }
-  .dashtwo{
-    display: flex;
-    flex-direction:row;
-    height:auto;
-    width: 600px;
-    margin-left: 40px;
-    margin-top: -12px;
-  }
-  
-  .spacedash{
-    margin-top: 10px;
-  }
-  /* .spacecard{
-    margin-left:0;
-    width: auto;
-    height: auto;
-    margin-top: 0px;
-  } */
-  .spacecard{
-    margin-left: -10px;
-    width: 210px;
-    margin-top: -12px;
-  }
-  .eigthdesign{
-    margin-left: 10px;
-  }
-  .eighthcard{
-    height: 173px;
-    width: 150px;
-    padding-top: 8px;
-    margin-top: 9px;
-  }
- 
 
 }

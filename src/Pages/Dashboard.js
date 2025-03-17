@@ -571,131 +571,91 @@ console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatu
             ) : (
               <>
                 <div className="mt-4">
-                  <div className="dashfirst">
-                    <div style={{ flex: 1 }}>
-                      <div className="border rounded-4 p-4 text-start shadow-sm firstcard">
-                        <div className="text-primary mb-3">
-                          <i className="bi bi-house-door-fill fs-3"></i>
-                        </div>
-                        <h6 className="text-muted" style={{fontFamily:"Gilroy"}}>Total Room</h6>
-                        {/* <h4 class="mb-0">{dashboardList[0]?.roomCount}</h4> */}
-                        <h4 className="mb-0">
-                          {dashboardList && dashboardList?.length > 0
-                            ? dashboardList[0]?.roomCount
-                            : 0}
-                        </h4>
-                      </div>
-                    </div>
-                    <div className="spacedash" style={{ flex: 1 }}>
-                      <div className="d-flex flex-column gap-3 spacecard">
-                        <div className="border rounded-4 p-3 text-start bg-white shadow-sm secondcard d-flex justify-content-between align-items-center">
-                          <div>
-                            <h6 className="text-muted" style={{fontFamily:"Gilroy"}}>Total Beds</h6>
-                            <h4 className="mb-0">
-                              {dashboardList && dashboardList?.length > 0
-                                ? dashboardList[0]?.TotalBed
-                                : 0}
-                            </h4>
-                          </div>
-                          <img src={clock} alt="clock" width={30} height={30} />
-                        </div>
+                <div className=" my-4">
+  <div className="row g-3">
 
-                        <div className="border rounded-4 p-3 text-start bg-white shadow-sm thirdcard">
-                          <div className="d-flex justify-content-between align-items-center">
-                            <div>
-                              <h6 className="text-muted mb-0" style={{fontFamily:"Gilroy"}}>Free Bed</h6>
-                              <h4 className="mb-0">
-                                {dashboardList && dashboardList?.length > 0
-                                  ? dashboardList[0]?.availableBed
-                                  : 0}
-                              </h4>
-                            </div>
-                            <img src={key} width="30" height="30" alt="Clock" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="spacedash" style={{ flex: 3 }}>
-                      <div
-                        className="dashtwo"
-                        style={{ backgroundColor: "#E0ECFF", borderRadius: 24 }}
-                      >
-                        <div
-                          className="d-flex flex-column gap-3 dashfour"
-                          style={{ flex: 1 }}
-                        >
-                          <div className="border rounded-4 p-3 text-start bg-white shadow-sm fourthcard">
-                            <h6 className="text-muted" style={{fontFamily:"Gilroy"}}>Occupied Bed</h6>
-                            <h4 className="mb-0">
-                              {dashboardList && dashboardList?.length > 0
-                                ? dashboardList[0]?.occupied_Bed
-                                : 0}
-                            </h4>
-                          </div>
-                          <div className="border rounded-4 p-3 text-start bg-white shadow-sm fifthcard">
-                            <h6 className="text-muted" style={{fontFamily:"Gilroy"}}>Total Customer</h6>
-                            <h4 className="mb-0">
-                              {" "}
-                              <h4 className="mb-0">
-                                {dashboardList && dashboardList?.length > 0
-                                  ? dashboardList[0]?.customer_count
-                                  : 0}
-                              </h4>
-                            </h4>
-                          </div>
-                        </div>
-                        <div
-                          className="d-flex flex-column gap-3 dashfive"
-                          style={{ flex: 1, padding: 5 }}
-                        >
-                          <div className="border rounded-4 p-3 text-start bg-white shadow-sm sixthcard">
-                            <h6 className="text-muted" style={{fontFamily:"Gilroy"}}>Next Month Projection</h6>
-                            <h4 className="mb-0">
-                              {/* {dashboardList[0]?.project_amount} */}
-                              {dashboardList && dashboardList?.length > 0
-                                  ? dashboardList[0]?.project_amount
-                                  : 0}
-                            </h4>
-                          </div>
-                          <div className="border rounded-4 p-3 text-start bg-white shadow-sm seventhcard">
-                            <h6 className="text-muted" style={{fontFamily:"Gilroy"}}>EB Amount</h6>
-                            <h4 className="mb-0">
-                              {" "}
-                              <h4 className="mb-0">
-                                {dashboardList && dashboardList?.length > 0
-                                  ? dashboardList[0]?.eb_amount
-                                  : 0}
-                              </h4>
-                            </h4>
-                          </div>
-                        </div>
-                        <div
-                          className="d-flex flex-column gap-3 eigthdesign"
-                          style={{ flex: 1 }}
-                        >
-                          <div className="border rounded-4 p-3 text-start bg-white shadow-sm eighthcard">
-                            <img src={vector} alt="vector" width={32} height={32} />
-                            <p
-                              className="text-muted"
-                              style={{
-                                fontWeight: 400,
-                                fontSize: 14,
-                                fontFamily: "Gilroy",
-                                marginTop: 12,
-                              }}
-                            >
-                              Total Asset Value
-                            </p>
-                            <h4 className="mb-0">
-                              {dashboardList && dashboardList?.length > 0
-                                ? dashboardList[0]?.asset_amount
-                                : 0}
-                            </h4>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+  <div className="col-md-2">
+  <div className="border rounded-4 p-4 shadow-sm text-start d-flex flex-column align-items-start justify-content-between bg-white" style={{ minHeight: 160 }}>
+    <div className="text-primary mb-2">
+      <i className="bi bi-house-door-fill fs-4"></i>
+    </div>
+    <h6 className="text-muted mb-1">Total Room</h6>
+    <h5 className="mb-0">{ dashboardList[0]?.roomCount || 0 }</h5>
+  </div>
+</div>
+
+
+   
+    <div className="col-md-3 d-flex flex-column gap-2">
+      <div className="border rounded-4   p-3 shadow-sm d-flex justify-content-between align-items-center bg-white" >
+        <div>
+          <h6 className="text-muted mb-1">Total Beds</h6>
+          <h5 className="mb-0">{ dashboardList[0]?.TotalBed || 0 }</h5>
+        </div>
+        <img src={clock} width="30" height="30" alt="Bed Icon" />
+      </div>
+      <div className="border rounded-4 p-3 shadow-sm d-flex justify-content-between align-items-center bg-white">
+        <div>
+          <h6 className="text-muted mb-1">Free Bed</h6>
+          <h5 className="mb-0">{ dashboardList[0]?.availableBed || 0 }</h5>
+        </div>
+        <img src={key} width="30" height="30" alt="Key Icon" />
+      </div>
+    </div>
+
+    
+    <div className="col-md-7">
+      <div className="p-2 rounded-4" style={{backgroundColor:"#E0ECFF"}}>
+        <div className="row g-2">
+       
+          <div className="col-md-9">
+            <div className="row g-2">
+              <div className="col-6">
+                <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
+                  <h6 className="text-muted mb-1">Occupied Bed</h6>
+                  <h5 className="mb-0">{ dashboardList[0]?.occupied_Bed || 0 }</h5>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
+                  <h6 className="text-muted mb-1">Next Month Projection</h6>
+                  <h5 className="mb-0">{ dashboardList[0]?.project_amount || 0 }</h5>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
+                  <h6 className="text-muted mb-1">Total Customer</h6>
+                  <h5 className="mb-0">{ dashboardList[0]?.customer_count || 0 }</h5>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
+                  <h6 className="text-muted mb-1">EB Amount</h6>
+                  <h5 className="mb-0">{ dashboardList[0]?.eb_amount || 0 }</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div className="col-md-3">
+  <div className="border rounded-4 px-3 py-4 shadow-sm bg-white text-start d-flex flex-column justify-content-between align-items-start h-100">
+    <img src={vector} alt="Asset Icon" width="30" height="30" className="mb-3" />
+    <p className="text-muted mb-1 small" style={{ fontFamily: 'Gilroy' }}>Total Asset Value</p>
+    <h5 className="mt-1">{dashboardList[0]?.asset_amount || 0}</h5>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
 
                   <div className="circulardes">
                     <div className="animated-text" style={{ flex: 1 }}>
