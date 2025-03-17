@@ -548,7 +548,7 @@ useEffect(() => {
                   value={pgName}
                   onChange={handlePgNameChange}
                   type="text"
-                  placeholder="Enter PG name"
+                  placeholder="Enter PG Name"
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -694,7 +694,7 @@ useEffect(() => {
                   value={email}
                   onChange={handleEmailChange}
                   type="email"
-                  placeholder="email@gmail.com"
+                  placeholder="Please Enter Email ID"
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -744,7 +744,7 @@ useEffect(() => {
                   value={location}
                   onChange={handleLocationChange}
                   type="text"
-                  placeholder="Enter address"
+                  placeholder="Enter Address"
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
