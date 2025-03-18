@@ -815,7 +815,7 @@ const Compliance = () => {
 >
   <div className="d-flex justify-content-between align-items-center flex-wrap">
     {/* Left Title */}
-    <div className="mb-2 ms-2">
+    <div className="mb-2 ms-3">
       <label style={{ fontSize: 18, color: "#000000", fontWeight: 600 }}>Complaints</label>
     </div>
 

@@ -2851,7 +2851,7 @@ console.log('invoiceDetails',invoiceDetails)
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
 
-                <div>
+                <div className="me-3">
                   {value === "1" && (
                     <Button
                       disabled={billAddPermission}
@@ -2976,7 +2976,7 @@ console.log('invoiceDetails',invoiceDetails)
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "14px" }}
+                  style={{ marginLeft: "14px" ,marginTop:"-15px"}}
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 
                 >
