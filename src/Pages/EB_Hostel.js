@@ -765,6 +765,7 @@ function EB_Hostel() {
                   <Image
                     src={searchteam}
                     alt="Search"
+                    className="icon-spacing"
                     style={{
                       position: "absolute",
                       left: "10px",
@@ -775,12 +776,13 @@ function EB_Hostel() {
                   />
                   <div
                     className="input-group"
+                    // className="search-container"
                     style={{ marginRight: 20 }}
                   >
-                    <span className="input-group-text bg-white border-end-0">
+                    <span className="input-group-text bg-white border-end-0 icon-spacing">
                       <Image
                         src={searchteam}
-                        style={{ height: 20, width: 20 }}
+                        style={{ height: 20, width: 20, cursor: 'pointer' }}
                       />
                     </span>
                     <input
@@ -797,7 +799,7 @@ function EB_Hostel() {
                       value={filterInput}
                       onChange={(e) => handlefilterInput(e)}
                     />
-                    <span className="input-group-text bg-white border-start-0">
+                    <span className="input-group-text bg-white border-start-0 icon-spacing">
                       <img
                         src={closecircle}
                         alt="close"
@@ -857,6 +859,7 @@ function EB_Hostel() {
                                 src={imagedrop}
                                 alt={user.Name || "Default Profile"}
                                 roundedCircle
+                                className="icon-spacing"
                                 style={{
                                   height: "30px",
                                   width: "30px",
@@ -885,6 +888,7 @@ function EB_Hostel() {
                   <Image
                     src={searchteam}
                     roundedCircle
+                    className="icon-spacing"
                     style={{
                       height: "24px",
                       width: "24px",
@@ -905,6 +909,7 @@ function EB_Hostel() {
             {value === "1" && (
               <img
                 src={excelimg}
+                className="icon-spacing"
                 alt="excel"
                 width={38}
                 height={38}
@@ -916,7 +921,7 @@ function EB_Hostel() {
           </div>
 
           {hostelBased === 1 ? (
-            <div className="me-4">
+            <div className="me-4 custom-button-spacing">
               <Button
 
 
@@ -997,6 +1002,7 @@ function EB_Hostel() {
       </div>
 
       <TabContext value={value} >
+       
         <div >
           <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
             <TabList
@@ -1004,8 +1010,9 @@ function EB_Hostel() {
               onChange={handleChanges}
               aria-label="lab API tabs example"
               style={{ marginLeft: "14px", marginTop: "-25px" }}
-              className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+              className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
             >
+              
               <Tab
                 label="Customer Reading"
                 value="1"
@@ -1019,7 +1026,7 @@ function EB_Hostel() {
                   textTransform: "none",
                 }}
               />
-
+              
               {hostelBased === 1 ? (
                 <Tab
                   label="Hostel Reading"
@@ -1034,6 +1041,7 @@ function EB_Hostel() {
                     textTransform: "none",
                   }}
                 />
+                
               ) : (
                 <Tab
                   label="Room Reading"
@@ -1052,6 +1060,7 @@ function EB_Hostel() {
             </TabList>
           </Box>
         </div>
+       
         <TabPanel value="1">
           <>
             <EBHostelReading
