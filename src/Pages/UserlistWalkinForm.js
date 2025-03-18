@@ -319,7 +319,7 @@ function CustomerForm({ show, handleClose, initialData }) {
   dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
 
   if (value && !emailRegex.test(value)) {
-    setEmailError('Please enter a valid email address');
+    setEmailError('Please Enter Valid Email ID');
   } else {
     setEmailError('');
   }
