@@ -723,283 +723,184 @@ function EB_Hostel() {
 
   return (
     <div style={{ paddingLeft: 15, paddingRight: 15 }}>
-      <div
-        className="container justify-content-between d-flex align-items-center"
-        style={{
-          //  position: "sticky",
-          top: 0,
-          right: 0,
-          left: 0,
-          zIndex: 1000,
-          backgroundColor: "#FFFFFF",
-          height: 83,
-        }}
+     <div
+  className="container-fluid py-2 px-3 mt-2"
+  style={{
+    top: 0,
+    right: 0,
+    left: 0,
+    zIndex: 1000,
+    backgroundColor: "#FFFFFF",
+    height: "auto",
+  }}
+>
+  <div className="row align-items-center justify-content-between">
+    {/* Title */}
+    <div className="col-12 col-md-3 mb-2 mb-md-0">
+      <label
+        style={{ fontSize: 18, color: "#000000", fontWeight: 600, marginTop: -7 }}
       >
-        <div style={{ marginTop: -7 }}>
-          <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, }}>Electricity</label>
-        </div>
+        Electricity
+      </label>
+    </div>
 
-        <div
-          className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap"
+    {/* Right Side Actions */}
+    <div className="col-12 col-md-9 d-flex flex-wrap justify-content-md-end align-items-center gap-2">
 
-        >
-          {search && value === "1" ? (
-            <>
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  marginRight: 20,
-                }}
-              >
-                <div
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    alignItems: "center",
-                    width: "100%",
-                    marginTop: '10px',
-                    marginBottom: '10px'
-                  }}
-                >
-                  <Image
-                    src={searchteam}
-                    alt="Search"
-                    className="icon-spacing"
-                    style={{
-                      position: "absolute",
-                      left: "10px",
-                      width: "24px",
-                      height: "24px",
-                      pointerEvents: "none",
-                    }}
-                  />
-                  <div
-                    className="input-group"
-                    // className="search-container"
-                    style={{ marginRight: 20 }}
-                  >
-                    <span className="input-group-text bg-white border-end-0 icon-spacing">
-                      <Image
-                        src={searchteam}
-                        style={{ height: 20, width: 20, cursor: 'pointer' }}
-                      />
-                    </span>
-                    <input
-                      type="text"
-                      className="form-control border-start-0"
-                      placeholder="Search"
-                      aria-label="Search"
-                      style={{
-                        boxShadow: "none",
-                        outline: "none",
-                        borderColor: "rgb(207,213,219)",
-                        borderRight: "none",
-                      }}
-                      value={filterInput}
-                      onChange={(e) => handlefilterInput(e)}
-                    />
-                    <span className="input-group-text bg-white border-start-0 icon-spacing">
-                      <img
-                        src={closecircle}
-                        alt="close"
-                        onClick={handleCloseSearch}
-                        style={{ height: 20, width: 20, cursor: "pointer" }}
-                      />
-                    </span>
-                  </div>
-                </div>
-
-                {value === "1" &&
-                  isDropdownVisible &&
-                  electricityFilterddata?.length > 0 && (
-                    <div
-                      style={{
-                        border: "1px solid #d9d9d9 ",
-                        position: "absolute",
-                        top: 60,
-                        left: 0,
-                        zIndex: 1000,
-                        padding: 10,
-                        borderRadius: 8,
-                        backgroundColor: "#fff",
-                        width: "94%",
-                      }}
-                    >
-                      <ul
-                        className="show-scroll p-0"
-                        style={{
-                          backgroundColor: "#fff",
-                          borderRadius: "4px",
-                          maxHeight: "174px",
-                                minHeight: electricityFilterddata?.length > 1 ? "100px" : "auto",
-                                overflowY: electricityFilterddata?.length > 3 ? "auto" : "hidden",
-                          margin: "0",
-                          listStyleType: "none",
-                          boxSizing: "border-box",
-                        }}
-                      >
-                        {electricityFilterddata?.map((user, index) => {
-                          const imagedrop = user.profile || Profile;
-                          return (
-                            <li
-                              key={index}
-                              className="list-group-item d-flex align-items-center"
-                              style={{
-                                cursor: "pointer",
-                                padding: "10px 5px",
-                                borderBottom:
-                                  index !== electricityFilterddata?.length - 1
-                                    ? "1px solid #eee"
-                                    : "none",
-                              }}
-                              onClick={() => handleUserSelect(user)}
-                            >
-                              <Image
-                                src={imagedrop}
-                                alt={user.Name || "Default Profile"}
-                                roundedCircle
-                                className="icon-spacing"
-                                style={{
-                                  height: "30px",
-                                  width: "30px",
-                                  marginRight: "10px",
-                                }}
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = Profile;
-                                }}
-                              />
-                              <span>{user.Name}</span>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  )}
-
-              </div>
-            </>
-          ) : (
-            <>
-              {
-                value === "1" &&
-                <div style={{ paddingRight: 21, cursor: "pointer" }}>
-                  <Image
-                    src={searchteam}
-                    roundedCircle
-                    className="icon-spacing"
-                    style={{
-                      height: "24px",
-                      width: "24px",
-
-                      cursor: "pointer",
-
-                    }}
-                    onClick={handleSearch}
-                  />
-                </div>
-
-              }
-
-            </>
-          )}
-          <div className="me-4" style={{ paddingRight: 5, marginTop: 5, cursor: "pointer" }}>
-
-            {value === "1" && (
+      {/* Search Field */}
+      {search && value === "1" ? (
+        <div className="position-relative flex-grow-1 flex-md-grow-0" style={{ maxWidth: "300px" }}>
+          <div className="input-group">
+            <span className="input-group-text bg-white border-end-0">
+              <Image src={searchteam} alt="Search" style={{ height: 20, width: 20 }} />
+            </span>
+            <input
+              type="text"
+              className="form-control border-start-0"
+              placeholder="Search"
+              value={filterInput}
+              onChange={(e) => handlefilterInput(e)}
+              style={{
+                boxShadow: "none",
+                outline: "none",
+                borderRight: "none",
+              }}
+            />
+            <span className="input-group-text bg-white border-start-0">
               <img
-                src={excelimg}
-                className="icon-spacing"
-                alt="excel"
-                width={38}
-                height={38}
-                onClick={handleEbExcel}
-                style={{ cursor: "pointer" }}
+                src={closecircle}
+                alt="close"
+                onClick={handleCloseSearch}
+                style={{ height: 20, width: 20, cursor: "pointer" }}
               />
-            )}
-
+            </span>
           </div>
 
-          {hostelBased === 1 ? (
-            <div className="me-4 custom-button-spacing">
-              <Button
-
-
+          {/* Dropdown List */}
+          {value === "1" &&
+            isDropdownVisible &&
+            electricityFilterddata?.length > 0 && (
+              <div
                 style={{
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  fontWeight: 600,
-                  borderRadius: "8px",
-                  padding: "11px 17px",
-                  marginTop: 2,
-                  paddingLeft: 17,
-                  whiteSpace: "nowrap",
-                  cursor: "pointer"
+                  border: "1px solid #d9d9d9",
+                  position: "absolute",
+                  top: 50,
+                  left: 0,
+                  zIndex: 1000,
+                  padding: 10,
+                  borderRadius: 8,
+                  backgroundColor: "#fff",
+                  width: "100%",
                 }}
-
-                // disabled={ebAddPermission}
-                onClick={handleHostelForm}
               >
-                + Hostel Reading
-              </Button>
-            </div>
-          ) : (
-            <div className="">
-              <Button
-                // style={{
-                //   fontFamily: "Montserrat",
-                //   fontSize: 14,
-                //   backgroundColor: "#1E45E1",
-                //   color: "white",
-                //   height: 52,
-                //   fontWeight: 600,
-                //   borderRadius: 8,
-                //   width: 162,
-                //   padding: "12px 16px", // Corrected padding
-                //   border: "none",
-                //   cursor: "pointer",
-                //   whiteSpace: "nowrap",
-                //   paddingTop: 10,
-                //   paddingBottom: 10,
-                //   paddingLeft: 5,
-                //   paddingRight: 5,
-                // }}
-                style={{
-                  // fontFamily: "Gilroy",
-                  // fontSize: "14px",
-                  // backgroundColor: "#1E45E1",
-                  // color: "white",
-                  // fontWeight: 600,
-                  // borderRadius: "8px",
-                  // padding: "11px 18px",
-                  // marginTop: 2,
-                  // paddingLeft: 19,
-                  // whiteSpace: "nowrap",
-                  // cursor:"pointer"
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                  backgroundColor: "#1E45E1",
-                  color: "white",
-                  fontWeight: 600,
-                  borderRadius: "8px",
-                  padding: "11px 18px",
-                  marginTop: 4,
-                  // paddingLeft: 34,
-                  whiteSpace: "nowrap",
-                  cursor: "pointer",
-                  marginRight: "8px"
-                }}
-                disabled={ebAddPermission}
-                onClick={handleAddEbDetails}
-              >
-                + Room Reading
-              </Button>
-            </div>
-          )}
+                <ul
+                  className="show-scroll p-0"
+                  style={{
+                    listStyleType: "none",
+                    maxHeight: 174,
+                    minHeight: electricityFilterddata?.length > 1 ? "100px" : "auto",
+                    overflowY: electricityFilterddata?.length > 3 ? "auto" : "hidden",
+                    margin: 0,
+                  }}
+                >
+                  {electricityFilterddata?.map((user, index) => (
+                    <li
+                      key={index}
+                      className="d-flex align-items-center"
+                      style={{
+                        padding: "10px 5px",
+                        cursor: "pointer",
+                        borderBottom:
+                          index !== electricityFilterddata?.length - 1
+                            ? "1px solid #eee"
+                            : "none",
+                      }}
+                      onClick={() => handleUserSelect(user)}
+                    >
+                      <Image
+                        src={user.profile || Profile}
+                        alt={user.Name}
+                        roundedCircle
+                        style={{ height: "30px", width: "30px", marginRight: "10px" }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = Profile;
+                        }}
+                      />
+                      <span>{user.Name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
         </div>
-      </div>
+      ) : (
+        value === "1" && (
+          <div className="me-3" style={{ cursor: "pointer" }}>
+            <Image
+              src={searchteam}
+              alt="Search Icon"
+              style={{ height: 24, width: 24 }}
+              onClick={handleSearch}
+            />
+          </div>
+        )
+      )}
+
+      {/* Excel Icon */}
+      {value === "1" && (
+        <div className="me-3" style={{ cursor: "pointer" }}>
+          <img
+            src={excelimg}
+            alt="Excel"
+            width={38}
+            height={38}
+            onClick={handleEbExcel}
+          />
+        </div>
+      )}
+
+      {/* Button */}
+     <div className="me-4">
+     {hostelBased === 1 ? (
+        <Button
+          onClick={handleHostelForm}
+          style={{
+            fontFamily: "Gilroy",
+            fontSize: "14px",
+            backgroundColor: "#1E45E1",
+            color: "white",
+            fontWeight: 600,
+            borderRadius: "8px",
+            padding: "10px 18px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          + Hostel Reading
+        </Button>
+      ) : (
+        <Button
+          onClick={handleAddEbDetails}
+          disabled={ebAddPermission}
+          style={{
+            fontFamily: "Gilroy",
+            fontSize: "14px",
+            backgroundColor: "#1E45E1",
+            color: "white",
+            fontWeight: 600,
+            borderRadius: "8px",
+            padding: "10px 18px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          + Room Reading
+        </Button>
+      )}
+     </div>
+    </div>
+  </div>
+</div>
+
 
       <TabContext value={value} >
        
@@ -1009,7 +910,7 @@ function EB_Hostel() {
               orientation={isSmallScreen ? "vertical" : "horizontal"}
               onChange={handleChanges}
               aria-label="lab API tabs example"
-              style={{ marginLeft: "14px", marginTop: "-25px" }}
+              style={{ marginLeft: "14px", marginTop: "-10px" }}
               className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
             >
               

@@ -519,10 +519,10 @@ function Banking() {
       ) : (
         <div className="container" >
           <div
-            className="container d-flex flex-wrap justify-content-between align-items-center"
+            className="d-flex flex-wrap justify-content-between align-items-center"
 
           >
-            <div style={{ marginTop: 10 }}>
+            <div className="ms-2" style={{ marginTop: 10 }}>
               <label style={{
                 fontSize: 18,
                 color: "#000000",
@@ -708,7 +708,7 @@ function Banking() {
               }
 
 
-              <div >
+              <div className="me-2">
 
                 <Button
                   disabled={bankingAddPermission}
