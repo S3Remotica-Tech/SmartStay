@@ -250,7 +250,7 @@ const MyComponent = () => {
                   className='mb-1'
                   value={password} onChange={(e) => handlePasswordChange(e)}
                   type={showPassword ? "text" : "password"}
-                  placeholder="Password"
+                  placeholder="Enter Password"
                   disabled={showOtpVerification}
                   style={{
                     position: "relative",

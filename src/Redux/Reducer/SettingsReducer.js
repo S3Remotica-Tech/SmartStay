@@ -58,7 +58,8 @@ export const initialState = {
   errorRole:0,
   AddCategoryType: 0,
   roleError:'',
-  roleEditError:''
+  roleEditError:'',
+  generalDeleteError:''
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -353,7 +354,11 @@ case 'ERROR_COMPLIANTS':
       return { ...state, statusCodeForCheckPassword: 0 };
 
 
-
+      case "DELETE_GENERAL_ERROR":
+        return { ...state, generalDeleteError: action.payload };
+  
+      case "CLEAR_DELETE_GENERAL_ERROR":
+        return { ...state, generalDeleteError: "" };
 
 
       case "PASSWORD_ERROR":

@@ -34,6 +34,7 @@ function Vendor() {
   const [vendorAddPermission, setVendorAddPermission] = useState("")
   const [vendorDeletePermission, setVendorDeletePermission] = useState("")
   const [vendorEditPermission, setVendorEditPermission] = useState("")
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
 
 
@@ -532,11 +533,11 @@ function Vendor() {
                               // position: 'absolute',
                               // top: '50px',
                               // left: 0,
-                              width: 260,
-                              backgroundColor: '#fff',              
-                              maxHeight: 174,
-                              minHeight: 100,
-                              overflowY: 'auto',
+                              width: 235,
+                              backgroundColor: '#fff',   
+                              maxHeight: "174px",
+                              minHeight: filteredData?.length > 1 ? "100px" : "auto",
+                              overflowY: filteredData?.length > 2 ? "auto" : "hidden",           
                               padding: '5px 10px',
                               margin: '0',
                               listStyleType: 'none',
@@ -551,6 +552,8 @@ function Vendor() {
                                       handleDropDown(user.Vendor_Name);
 
                                     }}
+                                    onMouseEnter={() => setHoveredIndex(index)}
+  onMouseLeave={() => setHoveredIndex(null)}
                                     style={{
                                       padding: '10px',
                                       cursor: 'pointer',
@@ -558,6 +561,7 @@ function Vendor() {
                                       fontSize: '14px',
                                       fontFamily: 'Gilroy',
                                       fontWeight: 500,
+                                      backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
 
                                     }}
                                   >

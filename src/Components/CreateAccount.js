@@ -147,75 +147,47 @@ function CreateAccountPage() {
   //   }
   // };
 
-  const handlePhoneNo = (e) => {
+  // const handlePhoneNo = (e) => {
 
-    const input = e.target.value.replace(/\D/g, '');
-
-
-    setPhoneNo(input);
-    setPhoneError('');
-    dispatch({ type: 'CLEAR_MOBILE_ERROR' });
-    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+  //   const input = e.target.value.replace(/\D/g, '');
 
 
-    const pattern = new RegExp(/^\d{1,10}$/);
-    const isValidMobileNo = pattern.test(input);
-    const mobileNumberError = document.getElementById('MobileNumberError');
-
-
-    if (mobileNumberError) {
-      if (isValidMobileNo && input.length === 10) {
-        mobileNumberError.innerHTML = '';
-      } else {
-        mobileNumberError.innerHTML = 'Invalid Mobile Number';
-      }
-    }
-  };
-
-  //   const handleEmailID = (e) => {
-  //     setEmailID(e.target.value);
-  //     setEmailError('')
-  // dispatch({ type: 'CLEAR_EMAIL_ERROR'})
-  // dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR'})
-
-  //     const email = e.target.value;
-  //     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-  //     const isValidEmail = emailRegex.test(email);
-  //     const emailIDError = document.getElementById('emailIDError');
-  //     if (emailIDError) {
-  //       if (isValidEmail) {
-  //         emailIDError.innerHTML = '';
-  //       } else {
-  //         emailIDError.innerHTML = 'Invalid Email Id *';
-  //       }
-  //     }
-  //   };
-
-
-  // const handlePassword = (e) => {
-  //   setPassword(e.target.value);
-  //   };
-
-  // const handleEmailID = (e) => {
-  //   const emailInput = e.target.value.toLowerCase();
-  //   setEmailID(emailInput);
-  
-  //   setEmailError('');
-  //   dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+  //   setPhoneNo(input);
+  //   setPhoneError('');
+  //   dispatch({ type: 'CLEAR_MOBILE_ERROR' });
   //   dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
-  
-  //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-  //   const isValidEmail = emailRegex.test(emailInput);
-  //   const emailIDError = document.getElementById('emailIDError');
-  
-  //   if (emailIDError) {
-  //     if (emailInput && !isValidEmail) {
-  //       emailIDError.innerHTML = 'Invalid Email Id';
+
+
+  //   const pattern = new RegExp(/^\d{1,10}$/);
+  //   const isValidMobileNo = pattern.test(input);
+  //   const mobileNumberError = document.getElementById('MobileNumberError');
+
+
+  //   if (mobileNumberError) {
+  //     if (isValidMobileNo && input.length === 10) {
+  //       mobileNumberError.innerHTML = '';
   //     } else {
-  //       emailIDError.innerHTML = '';
+  //       mobileNumberError.innerHTML = 'Invalid Mobile Number';
   //     }
   //   }
   // };
+  const handlePhoneNo = (e) => {
+    const input = e.target.value.replace(/\D/g, '');
+    setPhoneNo(input);
+    setPhoneError(''); // clear old error initially
+  
+    dispatch({ type: 'CLEAR_MOBILE_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+  
+    // Validate live
+    const pattern = /^\d{10}$/;
+    if (input.length > 0 && !pattern.test(input)) {
+      setPhoneError('Invalid Mobile Number');
+    } else {
+      setPhoneError('');
+    }
+  };
+  
   
   const handleEmailID = (e) => {
     const emailInput = e.target.value.toLowerCase();
@@ -235,44 +207,48 @@ function CreateAccountPage() {
   };
   
 
-
-
-
-
-
   // const handlePassword = (e) => {
   //   setPassword(e.target.value);
-  //   setPasswordErrors('')
-  //   dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR'})
+  //   setPasswordErrors('');
+  //   dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
+
   //   const password = e.target.value;
-  //   let errorMessage = '';
+  //   let errorMessages = [];
+
 
   //   if (/\s/.test(password)) {
-  //     errorMessage = 'Password cannot contain spaces.';
-  //    } else if (password.length < 8) {
-  //     errorMessage = 'Password must be at least 8 characters long.';
-  //   } else if (!/[a-z]/.test(password)) {
-  //     errorMessage = 'Password must contain at least one lowercase letter.';
-  //   } else if (!/[A-Z]/.test(password)) {
-  //     errorMessage = 'Password must contain at least one uppercase letter.';
-  //   } else if (!/\d/.test(password)) {
-  //     errorMessage = 'Password must contain at least one number.';
-  //   } else if (!/[@$!%*?&]/.test(password)) {
-  //     errorMessage = 'Password must contain at least one special character.';
+  //     errorMessages.push('Password cannot contain spaces.');
+  //   }
+  //   if (password.length < 8) {
+  //     errorMessages.push('8 characters minimum');
+  //   }
+  //   if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+  //     errorMessages.push('One uppercase and lowercase');
   //   }
 
-  //   setPasswordError(errorMessage);
+  //   if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
+  //     errorMessages.push('Numeric and Special symbols');
+  //   }
+
+
+  //   setPasswordError(errorMessages);
   // };
 
+
+
+  // useEffect(() => {
+  //   dispatch({ type: 'COUNTRYLIST' })
+  // }, [])
+
+
   const handlePassword = (e) => {
-    setPassword(e.target.value);
+    const password = e.target.value;
+    setPassword(password);
     setPasswordErrors('');
     dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
-
-    const password = e.target.value;
+  
     let errorMessages = [];
-
-
+  
     if (/\s/.test(password)) {
       errorMessages.push('Password cannot contain spaces.');
     }
@@ -282,23 +258,13 @@ function CreateAccountPage() {
     if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
       errorMessages.push('One uppercase and lowercase');
     }
-
     if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
       errorMessages.push('Numeric and Special symbols');
     }
-
-
+  
     setPasswordError(errorMessages);
   };
-
-
-
-  // useEffect(() => {
-  //   dispatch({ type: 'COUNTRYLIST' })
-  // }, [])
-
-
-
+  
 
   const handleLoginPage = () => {
     navigate('/login-Page')
@@ -314,110 +280,7 @@ function CreateAccountPage() {
   const [bothPasswordError, setBothPasswordError] = useState('')
 
 
-  const handleCreateAccount = async () => {
-    let hasError = false;
-
-
-
-    // setEmailError('');
-    // setPasswordError('');
-    // setFirstNameError('');
-    // setConfirmPasswordError('');
-    // setPasswordErrors('')
-    // setPhoneError('')
-    // setAllError('')
-    // setBothPasswordError('')
-
-
-
-
-
-    if (!firstName && !phoneNo && !emailID && !password && !confirmpassword && !countryCode) {
-      setAllError('Please enter all mandatory fields')
-
-     
-    }
-
-    if (!firstName) {
-
-      setFirstNameError('Please Enter First Name')
-     
-    }
-
-    if (!emailID) {
-      setEmailError('Please Enter Email ID');
-      hasError = true;
-    } else {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-      if (!emailRegex.test(emailID)) {
-        setEmailError('Please Enter Valid Email ID');
-        hasError = true;
-      }
-    }
-    if (hasError) return;
-    if (!countryCode) {
-
-      setCountryCodeError('Please Select Country Code')
-
-      
-    }
-
-    if (!phoneNo) {
-
-
-
-      setPhoneError('Please Enter Mobile no.')
-     
-    }
-
-    const phoneNumber = parseInt(phoneNo, 10);
-    const phonePattern = new RegExp(/^\d{10}$/);
-    const isValidMobileNo = phonePattern.test(phoneNo);
-
-    if (!isValidMobileNo) {
-      setPhoneError('Please Enter Valid Mobile Number')
-      
-    }
-
-
-    if (!password) {
-      setPasswordErrors('Please Enter Password')
-     
-    }
-    if (!confirmpassword) {
-
-      setConfirmPasswordError('Please Enter Confirm Password');
-
-     
-    }
-
-
-
-
-
-
-
-
-
-
-
-    if (password === !confirmpassword) {
-
-      setBothPasswordError('Please Enter Confirm Password Same as Password')
-
-      
-    }
-
-
-    const mobileNumber = `${countryCode}${phoneNumber}`
-
-    if (firstName && phoneNo && emailID && password && confirmpassword && countryCode) {
-      dispatch({
-        type: 'CREATE_ACCOUNT_PAGE',
-        payload: { first_name: firstName, last_name: lastName, mobileNo: mobileNumber, emailId: emailID, password: password, confirm_password: confirmpassword }
-      });
-    }
-  };
+ 
 
 
 
@@ -447,6 +310,81 @@ function CreateAccountPage() {
   const handleLogoClick = () => {
     navigates("/All_Landing_pages");
   };
+  const handleCreateAccount = async () => {
+    let hasError = false;
+  
+    if (!firstName && !phoneNo && !emailID && !password && !confirmpassword && !countryCode) {
+      setAllError('Please enter all mandatory fields');
+      hasError = true; // <-- add this
+    }
+  
+    if (!firstName) {
+      setFirstNameError('Please Enter First Name');
+      hasError = true; // <-- add this
+    }
+  
+    if (!emailID) {
+      setEmailError('Please Enter Email ID');
+      hasError = true;
+    } else {
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+      if (!emailRegex.test(emailID)) {
+        setEmailError('Please Enter Valid Email ID');
+        hasError = true;
+      }
+    }
+  
+    if (!countryCode) {
+      setCountryCodeError('Please Select Country Code');
+      hasError = true;
+    }
+  
+    if (!phoneNo) {
+      setPhoneError('Please Enter Mobile No');
+      hasError = true;
+    } else {
+      const phonePattern = /^\d{10}$/;
+      if (!phonePattern.test(phoneNo)) {
+        setPhoneError('Please Enter Valid Mobile Number');
+        hasError = true;
+      }
+    }
+  
+   
+    if (!password) {
+      setPasswordErrors('Please Enter Password');
+      hasError = true;
+    } else if (Array.isArray(passwordError) && passwordError.length > 0) {
+      hasError = true;
+    }
+  
+    if (!confirmpassword) {
+      setConfirmPasswordError('Please Enter Confirm Password');
+      hasError = true;
+    }
+  
+    if (password && confirmpassword && password !== confirmpassword) {
+      setBothPasswordError('Password and Confirm Password do Not Match');
+      hasError = true;
+    }
+  
+    if (hasError) return;
+  
+    const mobileNumber = `${countryCode}${phoneNo}`;
+  
+    dispatch({
+      type: 'CREATE_ACCOUNT_PAGE',
+      payload: {
+        first_name: firstName,
+        last_name: lastName,
+        mobileNo: mobileNumber,
+        emailId: emailID,
+        password: password,
+        confirm_password: confirmpassword
+      }
+    });
+  };
+  
 
   return (
     <>

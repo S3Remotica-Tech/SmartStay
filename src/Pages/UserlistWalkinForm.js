@@ -630,7 +630,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                                 </Form.Label>
                                 <Form.Control
                                     type="email"
-                                    placeholder="Enter email"
+                                    placeholder="Enter Email ID"
                                     value={email}
                                     onChange={handleEmailChange}
                                     style={{
@@ -747,7 +747,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
                             <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
-                                {initialData ? 'Save Changes' : 'Add Walk-in'}
+                                {initialData ? 'Save Changes' : 'Add Walk-In'}
                             </Button>
                         </Modal.Footer>
                     </div>

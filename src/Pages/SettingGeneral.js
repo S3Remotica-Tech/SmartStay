@@ -69,7 +69,7 @@ function SettingGeneral() {
   const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
   const [generalFilterddata, setGeneralFilterddata] = useState([]);
   const [loading, setLoading] = useState(true)
-
+const [generalDeleteError,setGeneralDeleteError] = useState("")
 
 
   const handleNewPassword = (e) => {
@@ -151,6 +151,8 @@ function SettingGeneral() {
 
   const handleCloseDeleteFormShow = () => {
     setDeleteForm(false);
+    setGeneralDeleteError("")
+    dispatch({type:"CLEAR_DELETE_GENERAL_ERROR"})
   };
 
   const handleConformDelete = () => {
@@ -538,7 +540,11 @@ function SettingGeneral() {
     }
   }, [state.Settings.notmatchpass]);
 
-
+  useEffect(() => {
+    if (state.Settings.generalDeleteError) {
+      setGeneralDeleteError(state.Settings.generalDeleteError);
+    }
+  }, [state.Settings.generalDeleteError]);
 
   useEffect(() => {
     setLoading(true)
@@ -1731,7 +1737,23 @@ function SettingGeneral() {
         >
           Are you sure you want to delete this General?
         </Modal.Body>
-
+               {generalDeleteError && (
+  <div className="d-flex justify-content-center align-items-center gap-2 ">
+    <MdError style={{ color: "red" }} />
+    <label
+      className="mb-0"
+      style={{
+        color: "red",
+        fontSize: "12px",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        textAlign: "center"
+      }}
+    >
+      {generalDeleteError}
+    </label>
+  </div>
+)}
         <Modal.Footer
           style={{
             justifyContent: "center",

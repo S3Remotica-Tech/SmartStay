@@ -718,7 +718,7 @@ useEffect(() => {
                   value={email}
                   onChange={handleEmailChange}
                   type="email"
-                  placeholder="Please Enter Email ID"
+                  placeholder="Enter Email ID"
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
