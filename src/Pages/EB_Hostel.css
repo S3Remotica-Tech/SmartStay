@@ -22,3 +22,16 @@
     }
   
   }
+
+  @media only screen and (max-width: 530px) and (min-width: 100px) {
+    .icon-spacing{
+        margin-top: 100px;
+    } 
+}
+
+@media (max-width: 530px) { 
+  .custom-tab-list {
+    margin-top: 60px !important; 
+  }
+}
+
