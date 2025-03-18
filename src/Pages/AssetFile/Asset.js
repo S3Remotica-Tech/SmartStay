@@ -36,6 +36,7 @@ function Asset() {
   const [showDropDown, setShowDropDown] = useState(false)
   const [showFilterData, setShowFilterData] = useState(false)
   const stateAccount = useSelector(state => state.createAccount)
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   // const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
 
   useEffect(() => {
@@ -531,9 +532,12 @@ function Asset() {
                               backgroundColor: '#fff',
                               // border: '1px solid #D9D9D9',
                               // borderRadius: '4px',
-                              maxHeight: 174,
-                              minHeight: 100,
-                              overflowY: 'auto',
+                              // maxHeight: 174,
+                              // minHeight: 100,
+                              // overflowY: 'auto',
+                              maxHeight: "174px",
+                              minHeight: getData?.length > 1 ? "100px" : "auto",
+                              overflowY: getData?.length > 2 ? "auto" : "hidden",
                               padding: '5px 10px',
                               margin: '0',
                               listStyleType: 'none',
@@ -549,6 +553,8 @@ function Asset() {
                                       handleDropDown(user.asset_name);
 
                                     }}
+                                    onMouseEnter={() => setHoveredIndex(index)}
+                                    onMouseLeave={() => setHoveredIndex(null)}
                                     style={{
                                       padding: '10px',
                                       cursor: 'pointer',
@@ -556,6 +562,7 @@ function Asset() {
                                       fontSize: '14px',
                                       fontFamily: 'Gilroy',
                                       fontWeight: 500,
+                                      backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
 
                                     }}
                                   >

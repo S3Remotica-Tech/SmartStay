@@ -937,7 +937,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     value={email_Id}
                     onChange={(e) => handleEmailChange(e)}
                     type="email"
-                    placeholder="Enter Email Address"
+                    placeholder="Enter Email ID"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -1168,7 +1168,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                       fontWeight: 500,
                     }}
                   >
-                    Pin code
+                    Pincode
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control

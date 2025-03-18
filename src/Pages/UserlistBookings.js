@@ -923,7 +923,7 @@ if (!pattern.test(value)) {
 
                         let formattedMonth = monthNames[month];
 
-                        let formattedDate = `${year} ${formattedMonth} ${day}`;
+                        let formattedDate = `${day} ${formattedMonth} ${year}`;
 
                         let createDated = new Date(customer.createdat);
 
@@ -946,7 +946,7 @@ if (!pattern.test(value)) {
                           "Dec",
                         ];
                         let formattedMonthjj = monthNamesformate[month1];
-                        let formattedDatecreate = `${year1} ${formattedMonthjj} ${day1}`;
+                        let formattedDatecreate = `${day1} ${formattedMonthjj} ${year1}`;
 
                         return (
                           <tr key={customer.id} className="customer-row">

@@ -2110,7 +2110,7 @@ const handleBack = () => {
       </div>
 
       {/* Action Button */}
-      <div>
+      <div className="me-4">
         {value === "1" && (
           <Button
             disabled={customerAddPermission}
@@ -2120,7 +2120,7 @@ const handleBack = () => {
               color: "white",
               fontWeight: 600,
               borderRadius: "8px",
-              padding: "10px 20px",
+              padding: "12px 48px 12px 48px",
               whiteSpace: "nowrap",
               fontFamily: "Gilroy",
               fontSize: 14,
@@ -2134,14 +2134,18 @@ const handleBack = () => {
             disabled={customerBookingAddPermission}
             onClick={toggleForm}
             style={{
+              fontFamily: "Gilroy",
+              fontSize: "14px",
               backgroundColor: "#1E45E1",
               color: "white",
               fontWeight: 600,
               borderRadius: "8px",
-              padding: "10px 20px",
-              whiteSpace: "nowrap",
-              fontFamily: "Gilroy",
-              fontSize: 14,
+              padding: "12px",
+              paddingLeft: 50,
+              paddingRight: 48,
+              marginBottom: "10px",
+              maxHeight: 45,
+
             }}
           >
             + Bookings
@@ -2152,14 +2156,18 @@ const handleBack = () => {
             disabled={customerCheckoutPermission}
             onClick={checkOutForm}
             style={{
+              fontFamily: "Gilroy",
+              fontSize: "14px",
               backgroundColor: "#1E45E1",
               color: "white",
               fontWeight: 600,
               borderRadius: "8px",
-              padding: "10px 20px",
-              whiteSpace: "nowrap",
-              fontFamily: "Gilroy",
-              fontSize: 14,
+              padding: "12px",
+              paddingLeft: 50,
+              paddingRight: 48,
+              marginBottom: "10px",
+              maxHeight: 45,
+
             }}
           >
             + Check-out
@@ -2170,14 +2178,18 @@ const handleBack = () => {
             disabled={customerWalkInAddPermission}
             onClick={walkinForm}
             style={{
+              fontFamily: "Gilroy",
+              fontSize: "14px",
               backgroundColor: "#1E45E1",
               color: "white",
               fontWeight: 600,
               borderRadius: "8px",
-              padding: "10px 20px",
-              whiteSpace: "nowrap",
-              fontFamily: "Gilroy",
-              fontSize: 14,
+              padding: "12px",
+              paddingLeft: 50,
+              paddingRight: 48,
+              marginBottom: "10px",
+              maxHeight: 45,
+
             }}
           >
             + Walk-In

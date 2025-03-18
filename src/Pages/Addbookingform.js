@@ -976,7 +976,7 @@ try {
                     fontWeight: 500,
                   }}
                 >
-                  Joining_Date
+                  Joining Date
                   <span style={{ color: "red", fontSize: "20px" }}>
                     {" "}
                     *{" "}
