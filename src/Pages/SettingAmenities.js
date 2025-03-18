@@ -14,6 +14,7 @@ import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import PropTypes from "prop-types";
+import { style } from '@mui/system';
 
 
 function SettingAmenities({ hostelid }) {
@@ -83,8 +84,6 @@ function SettingAmenities({ hostelid }) {
         }
     };
     
-
-
 
 
     useEffect(() => {
@@ -542,15 +541,26 @@ function SettingAmenities({ hostelid }) {
                                                 <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Recuring</p>
 
                                                 <div>
-                                                    <Form.Check
-                                                        type="switch"
-                                                        style={{ boxShadow: "none" ,cursor:"pointer"}}
-                                                        label="Recurring"
-                                                        checked={switchStates[amenity.id] }
+  <Form.Check
+    type="switch"
+    checked={switchStates[amenity.id]}
+    id={`custom-switch-${amenity.id}`}
+    className="custom-switch-pointer"
+    style={{ boxShadow: "none" }}
+    label="Recurring"
+    onChange={() => handleToggle(amenity)}
+  />
 
-                                                        onChange={() => handleToggle(amenity)}
-                                                    />
-                                                </div>
+  <style>
+    {`
+      .custom-switch-pointer input[type="checkbox"],
+      .custom-switch-pointer label {
+        cursor: pointer !important;
+      }
+    `}
+  </style>
+</div>
+
                                             </div>
                                             <div className="col-lg-4 col-md-4 col-12">
                                                 <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Calculation Type</p>

@@ -429,7 +429,7 @@ const RecurringBills = (props) => {
         <Form.Control
           style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
           type="text"
-          placeholder="Enter invoice number"
+          placeholder="Enter Invoice Number"
           value={invoicenumber || ''} 
         />
                  {/* {invoicenumbererrmsg.trim() !== "" && (

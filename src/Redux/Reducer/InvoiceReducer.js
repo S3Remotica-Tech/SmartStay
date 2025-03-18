@@ -63,6 +63,7 @@ export const initialState = {
     RecurenotEnable: '',
     RecurenotenableStatusCode : 0,
     Errmessage: '',
+    amnitiessAddError:''
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -86,6 +87,12 @@ const InvoiceReducer = (state = initialState, action) => {
     
             case 'REMOVE_ERROR_RECURE':
                 return { ...state, errorRecuireFile: ''}
+
+                case 'ERROR_AMENITIES_SETTINGS':
+                    return { ...state, amnitiessAddError: action.payload.response }
+        
+                case 'REMOVE_ERROR_AMENITIES_SETTINGS':
+                    return { ...state, amnitiessAddError: ''}
 
         case 'DELETE_USER':
             return { ...state, deleteUserSuccessStatusCode: action.payload.statusCode }

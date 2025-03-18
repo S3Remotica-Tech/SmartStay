@@ -167,10 +167,20 @@ useEffect(() => {
         </label>
         <Form.Check
             type="switch"
+            id={`custom-switch-${props.isChecked}`}
             label="Recurring"
+            className="custom-switch-pointer"
             checked={props.isChecked}
             onChange={handleToggle}
         />
+          <style>
+                                    {`
+                                      .custom-switch-pointer input[type="checkbox"],
+                                      .custom-switch-pointer label {
+                                        cursor: pointer !important;
+                                      }
+                                    `}
+                                  </style>
     </div>
           <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap mt-3">
             <div className="mb-2">

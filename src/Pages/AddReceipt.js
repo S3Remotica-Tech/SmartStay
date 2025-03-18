@@ -591,7 +591,7 @@ const AddReceiptForm = (props) => {
         <Form.Control
           style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 ,   backgroundColor: "#E7F1FF",}}
           type="text"
-          placeholder="Enter invoice number"
+          placeholder="Enter Invoice Number"
           value={reference_id || ''} 
           readOnly
         />
@@ -744,7 +744,7 @@ const AddReceiptForm = (props) => {
         <Form.Control
           style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, backgroundColor:edit ? "#E7F1FF" : "white" }}
           type="text"
-          placeholder="Enter received amount"
+          placeholder="Enter Received Amount"
           value={received_amount || 0} 
           onChange={handleReceivedAmount} 
           disabled={edit}
@@ -1124,7 +1124,7 @@ const AddReceiptForm = (props) => {
         <Form.Control
           style={{ padding: 'px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 , height:80}}
           type="text"
-          placeholder="Enter notes"
+          placeholder="Enter Notes"
           value={notes || ''} 
           onChange={handleNotes} 
         />

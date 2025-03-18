@@ -367,7 +367,6 @@ function* handleInvoicePdf(action) {
 
 function* handleAmenitiesSettings(action){
    const response = yield call (AmenitiesSettings,action.payload)
-  
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'AMENITIES_SETTINGS', payload: {response:response.data ,statusCode:response.status || response.statusCode}})
   
@@ -404,11 +403,7 @@ function* handleAmenitiesSettings(action){
 
    }
    else if(response.status === 203){
-      Swal.fire({
-         title: "Amenities already exists for this Hostel",
-         icon: "warning",
-         // timer: 1000,
-     });
+      yield put({ type: 'ERROR_AMENITIES_SETTINGS', payload: {response:response.data.message}})
      
    }else{
       yield put({ type: 'ERROR', payload: response.data.message })

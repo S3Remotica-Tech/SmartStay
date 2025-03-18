@@ -3384,7 +3384,7 @@ console.log('invoiceDetails',invoiceDetails)
                                     </Form.Label>
                                     <Form.Control
                                       type="text"
-                                      placeholder="Enter amount"
+                                      placeholder="Enter Amount"
                                       value={invoiceList.balanceDue}
                                       readOnly
                                     />
@@ -3416,7 +3416,7 @@ console.log('invoiceDetails',invoiceDetails)
                                     </Form.Label>
                                     <Form.Control
                                       type="text"
-                                      placeholder="Enter amount"
+                                      placeholder="Enter Amount"
                                       value={invoiceList.payableAmount}
                                       onChange={(e) => {
                                         handleAmount(e);
@@ -5947,7 +5947,7 @@ console.log('invoiceDetails',invoiceDetails)
                   fontWeight: 500,
                 }}
                 type="text"
-                placeholder="Enter invoice number"
+                placeholder="Enter Invoice Number"
                 value={invoicenumber || ""}
                 readOnly
               />
@@ -6247,7 +6247,7 @@ console.log('invoiceDetails',invoiceDetails)
                           <Form.Control
                             type="text"
                             style={{ fontFamily: "Gilroy" }}
-                            placeholder="Enter description"
+                            placeholder="Enter Description"
                             value={u.am_name}
                             onChange={(e) =>
                               handleNewRowChange(
@@ -6276,7 +6276,7 @@ console.log('invoiceDetails',invoiceDetails)
                         <Form.Control
   type="text"
   style={{ fontFamily: "Gilroy" }}
-  placeholder="Enter total amount"
+  placeholder="Enter Total Amount"
   value={u.amount}
   onChange={(e) => {
     const value = e.target.value;

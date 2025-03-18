@@ -20,6 +20,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   const [hostelError, setHostelError] = useState("");
   const [errorAmenity, setErrorAmenity] = useState("");
   const [errorAmount, setErrorAmount] = useState("");
+  const [amnitiesError,setAmnitiesError] = useState("")
 
 
   useEffect(() => {
@@ -29,6 +30,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
         amount: editDetails.Amount || "",
         isChecked: editDetails.setAsDefault === 1 ? true : false,
       };
+
 
       setAmenity(initialData.amenity);
       setAmount(initialData.amount);
@@ -46,6 +48,8 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     setAmenity(value);
     setErrorAmenity("");
     setIsChangedError("");
+    setAmnitiesError("")
+    dispatch({type:'REMOVE_ERROR_AMENITIES_SETTINGS'})
   };
 
   const handleAmountChange = (e) => {
@@ -62,6 +66,18 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   //   setIsChecked(e.target.checked);
   //   setIsChangedError("");
   // };
+const handleCloseForm=()=>{
+  handleClose()
+  setAmnitiesError("")
+  dispatch({type:'REMOVE_ERROR_AMENITIES_SETTINGS'})
+}
+
+useEffect(()=>{
+  if(state.InvoiceList.amnitiessAddError){
+setAmnitiesError(state.InvoiceList.amnitiessAddError)
+  }
+
+},[state.InvoiceList.amnitiessAddError])
 
   const handleSubmit = () => {
     let isValid = true;
@@ -134,7 +150,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
           position: "initial",
         }}
       >
-        <Modal show={show} onHide={handleClose} centered backdrop="static">
+        <Modal show={show} onHide={handleCloseForm} centered backdrop="static">
           <Modal.Dialog
             style={{ maxWidth: 850, width: "100%" }}
             className="m-0 p-0"
@@ -151,7 +167,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                 {editDetails ? "Edit Amenities" : "Add Amenities"}
               </Modal.Title>
 
-              <CloseCircle size="24" color="#000" onClick={handleClose}  style={{cursor:"pointer"}}/>
+              <CloseCircle size="24" color="#000" onClick={handleCloseForm}  style={{cursor:"pointer"}}/>
             </Modal.Header>
 
             <Modal.Body>
@@ -300,6 +316,23 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                 </div> */}
               </div>
             </Modal.Body>
+                           {amnitiesError && (
+              <div className="d-flex justify-content-center align-items-center gap-2 ">
+                <MdError style={{ color: "red" }} />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    textAlign: "center"
+                  }}
+                >
+                  {amnitiesError}
+                </label>
+              </div>
+            )}
             {isChangedError && (
                 <div className="d-flex align-items-center justify-content-center"
                   style={{ color: "red", fontSize: "14px", marginTop: "8px" }}

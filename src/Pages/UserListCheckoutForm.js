@@ -1143,7 +1143,7 @@ const CheckOutForm = ({
                   fontWeight: 500,
                 }}
               >
-                This customer has Due Amounts Total Due Amount is RS{" "}
+                This customer has Due Amounts Total Due Amount is Rs{" "}
                 {dueamount}
               </label>
             </div>

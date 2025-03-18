@@ -631,12 +631,22 @@ const SettingElectricity = ({ hostelid }) => {
                                 <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Recurring</Form.Label>
                                 <Form.Check
                                   type="switch"
-                                  id="recurring"
+                                  // id="recurring"
+                                  id={`custom-switch-${isRecurring}`}
                                   label="Recurring"
+                                    className="custom-switch-pointer"
                                   // checked = {v.recuring === 1}
                                   checked={isRecurring}
                                   onChange={() => handleRecurringFormShow(v)}
                                 />
+                                <style>
+                                    {`
+                                      .custom-switch-pointer input[type="checkbox"],
+                                      .custom-switch-pointer label {
+                                        cursor: pointer !important;
+                                      }
+                                    `}
+                                  </style>
                               </Col>
                             </Row>
 
