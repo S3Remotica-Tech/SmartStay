@@ -747,7 +747,6 @@ useEffect(()=>{
     setFloorClick(floorNumber);
     setKey(floorNumber.toString());
     setFloorName(floorName);
-    // dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorNumber, hostel_Id: showHostelDetails.id } })
   };
 
 
@@ -964,25 +963,11 @@ useEffect(()=>{
                         )}
                     </div>
                   )}
-
-                  {/* <div className="me-3">
-                    <Sort Size="24" color="#222" variant="Outline" />
-                  </div> */}
-
                   <div style={{ marginTop: 5 }}>
                     <Button
                       onClick={handleShowsettingsPG}
                       disabled={addPermissionError}
-                      // style={{
-                      //   fontFamily: "Gilroy",
-                      //   fontSize: 14,
-                      //   backgroundColor: "#1E45E1",
-                      //   color: "white",
-                      //   fontWeight: 600,
-                      //   borderRadius: 8,
-                      //   padding: "16px 20px 16px 20px",
-                      // }}
-
+                    
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: "14px",
@@ -1003,7 +988,6 @@ useEffect(()=>{
 
 
                 </div>
-                {/* </div> */}
               </div>
 
               {searchQuery && (
@@ -1070,8 +1054,6 @@ useEffect(()=>{
                       className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12"
                     >
                       <PayingHostel
-                        // hostel={hostel}
-                        // key={hostel.id}
                         OnSelectHostel={handleSelectedHostel}
                         onRowVisiblity={handleDisplayPgList}
                         OnEditHostel={handleEditHostel}
@@ -1124,24 +1106,7 @@ useEffect(()=>{
                           >
                             There are no Paying Guest added.
                           </div>
-                          {/* <div className="d-flex justify-content-center pb-1 mt-3">
-                          {" "}
-                          <Button
-                            style={{
-                              fontSize: 16,
-                              backgroundColor: "#1E45E1",
-                              color: "white",
-                              fontWeight: 600,
-                              borderRadius: 12,
-                              padding: "20px 40px",
-                              fontFamily: "Gilroy",
-                            }}
-                            onClick={handleShowsettingsPG}
-                          >
-                            {" "}
-                            + Manage PG
-                          </Button>
-                        </div> */}
+                          
                         </div>
                         <div></div>
                       </div>
@@ -1639,21 +1604,7 @@ useEffect(()=>{
                       </div>
                       <div className="d-flex justify-content-center pb-1 mt-3">
                         {" "}
-                        {/* <Button
-                          style={{
-                            fontSize: 16,
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            padding: "20px 40px",
-                            fontFamily: "Gilroy",
-                          }}
-                          onClick={() => handleAddFloors(showHostelDetails.id)}
-                        >
-                          {" "}
-                          + Add floor
-                        </Button> */}
+                       
                       </div>
                     </div>
                     <div></div>

@@ -406,19 +406,6 @@ console.log("currentItems",currentItems)
                         {String(activeRoomId) === String(room.Room_Id) && (
                           <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 30, width: 120, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
                             <div>
-                              {/* <div className='d-flex gap-2 mb-2 align-items-center'
-                          onClick={()=> handleEditRoom(room.Hostel_Id,room.Floor_Id, room.Room_Id, room.Room_Name
-                            )}
-                          >
-                           
-
-                            <div><Edit size="16" color="#1E45E1" />
-                            </div>
-                            <div>
-
-                              <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Outfit, sans-serif", color: "#222222" }}>Edit</label>
-                            </div>
-                          </div> */}
                               <div
                                 className={`d-flex gap-2 mb-2 align-items-center ${props.editPermissionError ? 'disabled' : ''}`}
                                 onClick={() => {
@@ -445,17 +432,6 @@ console.log("currentItems",currentItems)
                                   </label>
                                 </div>
                               </div>
-
-                              {/* <div className='d-flex gap-2 mb-2 align-items-center'
-                            onClick={() => { handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id) }}
-                          >
-                           
-                            <div><Trash size="16"
-                              color="red"
-                            /></div>
-
-                            <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", color: "rgba(255, 0, 0, 1)" }}>Delete</label>
-                          </div> */}
                               <div
                                 className={`d-flex gap-2 mb-2 align-items-center ${props.deletePermissionError ? 'disabled' : ''}`}
                                 onClick={() => {
@@ -517,12 +493,7 @@ console.log("currentItems",currentItems)
                             </div>
                           </div>
                         ))}
-                        {/* <div className='col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center' onClick={() => handleAddBed(props, room.Room_Id)}>
-                      <div className='d-flex flex-column align-items-center' style={{ width: "100%", cursor: "pointer" }}>
-                        <div><FaSquarePlus style={{ height: 41, width: 34, color: "#1E45E1" }} /></div>
-                        <div className="pt-2" style={{ color: "#1E45E1", fontSize: 12, fontWeight: 600, fontFamily: "Montserrat" }}>Add bed</div>
-                      </div>
-                    </div> */}
+                      
                         <div
                           className={`col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
                           onClick={() => {

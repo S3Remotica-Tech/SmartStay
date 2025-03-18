@@ -57,7 +57,7 @@ function ForgetPasswordPage() {
   
    
     if (!emailRegex.test(email)) {
-      setEmailError('Please enter a valid email address'); 
+      setEmailError('Please Enter a Valid Email ID'); 
     } else {
       setEmailError('');
     }
@@ -485,15 +485,15 @@ function ForgetPasswordPage() {
                         
                         data-testid='input-email'
                         value={email} onChange={(e) => handleEmailid(e)}
-                        type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: email ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                        type="email" placeholder="Enter Email ID" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: email ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
                       {/* <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div> */}
                     </Form.Group>
 
 
-                    <div className="mb-1 p-1"> {generalError ? <div className='d-flex align-items-center p-1'>
+                    <div> {generalError ? <div className='d-flex align-items-center'>
                       <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>eneral {generalError}</label>
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{generalError}</label>
                     </div>
                       : null}</div>
 

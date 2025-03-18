@@ -217,7 +217,7 @@ const MyComponent = () => {
               <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
               {/* <InputGroup className="mb-3" size="lg" style={{ color: "#D9D9D9" }} > */}
               <Form.Control
-                placeholder="Enter Email"
+                placeholder="Enter Email ID"
                 aria-label="Recipient's username"
                 className='mb-1'
                 aria-describedby="basic-addon2"
