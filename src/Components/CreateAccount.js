@@ -476,7 +476,7 @@ function CreateAccountPage() {
                       value={firstName}
                       data-testid='first-name'
                       onChange={(e) => { handleFirstName(e) }}
-                      size="lg" type="text" placeholder="First name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: firstName ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                      size="lg" type="text" placeholder="Enter First Name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: firstName ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group>
 
                   {firstNameError && (
@@ -499,7 +499,7 @@ function CreateAccountPage() {
                       data-testid='last-name'
                       value={lastName}
                       onChange={(e) => { handleLastName(e) }}
-                      size="lg" type="text" placeholder="Last name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: lastName ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                      size="lg" type="text" placeholder="Enter Last Name" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: lastName ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
                   </Form.Group>
                 </div>
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
@@ -510,7 +510,7 @@ function CreateAccountPage() {
                      autoComplete="new-mail"
                         autoCorrect="off"
                       value={emailID} onChange={(e) => { handleEmailID(e) }}
-                      type="email" placeholder="Email address" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: emailID ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
+                      type="email" placeholder="Enter Email ID" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: emailID ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
                     {/* <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div> */}
                   </Form.Group>
