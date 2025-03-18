@@ -14,7 +14,6 @@ import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import PropTypes from "prop-types";
-import { style } from '@mui/system';
 
 
 function SettingAmenities({ hostelid }) {

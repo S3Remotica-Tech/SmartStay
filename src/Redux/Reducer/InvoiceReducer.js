@@ -67,7 +67,6 @@ export const initialState = {
 }
 
 const InvoiceReducer = (state = initialState, action) => {
-    console.log("responseinvoiceupdate", action);
 
     switch (action.type) {
 

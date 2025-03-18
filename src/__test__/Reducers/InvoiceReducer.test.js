@@ -1188,6 +1188,7 @@ describe('it should check invoice reducers', () => {
             RecurenotEnable: '',
             RecurenotenableStatusCode : 0,
             Errmessage: '',
+            amnitiessAddError:''
 
         });
     });
@@ -1263,6 +1264,7 @@ describe('it should check invoice reducers', () => {
             RecurenotEnable: '',
             RecurenotenableStatusCode : 0,
             Errmessage: '',
+            amnitiessAddError:''
 
         });
     });
@@ -1342,6 +1344,7 @@ describe('it should check invoice reducers', () => {
             RecurenotEnable: '',
             RecurenotenableStatusCode : 0,
             Errmessage: '',
+            amnitiessAddError:''
 
         });
     });
@@ -1420,6 +1423,7 @@ describe('it should check invoice reducers', () => {
             RecurenotEnable: '',
             RecurenotenableStatusCode : 0,
             Errmessage: '',
+            amnitiessAddError:''
 
         });
     });
@@ -1498,6 +1502,7 @@ describe('it should check invoice reducers', () => {
             RecurenotEnable: '',
             RecurenotenableStatusCode : 0,
             Errmessage: '',
+            amnitiessAddError:''
 
         });
     });
@@ -1577,20 +1582,164 @@ describe('it should check invoice reducers', () => {
             RecurenotEnable: '',
             RecurenotenableStatusCode : 0,
             Errmessage: '',
+            amnitiessAddError:''
 
         });
     });
 
+    it('should handle REMOVE_ERROR_AMENITIES_SETTINGS action correctly', () => {
+        const action = {
+            type: 'ERROR_AMENITIES_SETTINGS',
+            payload: {
+                response: 'Some error occurred'
+            }
+        };
+    
+        expect(InvoiceReducer(initialState, action)).toStrictEqual({
+            
+            Invoice: [],
+            message: '',
+            invoiceSettings: [],
+            invoicePDF: '',
+            prefix: '',
+            statusCodeForPDf: 0,
+            suffix: '',
+            profile: '',
+            AmenitiesSettings: [],
+            AmenitiesList: [],
+            AmenitiesUpdate: [],
+            statusCode: 0,
+            InvoiceListStatusCode: 0,
+            toTriggerPDF: false,
+            invoiceSettingsStatusCode: 0,
+            StatusCodeAmenitiesGet: 0,
+            AmenitiesUpdateStatusCode: 0,
+            ManualInvoice: [],
+            BillsErrorstatusCode: 0,
+            manualInvoiceStatusCode: 0,
+            UpdateInvoiceStatusCode: 0,
+            ManualInvoiceNUmber: [],
+            ManualInvoices: [],
+            ManualInvoicesgetstatuscode: 0,
+            Manulainvoicenumberstatuscode: 0,
+            manualInvoiceAddStatusCode: 0,
+            manualInvoiceEditStatusCode: 0,
+            manualInvoiceDeleteStatusCode: 0,
+            recurrbillamountgetStatuscode: 0,
+            Recurringbillamounts: [],
+            RecurringBillAddStatusCode: 0,
+            RecurringBills: [],
+            RecurringbillsgetStatuscode: 0,
+            NodataRecurringStatusCode:0,
+            deleterecurringbillsStatuscode: 0,
+            settingsaddRecurringStatusCode: 0,
+            deleteUserSuccessStatusCode: 0,
+            deleteAmenitiesSuccessStatusCode: 0,
+            assignAmenitiesSuccessStatusCode: 0,
+            getAssignAmenitiesSuccessStatusCode: 0,
+            GetAssignAmenitiesList: [],
+            GetUnAssignAmenitiesList: [],
+            UnAssignAmenitiesSuccessStatusCode: 0,
+            deletemanualError: '',
+            ReceiptList: [],
+            ReceiptlistgetStatuscode: 0,
+            NodataReceiptStatusCode:0,
+            ReceiptAddsuccessStatuscode: 0,
+            ReceiptEditsuccessStatuscode: 0,
+            ReceiptDeletesuccessStatuscode: 0,
+            Reference_Id: '',
+            ReferenceIdgetsuccessStatuscode: 0,
+            errorAmenities: 0,
+            alreadyAssignAmenitiesStatusCode: 0,
+            statusCodeForReceiptPDf: 0,
+            ReceiptPDF: '',
+            getstatusCodeForfilterrecurrcustomers: 0,
+            FilterRecurrCustomers: [],
+            errorRecuireFile:'',
+            RecurenotEnable: '',
+            RecurenotenableStatusCode : 0,
+            Errmessage: '',
+            amnitiessAddError:'Some error occurred'
 
+        });
+    });
 
+    it('should reset error state on REMOVE_ERROR_AMENITIES_SETTINGS action', () => {
+        const action = {
+            type: 'REMOVE_ERROR_AMENITIES_SETTINGS',
+            payload: {
+                response: ''
+            }
+        };
+    
+        expect(InvoiceReducer(initialState, action)).toStrictEqual({
+            
+            Invoice: [],
+            message: '',
+            invoiceSettings: [],
+            invoicePDF: '',
+            prefix: '',
+            statusCodeForPDf: 0,
+            suffix: '',
+            profile: '',
+            AmenitiesSettings: [],
+            AmenitiesList: [],
+            AmenitiesUpdate: [],
+            statusCode: 0,
+            InvoiceListStatusCode: 0,
+            toTriggerPDF: false,
+            invoiceSettingsStatusCode: 0,
+            StatusCodeAmenitiesGet: 0,
+            AmenitiesUpdateStatusCode: 0,
+            ManualInvoice: [],
+            BillsErrorstatusCode: 0,
+            manualInvoiceStatusCode: 0,
+            UpdateInvoiceStatusCode: 0,
+            ManualInvoiceNUmber: [],
+            ManualInvoices: [],
+            ManualInvoicesgetstatuscode: 0,
+            Manulainvoicenumberstatuscode: 0,
+            manualInvoiceAddStatusCode: 0,
+            manualInvoiceEditStatusCode: 0,
+            manualInvoiceDeleteStatusCode: 0,
+            recurrbillamountgetStatuscode: 0,
+            Recurringbillamounts: [],
+            RecurringBillAddStatusCode: 0,
+            RecurringBills: [],
+            RecurringbillsgetStatuscode: 0,
+            NodataRecurringStatusCode:0,
+            deleterecurringbillsStatuscode: 0,
+            settingsaddRecurringStatusCode: 0,
+            deleteUserSuccessStatusCode: 0,
+            deleteAmenitiesSuccessStatusCode: 0,
+            assignAmenitiesSuccessStatusCode: 0,
+            getAssignAmenitiesSuccessStatusCode: 0,
+            GetAssignAmenitiesList: [],
+            GetUnAssignAmenitiesList: [],
+            UnAssignAmenitiesSuccessStatusCode: 0,
+            deletemanualError: '',
+            ReceiptList: [],
+            ReceiptlistgetStatuscode: 0,
+            NodataReceiptStatusCode:0,
+            ReceiptAddsuccessStatuscode: 0,
+            ReceiptEditsuccessStatuscode: 0,
+            ReceiptDeletesuccessStatuscode: 0,
+            Reference_Id: '',
+            ReferenceIdgetsuccessStatuscode: 0,
+            errorAmenities: 0,
+            alreadyAssignAmenitiesStatusCode: 0,
+            statusCodeForReceiptPDf: 0,
+            ReceiptPDF: '',
+            getstatusCodeForfilterrecurrcustomers: 0,
+            FilterRecurrCustomers: [],
+            errorRecuireFile:'',
+            RecurenotEnable: '',
+            RecurenotenableStatusCode : 0,
+            Errmessage: '',
+            amnitiessAddError:''
 
-
-
-
-
-
-
-
+        });
+    });
 
 
 

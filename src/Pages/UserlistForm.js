@@ -1092,7 +1092,7 @@ const handleBed = (selectedOption) => {
                         <FormControl
                           type="text"
                           id="form-controls"
-                          placeholder="Enter email address"
+                          placeholder="Enter Email ID"
                           value={Email}
                           onChange={(e) => handleEmail(e)}
                           style={{

@@ -1,6 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings , GetReceiptData , AddReceipt , ReferenceIdGet , DeleteReceipt , EditReceipt , ReceiptPDf , AddRecurrBillsUsers} from "../Action/InvoiceAction"
-import Swal from 'sweetalert2'
+import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings , GetReceiptData , AddReceipt , ReferenceIdGet , DeleteReceipt , EditReceipt , ReceiptPDf , AddRecurrBillsUsers} from "../Action/InvoiceAction";
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
