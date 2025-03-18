@@ -758,81 +758,6 @@ function SettingExpenses({ hostelid }) {
 
               </Card>
 
-              {/* {expandedCategoryId === category.category_Id ? (
-                 <div
-                 className="dropdown-content"
-                 style={{
-                   position: "absolute",
-                   top: "80%", // Ensures dropdown opens below the card
-                   left: 0,
-                   right: 0,
-                   zIndex: 1, // Keeps dropdown above other content
-                   backgroundColor: "#fff",
-                   border: "1px solid #ddd",
-                   borderRadius: "0 0 10px 10px",
-                   marginBottom: 0,
-                   overflow: "hidden",
-                   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", 
-                   borderTop:"none"
-                 }}
-               >
-                   <hr />
-                   <ul
-                     className="p-2 m-0"
-                     style={{
-                       borderRadius: "10px",
-                       width: "100%",
-                     }}
-                   >
-                    {category.subcategory && category.subcategory.length > 0 ? (
-                      category.subcategory.map((sub) => (
-                        <li
-                          key={sub.subcategory_Id}
-                          className="d-flex justify-content-between align-items-center"
-                          style={{
-                            fontFamily: "Gilroy",
-                            fontSize: 14,
-                            fontWeight: 500,
-                            color: "#222",
-                          }}
-                        >
-                          {sub.subcategory}
-                          <span>
-                            <img
-                              src={Editbtn}
-                              height={15}
-                              width={15}
-                              alt="edit"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => handleEditCategory(sub)}
-                            />
-                            <img
-                              src={Closebtn}
-                              height={15}
-                              width={15}
-                              alt="delete"
-                              style={{ cursor: "pointer", marginLeft: 10 }}
-                              onClick={() => handleDeleteSubCategory(sub)}
-                            />
-                          </span>
-                        </li>
-                      ))
-                    ) : (
-                      <li
-                        className="text-muted"
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          fontWeight: 500,
-                        }}
-                      >
-                        No Subcategories Available
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              ) */}
-
 {expandedCategoryId === category.category_Id && (
   <div
     className="dropdown-content"
@@ -869,10 +794,6 @@ function SettingExpenses({ hostelid }) {
   </div>
 )}
 
-
-
-                {/* :
-                null} */}
             </div>
           ))
 
