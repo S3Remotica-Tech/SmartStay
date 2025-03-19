@@ -257,7 +257,8 @@ function SettingManage(props) {
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 200) {
       dispatch({ type: "HOSTELLIST" });
-      // dispatch({ type: "HOSTELIDDETAILS" });
+      dispatch({ type: "HOSTELIDDETAILS" });
+      
 
       setShowAddPg(false);
       setTimeout(() => {

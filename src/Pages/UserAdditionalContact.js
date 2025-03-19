@@ -23,6 +23,7 @@ function UserAdditionalContact(props) {
   const [addressError, setAddressError] = useState("");
   const [userNameError, setUserNameError] = useState("");
   const [guardianError, setGuardianError] = useState("");
+  const [guardianAlreadyError, setGuardianAlreadyError] = useState("");
   const MobileNumber = `${countryCode}${Phone}`;
 
   const [initialState, setInitialState] = useState({
@@ -208,7 +209,7 @@ function UserAdditionalContact(props) {
     } else if (value.length === 10) {
       setPhoneError("");
     } else {
-      setPhoneError("Invalid mobile number *");
+      setPhoneError("Invalid Mobile Number");
     }
   
     setFormError("");
@@ -218,7 +219,7 @@ function UserAdditionalContact(props) {
   
   useEffect(() => {
     if (state.UsersList.contactError) {
-      setPhoneError(state.UsersList.contactError);
+      setGuardianAlreadyError(state.UsersList.contactError);
     }
   }, [state.UsersList.contactError]);
 
@@ -233,6 +234,7 @@ function UserAdditionalContact(props) {
     setPhoneError("");
     setAddressError("");
     setFormError("");
+    setGuardianAlreadyError("")
     dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
 
@@ -588,6 +590,12 @@ function UserAdditionalContact(props) {
                           <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-25px"}}>
                             <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
                             <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                          </div>
+                        )}
+                        {guardianAlreadyError && (
+                          <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-25px"}}>
+                            <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                            <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{guardianAlreadyError}</span>
                           </div>
                         )}
                 <Button

@@ -71,6 +71,7 @@ function EB_Hostel() {
   const [loader, setLoader] = useState(true);
   const [customerLoader, setCustomerLoader] = useState(true)
   const [dateErrorMesg, setDateErrorMesg] = useState("")
+ const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
@@ -814,8 +815,11 @@ function EB_Hostel() {
                           index !== electricityFilterddata?.length - 1
                             ? "1px solid #eee"
                             : "none",
+                            backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
                       }}
                       onClick={() => handleUserSelect(user)}
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
                     >
                       <Image
                         src={user.profile || Profile}
