@@ -437,7 +437,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                   >
                     Add an customer
                   </div>
-                  <CloseCircle size="24" color="#000" onClick={handleClosing} />
+                  <CloseCircle size="24" color="#000" onClick={handleClosing} style={{cursor:"pointer"}}/>
                 </Modal.Header>
 
                 <div className="d-flex align-items-center">
@@ -961,7 +961,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       <FormControl
                         type="text"
                         id="form-controls"
-                        placeholder="Enter Rental Amount"
+                        placeholder="Enter Amount"
                         value={RoomRent}
                         onChange={(e) => handleRoomRent(e)}
                         style={{

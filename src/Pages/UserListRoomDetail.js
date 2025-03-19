@@ -155,6 +155,7 @@ function UserListRoomDetail(props) {
     setEditAdditional(false);
     setAdditionalForm(true);
   };
+  console.log("state.UsersList.customerAllDetails?.contact_details",state.UsersList.customerAllDetails?.contact_details)
 
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
@@ -1890,7 +1891,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     lineHeight: "40px",
                                   }}
                                 >
-                                  Document details
+                                  Document Details
                                 </div>
                               </div>
 
@@ -2212,6 +2213,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       className="btn btn-link fw-medium text-decoration-none"
                                       style={{ fontSize: 14 }}
                                       onClick={handleAdditionalForm}
+                                      // disabled={state.UsersList.customerAllDetails.contact_details?.length > 2 == 'disabled'}
                                     >
                                       + Add Contact
                                     </button>
@@ -3520,7 +3522,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       <FormControl
                                         type="text"
                                         id="form-controls"
-                                        placeholder="Enter amount"
+                                        placeholder="Enter Amount"
                                         value={AdvanceAmount}
                                         onChange={(e) => handleAdvanceAmount(e)}
                                         style={{
@@ -3575,7 +3577,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       <FormControl
                                         type="text"
                                         id="form-controls"
-                                        placeholder="Enter amount"
+                                        placeholder="Enter Amount"
                                         value={RoomRent}
                                         onChange={(e) => handleRoomRent(e)}
                                         style={{

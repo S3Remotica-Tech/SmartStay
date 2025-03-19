@@ -292,6 +292,7 @@ const Compliance = () => {
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("")
+    setDropdownVisible(false);
   };
 
 
@@ -808,92 +809,51 @@ const Compliance = () => {
           </div>
         </div> */}
 
-                <div
-                  className="container justify-content-between d-flex align-items-center"
-                  style={{
-                    position: "sticky",
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    zIndex: 1000,
-                    backgroundColor: "#FFFFFF",
-                    height: 83,
-                  }}
-                >
-                  <div style={{ marginTop: -7 }}>
-                    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, }}>Complaints</label>
-                  </div>
+<div
+  className="container-fluid sticky-top bg-white py-2"
+  style={{ zIndex: 1000, height: 'auto' }}
+>
+  <div className="d-flex justify-content-between align-items-center flex-wrap">
+    {/* Left Title */}
+    <div className="mb-2 ms-3">
+      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600 }}>Complaints</label>
+    </div>
 
-                  <div className="d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap">
+    {/* Right Actions */}
+    <div className="d-flex flex-wrap align-items-center gap-2">
 
+      {/* Search Input */}
+      {search ? (
+        <div className="position-relative" style={{ minWidth: 160 }}>
+          <div className="input-group">
+            <span className="input-group-text bg-white border-end-0">
+              <Image src={searchteam} style={{ height: 20, width: 20 }} />
+            </span>
+            <input
+              type="text"
+              className="form-control border-start-0"
+              placeholder="Search"
+              style={{
+                boxShadow: "none",
+                outline: "none",
+                borderColor: "rgb(207,213,219)",
+                borderRight: "none",
+              }}
+              value={filterInput}
+              onChange={(e) => handlefilterInput(e)}
+            />
+            <span className="input-group-text bg-white border-start-0">
+              <img
+                src={closecircle}
+                alt="close"
+                style={{ height: 20, width: 20, cursor: "pointer" }}
+                onClick={handleCloseSearch}
+              />
+            </span>
+          </div>
 
-                    {search ? (
-                      <>
-                        <div
-                          style={{
-                            position: "relative",
-                            width: "160",
-                            marginRight: 20,
-                          }}
-                        >
-                          <div
-                            style={{
-                              position: "relative",
-                              display: "flex",
-                              alignItems: "center",
-                              width: "100%",
-                              marginTop: '15px',
-                              marginBottom: '10px',
-                            }}
-                          >
-                            <Image
-                              src={searchteam}
-                              alt="Search"
-                              style={{
-                                position: "absolute",
-                                left: "10px",
-                                width: "24px",
-                                height: "24px",
-                                pointerEvents: "none",
-                               
-                              }}
-                            />
-                            <div
-                              className="input-group"
-                              style={{ marginRight: 20,cursor:"pointer" }}
-                            >
-                              <span className="input-group-text bg-white border-end-0">
-                                <Image
-                                  src={searchteam}
-                                  style={{ height: 20, width: 20 }}
-                                />
-                              </span>
-                              <input
-                                type="text"
-                                className="form-control border-start-0"
-                                placeholder="Search"
-                                aria-label="Search"
-                                style={{
-                                  boxShadow: "none",
-                                  outline: "none",
-                                  borderColor: "rgb(207,213,219)",
-                                  borderRight: "none",
-                                  width:160
-                               
-
-                                }}
-                                value={filterInput}
-                                onChange={(e) => handlefilterInput(e)}
-                              />
-                              <span className="input-group-text bg-white border-start-0">
-                                <img src={closecircle} alt='close' onClick={handleCloseSearch}
-                                  style={{ height: 20, width: 20 }}
-                                />
-                              </span>
-                            </div>
-                          </div>
-
-                          {isDropdownVisible && filteredUsers?.length > 0 && (
+          {/* Dropdown */}
+          {isDropdownVisible && filteredUsers?.length > 0 && (
                             <div
                               style={{
                                 border: "1px solid #d9d9d9 ",
@@ -904,7 +864,7 @@ const Compliance = () => {
                                 padding: 10,
                                 borderRadius: 8,
                                 backgroundColor: "#fff",
-                                width: "94%",
+                                width: "100%",
                               }}
                             >
                               <ul
@@ -913,7 +873,7 @@ const Compliance = () => {
                                   backgroundColor: "#fff",
                                   maxHeight:
                                     filteredUsers?.length > 1 ? "174px" : "auto",
-                                  minHeight: 100,
+                                  minHeight: 50,
                                   overflowY:
                                     filteredUsers?.length > 1 ? "auto" : "hidden",
 
@@ -961,30 +921,28 @@ const Compliance = () => {
                               </ul>
                             </div>
                           )}
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                       <div style={{ marginTop: 13, paddingRight: 21,cursor:"pointer" }}>
-                          <Image
-                            src={searchteam}
-                            roundedCircle
-                            style={{ height: "24px", width: "24px" }}
-                            onClick={handleSearch}
-                          />
-                        </div>
-                        </>
-                    )}
-<div style={{ marginTop: 10, paddingRight: 7,cursor:"pointer"}}>
-                          <Image
-                            src={Filters}
-                            roundedCircle
-                            style={{ height: "50px", width: "50px" }}
-                            onClick={handleFilterd}
-                          />
-                        </div>
+        </div>
+      ) : (
+        <div className='me-1' style={{ cursor: "pointer" }}>
+          <Image
+            src={searchteam}
+            style={{ height: "24px", width: "24px" }}
+            onClick={handleSearch}
+          />
+        </div>
+      )}
 
-                        {
+      {/* Filter Icon */}
+      <div className='me-2' style={{ cursor: "pointer" }}>
+        <Image
+          src={Filters}
+          style={{ height: "50px", width: "50px" }}
+          onClick={handleFilterd}
+        />
+      </div>
+
+      {/* Filter Dropdown */}
+      {
                           filterStatus &&
 
                           <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width:  "140px"}}>
@@ -1007,23 +965,20 @@ const Compliance = () => {
 
                         }
 
+      {/* Excel Button */}
+      <div className='me-3' style={{ cursor: "pointer" }}>
+        <img
+          src={excelimg}
+          alt="excel"
+          width={38}
+          height={38}
+          onClick={handleComplianceeExcel}
+        />
+      </div>
 
-
-                   
-                    {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
-        
-            <div className='me-3'>
-              <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
-            </div> */}
-                    <div style={{ paddingRight: "21px", marginTop: 9 ,cursor:"pointer"}}>
-                      <img src={excelimg} alt='excel' width={38} height={38}
-                        onClick={handleComplianceeExcel}
-
-                      />
-                    </div>
-
-                    <div style={{marginTop:6}}>
-                      <Button
+      {/* Complaint Button */}
+      <div className='me-3'>
+      <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}
                         style={{
@@ -1035,9 +990,11 @@ const Compliance = () => {
                           color: '#FFF', fontFamily: 'Montserrat',
                           whiteSpace: "nowrap"
                         }} > + Complaint</Button>
-                    </div>
-                  </div>
-                </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
                 <div className='row row-gap-3 p-4'
                   style={{

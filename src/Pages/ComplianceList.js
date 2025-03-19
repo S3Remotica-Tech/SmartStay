@@ -502,83 +502,85 @@ const ComplianceList = (props) => {
       ) : (
         <div>
           <Card
-            className="h-100 fade-in"
+            className="h-100 "
             style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}
           >
             <Card.Body style={{ padding: 20 }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap">
-                <div className="d-flex gap-2">
-                  <div className="">
-                    {/* <Image
-                  src={User}
-                  roundedCircle
-                  style={{ height: "60px", width: "60px" }}
-                /> */}
-                    <Image
-                      src={
-                        props.complaints.profile === "0" || props.complaints.profile === "null" || props.complaints.profile === null
-                          ?
-                          User
-                          : props.complaints.profile
-                      }
-                      roundedCircle
-                      style={{ height: "60px", width: "60px" }}
-                    />
-                  </div>
-                  <div>
-                    <div className="pb-2">
-                      <label
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: 16,
-                          color: "#222",
-                          fontWeight: 600,
-                          marginLeft: "10px",
-                        }}
-                      >
-                        {props.complaints && props.complaints.Name}{" "}
-                      </label>
-                      <div style={{ display: "flex", flexDirection: "row" }}>
-                        <div
-                          style={{
-                            marginTop: 5,
-                            display: "flex",
-                            alignItems: "flex-start",
-                            gap: "10px",
-                            background: "#FFE0D9",
-                            padding: "6px 12px",
-                            borderRadius: "60px",
-                            marginRight: "10px",
-                            fontFamily: "Gilroy",
-                            fontSize: 16,
-                            color: "#222",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {props.complaints && props.complaints.room_name} - B
-                          {props.complaints && props.complaints.Bed}
-                        </div>
-                        <div
-                          style={{
-                            marginTop: 5,
-                            display: "flex",
-                            alignItems: "flex-start",
-                            gap: "10px",
-                            background: "#FFEFCF",
-                            padding: "6px 12px",
-                            borderRadius: "60px",
-                            fontFamily: "Gilroy",
-                            fontSize: 16,
-                            color: "#222",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {props.complaints.floor_name}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div className="d-flex flex-wrap gap-2 align-items-start">
+  {/* Profile Image */}
+  <div>
+    <Image
+      src={
+        props.complaints.profile === "0" ||
+        props.complaints.profile === "null" ||
+        props.complaints.profile === null
+          ? User
+          : props.complaints.profile
+      }
+      roundedCircle
+      style={{ height: "60px", width: "60px", objectFit: "cover" }}
+    />
+  </div>
+
+  {/* Name + Tags Section */}
+  <div className="flex-grow-1">
+    <div className="pb-2">
+      <label
+        className="d-block"
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: 16,
+          color: "#222",
+          fontWeight: 600,
+          marginLeft: "10px",
+        }}
+      >
+        {props.complaints && props.complaints.Name}
+      </label>
+
+      {/* Tags */}
+      <div className="d-flex flex-wrap gap-2 ms-2">
+        {/* Room & Bed */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            background: "#FFE0D9",
+            padding: "6px 12px",
+            borderRadius: "60px",
+            fontFamily: "Gilroy",
+            fontSize: 16,
+            color: "#222",
+            fontWeight: 500,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {props.complaints?.room_name} - B{props.complaints?.Bed}
+        </div>
+
+        {/* Floor */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            background: "#FFEFCF",
+            padding: "6px 12px",
+            borderRadius: "60px",
+            fontFamily: "Gilroy",
+            fontSize: 16,
+            color: "#222",
+            fontWeight: 500,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {props.complaints?.floor_name}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
                 <div>
                   <div
