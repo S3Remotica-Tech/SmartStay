@@ -53,6 +53,7 @@ function Expenses({ allPageHostel_Id }) {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
   const [loading, setLoading] = useState(true)
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
 
   const handleClickOutside = (event) => {
@@ -1036,18 +1037,13 @@ function Expenses({ allPageHostel_Id }) {
                     {
                       getData?.length > 0 && searchQuery !== '' && showDropDown && (
 
-                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                          <ul className='show-scroll' style={{
-                            // position: 'absolute',
-                            // top: '50px',
-                            // left: 0,
+                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 60, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                          <ul className='show-scroll' style={{                           
                             width: 260,
-                            backgroundColor: '#fff',
-                            // border: '1px solid #D9D9D9',
-                            // borderRadius: '4px',
-                            maxHeight: 174,
-                            minHeight: 100,
-                            overflowY: 'auto',
+                            backgroundColor: '#fff',  
+                            maxHeight: "174px",
+                            minHeight: getData?.length > 1 ? "100px" : "auto",
+                            overflowY: getData?.length > 2 ? "auto" : "hidden",  
                             padding: '5px 10px',
                             margin: '0',
                             listStyleType: 'none',
@@ -1061,8 +1057,11 @@ function Expenses({ allPageHostel_Id }) {
                                   key={index}
                                   onClick={() => {
                                     handleDropDown(user.category_Name);
+                                    
 
                                   }}
+                                  onMouseEnter={() => setHoveredIndex(index)}
+                                  onMouseLeave={() => setHoveredIndex(null)}
                                   style={{
                                     padding: '10px',
                                     cursor: 'pointer',
@@ -1070,6 +1069,7 @@ function Expenses({ allPageHostel_Id }) {
                                     fontSize: '14px',
                                     fontFamily: 'Gilroy',
                                     fontWeight: 500,
+                                    backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
 
                                   }}
                                 >

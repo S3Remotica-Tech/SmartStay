@@ -2353,6 +2353,7 @@ console.log('invoiceDetails',invoiceDetails)
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value.length > 0);
+    // setDropdownVisible(value.trim().length > 0); 
     setBills(originalBills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
@@ -2368,7 +2369,8 @@ console.log('invoiceDetails',invoiceDetails)
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("");
-    setBills(originalBills);
+    setDropdownVisible(false); 
+    setBills(bills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
     dispatch({
@@ -2503,61 +2505,24 @@ console.log('invoiceDetails',invoiceDetails)
     <div>
       {showAllBill && (
         <div className="container">
-          <div
-            className="container"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              minHeight: "60px",
-              position: "sticky",
-              top: 0,
-              right: 0,
-              left: 0,
-              zIndex: 1000,
-              backgroundColor: "#FFFFFF",
-            }}
-          >
-            <p
-              style={{
-                marginTop: 26,
-                fontSize: "18px",
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                color: "#222",
-              }}
-            >
-              Bills
-            </p>
+         <div
+  className="container-fluid sticky-top bg-white py-2"
+  style={{ zIndex: 1000, height: 'auto' }}
+>
+<div className="d-flex justify-content-between align-items-center flex-wrap">
+            <div className="mb-2 ms-2">
+      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600 }}>Bills</label>
+    </div>
 
             <div>
               {showLoader && <LoaderComponent />}
               {loading && <LoaderComponent />}
-              <div className="d-flex  justify-content-between align-items-center flex-wrap flex-md-nowrap">
+              <div  className="d-flex flex-wrap align-items-center gap-2">
                 {search ? (
                   <>
-                    <div style={{ position: "relative", }}>
-                      <div
-                        style={{
-                          position: "relative",
-                          display: "flex",
-                          alignItems: "center",
-                          // width: "100%",
-                          marginTop: "0px",
-                          marginBottom: "5px",
-                        }}
-                      >
-                        {/* <Image
-                          src={searchteam}
-                          alt="Search"
-                          style={{
-                            position: "absolute",
-                            left: "10px",
-                            width: "24px",
-                            height: "24px",
-                            pointerEvents: "none",
-                          }}
-                        /> */}
+                    <div className="position-relative" style={{ minWidth: 160,maxWidth:250 }}>
+                     
+                       
                         <div
                           className="input-group"
                           style={{ marginRight: 20, paddingTop: "25px" }}
@@ -2572,13 +2537,11 @@ console.log('invoiceDetails',invoiceDetails)
                             type="text"
                             className="form-control border-start-0"
                             placeholder="Search"
-                            aria-label="Search"
                             style={{
                               boxShadow: "none",
                               outline: "none",
                               borderColor: "rgb(207,213,219)",
                               borderRight: "none",
-                              width: "170px"
                             }}
                             value={filterInput}
                             onChange={(e) => handlefilterInput(e)}
@@ -2592,7 +2555,7 @@ console.log('invoiceDetails',invoiceDetails)
                             />
                           </span>
                         </div>
-                      </div>
+                     
 
                       {value === "1" &&
                         isDropdownVisible &&
@@ -2601,13 +2564,13 @@ console.log('invoiceDetails',invoiceDetails)
                             style={{
                               border: "1px solid #d9d9d9 ",
                               position: "absolute",
-                              top: 60,
+                              top: 80,
                               left: 0,
                               zIndex: 1000,
                               padding: 10,
                               borderRadius: 8,
                               backgroundColor: "#fff",
-                              width: "94%",
+                              width: "100%",
                             }}
                           >
                             <ul
@@ -2619,8 +2582,9 @@ console.log('invoiceDetails',invoiceDetails)
                                 // minHeight: 100,
                                 // overflowY:
                                 //   bills?.length > 1 ? "auto" : "hidden",
-                                maxHeight: "174px",
-                                minHeight: bills?.length > 1 ? "100px" : "auto",
+                                // maxHeight: "174px",
+                                minHeight: 50,
+                                maxHeight: bills?.length > 1 ? "100px" : "auto",
                                 overflowY: bills?.length > 3 ? "auto" : "hidden",
                                 margin: "0",
                                 listStyleType: "none",
@@ -2887,7 +2851,7 @@ console.log('invoiceDetails',invoiceDetails)
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
 
-                <div>
+                <div className="me-3">
                   {value === "1" && (
                     <Button
                       disabled={billAddPermission}
@@ -2995,30 +2959,26 @@ console.log('invoiceDetails',invoiceDetails)
               </div>
             </div>
           </div>
+          </div>
 
-          <TabContext value={value} className="container ">
-            <div
-              style={{
-                // position: "sticky",
-                top: 69,
-                right: 0,
-                left: 0,
-                zIndex: 1000,
-                backgroundColor: "#FFFFFF",
-                height: 60,
-              }}
-            >
+          <TabContext value={value}>
+            
               <Box
-                sx={{ borderBottom: 0, borderColor: "divider" }}
-                className="container"
+               sx={{ borderBottom: 0, borderColor: "divider" }}
                 
               >
                 <TabList
+                  // orientation={isSmallScreen ? "vertical" : "horizontal"}
+                  // onChange={handleChanges}
+                  // aria-label="lab API tabs example"
+                  // style={{ marginLeft: "7px"}}
+                  // className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "7px"}}
-                  className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+                  style={{ marginLeft: "14px" ,marginTop:"-15px"}}
+                  className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+                
                 >
                   <Tab
                     label="Bills"
@@ -3064,7 +3024,7 @@ console.log('invoiceDetails',invoiceDetails)
                   />
                 </TabList>
               </Box>
-            </div>
+            
 
             <TabPanel value="1">
               <>
@@ -3110,52 +3070,11 @@ console.log('invoiceDetails',invoiceDetails)
                   >
                     <div className="texxttt">
                       <div style={{ flex: 1 }}>
-                        {/* <div className="headerone">
-
-<div className="search-container">
-<input type="text" placeholder="Search" className="search-input" />
-<span className="search-icon"></span>
-</div>
-<div className="notification-container">
-
-
-
-
-
-<div type="button" onClick={handleShowpopup}>
-<img src={NotificationIcon} className="notification-icon" alt="notification icon" />
-<span className="notification-dot"></span>
-</div>
-
-
-</div>
-<div className="profile-container">
-<img src={rectangle}  className="profile-image" />
-</div>
-</div> */}
+          
                       </div>
                     </div>
 
-                    {/* <div className='container d-flex justify-content-end align-items-center mr-3'>
-
-<div>
-  <InputGroup>
-    <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
-      <CiSearch style={{ fontSize: 20 }} />
-    </InputGroup.Text>
-    <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
-      placeholder="Search..."
-    />
-  </InputGroup>
-</div>
-<div className="mr-3">
-  <img src={Notify} alt="notification" />
-</div>
-
-<div className="mr-3">
-  <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
-</div>
-</div> */}
+         
 
                     {showdeleteform && (
                       <div>
