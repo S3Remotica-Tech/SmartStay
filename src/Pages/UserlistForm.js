@@ -10,12 +10,18 @@ import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
+// import 'antd/dist/reset.css';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+
 
 function UserlistForm(props) {
 
@@ -720,36 +726,36 @@ const handleBed = (selectedOption) => {
  
 
 
-  const customDateInput = (props) => {
-    return (
-      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
-        <FormControl
-          type="text"
-          className='date_input'
-          value={props.value || 'DD/MM/YYYY'}
-          readOnly
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none"
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+  // const customDateInput = (props) => {
+  //   return (
+  //     <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
+  //       <FormControl
+  //         type="text"
+  //         className='date_input'
+  //         value={props.value || 'DD/MM/YYYY'}
+  //         readOnly
+  //         style={{
+  //           border: "1px solid #D9D9D9",
+  //           borderRadius: 8,
+  //           padding: 9,
+  //           fontSize: 14,
+  //           fontFamily: "Gilroy",
+  //           fontWeight: props.value ? 600 : 500,
+  //           width: "100%",
+  //           height: 50,
+  //           boxSizing: "border-box",
+  //           boxShadow: "none"
+  //         }}
+  //       />
+  //       <img
+  //         src={Calendars}
+  //         style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
+  //         alt="Calendar"
+  //         onClick={props.onClick}
+  //       />
+  //     </div>
+  //   );
+  // };
 
   return (
     <div>
@@ -785,7 +791,7 @@ const handleBed = (selectedOption) => {
                     >
                       {props.edit === "Edit"
                         ? "Edit Customer"
-                        : "Add an customer"}
+                        : "Add Customer"}
                     </div>
                     <button
                       type="button"
@@ -1229,7 +1235,7 @@ const handleBed = (selectedOption) => {
                     }}
                     onClick={handleSaveUserlist}
                   >
-                    Add an Customer
+                    Add Customer
                   </Button>
                 </div>
               ) : (
@@ -1697,23 +1703,20 @@ const handleBed = (selectedOption) => {
                         <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                           Joining Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                         </Form.Label>
-                        <div style={{ position: 'relative', width: "100%" }}>
-                          <DatePicker
-                            selected={selectedDate}
-                            onChange={(date) => {
-                              setDateError('');
-                              setSelectedDate(date);
-                            }}
-                            dateFormat="dd/MM/yyyy"
-                            minDate={null}
-                            maxDate={null}
-                            customInput={customDateInput({
-                              value: selectedDate instanceof Date && !isNaN(selectedDate.getTime())
-                                ? selectedDate.toLocaleDateString('en-GB')
-                                : '',
-                            })}
-                          />
-                        </div>
+           
+    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+  <DatePicker
+    style={{ width: "100%", height: 48 }}
+    format="DD/MM/YYYY"
+    placeholder="DD/MM/YYYY"
+    value={selectedDate ? dayjs(selectedDate) : null}
+    onChange={(date) => {
+      setDateError('');
+      setSelectedDate(date ? date.toDate() : null);
+    }}
+    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+  />
+</div>
                       </Form.Group>
 
                       {dateError && (

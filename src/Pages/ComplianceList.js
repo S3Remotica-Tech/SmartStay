@@ -826,7 +826,7 @@ const ComplianceList = (props) => {
                       }}
                     >
                       {" "}
-                      Complaint date
+                      Complaint Date
                     </label>
                   </div>
                   <div>
@@ -857,7 +857,7 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                       }}
                     >
-                      Assigned to
+                      Assigned To
                     </label>
                   </div>
                   <div>
@@ -911,7 +911,7 @@ const ComplianceList = (props) => {
                       }}
                     >
                       {" "}
-                      Complaint types
+                      Complaint Types
                     </label>
                   </div>
 
@@ -1474,7 +1474,7 @@ const ComplianceList = (props) => {
         ? { value: status, label: status.replace("-", " ")}
         : null
     }
-    placeholder="Select a status"
+    placeholder="Select a Status"
     classNamePrefix="custom"
     styles={{
       control: (base) => ({

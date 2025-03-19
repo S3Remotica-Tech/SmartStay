@@ -82,7 +82,7 @@ function CustomerCheckout(props){
 
         if(!selectedDate || !requestDate){
           if (!selectedDate) {
-            setCheckOutDateError('Please Select a Check-out Date');
+            setCheckOutDateError('Please Select a Check-Out Date');
           }
       
           if (!requestDate) {
@@ -172,7 +172,7 @@ function CustomerCheckout(props){
                         fontFamily: "Gilroy",
                       }}
                     >
-                      Add Check-out
+                      Add Check-Out
                     </div>
                     <button
                       type="button"

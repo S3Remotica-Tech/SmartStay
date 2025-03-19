@@ -304,3 +304,8 @@ text-decoration: underline;
   width: 90% !important;
   margin: auto;
 }
+
+.ant-picker-input > input::placeholder {
+  color: rgb(75, 75, 75) !important;
+  opacity: 2 !important;
+}

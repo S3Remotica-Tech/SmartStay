@@ -248,7 +248,7 @@ function AddRole({ showRole,setShowRole, editRoleDetails,addRole }) {
         )
 
         if (!hasPermissionSelected) {
-            setErrorPermission("At Least One Mermission Must Be Selected");
+            setErrorPermission("At Least One Permission Must Be Selected");
             isValid = false;
         }
 

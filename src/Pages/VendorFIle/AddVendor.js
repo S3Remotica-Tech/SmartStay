@@ -58,14 +58,38 @@ function AddVendor({ show, setShow, currentItem }) {
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
+  
     if (!/^\d{0,6}$/.test(value)) {
-      return; // Stop input if it's not a number or exceeds 6 digits
+      return;
     }
+  
     setPinCode(value);
+  
+    // Remove this from here (let validation handle error on submit)
+    // setPinCodeError("");
+  
+    // Optional: Live validation (if you want it)
+    if (value.length > 0 && value.length < 6) {
+      setPinCodeError("Pin Code Must Be Exactly 6 Digits");
+    } else {
+      setPinCodeError("");
+    }
+  
     setGeneralError("");
     setIsChangedError("");
-    setPinCodeError("");
   };
+  
+
+  // const handlePinCodeChange = (e) => {
+  //   const value = e.target.value;
+  //   if (!/^\d{0,6}$/.test(value)) {
+  //     return; // Stop input if it's not a number or exceeds 6 digits
+  //   }
+  //   setPinCode(value);
+  //   setGeneralError("");
+  //   setIsChangedError("");
+  //   setPinCodeError("");
+  // };
 
 const handleClose =()=>{
   setShow(false)
@@ -327,7 +351,7 @@ const handleClose =()=>{
     let isValid = true;
 
     const emailInvalid = emailError !== "";
-    // const mobileInvalid = errors.vendor_Mobile === "Invalid mobile number *";
+   
     const mobileInvalid = mobileError !== "";
 
     if (
@@ -383,13 +407,14 @@ const handleClose =()=>{
     }
 
     if (!pinCode) {
-      setPinCodeError("Please Enter  Pincode");
+      setPinCodeError("Please Enter Pincode");
       isValid = false;
     } else if (!/^\d+$/.test(pinCode)) {
-      setPinCodeError("Pin code must be numeric");
+      setPinCodeError("Pin Code Must Be Numeric");
       isValid = false;
-    } else {
-      setPinCodeError("");
+    } else if (pinCode.length !== 6) {
+      setPinCodeError("Pin Code Must Be Exactly 6 Digits");
+      isValid = false;
     }
 
     if (emailInvalid || mobileInvalid) {
@@ -1106,7 +1131,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     value={country}
                     onChange={(e) => handleCountryChange(e)}
                     type="text"
-                    placeholder="Enter country"
+                    placeholder="Enter Country"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -1178,7 +1203,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     maxLength={6}
                     inputMode="numeric" 
   pattern="[0-9]*" 
-                    placeholder="Enter Pin code"
+                    placeholder="Enter Pincode"
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",

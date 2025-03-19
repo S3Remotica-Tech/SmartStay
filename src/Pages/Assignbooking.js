@@ -775,7 +775,7 @@ function AssignBooking(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Joining_Date
+                  Joining Date
                 </Form.Label>
                 <div
                   style={{ position: "relative", width: "100%", marginTop: 7 }}
@@ -878,7 +878,7 @@ function AssignBooking(props) {
                 >
                   Rent Amount
                 </Form.Label>
-                <FormControl
+                {/* <FormControl
                   type="text"
                   id="form-controls"
                   placeholder="Enter Rent Amount"
@@ -894,7 +894,38 @@ function AssignBooking(props) {
                     height: 50,
                     borderRadius: 8,
                   }}
-                />
+                /> */}
+                <FormControl
+  type="text"
+  id="form-controls"
+  placeholder="Enter Rent Amount"
+  value={rentamount}
+  onChange={(e) => handleRentAmount(e)}
+  onKeyDown={(e) => {
+    // Allow only numbers and essential keys
+    const allowedKeys = [
+      "Backspace",
+      "Tab",
+      "ArrowLeft",
+      "ArrowRight",
+      "Delete"
+    ];
+    if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+      e.preventDefault();
+    }
+  }}
+  style={{
+    fontSize: 16,
+    color: "#4B4B4B",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    boxShadow: "none",
+    border: "1px solid #D9D9D9",
+    height: 50,
+    borderRadius: 8,
+  }}
+/>
+
               </Form.Group>
               {rentError && (
                 <div style={{ color: "red" }}>
