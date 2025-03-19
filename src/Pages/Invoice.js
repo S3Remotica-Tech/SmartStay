@@ -4056,7 +4056,7 @@ console.log('invoiceDetails',invoiceDetails)
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Invoice number
+                                          Invoice Number
                                         </th>
                                         <th
                                           style={{
@@ -4072,7 +4072,7 @@ console.log('invoiceDetails',invoiceDetails)
                                         </th>
                                         <th
                                           style={{
-                                            textAlign: "start",
+                                            textAlign: "center",
                                             fontFamily: "Gilroy",
                                             color: "rgb(147, 147, 147)",
                                             fontSize: 14,
@@ -4084,7 +4084,7 @@ console.log('invoiceDetails',invoiceDetails)
                                         </th>
                                         <th
                                           style={{
-                                            textAlign: "start",
+                                            textAlign: "center",
                                             fontFamily: "Gilroy",
                                             color: "rgb(147, 147, 147)",
                                             fontSize: 14,
