@@ -512,7 +512,7 @@ function CheckOut(props) {
                             border: "none",
                           }}
                         >
-                          Check-out Date
+                          Check-Out Date
                         </th>
                         <th
                           style={{

@@ -252,7 +252,7 @@ const handleDeleteBill = (user) => {
                   paddingLeft:"20px"
                 }}
               >
-                Invoice number
+                Invoice Number
               </th>
               <th
                 style={{

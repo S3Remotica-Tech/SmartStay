@@ -2170,7 +2170,7 @@ const handleBack = () => {
 
             }}
           >
-            + Check-out
+            + Check-Out
           </Button>
         )}
         {value === "4" && (
@@ -2921,7 +2921,7 @@ const handleBack = () => {
                                                             : "pointer",
                                                       }}
                                                     >
-                                                      Checkout
+                                                      Check-Out
                                                     </label>
                                                   </div>
                                                 )}

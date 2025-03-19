@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
 import moment from "moment";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {FormControl } from "react-bootstrap";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
@@ -16,6 +16,11 @@ import {CloseCircle,} from "iconsax-react";
 import "./addAsset.css";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+// import 'antd/dist/reset.css';
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 
 function StaticExample({ show, setShow, currentItem }) {
   const state = useSelector((state) => state);
@@ -336,7 +341,7 @@ function StaticExample({ show, setShow, currentItem }) {
       setProductNameError("Please Enter a Valid Product Name");
     }
     if (!modeOfPayment) {
-      setPaymentError("Please Enter Payment Type");
+      setPaymentError("Please Select Mode Of Payment");
 
       // return;
     }
@@ -519,7 +524,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 fontWeight: 600,
               }}
             >
-              {currentItem ? "Edit an Asset" : "Add an Asset"}
+              {currentItem ? "Edit an Asset" : "Add Asset"}
             </Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
@@ -863,7 +868,7 @@ function StaticExample({ show, setShow, currentItem }) {
                     Purchase Date{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  <div style={{ position: "relative", width: "100%" }}>
+                  {/* <div style={{ position: "relative", width: "100%" }}>
                     <DatePicker
                       selected={selectedDate}
                       onChange={(date) => {
@@ -880,7 +885,27 @@ function StaticExample({ show, setShow, currentItem }) {
                           : "",
                       })}
                     />
-                  </div>
+                  </div> */}
+
+                   <div
+                                            className="datepicker-wrapper"
+                                            style={{ position: "relative", width: "100%" }}
+                                          >
+                                            <DatePicker
+                                              style={{ width: "100%", height: 48 }}
+                                              format="DD/MM/YYYY"
+                                              placeholder="DD/MM/YYYY"
+                                              value={selectedDate ? dayjs(selectedDate) : null}
+                                              onChange={(date) => {
+                                                setIsChangedError("");
+                                                 setSelectedDateError("");
+                                                setSelectedDate(date ? date.toDate() : null);
+                                              }}
+                                              getPopupContainer={(triggerNode) =>
+                                                triggerNode.closest(".datepicker-wrapper")
+                                              }
+                                            />
+                                          </div>
                 </Form.Group>
                 {selectedDateError && (
                   <div className="d-flex align-items-center p-1">
@@ -963,7 +988,7 @@ function StaticExample({ show, setShow, currentItem }) {
                       fontWeight: 500,
                     }}
                   >
-                    Mode of payment{" "}
+                    Mode Of Payment{" "}
                     <span
                       style={{
                         color: "#FF0000",fontSize:20,
@@ -987,7 +1012,7 @@ function StaticExample({ show, setShow, currentItem }) {
                       fontWeight: modeOfPayment ? 600 : 500,
                     }}
                   >
-                    <option value="">Select mode of payment</option>
+                    <option value="">Select Mode Of Payment</option>
                     <option value="UPI/BHIM">UPI/BHIM</option>
                     <option value="CASH">CASH</option>
                     <option value="Net Banking">Net Banking</option>
@@ -1186,7 +1211,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 padding: 12,
               }}
             >
-              {currentItem ? "Save Changes" : "Add  Asset"}
+              {currentItem ? "Save Changes" : "Add Asset"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

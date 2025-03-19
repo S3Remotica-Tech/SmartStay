@@ -1068,7 +1068,7 @@ function SettingExpenses({ hostelid }) {
                         onChange={() => setIsSubCategory(!isSubCategory)}
                         style={{ width: '20px', height: '20px', border: '1px solid #ced4da', borderRadius: '4px' }}
                       />
-                      <p className='' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Make sub-category</p>
+                      <p className='' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Make Sub-Category</p>
                     </div>
 
                     {/* {isSubCategory && ( */}

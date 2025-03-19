@@ -421,7 +421,7 @@ function CustomerForm({ show, handleClose, initialData }) {
     return (
         <>
             <Modal show={show} onHide={handleFormClose} centered backdrop="static">
-                <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginLeft: '18px', marginRight: '18px', }}>
+                <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginLeft: '12px', marginRight: '12px', }}>
                     <div style={{ fontSize: 18, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
                         {initialData ? 'Edit Walk-In' : 'Add Walk-In'}
                     </div>

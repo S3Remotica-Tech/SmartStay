@@ -517,31 +517,73 @@ useEffect(()=>{
   //   }
   // };
 
+  // const handleAmount = (e) => {
+  //   const inputValue = e.target.value.trim();
+  //   if (!inputValue) {
+  //     setAmountErrmsg("Please Enter Amount");
+  //   } else {
+  //     setAmountErrmsg("");
+  //   }
+
+  //   const AmountValue = inputValue !== "" ? parseFloat(inputValue) : 0;
+
+  //   if (
+  //     !isNaN(AmountValue) &&
+  //     !isNaN(invoiceList.amount) &&
+  //     !isNaN(invoiceList.paidAmount) &&
+  //     !isNaN(invoiceList.balanceDue)
+  //   ) {
+  //     var total_amount = invoiceList.amount;
+  //     var paid_amount = invoiceList.paidAmount;
+  //     var payablAmount = AmountValue;
+
+  //     var cal1 = paid_amount + payablAmount;
+  //     var new_balance_due = total_amount - cal1;
+
+  //     if (total_amount < cal1) {
+  //       console.log("This is Not crt value");
+  //     } else {
+  //       setInvoiceList((prevState) => ({
+  //         ...prevState,
+  //         payableAmount: payablAmount,
+  //         balanceDue: new_balance_due >= 0 ? new_balance_due : prevState.balanceDue,
+  //       }));
+  //     }
+  //   }
+  // };
+
+
   const handleAmount = (e) => {
     const inputValue = e.target.value.trim();
+  
+    // Update the invoiceList state immediately (keep input in sync)
+    setInvoiceList((prevState) => ({
+      ...prevState,
+      payableAmount: inputValue, // keep as string temporarily to avoid flickering
+    }));
+  
     if (!inputValue) {
       setAmountErrmsg("Please Enter Amount");
+      return;
     } else {
       setAmountErrmsg("");
     }
-
-    const AmountValue = inputValue !== "" ? parseFloat(inputValue) : 0;
-
+  
+    const AmountValue = parseFloat(inputValue);
     if (
       !isNaN(AmountValue) &&
       !isNaN(invoiceList.amount) &&
       !isNaN(invoiceList.paidAmount) &&
       !isNaN(invoiceList.balanceDue)
     ) {
-      var total_amount = invoiceList.amount;
-      var paid_amount = invoiceList.paidAmount;
-      var payablAmount = AmountValue;
-
-      var cal1 = paid_amount + payablAmount;
-      var new_balance_due = total_amount - cal1;
-
+      const total_amount = invoiceList.amount;
+      const paid_amount = invoiceList.paidAmount;
+      const payablAmount = AmountValue;
+      const cal1 = paid_amount + payablAmount;
+      const new_balance_due = total_amount - cal1;
+  
       if (total_amount < cal1) {
-        console.log("This is Not crt value");
+        console.log("This is Not correct value");
       } else {
         setInvoiceList((prevState) => ({
           ...prevState,
@@ -551,9 +593,8 @@ useEffect(()=>{
       }
     }
   };
-
-
-
+  
+  
 
   const [editvalue, setEditvalue] = useState("");
   const [receiptedit, setReceiptEdit] = useState(false);
@@ -919,12 +960,6 @@ console.log('invoiceDetails',invoiceDetails)
       setAmountErrmsg("Please Enter Amount");
     }
 
-    // if (!invoiceList.formatpaiddate) {
-    //   setDateErrmsg("Please Select Date");
-    // }
-    // else{
-    //   setDateErrmsg('')
-    // }
     if (!formatpaiddate) {
       setDateErrmsg("Please Select Date");
     } else {
@@ -2367,9 +2402,10 @@ console.log('invoiceDetails',invoiceDetails)
   };
 
   const handleCloseSearch = () => {
+    setDropdownVisible(false); 
     setSearch(false);
     setFilterInput("");
-    setDropdownVisible(false); 
+    
     setBills(bills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
@@ -3333,14 +3369,29 @@ console.log('invoiceDetails',invoiceDetails)
                                         *
                                       </span>
                                     </Form.Label>
-                                    <Form.Control
+                                    {/* <Form.Control
                                       type="text"
                                       placeholder="Enter Amount"
                                       value={invoiceList.payableAmount}
                                       onChange={(e) => {
                                         handleAmount(e);
                                       }}
-                                    />
+                                    /> */}
+ <Form.Control
+  type="number"
+  min="0"
+  step="1"
+  placeholder="Enter Amount"
+  className="no-spinner"
+  value={invoiceList.payableAmount || ""}
+  onChange={(e) => handleAmount(e)}
+  onKeyDown={(e) => {
+    if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
+  }}
+/>
+
+
+
                                     {amounterrormsg.trim() !== "" && (
                                       <div>
                                         <p
@@ -4029,7 +4080,7 @@ console.log('invoiceDetails',invoiceDetails)
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Created
+                                          Invoice Date
                                         </th>
                                         <th
                                           style={{

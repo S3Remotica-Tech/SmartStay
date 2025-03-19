@@ -5,10 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl } from "react-bootstrap";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import { MdError } from "react-icons/md";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+// import 'antd/dist/reset.css';
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 
 function CustomerReAssign(props) {
   const state = useSelector((state) => state);
@@ -305,7 +310,7 @@ function CustomerReAssign(props) {
                         fontFamily: "Gilroy",
                       }}
                     >
-                      Reassign bed
+                      Reassign Bed
                     </div>
                     <button
                       type="button"
@@ -490,7 +495,7 @@ function CustomerReAssign(props) {
                         <FormControl
                           type="text"
                           id="form-controls"
-                          placeholder="Enter amount"
+                          placeholder="Enter Amount"
                           value={currentRoomRent}
                           //   onChange={(e) => handleAdvanceAmount(e)}
                           style={{
@@ -941,7 +946,7 @@ function CustomerReAssign(props) {
                             *
                           </span>
                         </Form.Label>
-                        <div style={{ position: "relative", width: "100%" }}>
+                        {/* <div style={{ position: "relative", width: "100%" }}>
                           <DatePicker
                             selected={selectedDate}
                             onChange={(date) => {
@@ -959,7 +964,27 @@ function CustomerReAssign(props) {
                                   : "",
                             })}
                           />
-                        </div>
+                        </div> */}
+
+
+                        <div
+                                                                    className="datepicker-wrapper"
+                                                                    style={{ position: "relative", width: "100%" }}
+                                                                  >
+                                                                    <DatePicker
+                                                                      style={{ width: "100%", height: 48,border: "1px solid lightgrey", }}
+                                                                      format="DD/MM/YYYY"
+                                                                      placeholder="DD/MM/YYYY"
+                                                                      value={selectedDate ? dayjs(selectedDate) : null}
+                                                                      onChange={(date) => {
+                                                                        setDateError("");
+                                                                        setSelectedDate(date ? date.toDate() : null);
+                                                                      }}
+                                                                      getPopupContainer={(triggerNode) =>
+                                                                        triggerNode.closest(".datepicker-wrapper")
+                                                                      }
+                                                                    />
+                                                                  </div>
                       </Form.Group>
 
                       {/* {dateError && (

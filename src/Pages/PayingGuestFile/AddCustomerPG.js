@@ -120,22 +120,36 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   //     setPhone(value);
   //   }
   // };
+  // const handlePhone = (e) => {
+  //   const input = e.target.value.replace(/\D/g, ""); 
+  //   setPhone(input);
+  
+  //   if (input.length === 0) {
+  //     setPhoneError("Phone Number is Required");
+  //   } else if (input.length < 10) {
+  //     setPhoneError("Invalid Mobile Number");
+  //   } else if (input.length === 10) {
+  //     setPhoneError(""); // Valid input
+  //   }
+  
+  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
+  // };
+  
   const handlePhone = (e) => {
-    const input = e.target.value.replace(/\D/g, ""); 
+    const input = e.target.value.replace(/\D/g, ""); // Only digits
     setPhone(input);
   
     if (input.length === 0) {
       setPhoneError("Phone Number is Required");
     } else if (input.length < 10) {
       setPhoneError("Invalid Mobile Number");
-    } else if (input.length === 10) {
-      setPhoneError(""); // Valid input
+    } else {
+      setPhoneError(""); // Clear error on valid input
     }
   
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
   
-
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
   //   setGeneralError("");
@@ -246,51 +260,52 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     if (!firstname) {
       setFirstNameError("Please Enter First Name");
       // return;
+      hasError = true;
+    
     }
 
     if (!countryCode) {
       setCountryCodeError("Please Enter Country Code");
       // return;
+      hasError = true;
     }
 
     if (!phone) {
       setPhoneError("Please Enter Phone Number");
-      // return;
+      hasError = true;
+    } else if (phone.length < 10) {
+      setPhoneError("Phone Enter Valid Mobile No");
+      hasError = true;
+    } else {
+      setPhoneError(""); // Clear if valid
     }
     if (!address) {
       setAddressError("Please Enter Address");
       // return;
+      hasError = true;
     }
 
     if (!selectedDate) {
       setDateError("Please Select a Date");
       // return;
+      hasError = true;
     }
 
     if (!AdvanceAmount) {
       setAdvanceAmountError("Please Enter Advance Amount");
       // return;
+      hasError = true;
     }
 
     if (!RoomRent) {
       setRoomRentError("Please Enter a Valid Rental Amount");
       // return;
+      hasError = true;
     }
 
-    if (phone.length < 10) {
-      setPhoneError("Phone Enter Valid Mobile No");
-      return;
-    }
+    
 
-    // if (!email) {
-    //   setEmailError('Please enter Email');
-    //   return;
-    // }
-
-    // if (emailError) {
-    //   setEmailError(emailError);
-    //   // return;
-    // }
+    
     if (email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(email.toLowerCase());
@@ -744,7 +759,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       <FormControl
                         type="text"
                         id="form-controls"
-                        placeholder="Enter Email Address"
+                        placeholder="Enter Email ID"
                         value={email}
                         onChange={(e) => handleEmail(e)}
                         style={{

@@ -492,12 +492,11 @@ function ExpensesListTable(props) {
   className="mb-2"
   sx={{
     '& #vendor-select': {
-    height: 'auto', // Reset height
-  },
+      height: 'auto', // Reset height
+    },
     '& .MuiOutlinedInput-root': {
-      // height: '50px',
       '& fieldset': {
-        borderColor: '#D9D9D9', // Main border color
+        borderColor: '#D9D9D9',
       },
       '&:hover fieldset': {
         borderColor: '#40a9ff',
@@ -514,51 +513,62 @@ function ExpensesListTable(props) {
       color: '#000',
     },
     '& .MuiOutlinedInput-notchedOutline': {
-      border: 'none', // Remove extra inner border
+      border: 'none',
     },
-    
-   
-   
   }}
 >
-  {/* <InputLabel id="asset-select-label">Select an Asset</InputLabel> */}
   <Select
-  labelId="asset-select-label"
-  id="vendor-select"
-  value={assetname}
-  onChange={handleAssetname}
-  label="Select"
-  displayEmpty
-  MenuProps={{
-    PaperProps: {
-      sx: {
-        maxHeight: 150,
-        overflowY: 'auto',
-        '&::-webkit-scrollbar': {
-          width: '6px',
+    labelId="asset-select-label"
+    id="vendor-select"
+    value={assetname}
+    onChange={handleAssetname}
+    displayEmpty
+    renderValue={(selected) => {
+      if (!selected) {
+        return <span style={{ color: '#BDBDBD' }}>Select Asset</span>;
+      }
+      return selected;
+    }}
+    MenuProps={{
+      PaperProps: {
+        sx: {
+          maxHeight: 150,
+          overflowY: 'auto',
+    
+          // ✅ Change MenuItem hover color to blue
+          '& .MuiMenuItem-root:hover': {
+            backgroundColor: '#1E45E1',
+            color: '#fff',
+          },
+    
+          // ✅ Also update selected item styles if needed
+          '& .Mui-selected': {
+            backgroundColor: '#1E45E1 !important',
+            color: '#fff',
+          },
+          '& .Mui-selected:hover': {
+            backgroundColor: '#1E45E1 !important',
+            color: '#fff',
+          },
+    
+          // ✅ Scrollbar styling (optional)
+          '&::-webkit-scrollbar': {
+            width: '6px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#1E45E1',
+            borderRadius: '4px',
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: '#f0f0f0',
+          },
         },
-        '&::-webkit-scrollbar-thumb': {
-          backgroundColor: '#c0c0c0',
-          borderRadius: '4px',
-        },
-        '&::-webkit-scrollbar-track': {
-          backgroundColor: '#f1f1f1',
+        style: {
+          scrollbarWidth: 'thin', // Firefox
         },
       },
-      style: {
-        scrollbarWidth: 'thin', // Firefox support
-      },
-    },
-  }}
-  renderValue={(selected) => {
-    if (!selected) {
-      return <span style={{ color: '#BDBDBD' }}>Select Asset</span>;
-    }
-    return selected;
-  }}
->
-
-   
+    }}
+  >
     {state.AssetList.assetList.length > 0 ? (
       state.AssetList.assetList.map((view) => (
         <MenuItem key={view.asset_id} value={view.asset_name}>
@@ -571,8 +581,8 @@ function ExpensesListTable(props) {
       </MenuItem>
     )}
   </Select>
- 
 </FormControl>
+
 
 
 
