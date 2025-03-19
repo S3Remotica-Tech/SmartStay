@@ -3522,7 +3522,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       <FormControl
                                         type="text"
                                         id="form-controls"
-                                        placeholder="Enter amount"
+                                        placeholder="Enter Amount"
                                         value={AdvanceAmount}
                                         onChange={(e) => handleAdvanceAmount(e)}
                                         style={{
@@ -3577,7 +3577,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       <FormControl
                                         type="text"
                                         id="form-controls"
-                                        placeholder="Enter amount"
+                                        placeholder="Enter Amount"
                                         value={RoomRent}
                                         onChange={(e) => handleRoomRent(e)}
                                         style={{

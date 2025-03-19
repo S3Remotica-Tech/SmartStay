@@ -1754,7 +1754,7 @@ const handleBed = (selectedOption) => {
                         <FormControl
                           type="text"
                           id="form-controls"
-                          placeholder="Enter amount"
+                          placeholder="Enter Amount"
                           value={AdvanceAmount}
                           onChange={(e) => handleAdvanceAmount(e)}
                           style={{
@@ -1806,7 +1806,7 @@ const handleBed = (selectedOption) => {
                         <FormControl
                           type="text"
                           id="form-controls"
-                          placeholder="Enter amount"
+                          placeholder="Enter Amount"
                           value={RoomRent}
                           onChange={(e) => handleRoomRent(e)}
                           style={{
