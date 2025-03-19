@@ -223,7 +223,7 @@ function CustomerCheckout(props){
               fontWeight: 500,
             }}
           >
-            Check-out Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+            Check-Out Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
           </Form.Label>
           <div style={{ position: "relative", width: "100%" }}>
             <DatePicker
@@ -350,7 +350,7 @@ function CustomerCheckout(props){
                     }}
                     onClick={handleCheckOutCustomer}
                   >
-                  Move Check-out
+                  Move Check-Out
                   </Button>
                 </div>
               {/* )} */}

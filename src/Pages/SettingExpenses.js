@@ -427,6 +427,7 @@ function SettingExpenses({ hostelid }) {
     setSelectedOptions(selected);
     console.log("Selected Category:", selected);
     setType(selected)
+    setCategoryErrmsg("")
   };
 
 
@@ -1080,7 +1081,7 @@ function SettingExpenses({ hostelid }) {
                           style={{ padding: '10px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
                           className={!isSubCategory ? 'custom-disabled' : 'white !important'}
                           type="text"
-                          placeholder="Enter sub-category"
+                          placeholder="Enter Sub-Category"
                           value={subType}
                           onChange={(e) => handlesubcategoryAdd(e)}
                           disabled={!isSubCategory}

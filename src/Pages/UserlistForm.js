@@ -1153,7 +1153,7 @@ const handleBed = (selectedOption) => {
                           type="text"
                           id="form-controls"
                           value={Address}
-                          placeholder="Enter address"
+                          placeholder="Enter Address"
                           onChange={(e) => handleAddress(e)}
                           style={{
                             fontSize: 16,

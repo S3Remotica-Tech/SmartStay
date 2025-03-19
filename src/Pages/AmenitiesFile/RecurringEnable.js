@@ -7,6 +7,7 @@ import {  CloseCircle} from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import Select from "react-select";
 import PropTypes from "prop-types";
+import { pointer } from '@testing-library/user-event/dist/cjs/pointer/index.js';
 
 function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
 
@@ -162,7 +163,7 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
                 }} className='m-0 p-0'>
                     <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
                         <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Recurring Enable</Modal.Title>
-                        <CloseCircle size="24" color="#000" onClick={handleCloseRecurring} />
+                        <CloseCircle  cursor="pointer" size="24" color="#000" onClick={handleCloseRecurring}/>
                     </Modal.Header>
                     {/* {errorStartDate && (
                         <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorStartDate}</div>

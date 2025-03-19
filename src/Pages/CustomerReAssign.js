@@ -1113,7 +1113,7 @@ function CustomerReAssign(props) {
                           value={newRoomRent}
                           type="text"
                           id="form-controls"
-                          placeholder="Enter amount"
+                          placeholder="Enter Amount"
                           style={{
                             fontSize: 16,
                             color: "#4B4B4B",
