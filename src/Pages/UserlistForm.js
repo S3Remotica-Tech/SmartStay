@@ -9,7 +9,6 @@ import Plus from "../Assets/Images/New_images/add-circle.png";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
-import Calendars from "../Assets/Images/New_images/calendar.png";
 // import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import "react-toastify/dist/ReactToastify.css";
@@ -18,9 +17,6 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-// import 'antd/dist/reset.css';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-dayjs.extend(customParseFormat);
 
 
 function UserlistForm(props) {

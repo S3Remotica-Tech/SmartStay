@@ -4,7 +4,6 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import Calendars from "../Assets/Images/New_images/calendar.png";
 import verify from "../Assets/Images/verify.png";
 import "./UserList.css";
 import {Call,Sms,House,Buildings,} from "iconsax-react";
@@ -45,9 +44,6 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-// import 'antd/dist/reset.css';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-dayjs.extend(customParseFormat);
 
 
 function UserListRoomDetail(props) {
@@ -193,7 +189,7 @@ function UserListRoomDetail(props) {
 
  
   const handleShowEditBed = (item) => {
-    
+    console.log("handleShowEditBed",item)
     if (item[0].ID) {
       if (activeRow === item[0].ID) {
         setActiveRow(null);
@@ -948,15 +944,23 @@ const handleGenerateAdvance=()=>{
     }
 
     // Format the date
-    let formattedDate = null;
-    try {
-      formattedDate = new Date(selectedDate).toISOString().split("T")[0];
-    } 
-    catch (errors) {  
-      console.log("errors",errors)
-      setDateError("Invalid date format.");
-      return;
+  //   let formattedDate = null;
+  //   try {
+  //     formattedDate = new Date(selectedDate).toISOString().split("T")[0];
+  //   } 
+  //   catch (errors) {  
+  //     console.log("errors",errors)
+  //     setDateError("Invalid date format.");
+  //     return;
+  // }
+  const formattedDate = selectedDate ? dayjs(selectedDate).format("YYYY-MM-DD") : null;
+
+  if (!formattedDate) {
+    setDateError("Invalid date format.");
+    return;
   }
+
+  const initialFormattedDate = dayjs(initialStateAssign.selectedDate).format("YYYY-MM-DD");
   
 
     // Detect any changes
@@ -967,8 +971,9 @@ const handleGenerateAdvance=()=>{
         String(initialStateAssign.Rooms).toLowerCase() ||
       String(BedId).toLowerCase() !==
         String(initialStateAssign.Bed).toLowerCase() ||
-      formattedDate !==
-        new Date(initialStateAssign.selectedDate).toISOString().split("T")[0] ||
+      // formattedDate !==
+      //   new Date(initialStateAssign.selectedDate).toISOString().split("T")[0] ||
+      formattedDate !== initialFormattedDate ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
@@ -1041,74 +1046,6 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
 }
   },[state.UsersList.customerdetails.data])
 
-  
-  
-  
-  // const handleButtonClick = async () => {
-  //   const pdfUrl = advanceDetail[0]?.doc1;
-
-  //   if (pdfUrl) {
-  //     console.log("PDF URL", pdfUrl);
-
-  //     const pdfWindow = window.open(pdfUrl, "_blank");
-  //     if (pdfWindow) {
-  //       console.log("PDF opened successfully.");
-  //       // setShowLoader(false);
-  //     } else {
-  //       console.error("Failed to open the PDF.");
-  //     }
-  //   }
-  // };
-  
-  
-
-  
-  
-  
-
-  // const customDateInput = (props) => {
-  //   return (
-  //     <div
-  //       className="date-input-container w-100"
-  //       onClick={props.onClick}
-  //       style={{ position: "relative" }}
-  //     >
-  //       <FormControl
-  //         type="text"
-  //         className="date_input"
-  //         value={props.value || "DD/MM/YYYY"}
-  //         readOnly
-  //         style={{
-  //           border: "1px solid #D9D9D9",
-  //           borderRadius: 8,
-  //           padding: 9,
-  //           fontSize: 14,
-  //           fontFamily: "Gilroy",
-  //           fontWeight: props.value ? 600 : 500,
-  //           width: "100%",
-  //           height: 50,
-  //           boxSizing: "border-box",
-  //           boxShadow: "none",
-  //         }}
-  //       />
-  //       <img
-  //         src={Calendars}
-  //         style={{
-  //           height: 24,
-  //           width: 24,
-  //           marginLeft: 10,
-  //           cursor: "pointer",
-  //           position: "absolute",
-  //           right: 10,
-  //           top: "50%",
-  //           transform: "translateY(-50%)",
-  //         }}
-  //         alt="Calendar"
-  //         onClick={props.onClick}
-  //       />
-  //     </div>
-  //   );
-  // };
 
 
 const [uploadError,setUploadError]= useState("")
@@ -3468,6 +3405,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           value={selectedDate ? dayjs(selectedDate) : null}
                                           onChange={(date) => {
                                             setDateError('');
+                                            setFormError("")
                                             setSelectedDate(date ? date.toDate() : null);
                                           }}
                                           getPopupContainer={(triggerNode) =>

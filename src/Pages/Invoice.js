@@ -32,7 +32,7 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import BillPdfModal from "../Pages/BillPdfModal";
 import "react-toastify/dist/ReactToastify.css";
 import Closebtn from "../Assets/Images/CloseCircle.png";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../Pages/RecurringBills";
 import RecurringBillList from "../Pages/RecurringBillList";
@@ -42,8 +42,13 @@ import Filters from "../Assets/Images/Filters.svg";
 import Receipt from "./Receipt";
 import AddReceiptForm from "./AddReceipt";
 import ReceiptPdfCard from "./ReceiptPdfModal";
+import leftarrow from "../Assets/Images/arrow-left.png"
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+
+
 
 
 
@@ -433,124 +438,6 @@ useEffect(()=>{
     date.setMinutes(date.getMinutes() - offset);
     return date.toISOString().split("T")[0];
   };
-
-
-
-  const customDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
-
-  // const handleAmount = (e) => {
-  //   if (!e.target.value) {
-  //     setAmountErrmsg("Please Enter Amount");
-  //   } else {
-  //     setAmountErrmsg("");
-  //   }
-  //   const AmountValue =
-  //     e.target.value.trim() !== "" ? parseFloat(e.target.value) : "";
-
-
-
-  //   if (
-  //     !isNaN(AmountValue) &&
-  //     !isNaN(invoiceList.amount) &&
-  //     !isNaN(invoiceList.paidAmount) &&
-  //     !isNaN(invoiceList.balanceDue)
-  //   ) {
-  //     var total_amount = invoiceList.amount;
-  //     var paid_amount = invoiceList.paidAmount;
-  //     var payablAmount = AmountValue;
-  //     // var balance_due = invoiceList.balanceDue;
-
-  //     var cal1 = paid_amount + payablAmount;
-
-  //     var new_balance_due = total_amount - cal1;
-  //     if (total_amount < cal1) {
-  //       console.log("This is Not crt value");
-  //     } else {
-  //       setInvoiceList((prevState) => ({
-  //         ...prevState,
-  //         payableAmount: payablAmount,
-  //         balanceDue: new_balance_due,
-  //       }));
-  //     }
-  //   }
-  // };
-
-  // const handleAmount = (e) => {
-  //   const inputValue = e.target.value.trim();
-  //   if (!inputValue) {
-  //     setAmountErrmsg("Please Enter Amount");
-  //   } else {
-  //     setAmountErrmsg("");
-  //   }
-
-  //   const AmountValue = inputValue !== "" ? parseFloat(inputValue) : 0;
-
-  //   if (
-  //     !isNaN(AmountValue) &&
-  //     !isNaN(invoiceList.amount) &&
-  //     !isNaN(invoiceList.paidAmount) &&
-  //     !isNaN(invoiceList.balanceDue)
-  //   ) {
-  //     var total_amount = invoiceList.amount;
-  //     var paid_amount = invoiceList.paidAmount;
-  //     var payablAmount = AmountValue;
-
-  //     var cal1 = paid_amount + payablAmount;
-  //     var new_balance_due = total_amount - cal1;
-
-  //     if (total_amount < cal1) {
-  //       console.log("This is Not crt value");
-  //     } else {
-  //       setInvoiceList((prevState) => ({
-  //         ...prevState,
-  //         payableAmount: payablAmount,
-  //         balanceDue: new_balance_due >= 0 ? new_balance_due : prevState.balanceDue,
-  //       }));
-  //     }
-  //   }
-  // };
 
 
   const handleAmount = (e) => {
@@ -1079,10 +966,7 @@ console.log('invoiceDetails',invoiceDetails)
   };
 
   const formatDateForPayloadmanualinvoice = (date) => {
-    if (!date) return null;
-    const offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() - offset);
-    return date.toISOString().split("T")[0];
+    return dayjs(date).format("YYYY-MM-DD"); // Change format if needed
   };
 
   // const handlestartDate = (selectedDates) => {
@@ -1140,22 +1024,42 @@ console.log('invoiceDetails',invoiceDetails)
     }
 
   };
-
-  const handleInvoiceDate = (selectedDates) => {
+ 
+  const handleInvoiceDate = (selectedDate) => {
     setAllFieldErrmsg("");
-    const date = selectedDates;
-    setInvoiceDate(date);
-    if (!selectedDates) {
+  
+    if (!selectedDate) {
+      setInvoiceDate(null);
       setInvoiceDateErrmsg("Please Select Date");
-    } else {
-      setInvoiceDateErrmsg("");
-      setEnddateErrmsg("");
-      setStartdateErrmsg("");
+      return;
     }
-
-    const formattedDate = formatDateForPayloadmanualinvoice(date);
+  
+    setInvoiceDate(selectedDate);
+    setInvoiceDateErrmsg("");
+    setEnddateErrmsg("");
+    setStartdateErrmsg("");
+  
+    const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
     setFormatInvoiceDate(formattedDate);
   };
+  
+  
+
+  // const handleInvoiceDate = (selectedDates) => {
+  //   setAllFieldErrmsg("");
+  //   const date = selectedDates;
+  //   setInvoiceDate(date);
+  //   if (!selectedDates) {
+  //     setInvoiceDateErrmsg("Please Select Date");
+  //   } else {
+  //     setInvoiceDateErrmsg("");
+  //     setEnddateErrmsg("");
+  //     setStartdateErrmsg("");
+  //   }
+
+  //   const formattedDate = formatDateForPayloadmanualinvoice(date);
+  //   setFormatInvoiceDate(formattedDate);
+  // };
 
   const handleDueDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -1514,20 +1418,10 @@ console.log('invoiceDetails',invoiceDetails)
     }
 
     // Format dates
-    const formattedStartDate = startdate
-      ? `${startdate.getFullYear()}-${String(startdate.getMonth() + 1).padStart(
-        2,
-        "0"
-      )}-${String(startdate.getDate()).padStart(2, "0")}`
-      : "";
+    const formattedStartDate = startdate ? dayjs(startdate).format("YYYY-MM-DD") : "";
 
-    const formattedEndDate = enddate
-      ? `${enddate.getFullYear()}-${String(enddate.getMonth() + 1).padStart(
-        2,
-        "0"
-      )}-${String(enddate.getDate()).padStart(2, "0")}`
-      : "";
-
+    const formattedEndDate = enddate ? dayjs(enddate).format("YYYY-MM-DD") : "";
+    
     // Dispatch only if all fields are filled
     dispatch({
       type: "MANUAL-INVOICE-ADD",
@@ -3446,7 +3340,7 @@ console.log('invoiceDetails',invoiceDetails)
                                         width: "100%",
                                       }}
                                     >
-                                      <DatePicker
+                                      {/* <DatePicker
                                         style={{ height: "40px" }}
                                         selected={selectedDate}
                                         onChange={(date) => {
@@ -3463,7 +3357,21 @@ console.log('invoiceDetails',invoiceDetails)
                                             )
                                             : "",
                                         })}
-                                      />
+                                      /> */}
+                                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                        <DatePicker
+                                          style={{ width: "100%", height: 48 }}
+                                          format="DD/MM/YYYY"
+                                          placeholder="DD/MM/YYYY"
+                                          value={selectedDate ? dayjs(selectedDate) : null}
+                                          onChange={(date) => {
+                                            setDateErrmsg("");
+                                            setAccountError("");
+                                            setSelectedDate(date ? date.toDate() : null);
+                                          }}
+                                          getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                        />
+                                      </div>
                                     </div>
                                   </Form.Group>
 
@@ -5709,33 +5617,41 @@ console.log('invoiceDetails',invoiceDetails)
 
       {showmanualinvoice && (
         <div className="mt-4" style={{ paddingLeft: 25 }}>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <svg
-              onClick={handleBackBill}
-              style={{
-                fontSize: "22px",
-                // marginRight: "10px",
-                cursor: "pointer",
-              }}
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                fill="#000000"
-                d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"
-              ></path>
-              <path
-                fill="#000000"
-                d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"
-              ></path>
-            </svg>
-            <p className="mt-1" style={{ fontFamily: "Gilroy" }}>
-              {billMode}
-            </p>
-          </div>
+          <div
+                             className="container justify-content-start  d-flex align-items-start"
+                             style={{ 
+                               position: "sticky", 
+             top: 0,
+             left: 0,
+             width: "100%",
+             zIndex: 1000,
+             backgroundColor: "#FFFFFF",
+             height: "60px",
+             padding: "10px 5px", 
+                             }}
+                           >
+                             <div style={{position:"fixed"}}>
+                             <img
+                               src={leftarrow}
+                               alt="leftarrow"
+                               width={20}
+                               height={20}
+                               onClick={handleBackBill}
+                               style={{ cursor: "pointer" }}
+                             />
+                             <span
+                               style={{
+                                 fontWeight: 500,
+                                 fontSize: "18px",
+                                 // marginLeft: 15,
+                                 fontFamily: "Gilroy",
+                                 paddingLeft:"10px"
+                               }}
+                             >
+                               {billMode}
+                             </span>{" "}
+                             </div>
+                           </div>
 
           <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -5953,7 +5869,7 @@ console.log('invoiceDetails',invoiceDetails)
       }}>
         Start Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
       </p>
-      <div style={{ position: "relative", width: "100%" }}>
+      {/* <div style={{ position: "relative", width: "100%" }}>
         <DatePicker
           selected={startdate}
           onChange={(date) => handlestartDate(date)}
@@ -5970,7 +5886,22 @@ console.log('invoiceDetails',invoiceDetails)
             />
           }
         />
-      </div>
+      </div> */}
+         <div
+                                                  className="datepicker-wrapper"
+                                                  style={{ position: "relative", width: "100%" }}
+                                                >
+                                                  <DatePicker
+                                                    style={{ width: "100%", height: 48 }}
+                                                    format="DD/MM/YYYY"
+                                                    placeholder="DD/MM/YYYY"
+                                                    value={startdate ? dayjs(startdate) : null}
+                                                    onChange={(date) => handlestartDate(date)}
+                                                    getPopupContainer={(triggerNode) =>
+                                                      triggerNode.closest(".datepicker-wrapper")
+                                                    }
+                                                  />
+                                                </div>
       {startdateerrmsg.trim() !== "" && (
         <div>
           <p style={{ fontSize: "13px", color: "red", marginTop: "3px" }}>
@@ -5997,8 +5928,8 @@ console.log('invoiceDetails',invoiceDetails)
       }}>
         End Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
       </p>
-      <div style={{ position: "relative", width: "100%" }}>
-        <DatePicker
+     
+        {/* <DatePicker
           selected={enddate}
           onChange={(date) => handleEndDate(date)}
           dateFormat="dd/MM/yyyy"
@@ -6013,8 +5944,23 @@ console.log('invoiceDetails',invoiceDetails)
               value={enddate ? enddate.toLocaleDateString("en-GB") : ""}
             />
           }
-        />
-      </div>
+        /> */}
+           <div
+                                                  className="datepicker-wrapper"
+                                                  style={{ position: "relative", width: "100%" }}
+                                                >
+                                                  <DatePicker
+                                                    style={{ width: "100%", height: 48 }}
+                                                    format="DD/MM/YYYY"
+                                                    placeholder="DD/MM/YYYY"
+                                                    value={enddate ? dayjs(enddate) : null}
+                                                    onChange={(date) => handleEndDate(date)}
+                                                    getPopupContainer={(triggerNode) =>
+                                                      triggerNode.closest(".datepicker-wrapper")
+                                                    }
+                                                  />
+                                                </div>
+      
       {enddateerrmsg.trim() !== "" && (
         <div>
           <p style={{ fontSize: "13px", color: "red", marginTop: "3px" }}>
@@ -6047,7 +5993,7 @@ console.log('invoiceDetails',invoiceDetails)
                 fontWeight: 500,
               }}>Invoice Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
-                <DatePicker
+                {/* <DatePicker
                   selected={invoicedate}
                   onChange={(date) => handleInvoiceDate(date)}
                   dateFormat="dd/MM/yyyy"
@@ -6065,7 +6011,17 @@ console.log('invoiceDetails',invoiceDetails)
                     },
                   ]}
                   customInput={<CustomInvoiceDateInput value={invoicedate ? invoicedate.toLocaleDateString("en-GB") : ""} />}
-                />
+                /> */}
+                 <DatePicker
+                                                    style={{ width: "100%", height: 48 }}
+                                                    format="DD/MM/YYYY"
+                                                    placeholder="DD/MM/YYYY"
+                                                    value={invoicedate ? dayjs(invoicedate) : null}
+                                                    onChange={(date) => handleInvoiceDate(date)}
+                                                    getPopupContainer={(triggerNode) =>
+                                                      triggerNode.closest(".datepicker-wrapper")
+                                                    }
+                                                  />
               </div>
 
               {invoicedateerrmsg.trim() !== "" && (
@@ -6097,29 +6053,16 @@ console.log('invoiceDetails',invoiceDetails)
                 fontWeight: 500,
               }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
-                <DatePicker
-                  selected={invoiceduedate}
-                  onChange={(date) => handleDueDate(date)}
-                  dateFormat="dd/MM/yyyy"
-                  showMonthDropdown
-                  showYearDropdown
-                  scrollableYearDropdown
-                  yearDropdownItemNumber={100}
-                  popperPlacement="bottom-start"
-                  popperModifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [0, -300],
-                      },
-                    },
-                  ]}
-                  customInput={
-                    <CustomInvoiceDueDateInput
-                      value={invoiceduedate ? invoiceduedate.toLocaleDateString("en-GB") : ""}
-                    />
-                  }
-                />
+                   <DatePicker
+                                                    style={{ width: "100%", height: 48 }}
+                                                    format="DD/MM/YYYY"
+                                                    placeholder="DD/MM/YYYY"
+                                                    value={invoiceduedate ? dayjs(invoiceduedate) : null}
+                                                    onChange={(date) => handleDueDate(date)}
+                                                    getPopupContainer={(triggerNode) =>
+                                                      triggerNode.closest(".datepicker-wrapper")
+                                                    }
+                                                  />
               </div>
 
 

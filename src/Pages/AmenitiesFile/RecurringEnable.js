@@ -7,7 +7,7 @@ import {  CloseCircle} from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import Select from "react-select";
 import PropTypes from "prop-types";
-import { pointer } from '@testing-library/user-event/dist/cjs/pointer/index.js';
+// import { pointer } from '@testing-library/user-event/dist/cjs/pointer/index.js';
 
 function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
 
