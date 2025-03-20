@@ -37,12 +37,13 @@ import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
 // import DatePicker from "react-datepicker";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import Closebtn from "../Assets/Images/CloseCircle.png";
 import Calendars from "../Assets/Images/New_images/calendar.png";
 import PropTypes from "prop-types";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -2285,7 +2286,7 @@ const handleBack = () => {
                       fontFamily: "Gilroy",
                       color: value === "1" ? "#222222" : "#4B4B4B",
                     }}
-                    label="All Customers"
+                    label="Check-In"
                     value="1"
                   />
                   <Tab
@@ -4340,10 +4341,16 @@ const handleBack = () => {
                   Start Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
+                <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
                   <DatePicker
-                    selected={startdate}
-                    onChange={(date) => handlestartDate(date)}
+                   style={{ width: "100%", height: 48 }}
+                   format="DD/MM/YYYY"
+                   placeholder="DD/MM/YYYY"
+                   value={startdate ? dayjs(startdate) : null}
+                   onChange={(date) => handlestartDate(date ? date.toDate() : null)}
+                   getPopupContainer={(triggerNode) =>
+                    triggerNode.closest(".datepicker-wrapper")
+                  }
                     popperPlacement="top-start"
                      popperClassName="custom-datepicker"
                      appendTo= {document.body} 
@@ -4407,10 +4414,18 @@ const handleBack = () => {
                   End Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
+                <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
                   <DatePicker
-                    selected={enddate}
-                    onChange={(date) => handleEndDate(date)}
+                    // selected={enddate}
+                    // onChange={(date) => handleEndDate(date)}
+                    style={{ width: "100%", height: 48 }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={enddate ? dayjs(enddate) : null}
+                    onChange={(date) => handleEndDate(date ? date.toDate() : null)}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.closest(".datepicker-wrapper")
+                    }
                     popperPlacement="top-start"
                      popperClassName="custom-datepicker"
                      appendTo= {document.body} 
@@ -4474,10 +4489,17 @@ const handleBack = () => {
                   Invoice Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
+                <div className="datepicker-wrapper"  style={{ position: "relative", width: "100%" }}>
                   <DatePicker
-                    selected={invoicedate}
-                    onChange={(date) => handleInvoiceDate(date)}
+                  style={{ width: "100%", height: 48 }}
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={invoicedate ? dayjs(invoicedate) : null}
+                    // onChange={(date) => handleInvoiceDate(date)}
+                    onChange={(date) => handleInvoiceDate(date ? date.toDate() : null)}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.closest(".datepicker-wrapper")
+                    }
                     dateFormat="dd/MM/yyyy"
                     // minDate={new Date()}
 
@@ -4548,10 +4570,19 @@ const handleBack = () => {
                   Due Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
+                <div className="datepicker-wrapper"  style={{ position: "relative", width: "100%" }}>
                   <DatePicker
-                    selected={invoiceduedate}
-                    onChange={(date) => handleDueDate(date)}
+                    // selected={invoiceduedate}
+                    // onChange={(date) => handleDueDate(date)}
+                    style={{ width: "100%", height: 48 }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={invoiceduedate ? dayjs(invoiceduedate) : null}
+                      // onChange={(date) => handleInvoiceDate(date)}
+                      onChange={(date) => handleDueDate(date ? date.toDate() : null)}
+                      getPopupContainer={(triggerNode) =>
+                        triggerNode.closest(".datepicker-wrapper")
+                      }
                     dateFormat="dd/MM/yyyy"
                     popperPlacement="top-start"
                     popperClassName="custom-datepicker"

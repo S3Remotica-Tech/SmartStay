@@ -11,16 +11,16 @@ import {
 } from "react-bootstrap";
 import "flatpickr/dist/themes/material_blue.css";
 import { CloseCircle } from "iconsax-react";
-import Calendars from "../Assets/Images/New_images/calendar.png";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Plus from "../Assets/Images/New_images/addplus-circle.svg";
 import Profile2 from "../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
 import imageCompression from "browser-image-compression";
 import PropTypes from "prop-types";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 // const BookingModal = ({
 
 //   show,
@@ -34,7 +34,7 @@ function BookingModal(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [lastName,setLastName] = useState("");
   const [joiningDate, setJoiningDate] = useState(null);
   const [amount, setAmount] = useState("");
   // const [paying, setPaying] = useState("");
@@ -482,50 +482,7 @@ try {
     }
   };
 
-  const customDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          // disabled={edit}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+  
 
   return (
     <div>
@@ -695,7 +652,7 @@ try {
                   }}
                   value={lastName}
                   // isInvalid={!!formErrors.lastName}
-                  onChange={(e) => handleLastName(e)}
+                  onChange={(e) =>handleLastName(e)}
                 />
               </Form.Group>
             </Col>
@@ -982,23 +939,21 @@ try {
                     *{" "}
                   </span>
                 </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    selected={joiningDate}
-                    onChange={(date) => {
-                      setDateError("");
-                      setJoiningDate(date);
-                    }}
-                    dateFormat="dd/MM/yyyy"
-                    minDate={null}
-                    // disabled={edit}
-                    customInput={customDateInput({
-                      value: joiningDate
-                        ? joiningDate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
-                </div>
+               
+
+                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                  <DatePicker
+                                    style={{ width: "100%", height: 48 }}
+                                    format="DD/MM/YYYY"
+                                    placeholder="DD/MM/YYYY"
+                                    value={joiningDate ? dayjs(joiningDate) : null}
+                                    onChange={(date) => {
+                                      setDateError("");
+                                      setJoiningDate(date ? date.toDate() : null);
+                                    }}
+                                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                  />
+                                </div>
               </Form.Group>
               {dateError && (
                 <div style={{ color: "red" }}>

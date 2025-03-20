@@ -2,14 +2,13 @@
 import React, { useState, useEffect} from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux"
-import { Button, Form, FormControl } from "react-bootstrap";
-import Calendars from "../Assets/Images/New_images/calendar.png";
+import { Button, Form} from "react-bootstrap";
 import { MdError } from "react-icons/md";
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 // import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
 function CustomerCheckout(props){
 
@@ -66,19 +65,15 @@ function CustomerCheckout(props){
 
       const handleCheckOutCustomer = () => {
 
-        const formattedDate = moment(selectedDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
-        const formattedrequestDate = moment(requestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
-    
-        // if ( !setUniqostel_Id && !checkOutDate && !requestDate) {
-        //   setGeneralError('Please select all mandatory fields');
-        //   return;
-        // }
        
-    
-        // if (!setUniqostel_Id) {
-        //   setHostelError('Please select a hostel.');
-        //   return;
-        // }
+        const formattedDate = dayjs(selectedDate).isValid()
+        ? dayjs(selectedDate).format("YYYY-MM-DD")
+        : null;
+      
+      const formattedrequestDate = dayjs(requestDate).isValid()
+        ? dayjs(requestDate).format("YYYY-MM-DD")
+        : null;
+      
 
         if(!selectedDate || !requestDate){
           if (!selectedDate) {
@@ -109,36 +104,7 @@ function CustomerCheckout(props){
       }
   
 
-    const customDateInput = (props) => {
-        return (
-            <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
-                <FormControl
-                    type="text"
-                    className='date_input'
-                    value={props.value || 'DD/MM/YYYY'}
-                    readOnly
-                    style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 9,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: props.value ? 600 : 500,
-                        width: "100%",
-                        height: 50,
-                        boxSizing: "border-box",
-                        boxShadow: "none"
-                    }}
-                />
-                <img 
-                    src={Calendars} 
-                    style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }} 
-                    alt="Calendar" 
-                    onClick={props.onClick} 
-                />
-            </div>
-        );
-    };
+   
     return(
         <>
         <div>
@@ -225,23 +191,22 @@ function CustomerCheckout(props){
           >
             Check-Out Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
           </Form.Label>
-          <div style={{ position: "relative", width: "100%" }}>
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => {
-                setSelectedDate(date);
-                calculateDateDifference(date, requestDate);
-                setCheckOutDateError('');
-              }}
-              dateFormat="dd/MM/yyyy"
-              customInput={customDateInput({
-                value:
-                  selectedDate instanceof Date && !isNaN(selectedDate.getTime())
-                    ? selectedDate.toLocaleDateString("en-GB")
-                    : "",
-              })}
-            />
-          </div>
+
+<div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+  <DatePicker
+  style={{ width: "100%", height: 48 }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY" 
+  value={selectedDate ? dayjs(selectedDate) : null}
+    onChange={(date) => {
+      setSelectedDate(date);
+      calculateDateDifference(date, requestDate);
+      setCheckOutDateError('');
+    }}
+    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+  />
+</div>
+
         </Form.Group>
         {checkoUtDateError && (
               <div className="d-flex align-items-center p-1 mb-2">
@@ -265,23 +230,21 @@ function CustomerCheckout(props){
           >
             Request Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
           </Form.Label>
-          <div style={{ position: "relative", width: "100%" }}>
-            <DatePicker
-              selected={requestDate}
-              onChange={(date) => {
-                setRequestDate(date);
-                calculateDateDifference(selectedDate, date);
-                setCheckOutRequestDateError('')
-              }}
-              dateFormat="dd/MM/yyyy"
-              customInput={customDateInput({
-                value:
-                  requestDate instanceof Date && !isNaN(requestDate.getTime())
-                    ? requestDate.toLocaleDateString("en-GB")
-                    : "",
-              })}
-            />
-          </div>
+
+<div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+  <DatePicker
+  style={{ width: "100%", height: 48 }} 
+   format="DD/MM/YYYY"
+    placeholder="DD/MM/YYYY"
+  value={requestDate ? dayjs(requestDate) : null}
+    onChange={(date) => {
+      setRequestDate(date);
+      calculateDateDifference(selectedDate, date);
+      setCheckOutRequestDateError('')
+    }}
+    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+  />
+</div>
         </Form.Group>
         {checkoUtrequestDateError && (
               <div className="d-flex align-items-center p-1 mb-2">

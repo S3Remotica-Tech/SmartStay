@@ -10,11 +10,12 @@ import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
 import { MdError } from "react-icons/md";
 import {CloseCircle} from "iconsax-react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
 function StaticExample({ show, currentItem,setShowModal }) {
   const state = useSelector((state) => state);
@@ -308,50 +309,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
 
   
 
-  const customDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 48,
-            boxSizing: "border-box",
-            boxShadow: "none",
-            marginTop:5
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+  
 
   const handleClose = () => {
     setShowModal(false);
@@ -579,7 +537,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                     Purchase Date{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  <div style={{ position: "relative", width: "100%" }}>
+                  {/* <div style={{ position: "relative", width: "100%" }}>
                     <DatePicker
                       selected={selectedDate}
                       onChange={(date) => {
@@ -589,7 +547,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                         setSelectedDate(date);
                       }}
                       dateFormat="dd/MM/yyyy"
-                      // maxDate={new Date()}
                       minDate={null}
                       customInput={customDateInput({
                         value: selectedDate
@@ -597,7 +554,24 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                           : "",
                       })}
                     />
-                  </div>
+                  </div> */}
+
+
+                   <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                                  <DatePicker
+                                                    style={{ width: "100%", height: 48 }}
+                                                    format="DD/MM/YYYY"
+                                                    placeholder="DD/MM/YYYY"
+                                                    value={selectedDate ? dayjs(selectedDate) : null}
+                                                    onChange={(date) => {
+                                                      setGeneralError("");
+                                                      setDateError("");
+                                                      setIsChangedError("");
+                                                      setSelectedDate(date ? date.toDate() : null);
+                                                    }}
+                                                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                                  />
+                                                </div>
                 </Form.Group>
                 {dateError && (
                   <div className="d-flex align-items-center p-1 mb-2">

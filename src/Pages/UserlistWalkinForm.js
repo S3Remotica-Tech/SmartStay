@@ -6,7 +6,6 @@ import { CloseCircle } from 'iconsax-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
 import moment from 'moment';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FormControl } from 'react-bootstrap';
 import Plus from '../Assets/Images/New_images/addplus-circle.svg';
@@ -14,6 +13,8 @@ import Image from 'react-bootstrap/Image';
 import Profile from '../Assets/Images/New_images/profile-picture.png';
 import imageCompression from 'browser-image-compression';
 import PropTypes from "prop-types";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
 function CustomerForm({ show, handleClose, initialData }) {
     const [name, setName] = useState('');
@@ -697,22 +698,22 @@ function CustomerForm({ show, handleClose, initialData }) {
                                     Walk-In Date
                                     <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                                 </Form.Label>
-                                <div style={{ position: 'relative', width: "100%", marginBottom: "3px" }}>
-                                    <DatePicker
-                                        selected={walkInDate}
-                                        onChange={(date) => {
-                                            setGeneralError('')
-                                            setIsChangedError('')
-                                            setWalkInDateError('')
-                                            setWalkInDate(date);
-                                        }}
-                                        dateFormat="dd/MM/yyyy"
-                                        maxDate={null}
-                                        minDate={null}
-                                        customInput={customDateInput({
-                                            value: walkInDate ? walkInDate.toLocaleDateString('en-GB') : '',
-                                        })}
-                                    />
+                                
+
+                                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                  <DatePicker
+                                    style={{ width: "100%", height: 48 }}
+                                    format="DD/MM/YYYY"
+                                    placeholder="DD/MM/YYYY"
+                                    value={walkInDate ? dayjs(walkInDate) : null}
+                                    onChange={(date) => {
+                                        setGeneralError('')
+                                        setIsChangedError('')
+                                        setWalkInDateError('')
+                                        setWalkInDate(date ? date.toDate() : null);
+                                    }}
+                                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                  />
                                 </div>
                             </Form.Group>
                             {walkInDateError && (

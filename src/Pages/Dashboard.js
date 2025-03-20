@@ -798,7 +798,7 @@ console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatu
             }}
           />
           <Tooltip formatter={(value) => `${value}`} />
-          <Bar dataKey="revenue" fill="#E34B4B" barSize={50} radius={[5, 5, 0, 0]}>
+          <Bar dataKey="revenue" fill="#00A32E" barSize={50} radius={[5, 5, 0, 0]}>
             <LabelList
               dataKey="revenue"
               position="inside"
@@ -810,7 +810,7 @@ console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatu
               }}
             />
           </Bar>
-          <Bar dataKey="expense" fill="#00A32E" barSize={50} radius={[5, 5, 0, 0]}>
+          <Bar dataKey="expense" fill="#E34B4B" barSize={50} radius={[5, 5, 0, 0]}>
             <LabelList
               dataKey="expense"
               position="inside"

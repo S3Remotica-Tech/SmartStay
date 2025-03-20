@@ -8,7 +8,6 @@ import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { FormControl } from "react-bootstrap";
@@ -17,6 +16,8 @@ import Form from "react-bootstrap/Form";
 import { MdError } from "react-icons/md";
 import moment from "moment";
 import PropTypes from "prop-types";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
 function EBHostelReading(props) {
   const dispatch = useDispatch();
@@ -417,14 +418,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     setEditId("")
     setDateErrorMesg("")
   };
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    dispatch({ type: "CLEAR_SAME_DATE_ALREADY" });
-    dispatch({ type: "CLEAR_EDIT_SAME_DATE_ALREADY" });
-    setDateError("");
-    setFormError("");
-    setDateErrorMesg("")
-  };
+
 
   //  const electricityrowsPerPage = 5;
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
@@ -516,50 +510,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
 
  
 
-  const customDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          // disabled={edit}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+ 
   return (
     <>
       <div>
@@ -1446,20 +1397,28 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                 >
                   Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="dd/MM/yyyy"
-                    minDate={null}
-                    // disabled={edit}
-                    customInput={customDateInput({
-                      value: selectedDate
-                        ? selectedDate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
-                </div>
+                
+                  <div
+                                                                  className="datepicker-wrapper"
+                                                                  style={{ position: "relative", width: "100%" }}
+                                                                >
+                                                                 <DatePicker
+                                                                   style={{ height: 48,width: "100%", }}
+                                                                   format="DD/MM/YYYY"
+                                                                     placeholder="DD/MM/YYYY"
+                                                                   value={selectedDate ? dayjs(selectedDate) : null}
+                                                                   onChange={(date) => {
+                                                                    setSelectedDate(date ? date.toDate() : null);
+                                                                    dispatch({ type: "CLEAR_SAME_DATE_ALREADY" });
+                                                                    dispatch({ type: "CLEAR_EDIT_SAME_DATE_ALREADY" });
+                                                                     setDateError('');
+                                                                     setFormError('');
+                                                                     setDateErrorMesg('');
+                                                                   }}
+                                                                   getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                                                   dropdownClassName="custom-datepicker-popup"
+                                                                 />
+                                                                </div>
               </Form.Group>
               {dateErrorMesg && (
                 <div style={{ color: "red" }}>

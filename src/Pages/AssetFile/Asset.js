@@ -461,53 +461,52 @@ function Asset() {
               <div className="container d-flex justify-content-between align-items-center mb-1 flex-wrap h-auto"
                 style={{
                   position: 'sticky',
+
                   backgroundColor: 'white',
                   zIndex: 10,
                   paddingLeft: 25, paddingRight: 20,
                   height: 83,
                 }}
               >
-          
- 
-  
-                <div style={{ marginTop: 10 }} className="assets-label">
-                  <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", 
-                    fontWeight: 600, fontFamily: "Gilroy" }}>
+                <div style={{ marginTop: -5 }}>
+                  <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
                     Assets</label>
                 </div>
-            
+
                 <div className="d-flex justify-content-between align-items-center flex-wrap ">
+
                   {
                     !showFilterData &&
 
                     <div onClick={handleShowSearch} style={{ paddingRight: 30, marginTop: 12, cursor: "pointer" }}>
                       <SearchNormal1
                         size="26"
-                        color="#222"/>
+                        color="#222"
+
+                      />
                     </div>
                   }
                   {
+
                     showFilterData &&
-                    <div className='me-3 flex flex-wrap w-100' 
-                    style={{ position: 'relative', cursor: "pointer", marginTop: 10 }}>
+                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative', cursor: "pointer", marginTop: 10 }}>
                       <InputGroup
-                      className="w-100 d-flex"
                         style={{
-                          
+                          display: 'flex',
                           flexWrap: 'nowrap',
-                          maxWidth: '100%',
-                        }}>
+                          width: '100%',
+                        }}
+
+
+
+                      >
 
                         <FormControl size="lg"
                           value={searchQuery}
                           onChange={handleInputChange}
 
                           style={{
-                            width: "100%",
-                            maxWidth: 235, 
-                            boxShadow: "none", 
-                            borderColor: "lightgray", 
-                            borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
+                            width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
                             //  '::placeholder': { color: "#222", fontWeight: 500 } 
                           }}
                           placeholder="Search..."
@@ -516,20 +515,31 @@ function Asset() {
                           <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
                         </InputGroup.Text>
                       </InputGroup>
-                      
+
+
+
                       {
                         getData.length > 0 && searchQuery !== '' && showDropDown && (
 
                           <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
                             <ul className='show-scroll' style={{
+                              // position: 'absolute',
+                              // top: '50px',
+                              // left: 0,
                               width: 260,
                               backgroundColor: '#fff',
+                              // border: '1px solid #D9D9D9',
+                              // borderRadius: '4px',
+                              // maxHeight: 174,
+                              // minHeight: 100,
+                              // overflowY: 'auto',
                               maxHeight: "174px",
                               minHeight: getData?.length > 1 ? "100px" : "auto",
                               overflowY: getData?.length > 2 ? "auto" : "hidden",
                               padding: '5px 10px',
                               margin: '0',
                               listStyleType: 'none',
+
                               borderRadius: 8,
                               boxSizing: 'border-box'
                             }}>
@@ -562,9 +572,17 @@ function Asset() {
                           </div>
                         )
                       }
-                      </div>
-                    }
-                    <div onClick={handleFilterByPrice} style={{ paddingRight: 23, marginTop: 12, cursor: "pointer" }}>
+
+
+                    </div>
+
+
+                  }
+
+
+
+
+                  <div onClick={handleFilterByPrice} style={{ paddingRight: 23, marginTop: 12, cursor: "pointer" }}>
                     <Sort
                       Size="24"
                       color="#222"
@@ -611,6 +629,7 @@ function Asset() {
                         paddingRight: 48,
                         marginBottom: "10px",
                         maxHeight: 45,
+
                       }}
                     >
                       + Asset</Button>
