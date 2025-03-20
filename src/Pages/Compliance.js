@@ -21,12 +21,13 @@ import Form from 'react-bootstrap/Form';
 import closecircle from "../Assets/Images/New_images/close-circle.png";
 import ComplianceList from './ComplianceList';
 import { MdError } from "react-icons/md";
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { toast } from 'react-toastify';
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
 const Compliance = () => {
 
@@ -509,7 +510,8 @@ const Compliance = () => {
     setEdit(false)
 
     if (Complainttype && selectedDate && hostelname && beds && Rooms) {
-      const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
+      // const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
+      const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
       if (id && hasChanges) {
         dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id} })
         handleClose()
@@ -573,7 +575,9 @@ const Compliance = () => {
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.Description);
       // setDate(format(new Date(Complaintdata.date), 'yyyy-MM-dd'));
-      setSelectedDate(new Date(Complaintdata.date), 'dd/MM/yyyy');
+      // setSelectedDate(new Date(Complaintdata.date), 'dd/MM/yyyy');
+      setSelectedDate(new Date(Complaintdata.date)); 
+      console.log("setSelectedDate",selectedDate)
       setHostel_Id(Complaintdata.Hostel_id)
       setBeds(Complaintdata.Bed)
       setFloor(Complaintdata.Floor_id);
@@ -585,15 +589,17 @@ const Compliance = () => {
       initialValuesRef.current = {
         Assign: Complaintdata.Assign,
         Description: Complaintdata.Description,
-        Status: Complaintdata.Status
+        Status: Complaintdata.Status,
+        selectedDate: new Date(Complaintdata.date) 
       };
     }
   };
 
   let hasChanges =
-    Assign !== initialValuesRef.current.Assign ||
-    description !== initialValuesRef.current.Description ||
-    Status !== initialValuesRef.current.Status ||
+  Assign !== initialValuesRef.current.Assign ||
+  description !== initialValuesRef.current.Description ||
+  Status !== initialValuesRef.current.Status ||
+  new Date(selectedDate).getTime() !== new Date(initialValuesRef.current.selectedDate).getTime(); 
 
 
     // useEffect(() => {
@@ -604,6 +610,7 @@ const Compliance = () => {
     console.log("description", description);
   console.log("date", date);
   console.log("assign", Assign);
+  console.log("selectedDate",selectedDate)
 
   useEffect(() => {
     const closeButton = document.querySelector('button[aria-label="close-button"]');
@@ -1541,7 +1548,7 @@ const Compliance = () => {
                               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 Complaint Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
-                              <div style={{ position: 'relative', width: "100%",marginTop:"-5px" }}>
+                              {/* <div style={{ position: 'relative', width: "100%",marginTop:"-5px" }}>
                                 <DatePicker
                                   selected={selectedDate}
                                   onChange={(date) => {
@@ -1557,6 +1564,19 @@ const Compliance = () => {
                                   customInput={customDateInput({
                                     value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
                                   })}
+                                />
+                              </div> */}
+                              <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                <DatePicker
+                                  style={{ width: "100%", height: 48 }}
+                                  format="DD/MM/YYYY"
+                                  placeholder="DD/MM/YYYY"
+                                  value={selectedDate ? dayjs(selectedDate) : null}
+                                  onChange={(date) => {
+                                    setDateErrmsg('')
+                                    setSelectedDate(date ? date.toDate() : null);
+                                  }}
+                                  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                                 />
                               </div>
                             </Form.Group>

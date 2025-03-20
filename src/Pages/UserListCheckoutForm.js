@@ -11,10 +11,11 @@ import moment from "moment";
 import Image from "react-bootstrap/Image";
 import People from "../Assets/Images/New_images/profile-picture.png";
 import Select from "react-select";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {  FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
 const CheckOutForm = ({
   // item,
@@ -790,7 +791,7 @@ const CheckOutForm = ({
                   Check-Out Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
+                {/* <div style={{ position: "relative", width: "100%" }}>
                   <DatePicker
                     selected={
                       checkOutDate instanceof Date ? checkOutDate : null
@@ -813,7 +814,23 @@ const CheckOutForm = ({
                           : "",
                     })}
                   />
-                </div>
+                </div> */}
+
+
+               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                <DatePicker
+                  style={{ width: "100%", height: 48 }}
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={checkOutDate ? dayjs(checkOutDate) : null}
+                  onChange={(date) => {
+                    setCheckOutDateError('');
+                    setIsChangedError("");
+                    setCheckOutDate(date ? date.toDate() : null);
+                  }}
+                  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                />
+              </div>
               </Form.Group>
               {checkoUtDateError && (
                 <div
@@ -856,7 +873,7 @@ const CheckOutForm = ({
                     Request Date{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  <div style={{ position: "relative", width: "100%" }}>
+                  {/* <div style={{ position: "relative", width: "100%" }}>
                     <DatePicker
                       selected={
                         checkOutrequestDate instanceof Date
@@ -880,7 +897,22 @@ const CheckOutForm = ({
                             : "",
                       })}
                     />
-                  </div>
+                  </div> */}
+
+<div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                <DatePicker
+                  style={{ width: "100%", height: 48 }}
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={checkOutrequestDate ? dayjs(checkOutrequestDate) : null}
+                  onChange={(date) => {
+                    setCheckOutRequestDateError("");
+                    setIsChangedError("");
+                    setCheckOutRequestDate(date ? date.toDate() : null);
+                  }}
+                  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                />
+              </div>
                 </Form.Group>
                 {checkoUtrequestDateError && (
                   <div

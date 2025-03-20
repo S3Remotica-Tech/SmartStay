@@ -8,7 +8,6 @@ import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { FormControl } from "react-bootstrap";
@@ -18,6 +17,8 @@ import { MdError } from "react-icons/md";
 import moment from "moment";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
 function EBRoomReading(props) {
   const dispatch = useDispatch();
@@ -187,14 +188,14 @@ useEffect(() => {
     setDateErrorMesg("")
     setReadingError('')
   };
-  const handleDateChange = (date) => {
+  // const handleDateChange = (date) => {
 
-    setSelectedDate(date);
-    dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
-    setDateError('');
-    setFormError("")
-    setDateErrorMesg("")
-  };
+  //   setSelectedDate(date);
+  //   dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
+  //   setDateError('');
+  //   setFormError("")
+  //   setDateErrorMesg("")
+  // };
 
   const handleCloseDelete = () => {
     setDeleteShow(false);
@@ -1574,20 +1575,39 @@ useEffect(() => {
                 >
                   Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    dateFormat="dd/MM/yyyy"
-                    minDate={null}
-                    // disabled={edit}
-                    customInput={customDateInput({
-                      value: selectedDate
-                        ? selectedDate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
-                </div>
+                <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
+  {/* <DatePicker
+    style={{ width: '100%', height: 48 }}
+    format="DD/MM/YYYY"
+    placeholder="DD/MM/YYYY"
+    value={selectedDate ? dayjs(selectedDate) : null}
+    onChange={(date) => {
+      setSelectedDate(date ? date.toDate() : null);
+      dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
+      setDateError('');
+      setFormError('');
+      setDateErrorMesg('');
+    }}
+    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+     placement="bottomLeft"
+  /> */}
+  <DatePicker
+  style={{ height: 48,width: "100%", }}
+  format="DD/MM/YYYY"
+    placeholder="DD/MM/YYYY"
+  value={selectedDate ? dayjs(selectedDate) : null}
+  onChange={(date) => {
+    setSelectedDate(date ? date.toDate() : null);
+    dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
+    setDateError('');
+    setFormError('');
+    setDateErrorMesg('');
+  }}
+  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+  dropdownClassName="custom-datepicker-popup"
+/>
+
+</div>
               </Form.Group>
               {dateErrorMesg && (
                 <div style={{ color: "red" }}>

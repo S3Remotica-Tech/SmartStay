@@ -4,13 +4,14 @@ import { Button, Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import Calendars from "../Assets/Images/New_images/calendar.png";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { MdError } from "react-icons/md";
 import "./BankingAddForm.css";
 import moment from "moment";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 
 function BankingEditTransaction(props) {
   const state = useSelector((state) => state);
@@ -442,7 +443,7 @@ function BankingEditTransaction(props) {
                 >
                   Date<span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div style={{ position: "relative", width: "100%" }}>
+                {/* <div style={{ position: "relative", width: "100%" }}>
                   <DatePicker
                     selected={selectedDate}
                     onChange={(date) => {
@@ -460,6 +461,21 @@ function BankingEditTransaction(props) {
                           ? selectedDate.toLocaleDateString("en-GB")
                           : "",
                     })}
+                  />
+                </div> */}
+
+                  <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                  <DatePicker
+                    style={{ width: "100%", height: 48 }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={selectedDate ? dayjs(selectedDate) : null}
+                    onChange={(date) => {
+                      setDateError("");
+                      setError("");
+                      setSelectedDate(date ? date.toDate() : null);
+                    }}
+                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                   />
                 </div>
               </Form.Group>
