@@ -3458,7 +3458,7 @@ console.log('invoiceDetails',invoiceDetails)
                                         width: "100%",
                                       }}
                                     >
-                                      <DatePicker
+                                      {/* <DatePicker
                                         style={{ height: "40px" }}
                                         selected={selectedDate}
                                         onChange={(date) => {
@@ -3475,7 +3475,21 @@ console.log('invoiceDetails',invoiceDetails)
                                             )
                                             : "",
                                         })}
-                                      />
+                                      /> */}
+                                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                        <DatePicker
+                                          style={{ width: "100%", height: 48 }}
+                                          format="DD/MM/YYYY"
+                                          placeholder="DD/MM/YYYY"
+                                          value={selectedDate ? dayjs(selectedDate) : null}
+                                          onChange={(date) => {
+                                            setDateErrmsg("");
+                                            setAccountError("");
+                                            setSelectedDate(date ? date.toDate() : null);
+                                          }}
+                                          getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                        />
+                                      </div>
                                     </div>
                                   </Form.Group>
 

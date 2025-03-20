@@ -2,14 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { FormControl } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
 import moment from "moment";
 // import Flatpickr from 'react-flatpickr';
 import "flatpickr/dist/themes/material_blue.css";
-import Calendars from "../../Assets/Images/New_images/calendar.png";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
 // import DatePicker from 'react-datepicker';
@@ -18,9 +16,6 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-// import 'antd/dist/reset.css';
-import customParseFormat from "dayjs/plugin/customParseFormat";
-dayjs.extend(customParseFormat);
 
 function StaticExample({ show, handleClose, currentItem }) {
   const state = useSelector((state) => state);
