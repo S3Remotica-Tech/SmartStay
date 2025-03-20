@@ -2286,7 +2286,7 @@ const handleBack = () => {
                       fontFamily: "Gilroy",
                       color: value === "1" ? "#222222" : "#4B4B4B",
                     }}
-                    label="All Customers"
+                    label="Check-In"
                     value="1"
                   />
                   <Tab

@@ -3,6 +3,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import {Button } from "react-bootstrap";
 import {
   ArrowLeft2,
   ArrowRight2,
@@ -136,6 +137,19 @@ console.log("propss",props);
     console.log(item,"items");
     
   props.handleEditItem(item)
+     
+    
+    dispatch({ type: 'USERROOMAVAILABLETRUE' });
+  
+  
+  
+    // props.setRoomDetail(false)
+  };
+
+  const handleAddBill = (item) => {
+    console.log(item,"items");
+    
+  props.handleEditItem(item)
     
     
     
@@ -215,6 +229,27 @@ const handleDeleteBill = (user) => {
  
   return (
     <>
+   <div className="d-flex justify-content-end col-lg-12 col-md-12 col-sm-12 col-xs-12">
+ <Button
+ onClick={handleAddBill}
+                      
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: "14px",
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        fontWeight: 600,
+                        borderRadius: "8px",
+                        padding: "11px 32px",
+                        marginTop: 19,
+                        paddingLeft: 34,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {" "}
+                      + Create Bill
+                    </Button>
+                    </div>
 
       <div style={{
                             // height: "400px",
