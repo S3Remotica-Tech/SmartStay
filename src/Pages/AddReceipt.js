@@ -7,10 +7,12 @@ import {Form} from 'react-bootstrap';
 import Calendars from '../Assets/Images/New_images/calendar.png'
 import 'flatpickr/dist/themes/material_blue.css';
 import { MdError } from "react-icons/md";
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 const AddReceiptForm = (props) => {
 
@@ -253,13 +255,15 @@ const AddReceiptForm = (props) => {
         setNotes('')
    }
  
-   const formatDateForReceipt = (date) => {
-     if (!date) return null;
-     const offset = date.getTimezoneOffset();
-     date.setMinutes(date.getMinutes() - offset);
-     return date.toISOString().split('T')[0]; 
-   };
- 
+  //  const formatDateForReceipt = (date) => {
+  //    if (!date) return null;
+  //    const offset = date.getTimezoneOffset();
+  //    date.setMinutes(date.getMinutes() - offset);
+  //    return date.toISOString().split('T')[0]; 
+  //  };
+  const formatDateForReceipt = (date) => {
+    return dayjs(date).format("YYYY-MM-DD"); // or any format you prefer
+  };
  
    
  
@@ -780,7 +784,7 @@ const AddReceiptForm = (props) => {
         {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
       </Form.Label>
       <div style={{ position: 'relative', width: "100%" ,height: 48, }}>
-        <DatePicker
+        {/* <DatePicker
           selected={payment_date}
           onChange={(date) => handlePayemntDate(date)}
           dateFormat="dd/MM/yyyy"
@@ -796,7 +800,19 @@ const AddReceiptForm = (props) => {
           customInput={customDateInputPaymentDate({
             value: payment_date ? payment_date.toLocaleDateString('en-GB') : '',
           })}
-        />
+        /> */}
+
+
+          <DatePicker
+                                                            style={{ width: "100%", height: 48 }}
+                                                            format="DD/MM/YYYY"
+                                                            placeholder="DD/MM/YYYY"
+                                                            value={payment_date ? dayjs(payment_date) : null}
+                                                            onChange={(date) => handlePayemntDate(date)}
+                                                            getPopupContainer={(triggerNode) =>
+                                                              triggerNode.closest(".datepicker-wrapper")
+                                                            }
+                                                          />
       </div>
     </Form.Group>
     {payment_dateerrmsg && (

@@ -193,7 +193,7 @@ function UserListRoomDetail(props) {
 
  
   const handleShowEditBed = (item) => {
-    
+    console.log("handleShowEditBed",item)
     if (item[0].ID) {
       if (activeRow === item[0].ID) {
         setActiveRow(null);
@@ -948,15 +948,23 @@ const handleGenerateAdvance=()=>{
     }
 
     // Format the date
-    let formattedDate = null;
-    try {
-      formattedDate = new Date(selectedDate).toISOString().split("T")[0];
-    } 
-    catch (errors) {  
-      console.log("errors",errors)
-      setDateError("Invalid date format.");
-      return;
+  //   let formattedDate = null;
+  //   try {
+  //     formattedDate = new Date(selectedDate).toISOString().split("T")[0];
+  //   } 
+  //   catch (errors) {  
+  //     console.log("errors",errors)
+  //     setDateError("Invalid date format.");
+  //     return;
+  // }
+  const formattedDate = selectedDate ? dayjs(selectedDate).format("YYYY-MM-DD") : null;
+
+  if (!formattedDate) {
+    setDateError("Invalid date format.");
+    return;
   }
+
+  const initialFormattedDate = dayjs(initialStateAssign.selectedDate).format("YYYY-MM-DD");
   
 
     // Detect any changes
@@ -967,8 +975,9 @@ const handleGenerateAdvance=()=>{
         String(initialStateAssign.Rooms).toLowerCase() ||
       String(BedId).toLowerCase() !==
         String(initialStateAssign.Bed).toLowerCase() ||
-      formattedDate !==
-        new Date(initialStateAssign.selectedDate).toISOString().split("T")[0] ||
+      // formattedDate !==
+      //   new Date(initialStateAssign.selectedDate).toISOString().split("T")[0] ||
+      formattedDate !== initialFormattedDate ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
 
@@ -3468,6 +3477,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           value={selectedDate ? dayjs(selectedDate) : null}
                                           onChange={(date) => {
                                             setDateError('');
+                                            setFormError("")
                                             setSelectedDate(date ? date.toDate() : null);
                                           }}
                                           getPopupContainer={(triggerNode) =>
