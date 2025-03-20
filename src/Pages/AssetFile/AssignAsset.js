@@ -252,49 +252,49 @@ function StaticExample({ show, handleClose, currentItem }) {
     }
   }, [state.AssetList.addAssignAssetStatusCode]);
 
-  const customDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+  // const customDateInput = (props) => {
+  //   return (
+  //     <div
+  //       className="date-input-container w-100"
+  //       onClick={props.onClick}
+  //       style={{ position: "relative" }}
+  //     >
+  //       <FormControl
+  //         type="text"
+  //         className="date_input"
+  //         value={props.value || "DD/MM/YYYY"}
+  //         readOnly
+  //         style={{
+  //           border: "1px solid #D9D9D9",
+  //           borderRadius: 8,
+  //           padding: 9,
+  //           fontSize: 14,
+  //           fontFamily: "Gilroy",
+  //           fontWeight: props.value ? 600 : 500,
+  //           width: "100%",
+  //           height: 50,
+  //           boxSizing: "border-box",
+  //           boxShadow: "none",
+  //         }}
+  //       />
+  //       <img
+  //         src={Calendars}
+  //         style={{
+  //           height: 24,
+  //           width: 24,
+  //           marginLeft: 10,
+  //           cursor: "pointer",
+  //           position: "absolute",
+  //           right: 10,
+  //           top: "50%",
+  //           transform: "translateY(-50%)",
+  //         }}
+  //         alt="Calendar"
+  //         onClick={props.onClick}
+  //       />
+  //     </div>
+  //   );
+  // };
 
   return (
     <div

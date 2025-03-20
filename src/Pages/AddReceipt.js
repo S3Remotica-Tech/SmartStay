@@ -2,9 +2,8 @@
 import React , {useState ,useEffect, useRef} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import "./Invoices.css";
-import {Button ,FormControl} from 'react-bootstrap';
+import {Button } from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
-import Calendars from '../Assets/Images/New_images/calendar.png'
 import 'flatpickr/dist/themes/material_blue.css';
 import { MdError } from "react-icons/md";
 // import DatePicker from 'react-datepicker';
@@ -411,36 +410,36 @@ const AddReceiptForm = (props) => {
 
 
   
-     const customDateInputPaymentDate = (props) => {
-      return (
-          <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-              <FormControl
-                  type="text"
-                  className='date_input'
-                  value={props.value || 'DD/MM/YYYY'}
-                  readOnly
-                                      style={{
-                      border: "1px solid #D9D9D9",
-                      borderRadius: 8,
-                      padding: 9,
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: props.value ? 600 : 500,
-                                             width: "100%", 
-                                             height: 48,
-                      boxSizing: "border-box",
-                      boxShadow:"none" 
-                  }}
-              />
-              <img 
-                  src={Calendars} 
-              style={{ height: 22, width: 22, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-                  alt="Calendar" 
-                  onClick={props.onClick} 
-              />
-          </div>
-      );
-  };
+  //    const customDateInputPaymentDate = (props) => {
+  //     return (
+  //         <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
+  //             <FormControl
+  //                 type="text"
+  //                 className='date_input'
+  //                 value={props.value || 'DD/MM/YYYY'}
+  //                 readOnly
+  //                                     style={{
+  //                     border: "1px solid #D9D9D9",
+  //                     borderRadius: 8,
+  //                     padding: 9,
+  //                     fontSize: 14,
+  //                     fontFamily: "Gilroy",
+  //                     fontWeight: props.value ? 600 : 500,
+  //                                            width: "100%", 
+  //                                            height: 48,
+  //                     boxSizing: "border-box",
+  //                     boxShadow:"none" 
+  //                 }}
+  //             />
+  //             <img 
+  //                 src={Calendars} 
+  //             style={{ height: 22, width: 22, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
+  //                 alt="Calendar" 
+  //                 onClick={props.onClick} 
+  //             />
+  //         </div>
+  //     );
+  // };
 
 
 
