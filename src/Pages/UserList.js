@@ -91,9 +91,7 @@ function UserList(props) {
   const [customererrmsg, setCustomerErrmsg] = useState("");
 
   const [totalAmount, setTotalAmount] = useState("");
-  const [newRows, setNewRows] = useState([
-    { "S.NO": 1, am_name: "", amount: "0" },
-  ]);
+  const [newRows, setNewRows] = useState([]);
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
   const [startdateerrmsg, setStartdateErrmsg] = useState("");
   const [enddateerrmsg, setEnddateErrmsg] = useState("");
@@ -128,7 +126,9 @@ function UserList(props) {
  const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
  const [formatduedate, setFormatDueDate] = useState(null);
  const [id, setId] = useState("");
-
+ const [tableErrmsg, setTableErrmsg] = useState("");
+ const [dropdownValue, setDropdownValue] = useState("");
+ const [selectedTypes, setSelectedTypes] = useState([]);
   let serialNumber = 1;
   const [billsAddshow,setBillsAddShow] = useState(false)
   const [isAddMode, setIsAddMode] = useState(false);
@@ -142,14 +142,68 @@ function UserList(props) {
       });
     }
   }, [id, billsAddshow]);
-  //  useEffect(() => {
-  //     if (customername && billsAddshow === false) {
-  //       dispatch({
-  //         type: "MANUAL-INVOICE-NUMBER-GET",
-  //         payload: { user_id: customername },
-  //       });
-  //     }
-  //   }, [customername,billsAddshow]);
+  const handleRowTypeSelect = (type) => {
+    let newRow = { am_name: "", amount: "0" };
+  
+    if (type === "RoomRent") {
+      newRow.am_name = "Room Rent";
+    } else if (type === "EB") {
+      newRow.am_name = "EB";
+    }
+  
+    setNewRows((prev) => [...prev, newRow]);
+  
+    // Add to selectedTypes only if not already added
+    if (type !== "Other" && !selectedTypes.includes(type)) {
+      setSelectedTypes((prev) => [...prev, type]);
+    }
+  
+    // Clear error messages
+    setAllFieldErrmsg("");
+    setTableErrmsg("");
+  
+    // ✅ Reset dropdown cleanly using state
+    setDropdownValue("");
+  };
+
+  // const handleRowTypeSelect = (type) => {
+  //   let newRow = { am_name: "", amount: "0" };
+  
+  //   if (type === "RoomRent") {
+  //     newRow.am_name = "Room Rent";
+  //   } else if (type === "EB") {
+  //     newRow.am_name = "EB";
+  //   }
+  
+  //   setNewRows((prev) => [...prev, newRow]);
+  
+  //   // Add to selectedTypes only if not already added
+  //   if (type !== "Other" && !selectedTypes.includes(type)) {
+  //     setSelectedTypes((prev) => [...prev, type]);
+  //   }
+  
+  //   // Clear error messages
+  //   setAllFieldErrmsg("");
+  //   setTableErrmsg("");
+  
+  //   // ✅ Reset dropdown cleanly using state
+  //   setDropdownValue("");
+  // };
+
+  // const handleRowTypeSelect = (type) => {
+  //   let newRow = { am_name: "", amount: "0" };
+  
+  //   if (type === "RoomRent") {
+  //     newRow.am_name = "Room Rent";
+  //   } else if (type === "EB") {
+  //     newRow.am_name = "EB";
+  //   }
+  
+  //   setNewRows((prev) => [...prev, newRow]);
+  //   setAllFieldErrmsg("");
+  //   setTableErrmsg("")
+  // };
+  
 
    useEffect(() => {
       if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
@@ -233,14 +287,21 @@ const handleAddItems = () => {
   const handleEditHostelReading = (users) => {
     setIsReading(users);
   };
+  // const handleNewRowChange = (index, field, value) => {
+  //   setNewRows((prevRows) =>
+  //     prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
+  //   );
+  //   setAllFieldErrmsg("");
+  //   setTableErrmsg("")
+  // };
+
   const handleNewRowChange = (index, field, value) => {
     setNewRows((prevRows) =>
       prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
     );
     setAllFieldErrmsg("");
+    setTableErrmsg("")
   };
-
- 
 
  
   const handleDeleteBilling = () => {
@@ -255,6 +316,8 @@ const handleAddItems = () => {
 
   const handleEditBill = () => {
     let isValid = true;
+    let hasError = false;
+  
 
     // Reset error messages
     setCustomerErrmsg("");
@@ -296,6 +359,29 @@ const handleAddItems = () => {
     if (!invoiceduedate) {
       setInvoiceDueDateErrmsg("Due Date is Required");
       isValid = false;
+    }
+    if (!Array.isArray(newRows) || newRows.length === 0) {
+      setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
+      hasError = true;
+    } else if (
+      newRows.some(
+        (row) =>
+          !row.am_name?.trim() ||
+          row.amount === "" ||
+          row.amount === null ||
+          row.amount === undefined ||
+          isNaN(row.amount) ||
+          parseFloat(row.amount) <= 0
+      )
+    ) {
+      setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
+      hasError = true;
+    } else {
+      setTableErrmsg("");
+    }
+  
+    if (hasError) {
+      return;
     }
 
     // Check All Required Fields
@@ -523,7 +609,27 @@ const handleAddItems = () => {
       // } else {
       //   setTableErrmsg("");
       // }
-  
+
+      if (!Array.isArray(newRows) || newRows.length === 0) {
+        setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
+        hasError = true;
+      } else if (
+        newRows.some(
+          (row) =>
+            !row.am_name?.trim() ||
+            row.amount === "" ||
+            row.amount === null ||
+            row.amount === undefined ||
+            isNaN(row.amount) ||
+            parseFloat(row.amount) <= 0
+        )
+      ) {
+        setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
+        hasError = true;
+      } else {
+        setTableErrmsg("");
+      }
+    
       if (hasError) {
         return;
       }
@@ -642,14 +748,52 @@ const handleAddItems = () => {
     setFormatDueDate(formattedDate);
   };
 
+  // const handleDeleteNewRow = (index) => {
+  //   setNewRows((prevRows) => {
+  //     const updatedRows = prevRows.filter((_, i) => i !== index);
+  //     return updatedRows;
+  //   });
+
+  //   setAllFieldErrmsg("");
+  // };
+  // const handleDeleteNewRow = (index) => {
+  //   setNewRows((prevRows) => {
+  //     const deletedRow = prevRows[index];
+  //     const updatedRows = prevRows.filter((_, i) => i !== index);
+  
+  //     // Remove RoomRent or EB from selectedTypes if that row was deleted
+  //     if (deletedRow.am_name === "Room Rent") {
+  //       setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "RoomRent"));
+  //     } else if (deletedRow.am_name === "EB") {
+  //       setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "EB"));
+  //     }
+  
+  //     return updatedRows;
+  //   });
+  
+  //   setAllFieldErrmsg("");
+  //   setTableErrmsg("");
+  // };
+
   const handleDeleteNewRow = (index) => {
     setNewRows((prevRows) => {
+      const deletedRow = prevRows[index];
       const updatedRows = prevRows.filter((_, i) => i !== index);
+  
+      const name = deletedRow.am_name?.toLowerCase().replace(/\s/g, "");
+      if (name === "roomrent") {
+        setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "RoomRent"));
+      } else if (name === "eb") {
+        setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "EB"));
+      }
+  
       return updatedRows;
     });
-
+  
     setAllFieldErrmsg("");
+    setTableErrmsg("");
   };
+  
 
  
   const handleCloseDeleteroom = () => {
@@ -662,7 +806,8 @@ const handleAddItems = () => {
   const handleBackBill = () => {
     setIsAddMode(false);
     setIsEditing(false);
-
+setDropdownValue("")
+setSelectedTypes("")
     setRoomDetail(true);
     setCustomerName("");
     setInvoiceNumber("");
@@ -678,7 +823,7 @@ const handleAddItems = () => {
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
     setNewRows("")
-
+    setTableErrmsg("")
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
     dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
   };
@@ -722,7 +867,31 @@ const handleAddItems = () => {
 
       setTotalAmount(currentView.Amount);
 
-      setNewRows(currentView.amenity);
+      // setNewRows(currentView.amenity);
+      // if (currentView.amenity && Array.isArray(currentView.amenity)) {
+      //   setNewRows(currentView.amenity);
+      
+      //   const types = [];
+      //   currentView.amenity.forEach((item) => {
+      //     if (item.am_name === "Room Rent") types.push("RoomRent");
+      //     if (item.am_name === "EB") types.push("EB");
+      //   });
+      
+      //   setSelectedTypes(types);
+      // }
+      if (currentView.amenity && Array.isArray(currentView.amenity)) {
+        setNewRows(currentView.amenity);
+      
+        const types = [];
+        currentView.amenity.forEach((item) => {
+          const name = item.am_name?.toLowerCase().replace(/\s/g, "");
+          if (name === "roomrent") types.push("RoomRent");
+          if (name === "eb") types.push("EB");
+        });
+      
+        setSelectedTypes(types);
+      }
+      console.log("currentView.amenity",currentView.amenity)
     }
   }, [currentView]);
 
@@ -4831,87 +5000,78 @@ const handleBack = () => {
           )}
 
           {/* Table */}
-          <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
-            <Table className="ebtable mt-2" responsive>
-              <thead
-                style={{
-                  backgroundColor: "#E7F1FF",
-                  position: "sticky",
-                  top: 0,
-                  zIndex: 1,
-                }}
+    
+{Array.isArray(newRows) && newRows.length > 0 && (
+  <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
+    <Table className="ebtable mt-2" responsive>
+      <thead
+        style={{
+          backgroundColor: "#E7F1FF",
+          position: "sticky",
+          top: 0,
+          zIndex: 1,
+        }}
+      >
+        <tr>
+          <th>S.NO</th>
+          <th>Description</th>
+          <th>Total Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {newRows.map((u, index) => (
+          <tr key={`new-${index}`}>
+            <td>{index + 1}</td>
+            <td>
+              <div
+                className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
+                style={{ alignItems: "center" }}
               >
-                <tr>
-                  <th>S.NO</th>
-                  <th>Description</th>
-                  <th>Total Amount</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-     
-                {newRows &&
-                  newRows?.length > 0 &&
-                  newRows.map((u, index) => (
-                    <tr key={`new-${index}`}>
-                      <td>{serialNumber++}</td>
-                      <td>
-                        <div
-                          className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
-                          style={{ alignItems: "center" }}
-                        >
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Description"
-                            value={u.am_name}
-                            onChange={(e) =>
-                              handleNewRowChange(
-                                index,
-                                "am_name",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </div>
-                      </td>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Description"
+                  value={u.am_name}
+                  onChange={(e) =>
+                    handleNewRowChange(index, "am_name", e.target.value)
+                  }
+                />
+              </div>
+            </td>
+            <td
+              className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
+              style={{ alignItems: "center" }}
+            >
+              <Form.Control
+                type="text"
+                placeholder="Enter total amount"
+                value={u.amount}
+                onChange={(e) =>
+                  handleNewRowChange(index, "amount", e.target.value)
+                }
+              />
+            </td>
+            <td style={{ alignItems: "center" }}>
+              <span
+                style={{
+                  cursor: "pointer",
+                  color: "red",
+                  marginLeft: "10px",
+                }}
+                onClick={() => handleDeleteNewRow(index)}
+              >
+                <img src={Closebtn} height={15} width={15} alt="delete" />
+              </span>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  </div>
+)}
 
-                      <td
-                        className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
-                        style={{ alignItems: "center" }}
-                      >
-                        <Form.Control
-                          type="text"
-                          placeholder="Enter total amount"
-                          value={u.amount}
-                          onChange={(e) =>
-                            handleNewRowChange(index, "amount", e.target.value)
-                          }
-                        />
-                      </td>
-                      <td style={{ alignItems: "center" }}>
-                        <span
-                          style={{
-                            cursor: "pointer",
-                            color: "red",
-                            marginLeft: "10px",
-                          }}
-                          onClick={() => handleDeleteNewRow(index)}
-                        >
-                          <img
-                            src={Closebtn}
-                            height={15}
-                            width={15}
-                            alt="delete"
-                          />
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
-          </div>
 
-          <div>
+          {/* <div>
             <p
               style={{
                 color: "#1E45E1",
@@ -4925,12 +5085,69 @@ const handleBack = () => {
               + Add new column
             </p>
           </div>
+          <div className="mb-2">
+  <Form.Select
+    onChange={(e) => handleRowTypeSelect(e.target.value)}
+    defaultValue=""
+  >
+    <option value="" disabled>Select Item Type</option>
+    <option value="RoomRent">Room Rent</option>
+    <option value="EB">EB</option>
+    <option value="Other">Other</option>
+  </Form.Select>
+</div> */}
+      <div  className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+        
+        <Form.Select
+       className="border"
+       style={{
+         fontSize: 16,
+         color: "#4B4B4B",
+         fontFamily: "Gilroy",
+         lineHeight: "18.83px",
+         fontWeight: 500,
+         boxShadow: "none",
+         border: "1px solid #D9D9D9",
+         height: 38,
+         borderRadius: 8,
+       }}
+       value={dropdownValue}
+       onChange={(e) => handleRowTypeSelect(e.target.value)}
+     >
+       <option value="" disabled>Select Item Type</option>
+       {!selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
+       {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
+       <option value="Other">Other</option>
+     </Form.Select>
+     
+      {tableErrmsg.trim() !== "" && (
+                   <div>
+                     <p
+                       style={{ fontSize: "13px", color: "red", marginTop: "3px", textAlign: "center" }}
+                     >
+                       {tableErrmsg !== " " && (
+                         <MdError
+                           style={{
+                             fontSize: "15px",
+                             color: "red",
+                             marginRight: "3px",
+                             marginBottom: "3px",
+                           }}
+                         />
+                       )}{" "}
+                       {tableErrmsg}
+                     </p>
+                   </div>
+                 )}
+     </div>
 
           <div style={{ float: "right", marginRight: "130px" }}>
+          {Array.isArray(newRows) && newRows.length > 0 && (
             <h5>Total Amount ₹{totalAmount}</h5>
+          )}
             <Button
               // onClick={handleEditBill}
-              onClick={billsAddshow ? handleEditBill : handleCreateBill}
+              onClick={isAddMode ? handleCreateBill : handleEditBill}
 
               className="w-80 mt-3"
               style={{
@@ -4949,6 +5166,7 @@ const handleBack = () => {
 
             <div className="mb-3"></div>
           </div>
+
         </div>
       )}
 

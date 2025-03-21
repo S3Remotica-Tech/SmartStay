@@ -101,9 +101,7 @@ const InvoicePage = () => {
   const [formatduedate, setFormatDueDate] = useState(null);
   const [totalAmount, setTotalAmount] = useState("");
   const [bills, setBills] = useState([]);
-  const [newRows, setNewRows] = useState([
-    { "S.No": 1, am_name: "", amount: "0" },
-  ]);
+  const [newRows, setNewRows] = useState([])
   const [customererrmsg, setCustomerErrmsg] = useState("");
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
   const [startdateerrmsg, setStartdateErrmsg] = useState("");
@@ -165,6 +163,7 @@ const InvoicePage = () => {
   const [originalBills, setOriginalBills] = useState([]);
   const [originalRecuiring, setOriginalRecuiring] = useState([]);
   const [originalReceipt, setOriginalReceipt] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
 
   useEffect(() => {
     // setLoading(true); 
@@ -590,11 +589,17 @@ console.log('invoiceDetails',invoiceDetails)
       ];
     }
 
-    if (newRows.length === 0) {
-      newRows = [{ "S.No": 1, am_name: "Room Rent", amount: 0 }];
-    }
+    // if (newRows.length === 0) {
+    //   newRows = [{ "S.No": 1, am_name: "Room Rent", amount: 0 }];
+    // }
 
     setNewRows(newRows);
+    const types = [];
+    newRows.forEach((row) => {
+      if (row.am_name === "Room Rent") types.push("RoomRent");
+      if (row.am_name === "EB") types.push("EB");
+    });
+    setSelectedTypes(types);
     // }
   }, [invoiceDetails]);
 
@@ -617,6 +622,7 @@ console.log('invoiceDetails',invoiceDetails)
 
   const handleEditBill = () => {
     let isValid = true;
+    let hasError = false;
   
     // Reset all error messages
     setCustomerErrmsg("");
@@ -662,7 +668,29 @@ console.log('invoiceDetails',invoiceDetails)
       setInvoiceDueDateErrmsg("Due Date is Required");
       isValid = false;
     }
+    if (!Array.isArray(newRows) || newRows.length === 0) {
+      setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
+      hasError = true;
+    } else if (
+      newRows.some(
+        (row) =>
+          !row.am_name?.trim() ||
+          row.amount === "" ||
+          row.amount === null ||
+          row.amount === undefined ||
+          isNaN(row.amount) ||
+          parseFloat(row.amount) <= 0
+      )
+    ) {
+      setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
+      hasError = true;
+    } else {
+      setTableErrmsg("");
+    }
   
+    if (hasError) {
+      return;
+    }
     // Global required field check again
     let isValiding = true;
     if (
@@ -964,42 +992,14 @@ console.log('invoiceDetails',invoiceDetails)
     setEnddateErrmsg("");
     setamenityArray([]);
     setNewRows([]);
+    setDropdownValue("")
   };
 
   const formatDateForPayloadmanualinvoice = (date) => {
     return dayjs(date).format("YYYY-MM-DD"); // Change format if needed
   };
 
-  // const handlestartDate = (selectedDates) => {
-  //   setAllFieldErrmsg("");
-  //   const date = selectedDates;
-  //   setStartDate(date);
-
-  //   if (!selectedDates) {
-  //     setStartdateErrmsg("Please Select Date");
-  //   } else {
-  //     setStartdateErrmsg("");
-  //     setEnddateErrmsg("");
-  //   }
-
-  //   const formattedDate = formatDateForPayloadmanualinvoice(date);
-  //   setFormatStartDate(formattedDate);
-  // };
-
-  // const handleEndDate = (selectedDates) => {
-  //   setAllFieldErrmsg("");
-  //   const date = selectedDates;
-  //   setEndDate(date);
-  //   if (!selectedDates) {
-  //     setEnddateErrmsg("Please Select Date");
-  //   } else {
-  //     setEnddateErrmsg("");
-  //     setStartdateErrmsg("");
-  //   }
-
-  //   const formattedDate = formatDateForPayloadmanualinvoice(date);
-  //   setFormatEndDate(formattedDate);
-  // };
+ 
 
   const handlestartDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -1275,95 +1275,105 @@ console.log('invoiceDetails',invoiceDetails)
 
 
 
-  const handleNewRowChange = (index, field, value) => {
-    setAllFieldErrmsg("");
-    const updatedRows = [...newRows];
-    updatedRows[index][field] = value;
+  // const handleNewRowChange = (index, field, value) => {
+  //   setAllFieldErrmsg("");
+  //   const updatedRows = [...newRows];
+  //   updatedRows[index][field] = value;
 
-    setNewRows(updatedRows);
+  //   setNewRows(updatedRows);
+  //   setTableErrmsg("")
+  // };
+  const handleNewRowChange = (index, field, value) => {
+    setNewRows((prevRows) =>
+      prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
+    );
+    setAllFieldErrmsg("");
     setTableErrmsg("")
   };
-
-  const handleDeleteNewRow = (index) => {
-    setNewRows((prevRows) => {
-      const updatedRows = prevRows.filter((_, i) => i !== index);
-      return updatedRows;
-    });
-
+  const [dropdownValue, setDropdownValue] = useState("");
+  const handleRowTypeSelect = (type) => {
+    let newRow = { am_name: "", amount: "0" };
+  
+    if (type === "RoomRent") {
+      newRow.am_name = "Room Rent";
+    } else if (type === "EB") {
+      newRow.am_name = "EB";
+    }
+  
+    setNewRows((prev) => [...prev, newRow]);
+  
+    // Add to selectedTypes only if not already added
+    if (type !== "Other" && !selectedTypes.includes(type)) {
+      setSelectedTypes((prev) => [...prev, type]);
+    }
+  
+    // Clear error messages
     setAllFieldErrmsg("");
-  }
-
-  // const handleCreateBill = () => {
-  //   const incompleteRows = newRows.some((row) => !row.am_name || !row.amount);
-  //   if (incompleteRows) {
-  //     setTableErrmsg(
-  //       "Please fill all details in the table before generating the bill"
-  //     );
-  //     return;
+    setTableErrmsg("");
+  
+    // ✅ Reset dropdown cleanly using state
+    setDropdownValue("");
+  };
+  
+  
+  // const handleRowTypeSelect = (type) => {
+  //   let newRow = { am_name: "", amount: "0" };
+  
+  //   if (type === "RoomRent") {
+  //     newRow.am_name = "Room Rent";
+  //   } else if (type === "EB") {
+  //     newRow.am_name = "EB";
   //   }
-
-  //   if (!customername) {
-  //     setCustomerErrmsg("Please Select Customer");
-  //   }
-
-  //   if (!customername && !invoicenumber) {
-  //     setAllFieldErrmsg("Please Enter All Field");
-  //     return;
-  //   }
-
-  //   // Format start_date
-  //   const startDateObject = new Date(startdate);
-  //   const formattedStartDate = `${startDateObject.getFullYear()}-${String(
-  //     startDateObject.getMonth() + 1
-  //   ).padStart(2, "0")}-${String(startDateObject.getDate()).padStart(2, "0")}`;
-
-  //   // Format end_date
-  //   const endDateObject = new Date(enddate);
-  //   const formattedEndDate = `${endDateObject.getFullYear()}-${String(
-  //     endDateObject.getMonth() + 1
-  //   ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
-
-  //   if (customername && invoicenumber) {
-  //     dispatch({
-  //       type: "MANUAL-INVOICE-ADD",
-  //       payload: {
-  //         user_id: customername,
-  //         date: formatinvoicedate,
-  //         due_date: formatduedate,
-  //         start_date: formattedStartDate,
-  //         end_date: formattedEndDate,
-  //         invoice_id: invoicenumber,
-  //         room_rent: rentamount?.amount,
-  //         eb_amount: ebamount?.amount || 0,
-  //         total_amount: totalAmount,
-  //         amenity: amenityArray.length > 0 ? amenityArray : [],
-  //       },
-  //     });
-  //     setShowManualInvoice(false);
-  //     setShowRecurringBillForm(false);
-  //     setReceiptFormShow(false);
-  //     setShowAllBill(true);
-  //     setCustomerName("");
-  //     setInvoiceNumber("");
-  //     setStartDate("");
-  //     setEndDate("");
-  //     setInvoiceDate("");
-  //     setInvoiceDueDate("");
-  //     setSelectedData("");
-  //     setTotalAmount("");
-  //     setBillAmounts([]);
-  //     setNewRows([]);
-
-  //     setCustomerErrmsg("");
-  //     setStartdateErrmsg("");
-  //     setInvoiceDateErrmsg("");
-  //     setInvoiceDueDateErrmsg("");
-  //     setAllFieldErrmsg("");
-  //   }
-
-  //   // setShowManualInvoice(true)
+  
+  //   setNewRows((prev) => [...prev, newRow]);
+  //   setAllFieldErrmsg("");
+  //   setTableErrmsg("")
   // };
 
+  // const handleDeleteNewRow = (index) => {
+  //   setNewRows((prevRows) => {
+  //     const updatedRows = prevRows.filter((_, i) => i !== index);
+  //     return updatedRows;
+  //   });
+
+  //   setAllFieldErrmsg("");
+  // }
+  // const handleDeleteNewRow = (index) => {
+  //   setNewRows((prevRows) => {
+  //     const updatedRows = prevRows.filter((_, i) => i !== index);
+  //     return updatedRows;
+  //   });
+
+  //   setAllFieldErrmsg("");
+  // };
+  const handleDeleteNewRow = (index) => {
+    setNewRows((prevRows) => {
+      const deletedRow = prevRows[index];
+      const updatedRows = prevRows.filter((_, i) => i !== index);
+  
+      // Remove RoomRent or EB from selectedTypes if that row was deleted
+      if (deletedRow.am_name === "Room Rent") {
+        setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "RoomRent"));
+      } else if (deletedRow.am_name === "EB") {
+        setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "EB"));
+      }
+  
+      return updatedRows;
+    });
+  
+    setAllFieldErrmsg("");
+    setTableErrmsg("");
+  };
+  
+  useEffect(() => {
+    const types = [];
+    newRows.forEach((row) => {
+      if (row.am_name === "Room Rent") types.push("RoomRent");
+      else if (row.am_name === "EB") types.push("EB");
+    });
+    setSelectedTypes(types);
+  }, []);
+  
   const handleCreateBill = () => {
     let hasError = false;
 
@@ -1404,14 +1414,34 @@ console.log('invoiceDetails',invoiceDetails)
     }
 
     // Check if any row in the table is incomplete
-    if (newRows.some((row) => !row.am_name || !row.amount)) {
-      setTableErrmsg(
-        "Please fill all details in the table before generating the bill"
-      );
+    // if (newRows.some((row) => !row.am_name || !row.amount)) {
+    //   setTableErrmsg(
+    //     "Please fill all details in the table before generating the bill"
+    //   );
+    //   hasError = true;
+    // } else {
+    //   setTableErrmsg("");
+    // }
+    if (!Array.isArray(newRows) || newRows.length === 0) {
+      setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
+      hasError = true;
+    } else if (
+      newRows.some(
+        (row) =>
+          !row.am_name?.trim() ||
+          row.amount === "" ||
+          row.amount === null ||
+          row.amount === undefined ||
+          isNaN(row.amount) ||
+          parseFloat(row.amount) <= 0
+      )
+    ) {
+      setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
       hasError = true;
     } else {
       setTableErrmsg("");
     }
+    
 
     // Stop execution if there are errors
     if (hasError) {
@@ -6090,6 +6120,7 @@ console.log('invoiceDetails',invoiceDetails)
           </div>
 
           {/* Table */}
+          {Array.isArray(newRows) && newRows.length > 0 && (
           <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
             <Table className="ebtable mt-2" responsive>
               <thead
@@ -6187,20 +6218,19 @@ console.log('invoiceDetails',invoiceDetails)
                             handleNewRowChange(index, "amount", e.target.value)
                           }
                         /> */}
-                        <Form.Control
+        <Form.Control
   type="text"
-  style={{ fontFamily: "Gilroy" }}
   placeholder="Enter Total Amount"
   value={u.amount}
+  className={`${u.amount === "" ? "border-danger" : ""}`}
   onChange={(e) => {
     const value = e.target.value;
-
-    // Allow only numbers and decimals
     if (/^\d*\.?\d*$/.test(value)) {
       handleNewRowChange(index, "amount", value);
     }
   }}
 />
+
 
                       </td>
                       <td style={{ alignItems: "center" }}>
@@ -6225,8 +6255,52 @@ console.log('invoiceDetails',invoiceDetails)
               </tbody>
             </Table>
           </div>
+          )}
+        <div  className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-2">
+        <Form.Select
+  className="border"
+  style={{
+    fontSize: 16,
+    color: "#4B4B4B",
+    fontFamily: "Gilroy",
+    lineHeight: "18.83px",
+    fontWeight: 500,
+    boxShadow: "none",
+    border: "1px solid #D9D9D9",
+    height: 38,
+    borderRadius: 8,
+  }}
+  value={dropdownValue}
+  onChange={(e) => handleRowTypeSelect(e.target.value)}
+>
+  <option value="" disabled>Select Item Type</option>
+  {!selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
+  {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
+  <option value="Other">Other</option>
+</Form.Select>
 
-          <div>
+
+ {tableErrmsg.trim() !== "" && (
+              <div>
+                <p
+                  style={{ fontSize: "13px", color: "red", marginTop: "3px", textAlign: "center" }}
+                >
+                  {tableErrmsg !== " " && (
+                    <MdError
+                      style={{
+                        fontSize: "15px",
+                        color: "red",
+                        marginRight: "3px",
+                        marginBottom: "3px",
+                      }}
+                    />
+                  )}{" "}
+                  {tableErrmsg}
+                </p>
+              </div>
+            )}
+</div>
+          {/* <div>
             <p
               style={{
                 color: "#1E45E1",
@@ -6241,7 +6315,7 @@ console.log('invoiceDetails',invoiceDetails)
               {" "}
               + Add new columns
             </p>
-          </div>
+          </div> */}
 
           <div>
             {allfielderrmsg.trim() !== "" && (
@@ -6272,31 +6346,15 @@ console.log('invoiceDetails',invoiceDetails)
             )}
           </div>
           <div>
-            {tableErrmsg.trim() !== "" && (
-              <div>
-                <p
-                  style={{ fontSize: "13px", color: "red", marginTop: "3px", textAlign: "center" }}
-                >
-                  {tableErrmsg !== " " && (
-                    <MdError
-                      style={{
-                        fontSize: "15px",
-                        color: "red",
-                        marginRight: "3px",
-                        marginBottom: "3px",
-                      }}
-                    />
-                  )}{" "}
-                  {tableErrmsg}
-                </p>
-              </div>
-            )}
+            
           </div>
 
           <div style={{ float: "right", marginRight: "130px" }}>
+          {Array.isArray(newRows) && newRows.length > 0 && (
             <h5 style={{ fontFamily: "Gilroy" }}>
               Total Amount ₹{totalAmount}
             </h5>
+          )}
             <Button
               onClick={isEditing ? handleEditBill : handleCreateBill}
               className="w-100 mt-3 mb-5"
