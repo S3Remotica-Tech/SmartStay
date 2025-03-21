@@ -131,6 +131,7 @@ function UserList(props) {
 
   let serialNumber = 1;
   const [billsAddshow,setBillsAddShow] = useState(false)
+  const [isAddMode, setIsAddMode] = useState(false);
 
 
   useEffect(() => {
@@ -163,19 +164,24 @@ function UserList(props) {
     ]);
 
   const handleEditItem = (details) => {
+    setBillsAddShow(true)
     setCurrentView(null);
     setTimeout(() => {
       setCurrentView(details);
-      setBillsAddShow(true)
+     
     }, 0);
   };
   
-
-
-const handleAddItems = () =>{
-  setBillsAddShow(false)
-  setCustomerName(id)
-}
+  useEffect(() => {
+    if (isAddMode && !currentView && !billsAddshow) {
+      setCustomerName(id);
+    }
+  }, [isAddMode, billsAddshow]);
+const handleAddItems = () => {
+  setIsAddMode(true); 
+  setBillsAddShow(true);
+  setCustomerName(id);
+};
   const handleDeleteItem = (detail) => {
     setDeleteId(detail);
   };
@@ -654,6 +660,7 @@ const handleAddItems = () =>{
   };
 
   const handleBackBill = () => {
+    setIsAddMode(false);
     setIsEditing(false);
 
     setRoomDetail(true);
@@ -681,10 +688,9 @@ const handleAddItems = () =>{
       setCustomerName(currentView.hos_user_id);
       setInvoiceNumber(currentView.Invoices);
       if (currentView.DueDate) {
-        const parsedDate = new Date(currentView.DueDate); // Convert to Date object
+        const parsedDate = new Date(currentView.DueDate); 
         if (!isNaN(parsedDate.getTime())) {
-          // Check if it's a valid date
-          setInvoiceDueDate(parsedDate); // Set the date object in state
+          setInvoiceDueDate(parsedDate); 
         }
         
       }
@@ -4383,7 +4389,7 @@ const handleBack = () => {
                 }}
               >
                {/* Edit Bill */}
-               {billsAddshow ? "Edit Bill" : "New Bill"}
+               {isAddMode ? "New Bill" : "Edit Bill"}
               </span>{" "}
             </div>
           </div>
@@ -4838,48 +4844,12 @@ const handleBack = () => {
                 <tr>
                   <th>S.NO</th>
                   <th>Description</th>
-                  {/* <th>EB Unit </th>
-                   <th>Unit Price </th>
-                   <th>Actual Amount</th> */}
                   <th>Total Amount</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {/* {billamounts && billamounts.length > 0 && billamounts.map((u, index) => (
-     <tr key={`bill-${index}`}>
-     <td>{serialNumber++}</td>
-     <td>
-     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{paddingTop:'35px',paddingLeft:'10px'}}>
-     <p>{u.description}</p>
-     </div>
-     </td>
      
-     
-     
-     <td>
-     <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-     <Form.Group controlId={`amount-${index}`}>
-     <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}></Form.Label>
-     <Form.Control
-     style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500 }}
-     type="text"
-     placeholder="Enter total amount"
-     value={u.amount !== undefined ? Math.floor(u.amount) : 0} 
-     onChange={(e) => handleAmountChange(index, e.target.value)} 
-     />
-     </Form.Group>
-     </div>
-     </td>
-     
-     <td style={{ paddingTop: '35px' }}>
-     <span style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }} onClick={() => handleDelete(u)}>
-     <img src={Closebtn} height={15} width={15} alt="delete" />
-     </span>
-     </td>
-     </tr>
-     ))} */}
-
                 {newRows &&
                   newRows?.length > 0 &&
                   newRows.map((u, index) => (

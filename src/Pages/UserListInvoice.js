@@ -79,6 +79,7 @@ console.log("propss",props);
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }, []);
+    const [BillsForm,setBillsForm] = useState(false)
    
   const handleEditBill = (item) => {
     console.log(item,"items");
@@ -92,7 +93,7 @@ console.log("propss",props);
   
     // props.setRoomDetail(false)
   };
-  const [BillsForm,setBillsForm] = useState(false)
+  
   const handleAddBill = () => { 
     setBillsForm(true)
   props.handleAddItem()
