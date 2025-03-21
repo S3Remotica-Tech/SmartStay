@@ -46,6 +46,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 
 function UserList(props) {
+  console.log("UserList?",props)
   const state = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -123,17 +124,59 @@ function UserList(props) {
 
   const [hostelDelete, setHostelDelete] = useState(false);
   const [roomDelete, setRoomDelete] = useState(false);
-
+ const [amenityArray, setamenityArray] = useState([]);
+ const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
+ const [formatduedate, setFormatDueDate] = useState(null);
+ const [tableErrmsg, setTableErrmsg] = useState("");
+ const [id, setId] = useState("");
 
   let serialNumber = 1;
+  const [billsAddshow,setBillsAddShow] = useState(false)
+
+
+  useEffect(() => {
+    if (id && !billsAddshow) {
+      dispatch({
+        type: "MANUAL-INVOICE-NUMBER-GET",
+        payload: { user_id: id},
+      });
+    }
+  }, [id, billsAddshow]);
+  //  useEffect(() => {
+  //     if (customername && billsAddshow === false) {
+  //       dispatch({
+  //         type: "MANUAL-INVOICE-NUMBER-GET",
+  //         payload: { user_id: customername },
+  //       });
+  //     }
+  //   }, [customername,billsAddshow]);
+
+   useEffect(() => {
+      if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
+        setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
+        setTimeout(() => {
+          dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
+        }, 100);
+      }
+    }, [
+      state.InvoiceList.ManualInvoiceNUmber.invoice_number,
+      state.InvoiceList.Manulainvoicenumberstatuscode,
+    ]);
 
   const handleEditItem = (details) => {
     setCurrentView(null);
     setTimeout(() => {
       setCurrentView(details);
+      setBillsAddShow(true)
     }, 0);
   };
+  
 
+
+const handleAddItems = () =>{
+  setBillsAddShow(false)
+  setCustomerName(id)
+}
   const handleDeleteItem = (detail) => {
     setDeleteId(detail);
   };
@@ -330,7 +373,7 @@ function UserList(props) {
         formatDateToSInvoiceDuedate(invoiceduedate);
 
       const amenitiesChanged =
-        newRows.length !== currentView.amenity.length ||
+        newRows?.length !== currentView.amenity?.length ||
         newRows.some((row, index) => {
           const originalRow = currentView.amenity?.[index] || {};
           return (
@@ -428,25 +471,103 @@ function UserList(props) {
     setAllFieldErrmsg("");
   };
 
-  // useEffect(() => {
-  //   if (newRows) {
-  //     const allRows = newRows
-  //       .map((detail) => ({
-  //         am_name: detail.am_name,
-  //         amount: Number(detail.amount),
-  //       }))
-  //       .filter((detail) => detail.am_name && detail.amount);
+  const handleCreateBill = () => {
 
-  //     setamenityArray(allRows);
-
-  //     const Total_amout = allRows.reduce(
-  //       (sum, item) => sum + parseFloat(item.amount || 0),
-  //       0
-  //     );
-  //     setTotalAmount(Total_amout);
-  //   }
-  // }, [newRows]);
-
+      let hasError = false;
+  
+      // Check required fields and set error messages only if empty
+      if (!customername) {
+        setCustomerErrmsg("Please Select Customer");
+        hasError = true;
+      } else {
+        setCustomerErrmsg(""); // Clear error when field is filled
+      }
+  
+      if (!startdate) {
+        setStartdateErrmsg("Please Select Start Date");
+        hasError = true;
+      } else {
+        setStartdateErrmsg("");
+      }
+  
+      if (!enddate) {
+        setEnddateErrmsg("Please Select End Date");
+        hasError = true;
+      } else {
+        setEnddateErrmsg("");
+      }
+  
+      if (!invoicedate) {
+        setInvoiceDateErrmsg("Please Select Invoice Date");
+        hasError = true;
+      } else {
+        setInvoiceDateErrmsg("");
+      }
+  
+      if (!invoiceduedate) {
+        setInvoiceDueDateErrmsg("Please Select Due Date");
+        hasError = true;
+      } else {
+        setInvoiceDueDateErrmsg("");
+      }
+  
+      // Check if any row in the table is incomplete
+      if (newRows.some((row) => !row.am_name || !row.amount)) {
+        setTableErrmsg(
+          "Please fill all details in the table before generating the bill"
+        );
+        hasError = true;
+      } else {
+        setTableErrmsg("");
+      }
+  
+      if (hasError) {
+        return;
+      }
+  
+      // Format dates
+      const formattedStartDate = startdate ? dayjs(startdate).format("YYYY-MM-DD") : "";
+  
+      const formattedEndDate = enddate ? dayjs(enddate).format("YYYY-MM-DD") : "";
+      dispatch({
+        type: "MANUAL-INVOICE-ADD",
+        payload: {
+          user_id: customername,
+          date: formatinvoicedate,
+          due_date: formatduedate,
+          // start_date: formattedStartDate,
+          // end_date: formattedEndDate,
+          start_date: formattedStartDate,
+      end_date:formattedEndDate,
+          invoice_id: invoicenumber,
+          total_amount: totalAmount,
+          amenity: amenityArray.length > 0 ? amenityArray : [],
+        },
+      });
+  
+      // Reset form fields
+      setCustomerName("");
+      setInvoiceNumber("");
+      setStartDate("");
+      setEndDate("");
+      setInvoiceDate("");
+      setInvoiceDueDate("");
+      setTotalAmount("");
+      // setBillAmounts([]);
+      setNewRows([]);
+     
+    };
+    useEffect(() => {
+      if (!billsAddshow && id) {
+        const customeraId = state.UsersList?.Users?.find((u) => u.ID === id);
+    
+        if (customeraId) {
+          setCustomerName(customeraId.Name);
+          console.log("customeraId", customeraId.Name);
+        }
+      }
+    }, [billsAddshow]);
+    
   const handleCustomerName = (e) => {
     setCustomerName(e.target.value);
     setAllFieldErrmsg("");
@@ -459,6 +580,7 @@ function UserList(props) {
     setEndDate("");
     setTotalAmount("");
   };
+
 
   const handlestartDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -483,7 +605,11 @@ function UserList(props) {
       setEnddateErrmsg("");
       setStartdateErrmsg("");
     }
+   
   };
+   const formatDateForPayloadmanualinvoice = (date) => {
+      return dayjs(date).format("YYYY-MM-DD"); // Change format if needed
+    };
 
   const handleInvoiceDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -496,6 +622,8 @@ function UserList(props) {
       setEnddateErrmsg("");
       setStartdateErrmsg("");
     }
+    const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
+    setFormatInvoiceDate(formattedDate);
   };
 
   const handleDueDate = (selectedDates) => {
@@ -507,6 +635,8 @@ function UserList(props) {
     } else {
       setInvoiceDueDateErrmsg("");
     }
+    const formattedDate = formatDateForPayloadmanualinvoice(date);
+    setFormatDueDate(formattedDate);
   };
 
   const handleDeleteNewRow = (index) => {
@@ -543,12 +673,14 @@ function UserList(props) {
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
+    setNewRows("")
 
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
+    dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
   };
 
   useEffect(() => {
-    if (currentView) {
+    if (currentView && billsAddshow) {
       setCustomerName(currentView.hos_user_id);
       setInvoiceNumber(currentView.Invoices);
       if (currentView.DueDate) {
@@ -590,6 +722,27 @@ function UserList(props) {
       setNewRows(currentView.amenity);
     }
   }, [currentView]);
+
+
+   useEffect(() => {
+      if (newRows) {
+        const allRows = newRows
+          .map((detail) => ({
+            am_name: detail.am_name,
+            amount: Number(detail.amount),
+          }))
+          .filter((detail) => detail.am_name && detail.amount);
+  
+        setamenityArray(allRows);
+  
+        const Total_amout = allRows.reduce(
+          (sum, item) => sum + parseFloat(item.amount || 0),
+          0
+        );
+  
+        setTotalAmount(Total_amout);
+      }
+    }, [newRows]);
 
   useEffect(() => {
     if (isReading) {
@@ -698,6 +851,24 @@ function UserList(props) {
       }, 1000);
     }
   }, [state.InvoiceList.manualInvoiceEditStatusCode]);
+
+  useEffect(() => {
+      if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
+        handleBackBill()
+        dispatch({
+          type: "CUSTOMERDETAILS",
+          payload: { user_id: id },
+        });
+  
+        setTimeout(() => {
+          dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
+         
+        }, 1000);
+      }
+    }, [
+      state.InvoiceList.manualInvoiceAddStatusCode,
+      state.InvoiceList.ManualInvoices,
+    ]);
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
@@ -1219,7 +1390,7 @@ function UserList(props) {
 
   const [roomDetail, setRoomDetail] = useState(false);
   const [userList, setUserList] = useState(true);
-  const [id, setId] = useState("");
+  
   const [hostelName, sethosName] = useState("");
   const [customerUser_Id, setcustomerUser_Id] = useState("");
   
@@ -3413,6 +3584,7 @@ const handleBack = () => {
       {roomDetail === true ? (
         <UserListRoomDetail
           onEditItem={handleEditItem}
+          onAddItem={handleAddItems}
           onDeleteItem={handleDeleteItem}
           onEditRoomItem={handleEditRoomReading}
           onEditHostelItem={handleEditHostelReading}
@@ -4213,7 +4385,8 @@ const handleBack = () => {
                   fontFamily: "Gilroy",
                 }}
               >
-                Edit Bill
+               {/* Edit Bill */}
+               {billsAddshow ? "Edit Bill" : "New Bill"}
               </span>{" "}
             </div>
           </div>
@@ -4236,7 +4409,8 @@ const handleBack = () => {
                 aria-label="Default select example"
                 value={customername}
                 onChange={handleCustomerName}
-                disabled={isEditing}
+                // disabled={billsAddshow}
+                disabled
                 className="border"
                 style={{
                   fontSize: 16,
@@ -4248,6 +4422,7 @@ const handleBack = () => {
                   border: "1px solid #D9D9D9",
                   height: 38,
                   borderRadius: 8,
+                  backgroundColor: "#E7F1FF", 
                 }}
               >
                 <option value="">Select Customer</option>
@@ -4306,6 +4481,7 @@ const handleBack = () => {
                   fontFamily: "Gilroy",
                   lineHeight: "18.83px",
                   fontWeight: 500,
+                  backgroundColor: "#E7F1FF",
                 }}
                 type="text"
                 placeholder="Enter invoice number"
@@ -4708,7 +4884,7 @@ const handleBack = () => {
      ))} */}
 
                 {newRows &&
-                  newRows.length > 0 &&
+                  newRows?.length > 0 &&
                   newRows.map((u, index) => (
                     <tr key={`new-${index}`}>
                       <td>{serialNumber++}</td>
@@ -4719,7 +4895,7 @@ const handleBack = () => {
                         >
                           <Form.Control
                             type="text"
-                            placeholder="Enter description"
+                            placeholder="Enter Description"
                             value={u.am_name}
                             onChange={(e) =>
                               handleNewRowChange(
@@ -4786,7 +4962,9 @@ const handleBack = () => {
           <div style={{ float: "right", marginRight: "130px" }}>
             <h5>Total Amount ₹{totalAmount}</h5>
             <Button
-              onClick={handleEditBill}
+              // onClick={handleEditBill}
+              onClick={billsAddshow ? handleEditBill : handleCreateBill}
+
               className="w-80 mt-3"
               style={{
                 backgroundColor: "#1E45E1",

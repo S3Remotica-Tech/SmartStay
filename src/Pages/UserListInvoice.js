@@ -44,63 +44,8 @@ console.log("propss",props);
   const totalPagesinvoice = Math.ceil(
     invoiceFilterddata?.length / invoicerowsPerPage
   );
-
   
 
-  // const renderPageNumbersInvoice = () => {
-  //   const pageNumbersInvoice = [];
-  //   let startPageInvoice = invoicecurrentPage - 1;
-  //   let endPageInvoice = invoicecurrentPage + 1;
-
-  //   if (invoicecurrentPage === 1) {
-  //     startPageInvoice = 1;
-  //     endPageInvoice = 3;
-  //   }
-
-  //   if (invoicecurrentPage === totalPagesinvoice) {
-  //     startPageInvoice = totalPagesinvoice - 2;
-  //     endPageInvoice = totalPagesinvoice;
-  //   }
-
-  //   if (invoicecurrentPage === 2) {
-  //     startPageInvoice = 1;
-  //     endPageInvoice = 3;
-  //   }
-
-  //   if (invoicecurrentPage === totalPagesinvoice - 1) {
-  //     startPageInvoice = totalPagesinvoice - 2;
-  //     endPageInvoice = totalPagesinvoice;
-  //   }
-
-  //   for (let i = startPageInvoice; i <= endPageInvoice; i++) {
-  //     if (i > 0 && i <= totalPagesinvoice) {
-  //       pageNumbersInvoice.push(
-  //         <li key={i} style={{ margin: "0 5px" }}>
-  //           <button
-  //             style={{
-  //               padding: "5px 10px",
-  //               textDecoration: "none",
-  //               color: i === invoicecurrentPage ? "#007bff" : "#000000",
-  //               cursor: "pointer",
-  //               borderRadius: "5px",
-  //               display: "inline-block",
-  //               minWidth: "30px",
-  //               textAlign: "center",
-  //               backgroundColor:
-  //                 i === invoicecurrentPage ? "transparent" : "transparent",
-  //               border: i === invoicecurrentPage ? "1px solid #ddd" : "none",
-  //             }}
-  //             onClick={() => handleInvoicePageChange(i)}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //   }
-
-  //   return pageNumbersInvoice;
-  // };
   useEffect(() => {
     setinvoiceFilterddata(state.UsersList.customerdetails.invoice_details);
   }, [state.UsersList.customerdetails.invoice_details]);
@@ -137,7 +82,7 @@ console.log("propss",props);
     console.log(item,"items");
     
   props.handleEditItem(item)
-     
+  setBillsForm(false)
     
     dispatch({ type: 'USERROOMAVAILABLETRUE' });
   
@@ -145,11 +90,10 @@ console.log("propss",props);
   
     // props.setRoomDetail(false)
   };
-
-  const handleAddBill = (item) => {
-    console.log(item,"items");
-    
-  props.handleEditItem(item)
+  const [BillsForm,setBillsForm] = useState(false)
+  const handleAddBill = () => { 
+    setBillsForm(true)
+  props.handleAddItem()
     
     
     
@@ -159,6 +103,7 @@ console.log("propss",props);
   
     // props.setRoomDetail(false)
   };
+  
 
  
   // useEffect(() => {
@@ -214,7 +159,16 @@ console.log("propss",props);
   console.log("props",props)
 
     
- 
+  useEffect(()=>{
+    if(BillsForm){
+      dispatch({
+        type: "MANUAL-INVOICE-NUMBER-GET",
+        payload: { user_id: props.id},
+      });
+    }
+   
+    
+  },[BillsForm])
 const handleDeleteBill = (user) => {
   
     console.log(user,'users');
@@ -241,9 +195,9 @@ const handleDeleteBill = (user) => {
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "11px 32px",
-                        marginTop: 19,
                         paddingLeft: 34,
                         whiteSpace: "nowrap",
+                        marginTop:"-20px"
                       }}
                     >
                       {" "}
@@ -258,6 +212,7 @@ const handleDeleteBill = (user) => {
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
                             // borderBottom:"none"
+                            marginTop:10
                           }}>
                            
         <Table  responsive="md"
