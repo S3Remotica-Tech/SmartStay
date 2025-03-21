@@ -47,6 +47,7 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+const { RangePicker } = DatePicker;
 
 
 
@@ -164,6 +165,8 @@ const InvoicePage = () => {
   const [originalRecuiring, setOriginalRecuiring] = useState([]);
   const [originalReceipt, setOriginalReceipt] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [dateRange, setDateRange] = useState([null, null]);
+const [startDate, endDate] = dateRange;
 
   useEffect(() => {
     // setLoading(true); 
@@ -193,6 +196,7 @@ const InvoicePage = () => {
       }, 100);
     }
   }, [state.InvoiceList.ManualInvoicesgetstatuscode]);
+  console.log("state.InvoiceList.ManualInvoices",state.InvoiceList.ManualInvoices)
 
   useEffect(() => {
     if (state.InvoiceList.BillsErrorstatusCode === 201) {
@@ -361,28 +365,59 @@ const InvoicePage = () => {
     }
   }, [bills]);
 
+  // const handleStatusFilter = (event) => {
+  //   const searchTerm = event.target.value;
+  //   setStatusfilter(searchTerm);
+  //    };
   const handleStatusFilter = (event) => {
-    const searchTerm = event.target.value;
-    setStatusfilter(searchTerm);
-     };
+    const selected = event.target.value;
+    setStatusfilter(selected);
+  
+    // Clear date range if not 'date'
+    if (selected !== "date") {
+      setDateRange([null, null]);
+    }
+  };
 
-useEffect(()=>{
+// useEffect(()=>{
+//   if (statusfilter === "All") {
+//     setBills(originalBillsFilter);
+//   } else {
+//     const filteredItems = originalBillsFilter.filter((user) =>
+//         user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
+//     );
+
+
+//     setBills(filteredItems);
+//   }
+
+
+//   setCurrentPage(1);
+
+// },[statusfilter])
+
+useEffect(() => {
+  let filtered = originalBillsFilter;
+
   if (statusfilter === "All") {
-    setBills(originalBillsFilter);
-  } else {
-    const filteredItems = originalBillsFilter.filter((user) =>
+    filtered = originalBillsFilter;
+  } else if (statusfilter === "Paid" || statusfilter === "Unpaid") {
+    filtered = filtered.filter(
+      (user) =>
         user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
     );
-
-
-    setBills(filteredItems);
+  } else if (statusfilter === "date" && startDate && endDate) {
+    filtered = filtered.filter((user) => {
+      const invoiceDate = new Date(user.Date); // or user.invoiceDate
+      return (
+        invoiceDate >= startDate &&
+        invoiceDate <= endDate
+      );
+    });
   }
 
-
-  setCurrentPage(1);
-
-},[statusfilter])
-
+  setBills(filtered);
+}, [statusfilter, startDate, endDate, originalBillsFilter]);
 
 
 
@@ -2772,9 +2807,34 @@ console.log('invoiceDetails',invoiceDetails)
                       <option value="All">All</option>
                       <option value="Unpaid">UnPaid</option>
                       <option value="Paid">Paid</option>
+                      <option value="date">date</option>
                     </Form.Select>
+                 
                   </div>
                 )}
+{statusfilter === "date" && (
+  <div className="mt-4">
+    <RangePicker
+  style={{ height: 40 }}
+  onChange={(dates) => {
+    if (!dates || dates.length === 0) {
+      setStatusfilter("");
+      setDateRange([]);        
+      setStartDate(null);   
+      setEndDate(null); 
+    } else {
+      setDateRange(dates);
+      setStartDate(dates[0]);
+      setEndDate(dates[1]);
+    }
+  }}
+  value={dateRange}
+  format="YYYY-MM-DD"
+  className="w-100"
+/>
+
+  </div>
+)}
 
                 {value === "3" && filterStatus && (
                   <div
