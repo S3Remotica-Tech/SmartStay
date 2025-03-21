@@ -3803,5 +3803,6 @@ UserListRoomDetail.propTypes = {
   onDeleteRoomItem: PropTypes.func.isRequired,
   setcustomerUser_Id: PropTypes.func.isRequired,
   customerUser_Id: PropTypes.func.isRequired,
+  onAddItem: PropTypes.func.isRequired,
 };
 export default UserListRoomDetail;

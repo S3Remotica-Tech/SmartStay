@@ -1,3 +1,5 @@
+
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { Table } from "react-bootstrap";
@@ -698,6 +700,8 @@ UserListInvoice.propTypes = {
   handleDeleteItem: PropTypes.func.isRequired,
   billEditPermission: PropTypes.func.isRequired,
   billDeletePermission: PropTypes.func.isRequired,
+  handleAddItem: PropTypes.func.isRequired,
+  id: PropTypes.func.isRequired,
 };
 
 export default UserListInvoice;

@@ -127,7 +127,6 @@ function UserList(props) {
  const [amenityArray, setamenityArray] = useState([]);
  const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
  const [formatduedate, setFormatDueDate] = useState(null);
- const [tableErrmsg, setTableErrmsg] = useState("");
  const [id, setId] = useState("");
 
   let serialNumber = 1;
@@ -512,14 +511,12 @@ const handleAddItems = () =>{
       }
   
       // Check if any row in the table is incomplete
-      if (newRows.some((row) => !row.am_name || !row.amount)) {
-        setTableErrmsg(
-          "Please fill all details in the table before generating the bill"
-        );
-        hasError = true;
-      } else {
-        setTableErrmsg("");
-      }
+      // if (newRows.some((row) => !row.am_name || !row.amount)) {
+       
+      //   hasError = true;
+      // } else {
+      //   setTableErrmsg("");
+      // }
   
       if (hasError) {
         return;

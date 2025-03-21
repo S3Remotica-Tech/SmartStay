@@ -11,7 +11,6 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { FormControl } from "react-bootstrap";
-import Calendars from "../Assets/Images/New_images/calendar.png";
 import Form from "react-bootstrap/Form";
 import { MdError } from "react-icons/md";
 import moment from "moment";
@@ -517,63 +516,8 @@ useEffect(() => {
   }, [state.PgList.statusCodeForEbRoomList])
 
 
-  const customDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          // disabled={edit}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+ 
 
-  // useEffect(()=>{
-  // if(state.PgList.statusCodeForEditElectricity === 200){
-  //   handleClose()
-  //   dispatch({ type: "EBSTARTMETERLIST", payload: {hostel_id: props.selectedHostel}})
-  //   dispatch({ type: "CUSTOMEREBLIST",payload: { hostel_id:props.selectedHostel}})
-
-  //   setTimeout(() => {
-  //     dispatch({ type: "CLEAR_EDIT_ELECTRICITY" });
-  //   }, 200);
-
-  // }
-  // },[state.PgList.statusCodeForEditElectricity])
 
   return (
 

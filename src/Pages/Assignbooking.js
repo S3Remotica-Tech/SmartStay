@@ -4,7 +4,6 @@ import { Modal, Form, Button, Row, Col, FormControl } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
-import Calendars from "../Assets/Images/New_images/calendar.png";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
 import PropTypes from "prop-types";

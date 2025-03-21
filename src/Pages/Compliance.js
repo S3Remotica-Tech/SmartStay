@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from 'react';
 import 'react-loading-skeleton/dist/skeleton.css'
-import Calendars from '../Assets/Images/New_images/calendar.png'
 import Emptystate from '../Assets/Images/Empty-State.jpg'
 import 'flatpickr/dist/themes/material_blue.css';
 import moment from 'moment';
@@ -12,7 +11,6 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import '../Pages/Compliance.css'
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import Profile from '../Assets/Images/New_images/profile-picture.png';
-import { FormControl} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -42,8 +40,7 @@ const Compliance = () => {
   const [Complainttype, setComplainttype] = useState('');
   const [description, setDescription] = useState('')
   const [Assign, setAssign] = useState('');
-  const [Status, setStatus] = useState('')
-  const [date, setDate] = useState('');
+  const [Status, setStatus] = useState('');
   const [hostel_Id, setHostel_Id] = useState('')
   const [Floor, setFloor] = useState('')
   const [Rooms, setRooms] = useState('')
@@ -433,7 +430,6 @@ const Compliance = () => {
     setAssign('');
     setDescription('');
     setSelectedDate('')
-    setDate('');
     setBeds('')
     setFloor('');
     setRooms('');
@@ -574,10 +570,7 @@ const Compliance = () => {
       setEditcomplainttype(Complaintdata.complaint_name)
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.Description);
-      // setDate(format(new Date(Complaintdata.date), 'yyyy-MM-dd'));
-      // setSelectedDate(new Date(Complaintdata.date), 'dd/MM/yyyy');
       setSelectedDate(new Date(Complaintdata.date)); 
-      console.log("setSelectedDate",selectedDate)
       setHostel_Id(Complaintdata.Hostel_id)
       setBeds(Complaintdata.Bed)
       setFloor(Complaintdata.Floor_id);
@@ -602,16 +595,7 @@ const Compliance = () => {
   new Date(selectedDate).getTime() !== new Date(initialValuesRef.current.selectedDate).getTime(); 
 
 
-    // useEffect(() => {
-    //   handleEditcomplaint(editdata)
-    // }, [editdata]);
-
-
-    console.log("description", description);
-  console.log("date", date);
-  console.log("assign", Assign);
-  console.log("selectedDate",selectedDate)
-
+    
   useEffect(() => {
     const closeButton = document.querySelector('button[aria-label="close-button"]');
     if (closeButton) {
@@ -671,57 +655,6 @@ const Compliance = () => {
     })
   });
 
-
-  const customDateInput = (props) => {
-    return (
-      <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
-        <FormControl
-          type="text"
-          className='date_input'
-          value={props.value || 'DD/MM/YYYY'}
-          readOnly
-          disabled={edit}
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none"
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
-
-  // const [isScrolled, setIsScrolled] = useState(false);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 0) {
-  //       setIsScrolled(true);
-  //     } else {
-  //       setIsScrolled(false);
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   // Cleanup the event listener
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
 
   return (
     <>
@@ -1548,24 +1481,7 @@ const Compliance = () => {
                               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 Complaint Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
-                              {/* <div style={{ position: 'relative', width: "100%",marginTop:"-5px" }}>
-                                <DatePicker
-                                  selected={selectedDate}
-                                  onChange={(date) => {
-
-                                    setDateErrmsg('')
-
-                                    setSelectedDate(date);
-                                    setDateErrmsg('')
-                                  }}
-                                  dateFormat="dd/MM/yyyy"
-                                  maxDate={null}
-                                  disabled={edit}
-                                  customInput={customDateInput({
-                                    value: selectedDate ? selectedDate.toLocaleDateString('en-GB') : '',
-                                  })}
-                                />
-                              </div> */}
+                             
                               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                 <DatePicker
                                   style={{ width: "100%", height: 48 }}

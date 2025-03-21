@@ -6,12 +6,10 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
 import moment from "moment";
-import Calendars from "../../Assets/Images/New_images/calendar.png";
 import "flatpickr/dist/themes/material_blue.css";
 import { MdError } from "react-icons/md";
 import {CloseCircle} from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
-import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
@@ -537,24 +535,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                     Purchase Date{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  {/* <div style={{ position: "relative", width: "100%" }}>
-                    <DatePicker
-                      selected={selectedDate}
-                      onChange={(date) => {
-                        setGeneralError("");
-                        setDateError("");
-                        setIsChangedError("");
-                        setSelectedDate(date);
-                      }}
-                      dateFormat="dd/MM/yyyy"
-                      minDate={null}
-                      customInput={customDateInput({
-                        value: selectedDate
-                          ? selectedDate.toLocaleDateString("en-GB")
-                          : "",
-                      })}
-                    />
-                  </div> */}
+                 
 
 
                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>

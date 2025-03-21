@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
 import Closecircle from "../Assets/Images/close-circle.svg";
-import Calender from "../Assets/Images/calendar.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import moment from "moment";
@@ -84,32 +83,20 @@ const CheckOutForm = ({
     setComments(event.target.value);
   };
 
-  // const handleDateChange = (date) => {
-  //   setCheckOutDateError("");
-  //   setGeneralError("");
-  //   const formattedDate = moment(date[0]).format("DD-MM-YYYY");
-  //   setCheckOutDate(formattedDate);
-  //   calendarRef.current.flatpickr.close();
-
-  //   const current_date = new Date();
-  //   const notice_period = Math.ceil(
-  //     (new Date(date[0]) - current_date) / (1000 * 60 * 60 * 24)
-  //   );
-  //   setNoticeDays(notice_period);
-  // };
+ 
 
   const [dateDifference, setDateDifference] = useState(null);
 
-  const calculateDateDifference = (checkOutDate, checkOutrequestDate) => {
-    if (checkOutDate && checkOutrequestDate) {
-      const diffInMs = checkOutDate - checkOutrequestDate;
-      const diffInDays =
-        Math.ceil(Math.abs(diffInMs) / (1000 * 60 * 60 * 24)) + 1;
-      setDateDifference(diffInDays);
-    } else {
-      setDateDifference(null);
-    }
-  };
+  // const calculateDateDifference = (checkOutDate, checkOutrequestDate) => {
+  //   if (checkOutDate && checkOutrequestDate) {
+  //     const diffInMs = checkOutDate - checkOutrequestDate;
+  //     const diffInDays =
+  //       Math.ceil(Math.abs(diffInMs) / (1000 * 60 * 60 * 24)) + 1;
+  //     setDateDifference(diffInDays);
+  //   } else {
+  //     setDateDifference(null);
+  //   }
+  // };
 
 
   useEffect(() => {
@@ -575,59 +562,8 @@ const CheckOutForm = ({
   
   };
 
-  const customDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
-        />
-        <img
-          src={Calender}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+  
 
-  // useEffect(() => {
-  //   if (checkOutDate) {
-  //     const current_date = new Date();
-  //     // const notice_period = Math.ceil(
-  //     //   (new Date(checkOutDate) - current_date) / (1000 * 60 * 60 * 24)
-  //     // );
-  //     // setNoticeDays(notice_period || 0);
-  //   }
-  // }, [checkOutDate]);
 
   return (
     <>
@@ -791,30 +727,7 @@ const CheckOutForm = ({
                   Check-Out Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                {/* <div style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    selected={
-                      checkOutDate instanceof Date ? checkOutDate : null
-                    }
-                    onChange={(date) => {
-                      setCheckOutDateError("");
-                      setCheckOutDate(date);
-                      calculateDateDifference(date, checkOutrequestDate);
-                      setIsChangedError("");
-                      // setGeneralError("");
-                    }}
-                    dateFormat="dd/MM/yyyy"
-                    maxDate={null}
-                    minDate={null}
-                    isDisabled={checkoutaction}
-                    customInput={customDateInput({
-                      value:
-                        checkOutDate instanceof Date
-                          ? checkOutDate.toLocaleDateString("en-GB")
-                          : "",
-                    })}
-                  />
-                </div> */}
+               
 
 
                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
@@ -873,31 +786,7 @@ const CheckOutForm = ({
                     Request Date{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  {/* <div style={{ position: "relative", width: "100%" }}>
-                    <DatePicker
-                      selected={
-                        checkOutrequestDate instanceof Date
-                          ? checkOutrequestDate
-                          : null
-                      }
-                      onChange={(date) => {
-                        setCheckOutRequestDateError("");
-                        setCheckOutRequestDate(date);
-                        calculateDateDifference(checkOutDate, date);
-                        setIsChangedError("");
-                        // setGeneralError("");
-                      }}
-                      dateFormat="dd/MM/yyyy"
-                      maxDate={null}
-                      minDate={null}
-                      customInput={customDateInput({
-                        value:
-                          checkOutrequestDate instanceof Date
-                            ? checkOutrequestDate.toLocaleDateString("en-GB")
-                            : "",
-                      })}
-                    />
-                  </div> */}
+                 
 
 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                 <DatePicker
