@@ -131,6 +131,7 @@ function UserList(props) {
 
   let serialNumber = 1;
   const [billsAddshow,setBillsAddShow] = useState(false)
+  const [isAddMode, setIsAddMode] = useState(false);
 
 
   useEffect(() => {
@@ -163,19 +164,24 @@ function UserList(props) {
     ]);
 
   const handleEditItem = (details) => {
+    setBillsAddShow(true)
     setCurrentView(null);
     setTimeout(() => {
       setCurrentView(details);
-      setBillsAddShow(true)
+     
     }, 0);
   };
   
-
-
-const handleAddItems = () =>{
-  setBillsAddShow(false)
-  setCustomerName(id)
-}
+  useEffect(() => {
+    if (isAddMode && !currentView && !billsAddshow) {
+      setCustomerName(id);
+    }
+  }, [isAddMode, billsAddshow]);
+const handleAddItems = () => {
+  setIsAddMode(true); 
+  setBillsAddShow(true);
+  setCustomerName(id);
+};
   const handleDeleteItem = (detail) => {
     setDeleteId(detail);
   };
@@ -654,6 +660,7 @@ const handleAddItems = () =>{
   };
 
   const handleBackBill = () => {
+    setIsAddMode(false);
     setIsEditing(false);
 
     setRoomDetail(true);
@@ -681,10 +688,9 @@ const handleAddItems = () =>{
       setCustomerName(currentView.hos_user_id);
       setInvoiceNumber(currentView.Invoices);
       if (currentView.DueDate) {
-        const parsedDate = new Date(currentView.DueDate); // Convert to Date object
+        const parsedDate = new Date(currentView.DueDate); 
         if (!isNaN(parsedDate.getTime())) {
-          // Check if it's a valid date
-          setInvoiceDueDate(parsedDate); // Set the date object in state
+          setInvoiceDueDate(parsedDate); 
         }
         
       }
