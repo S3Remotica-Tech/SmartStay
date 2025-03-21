@@ -730,7 +730,7 @@ const handleAddItems = () => {
       setEnddateErrmsg("");
       setStartdateErrmsg("");
     }
-    const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
+    const formattedDate = formatDateForPayloadmanualinvoice(date);
     setFormatInvoiceDate(formattedDate);
   };
 
