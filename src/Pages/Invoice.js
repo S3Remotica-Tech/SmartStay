@@ -943,16 +943,16 @@ console.log('invoiceDetails',invoiceDetails)
   };
 
 
-  const handleAddColumn = () => {
-    const newRow = {
-      am_name: "",
-      used_unit: "",
-      per_unit_amount: "",
-      total_amount: "",
-      amount: "",
-    };
-    setNewRows([...newRows, newRow]);
-  };
+  // const handleAddColumn = () => {
+  //   const newRow = {
+  //     am_name: "",
+  //     used_unit: "",
+  //     per_unit_amount: "",
+  //     total_amount: "",
+  //     amount: "",
+  //   };
+  //   setNewRows([...newRows, newRow]);
+  // };
 
   const handleCustomerName = (selectedOption) => {
     setCustomerName(selectedOption?.value || '');

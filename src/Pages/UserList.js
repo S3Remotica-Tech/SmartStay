@@ -129,7 +129,6 @@ function UserList(props) {
  const [tableErrmsg, setTableErrmsg] = useState("");
  const [dropdownValue, setDropdownValue] = useState("");
  const [selectedTypes, setSelectedTypes] = useState([]);
-  let serialNumber = 1;
   const [billsAddshow,setBillsAddShow] = useState(false)
   const [isAddMode, setIsAddMode] = useState(false);
 
@@ -550,17 +549,17 @@ const handleAddItems = () => {
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
   };
 
-  const handleAddColumn = () => {
-    const newRow = {
-      am_name: "",
-      used_unit: "",
-      per_unit_amount: "",
-      total_amount: "",
-      amount: "",
-    };
-    setNewRows([...newRows, newRow]);
-    setAllFieldErrmsg("");
-  };
+  // const handleAddColumn = () => {
+  //   const newRow = {
+  //     am_name: "",
+  //     used_unit: "",
+  //     per_unit_amount: "",
+  //     total_amount: "",
+  //     amount: "",
+  //   };
+  //   setNewRows([...newRows, newRow]);
+  //   setAllFieldErrmsg("");
+  // };
 
   const handleCreateBill = () => {
 
