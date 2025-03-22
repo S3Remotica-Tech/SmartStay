@@ -258,7 +258,7 @@ const handleDeleteBill = (user) => {
                   textAlign: "start",
                 }}
               >
-                Date
+                Invoice Date
               </th>
               <th
                 style={{
