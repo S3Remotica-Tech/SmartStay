@@ -258,6 +258,19 @@ const handleDeleteBill = (user) => {
                   textAlign: "start",
                 }}
               >
+                Invoice Type
+              </th>
+              <th
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                }}
+              >
                 Invoice Date
               </th>
               <th
@@ -354,7 +367,17 @@ const handleDeleteBill = (user) => {
                   >
                     {view.Invoices}
                   </td>
-
+                  <td
+                    style={{
+                      textAlign: "start",
+                      fontWeight: 500,
+                      fontSize: "16px",
+                      fontFamily: "Gilroy",
+                      paddingLeft:"20px"
+                    }}
+                  >
+                    {view.action}
+                  </td>
                   <td style={{textAlign:"start"}}>
                     <span
                       style={{

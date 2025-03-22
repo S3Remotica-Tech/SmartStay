@@ -49,6 +49,7 @@ import dayjs from 'dayjs';
 function UserListRoomDetail(props) {
   
   const state = useSelector((state) => state);
+  console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [id, setId] = useState("");
@@ -97,6 +98,10 @@ function UserListRoomDetail(props) {
   const [contactEdit, setContactEdit] = useState("");
   const [editAdditional, setEditAdditional] = useState(false);
   const [deleteAdditional, setDeleteAdditional] = useState(false);
+  const [advanceDate,setAdvanceDate] = useState("")
+  const [advanceDueDate,setAdvanceDueDate] = useState("")
+  const [advanceDateError, setAdvanceDateError] = useState('')
+      const [advanceDueDateError, setAdvanceDueDateError] = useState('')
 
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
@@ -810,10 +815,46 @@ const handlegenerateForm = ()=>{
 
 const handleCloseGenerateFormShow =()=>{
   seGenerateForm(false)
+  setAdvanceDateError("")
+  setAdvanceDueDateError("")
+  setAdvanceDate("")
+  setAdvanceDueDate("")
+
 }
 const handleGenerateAdvance=()=>{
-  dispatch({ type: "ADVANCEGENERATE", payload: { user_id: props.id } });
+  
+  let hasError = false;
+
+  if (!advanceDate) {
+    setAdvanceDateError("Invoice Date is Required");
+    hasError = true;
+  } else {
+    setAdvanceDateError("");
+  }
+
+  if (!advanceDueDate) {
+    setAdvanceDueDateError("Due Date is Required");
+    hasError = true;
+  } else {
+    setAdvanceDueDateError("");
+  }
+  if (hasError) {
+    return;
+  }
+  const formattedInvoiceDate = formatDate(advanceDate);
+  const formattedDueDate = formatDate(advanceDueDate);
+
+  dispatch({ type: "ADVANCEGENERATE", payload: { user_id: props.id,invoice_date:formattedInvoiceDate,due_date:formattedDueDate } });
+
+  
 }
+const formatDate = (dateObj) => {
+  const date = new Date(dateObj);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 
   const [initialState, setInitialState] = useState({
@@ -1050,7 +1091,7 @@ setAdvanceDetail(state.UsersList.customerdetails.data)
 }
   },[state.UsersList.customerdetails.data])
 
-
+console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetails.data)
 
 const [uploadError,setUploadError]= useState("")
 
@@ -2011,114 +2052,120 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       </div>
 
                                       <div className="card-body">
-
-                                      {
-  props.userDetails[0]?.AdvanceAmount > 0 
-    ? <div className="row mb-3">
-    {/* Advance Amount */}
-    <div className="col-sm-4 d-flex flex-column align-items-start">
-      <div
-        style={{
-          fontSize: 12,
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-        }}
-      >
-        Advance Amount
+  {props.userDetails[0]?.AdvanceAmount > 0 ? (
+    <div className="row mb-3">
+      {/* Advance Amount */}
+      <div className="col-sm-4 d-flex flex-column align-items-start">
+        <div style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+          Advance Amount
+        </div>
+        <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+          <img src={Money} alt="Money Icon" /> ₹{props.userDetails[0]?.AdvanceAmount}
+        </p>
       </div>
-      <p
-        style={{
-          fontSize: 14,
-          fontWeight: 600,
-          fontFamily: "Gilroy",
-        }}
-      >
-        <img
-          src={Money}
-          alt="Money Icon"
-        />{" "}
-        ₹
-        {
-          props.userDetails[0]
-            ?.AdvanceAmount
-        }
-      </p>
-    </div>
 
-    {/* Bill Status - Generate */}
-    {!advanceDetail[0]?.inv_id &&
-    <div className="col-sm-4 d-flex flex-column align-items-center">
-      {/* <strong
-        style={{
-          fontSize: 12,
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-        }}
-      >
-        Bill Status
-      </strong> */}
-     
-      <Button
+      <div className="col-sm-4 d-flex flex-column align-items-start">
+  <div style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+    Invoice Date
+  </div>
+  <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+    {advanceDetail[0]?.Date
+      ? new Date(advanceDetail[0].Date).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })
+      : "-"}
+  </p>
+</div>
+
+{/* Due Date */}
+<div className="col-sm-4 d-flex flex-column align-items-start">
+  <div style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+    Due Date
+  </div>
+  <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+    {advanceDetail[0]?.DueDate
+      ? new Date(advanceDetail[0].DueDate).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })
+      : "-"}
+  </p>
+</div>
+
+
+      {/* Bill Status - Generate */}
+      {!advanceDetail[0]?.inv_id && (
+        <div className="col-sm-4 d-flex flex-column align-items-center">
+          <Button
+            style={{
+              width: 102,
+              height: 31,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontFamily: "Gilroy",
+              fontSize: 14,
+              fontWeight: 500,
+              backgroundColor: "#1E45E1",
+              color: "#fff",
+              borderRadius: "5px",
+              marginTop: "10px",
+            }}
+            onClick={handlegenerateForm}
+          >
+            Generate
+          </Button>
+        </div>
+      )}
+
+      {/* Bill Status - Paid/Not Paid */}
+      <div className="col-sm-4 d-flex flex-column align-items-start">
+        <strong
+          style={{
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            textAlign: "start",
+            paddingRight: 15,
+          }}
+        >
+          Bill Status
+        </strong>
+        <p
+          style={{
+            backgroundColor: "#D9FFD9",
+            padding: "2px 12px",
+            borderRadius: "10px",
+            display: "inline-block",
+            fontFamily: "Gilroy",
+            fontSize: "14px",
+            fontWeight: "500",
+            marginTop: "5px",
+          }}
+        >
+          {state.UsersList?.customerdetails.data?.map((item) => (
+            <>{item.status}</>
+          ))}
+        </p>
+      </div>
+    </div>
+  ) : (
+    <div
       style={{
-        width: 102,
-        height: 31,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        fontSize: 18,
         fontFamily: "Gilroy",
-        fontSize: 14,
-        fontWeight: 500,
-        backgroundColor: "#1E45E1",
-        color: "#fff",
-        borderRadius: "5px",
-        marginTop: "10px",
+        fontWeight: 600,
+        textAlign: "center",
       }}
-      onClick={handlegenerateForm}
     >
-      Generate
-    </Button>
-   
-     
+      In this User Not Assigned
     </div>
-}
-    {/* Bill Status - Paid */}
-    <div className="col-sm-4 d-flex flex-column align-items-end">
-      <strong
-        style={{
-          fontSize: 12,
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-          textAlign:"start",paddingRight:15
-        }}
-      >
-        Bill Status
-      </strong>
-      <p
-        style={{
-          backgroundColor: "#D9FFD9",
-          padding: "2px 12px",
-          borderRadius: "10px",
-          display: "inline-block",
-          fontFamily: "Gilroy",
-          fontSize: "14px",
-          fontWeight: "500",
-          marginTop: "5px",
-        }}
-      >
-         {state.UsersList?.customerdetails.data &&
-      state.UsersList?.customerdetails.data.map((item) => (
-        <>
-          {item.status}
-            </>
-              ))}
-        {/* Paid */}
-      </p>
-    </div>
-  </div> 
-    : <div style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600,textAlign:"center"}}>In this User Not Assigned</div>
-}
-                                        
-                                      </div>
+  )}
+</div>
+
 
                                     </div>
                                 
@@ -3660,89 +3707,302 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                         </Button>
                       </Modal.Footer>
                     </Modal>
-                    <Modal
-        show={generateForm}
-        onHide={handleCloseGenerateFormShow}
-        centered
-        backdrop="static"
+                    {/* <Modal
+      show={generateForm}
+      onHide={handleCloseGenerateFormShow}
+      centered
+      backdrop="static"
+      style={{
+        width: 388,
+        height: 300,
+        marginLeft: "500px",
+        marginTop: "200px",
+      }}
+    >
+      <Modal.Header style={{ borderBottom: "none" }}>
+        <Modal.Title
+          style={{
+            fontSize: "18px",
+            fontFamily: "Gilroy",
+            textAlign: "center",
+            fontWeight: 600,
+            color: "#222222",
+            flex: 1,
+          }}
+        >
+          Bill Generate?
+        </Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body
         style={{
-          width: 388,
-          height: 250,
-          marginLeft: "500px",
-          marginTop: "200px",
+          fontSize: 14,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          color: "#646464",
+          textAlign: "center",
         }}
       >
-        <Modal.Header style={{ borderBottom: "none" }}>
-          <Modal.Title
-            style={{
-              fontSize: "18px",
-              fontFamily: "Gilroy",
-              textAlign: "center",
-              fontWeight: 600,
-              color: "#222222",
-              flex: 1,
-            }}
-          >
-            Bill Generate?
-          </Modal.Title>
-        </Modal.Header>
+       
 
-        <Modal.Body
+        <div style={{ marginBottom: "10px" }}>
+          <label style={{ display: "block", fontSize: 13, marginBottom: 5 }}>Select Date</label>
+          <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
+          <DatePicker
+                                          style={{ width: "100%", height: 48 }}
+                                          format="DD/MM/YYYY"
+                                          placeholder="DD/MM/YYYY"
+                                          value={advanceDate ? dayjs(advanceDate) : null}
+                                          onChange={(date) => {
+                                            setAdvanceDate(date ? date.toDate() : null);
+                                          }}
+                                          getPopupContainer={(triggerNode) =>
+                                            triggerNode.closest('.datepicker-wrapper')
+                                          }
+                                        />
+                                        </div>
+        </div>
+      </Modal.Body>
+
+      <Modal.Footer
+        style={{
+          justifyContent: "center",
+          borderTop: "none",
+          marginTop: "-10px",
+        }}
+      >
+        <Button
           style={{
-            fontSize: 14,
-            fontWeight: 500,
+            width: 160,
+            height: 52,
+            borderRadius: 8,
+            padding: "12px 20px",
+            background: "#fff",
+            color: "#1E45E1",
+            border: "1px solid #1E45E1",
+            fontWeight: 600,
             fontFamily: "Gilroy",
-            color: "#646464",
-            textAlign: "center",
-            marginTop: "-20px",
+            fontSize: "14px",
+            marginRight: 10,
           }}
+          onClick={handleCloseGenerateFormShow}
         >
-          Are you sure you want to  this Generate Bill?
-        </Modal.Body>
-
-        <Modal.Footer
+          Cancel
+        </Button>
+        <Button
           style={{
-            justifyContent: "center",
-            borderTop: "none",
-            marginTop: "-10px",
+            width: 160,
+            height: 52,
+            borderRadius: 8,
+            padding: "12px 20px",
+            background: "#1E45E1",
+            color: "#FFFFFF",
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+            fontSize: "14px",
           }}
+          onClick={handleGenerateAdvance}
         >
-          <Button
-            style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              marginRight: 10,
-            }}
-            onClick={handleCloseGenerateFormShow}
+          Generate
+        </Button>
+      </Modal.Footer>
+    </Modal> */}
+
+
+
+
+    <Modal
+            show={generateForm}
+            onHide={handleCloseGenerateFormShow}
+            backdrop="static"
+            centered
           >
-            Cancel
-          </Button>
-          <Button
-            style={{
-              width: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#1E45E1",
-              color: "#FFFFFF",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
-            onClick={handleGenerateAdvance}
-          >
-            Generate
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            <Modal.Dialog
+              style={{
+                maxWidth: 666,
+                paddingRight: "10px",
+                borderRadius: "30px",
+              }}
+              className="m-0 p-0"
+            >
+              <Modal.Body  style={{marginTop:-30}}>
+                <div className="d-flex align-items-center">
+                  
+                    <div className="container">
+                      <div className="row mb-3"></div>
+    
+                      <Modal.Header
+                        style={{ marginBottom: "30px", position: "relative" }}
+                      >
+                        <div
+                          style={{
+                            fontSize: 20,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          Generate Advance
+                        </div>
+                        <button
+                          type="button"
+                          className="close"
+                          aria-label="Close"
+                          onClick={handleCloseGenerateFormShow}
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "16px",
+                            border: "1px solid black",
+                            background: "transparent",
+                            cursor: "pointer",
+                            padding: "0",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "32px",
+                            height: "32px",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <span
+                            aria-hidden="true"
+                            style={{
+                              fontSize: "30px",
+                              paddingBottom: "6px",
+                            }}
+                          >
+                            &times;
+                          </span>
+                        </button>
+                      </Modal.Header>
+    
+    
+    
+    
+                      <div className="row mb-3">
+                        
+            
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <Form.Group className="mb-2" controlId="checkoutDate">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Invoice Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+              </Form.Label>
+    
+              <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
+          <DatePicker
+                                          style={{ width: "100%", height: 48 }}
+                                          format="DD/MM/YYYY"
+                                          placeholder="DD/MM/YYYY"
+                                          value={advanceDate ? dayjs(advanceDate) : null}
+                                          onChange={(date) => {
+                                            setAdvanceDateError("")
+                                            setAdvanceDate(date ? date.toDate() : null);
+                                            
+                                          }}
+                                          getPopupContainer={(triggerNode) =>
+                                            triggerNode.closest('.datepicker-wrapper')
+                                          }
+                                          dropdownClassName="custom-datepicker-popup"
+                                        />
+                                        </div>
+            </Form.Group>
+            {advanceDateError && (
+                                      <div style={{ color: "red",marginTop:"-7px" }}>
+                                        <MdError style={{fontSize:"13px",marginRight:"5px"}}/>
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {advanceDateError}
+                                        </span>
+                                      </div>
+                                    )}
+           
+          </div>
+          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <Form.Group className="mb-2" controlId="checkoutDate">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Due Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+              </Form.Label>
+    
+              <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
+          <DatePicker
+                                          style={{ width: "100%", height: 48 }}
+                                          format="DD/MM/YYYY"
+                                          placeholder="DD/MM/YYYY"
+                                          value={advanceDueDate ? dayjs(advanceDueDate) : null}
+                                          onChange={(date) => {
+                                            setAdvanceDateError("")
+                                            setAdvanceDueDate(date ? date.toDate() : null);
+                                          }}
+                                          getPopupContainer={(triggerNode) =>
+                                            triggerNode.closest('.datepicker-wrapper')
+                                          }
+                                          dropdownClassName="custom-datepicker-popup"
+                                        />
+                                        </div>
+            </Form.Group>
+            {advanceDueDateError && (
+                                      <div style={{ color: "red",marginTop:"-7px" }}>
+                                        <MdError style={{fontSize:"13px",marginRight:"5px"}}/>
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {advanceDueDateError}
+                                        </span>
+                                      </div>
+                                    )}
+           
+          </div>
+
+                      </div>
+                      
+    
+                      <Button
+                        className="w-100"
+                        style={{
+                          backgroundColor: "#1E45E1",
+                          fontWeight: 600,
+                          height: 50,
+                          borderRadius: 12,
+                          fontSize: 16,
+                          fontFamily: "Montserrat",
+                        }}
+                        onClick={handleGenerateAdvance}
+                      >
+                      Generate Advance
+                      </Button>
+                    </div>
+                  {/* )} */}
+                </div>
+              </Modal.Body>
+    
+              <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+            </Modal.Dialog>
+          </Modal>
                     <TabPanel value="2">
                       {/* <UserEb id={props.id} />{" "} */}
                       <UserEb id={props.id} handleEditRoomItem={handleEditRoomItem} handleEditHostelItem={handleEditHostelItem}

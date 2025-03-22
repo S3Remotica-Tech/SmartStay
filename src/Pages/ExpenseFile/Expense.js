@@ -186,7 +186,7 @@ function Expenses({ allPageHostel_Id }) {
  useEffect(() => {
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
   }, [state.login.selectedHostel_Id])
-
+console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
 
   const handleShow = () => {
    
@@ -196,14 +196,18 @@ function Expenses({ allPageHostel_Id }) {
           });
           return;
       }
-      if (!Array.isArray(state.bankingDetails.bankingList) || state.bankingDetails.bankingList.length === 0) {
+      if (
+        !Array.isArray(state.bankingDetails.bankingList.banks) || 
+        state.bankingDetails.bankingList.banks.length === 0
+      ) {
         toast.error('Please add bank details before adding expense information.', {
           autoClose: 1500,
           style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
         });
         return;
       }
-    
+      
+      
       setCurrentItem('');
       setShowModal(true);
 
