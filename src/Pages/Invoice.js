@@ -47,7 +47,7 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-const { RangePicker } = DatePicker;
+
 
 
 
@@ -58,7 +58,7 @@ const { RangePicker } = DatePicker;
 const InvoicePage = () => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  const { RangePicker } = DatePicker;
   const [recurLoader, setRecurLoader] = useState(false);
   const [loading, setLoading] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
@@ -439,24 +439,59 @@ useEffect(() => {
   //   }
   // };
 
-  useEffect(()=>{
-    if (statusFilterReceipt === "All") {
+  useEffect(() => {
+    if (statusFilterReceipt !== "date") {
+      setReceiptDateRange([]);
+      if (statusFilterReceipt === "All") {
+        setReceiptData(originalBillsFilterReceipt);
+      } else {
+        const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) =>
+          user.payment_mode.toLowerCase().includes(statusFilterReceipt.toLowerCase())
+        );
+        setReceiptData(filteredItemsReceipt);
+      }
+    }
+  }, [statusFilterReceipt]);
+  
+  const [receiptDateRange, setReceiptDateRange] = useState([]);
+  const handleDateRangeChangeReceipt = (dates) => {
+    setReceiptDateRange(dates);
+  
+    // If cleared or not fully selected
+    if (!dates || dates.length !== 2) {
+      setStatusFilterReceipt("All");
       setReceiptData(originalBillsFilterReceipt);
-    } else {
-      const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) =>
-        user.payment_mode.toLowerCase().includes(statusFilterReceipt.toLowerCase())
-      );
-  
-  
-      setReceiptData(filteredItemsReceipt);
+      return;
     }
   
+    const [start, end] = dates;
   
-    setCurrentPage(1);
+    const filtered = originalBillsFilterReceipt.filter((item) => {
+      const itemDate = dayjs(item.payment_date);
+      return (
+        itemDate.isSame(start, 'day') ||
+        itemDate.isSame(end, 'day') ||
+        (itemDate.isAfter(start) && itemDate.isBefore(end))
+      );
+    });
   
-  },[statusFilterReceipt])
-
-
+    setReceiptData(filtered);
+  };
+  
+  
+  useEffect(() => {
+    if (statusFilterReceipt !== "date") {
+      setReceiptDateRange([]);
+    }
+  }, [statusFilterReceipt]);
+  useEffect(() => {
+    if (statusFilterReceipt === "All") {
+      setReceiptData(originalBillsFilterReceipt);
+      setReceiptDateRange([]);
+    }
+  }, [statusFilterReceipt]);
+  
+  
   useEffect(() => {
     if (originalBillsFilterReceipt.length === 0 && receiptdata.length > 0) {
       setOriginalBillsFilterReceipt(receiptdata);
@@ -2863,9 +2898,23 @@ console.log('invoiceDetails',invoiceDetails)
                       <option value="upi">UPI</option>
                       <option value="Credit Card">Credit Card</option>
                       <option value="Debit Card">Debit Card</option>
+                      <option value="date">Date</option>
                     </Form.Select>
                   </div>
                 )}
+
+{statusFilterReceipt === "date" && (
+  <div className="me-3 mt-3">
+    <RangePicker
+      value={receiptDateRange}
+      format="YYYY-MM-DD"
+      onChange={handleDateRangeChangeReceipt}
+      style={{ height: "38px", borderRadius: 8 }}
+      allowClear
+    />
+  </div>
+)}
+
                 {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
 
 <div className='me-3'>

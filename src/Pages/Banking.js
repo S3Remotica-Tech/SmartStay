@@ -20,6 +20,8 @@ import {ArrowLeft2,ArrowRight2,} from "iconsax-react";
 import money from "../Assets/Images/New_images/Amount.png";
 import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 
 
@@ -27,6 +29,7 @@ import { toast } from "react-toastify";
 function Banking() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+   const { RangePicker } = DatePicker;
   const popupRef = useRef(null);
   const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState(false);
@@ -445,22 +448,77 @@ function Banking() {
 
     setDropdownVisible(false);
   };
+  const [dateRange, setDateRange] = useState(null);
   const handleStatusFilter = (event) => {
-    const searchTerm = event.target.value;;
-    setStatusfilter(searchTerm);
-
-    if (searchTerm === "All") {
+    const value = event.target.value;
+    setStatusfilter(value);
+  
+    if (value === "All") {
+      settransactionFilterddata(originalBillsFilter);
+    } else if (value === "date") {
+      // Don't filter yet - wait for date selection
       settransactionFilterddata(originalBillsFilter);
     } else {
-      const filteredItems = originalBillsFilter?.filter((user) => {
-        return (
-          user.type !== undefined && String(user.type) === String(searchTerm)
-        );
+      const filtered = originalBillsFilter?.filter((user) => {
+        return user.type !== undefined && String(user.type) === String(value);
       });
-
-      settransactionFilterddata(filteredItems);
+      settransactionFilterddata(filtered);
     }
   };
+
+  const handleDateRangeChange = (dates) => {
+    setDateRange(dates);
+  
+    if (!dates || dates.length !== 2) {
+      settransactionFilterddata(originalBillsFilter);  // Reset to all data
+      setStatusfilter("All");                          // Reset dropdown to "All"
+      return;
+    }
+  
+    const [start, end] = dates;
+  
+    const filtered = originalBillsFilter?.filter((item) => {
+      const itemDate = dayjs(item.date); // Replace with your actual field
+      return itemDate.isAfter(dayjs(start).subtract(1, "day")) &&
+             itemDate.isBefore(dayjs(end).add(1, "day"));
+    });
+  
+    settransactionFilterddata(filtered);
+  };
+  
+  // const handleDateRangeChange = (dates) => {
+  //   setDateRange(dates);
+  
+  //   if (!dates || dates.length !== 2) {
+  //     settransactionFilterddata(originalBillsFilter);
+  //     return;
+  //   }
+  
+  //   const [start, end] = dates;
+  
+  //   const filtered = originalBillsFilter?.filter((item) => {
+  //     const itemDate = dayjs(item.date); // Assuming your bill data has a `date` field
+  //     return itemDate.isAfter(start.subtract(1, "day")) && itemDate.isBefore(end.add(1, "day"));
+  //   });
+  
+  //   settransactionFilterddata(filtered);
+  // };
+  // const handleStatusFilter = (event) => {
+  //   const searchTerm = event.target.value;;
+  //   setStatusfilter(searchTerm);
+
+  //   if (searchTerm === "All") {
+  //     settransactionFilterddata(originalBillsFilter);
+  //   } else {
+  //     const filteredItems = originalBillsFilter?.filter((user) => {
+  //       return (
+  //         user.type !== undefined && String(user.type) === String(searchTerm)
+  //       );
+  //     });
+
+  //     settransactionFilterddata(filteredItems);
+  //   }
+  // };
 
   useEffect(() => {
     if (originalBillsFilter.length === 0 && transactionFilterddata.length > 0) {
@@ -702,10 +760,21 @@ function Banking() {
                     <option value="All">All</option>
                     <option value="1">Credit</option>
                     <option value="2">Debit</option>
+                    <option value="date">Date</option>
                   </Form.Select>
                 </div>
 
               }
+                {statusfilter === "date" && (
+    <div className="me-3">
+      <RangePicker
+        value={dateRange}
+        format="YYYY-MM-DD"
+        onChange={handleDateRangeChange}
+        style={{ height: "38px", borderRadius: 8 }}
+      />
+    </div>
+  )}
 
 
               <div className="me-2">

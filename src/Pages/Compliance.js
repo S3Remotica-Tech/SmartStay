@@ -31,7 +31,7 @@ const Compliance = () => {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch()
-
+ const { RangePicker } = DatePicker;
   const initialValuesRef = useRef({});
 
 
@@ -325,20 +325,51 @@ const Compliance = () => {
 
  
 
-  const handleStatusFilter = (event) => {
-    const searchTerm = event.target.value;
-    setStatusfilter(searchTerm)
-    if (searchTerm === "All") {
-      setFilteredUsers(state.ComplianceList.Compliance)
-    }
-    else {
-      const filteredItems = state.ComplianceList.Compliance.filter((user) =>
-        user.Status.toLowerCase().includes(searchTerm.toLowerCase()));
-      setFilteredUsers(filteredItems);
+  // const handleStatusFilter = (event) => {
+  //   const searchTerm = event.target.value;
+  //   setStatusfilter(searchTerm)
+  //   if (searchTerm === "All") {
+  //     setFilteredUsers(state.ComplianceList.Compliance)
+  //   }
+  //   else {
+  //     const filteredItems = state.ComplianceList.Compliance.filter((user) =>
+  //       user.Status.toLowerCase().includes(searchTerm.toLowerCase()));
+  //     setFilteredUsers(filteredItems);
 
+  //   }
+  // }
+  const handleStatusFilter = (event) => {
+    const value = event.target.value;
+    setStatusfilter(value);
+  
+    if (value === "All") {
+      // Make sure this is the full list from state
+      setFilteredUsers(state.ComplianceList?.Compliance || []);
+    } else if (value === "date") {
+      // Do nothing yet, wait for date selection
+    } else {
+      const filtered = (state.ComplianceList?.Compliance || []).filter(item =>
+        item.Status?.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredUsers(filtered);
     }
-  }
- 
+  };
+  
+  const [selectedDateRange, setSelectedDateRange] = useState([]);
+  const handleDateChange = (dates) => {
+    if (!dates || dates.length === 0) {
+      setSelectedDateRange([]);
+      setStatusfilter("All"); // Hide the picker and reset to All
+      setFilteredUsers(state.ComplianceList?.Compliance); // Reset list
+    } else {
+      setSelectedDateRange(dates);
+      const filtered = state.ComplianceList?.Compliance.filter((item) =>
+        dayjs(item.date).isAfter(dayjs(dates[0]).subtract(1, 'day')) &&
+        dayjs(item.date).isBefore(dayjs(dates[1]).add(1, 'day'))
+      );
+      setFilteredUsers(filtered);
+    }
+  };
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
@@ -898,12 +929,23 @@ const Compliance = () => {
                               <option value="open">Open</option>
                               <option value="in-progress">In Progress</option>
                               <option value="resolved">Resolved</option>
+                              <option value="date">Date</option>
 
 
                             </Form.Select>
                           </div>
 
                         }
+                         {statusfilter === 'date' && (
+      <div style={{ paddingRight: 30 }}>
+        <RangePicker
+          value={selectedDateRange}
+          onChange={handleDateChange}
+          format="YYYY-MM-DD"
+          style={{ height: 40 }}
+        />
+      </div>
+    )}
 
       {/* Excel Button */}
       <div className='me-3' style={{ cursor: "pointer" }}>
