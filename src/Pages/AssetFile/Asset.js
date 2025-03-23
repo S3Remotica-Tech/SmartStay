@@ -10,13 +10,15 @@ import { ArrowUp2, ArrowDown2, CloseCircle, SearchNormal1, Sort, ArrowLeft2, Arr
 import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { toast } from 'react-toastify';
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 function Asset() {
 
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
-
+  const { RangePicker } = DatePicker;
   const [getData, setGetData] = useState([])
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
   const [show, setShow] = useState(null)
@@ -223,8 +225,7 @@ function Asset() {
   //   display: 'inline-block',
   //   position: 'relative',
   // };
-
-
+  const [selectedDateRange, setSelectedDateRange] = useState([]);
   const filterByPriceRange = (data) => {
     switch (selectedPriceRange) {
       case '0-100':
@@ -235,18 +236,57 @@ function Asset() {
         return data.filter(item => item.total_price > 500 && item.total_price <= 1000);
       case '1000+':
         return data.filter(item => item.total_price > 1000);
+      case 'date':
+        if (selectedDateRange?.length === 2) {
+          const [start, end] = selectedDateRange;
+          return data.filter(item =>
+            dayjs(item.purchase_date).isAfter(start.subtract(1, 'day')) &&
+            dayjs(item.purchase_date).isBefore(end.add(1, 'day'))
+          );
+        }
+        return data;
       case 'All':
-        return data
       default:
         return data;
     }
   };
+ 
+  // const filterByPriceRange = (data) => {
+  //   switch (selectedPriceRange) {
+  //     case '0-100':
+  //       return data.filter(item => item.total_price <= 100);
+  //     case '100-500':
+  //       return data.filter(item => item.total_price > 100 && item.total_price <= 500);
+  //     case '500-1000':
+  //       return data.filter(item => item.total_price > 500 && item.total_price <= 1000);
+  //     case '1000+':
+  //       return data.filter(item => item.total_price > 1000);
+  //     case 'All':
+  //       return data
+  //     default:
+  //       return data;
+  //   }
+  // };
 
+  // const handlePriceRangeChange = (event) => {
+  //   setSelectedPriceRange(event.target.value);
+  //   setCurrentPage(1);
+  // };
   const handlePriceRangeChange = (event) => {
-    setSelectedPriceRange(event.target.value);
+    const value = event.target.value;
+    setSelectedPriceRange(value);
     setCurrentPage(1);
+    if (value !== 'date') {
+      setSelectedDateRange([]);
+    }
   };
-
+  useEffect(() => {
+    if (!showFilter) {
+      setSelectedPriceRange('All');
+      setSelectedDateRange([]);
+    }
+  }, [showFilter]);
+  
   const handleFilterByPrice = () => {
     setShowFilter(!showFilter)
   }
@@ -606,9 +646,38 @@ function Asset() {
                         <option value="100-500">100-500</option>
                         <option value="500-1000">500-1000</option>
                         <option value="1000+">1000+</option>
+                        <option value="date">Date</option>
                       </Form.Select>
                     </div>
                   }
+                  {/* {selectedPriceRange === 'date' && (
+  <div style={{ paddingRight: 30, marginTop: 10 }}>
+    <RangePicker
+      value={selectedDateRange}
+      onChange={(dates) => setSelectedDateRange(dates)}
+      format="YYYY-MM-DD"
+      style={{ height: 40 }}
+    />
+  </div>
+)} */}
+{showFilter && selectedPriceRange === 'date' && (
+  <div style={{ paddingRight: 30, marginTop: 10 }}>
+    <RangePicker
+      value={selectedDateRange}
+      onChange={(dates) => {
+        if (!dates || dates.length === 0) {
+          setSelectedDateRange([]);
+          setSelectedPriceRange('All'); // <-- Add this line to hide the DatePicker
+        } else {
+          setSelectedDateRange(dates);
+        }
+      }}
+      format="YYYY-MM-DD"
+      style={{ height: 40 }}
+    />
+  </div>
+)}
+
                   <div style={{ paddingRight: "29px", marginTop: 10, cursor: "pointer" }}>
                     <img src={excelimg} alt='excel' width={38} height={38}
                       onClick={handleAssetsExcel}
