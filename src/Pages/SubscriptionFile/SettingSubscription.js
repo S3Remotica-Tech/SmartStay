@@ -1,35 +1,10 @@
-import{ React} from "react";
-import crown from "../Assets/Images/New_images/crown.png"
+import React from "react";
+import crown from "../../Assets/Images/New_images/crown.png";
 import { Table } from "react-bootstrap";
 
 function SettingSubscription() {
-//  const [activeRow, setActiveRow] = useState(false);
- 
-//  const toggleActiveRow = () => {
-//   setActiveRow((prev) => !prev); 
-// };
 
 
-// const [show, setShow] = useState(false);
-
-// const handleShow = () => {
-//   setShow(true); 
-//   setActiveRow(false);
-// };
-
-
-// const handleClose = () => {
-//   setShow(false); 
-//   setActiveRow(true); 
-//   setIsConfirmDelete(false); 
-  // }
-
-  // const [isConfirmDelete, setIsConfirmDelete] = useState(false); 
-//   const handleDelete = () => {
-    
-//     console.log("User deleted");
-//     setIsConfirmDelete(false); 
-// };
   return (
     <div className="container">
       <div style={{marginTop:26}}>

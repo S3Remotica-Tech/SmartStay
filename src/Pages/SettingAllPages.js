@@ -5,7 +5,7 @@ import SettingManage from "./SettingManage";
 import blueArrow from "../Assets/Images/New_images/arrow-leftblue.png";
 import blackArrow from "../Assets/Images/New_images/arrow-leftblack.png";
 import SettingSecurity from "./SettingSecurityPage";
-import SettingSubscription from "./SettingSubscription";
+import SettingSubscription from "../../src/Pages/SubscriptionFile/SettingSubscription";
 import SettingIntergration from "./SettingIntergration";
 import SettingElectricity from "./SettingElectricity";
 import SettingInvoice from "./SettingInvoice";
