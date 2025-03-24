@@ -50,7 +50,6 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 
 function UserList(props) {
-  console.log("UserList?",props)
   const state = useSelector((state) => state);
  const { RangePicker } = DatePicker;
  dayjs.extend(isBetween);
@@ -636,7 +635,6 @@ const handleAddItems = () => {
     
         if (customeraId) {
           setCustomerName(customeraId.Name);
-          console.log("customeraId", customeraId.Name);
         }
       }
     }, [billsAddshow]);
@@ -855,7 +853,7 @@ setSelectedTypes("")
       
         setSelectedTypes(types);
       }
-      console.log("currentView.amenity",currentView.amenity)
+     
     }
   }, [currentView]);
 

@@ -196,7 +196,6 @@ const [startDate, endDate] = dateRange;
       }, 100);
     }
   }, [state.InvoiceList.ManualInvoicesgetstatuscode]);
-  console.log("state.InvoiceList.ManualInvoices",state.InvoiceList.ManualInvoices)
 
   useEffect(() => {
     if (state.InvoiceList.BillsErrorstatusCode === 201) {
@@ -218,7 +217,7 @@ const [startDate, endDate] = dateRange;
     }
   }, [state.InvoiceList.NodataRecurringStatusCode]);
 
-  console.log("statuscode", state.InvoiceList.NodataReceiptStatusCode);
+ 
 
 
   useEffect(() => {
@@ -569,7 +568,7 @@ useEffect(() => {
 
   };
 
-console.log('invoiceDetails',invoiceDetails)
+
 
   useEffect(() => {
     // if (invoiceDetails ) {
@@ -1540,7 +1539,6 @@ console.log('invoiceDetails',invoiceDetails)
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
-  console.log("currentItems",currentItems)
 
   //recurring pagination
   const [currentRecurePage, setCurrentRecurePage] = useState(1);
@@ -2377,8 +2375,7 @@ console.log('invoiceDetails',invoiceDetails)
     setDropdownVisible(false);
   };
   
-  
-  console.log("Recurring Bills:", recurringbills);
+ 
 
 
   const handleUserReceipt = (user) => {
