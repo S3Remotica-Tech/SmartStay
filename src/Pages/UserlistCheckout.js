@@ -47,7 +47,7 @@ function CheckOut(props) {
   const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
   const [checkoutLoader,setCheckOutLoader] = useState(true)
 
-
+console.log("checkOutCustomer",checkOutCustomer)
   
 
   useEffect(() => {

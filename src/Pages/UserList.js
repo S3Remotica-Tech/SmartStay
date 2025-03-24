@@ -157,8 +157,6 @@ function UserList(props) {
     }
   
     setNewRows((prev) => [...prev, newRow]);
-  
-    // Add to selectedTypes only if not already added
     if (type !== "Other" && !selectedTypes.includes(type)) {
       setSelectedTypes((prev) => [...prev, type]);
     }
@@ -167,49 +165,10 @@ function UserList(props) {
     setAllFieldErrmsg("");
     setTableErrmsg("");
   
-    // ✅ Reset dropdown cleanly using state
     setDropdownValue("");
   };
 
-  // const handleRowTypeSelect = (type) => {
-  //   let newRow = { am_name: "", amount: "0" };
   
-  //   if (type === "RoomRent") {
-  //     newRow.am_name = "Room Rent";
-  //   } else if (type === "EB") {
-  //     newRow.am_name = "EB";
-  //   }
-  
-  //   setNewRows((prev) => [...prev, newRow]);
-  
-  //   // Add to selectedTypes only if not already added
-  //   if (type !== "Other" && !selectedTypes.includes(type)) {
-  //     setSelectedTypes((prev) => [...prev, type]);
-  //   }
-  
-  //   // Clear error messages
-  //   setAllFieldErrmsg("");
-  //   setTableErrmsg("");
-  
-  //   // ✅ Reset dropdown cleanly using state
-  //   setDropdownValue("");
-  // };
-
-  // const handleRowTypeSelect = (type) => {
-  //   let newRow = { am_name: "", amount: "0" };
-  
-  //   if (type === "RoomRent") {
-  //     newRow.am_name = "Room Rent";
-  //   } else if (type === "EB") {
-  //     newRow.am_name = "EB";
-  //   }
-  
-  //   setNewRows((prev) => [...prev, newRow]);
-  //   setAllFieldErrmsg("");
-  //   setTableErrmsg("")
-  // };
-  
-
    useEffect(() => {
       if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
         setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
@@ -1501,30 +1460,6 @@ setSelectedTypes("")
     setCurrentPage(1);
   };
 
-  // const renderPageNumbers = () => {
-  //   const pageNumbers = [];
-  //   for (let i = 1; i <= totalPages; i++) {
-  //     pageNumbers.push(
-  //       <li key={i} style={{ margin: "0 5px" }}>
-  //         <button
-  //           style={{
-  //             padding: "5px 10px",
-  //             color: i === currentPage ? "#007bff" : "#000",
-  //             cursor: "pointer",
-  //             border: i === currentPage ? "1px solid #ddd" : "none",
-  //             backgroundColor:
-  //               i === currentPage ? "transparent" : "transparent",
-  //           }}
-  //           onClick={() => handlePageChange(i)}
-  //         >
-  //           {i}
-  //         </button>
-  //       </li>
-  //     );
-  //   }
-  //   return pageNumbers;
-  // };
-
   const handleMenuClick = () => {
     setShowForm(true);
   };
@@ -1552,6 +1487,7 @@ setSelectedTypes("")
     setExcelDownloadCheckout("");
     setIsDownloadTriggered(false);
     setFilterInput("");
+    setFilterStatus("")
   };
 
   useEffect(() => {
@@ -1577,12 +1513,11 @@ setSelectedTypes("")
     setHostelIds(userData.Hostel_Id);
    
     setId(userData.ID);
-    // setcreatebyamni(userData.created_By);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
     setRoomDetail(true);
     setUserList(false);
-    dispatch({ type: "UPDATE_USERSLIST_FALSE" }); // Reset to 1st tab
+    dispatch({ type: "UPDATE_USERSLIST_FALSE" }); 
   };
   const handleShowAddBed = (u) => {
     setEdit("Edit");
@@ -1666,30 +1601,52 @@ const handleBack = () => {
     setFilterStatus(true);
     setResetPage(true)
   };
-
+    const [statusFilterCheckout, setStatusFilterCheckout] = useState("");
+ 
+    const handleStatusFilterCheckout = (event) => {
+      const searchTerm = event.target.value;
+      setStatusFilterCheckout(searchTerm);
+    
+      // Clear previously selected date range when switching away from "Date"
+      if (searchTerm !== "date") {
+        setCheckoutDateRange(null);  // This will also hide the picker in UI
+      }
+    
+      if (searchTerm === "All") {
+        setFilteredUsers(checkOutCustomer);
+        setFilterStatus(true);
+      } else if (searchTerm === "0" || searchTerm === "1") {
+        const filtered = checkOutCustomer?.filter(item => item.isActive?.toString() === searchTerm);
+        setFilteredUsers(filtered);
+        setFilterStatus(true);
+      } else if (searchTerm === "date") {
+        setFilterStatus(true); 
+      }
+    };
+    
   
   
-  
-  const handleDateRangeChangeCheckout = (dates) => {
-    setCheckoutDateRange(dates);
-  
-    if (!dates || dates.length !== 2) {
-      setFilterStatus(false);  
-      setFilteredUsers(checkOutCustomer); 
-      return;
-    }
-  
-    const [start, end] = dates;
-  
-    const filtered = checkOutCustomer?.filter((item) => {
-      const itemDate = dayjs(item.CheckoutDate);
-      return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
-    });
-  
-    setFilteredUsers(filtered);
-    setFilterStatus(true); 
-    setResetPage(true)
-  };
+    const handleDateRangeChangeCheckout = (dates) => {
+      setCheckoutDateRange(dates);
+    
+      if (!dates || dates.length !== 2) {
+        setStatusFilterCheckout("All");
+        setFilteredUsers(checkOutCustomer);
+        setFilterStatus(false);
+        return;
+      }
+    
+      const [start, end] = dates;
+      const filtered = checkOutCustomer?.filter((item) => {
+        const itemDate = dayjs(item.CheckoutDate);
+        return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+      });
+    
+      setFilteredUsers(filtered);
+      setFilterStatus(true);
+      setResetPage(true);
+    };
+    
 
 
   const handleDateRangeChangeWalkin = (dates) => {
@@ -1724,26 +1681,7 @@ const handleBack = () => {
     }
   }, [id]);
 
-  // const handleselect = (e) => {
-  //   const value = e.target.value;
-  //   setselectAmneties(value);
-  //   setamnitytableshow(true);
 
-  //   const amenitiesHistory = state.UsersList.amnetieshistory?.filter((item) => {
-  //     return item.amenity_Id == value;
-  //   });
-
-  //   if (amenitiesHistory && amenitiesHistory.length > 0) {
-  //     if (amenitiesHistory && amenitiesHistory[0].status == 0) {
-  //       setaddamenityShow(true);
-  //       setstatusShow(false);
-  //     }
-  //   } else {
-  //     setaddamenityShow(true);
-  //     setstatusShow(false);
-  //     setSelectedAmenityName([]);
-  //   }
-  // };
   const handleCloseDelete = () => {
     setDeleteShow(false);
   };
@@ -1779,19 +1717,6 @@ const handleBack = () => {
     setIsDeleting(false);
   };
 
-  // useEffect(() => {
-  //   if (
-  //     state.UsersList.customerdetails.all_amenities &&
-  //     state.UsersList.customerdetails.all_amenities.length > 0 &&
-  //     selectAmneties
-  //   ) {
-  //     const AmnitiesNamelist =
-  //       state.UsersList.customerdetails.all_amenities?.filter((item) => {
-  //         return item.Amnities_Id == selectAmneties;
-  //       });
-  //     setcreateby(AmnitiesNamelist);
-  //   }
-  // }, [state.UsersList?.customerdetails?.all_amenities, selectAmneties]);
 
   const uniqueAmenities = [];
   const seenNames = new Set();
@@ -1822,7 +1747,6 @@ const handleBack = () => {
 
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser === 200) {
-      // setaddamenityShow(false);
       setTimeout(() => {
         dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
         dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
@@ -1867,7 +1791,6 @@ const handleBack = () => {
     if (state.UsersList.kycValidateSendOtpSuccess === 200) {
       setShowOtpValidation(true);
       setShowValidate(false);
-      // setRef_Id(state.UsersList && state.UsersList.Kyc_Ref_Id);
       setTimeout(() => {
         dispatch({ type: "CLEAR_KYC_VALIDATE_SATUS_CODE" });
       }, 2000);
@@ -1892,7 +1815,6 @@ const handleBack = () => {
   const closeModal = () => {
     setShowbookingForm(false);
   };
-  //checkout form
   const [checkoutForm, setcheckoutForm] = useState(false);
   const checkOutForm = () => {
       if (!state.login.selectedHostel_Id) {
@@ -2348,28 +2270,26 @@ const handleBack = () => {
       />
 
       {userList && (
-        // <div style={{ margin: "12px" }}>
         <div className="container">
-        <div className="row align-items-center mt-3">
-  {/* Left Title Section */}
-  <div className="col-12 col-md-3 d-flex align-items-center mb-2 mb-md-0">
+          
+          <div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:value === "1"? "-7px" : 0}}> 
+  <div className="d-flex justify-content-between align-items-center flex-wrap">
     <label
-      className="mb-0"
       style={{
         fontSize: 18,
         color: "#000000",
         fontWeight: 600,
         fontFamily: "Gilroy",
         marginLeft: 11,
+        marginTop:value === "1"?"6px":0
+
       }}
     >
       Customers
     </label>
   </div>
 
-  {/* Right Controls Section */}
-  <div className="col-12 col-md-9">
-    <div className="d-flex flex-wrap justify-content-md-end align-items-center gap-2 gap-md-3">
+    <div className="d-flex flex-wrap align-items-center gap-2">
       
       {/* Search Box */}
       {search ? (
@@ -2482,12 +2402,12 @@ const handleBack = () => {
         <Image
           src={searchteam}
           alt="search"
-          style={{ height: "24px", width: "24px", cursor: "pointer" }}
+          style={{ height: "24px", width: "24px", cursor: "pointer",marginTop:value === "1"? "10px":0 }}
           onClick={handleShowSearch}
         />
       )}
       {(value === "2" || value === "3" || value === "4") && (
-                  <div style={{ paddingRight: 15 }}>
+                  <div >
                     <Image
                       src={Filters}
                       roundedCircle
@@ -2505,20 +2425,61 @@ const handleBack = () => {
           style={{ marginLeft: 10 }}
         />
       )}
-   {filterStatus && value === "3" && (
+       {value === "3" && filterStatus && (
+                        <div
+                          className="me-3"
+                          style={{
+                            border: "1px solid #D4D4D4",
+                            borderRadius: 8,
+                            width: search ? "120px" : "120px",
+                          }}
+                        >
+                          <Form.Select
+                            onChange={(e) => handleStatusFilterCheckout(e)}
+                            value={statusFilterCheckout}
+                            aria-label="Select Price Range"
+                            className=""
+                            id="statusselect"
+                            style={{
+                              color: "rgba(34, 34, 34, 1)",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            <option value="All">All</option>
+                            <option value="1">Pending</option>
+                            <option value="0">Completed</option>
+                            <option value="date">Date</option>
+                          </Form.Select>
+                        </div>
+                      )}
+                      {statusFilterCheckout === "date" && (  
+    <div >
+    <RangePicker
+      value={checkoutDateRange}
+      format="YYYY-MM-DD"
+      onChange={handleDateRangeChangeCheckout}
+      style={{ height: "38px", borderRadius: 8 }}
+      allowClear
+    />
+  </div>
+)}
+   {/* {filterStatus && value === "3" && (
         <RangePicker
           value={checkoutDateRange}
           onChange={handleDateRangeChangeCheckout}
           format="DD/MM/YYYY"
           style={{ marginLeft: 10 }}
         />
-      )}
+      )} */}
+
+
+
          {filterStatus && value === "4" && (
         <RangePicker
           value={walkinDateRange}
           onChange={handleDateRangeChangeWalkin}
           format="DD/MM/YYYY"
-          style={{ marginLeft: 10 }}
         />
       )}
       {/* Excel Button */}
@@ -2529,7 +2490,8 @@ const handleBack = () => {
             alt="excel"
             width={38}
             height={38}
-            style={{ cursor: "pointer" }}
+
+            style={{ cursor: "pointer",marginTop:8 }}
             onClick={handleCustomerExcel}
           />
         )}
@@ -2566,20 +2528,25 @@ const handleBack = () => {
       </div>
 
       {/* Action Button */}
-      <div className="me-4">
+      <div className="me-4 mt-2">
         {value === "1" && (
           <Button
             disabled={customerAddPermission}
             onClick={handleShow}
             style={{
+              fontFamily: "Gilroy",
+              fontSize: "14px",
               backgroundColor: "#1E45E1",
               color: "white",
               fontWeight: 600,
               borderRadius: "8px",
-              padding: "12px 48px 12px 48px",
-              whiteSpace: "nowrap",
-              fontFamily: "Gilroy",
-              fontSize: 14,
+              padding: "12px",
+              paddingLeft: 50,
+              paddingRight: 48,
+              marginBottom: "10px",
+              maxHeight: 45,
+              marginTop:8
+
             }}
           >
             + Customer
@@ -2654,7 +2621,7 @@ const handleBack = () => {
       </div>
     </div>
   </div>
-</div>
+
 
           {filterInput && (
             <div
@@ -2783,7 +2750,7 @@ const handleBack = () => {
                 </TabList>
               </Box>
 
-              <TabPanel value="1" style={{ paddingLeft: 0 }}>
+              <TabPanel value="1">
 
               {loading && (
         <div
@@ -2849,7 +2816,7 @@ const handleBack = () => {
                     </div>
                   </>
                 ) : (
-                  <div className="">
+                 
                     <div>
                       {currentItems && currentItems.length > 0 && (
                         <div
@@ -2862,6 +2829,8 @@ const handleBack = () => {
                               currentItems.length >= 6 ? "auto" : "visible",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
+                            marginLeft:"-20px",
+                            marginTop:8
                             // borderBottom:"none"
                           }}
                         >
@@ -3563,7 +3532,7 @@ const handleBack = () => {
                         </div>
                       )}
                     </div>
-                  </div>
+                 
                 )}
 
                 {!loading && userListDetail?.length === 0 && (

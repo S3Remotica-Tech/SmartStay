@@ -343,7 +343,6 @@ const Compliance = () => {
     setStatusfilter(value);
   
     if (value === "All") {
-      // Make sure this is the full list from state
       setFilteredUsers(state.ComplianceList?.Compliance || []);
     } else if (value === "date") {
       // Do nothing yet, wait for date selection
@@ -352,6 +351,7 @@ const Compliance = () => {
         item.Status?.toLowerCase().includes(value.toLowerCase())
       );
       setFilteredUsers(filtered);
+      setCurrentPage(1)
     }
   };
   
@@ -368,6 +368,7 @@ const Compliance = () => {
         dayjs(item.date).isBefore(dayjs(dates[1]).add(1, 'day'))
       );
       setFilteredUsers(filtered);
+      setCurrentPage(1)
     }
   };
 

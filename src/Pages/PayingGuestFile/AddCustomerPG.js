@@ -8,12 +8,13 @@ import Plus from "../../Assets/Images/New_images/addplus-circle.svg";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import Profile from "../../Assets/Images/New_images/profile-picture.png";
-import DatePicker from 'react-datepicker';
 import {CloseCircle} from "iconsax-react";
 import "flatpickr/dist/themes/material_blue.css";
 import Calendars from "../../Assets/Images/New_images/calendar.png";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 function AddCustomer({ show, handleClosing, currentItem }) {
   const state = useSelector((state) => state);
@@ -241,7 +242,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     const Room_Id = currentItem.room.Room_Id;
     const Bed_Id = currentItem.bed.id;
 
-    const filterData_Hostel_Name = state.UsersList.hostelList.filter((view) => {
+    const filterData_Hostel_Name = state.UsersList?.hostelListNewDetails?.data?.filter((view) => {
       return view.id === Hostel_Id;
     });
 
@@ -868,7 +869,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                     Joining Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                 </Form.Label>
-                <div style={{ position: 'relative', width: "100%" }}>
+                {/* <div style={{ position: 'relative', width: "100%" }}>
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date) => {
@@ -884,6 +885,20 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                                 : '', 
                         })}
                     />
+                </div> */}
+
+                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                  <DatePicker
+                    style={{ width: "100%", height: 48 }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={selectedDate ? dayjs(selectedDate) : null}
+                    onChange={(date) => {
+                      setDateError('');
+                      setSelectedDate(date ? date.toDate() : null);
+                    }}
+                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                  />
                 </div>
             </Form.Group>
 
