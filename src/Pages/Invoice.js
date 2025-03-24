@@ -196,7 +196,6 @@ const [startDate, endDate] = dateRange;
       }, 100);
     }
   }, [state.InvoiceList.ManualInvoicesgetstatuscode]);
-  console.log("state.InvoiceList.ManualInvoices",state.InvoiceList.ManualInvoices)
 
   useEffect(() => {
     if (state.InvoiceList.BillsErrorstatusCode === 201) {
@@ -218,7 +217,7 @@ const [startDate, endDate] = dateRange;
     }
   }, [state.InvoiceList.NodataRecurringStatusCode]);
 
-  console.log("statuscode", state.InvoiceList.NodataReceiptStatusCode);
+ 
 
 
   useEffect(() => {
@@ -417,6 +416,7 @@ useEffect(() => {
   }
 
   setBills(filtered);
+  setCurrentPage(1)
 }, [statusfilter, startDate, endDate, originalBillsFilter]);
 
 
@@ -426,18 +426,7 @@ useEffect(() => {
     const searchTerm = event.target.value;
     setStatusFilterReceipt(searchTerm);
      };
-  // const handleStatusFilterReceipt = (event) => {
-  //   const searchTerm = event.target.value;
-  //   setStatusFilterReceipt(searchTerm);
-  //   if (searchTerm === "All") {
-  //     setReceiptData(originalBillsFilterReceipt);
-  //   } else {
-  //     const filteredItemsReceipt = originalBillsFilterReceipt?.filter((user) =>
-  //       user.payment_mode.toLowerCase().includes(searchTerm.toLowerCase())
-  //     );
-  //     setReceiptData(filteredItemsReceipt);
-  //   }
-  // };
+  
 
   useEffect(() => {
     if (statusFilterReceipt !== "date") {
@@ -449,6 +438,7 @@ useEffect(() => {
           user.payment_mode.toLowerCase().includes(statusFilterReceipt.toLowerCase())
         );
         setReceiptData(filteredItemsReceipt);
+        setCurrentReceiptPage(1)
       }
     }
   }, [statusFilterReceipt]);
@@ -476,6 +466,7 @@ useEffect(() => {
     });
   
     setReceiptData(filtered);
+    setCurrentReceiptPage(1)
   };
   
   
@@ -488,6 +479,7 @@ useEffect(() => {
     if (statusFilterReceipt === "All") {
       setReceiptData(originalBillsFilterReceipt);
       setReceiptDateRange([]);
+      
     }
   }, [statusFilterReceipt]);
   
@@ -576,7 +568,7 @@ useEffect(() => {
 
   };
 
-console.log('invoiceDetails',invoiceDetails)
+
 
   useEffect(() => {
     // if (invoiceDetails ) {
@@ -1386,36 +1378,7 @@ console.log('invoiceDetails',invoiceDetails)
   };
   
   
-  // const handleRowTypeSelect = (type) => {
-  //   let newRow = { am_name: "", amount: "0" };
-  
-  //   if (type === "RoomRent") {
-  //     newRow.am_name = "Room Rent";
-  //   } else if (type === "EB") {
-  //     newRow.am_name = "EB";
-  //   }
-  
-  //   setNewRows((prev) => [...prev, newRow]);
-  //   setAllFieldErrmsg("");
-  //   setTableErrmsg("")
-  // };
-
-  // const handleDeleteNewRow = (index) => {
-  //   setNewRows((prevRows) => {
-  //     const updatedRows = prevRows.filter((_, i) => i !== index);
-  //     return updatedRows;
-  //   });
-
-  //   setAllFieldErrmsg("");
-  // }
-  // const handleDeleteNewRow = (index) => {
-  //   setNewRows((prevRows) => {
-  //     const updatedRows = prevRows.filter((_, i) => i !== index);
-  //     return updatedRows;
-  //   });
-
-  //   setAllFieldErrmsg("");
-  // };
+ 
   const handleDeleteNewRow = (index) => {
     setNewRows((prevRows) => {
       const deletedRow = prevRows[index];
@@ -1557,32 +1520,7 @@ console.log('invoiceDetails',invoiceDetails)
     setNewRows([]);
   };
 
-  // const handleSelectChange = (e) => {
-  //   const selectedDescription = e.target.value;
-  //   const selectedOption = invoicetotalamounts.find(
-  //     (opt) => opt.description === selectedDescription
-  //   );
-
-  //   if (selectedOption) {
-  //     setBillAmounts([...billamounts, selectedOption]);
-  //     setAvailableOptions(
-  //       availableOptions.filter(
-  //         (opt) => opt.description !== selectedDescription
-  //       )
-  //     );
-  //   }
-  // };
-
-  // const handleAmountChange = (index, value) => {
-  //   const updatedData = [...billamounts];
-  //   updatedData[index] = { ...updatedData[index], amount: value };
-  //   setBillAmounts(updatedData);
-  // };
-
-
-
-  //  const itemsPerPage = 5;
-  // bills
+ 
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -1601,7 +1539,6 @@ console.log('invoiceDetails',invoiceDetails)
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
-  console.log("currentItems",currentItems)
 
   //recurring pagination
   const [currentRecurePage, setCurrentRecurePage] = useState(1);
@@ -2438,8 +2375,7 @@ console.log('invoiceDetails',invoiceDetails)
     setDropdownVisible(false);
   };
   
-  
-  console.log("Recurring Bills:", recurringbills);
+ 
 
 
   const handleUserReceipt = (user) => {
@@ -2842,7 +2778,7 @@ console.log('invoiceDetails',invoiceDetails)
                       <option value="All">All</option>
                       <option value="Unpaid">UnPaid</option>
                       <option value="Paid">Paid</option>
-                      <option value="date">date</option>
+                      <option value="date">Date</option>
                     </Form.Select>
                  
                   </div>
