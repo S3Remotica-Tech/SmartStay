@@ -137,7 +137,6 @@ function CheckOut(props) {
   
     }, [state.UsersList?.checkoutcustomeEmpty])
 
-    console.log("state.UsersList?.checkoutcustomeEmpty",state.UsersList?.checkoutcustomeEmpty)
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -178,13 +177,18 @@ function CheckOut(props) {
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
   // const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers :checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-
+  // const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers :checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  const currentCustomers =
+  props.search || props.filterStatus || props.checkoutDateRange?.length === 2
+    ? props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer)
+    : checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
   // const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+  // const totalPages = Math.ceil(
+  //   (props.search ? props.filteredUsers?.length : checkOutCustomer?.length) / itemsPerPage
+  // );
   const totalPages = Math.ceil(
-    (props.search ? props.filteredUsers?.length : checkOutCustomer?.length) / itemsPerPage
+    (props.search || props.filterStatus ? props.filteredUsers?.length : checkOutCustomer?.length) / itemsPerPage
   );
-
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -193,7 +197,13 @@ function CheckOut(props) {
     setCurrentPage(1)
   };
 
-
+ useEffect(() => {
+    if (props.resetPage) {
+      setCurrentPage(1);
+      props.setResetPage(false); 
+    }
+  }, [props.resetPage]);
+  
   const [checkOutEdit, setCheckOutEdit] = useState("");
   const [checkouteditaction, setCheckoutEditAction] = useState(false)
   const [checkOutconfirm, setCheckOutConfirm] = useState("");
@@ -1024,7 +1034,7 @@ function CheckOut(props) {
                     </tbody>
                   </Table>
                 </div>
-                {(props.search ? props.filteredUsers?.length : checkOutCustomer?.length) >= 5 && (
+                {((props.search || props.filterStatus) ? props.filteredUsers?.length : checkOutCustomer?.length) >= 5 && (
 
                 
 
@@ -1282,6 +1292,11 @@ CheckOut.propTypes = {
   filterInput: PropTypes.func.isRequired,
   filteredUsers: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
+
+  filterStatus: PropTypes.func.isRequired,
+  resetPage: PropTypes.func.isRequired,
+  checkoutDateRange: PropTypes.func.isRequired,
+  setResetPage: PropTypes.func.isRequired,
 
 };
 

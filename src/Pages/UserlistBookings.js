@@ -620,9 +620,13 @@ if (!pattern.test(value)) {
   //   indexOfFirstItem,
   //   indexOfLastItem
   // );
+  // const currentItems =
+  // props.filterInput.length > 0
+  //   ? props.filteredUsers
+  //   : customerBooking?.slice(indexOfFirstItem, indexOfLastItem);
   const currentItems =
-  props.filterInput.length > 0
-    ? props.filteredUsers
+  props.search || props.filterStatus || props.bookingDateRange?.length === 2
+    ? props.filteredUsers?.slice(indexOfFirstItem, indexOfLastItem)
     : customerBooking?.slice(indexOfFirstItem, indexOfLastItem);
 
 
@@ -633,10 +637,16 @@ if (!pattern.test(value)) {
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1)
   };
+  useEffect(() => {
+    if (props.resetPage) {
+      setCurrentPage(1);
+      props.setResetPage(false); 
+    }
+  }, [props.resetPage]);
 
   // const totalPages = Math.ceil(customerBooking?.length / itemsPerPage);
   const totalPages = Math.ceil(
-    (props.search ? props.filteredUsers?.length : customerBooking?.length) / itemsPerPage
+    (props.search || props.filterStatus ? props.filteredUsers?.length : customerBooking?.length) / itemsPerPage
   );
 
 
@@ -1302,7 +1312,7 @@ if (!pattern.test(value)) {
 )}
 
 
-{(props.search ? props.filteredUsers?.length : customerBooking?.length) >= 5 && (
+{((props.search || props.filterStatus) ? props.filteredUsers?.length : customerBooking?.length) >= 5 && (
                 
 
                   <nav
@@ -2025,5 +2035,9 @@ Booking.propTypes = {
   search: PropTypes.func.isRequired,
   filteredUsers: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
+  filterStatus: PropTypes.func.isRequired,
+  bookingDateRange: PropTypes.func.isRequired,
+  resetPage: PropTypes.func.isRequired,
+  setResetPage: PropTypes.func.isRequired,
 };
 export default Booking;

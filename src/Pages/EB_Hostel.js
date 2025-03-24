@@ -32,12 +32,14 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-
+import isBetween from "dayjs/plugin/isBetween";
+import Filters from "../Assets/Images/Filters.svg";
 function EB_Hostel() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const theme = useTheme();
-
+const { RangePicker } = DatePicker;
+ dayjs.extend(isBetween);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [addEbDetail, setaddEbDetail] = useState(false);
   const [selectedHostel, setSelectedHostel] = useState("");
@@ -70,6 +72,7 @@ function EB_Hostel() {
   const [customerLoader, setCustomerLoader] = useState(true);
   const [dateErrorMesg, setDateErrorMesg] = useState("");
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [filterStatus, setFilterStatus] = useState(false);
 
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
@@ -366,6 +369,7 @@ function EB_Hostel() {
   useEffect(() => {
     if (state.PgList.statusCodeforEbCustomer === 200) {
       setelectricityFilterddata(state.PgList?.EB_customerTable);
+      setOriginalElec(state.PgList?.EB_customerTable)
       setCustomerLoader(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_EB_CUSTOMER_EBLIST" });
@@ -621,6 +625,33 @@ function EB_Hostel() {
     setSearch(!search);
   };
 
+const [customerDateRange, setCustomerDateRange] = useState([]);
+  const handleFilterd = () => {
+    setFilterStatus(!filterStatus);
+  };
+
+  const handleDateRangeChangeEb = (dates) => {
+    setCustomerDateRange(dates);
+    
+      if (!dates || dates.length !== 2) {
+        setFilterStatus(false);  
+        setelectricityFilterddata(originalElec); 
+        return;
+      }
+    
+      const [start, end] = dates;
+    
+      const filtered = originalElec?.filter((item) => {
+        const itemDate = dayjs(item.reading_date);
+        return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+      });
+    
+      setelectricityFilterddata(filtered);
+      setFilterStatus(true); 
+      setelectricitycurrentPage(1)
+      
+    };
+
   const [originalElec, setOriginalElec] = useState("");
 
   // const handleUserSelect = (user) => {
@@ -833,6 +864,24 @@ function EB_Hostel() {
                 </div>
               )
             )}
+            {(value === "1") && (
+                              <div style={{ paddingRight: 15 }}>
+                                <Image
+                                  src={Filters}
+                                  roundedCircle
+                                  style={{ height: "50px", width: "50px", cursor: "pointer" }}
+                                  onClick={handleFilterd}
+                                />
+                              </div>
+                            )}
+                                      {filterStatus && value === "1" && (
+        <RangePicker
+          value={customerDateRange}
+          onChange={handleDateRangeChangeEb}
+          format="DD/MM/YYYY"
+          style={{ marginLeft: 10 }}
+        />
+      )}
 
             {/* Excel Icon */}
             {value === "1" && (

@@ -44,11 +44,16 @@ import Calendars from "../Assets/Images/New_images/calendar.png";
 import PropTypes from "prop-types";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import Filters from "../Assets/Images/Filters.svg";
+import isBetween from "dayjs/plugin/isBetween";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 
 function UserList(props) {
   console.log("UserList?",props)
   const state = useSelector((state) => state);
-
+ const { RangePicker } = DatePicker;
+ dayjs.extend(isBetween);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -131,6 +136,7 @@ function UserList(props) {
  const [selectedTypes, setSelectedTypes] = useState([]);
   const [billsAddshow,setBillsAddShow] = useState(false)
   const [isAddMode, setIsAddMode] = useState(false);
+   const [filterStatus, setFilterStatus] = useState(false);
 
 
   useEffect(() => {
@@ -1631,8 +1637,81 @@ const handleBack = () => {
   const handleShowSearch = () => {
     setSearch(!search);
   };
+  const handleFilterd = () => {
+    setFilterStatus(!filterStatus);
+  };
+  const [bookingDateRange, setBookingDateRange] = useState([]);
+  const [checkoutDateRange,setCheckoutDateRange] = useState([])
+  const [walkinDateRange,setWalkinDateRange] = useState([])
+  dayjs.extend(isSameOrAfter);
+  dayjs.extend(isSameOrBefore);
+  const [resetPage, setResetPage] = useState(false);
+  const handleDateRangeChangeBooking = (dates) => {
+    setBookingDateRange(dates);
+  
+    if (!dates || dates.length !== 2) {
+      setFilterStatus(false);  
+      setFilteredUsers(customerBooking); 
+      return;
+    }
+  
+    const [start, end] = dates;
+  
+    const filtered = customerBooking?.filter((item) => {
+      const itemDate = dayjs(item.createdat);
+      return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+    });
+  
+    setFilteredUsers(filtered);
+    setFilterStatus(true);
+    setResetPage(true)
+  };
+
+  
+  
+  
+  const handleDateRangeChangeCheckout = (dates) => {
+    setCheckoutDateRange(dates);
+  
+    if (!dates || dates.length !== 2) {
+      setFilterStatus(false);  
+      setFilteredUsers(checkOutCustomer); 
+      return;
+    }
+  
+    const [start, end] = dates;
+  
+    const filtered = checkOutCustomer?.filter((item) => {
+      const itemDate = dayjs(item.CheckoutDate);
+      return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+    });
+  
+    setFilteredUsers(filtered);
+    setFilterStatus(true); 
+    setResetPage(true)
+  };
 
 
+  const handleDateRangeChangeWalkin = (dates) => {
+    setWalkinDateRange(dates);
+  
+    if (!dates || dates.length !== 2) {
+      setFilterStatus(false);  
+      setFilteredUsers(walkingCustomer); 
+      return;
+    }
+  
+    const [start, end] = dates;
+  
+    const filtered = walkingCustomer?.filter((item) => {
+      const itemDate = dayjs(item.walk_In_Date);
+      return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+    });
+  
+    setFilteredUsers(filtered);
+    setFilterStatus(true);
+    setResetPage(true)
+  };
 
   useEffect(() => {
     if (id) {
@@ -2407,7 +2486,41 @@ const handleBack = () => {
           onClick={handleShowSearch}
         />
       )}
-
+      {(value === "2" || value === "3" || value === "4") && (
+                  <div style={{ paddingRight: 15 }}>
+                    <Image
+                      src={Filters}
+                      roundedCircle
+                      style={{ height: "50px", width: "50px", cursor: "pointer" }}
+                      onClick={handleFilterd}
+                    />
+                  </div>
+                )}
+               
+                {filterStatus && value === "2" && (
+        <RangePicker
+          value={bookingDateRange}
+          onChange={handleDateRangeChangeBooking}
+          format="DD/MM/YYYY"
+          style={{ marginLeft: 10 }}
+        />
+      )}
+   {filterStatus && value === "3" && (
+        <RangePicker
+          value={checkoutDateRange}
+          onChange={handleDateRangeChangeCheckout}
+          format="DD/MM/YYYY"
+          style={{ marginLeft: 10 }}
+        />
+      )}
+         {filterStatus && value === "4" && (
+        <RangePicker
+          value={walkinDateRange}
+          onChange={handleDateRangeChangeWalkin}
+          format="DD/MM/YYYY"
+          style={{ marginLeft: 10 }}
+        />
+      )}
       {/* Excel Button */}
       <div>
         {value === "1" && (
@@ -3640,6 +3753,10 @@ const handleBack = () => {
                   setUniqostel_Id={setUniqostel_Id}
                   filterInput={filterInput}
                   search={search}
+                  filterStatus = {filterStatus}
+                  bookingDateRange = {bookingDateRange}
+                  resetPage = {resetPage}
+                  setResetPage ={setResetPage}
                 />
               </TabPanel>
               <TabPanel value="3">
@@ -3655,6 +3772,10 @@ const handleBack = () => {
                   checkoutaddform={checkoutaddform}
                   // loader={loading}
                   search={search}
+                  checkoutDateRange={checkoutDateRange}
+                  filterStatus = {filterStatus}
+                  resetPage = {resetPage}
+                  setResetPage ={setResetPage}
                 />
               </TabPanel>
               <TabPanel value="4">
@@ -3667,6 +3788,10 @@ const handleBack = () => {
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
                   search={search}
+                  walkinDateRange = {walkinDateRange}
+                  filterStatus = {filterStatus}
+                  resetPage = {resetPage}
+                  setResetPage ={setResetPage}
                 />
               </TabPanel>
             </TabContext>

@@ -14,11 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
-
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
-  console.log("UserlistWalkin", state)
-  console.log("props", props);
 
   const dispatch = useDispatch();
   // const [customers, setCustomers] = useState(initialCustomers);
@@ -83,8 +80,6 @@ function UserlistWalkin(props) {
     }
 
   }, [state.login.selectedHostel_Id]);
-
-  console.log("state.UsersList.getWalkInStatusCode", state.UsersList.getWalkInStatusCode)
 
 
 
@@ -222,17 +217,23 @@ function UserlistWalkin(props) {
 
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  // const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers : walkInCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-
-  // const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
+  const currentCustomers =
+  props.search || props.filterStatus || props.walkinDateRange?.length === 2
+    ? props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer)
+    : walkInCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
   const totalPages = Math.ceil(
-    (props.search ? props.filteredUsers?.length : walkInCustomer?.length) / itemsPerPage
+    (props.search || props.filterStatus ? props.filteredUsers?.length : walkInCustomer?.length) / itemsPerPage
   );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+   useEffect(() => {
+      if (props.resetPage) {
+        setCurrentPage(1);
+        props.setResetPage(false); 
+      }
+    }, [props.resetPage]);
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -713,8 +714,8 @@ function UserlistWalkin(props) {
 }
                  
           </div>
-          {(props.search ? props.filteredUsers?.length : walkInCustomer?.length) >= 5 && (
-                  
+          {/* {(props.search ? props.filteredUsers?.length : walkInCustomer?.length) >= 5 && ( */}
+          {((props.search || props.filterStatus) ? props.filteredUsers?.length : walkInCustomer?.length) >= 5 && (
                   <nav
                     style={{
                       display: "flex",
@@ -946,6 +947,10 @@ UserlistWalkin.propTypes = {
   filterInput: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
   filteredUsers: PropTypes.func.isRequired,
+  filterStatus: PropTypes.func.isRequired,
+  resetPage: PropTypes.func.isRequired,
+  setResetPage: PropTypes.func.isRequired,
+  walkinDateRange: PropTypes.func.isRequired,
 };
 
 export default UserlistWalkin;
