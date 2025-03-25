@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from "react";
 import crown from "../../Assets/Images/New_images/crown.png";
 import { Table } from "react-bootstrap";
-import "./Subscription.css"
 import {Button,Form,FormControl} from "react-bootstrap";
 import { Modal} from "react-bootstrap";
 import phinfo from "../../Assets/Images/New_images/ph_info-fill.png";
