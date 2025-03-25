@@ -468,7 +468,7 @@ function Asset() {
                   height: 83,
                 }}
               >
-                <div style={{ marginTop: -5 }}>
+                <div style={{ marginTop: 10 }}>
                   <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
                     Assets</label>
                 </div>
@@ -489,24 +489,26 @@ function Asset() {
                   {
 
                     showFilterData &&
-                    <div className='me-3 flex flex-wrap ' style={{ position: 'relative', cursor: "pointer", marginTop: 10 }}>
+                    <div className='me-3 flex flex-wrap ' style={{ 
+                      position: 'relative', cursor: "pointer", marginTop: 10 }}>
                       <InputGroup
                         style={{
-                          display: 'flex',
+                          maxWidth: "100%",
                           flexWrap: 'nowrap',
-                          width: '100%',
+                          
                         }}
-
-
-
-                      >
+              >
 
                         <FormControl size="lg"
                           value={searchQuery}
                           onChange={handleInputChange}
 
                           style={{
-                            width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
+                            width: "100%",
+                            maxWidth: "235px", 
+                            boxShadow: "none", 
+                            borderColor: "lightgray", 
+                            borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
                             //  '::placeholder': { color: "#222", fontWeight: 500 } 
                           }}
                           placeholder="Search..."
@@ -515,10 +517,7 @@ function Asset() {
                           <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
                         </InputGroup.Text>
                       </InputGroup>
-
-
-
-                      {
+  {
                         getData.length > 0 && searchQuery !== '' && showDropDown && (
 
                           <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
