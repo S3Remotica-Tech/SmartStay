@@ -12,6 +12,7 @@ import { InputGroup, Card } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import {CloseCircle,Trash,AddCircle,Gallery,} from "iconsax-react";
 import PropTypes from "prop-types";
+import { margin } from "@mui/system";
 
 function AddPg({ show, handleClose, currentItem }) {
 
@@ -449,7 +450,15 @@ useEffect(() => {
         onHide={handleClose}
         centered
         backdrop="static"
-        className="custom-modal-width"
+        // className="custom-modal-width"
+        className="custom-modal-width modal-dialog-centered modal-dialog-scrollable"
+        style={{
+          maxWidth: "90%", 
+          marginLeft: "auto", 
+          marginRight: "auto", 
+          // margin: "0 auto",
+          display: "block", // Prevents unexpected shifting
+        }}
       >
         <Modal.Header>
           <Modal.Title
