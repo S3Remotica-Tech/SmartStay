@@ -12,7 +12,6 @@ import { InputGroup, Card } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import {CloseCircle,Trash,AddCircle,Gallery,} from "iconsax-react";
 import PropTypes from "prop-types";
-import { margin } from "@mui/system";
 
 function AddPg({ show, handleClose, currentItem }) {
 
