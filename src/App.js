@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import FrontPage from './LandingPage/FrontPage';
+// import FrontPage from './LandingPage/FrontPage';
+import FrontPage from './NewLandingPage/Topbar';
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
 import ForgetPassword from "./Components/Forgetpass";
@@ -14,7 +15,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'universal-cookie';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import TermsAndCondition from "./LandingPage/TermsCondition"
+import TermsAndCondition from "./NewLandingPage/Terms"
+import Cookies_policy from "./NewLandingPage/CookiesPolicy"
+import Privacy from "./NewLandingPage/PrivacyPolicy";
+import Contact from "./NewLandingPage/Contact";
 import { StoreSelectedHostelAction } from './Redux/Action/smartStayAction';
 import LoaderComponent from './Pages/LoaderComponent';
 
@@ -116,10 +120,10 @@ function App() {
           ) : (
             <>
               <Route path="/" element={<FrontPage />} />
-              <Route path="/Terms-Condition" element={<TermsAndCondition />} />
-              <Route path="/Privacy-Policy" element={<TermsAndCondition />} />
-              <Route path="/Contact-Us" element={<TermsAndCondition />} />
-              <Route path="/Cookies" element={<TermsAndCondition />} />
+              {/* <Route path="/Terms-Condition" element={<TermsAndCondition />} />
+              <Route path="/Privacy-Policy" element={<Privacy />} />
+              <Route path="/Contact-Us" element={<Contact />} />
+              <Route path="/Cookies" element={<Cookies_policy />} /> */}
               <Route path="/login-Page" element={<LoginPage />} />
               <Route path="/create-account" element={<CreateAccount />} />
               <Route path="/forget-password" element={<ForgetPassword />} />

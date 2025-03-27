@@ -1,0 +1,137 @@
+.testimonial-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    background-color: #f8fafc; /* Light background */
+    padding: 40px;
+  }
+  
+  .testimonial-slider {
+    max-width: 1100px;
+    padding: 20px;
+  }
+  
+  .testimonial-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .testimonial-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .testimonial-image {
+    width: 180px;
+    height: 180px;
+    /* border-radius: 50%; */
+    object-fit: cover;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .testimonial-text {
+    max-width: 600px;
+  }
+  
+  .testimonial-text p {
+    font-size: 18px;
+    color: #1e293b;
+    line-height: 1.5;
+  }
+  
+  .testimonial-rating {
+    color: #f59e0b; /* Gold color for stars */
+    margin: 10px 0;
+  }
+  
+  .testimonial-text strong {
+    display: block;
+    font-size: 16px;
+    color: #0f172a;
+    margin-top: 10px;
+  }
+  
+  .testimonial-text span {
+    font-size: 14px;
+    color: #64748b;
+  }
+  
+  
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: flex;
+    flex-direction: row;
+    /* width: 50px; */
+    margin-left: 80%;
+    margin-top: 40px;
+    color: #1e40af; /* Dark blue navigation arrows */
+  }
+
+  
+  
+  .swiper-pagination-bullet {
+    background-color: #94a3b8;
+    opacity: 0.5;
+  }
+  
+  .swiper-pagination-bullet-active {
+    background-color: #2563eb;
+    opacity: 1;
+  }
+  
+.swiper-pagination{
+    text-align-last: end;
+    margin-bottom: 45px;
+   margin-left: -50px;
+   margin-right: 10px;
+  }
+
+/* Hide default Swiper arrow icons */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  display: none;
+}
+
+/* Custom left arrow */
+.swiper-button-prev {
+  background: url("../Assets/Images/landingpageimages/leftarr.png") no-repeat center;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+}
+
+/* Custom right arrow */
+.swiper-button-next {
+  background: url("../Assets/Images/landingpageimages/right_arrow.png") no-repeat center;
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+}
+/* .swiper-button-next {
+  background: url("../Assets/Images/landingpageimages/right_arrow.png") no-repeat center !important;
+  background-size: contain !important;
+  width: 40px !important;
+  height: 40px !important;
+} */
+
+.swiper-button-next::after {
+  display: none !important;
+}
+
+.swiper-button-next {
+  background: url("../Assets/Images/landingpageimages/right_arrow.png") no-repeat center !important;
+  background-size: contain !important;
+  width: 40px !important;
+  height: 40px !important;
+  filter: brightness(1); /* Ensure it's not too light */
+}
+.swiper-button-next {
+  z-index: 9999 !important;
+}
+  
+  
