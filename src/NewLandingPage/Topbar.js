@@ -15,6 +15,9 @@ import Contact from "./Contact";
 import SubscriptionPlan from "./Subscription";
 import SmartStaySection from "./Whysmartstay";
 import RoomManagement from "./ManagementTabs";
+import Condition from "./Terms";
+import Policy from "./PrivacyPolicy";
+import CookiesPolicy from "./CookiesPolicy";
 
 function FrontPage() {
   useEffect(() => {
@@ -34,6 +37,8 @@ function FrontPage() {
   const [activeSection, setActiveSection] = useState("firstPage");
 
   const handleSetActive = (section) => {
+    console.log("action", section);
+    
     setActiveSection(section);
   };
 
@@ -174,6 +179,26 @@ function FrontPage() {
           <Contact/>
         
           <Getanswer />
+        </Element>
+      )}
+
+{activeSection === "terms_use" && (
+        <Element name="terms_use" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+         <Condition/>
+        </Element>
+      )}
+
+      
+{activeSection === "cookies" && (
+        <Element name="cookies" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+         <CookiesPolicy/>
+        </Element>
+      )}
+
+      
+{activeSection === "privacy_policy" && (
+        <Element name="privacy_policy" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
+         <Policy/>
         </Element>
       )}
 

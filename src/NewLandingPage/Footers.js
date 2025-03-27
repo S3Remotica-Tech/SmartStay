@@ -12,6 +12,8 @@ import PropTypes from "prop-types";
 
 const Footers = (props) => {
 
+  
+
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
@@ -100,9 +102,9 @@ const Footers = (props) => {
 
     <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 fade-in">
       <h5 style={{ color: '#FFF', fontFamily: 'Montserrat', fontSize: 20, fontWeight: 500, lineHeight: '160%' }}>Help</h5>
-      <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={handleNavigateTerms}>Terms of use</p>
-      <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={handleNavigateCookies}>Cookies</p>
-      <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={handleNavigatePrivacy}>Privacy policy</p>
+      <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={() => handleLink('terms_use')}>Terms of use</p>
+      <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={() => handleLink('cookies')}>Cookies</p>
+      <p style={{ color: '#FFF', fontFamily: 'Gilroy', fontSize: '16px', fontWeight: 200, lineHeight: '160%', cursor: "pointer" }} onClick={() => handleLink('privacy_policy')}>Privacy policy</p>
     </div>
 
   </div>

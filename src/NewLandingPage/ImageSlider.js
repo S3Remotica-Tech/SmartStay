@@ -58,14 +58,14 @@ const testimonials = [
 const TestimonialSlider = () => {
   return (
     <div className="testimonial-container">
-      <Swiper
-        modules={[Navigation, Pagination]}
-        navigation={{ clickable: true }}
-        pagination={{ clickable: true }}
-        spaceBetween={30}
-        slidesPerView={1}
-        className="testimonial-slider"
-      >
+     <Swiper
+  modules={[Navigation, Pagination]}
+  navigation={true}  // Make sure navigation is enabled
+  pagination={{ clickable: true }}
+  spaceBetween={30}
+  slidesPerView={1}
+  className="testimonial-slider"
+>
         {testimonials.map((testimonial, index) => (
           <SwiperSlide key={index} className="testimonial-slide">
             <div className="testimonial-content">

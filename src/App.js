@@ -120,10 +120,10 @@ function App() {
           ) : (
             <>
               <Route path="/" element={<FrontPage />} />
-              <Route path="/Terms-Condition" element={<TermsAndCondition />} />
+              {/* <Route path="/Terms-Condition" element={<TermsAndCondition />} />
               <Route path="/Privacy-Policy" element={<Privacy />} />
               <Route path="/Contact-Us" element={<Contact />} />
-              <Route path="/Cookies" element={<Cookies_policy />} />
+              <Route path="/Cookies" element={<Cookies_policy />} /> */}
               <Route path="/login-Page" element={<LoginPage />} />
               <Route path="/create-account" element={<CreateAccount />} />
               <Route path="/forget-password" element={<ForgetPassword />} />

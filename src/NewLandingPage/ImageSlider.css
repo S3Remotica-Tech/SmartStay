@@ -8,7 +8,7 @@
   }
   
   .testimonial-slider {
-    max-width: 1000px;
+    max-width: 1100px;
     padding: 20px;
   }
   
@@ -88,6 +88,7 @@
     text-align-last: end;
     margin-bottom: 45px;
    margin-left: -50px;
+   margin-right: 10px;
   }
 
 /* Hide default Swiper arrow icons */
@@ -111,6 +112,26 @@
   width: 40px;
   height: 40px;
 }
+/* .swiper-button-next {
+  background: url("../Assets/Images/landingpageimages/right_arrow.png") no-repeat center !important;
+  background-size: contain !important;
+  width: 40px !important;
+  height: 40px !important;
+} */
 
+.swiper-button-next::after {
+  display: none !important;
+}
+
+.swiper-button-next {
+  background: url("../Assets/Images/landingpageimages/right_arrow.png") no-repeat center !important;
+  background-size: contain !important;
+  width: 40px !important;
+  height: 40px !important;
+  filter: brightness(1); /* Ensure it's not too light */
+}
+.swiper-button-next {
+  z-index: 9999 !important;
+}
   
   
