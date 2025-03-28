@@ -8,12 +8,10 @@ import { MdError } from "react-icons/md";
 // import Footer from './Footer';
 // import NeedFooter from './Need_Footer';
 import { Styles } from '../Styles/ContactUsStyles';
-import { fontSize } from '@mui/system';
 import TopLeftCurve from "../Assets/Images/landingpageimages/topleftcurve.png";
 import Email from "../Assets/Images/landingpageimages/message.png";
 import Location from "../Assets/Images/landingpageimages/Location.png";
 import Call from "../Assets/Images/landingpageimages/call.png";
-import { message } from 'antd';
 
 function Contact () {
  
@@ -139,7 +137,7 @@ function Contact () {
             Head Office Address:
           </p>
           <p style={{ fontWeight: 500, fontFamily: "Montserrat", fontSize: 15 , color:'rgba(255, 255, 255, 1)' }}>
-          <img src={Location}  style={{marginRight:'10px'}}/>  7/96, North Street, Athisayapuram, VK Pudur (PO) Tenkasi – 627861
+          <img src={Location} alt='location' style={{marginRight:'10px'}}/>  7/96, North Street, Athisayapuram, VK Pudur (PO) Tenkasi – 627861
           </p>
         </div>
         <div style={{ paddingTop: '30px' }}>
@@ -147,7 +145,7 @@ function Contact () {
           Chennai Address:
           </p>
           <p style={{ fontWeight: 500, fontFamily: "Montserrat", fontSize: 15 , color:'rgba(255, 255, 255, 1)' }}>
-          <img src={Location}  style={{marginRight:'10px'}}/>  1B, Block 1, Neelkamal Apartment, Kazhipattur, Chennai - 603103
+          <img src={Location} alt='location'  style={{marginRight:'10px'}}/>  1B, Block 1, Neelkamal Apartment, Kazhipattur, Chennai - 603103
           </p>
         </div>
         <hr></hr>
@@ -161,7 +159,7 @@ function Contact () {
                   backgroundColor: "rgba(232, 236, 252)",
                   marginRight:'10px'
                 }}>
-           <img src={Email}  /> 
+           <img src={Email}  alt='email'/> 
             </div>
          
          <div>
@@ -183,7 +181,7 @@ function Contact () {
                   backgroundColor: "rgba(232, 236, 252)",
                   marginRight:'10px'
                 }}>
-      <img src={Call}  /> 
+      <img src={Call} alt='call' /> 
             </div>
             <div>
             <p style={{ fontWeight: 700, fontFamily: "Montserrat", fontSize: 17 , color:'rgba(255, 255, 255, 1)' }}>
@@ -204,7 +202,7 @@ function Contact () {
       {/* Get in Touch Section */}
       <div className="col-lg-6 col-md-12 col-sm-12" style={{ padding: '30px' }}>
         <h3 style={{ fontWeight: Styles.FontBold, fontFamily: Styles.fontFamilyMontserrat, fontSize: Styles.Font25 }}>
-          Let's Get in Touch
+        Let&apos;s Get in Touch
         </h3>
 
         {status && <div className="alert alert-info">{status}</div>}

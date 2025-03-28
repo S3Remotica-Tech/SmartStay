@@ -15,10 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'universal-cookie';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import TermsAndCondition from "./NewLandingPage/Terms"
-import Cookies_policy from "./NewLandingPage/CookiesPolicy"
-import Privacy from "./NewLandingPage/PrivacyPolicy";
-import Contact from "./NewLandingPage/Contact";
 import { StoreSelectedHostelAction } from './Redux/Action/smartStayAction';
 import LoaderComponent from './Pages/LoaderComponent';
 

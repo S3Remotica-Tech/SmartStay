@@ -6,8 +6,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Akshay from "../Assets/Images/landingpageimages/akshay.png"
 import "./ImageSlider.css";
-import LeftArrow from "../Assets/Images/landingpageimages/leftarr.png"
-import RightArrow from "../Assets/Images/landingpageimages/right_arrow.png"
+// import LeftArrow from "../Assets/Images/landingpageimages/leftarr.png"
+// import RightArrow from "../Assets/Images/landingpageimages/right_arrow.png"
 
 
 const testimonials = [

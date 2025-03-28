@@ -71,7 +71,6 @@ const StatsSection = () => {
       fontWeight: 700,
       fontFamily: "Montserrat",
       fontSize: 34,
-      fontFamily: "Montserrat",
     }}
   >
     Simplify your Paying Guest management with SmartStay

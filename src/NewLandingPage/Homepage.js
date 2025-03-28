@@ -8,9 +8,9 @@ import peopleonboard from "../Assets/Images/landingpageimages/peopleonboard.png"
 import TopLeftCurve from "../Assets/Images/landingpageimages/topleftcurve.png";
 import HomebgImage from "../Assets/Images/landingpageimages/home_bg_image.png";
 import HostelTopBlackImage from "../Assets/Images/landingpageimages/hosteltopimage.png";
-import Elippsered from "../Assets/Images/landingpageimages/Ellipse_red.png";
-import Elippseblue from "../Assets/Images/landingpageimages/Ellipse_blue.png";
-import Elippseyellow from "../Assets/Images/landingpageimages/Ellipse_yellow.png";
+// import Elippsered from "../Assets/Images/landingpageimages/Ellipse_red.png";
+// import Elippseblue from "../Assets/Images/landingpageimages/Ellipse_blue.png";
+// import Elippseyellow from "../Assets/Images/landingpageimages/Ellipse_yellow.png";
 import Line from "../Assets/Images/landingpageimages/line.png";
 import hostelBackround from "../Assets/Images/landingpageimages/Rectangle 34625101.png"
 import RightArrow from "../Assets/Images/landingpageimages/right_arrow.png";

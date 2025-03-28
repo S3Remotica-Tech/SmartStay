@@ -14,9 +14,9 @@ const Getanswer = () => {
 
    let navigate = useNavigate();
     
-      const handleSignIn = () => {
-        navigate("/login-Page");
-      };
+      // const handleSignIn = () => {
+      //   navigate("/login-Page");
+      // };
     
       const handleSignUp = () => {
         navigate("/create-account");

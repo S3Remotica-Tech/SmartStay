@@ -1,5 +1,4 @@
 import React,{useEffect}from 'react'
-import FrontPage from './Topbar';
 
 function Policy() {
 

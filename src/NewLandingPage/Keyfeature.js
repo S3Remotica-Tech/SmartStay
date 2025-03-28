@@ -17,17 +17,17 @@ const KeyFeatures = () => {
   const [activeFeature, setActiveFeature] = useState(1);
   const sectionRefs = useRef([]);
   const [hideTopbar, setHideTopbar] = useState(false);
-  const [hideContent, setHideContent] = useState(false);
+  // const [hideContent, setHideContent] = useState(false);
   const lastScrollY = useRef(0);
 
  
-  const [topbarHeight, setTopbarHeight] = useState(0);
-  const topbarRef = useRef(null);
+  // const [topbarHeight, setTopbarHeight] = useState(0);
+  // const topbarRef = useRef(null);
 
   useEffect(() => {
-    if (topbarRef.current) {
-      setTopbarHeight(topbarRef.current.offsetHeight);
-    }
+    // if (topbarRef.current) {
+    //   setTopbarHeight(topbarRef.current.offsetHeight);
+    // }
   
     const handleScroll = () => {
       if (window.scrollY > lastScrollY.current) {

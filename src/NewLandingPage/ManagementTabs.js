@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import { TabPanel } from "@mui/lab";
 // import { TabContent } from "react-bootstrap";
@@ -18,7 +18,7 @@ import Rectangle from "../Assets/Images/landingpageimages/Rectangle 34624179.png
 
 
 const RoomManagement = () => {
-  const [activeTab, setActiveTab] = useState("room-management");
+  // const [activeTab, setActiveTab] = useState("room-management");
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
    const [value, setValue] = React.useState("1");

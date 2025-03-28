@@ -4,8 +4,8 @@ import Facebook from '../Assets/Images/New_images/facebook_icon.png';
 import Twitter from '../Assets/Images/New_images/twitter.png';
 import Linkedin from '../Assets/Images/New_images/linkedin.png';
 import Instagram from '../Assets/Images/New_images/instagram.png';
-import {useNavigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
+// import {useNavigate } from "react-router-dom";
+// import { useDispatch} from "react-redux";
 import { Link } from "react-scroll";
 import PropTypes from "prop-types";
 
@@ -14,30 +14,30 @@ const Footers = (props) => {
 
   
 
-  const dispatch = useDispatch();
-  let navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // let navigate = useNavigate();
 
-  const handleNavigateTerms = () => {
-    dispatch({ type: 'TERMS_CONDITION' })
-    navigate('/Terms-Condition');
-  };
+  // const handleNavigateTerms = () => {
+  //   dispatch({ type: 'TERMS_CONDITION' })
+  //   navigate('/Terms-Condition');
+  // };
 
 
-  const handleNavigatePrivacy = () => {
-    dispatch({ type: 'PRIVACY_POLICY' })
-    navigate('/Privacy-Policy');
+  // const handleNavigatePrivacy = () => {
+  //   dispatch({ type: 'PRIVACY_POLICY' })
+  //   navigate('/Privacy-Policy');
 
-  }
+  // }
 
-  const handleNavigateContactUs = () => {
-    dispatch({ type : 'CONTACT_US'})
-    navigate('/Contact-Us')
-  }
+  // const handleNavigateContactUs = () => {
+  //   dispatch({ type : 'CONTACT_US'})
+  //   navigate('/Contact-Us')
+  // }
 
-  const handleNavigateCookies = () => {
-    dispatch({ type: 'COOKIES_FOOTER' });
-       navigate('/Cookies')
-  }
+  // const handleNavigateCookies = () => {
+  //   dispatch({ type: 'COOKIES_FOOTER' });
+  //      navigate('/Cookies')
+  // }
 
   const handleLink = (link) => {
     props.handleLinkName(link)

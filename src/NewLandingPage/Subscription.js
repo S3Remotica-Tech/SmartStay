@@ -1,8 +1,6 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
-import { FaCheckCircle } from "react-icons/fa"; 
-import { InfoCircle } from "iconsax-react";
 import Error from "../Assets/Images/landingpageimages/i.png";
 import Featurebtn from "../Assets/Images/landingpageimages/featurebtn.png";
 import Featuregrrenbtn from "../Assets/Images/landingpageimages/featuregreenbtn.png";
@@ -57,7 +55,7 @@ const SubscriptionPlan = () => {
                   style={{ top: "0", left: "0", width: "150px", zIndex: "1" }}
                 />
         <h1 style={{ fontSize: 40, fontWeight: 700, color: 'rgba(9, 15, 41, 1)', fontFamily: 'Montserrat' }}>
-        Flexible Pricing to suit your needs
+        Flexible Pricing to suit your needs
         </h1>
         <p style={{display: 'flex', alignItems: 'center',width:'70%', fontSize: '17px', fontWeight: 400, color: 'rgba(71, 85, 105, 1)', fontFamily: 'Montserrat' }}>
           Get more done with targeted and personalized rewarding experiences at a global scale. Plum offers AI-enabled rewards automation that runs on the largest global rewards marketplace. It delivers rewards experiences people love, available in over 100 countries.
@@ -137,7 +135,7 @@ const SubscriptionPlan = () => {
                     paddingBottom: "10px",
                   }}
                 >
-                  <img src={Error} className="me-2 flex-shrink-0" style={{ width: "16px", height: "16px" }} />
+                  <img src={Error} alt="error" className="me-2 flex-shrink-0" style={{ width: "16px", height: "16px" }} />
                   <span className="text-start">{feature}</span>
                 </li>
               ))}
@@ -157,6 +155,7 @@ fontFamily: "Montserrat",
 See all features{" "}
 <img 
 src={index === 2 ? Featuregrrenbtn:  Featurebtn}
+alt="feat"
 className="ms-2  flex-shrink-0"
 style={{ width: "8px", height: "8px" }}
 />

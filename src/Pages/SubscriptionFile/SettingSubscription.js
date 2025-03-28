@@ -2,14 +2,11 @@
 import React,{useState,useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import crown from "../../Assets/Images/New_images/crown.png";
-import { Table } from "react-bootstrap";
 import {Button,Form,FormControl} from "react-bootstrap";
 import { Modal} from "react-bootstrap";
 // import phinfo from "../../Assets/Images/New_images/ph_info-fill.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import Edit from "../../Assets/Images/Edit-blue.png";
-import Delete from "../../Assets/Images/Delete_red.png";
 import { MdError } from "react-icons/md";
 
 function SettingSubscription() {
