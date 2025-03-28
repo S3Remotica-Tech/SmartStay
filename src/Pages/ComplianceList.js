@@ -1339,7 +1339,7 @@ const ComplianceList = (props) => {
                                 width: "16px",
                                 height: "16px",
                               }}
-                              onClick={handleAddComment}
+                              // onClick={handleAddComment}
                             />
                           </div>
 

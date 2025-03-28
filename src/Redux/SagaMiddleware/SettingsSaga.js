@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity} from "../Action/SettingsAction"
+import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList} from "../Action/SettingsAction"
 
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
@@ -990,8 +990,72 @@ function* handleDeleteGenerlPage(action) {
    }
  }
 
+// subscription
+
+function* handleNewSubscriptionpage(action) {
+   const response = yield call(newSubscription, action.payload);
+ console.log("handleNewSubscriptionpage",response)
+   var toastStyle = {
+     backgroundColor: "#E6F6E6",
+     color: "black",
+     width: "100%",
+     borderRadius: "60px",
+     height: "20px",
+     fontFamily: "Gilroy",
+     fontWeight: 600,
+     fontSize: 14,
+     textAlign: "start",
+     display: "flex",
+     alignItems: "center", 
+     padding: "10px",
+    
+   };
+ 
+   if (response.status === 200 || response.statusCode === 200) {
+     yield put({
+       type: "NEW_SUBSCRIPTION",
+       payload: {
+         response: response.data.data, 
+         statusCode: response.status || response.statusCode,
+       },
+     });
+    toast.success(response.message,  {
+       position: "bottom-center",
+       autoClose: 2000,
+       hideProgressBar: true,
+       closeButton: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       style: toastStyle,
+     });
+   }
+   else {
+      yield put ({type:'ERROR', payload:response.data.message})
+   }
+    
+   
+   if (response) {
+     refreshToken(response);
+   }
+ }
 
 
+function* handleNewSubscriptionList() {
+   const response = yield call(SubscriptionList);
+   console.log("handleNewSubscriptionList",response)
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'NEW_SUBSCRIPTION_LIST', payload: response.data, statusCode: response.status || response.data.statusCode })
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if (response) {
+      refreshToken(response)
+   }
+}
+// refreshtocken
 function refreshToken(response) {
 
    if (response.data && response.data.refresh_token) {
@@ -1038,6 +1102,8 @@ function* SettingsSaga() {
    yield takeEvery('GENERALDELETEGENERAL',handleDeleteGenerlPage)  
    yield takeEvery('RECURRINGROLE',handleRecurringRole)
    yield takeEvery('CHECKPASSWORD',handleCheckPassword)
+   yield takeEvery('NEWSUBSCRIPTION',handleNewSubscriptionpage)
+   yield takeEvery('NEWSUBSCRIPTIONDETAILS',handleNewSubscriptionList)
 
 }
 export default SettingsSaga;

@@ -1466,7 +1466,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                                 width: "16px",
                                 height: "16px",
                               }}
-                              onClick={handleSendComments}
+                              
                             />
                           </div>
                        </div>
