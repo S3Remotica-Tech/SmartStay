@@ -27,6 +27,8 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { Table } from "react-bootstrap";
 import LoaderComponent from "./LoaderComponent";
 import PropTypes from "prop-types";
+import Marquee from "react-fast-marquee";
+
 
 function Dashboard(props) {
   
@@ -52,14 +54,41 @@ function Dashboard(props) {
   const [selectRevenu, setSelectRevenu] = useState("six_month");
   const [hostel_id, setHostel_Id] = useState("");
    const [loading, setLoading] = useState(true);
+   const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
     if(state.login.selectedHostel_Id){
       setHostel_Id(state.login.selectedHostel_Id);
     }    
   }, [state.login.selectedHostel_Id]);
+  useEffect(()=>{
+    dispatch({ type: "ACCOUNTDETAILS"});
+  },[])
+  const [accountList,setAccountList] = useState("")
+  useEffect(()=>{
+    if(state?.createAccount?.accountList[0]?.plan_data){
+      const customerDetailsPage = state?.createAccount?.accountList[0]?.plan_data;
+      setAccountList(customerDetailsPage)
+  
+    }
+  },[state?.createAccount?.accountList[0]?.plan_data])
+  useEffect(() => {
+    if (accountList[0]?.plan_end_date
+    ) {
+      const today = new Date();
+      const endDate = new Date(accountList[0]?.plan_end_date);
+      const timeDifference = endDate - today;
+      const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-  console.log("state",state.login.selectedHostel_Id);
+      if (daysDifference <= 5) {
+        setShowWarning(true);
+      } else {
+        setShowWarning(false);
+      }
+    }
+  }, [accountList[0]?.plan_end_date]);
+
+  console.log("state",accountList);
   
   useEffect(() => {
   
@@ -458,6 +487,13 @@ console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatu
   return (
     <>
       <div className="cotainer">
+      <Marquee>
+      {showWarning && (
+        <div className="alert alert-warning mt-3" role="alert">
+          ⚠️ Your plan will expire in {Math.floor((new Date(accountList[0]?.plan_end_date) - new Date()) / (1000 * 60 * 60 * 24))} days!
+        </div>
+      )}
+  </Marquee>
         <TabContext value={value}>
 
         <div

@@ -40,7 +40,7 @@ function SettingSubscription() {
   useEffect(() => {
     setHostelCount("1");
     setAmount(Number(selectedPlan) || 0);
-  }, []);
+  }, [selectedPlan]);
   const handlePlanChange = (price) => {
     setSelectedPlan(price);
     setPlan(true);
@@ -57,37 +57,52 @@ function SettingSubscription() {
 }
  
   
+// useEffect(() => {
+//   setHostelCount(1);
+//   setAmount(Number(selectedPlan) || 0);
+// }, [selectedPlan]);
 useEffect(() => {
-  setHostelCount(1);
-  setAmount(Number(selectedPlan) || 0);
-}, [selectedPlan]);
+  setAmount(hostelCount * (Number(selectedPlan) || 0));
+}, [selectedPlan, hostelCount]);
+
+// const handleHostelCount = (e) => {
+//   let value = e.target.value;
+
+//   if (value === "") {
+//       setHostelCount("");
+//       setAmount(0);
+//       return;
+//   }
+
+//   if (!/^\d+$/.test(value) || Number(value) < 1) {
+//       return; 
+//   }
+
+//   setHostelCount(Number(value));  // Ensure number type
+//   setAmount(Number(value) * (Number(selectedPlan) || 0)); 
+// };
+
 
 const handleHostelCount = (e) => {
   let value = e.target.value;
 
   if (value === "") {
-      setHostelCount("");
-      setAmount(0);
-      return;
+    setHostelCount("");
+    setAmount(0);
+    return;
   }
 
   if (!/^\d+$/.test(value) || Number(value) < 1) {
-      return; 
+    return; 
   }
 
-  setHostelCount(Number(value));  // Ensure number type
-  setAmount(Number(value) * (Number(selectedPlan) || 0)); 
+  setHostelCount(Number(value));
 };
-
-
-
 
 
   const handleClosePlanChange = ()=>{
     setPlan(false)
     setHostelCountError("")
-    setAmount("")
-    setHostelCount("")
   }
 
 
@@ -198,6 +213,27 @@ if (Redirect_Url) {
  
 // }
 
+useEffect(() => {
+  // Initialize all tooltips with 'tooltip' and 'tooltipmanage' separately
+  const tooltipTriggerList1 = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  tooltipTriggerList1.forEach((tooltipTriggerEl) => {
+    new window.bootstrap.Tooltip(tooltipTriggerEl);
+  });
+
+  const tooltipTriggerList2 = document.querySelectorAll('[data-bs-toggle="tooltipmanage"]');
+  tooltipTriggerList2.forEach((tooltipTriggerEl) => {
+    new window.bootstrap.Tooltip(tooltipTriggerEl);
+  });
+
+  const tooltipTriggerList3 = document.querySelectorAll('[data-bs-toggle="tooltipvendor"]');
+  tooltipTriggerList3.forEach((tooltipTriggerEl) => {
+    new window.bootstrap.Tooltip(tooltipTriggerEl);
+  });
+  const tooltipTriggerList4 = document.querySelectorAll('[data-bs-toggle="tooltipassets"]');
+  tooltipTriggerList4.forEach((tooltipTriggerEl) => {
+    new window.bootstrap.Tooltip(tooltipTriggerEl);
+  });
+}, []);
 
 
 console.log("customerDetails", customerDetails);
@@ -211,43 +247,103 @@ console.log("customerDetails", customerDetails);
 
       <div className="row g-3">
         <div className="col-12 col-md-6">
-        <div className="card p-3 cardnewsubs">
-  <div className="d-flex align-items-center justify-content-center rounded-circle bg-light" 
-       style={{ width: 40, height: 40 }}>
-    <img src={crown} width={30} height={30} alt="Crown Icon" />
-  </div>
+        {/* <div className="card p-3 cardnewsubs">
+        {getPlanActive.length > 0 ? (
+    <>
+      <div className="d-flex align-items-center justify-content-center rounded-circle bg-light" 
+           style={{ width: 40, height: 40 }}>
+        <img src={crown} width={30} height={30} alt="Crown Icon" />
+      </div>
 
-  <div className="mt-2">
-    <p className="text-dark fw-semibold fs-6">Your plan is active</p>
-  </div>
+      <div className="mt-2">
+        <p className="text-dark fw-semibold fs-6">Your plan is active</p>
+      </div>
 
-  <div className="d-flex justify-content-between align-items-center">
-    <p className="text-secondary mb-0 fs-6">Amount</p>
-    <p className="fw-semibold mb-0 fs-6">₹{getPlanActive[0]?.total_amount}</p>
-  </div>
+      <div className="d-flex justify-content-between align-items-center">
+        <p className="text-secondary mb-0 fs-6">Amount</p>
+        <p className="fw-semibold mb-0 fs-6">₹{getPlanActive[0]?.total_amount}</p>
+      </div>
 
-  <div className="d-flex justify-content-between align-items-center mt-2">
-    <p className="text-secondary mb-0 fs-6">Next payment</p>
-    <p className="fw-semibold mb-0 fs-6">
-  {new Date(getPlanActive[0]?.plan_end_date).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  })}
-</p>
-  </div>
+      <div className="d-flex justify-content-between align-items-center mt-2">
+        <p className="text-secondary mb-0 fs-6">Next payment</p>
+        <p className="fw-semibold mb-0 fs-6">
+          {new Date(getPlanActive[0]?.plan_end_date || getPlanActive[0]?.end_date).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          })}
+        </p>
+      </div>
 
-  <div className="d-flex justify-content-between align-items-center mt-2">
-    <p className="text-secondary mb-0 fs-6">Payment method</p>
-    <p className="fw-semibold mb-0 fs-6">{getPlanActive[0]?.payment_method}</p>
-  </div>
+      <div className="d-flex justify-content-between align-items-center mt-2">
+        <p className="text-secondary mb-0 fs-6">Payment method</p>
+        <p className="fw-semibold mb-0 fs-6">{getPlanActive[0]?.payment_method}</p>
+      </div>
 
-  <div className="d-flex mt-3 w-100">
-    <button className="btn btn-primary w-100 fw-semibold fs-6" onClick={handleCurrentPlan}>
-      Manage Plan
-    </button>
-  </div>
+      <div className="d-flex mt-3 w-100">
+        <button className="btn btn-primary w-100 fw-semibold fs-6" onClick={handleCurrentPlan}>
+          Manage Plan
+        </button>
+      </div>
+    </>
+  ) : (
+    <div className="mt-2 text-center">
+      <p className="text-dark fw-semibold fs-6 mb-3">Your plan is a trial plan</p>
+      <button className="btn btn-primary fw-semibold fs-6" onClick={handleCurrentPlan}>
+        Upgrade Plan
+      </button>
+    </div>
+  )}
+</div> */}
+<div className="card p-3 cardnewsubs">
+  {getPlanActive?.length > 0 && getPlanActive[0]?.total_amount > 0 ? ( 
+    <>
+      <div className="d-flex align-items-center justify-content-center rounded-circle bg-light" 
+           style={{ width: 40, height: 40 }}>
+        <img src={crown} width={30} height={30} alt="Crown Icon" />
+      </div>
+
+      <div className="mt-2">
+        <p className="text-dark fw-semibold fs-6">Your plan is active</p>
+      </div>
+
+      <div className="d-flex justify-content-between align-items-center">
+        <p className="text-secondary mb-0 fs-6">Amount</p>
+        <p className="fw-semibold mb-0 fs-6">₹{getPlanActive[0]?.total_amount}</p>
+      </div>
+
+      <div className="d-flex justify-content-between align-items-center mt-2">
+        <p className="text-secondary mb-0 fs-6">Next payment</p>
+        <p className="fw-semibold mb-0 fs-6">
+          {new Date(getPlanActive[0]?.plan_end_date || getPlanActive[0]?.end_date).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          })}
+        </p>
+      </div>
+
+      <div className="d-flex justify-content-between align-items-center mt-2">
+        <p className="text-secondary mb-0 fs-6">Payment method</p>
+        <p className="fw-semibold mb-0 fs-6">{getPlanActive[0]?.payment_method}</p>
+      </div>
+
+      <div className="d-flex mt-3 w-100">
+        <button className="btn btn-primary w-100 fw-semibold fs-6" onClick={handleCurrentPlan}>
+          Manage Plan
+        </button>
+      </div>
+    </>
+  ) : (
+    <div className="mt-2 text-center">
+      <p className="text-dark fw-semibold fs-6 mb-3">Your plan is a trial plan</p>
+      <button className="btn btn-primary fw-semibold fs-6" onClick={handleCurrentPlan}>
+        Upgrade Plan
+      </button>
+    </div>
+  )}
 </div>
+
 
         </div>
 
@@ -294,16 +390,24 @@ console.log("customerDetails", customerDetails);
           <p className="fw-semibold text-start mt-3">Team Plan Features:</p>
           <ul className="list-unstyled text-start px-3">
             <li className="d-flex align-items-center gap-2 mb-2">
-              <i className="bi bi-info-circle"></i> Paying Guest
+              <i className="bi bi-info-circle" data-bs-toggle="tooltip" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered on the icon"></i> Paying Guest
             </li>
             <li className="d-flex align-items-center gap-2 mb-2" style={{ whiteSpace: "nowrap" }}>
-              <i className="bi bi-info-circle"></i> Manage Customers
+              <i className="bi bi-info-circle" data-bs-toggle="tooltipmanage" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered Manage"></i> Manage Customers
             </li>
             <li className="d-flex align-items-center gap-2 mb-2">
-              <i className="bi bi-info-circle"></i> Manage Vendors
+              <i className="bi bi-info-circle"  data-bs-toggle="tooltipvendor" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered Vendor"></i> Manage Vendors
             </li>
             <li className="d-flex align-items-center gap-2 mb-3" style={{ whiteSpace: "nowrap" }}>
-              <i className="bi bi-info-circle"></i> Asset Management
+              <i className="bi bi-info-circle"  data-bs-toggle="tooltipassets" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered assets"></i> Asset Management
             </li>
           </ul>
           {/* <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(1)}>Change Plan</button> */}
@@ -312,7 +416,7 @@ console.log("customerDetails", customerDetails);
     Current Plan
   </button>
 ) : (
-  <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(1)}>
+  <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(299)}>
     Change Plan
   </button>
 )}
@@ -344,16 +448,24 @@ console.log("customerDetails", customerDetails);
           <p className="fw-semibold text-start mt-3" style={{whiteSpace:"nowrap"}}>Professional Plan Features:</p>
           <ul className="list-unstyled text-start px-3">
             <li className="d-flex align-items-center gap-2 mb-2">
-              <i className="bi bi-info-circle"></i> Paying Guest
+              <i className="bi bi-info-circle" data-bs-toggle="tooltip" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered on the icon"></i> Paying Guest
             </li>
             <li className="d-flex align-items-center gap-2 mb-2" style={{ whiteSpace: "nowrap" }}>
-              <i className="bi bi-info-circle"></i> Manage Customers
+              <i className="bi bi-info-circle" data-bs-toggle="tooltipmanage" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered Manage"></i> Manage Customers
             </li>
             <li className="d-flex align-items-center gap-2 mb-2">
-              <i className="bi bi-info-circle"></i> Manage Vendors
+              <i className="bi bi-info-circle" data-bs-toggle="tooltipvendor" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered Vendor"></i> Manage Vendors
             </li>
             <li className="d-flex align-items-center gap-2 mb-2" style={{ whiteSpace: "nowrap" }}>
-              <i className="bi bi-info-circle"></i> Asset Management
+              <i className="bi bi-info-circle" data-bs-toggle="tooltipassets" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered Assets"></i> Asset Management
             </li>
           </ul>
           {/* <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(599)}>Change Plan</button> */}
@@ -394,16 +506,24 @@ console.log("customerDetails", customerDetails);
           <p className="fw-semibold text-start mt-3">Growth Plan Features:</p>
           <ul className="list-unstyled text-start px-3">
             <li className="d-flex align-items-center gap-2 mb-2">
-              <i className="bi bi-info-circle"></i> Paying Guest
+              <i className="bi bi-info-circle" data-bs-toggle="tooltip" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered on the icon"></i> Paying Guest
             </li>
             <li className="d-flex align-items-center gap-2 mb-2" style={{ whiteSpace: "nowrap" }}>
-              <i className="bi bi-info-circle"></i> Manage Customers
+              <i className="bi bi-info-circle" data-bs-toggle="tooltipmanage" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered manage"></i> Manage Customers
             </li>
             <li className="d-flex align-items-center gap-2 mb-2">
-              <i className="bi bi-info-circle"></i> Manage Vendors
+              <i className="bi bi-info-circle" data-bs-toggle="tooltipvendor" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered Vendor"></i> Manage Vendors
             </li>
             <li className="d-flex align-items-center gap-2 mb-2" style={{ whiteSpace: "nowrap" }}>
-              <i className="bi bi-info-circle"></i> Asset Management
+              <i className="bi bi-info-circle" data-bs-toggle="tooltipassets" 
+    data-bs-placement="top" 
+    title="This is a hover text that pops up when hovered assets"></i> Asset Management
             </li>
           </ul>
           {planType === "smartstay_oneyear" ? (
@@ -423,9 +543,9 @@ console.log("customerDetails", customerDetails);
   </div>
 </div>
 
-<div style={{textAlign:"center"}}><h4>{planType === "free_plan" ? "Your plan is free trial" : ""}</h4></div>
+<div style={{textAlign:"center"}}><h4>{planType === "free_plan" || planType === null ? "Your plan is free trial" : ""}</h4></div>
           {/* Footer */}
-         { planType !== "free_plan" &&
+         { planType !== "free_plan" &&planType !== null &&
           <div className="p-3">
   <div className="table-responsive border rounded">
     <table
@@ -454,8 +574,8 @@ console.log("customerDetails", customerDetails);
           <td>{getPlanActive[0]?.plan_code}</td>
           <td style={{ textAlign: "center" }}>₹ {getPlanActive[0]?.total_amount}</td>
           <td style={{ textAlign: "center" }}>₹ {getPlanActive[0]?.total_amount}</td>
-          <td style={{ textAlign: "center" }}> {new Date(getPlanActive[0]?.plan_start_date).toLocaleDateString("en-GB", {day: "2-digit",month: "long",year: "numeric",})}</td>
-          <td style={{ textAlign: "center" }}>  {new Date(getPlanActive[0]?.plan_end_date).toLocaleDateString("en-GB", {day: "2-digit",month: "long",year: "numeric",})}</td>
+          <td style={{ textAlign: "center" }}> {new Date(getPlanActive[0]?.plan_start_date || getPlanActive[0]?.start_date ).toLocaleDateString("en-GB", {day: "2-digit",month: "long",year: "numeric",})}</td>
+          <td style={{ textAlign: "center" }}>  {new Date(getPlanActive[0]?.plan_end_date || getPlanActive[0]?.end_date).toLocaleDateString("en-GB", {day: "2-digit",month: "long",year: "numeric",})}</td>
         
         </tr>
       </tbody>
