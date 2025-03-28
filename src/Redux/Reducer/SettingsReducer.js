@@ -1,3 +1,6 @@
+
+
+
 export const initialState = {
   Expences: [],
   message: "",
@@ -59,7 +62,11 @@ export const initialState = {
   AddCategoryType: 0,
   roleError:'',
   roleEditError:'',
-  generalDeleteError:''
+  generalDeleteError:'',
+  subscriptionNew:[],
+  statusCodeNewSubscription:0,
+  subcripitionAllDetails:[],
+  statusCodeForSubcripitionAllDetails:0
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -407,6 +414,22 @@ case 'ERROR_COMPLIANTS':
           return { ...state, roleEditError: "" };
 
 
+
+
+          // Subscription
+          case "NEW_SUBSCRIPTION":
+            return {
+              ...state,
+              subscriptionNew: action.payload.response,
+              statusCodeNewSubscription: action.payload.statusCode,
+            };
+          case "CLEAR_NEW_SUBSCRIPTION":
+            return { ...state, statusCodeNewSubscription: 0 };
+      
+            case 'NEW_SUBSCRIPTION_LIST':
+              return { ...state, subcripitionAllDetails: action.payload, statusCodeForhostelListNewDetails: action.payload.statusCode }
+          case 'CLEAR_NEW_SUBSCRIPTION_LIST':
+              return { ...state, statusCodeForSubcripitionAllDetails: 0 }
           default:
         return state;
   }

@@ -2473,10 +2473,10 @@ useEffect(() => {
       {showAllBill && (
         <div className="container">
          <div
-  className="container-fluid sticky-top bg-white py-2"
+  className="container-fluid sticky-top bg-white py-2 "
   style={{ zIndex: 1000, height: 'auto' }}
 >
-<div className="d-flex justify-content-between align-items-center flex-wrap">
+<div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:"-10px"}}>
             <div className="mb-2 ms-2">
       <label style={{ fontSize: 18, color: "#000000", fontWeight: 600 }}>Bills</label>
     </div>
@@ -2968,7 +2968,17 @@ useEffect(() => {
           </div>
 
           <TabContext value={value}>
-            
+          <div
+              style={{
+                position: "sticky",
+                top: 69,
+                right: 0,
+                left: 0,
+                zIndex: 1000,
+                backgroundColor: "#FFFFFF",
+                height: 60,
+              }}
+            >
               <Box
                sx={{ borderBottom: 0, borderColor: "divider" }}
                 
@@ -3031,7 +3041,7 @@ useEffect(() => {
                 </TabList>
               </Box>
             
-
+</div>
             <TabPanel value="1">
               <>
                 {billpermissionError ? (

@@ -199,3 +199,16 @@ export async function DeleteElectricity(types) {
     data: types,
   });
 }
+
+
+// subscription
+export async function newSubscription(types) {
+  return await AxiosConfig.post("/new_subscription", types, {
+    data: types,
+  });
+}
+export async function SubscriptionList() {
+  return await AxiosConfig.get('/invoice_details',{
+  })
+}
+
