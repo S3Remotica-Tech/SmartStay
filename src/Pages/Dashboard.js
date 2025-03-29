@@ -34,7 +34,6 @@ function Dashboard(props) {
   
 
   const state = useSelector((state) => state);
-  console.log("dash",state)
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [dashboardList, setDashboardList] = useState([]);
@@ -55,6 +54,7 @@ function Dashboard(props) {
   const [hostel_id, setHostel_Id] = useState("");
    const [loading, setLoading] = useState(true);
    const [showWarning, setShowWarning] = useState(false);
+   const [daysLeft, setDaysLeft] = useState(null);
 
   useEffect(() => {
     if(state.login.selectedHostel_Id){
@@ -72,23 +72,27 @@ function Dashboard(props) {
   
     }
   },[state?.createAccount?.accountList[0]?.plan_data])
-  useEffect(() => {
-    if (accountList[0]?.plan_end_date
-    ) {
-      const today = new Date();
-      const endDate = new Date(accountList[0]?.plan_end_date);
-      const timeDifference = endDate - today;
-      const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-      if (daysDifference <= 5) {
+  useEffect(() => {
+    if (accountList?.length > 0 && accountList[0]?.plan_end_date) {
+      const planEndDate = new Date(accountList[0].plan_end_date);
+      const currentDate = new Date();
+      const diffInDays = Math.floor((planEndDate - currentDate) / (1000 * 60 * 60 * 24));
+      
+      setDaysLeft(diffInDays);
+      if (diffInDays <= 5) { 
         setShowWarning(true);
       } else {
         setShowWarning(false);
       }
     }
-  }, [accountList[0]?.plan_end_date]);
+  }, [accountList]);
 
-  console.log("state",accountList);
+  const handleOkClick = () => {
+    setShowWarning(false); 
+  };
+
+ 
   
   useEffect(() => {
   
@@ -160,7 +164,6 @@ if(hostel_id){
     }
   }, [state.PgList?.statusCodeForDashboardFilterCashBack]);
 
-console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatusCode)
   useEffect(() => {
     if (state.PgList?.NoDashboardStatusCode === 201) {
       setLoading(false)
@@ -277,20 +280,10 @@ console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatu
     }
   }, [state.PgList?.statusCodeForDashboardFilter]);
 
-  // useEffect(() => {
-  //   setData(state.PgList?.dashboardFilterRevenu?.response?.cash_back_data);
-  // }, [state.PgList?.dashboardFilterRevenu?.response?.cash_back_data]);
-
- 
-
-  console.log("loading",state.PgList.statuscodeForDashboard);
   
-
   useState(()=>{
     
   if(state.PgList.statuscodeForDashboard === 200){
-   
-    // setDashboardList(state.PgList.dashboardDetails.dashboardList);
     
   setTimeout(() => {   
     dispatch({ type: "CLEAR_CREATE_PG_DASHBOARD" });
@@ -329,43 +322,10 @@ console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatu
         : "#EBEBEB"
       : "#EBEBEB";
   const trailColor = "#EBEBEB";
-  // const getRandomColor = () => {
-  //   const letters = "0123456789ABCDEF";
-  //   let color = "#";
-  //   for (let i = 0; i < 6; i++) {
-  //     color += letters[Math.floor(Math.random() * 16)];
-  //   }
-  //   return color;
-  // };
-
-  // const datum = {
-  //   labels: lablesdata?.map((category) => category.category_Name),
-  //   datasets: [
-  //     {
-  //       data: lablesdata?.map((category) => category.purchase_amount),
-  //       backgroundColor: lablesdata?.map(() => getRandomColor()),
-  //       hoverBackgroundColor: lablesdata?.map(() => getRandomColor()),
-  //       borderWidth: 5,
-  //       borderColor: "#fff",
-  //       borderRadius: 10,
-  //     },
-  //   ],
-  // };
-
-  // const last6MonthsData = data?.filter((item) => {
-  //   const currentDate = new Date();
-  //   const startOfSixMonthsAgo = new Date(currentDate);
-  //   startOfSixMonthsAgo.setMonth(currentDate.getMonth() - 5);
-
-  //   startOfSixMonthsAgo.setDate(1);
-  //   const itemDate = new Date(item.month);
-
-  //   return itemDate >= startOfSixMonthsAgo && itemDate <= currentDate;
-  // });
+ 
   const currentDate = new Date();
   const months = [];
 
-  // Generate last 6 months
   for (let i = 5; i >= 0; i--) {
     const date = new Date(currentDate);
     date.setMonth(currentDate.getMonth() - i);
@@ -488,9 +448,15 @@ console.log("state.PgList?.NoDashboardStatusCode",state.PgList?.NoDashboardStatu
     <>
       <div className="cotainer">
       <Marquee>
-      {showWarning && (
+      {/* {showWarning && (
         <div className="alert alert-warning mt-3" role="alert">
           ⚠️ Your plan will expire in {Math.floor((new Date(accountList[0]?.plan_end_date) - new Date()) / (1000 * 60 * 60 * 24))} days!
+        </div>
+      )} */}
+      {showWarning && (
+        <div className="alert alert-warning mt-3 d-flex justify-content-between align-items-center" role="alert">
+          ⚠️ Your plan will expire in {daysLeft} days!
+          <button className="btn btn-sm btn-primary ms-3" onClick={handleOkClick}>OK</button>
         </div>
       )}
   </Marquee>
