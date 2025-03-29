@@ -756,25 +756,19 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
   return (
     <>
       <div
-        className="container d-flex justify-content-between align-items-center settingGreneral "
+        // className="container d-flex justify-content-between align-items-center settingGreneral "
+        className="container-fluid d-flex flex-wrap justify-content-between align-items-center"
         style={{
           position: "sticky",
           top: 0,
-          right: 0,
-          left: 0,
+          // right: 0,
+          // left: 0,
           zIndex: 1000,
           backgroundColor: "#FFFFFF",
           height: 83,
+          padding: "10px",
         }}
       >
-
-
-
-
-
-
-
-
 
         <div>
           <label
@@ -790,12 +784,13 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
         </div>
 
         <div
-          className="d-flex justify-content-between align-items-center"
-
+          // className="d-flex justify-content-between align-items-center"
+          className="d-flex flex-wrap justify-content-end "
         >
 
           <div>
             <Button
+            className="btn btn-primary w-100 w-sm-auto"
               // style={{
               //   fontFamily: "Montserrat",
               //   fontSize: 14,
@@ -816,9 +811,12 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
                 color: "white",
                 fontWeight: 600,
                 borderRadius: "8px",
-                padding: "12px 20px",
-                maxHeight: 45,
+                padding: "10px 16px",
+                // maxHeight: 45,
+                minWidth: "140px", // Set a minimum width
+                maxWidth: "160px",
                 marginTop: 5,
+                
 
 
               }}
