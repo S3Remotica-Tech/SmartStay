@@ -6379,7 +6379,7 @@ useEffect(() => {
                   style={{
                     fontSize: "15px",
                     color: "red",
-                    marginTop: "3px",
+                    marginTop: "10px",
                     fontFamily: "Gilroy",
                     textAlign: "center"
                   }}
