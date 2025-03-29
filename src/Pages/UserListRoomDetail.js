@@ -2461,8 +2461,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       display: "flex",
                                       justifyContent: "center",
                                       alignItems: "center",
-                                      width: "28px",
-                                      height: "28px",
+                                      width: "25px",
+                                      height: "25px",
                                       borderRadius: "50%",
                                     }}
                                   >
@@ -2992,8 +2992,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       display: "flex",
                                       justifyContent: "center",
                                       alignItems: "center",
-                                      width: "32px",
-                                      height: "32px",
+                                      width: "25px",
+                                      height: "25px",
                                       borderRadius: "50%",
                                     }}
                                   >
@@ -3450,7 +3450,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       </Form.Label>
                                        <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
                                         <DatePicker
-                                          style={{ width: "100%", height: 48 }}
+                                          style={{ width: "100%", height: 48,cursor:"pointer" }}
                                           format="DD/MM/YYYY"
                                           placeholder="DD/MM/YYYY"
                                           value={selectedDate ? dayjs(selectedDate) : null}
@@ -3859,8 +3859,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            width: "32px",
-                            height: "32px",
+                            width: "25px",
+                            height: "24px",
                             borderRadius: "50%",
                           }}
                         >
@@ -3897,7 +3897,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
     
               <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
           <DatePicker
-                                          style={{ width: "100%", height: 48 }}
+                                          style={{ width: "100%", height: 48,cursor: "pointer"}}
                                           format="DD/MM/YYYY"
                                           placeholder="DD/MM/YYYY"
                                           value={advanceDate ? dayjs(advanceDate) : null}
@@ -3945,12 +3945,12 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
     
               <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
           <DatePicker
-                                          style={{ width: "100%", height: 48 }}
+                                          style={{ width: "100%", height: 48,cursor: "pointer" }}
                                           format="DD/MM/YYYY"
                                           placeholder="DD/MM/YYYY"
                                           value={advanceDueDate ? dayjs(advanceDueDate) : null}
                                           onChange={(date) => {
-                                            setAdvanceDateError("")
+                                            setAdvanceDueDateError("")
                                             setAdvanceDueDate(date ? date.toDate() : null);
                                           }}
                                           getPopupContainer={(triggerNode) =>
