@@ -63,7 +63,7 @@ function UserlistWalkin(props) {
   const popupRef = useRef(null);
   // const itemsPerPage = 7;
   // delete
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [customerToDelete, setCustomerToDelete] = useState(null);
 

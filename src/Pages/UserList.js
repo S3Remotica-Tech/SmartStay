@@ -2271,21 +2271,25 @@ const handleBack = () => {
         <div className="container">
           
           <div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:value === "1"? "-7px" : 0}}> 
-  <div className="d-flex justify-content-between align-items-center flex-wrap">
-    <label
-      style={{
-        fontSize: 18,
-        color: "#000000",
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        marginLeft: 11,
-        marginTop:value === "1"?"6px":0
+          <div
+  className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ms-lg-4"
+  style={{
+    marginTop: value === "1" ? "17px" : window.innerWidth >= 544 ? "10px" : "0px",
+  }}
+>
+  <label
+    style={{
+      fontSize: 18,
+      color: "#000000",
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      marginLeft:"-5px",
+    }}
+  >
+    Customers
+  </label>
+</div>
 
-      }}
-    >
-      Customers
-    </label>
-  </div>
 
     <div className="d-flex flex-wrap align-items-center gap-2">
       
@@ -2526,11 +2530,13 @@ const handleBack = () => {
       </div>
 
       {/* Action Button */}
-      <div className="me-4 mt-2">
+      <div className="mt-2 me-lg-4 mt-lg-2 me-md-4 mt-sm-4 mt-md-4 mx-auto text-center"
+      >
         {value === "1" && (
           <Button
             disabled={customerAddPermission}
             onClick={handleShow}
+            
             style={{
               fontFamily: "Gilroy",
               fontSize: "14px",
@@ -2539,12 +2545,13 @@ const handleBack = () => {
               fontWeight: 600,
               borderRadius: "8px",
               padding: "12px",
-              paddingLeft: 50,
-              paddingRight: 48,
+              // paddingLeft: 50,
+              // paddingRight: 50,
               marginBottom: "10px",
               maxHeight: 45,
-              marginTop:8
-
+              width: "160px", 
+              whiteSpace:"nowrap",
+              marginTop:7
             }}
           >
             + Customer
@@ -2562,38 +2569,40 @@ const handleBack = () => {
               fontWeight: 600,
               borderRadius: "8px",
               padding: "12px",
-              paddingLeft: 50,
-              paddingRight: 48,
+              // paddingLeft: 50,
+              // paddingRight: 50,
               marginBottom: "10px",
               maxHeight: 45,
-
+              width: "160px", 
+              whiteSpace:"nowrap"
             }}
           >
             + Bookings
           </Button>
         )}
-        {value === "3" && (
-          <Button
-            disabled={customerCheckoutPermission}
-            onClick={checkOutForm}
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "8px",
-              padding: "12px",
-              paddingLeft: 50,
-              paddingRight: 48,
-              marginBottom: "10px",
-              maxHeight: 45,
-
-            }}
-          >
-            + Check-Out
-          </Button>
-        )}
+       {value === "3" && (
+  <Button
+    disabled={customerCheckoutPermission}
+    onClick={checkOutForm}
+    style={{
+      fontFamily: "Gilroy",
+      fontSize: "14px",
+      backgroundColor: "#1E45E1",
+      color: "white",
+      fontWeight: 600,
+      borderRadius: "8px",
+      padding: "12px",
+      // paddingLeft: 50,
+      // paddingRight: 50,
+      marginBottom: "10px",
+      maxHeight: 45,
+      width: "160px", 
+      whiteSpace:"nowrap"
+    }}
+  >
+    + Check-Out
+  </Button>
+)}
         {value === "4" && (
           <Button
             disabled={customerWalkInAddPermission}
@@ -2606,11 +2615,12 @@ const handleBack = () => {
               fontWeight: 600,
               borderRadius: "8px",
               padding: "12px",
-              paddingLeft: 50,
-              paddingRight: 48,
+              // paddingLeft: 50,
+              // paddingRight: 50,
               marginBottom: "10px",
               maxHeight: 45,
-
+              width: "160px", 
+              whiteSpace:"nowrap"
             }}
           >
             + Walk-In
@@ -2828,7 +2838,7 @@ const handleBack = () => {
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
                             marginLeft:"-20px",
-                            marginTop:8
+                            // marginTop:8
                             // borderBottom:"none"
                           }}
                         >
@@ -4130,6 +4140,7 @@ const handleBack = () => {
                     </Form.Label>
                     <div style={{ position: "relative", width: "100%" }}>
                       <DatePicker
+                      style={{cursor:"pointer"}}
                         selected={selectedDate}
                         onChange={handleDateChange}
                         dateFormat="dd/MM/yyyy"
@@ -4364,6 +4375,7 @@ const handleBack = () => {
                     </Form.Label>
                     <div style={{ position: "relative", width: "100%" }}>
                       <DatePicker
+                      style={{cursor:"pointer"}}
                         selected={selectedDate}
                         onChange={handleDateChange}
                         dateFormat="dd/MM/yyyy"
@@ -4782,7 +4794,7 @@ const handleBack = () => {
                 </Form.Label>
                 <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
                   <DatePicker
-                   style={{ width: "100%", height: 48 }}
+                   style={{ width: "100%", height: 48,cursor:"pointer" }}
                    format="DD/MM/YYYY"
                    placeholder="DD/MM/YYYY"
                    value={startdate ? dayjs(startdate) : null}
@@ -4857,7 +4869,7 @@ const handleBack = () => {
                   <DatePicker
                     // selected={enddate}
                     // onChange={(date) => handleEndDate(date)}
-                    style={{ width: "100%", height: 48 }}
+                    style={{ width: "100%", height: 48,cursor:"pointer" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={enddate ? dayjs(enddate) : null}
@@ -4930,7 +4942,7 @@ const handleBack = () => {
                 </Form.Label>
                 <div className="datepicker-wrapper"  style={{ position: "relative", width: "100%" }}>
                   <DatePicker
-                  style={{ width: "100%", height: 48 }}
+                  style={{ width: "100%", height: 48,cursor:"pointer" }}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={invoicedate ? dayjs(invoicedate) : null}
@@ -5013,7 +5025,7 @@ const handleBack = () => {
                   <DatePicker
                     // selected={invoiceduedate}
                     // onChange={(date) => handleDueDate(date)}
-                    style={{ width: "100%", height: 48 }}
+                    style={{ width: "100%", height: 48,cursor:"pointer"}}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={invoiceduedate ? dayjs(invoiceduedate) : null}
@@ -5201,6 +5213,7 @@ const handleBack = () => {
          border: "1px solid #D9D9D9",
          height: 38,
          borderRadius: 8,
+         cursor:"pointer"
        }}
        value={dropdownValue}
        onChange={(e) => handleRowTypeSelect(e.target.value)}

@@ -289,8 +289,8 @@ function UserAdditionalContact(props) {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      width: "26px",
-                      height: "26px",
+                      width: "25px",
+                      height: "25px",
                       borderRadius: "50%",
                     }}
                   >

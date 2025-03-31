@@ -6324,6 +6324,7 @@ useEffect(() => {
     border: "1px solid #D9D9D9",
     height: 38,
     borderRadius: 8,
+    cursor:"pointer"
   }}
   value={dropdownValue}
   onChange={(e) => handleRowTypeSelect(e.target.value)}
