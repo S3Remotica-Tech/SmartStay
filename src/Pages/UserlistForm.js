@@ -1248,7 +1248,7 @@ const handleBed = (selectedOption) => {
                         fontFamily: "Gilroy",
                       }}
                     >
-                      Assign bed
+                      Assign Bed
                     </div>
                     <button
                       type="button"

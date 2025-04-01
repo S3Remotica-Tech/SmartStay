@@ -803,7 +803,7 @@ const AddReceiptForm = (props) => {
 
 
           <DatePicker
-                                                            style={{ width: "100%", height: 48 }}
+                                                            style={{ width: "100%", height: 48,cursor:"pointer" }}
                                                             format="DD/MM/YYYY"
                                                             placeholder="DD/MM/YYYY"
                                                             value={payment_date ? dayjs(payment_date) : null}

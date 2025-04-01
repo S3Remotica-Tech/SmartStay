@@ -413,8 +413,8 @@ const RecurringBills = (props) => {
 
   {customererrmsg.trim() !== "" && (
 <div>
-  <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
-    {customererrmsg !== " " && <MdError style={{ fontSize: '13px', color: 'red',marginBottom:"5px" }} />} {customererrmsg}
+  <p style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy",fontWeight:500 }}>
+    {customererrmsg !== " " && <MdError style={{ fontSize: '13px', color: 'red',marginBottom:"4px" }} />} {customererrmsg}
   </p>
 </div>
 )}
@@ -523,7 +523,7 @@ const RecurringBills = (props) => {
 
 {allfielderrmsg.trim() !== "" && (
   <div>
-    <p style={{ fontSize: '14px', color: 'red', marginTop: '3px' }}>
+    <p style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy",fontWeight:500 }}>
       {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red',marginBottom:2 }} />} {allfielderrmsg}
     </p>
   </div>

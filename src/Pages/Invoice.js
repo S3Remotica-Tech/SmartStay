@@ -2661,13 +2661,13 @@ useEffect(() => {
                             style={{
                               border: "1px solid #d9d9d9 ",
                               position: "absolute",
-                              top: 60,
+                              top: 70,
                               left: 0,
                               zIndex: 1000,
                               padding: 10,
                               borderRadius: 8,
                               backgroundColor: "#fff",
-                              width: "94%",
+                              width: "100%",
                             }}
                           >
                             <ul
@@ -2969,15 +2969,15 @@ useEffect(() => {
 
           <TabContext value={value}>
           <div
-              style={{
-                position: "sticky",
-                top: 69,
-                right: 0,
-                left: 0,
-                zIndex: 1000,
-                backgroundColor: "#FFFFFF",
-                height: 60,
-              }}
+             style={{
+              position: "sticky",
+              top:  69,
+              right: 0,
+              left: 0,
+              zIndex: 1000,
+              backgroundColor: search ? undefined : "#FFFFFF", // Only apply background color if search is false
+              height: 60,
+            }}
             >
               <Box
                sx={{ borderBottom: 0, borderColor: "divider" }}
@@ -3071,6 +3071,9 @@ useEffect(() => {
                             alignItems: "center",
                             gap: "0.5rem",
                             marginTop: "1rem",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            fontSize:12
                           }}
                         >
                           <MdError size={20} />
@@ -3376,9 +3379,11 @@ useEffect(() => {
                                       <div>
                                         <p
                                           style={{
-                                            fontSize: "13px",
+                                            fontSize: "12px",
                                             color: "red",
                                             marginTop: "3px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
                                           }}
                                         >
                                           {amounterrormsg !== " " && (
@@ -3510,9 +3515,11 @@ useEffect(() => {
                                     <div>
                                       <p
                                         style={{
-                                          fontSize: "13px",
+                                          fontSize: "12px",
                                           color: "red",
                                           marginTop: "3px",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
                                         }}
                                       >
                                         {dateerrmsg !== "" && (
@@ -3622,9 +3629,11 @@ useEffect(() => {
                                       <div>
                                         <p
                                           style={{
-                                            fontSize: "13px",
+                                            fontSize: "12px",
                                             color: "red",
                                             marginTop: "3px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
                                           }}
                                         >
                                           {paymodeerrormsg !== " " && (
@@ -3737,9 +3746,11 @@ useEffect(() => {
                                       <div>
                                         <p
                                           style={{
-                                            fontSize: "15px",
+                                            fontSize: "12px",
                                             color: "red",
                                             marginTop: "3px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
                                           }}
                                         >
                                           {accountError !== " " && (
@@ -3762,16 +3773,19 @@ useEffect(() => {
                                 <div>
                                   <p
                                     style={{
-                                      fontSize: "15px",
+                                      fontSize: "12px",
                                       color: "red",
                                       marginTop: "3px",
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
                                     }}
                                   >
                                     {totalErrormsg !== " " && (
                                       <MdError
                                         style={{
-                                          fontSize: "15px",
+                                          fontSize: "12px",
                                           color: "red",
+                                          
                                         }}
                                       />
                                     )}{" "}
@@ -4440,6 +4454,9 @@ useEffect(() => {
                           alignItems: "center",
                           gap: "0.5rem",
                           marginTop: "1rem",
+                          fontSize:12,
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
                         }}
                       >
                         <MdError size={20} />
@@ -4845,6 +4862,9 @@ useEffect(() => {
                           alignItems: "center",
                           gap: "0.5rem",
                           marginTop: "1rem",
+                          fontSize:12,
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
                         }}
                       >
                         <MdError size={20} />
@@ -5876,15 +5896,18 @@ useEffect(() => {
               {customererrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "13px", color: "red", marginTop: "5px" }}
+                    style={{ fontSize: "12px", color: "red", marginTop: "5px", fontFamily: "Gilroy",
+                      fontWeight: 500, }}
                   >
                     {customererrmsg !== " " && (
                       <MdError
                         style={{
-                          fontSize: "15px",
+                          fontSize: "12px",
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "3px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
                         }}
                       />
                     )}{" "}
@@ -5926,15 +5949,17 @@ useEffect(() => {
               {invoicenumbererrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                      fontWeight: 500, }}
                   >
                     {invoicenumbererrmsg !== " " && (
                       <MdError
                         style={{
-                          fontSize: "15px",
+                          fontSize: "12px",
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "2px",
+                          
                         }}
                       />
                     )}{" "}
@@ -5990,13 +6015,15 @@ useEffect(() => {
                                                 </div>
       {startdateerrmsg.trim() !== "" && (
         <div>
-          <p style={{ fontSize: "13px", color: "red", marginTop: "3px" }}>
+          <p style={{ fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                        fontWeight: 500, }}>
             <MdError
               style={{
-                fontSize: "15px",
+                fontSize: "12px",
                 color: "red",
                 marginRight: "3px",
                 marginBottom: "3px",
+                
               }}
             />
             {startdateerrmsg}
@@ -6049,13 +6076,15 @@ useEffect(() => {
       
       {enddateerrmsg.trim() !== "" && (
         <div>
-          <p style={{ fontSize: "13px", color: "red", marginTop: "3px" }}>
+          <p style={{ fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                        fontWeight: 500, }}>
             <MdError
               style={{
-                fontSize: "15px",
+                fontSize: "12px",
                 color: "red",
                 marginRight: "3px",
                 marginBottom: "3px",
+                
               }}
             />
             {enddateerrmsg}
@@ -6113,15 +6142,17 @@ useEffect(() => {
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                      fontWeight: 500, }}
                   >
                     {invoicedateerrmsg !== " " && (
                       <MdError
                         style={{
-                          fontSize: "15px",
+                          fontSize: "12px",
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "3px",
+                         
                         }}
                       />
                     )}{" "}
@@ -6155,15 +6186,17 @@ useEffect(() => {
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "13px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                      fontWeight: 500, }}
                   >
                     {invoiceduedateerrmsg !== " " && (
                       <MdError
                         style={{
-                          fontSize: "15px",
+                          fontSize: "12px",
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "3px",
+                          
                         }}
                       />
                     )}{" "}
@@ -6339,7 +6372,8 @@ useEffect(() => {
  {tableErrmsg.trim() !== "" && (
               <div>
                 <p
-                  style={{ fontSize: "13px", color: "red", marginTop: "3px", textAlign: "center" }}
+                  style={{ fontSize: "12px", color: "red", marginTop: "3px", textAlign: "center", fontFamily: "Gilroy",
+                    fontWeight: 500, }}
                 >
                   {tableErrmsg !== " " && (
                     <MdError
@@ -6348,6 +6382,7 @@ useEffect(() => {
                         color: "red",
                         marginRight: "3px",
                         marginBottom: "3px",
+                        
                       }}
                     />
                   )}{" "}
@@ -6378,11 +6413,12 @@ useEffect(() => {
               <div>
                 <p
                   style={{
-                    fontSize: "15px",
+                    fontSize: "12px",
                     color: "red",
                     marginTop: "10px",
                     fontFamily: "Gilroy",
-                    textAlign: "center"
+                    textAlign: "center",
+                    fontWeight: 500,
                   }}
                 >
                   {allfielderrmsg !== " " && (

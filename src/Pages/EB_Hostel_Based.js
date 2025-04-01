@@ -1073,8 +1073,8 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "32px",
-              height: "32px",
+              width: "25px",
+              height: "25px",
               borderRadius: "50%",
             }}
           >

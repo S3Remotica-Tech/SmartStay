@@ -235,7 +235,7 @@ function BankingEditTransaction(props) {
             style={{
               position: "absolute",
               right: "15px",
-              top: "16px",
+              marginTop: -5,
               border: "1px solid black",
               background: "transparent",
               cursor: "pointer",
@@ -243,20 +243,20 @@ function BankingEditTransaction(props) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "24px",
-              height: "24px",
+              width: "25px",
+              height: "25px",
               borderRadius: "50%",
             }}
           >
-            <span
-              aria-hidden="true"
-              style={{
-                fontSize: "30px",
-                paddingBottom: "6px",
-              }}
-            >
-              &times;
-            </span>
+          <span
+                    aria-hidden="true"
+                    style={{
+                      fontSize: "30px",
+                      paddingBottom: "5px",
+                    }}
+                  >
+                    &times;
+                  </span>
           </button>
         </Modal.Header>
         <Modal.Body>

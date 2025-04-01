@@ -1209,8 +1209,8 @@ useEffect(() => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "28px",
-              height: "28px",
+              width: "25px",
+              height: "25px",
               borderRadius: "50%",
             }}
           >

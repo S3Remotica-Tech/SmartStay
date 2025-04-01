@@ -463,7 +463,7 @@ const handleAmnitiesSelect = ()=>{
             />
           </div>
           {statusShow && (
-            <div className="mb-3 ps-2  pe-2">
+            <div className="mb-3 ps-2  pe-2 ">
               <label
                 className="mb-1"
                 style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
@@ -473,13 +473,14 @@ const handleAmnitiesSelect = ()=>{
               <Form.Select
                 aria-label="Default select example"
                 value={statusAmni}
+                className="border"
                 onChange={(e) => handleStatusAmnities(e)}
                 style={{
                   fontSize: 14,
                   backgroundColor: "#f8f9fa",
                   height: 45,
                   borderRadius: 8,
-                  opacity:1
+                  opacity:1,
                 }}
               >
                 <option

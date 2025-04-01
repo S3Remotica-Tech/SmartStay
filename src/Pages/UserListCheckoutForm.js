@@ -378,20 +378,43 @@ const CheckOutForm = ({
   const customStyles = {
     control: (base) => ({
       ...base,
-      height: 50,
-      fontSize: 16,
-      color: selectedCustomer ? "#222" : "#4b4b4b",
-      fontFamily: "Gilroy",
-      fontWeight: selectedCustomer ? 600 : 500,
-      border: "1px solid rgb(217, 217, 217)",
+      height: "50px",
+      border: "1px solid #D9D9D9",
       borderRadius: "8px",
-      marginTop: "10px",
+      fontSize: "16px",
+      color: "#4B4B4B",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      boxShadow: "none",
     }),
-    option: (base) => ({
+    menu: (base) => ({
       ...base,
-      display: "flex",
-      alignItems: "center",
-      fontSize: 16,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      maxHeight: "120px", 
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto", 
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      display: "inline-block",
+      fill: "currentColor",
+      lineHeight: 1,
+      stroke: "currentColor",
+      strokeWidth: 0,
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
     }),
   };
 
@@ -615,6 +638,9 @@ const CheckOutForm = ({
                     onChange={handleCustomerChange}
                     options={formatOptions()}
                     placeholder="Select a customer"
+                    classNamePrefix="custom"
+    menuPlacement="auto"
+   
                     isDisabled={checkouteditaction}
                   />
 
