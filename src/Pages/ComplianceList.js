@@ -247,33 +247,37 @@ const ComplianceList = (props) => {
 
   const handleChangeStatusOpenClose = (item) => {
     setAssignId(item?.ID);
-    setShowDots(false);
-    // setStatus("");
-    setShowChangeStatus(true);
-    setShowAssignComplaint(false);
+    setShowDots(false); 
     setStatus(item?.Status);
+    setShowChangeStatus(true);
+    setShowAssignComplaint(false);    
   };
-
-  //assign complaint
+  
+ 
   const ChangeStatusClose = () => {
     setShowChangeStatus(false);
     setStatusError("");
   };
 
   const handleChangeStatusClick = () => {
+  
+    const prevStatus = selectedStatus || ""; 
+  
     if (!status) {
       setStatusError("Please Select Status");
       return;
     }
-
-    if (status === selectedStatus) {
-      setStatusError("Please make a change before submitting");
+  
+    if (status === prevStatus) {
+      setStatusError("No Changes Detected");
       return;
     }
-
+  
     setSelectedStatus(status);
-    setStatusError("");
-
+    setStatusError(""); 
+  
+    localStorage.setItem("selectedStatus", status); 
+  
     dispatch({
       type: "COMPLIANCECHANGESTATUS",
       payload: {
@@ -285,6 +289,15 @@ const ComplianceList = (props) => {
       },
     });
   };
+  
+
+useEffect(() => {
+  const savedStatus = localStorage.getItem("selectedStatus");
+  if (savedStatus) {
+    setSelectedStatus(savedStatus);
+  }
+}, []); 
+  
 
 
 
@@ -1273,7 +1286,7 @@ const ComplianceList = (props) => {
                         </div>
                       </Modal.Body>
                       {commentError && (
-                        <div style={{ color: "red", paddingLeft: 20 }}>
+                        <div style={{ color: "red", textAlign:"center" }}>
                           <MdError />
                           <span
                             style={{
@@ -1373,7 +1386,8 @@ const ComplianceList = (props) => {
                               fontSize: 20,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              marginTop:"-14px"
+                              marginTop:"-14px",
+                              marginLeft:"-10px"
                             }}
                           >
                             Change Status
@@ -1394,8 +1408,8 @@ const ComplianceList = (props) => {
                               display: "flex",
                               justifyContent: "center",
                               alignItems: "center",
-                              width: "32px",
-                              height: "32px",
+                              width: "25px",
+                              height: "25px",
                               borderRadius: "50%",
                             }}
                           >
@@ -1575,6 +1589,7 @@ const ComplianceList = (props) => {
                               fontSize: 20,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
+                              marginLeft:"-10px"
                             }}
                           >
                             Assign Complaint
@@ -1595,8 +1610,8 @@ const ComplianceList = (props) => {
                               display: "flex",
                               justifyContent: "center",
                               alignItems: "center",
-                              width: "32px",
-                              height: "32px",
+                              width: "25px",
+                              height: "25px",
                               borderRadius: "50%",
                             }}
                           >
@@ -1667,66 +1682,68 @@ const ComplianceList = (props) => {
                                 })}
                             </Form.Select> */}
                          
-  <Select
-    options={
-      state.Settings.addSettingStaffList
-        ? state.Settings.addSettingStaffList.map((v) => ({
-            value: v.id,
-            label: v.first_name,
-          }))
-        : []
-    }
-    onChange={ handleCompliant}
-    value={
-      compliant
-        ? {
-            value: compliant,
-            label:
-              state.Settings.addSettingStaffList.find((v) => v.id === compliant)
-                ?.first_name || "Select a Complaint",
-          }
-        : null
-    }
-    placeholder="Select a Complaint"
-    classNamePrefix="custom"
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
+                         <Select
+  options={
+    state.Settings.addSettingStaffList
+      ? state.Settings.addSettingStaffList.map((v) => ({
+          value: v.id,
+          label: v.first_name,
+        }))
+      : []
+  }
+  onChange={handleCompliant}
+  value={
+    compliant
+      ? (() => {
+          const selected = state.Settings.addSettingStaffList.find((v) => String(v.id) === String(compliant));
+          return selected
+            ? { value: selected.id, label: selected.first_name }
+            : null;
+        })()
+      : null
+  }
+  placeholder="Select a Complaint"
+  classNamePrefix="custom"
+  styles={{
+    control: (base) => ({
+      ...base,
+      height: "50px",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      fontSize: "16px",
+      color: "#4B4B4B",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      boxShadow: "none",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      maxHeight: "120px",
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+  }}
+/>
+
+
 
 
                           </Form.Group>

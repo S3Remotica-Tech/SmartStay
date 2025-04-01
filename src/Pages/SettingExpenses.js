@@ -559,7 +559,7 @@ function SettingExpenses({ hostelid }) {
   //   setExpandedCategoryId((prev) => (prev === categoryId ? null : categoryId));
   // };
 
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+  // const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
   
   const handleToggleDropdown = (categoryId, event) => {
@@ -569,12 +569,12 @@ function SettingExpenses({ hostelid }) {
       const rect = event.target.getBoundingClientRect();
       console.log("rect.width",rect.width, rect.bottom, rect.left );
       
-      setDropdownPosition({
-        top: rect.bottom + 6, 
-        // left: rect.left + window.scrollX,  
-        left: rect.left - 361,
-        width: rect.width + 370,
-      });
+      // setDropdownPosition({
+      //   top: rect.bottom + 6, 
+      //   // left: rect.left + window.scrollX,  
+      //   left: rect.left - 361,
+      //   width: rect.width + 370,
+      // });
       setExpandedCategoryId(categoryId);
     }
   };
@@ -702,85 +702,59 @@ function SettingExpenses({ hostelid }) {
       )}
 
 
-      <div className="mt-4 d-flex flex-wrap justify-content-between"
-        style={{ gap: "20px", alignItems: "flex-start" }}>
-        {/* {expences.length > 0 ? ( */}
-        {currentRowExpense && currentRowExpense.length > 0 ? (
-          currentRowExpense.map((category) => (
-            <div key={category.category_Id} className="col-lg-5 col-md-5 col-sm-12 col-xs-10 border rounded p-2"
-              style={{
-                // height: expandedCategoryId === category.category_Id ? "auto" : "45px",
-                //  height:"auto"
-                flex: "0 0 48%",
-                position: "relative",
-              }}>
-              <Card className=" d-flex justify-content-between  border-0 "
+<div className="mt-4 d-flex flex-wrap justify-content-between" style={{ gap: "20px", alignItems: "flex-start" }}>
+  {currentRowExpense && currentRowExpense.length > 0 ? (
+    currentRowExpense.map((category) => (
+      <div key={category.category_Id} className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2" style={{ flex: "0 0 48%", position: "relative" }}>
+        <Card className="d-flex justify-content-between border-0" style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}>
+          <div className="d-flex justify-content-between align-items-center border-0 gap-4">
+            <div>{category.category_Name}</div>
+            <div className="d-flex align-items-center">
+              <img
+                src={Editbtn}
+                height={15}
+                width={15}
+                alt="edit"
+                style={{ marginRight: 10, cursor: "pointer" }}
+                onClick={(e) => { e.stopPropagation(); handleEditCategory(category); }}
+              />
+              <img
+                src={Closebtn}
+                height={15}
+                width={15}
+                alt="delete"
+                style={{ marginRight: 10, cursor: "pointer" }}
+                onClick={(e) => { e.stopPropagation(); handleDeleteExpensesCategory(category); }}
+              />
+              <i
+                onClick={(event) => handleToggleDropdown(category.category_Id, event)}
+                className={`bi ${expandedCategoryId === category.category_Id ? "bi-chevron-up" : "bi-chevron-down"}`}
+                style={{ cursor: "pointer" }}
+              />
+            </div>
+          </div>
+        </Card>
 
-
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 16,
-                  fontWeight: 500,
-                }}
-              >
-                <div className=" d-flex justify-content-between align-items-center border-0 gap-4 ">
-                  <div>{category.category_Name}</div>
-                  <div className="d-flex align-items-center">
-                    <img
-                      src={Editbtn}
-                      height={15}
-                      width={15}
-                      alt="edit"
-                      style={{ marginRight: 10, cursor: "pointer" }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEditCategory(category);
-                      }}
-                    />
-                    <img
-                      src={Closebtn}
-                      height={15}
-                      width={15}
-                      alt="delete"
-                      style={{ marginRight: 10, cursor: "pointer" }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteExpensesCategory(category);
-                      }}
-                    />
-                    <i onClick={(event) => handleToggleDropdown(category.category_Id,event)}
-                      className={`bi ${expandedCategoryId === category.category_Id ? 'bi-chevron-up' : 'bi-chevron-down'
-                        }`}
-                      style={{ cursor: "pointer" }}
-                    ></i>
-                  </div>
-
-                </div>
-
-              </Card>
-
-{expandedCategoryId === category.category_Id && (
-  <div
-    className="dropdown-content"
-    style={{
-      position: "fixed",
-      top: dropdownPosition.top,
-      left: dropdownPosition.left,
-      width: dropdownPosition.width,
-      zIndex: 999,
-      backgroundColor: "#fff",
-      border: "1px solid #ddd",
-      borderRadius: "0 0 10px 10px",
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-      padding: "10px",
-      overflowY: "auto",
-      maxHeight: "200px", // Adjust height for scrolling
-    }}
-  >
+        {expandedCategoryId === category.category_Id && (
+  <div className="dropdown-content" style={{
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    width: "100%", // Ensures the dropdown takes full width of the parent
+    zIndex: 999,
+    backgroundColor: "#fff",
+    border: "1px solid #ddd",
+    borderRadius: "0 0 10px 10px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    padding: "10px",
+    maxHeight: "250px", // Sets a maximum height for the dropdown
+    overflowY: "auto", // Allows the entire dropdown to scroll
+    marginTop: "5px"
+  }}>
     <ul className="p-2 m-0">
       {category.subcategory?.length > 0 ? (
         category.subcategory.map((sub) => (
-          <li key={sub.subcategory_Id} className="d-flex justify-content-between align-items-center">
+          <li key={sub.subcategory_Id} className="d-flex justify-content-between align-items-center mb-2">
             {sub.subcategory}
             <span>
               <img src={Editbtn} height={15} width={15} alt="edit" style={{ cursor: "pointer" }} onClick={() => handleEditCategory(sub)} />
@@ -795,29 +769,19 @@ function SettingExpenses({ hostelid }) {
   </div>
 )}
 
-            </div>
-          ))
-
-        ) : !loading && (
-          <div style={{ marginTop: 85, alignItems: "center", justifyContent: "center",marginLeft:'270px' }}>
-            <div className="d-flex justify-content-center">
-              <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-            </div>
-            <div
-              className="pb-1 mt-2"
-              style={{
-                textAlign: "center",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: 20,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              No Expense available
-            </div>
-          </div>
-        )}
       </div>
+    ))
+  ) : !loading && (
+    <div style={{ marginTop: 85, alignItems: "center", justifyContent: "center", marginLeft: '270px' }}>
+      <div className="d-flex justify-content-center">
+        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+      </div>
+      <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>
+        No Expense available
+      </div>
+    </div>
+  )}
+</div>
 
       {expensesFilterddata?.length >= 2 && (
         <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">

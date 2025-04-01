@@ -1150,8 +1150,8 @@ const Compliance = () => {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                width: '28px',
-                                height: '28px',
+                                width: '25px',
+                                height: '25px',
                                 borderRadius: '50%',
 
                               }}
@@ -1378,6 +1378,7 @@ const Compliance = () => {
     }
     placeholder="Select a type"
     classNamePrefix="custom"
+    menuPlacement="auto"
     isDisabled={edit}
     noOptionsMessage={() => "No complaint types available"}
     styles={{
@@ -1391,22 +1392,19 @@ const Compliance = () => {
         fontFamily: "Gilroy",
         fontWeight: 500,
         boxShadow: "none",
-        backgroundColor: edit ? "#E7F1FF" : "#fff",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "0 15px",
       }),
       menu: (base) => ({
         ...base,
-        maxHeight: "200px",
-        overflowY: "auto",
-        width: "100%",
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
       }),
       menuList: (base) => ({
         ...base,
-        maxHeight: "200px",
-        overflowY: "auto",
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px", 
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto", 
       }),
       placeholder: (base) => ({
         ...base,
@@ -1415,6 +1413,11 @@ const Compliance = () => {
       dropdownIndicator: (base) => ({
         ...base,
         color: "#555",
+        display: "inline-block",
+        fill: "currentColor",
+        lineHeight: 1,
+        stroke: "currentColor",
+        strokeWidth: 0,
       }),
       indicatorSeparator: () => ({
         display: "none",

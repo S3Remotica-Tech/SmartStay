@@ -786,6 +786,7 @@ setSelectedTypes("")
     setAllFieldErrmsg("");
     setNewRows("")
     setTableErrmsg("")
+    setEnddateErrmsg("")
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
     dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
   };
@@ -1386,6 +1387,7 @@ setSelectedTypes("")
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("");
+    setDropdownVisible(false);
   };
   useEffect(() => {
     if (state.InvoiceList.statusCodeForPDf === 200) {
@@ -4722,7 +4724,7 @@ const handleBack = () => {
               {customererrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
                   >
                     {customererrmsg !== " " && (
                       <MdError style={{ fontSize: "15px", color: "red" }} />
@@ -4766,7 +4768,7 @@ const handleBack = () => {
               {invoicenumbererrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
                   >
                     {invoicenumbererrmsg !== " " && (
                       <MdError style={{ fontSize: "15px", color: "red" }} />
@@ -4841,7 +4843,7 @@ const handleBack = () => {
               {startdateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
                   >
                     {startdateerrmsg !== " " && (
                       <MdError style={{ fontSize: "15px", color: "red" }} />
@@ -4914,7 +4916,7 @@ const handleBack = () => {
               {enddateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "15px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
                   >
                     {enddateerrmsg !== " " && (
                       <MdError style={{ fontSize: "15px", color: "red" }} />
@@ -4990,7 +4992,7 @@ const handleBack = () => {
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
                   >
                     {invoicedateerrmsg !== " " && (
                       <MdError
@@ -5072,7 +5074,7 @@ const handleBack = () => {
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "13px", color: "red", marginTop: "3px" }}
+                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
                   >
                     {invoiceduedateerrmsg !== " " && (
                       <MdError
@@ -5093,7 +5095,7 @@ const handleBack = () => {
 
           {allfielderrmsg.trim() !== "" && (
             <div>
-              <p style={{ fontSize: "15px", color: "red", marginTop: "3px" }}>
+              <p style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}>
                 {allfielderrmsg !== " " && (
                   <MdError style={{ fontSize: "15px", color: "red" }} />
                 )}{" "}
@@ -5227,7 +5229,7 @@ const handleBack = () => {
       {tableErrmsg.trim() !== "" && (
                    <div>
                      <p
-                       style={{ fontSize: "13px", color: "red", marginTop: "3px", textAlign: "center" }}
+                       style={{ fontSize: "12px", color: "red", marginTop: "3px", textAlign: "center",fontWeight:500,fontFamily:"Gilroy" }}
                      >
                        {tableErrmsg !== " " && (
                          <MdError

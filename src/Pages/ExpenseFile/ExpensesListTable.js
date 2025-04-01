@@ -486,102 +486,152 @@ function ExpensesListTable(props) {
           <Modal.Body>
         <div style={{ marginTop: 10, width: "100%" }}>
 
-        <FormControl
-  fullWidth
-  variant="outlined"
-  className="mb-2"
-  sx={{
-    '& #vendor-select': {
-      height: 'auto', // Reset height
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#D9D9D9',
-      },
-      '&:hover fieldset': {
-        borderColor: '#40a9ff',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#40a9ff',
-      },
-    },
-    '& .MuiSelect-select': {
-      paddingTop: '10px',
-      paddingBottom: '10px',
-      display: 'flex',
-      alignItems: 'center',
-      color: '#000',
-    },
-    '& .MuiOutlinedInput-notchedOutline': {
-      border: 'none',
-    },
-  }}
->
-  <Select
-    labelId="asset-select-label"
-    id="vendor-select"
-    value={assetname}
-    onChange={handleAssetname}
-    displayEmpty
-    renderValue={(selected) => {
-      if (!selected) {
-        return <span style={{ color: '#BDBDBD' }}>Select Asset</span>;
-      }
-      return selected;
-    }}
-    MenuProps={{
-      PaperProps: {
-        sx: {
-          maxHeight: 150,
-          overflowY: 'auto',
-    
-          // ✅ Change MenuItem hover color to blue
-          '& .MuiMenuItem-root:hover': {
-            backgroundColor: '#1E45E1',
-            color: '#fff',
-          },
-    
-          // ✅ Also update selected item styles if needed
-          '& .Mui-selected': {
-            backgroundColor: '#1E45E1 !important',
-            color: '#fff',
-          },
-          '& .Mui-selected:hover': {
-            backgroundColor: '#1E45E1 !important',
-            color: '#fff',
-          },
-    
-          // ✅ Scrollbar styling (optional)
-          '&::-webkit-scrollbar': {
-            width: '6px',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            backgroundColor: '#1E45E1',
-            borderRadius: '4px',
-          },
-          '&::-webkit-scrollbar-track': {
-            backgroundColor: '#f0f0f0',
-          },
+        {/* <FormControl
+      fullWidth
+      variant="outlined"
+      className="mb-2"
+      sx={{
+        "& #vendor-select": { height: "auto" },
+        "& .MuiOutlinedInput-root": {
+          "& fieldset": { borderColor: "#D9D9D9" },
+          "&:hover fieldset": { borderColor: "#40a9ff" },
+          "&.Mui-focused fieldset": { borderColor: "#40a9ff" },
         },
-        style: {
-          scrollbarWidth: 'thin', // Firefox
+        "& .MuiSelect-select": {
+          paddingTop: "10px",
+          paddingBottom: "10px",
+          display: "flex",
+          alignItems: "center",
+          color: "#000",
         },
-      },
-    }}
-  >
-    {state.AssetList.assetList.length > 0 ? (
-      state.AssetList.assetList.map((view) => (
-        <MenuItem key={view.asset_id} value={view.asset_name}>
-          {view.asset_name}
-        </MenuItem>
-      ))
-    ) : (
-      <MenuItem value="" disabled>
-        No assets available
-      </MenuItem>
-    )}
-  </Select>
-</FormControl>
+        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+      }}
+    >
+      <Select
+        labelId="asset-select-label"
+        id="vendor-select"
+        value={assetname}
+        onChange={handleAssetname}
+        displayEmpty
+        renderValue={(selected) =>
+          !selected ? <span style={{ color: "#BDBDBD" }}>Select Asset</span> : selected
+        }
+        MenuProps={{
+          PaperProps: {
+            sx: {
+              maxHeight: 150,
+              marginTop:1,
+              overflowY: "auto",
+              "& .MuiMenuItem-root:hover": {
+                backgroundColor: "#1E45E1",
+                color: "#fff",
+              },
+              "& .Mui-selected": {
+                backgroundColor: "#1E45E1 !important",
+                color: "#fff",
+              },
+              "& .Mui-selected:hover": {
+                backgroundColor: "#1E45E1 !important",
+                color: "#fff",
+              },
+              "&::-webkit-scrollbar": { width: "6px" },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "#1E45E1",
+                borderRadius: "4px",
+              },
+              "&::-webkit-scrollbar-track": { backgroundColor: "#f0f0f0" },
+            },
+            style: { scrollbarWidth: "thin" },
+          },
+        }}
+      >
+        {state.AssetList.assetList.length > 0 ? (
+          state.AssetList.assetList?.map((view) => (
+            <MenuItem key={view.asset_id} value={view.asset_name}>
+              {view.asset_name}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem value="" disabled>
+            No assets available
+          </MenuItem>
+        )}
+      </Select>
+    </FormControl> */}
+    <FormControl
+      fullWidth
+      variant="outlined"
+      className="mb-2"
+      sx={{
+       
+        "& #vendor-select": { height: "auto" },
+        "& .MuiOutlinedInput-root": {
+          "& fieldset": { borderColor: "#D9D9D9" },
+          "&:hover fieldset": { borderColor: "#40a9ff" },
+          "&.Mui-focused fieldset": { borderColor: "#40a9ff" },
+        },
+        "& .MuiSelect-select": {
+          paddingTop: "10px",
+          paddingBottom: "10px",
+          display: "flex",
+          alignItems: "center",
+          color: "#000",
+        },
+        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+      }}
+    >
+      <Select
+        labelId="asset-select-label"
+        id="vendor-select"
+        value={assetname}
+        onChange={handleAssetname}
+        displayEmpty
+        renderValue={(selected) =>
+          !selected ? <span style={{ color: "#BDBDBD" }}>Select Asset</span> : selected
+        }
+        MenuProps={{
+          PaperProps: {
+            sx: {
+              backgroundColor: "#f8f9fa", // White dropdown background
+              maxHeight: 150,
+              marginTop: 1,
+              overflowY: "auto",
+              "& .MuiMenuItem-root:hover": {
+                backgroundColor: "#1E45E1",
+                color: "#fff",
+              },
+              "& .Mui-selected": {
+                backgroundColor: "#D9E6FC !important", // Light blue like image
+                color: "#000",
+              },
+              "& .Mui-selected:hover": {
+                backgroundColor: "#1E45E1 !important",
+                color: "#fff",
+              },
+              "&::-webkit-scrollbar": { width: "6px" },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "#1E45E1",
+                borderRadius: "4px",
+              },
+              "&::-webkit-scrollbar-track": { backgroundColor: "#f0f0f0" },
+            },
+            style: { scrollbarWidth: "thin" },
+          },
+        }}
+      >
+        {state.AssetList.assetList.length > 0 ? (
+          state.AssetList.assetList.map((view) => (
+            <MenuItem key={view.asset_id} value={view.asset_name}>
+              {view.asset_name}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem value="" disabled>
+            No assets available
+          </MenuItem>
+        )}
+      </Select>
+    </FormControl>
 
 
 

@@ -779,24 +779,26 @@ function Banking() {
 
               <div className="me-2">
 
-                <Button
-                  disabled={bankingAddPermission}
-                  onClick={handleShowForm}
-                  style={{
-                    fontSize: 13,
-                    backgroundColor: "#1E45E1",
-                    color: "white",
-                    height: 43,
-                    fontWeight: 600,
-                    borderRadius: 8,
-                    // padding: "14px 47px",
-                    padding: "14px 47px 29px 51px",
-                    fontFamily: "Montserrat",
-                    whiteSpace: "nowrap" 
-                  }}
-                >
-                  + Bank
-                </Button>
+              <Button
+  disabled={bankingAddPermission}
+  onClick={handleShowForm}
+  style={{
+    fontSize: 13,
+    backgroundColor: "#1E45E1",
+    color: "white",
+    height: 43,
+    fontWeight: 600,
+    borderRadius: 8,
+    padding: "14px 47px",  
+    fontFamily: "Montserrat",
+    whiteSpace: "nowrap",
+    display: "flex", 
+    justifyContent: "center",  
+    alignItems: "center",  
+  }}
+>
+  + Bank
+</Button>
 
               </div>
             </div>
@@ -870,9 +872,9 @@ function Banking() {
                               position: "relative",
                               backgroundColor: openMenuId === item.id   ? "#E7F1FF": "white"
                              
-                                }}>
+                                }} onClick={() => handleShowDots(item.id)}>
                         <PiDotsThreeOutlineVerticalFill
-                         onClick={() => handleShowDots(item.id)}
+                         
                           alt="More options"
                               style={{ height: 20, width: 20,cursor:"pointer" }}
                             />
@@ -1894,7 +1896,7 @@ function Banking() {
                 style={{
                   position: "absolute",
                   right: "15px",
-                  top: "16px",
+                  marginTop: -5,
                   border: "1px solid black",
                   background: "transparent",
                   cursor: "pointer",
@@ -1902,17 +1904,20 @@ function Banking() {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  width: "24px",
-                  height: "24px",
+                  width: "25px",
+                  height: "25px",
                   borderRadius: "50%",
                 }}
               >
-                <span
-                  aria-hidden="true"
-                  style={{ fontSize: "24px", paddingBottom: "4px" }}
-                >
-                  &times;
-                </span>
+              <span
+                        aria-hidden="true"
+                        style={{
+                          fontSize: "30px",
+                          paddingBottom: "5px",
+                        }}
+                      >
+                        &times;
+                      </span>
               </button>
             </Modal.Header>
             <Modal.Body>

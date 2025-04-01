@@ -187,17 +187,15 @@ const handleClose =()=>{
     }
     if (value === "") {
       setLast_Name(value);
-      // setErrors((prevErrors) => ({
-      //   ...prevErrors,
-      //   lastName: "Last name cannot be empty or spaces only",
-      // }));
+      
       return;
     }
     if (value.trim() !== "") {
       setLast_Name(value);
-      // setErrors((prevErrors) => ({ ...prevErrors, lastName: "" }));
     }
+    setIsChangedError("")
   };
+ 
   
 
 
@@ -351,7 +349,6 @@ const handleClose =()=>{
     let isValid = true;
 
     const emailInvalid = emailError !== "";
-   
     const mobileInvalid = mobileError !== "";
 
     if (
@@ -373,26 +370,21 @@ const handleClose =()=>{
     }
 
     if (!countryCode) {
-      setCountryCodeError("Please Select  Country Code");
+      setCountryCodeError("Please Select Country Code");
       isValid = false;
     }
 
     if (!vendor_Mobile) {
-      setMobileError("Please Enter  Mobile Number");
+      setMobileError("Please Enter Mobile Number");
       isValid = false;
     }
     if (mobileInvalid) {
       setMobileError("Enter Valid Mobile Number");
       isValid = false;
     }
-    
-
-    // if (!email_Id) {
-    //   setEmailError('Please enter an email');
-    // }
 
     if (!business_Name) {
-      setBusinessNameError("Please Enter  Business Name");
+      setBusinessNameError("Please Enter Business Name");
       isValid = false;
     }
 
@@ -402,19 +394,22 @@ const handleClose =()=>{
     }
 
     if (!country) {
-      setCountryError("Please Enter  Country");
+      setCountryError("Please Enter Country");
       isValid = false;
     }
 
-    if (!pinCode) {
-      setPinCodeError("Please Enter Pincode");
-      isValid = false;
-    } else if (!/^\d+$/.test(pinCode)) {
-      setPinCodeError("Pin Code Must Be Numeric");
-      isValid = false;
-    } else if (pinCode.length !== 6) {
-      setPinCodeError("Pin Code Must Be Exactly 6 Digits");
-      isValid = false;
+    // Pin Code Validation - Only if it's been changed
+    if (pinCode !== initialState.pinCode) {
+      if (!pinCode) {
+        setPinCodeError("Please Enter Pincode");
+        isValid = false;
+      } else if (!/^\d+$/.test(pinCode)) {
+        setPinCodeError("Pin Code Must Be Numeric");
+        isValid = false;
+      } else if (pinCode.length !== 6) {
+        setPinCodeError("Pin Code Must Be Exactly 6 Digits");
+        isValid = false;
+      }
     }
 
     if (emailInvalid || mobileInvalid) {
@@ -428,21 +423,21 @@ const handleClose =()=>{
     }
 
     const isChanged =
-      first_Name !== initialState.first_Name ||
-      last_Name !== initialState.last_Name ||
-      Number(vendor_Mobile) !== Number(initialState.vendor_Mobile) ||
-      address !== initialState.address ||
-      email_Id !== initialState.email_Id ||
-      business_Name !== initialState.business_Name ||
-      file !== initialState.file ||
-      countryCode !== initialState.countryCode ||
-      country !== initialState.country ||
-      pinCode !== initialState.pinCode;
+    first_Name.trim() !== (initialState.first_Name || "").trim() ||
+    last_Name.trim() !== (initialState.last_Name || "").trim() ||
+    Number(vendor_Mobile) !== Number(initialState.vendor_Mobile || 0) ||
+    address.trim() !== (initialState.address || "").trim() ||
+    email_Id.trim() !== (initialState.email_Id || "").trim() ||
+    business_Name.trim() !== (initialState.business_Name || "").trim() ||
+    file !== initialState.file ||
+    countryCode !== (initialState.countryCode || "") ||
+    country.trim() !== (initialState.country || "").trim() ||
+    String(pinCode).trim() !== String(initialState.pinCode || "").trim();
+
 
     if (!isChanged) {
       setIsChangedError("No Changes Detected");
       isValid = false;
-
     }
 
     const MobileNumber = `${countryCode}${vendor_Mobile}`;
