@@ -1662,7 +1662,7 @@ function Banking() {
               //     marginTop: 10
               //   }}
               // >
-              <nav
+              <nav className="pagination-code"
   style={{
     display: "flex",
     alignItems: "center",

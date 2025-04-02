@@ -13,6 +13,7 @@ import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2,CloseCircle, SearchNormal1 } from 'iconsax-react';
 import { MdError } from "react-icons/md";
 import { toast } from 'react-toastify';
+import "./vendor.css";
 
 
 function Vendor() {
@@ -596,7 +597,7 @@ function Vendor() {
                   </div> */}
 
                   <div >
-                    <Button disabled={vendorAddPermission} onClick={handleShow}
+                    <Button disabled={vendorAddPermission} onClick={handleShow}  className="vendor-button"
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: "14px",
@@ -607,8 +608,6 @@ function Vendor() {
                         padding: "11px 42px",
                         paddingLeft: 45,
                         marginBottom: "10px",
-
-
                       }}
                     > + Vendor</Button>
                   </div>
@@ -665,9 +664,9 @@ function Vendor() {
 
               }}>
 
-                <div className='row row-gap-3'>
+                <div className='row row-gap-3 '>
                   {currentItems && currentItems.length > 0 && currentItems.map((vendor) => (
-                    <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
+                    <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 vendor-card'>
                       <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
                         onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
                       />
@@ -716,7 +715,7 @@ function Vendor() {
             {
               filteredData.length >= 5 &&
               // <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
-              <nav
+              <nav className='pagination-code'
               style={{
                 display: "flex",
                 alignItems: "center",

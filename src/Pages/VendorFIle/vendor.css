@@ -1,23 +1,8 @@
-.modal-dialog-centered{
-    margin-left: 500px;
-}
-@media only screen and (max-width: 600px) and (min-width: 300px) {
-    .modal-dialog-centered{
-        margin-left: 10px;
-    } 
-}
-@media only screen and (max-width: 1001px) and (min-width: 601px) {
-    .modal-dialog-centered{
-        margin-left: 70px;
-    } 
-}
-
-
-
-.table-container {
-    position: absolute;
-    top: 0; /* Adjust to position it correctly */
-    z-index: 100;
+@media (max-width: 350px) {
+    .vendor-button {
+      margin-top: 20px;
+      margin-bottom: 50px;
+    }
   }
 
   .pagination-code {
@@ -85,6 +70,12 @@
   
     .pagination-code ul {
       margin-top: 5px;
+    }
+  }
+  
+  @media (max-width: 350px) {
+    .vendor-card {
+      margin-top: 20px !important;
     }
   }
   
