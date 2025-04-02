@@ -317,3 +317,30 @@ text-decoration: underline;
   box-sizing: border-box !important;
   min-width: 221px !important;
 }
+.range-picker-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Spacing between elements */
+  flex-direction: row; /* Default: Row layout */
+}
+
+/* Mobile View: Change to Column Layout */
+@media (max-width: 600px) {
+  .range-picker-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Ensures the calendar dropdown is scrollable */
+.ant-picker-dropdown {
+  max-height: 300px !important; /* Set max height */
+  overflow-y: auto !important; /* Enable vertical scroll */
+}
+
+/* Adjust calendar width to prevent cutting */
+.ant-picker-panel-container {
+  max-width: 90vw !important; /* Limits width for small screens */
+  overflow-x: auto !important; /* Enables horizontal scroll if needed */
+}
