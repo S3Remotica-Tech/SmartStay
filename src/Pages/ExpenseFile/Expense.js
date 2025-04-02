@@ -62,6 +62,7 @@ function Expenses({ allPageHostel_Id }) {
       setShowFilter(false);
     }
   };
+  
 
   useEffect(() => {
     if (showFilter) {
@@ -181,6 +182,7 @@ function Expenses({ allPageHostel_Id }) {
 
     setFormattedDates(`(${formattedStart} - ${formattedEnd})`);
   }, []);
+  
 
 
  useEffect(() => {
@@ -814,6 +816,7 @@ console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
                     <img src={Calendars} alt='calendor' style={{ height: 24, width: 24, marginRight: 10 }} />
                     Week {formattedDates}
                   </label>
+                  
                   <Flatpickr
                     id="date-input"
                     className='Expense-calendar'
@@ -870,151 +873,83 @@ console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
                   />
 
                   {showFilter &&
-                    <ListGroup  ref={filterRef} style={{ position: 'absolute', top: 45, right: 0, fontFamily: "Gilroy", cursor: "pointer",background:"white" }}>
-                      <ListGroup.Item value="All" onClick={handleExpenseAll}>All</ListGroup.Item>
-
-
-                      <ListGroup.Item
-                        active={showCategory}
-                        onMouseEnter={() => setShowCategory(true)}
-                        onMouseLeave={() => setShowCategory(false)}
-                      >Category
-
-                        {showCategory && (<>
-
-                          <ListGroup className='show-scroll-category' style={{
-                            position: 'absolute', right: 250, top: 0, borderRadius:"8px",
-                            maxHeight: '200px',
-                            overflowY: 'auto'
-                          }}
-                            value={categoryValue} onClick={handleCatogoryChange}
-                          >
-                            {state.Settings.Expences.data && state.Settings.Expences.data.map((view) => (
-                              <ListGroup.Item 
-                                className='sub_item ' key={view.category_Id} value={view.category_Id}>
-                                {view.category_Name}
-                              </ListGroup.Item >
-                            ))}
-
-                          </ListGroup>
-                        </>
-                        )}
-
-                      </ListGroup.Item>
-
-
-
-                      {/* <ListGroup.Item
-                        active={showAsset}
-                        onMouseEnter={() => setShowAsset(true)}
-                        onMouseLeave={() => setShowAsset(false)}
-                      >Asset
-
-                        {showAsset && (
-                          <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
-                            value={assetValue}
-                            onClick={handleAssetChange}
-                          >
-                            {state.AssetList.assetList &&
-                              [...new Map(state.AssetList.assetList.map(item => [item.asset_name, item])).values()].map((view) => (
-                                <ListGroup.Item title={view.asset_name} className='sub_item' key={view.id} value={view.id} style={{textOverflow:"ellipsis",overflow:"hidden", whiteSpace:"nowrap", width :50}}>
-                                  {view.asset_name}
-                                </ListGroup.Item >
-
-                              ))
-                            }
-                           
-
-                          </ListGroup>
-                        )}
-
-
-
-                      </ListGroup.Item> */}
-
-
-                      {/* <ListGroup.Item
-                        active={showVendor}
-                        onMouseEnter={() => setShowVendor(true)}
-                        onMouseLeave={() => setShowVendor(false)}
-                      >Vendor
-
-                        {showVendor && (
-                          <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius: 2 }}
-                            value={vendorValue}
-                            onClick={handleVendorChange}
-                          >
-                            {state.ComplianceList.VendorList && state.ComplianceList.VendorList.map((view) => (
-                              <ListGroup.Item className='sub_item' key={view.id} value={view.id}>
-                                {view.Vendor_Name}
-                              </ListGroup.Item >
-
-                            ))}
-
-                          </ListGroup>
-                        )}
-
-                      </ListGroup.Item> */}
-
-
-                      <ListGroup.Item
-                        active={showPaymentMode}
-                        onMouseEnter={() => setShowPaymentMode(true)}
-                        onMouseLeave={() => setShowPaymentMode(false)}
-                      >Payment Mode
-
-                        {showPaymentMode && (
-                          <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius:"8px" }}
-                            value={modeValue}
-                            onClick={handleModeValueChange}
-
-                          >
-                            <ListGroup.Item className='sub_item' value="UPI/BHIM" >
-                              UPI/BHIM
-                            </ListGroup.Item >
-                            <ListGroup.Item className='sub_item' value="CASH">
-                              CASH
-                            </ListGroup.Item >
-                            <ListGroup.Item className='sub_item' value="Net Banking" >
-                              Net Banking
-                            </ListGroup.Item >
-                          </ListGroup>
-                        )}
-
-
-                      </ListGroup.Item>
-
-                      <ListGroup.Item
-                        active={showAmount}
-                        onMouseEnter={() => setShowAmount(true)}
-                        onMouseLeave={() => setShowAmount(false)}
-                      >Amount
-
-                        {showAmount && (
-                          <ListGroup style={{ position: 'absolute', right: 250, top: 0, borderRadius:"8px" }}
-                            value={amountValue}
-                            onClick={handleAmountValueChange}
-
-                          >
-                            <ListGroup.Item className='sub_item' value="0-1000" >
-                              0-1000
-                            </ListGroup.Item >
-                            <ListGroup.Item className='sub_item' value="1000-5000">
-                              1000-5000
-                            </ListGroup.Item >
-                            <ListGroup.Item className='sub_item' value="5000-10000" >
-                              5000-10000
-                            </ListGroup.Item >
-                            <ListGroup.Item className='sub_item' value="10000" >
-                              10000 Above
-                            </ListGroup.Item >
-                          </ListGroup>
-                        )}
-
-
-                      </ListGroup.Item>
-
-                    </ListGroup>
+                 <div style={{ position: 'relative' }}>
+                 <ListGroup ref={filterRef} style={{ position: 'absolute', top: 25, right: 0, fontFamily: "Gilroy", cursor: "pointer", background: "white", zIndex: 10 }}>
+                   
+                   <ListGroup.Item value="All" onClick={handleExpenseAll}>All</ListGroup.Item>
+               
+                   {/* Category */}
+                   <ListGroup.Item
+                     active={showCategory}
+                     onMouseEnter={() => setShowCategory(true)}
+                     onMouseLeave={() => setShowCategory(false)}
+                   >
+                     Category
+                     {showCategory && (
+                       <ListGroup className='show-scroll-category' style={{
+                         position: 'absolute', right: 250, top: 0, borderRadius: "8px",
+                         maxHeight: '200px',
+                         overflowY: 'auto',
+                         zIndex: 20,
+                       }} value={categoryValue} onClick={handleCatogoryChange}>
+                         {state.Settings.Expences.data && state.Settings.Expences.data.map((view) => (
+                           <ListGroup.Item className='sub_item' key={view.category_Id} value={view.category_Id}>
+                             {view.category_Name}
+                           </ListGroup.Item>
+                         ))}
+                       </ListGroup>
+                     )}
+                   </ListGroup.Item>
+               
+                   {/* Payment Mode */}
+                   <ListGroup.Item
+                     active={showPaymentMode}
+                     onMouseEnter={() => setShowPaymentMode(true)}
+                     onMouseLeave={() => setShowPaymentMode(false)}
+                   >
+                     Payment Mode
+                     {showPaymentMode && (
+                       <ListGroup className='show-scroll-category' style={{
+                         position: 'absolute', right: 250, top: 0, borderRadius: "8px",
+                         maxHeight: '200px',
+                         overflowY: 'auto',
+                         zIndex: 20,
+                       }} value={modeValue}
+                       onClick={handleModeValueChange}>
+                         <ListGroup.Item className='sub_item' value="UPI/BHIM">UPI/BHIM</ListGroup.Item>
+                         <ListGroup.Item className='sub_item' value="CASH">CASH</ListGroup.Item>
+                         <ListGroup.Item className='sub_item' value="Net Banking">Net Banking</ListGroup.Item>
+                       </ListGroup>
+                     )}
+                   </ListGroup.Item>
+               
+                   {/* Amount */}
+                   <ListGroup.Item
+                     active={showAmount}
+                     onMouseEnter={() => setShowAmount(true)}
+                     onMouseLeave={() => setShowAmount(false)}
+                   >
+                     Amount
+                     {showAmount && (
+                       <ListGroup className='show-scroll-category' style={{
+                         position: 'absolute', right: 250, top: 0, borderRadius: "8px",
+                         maxHeight: '200px',
+                         overflowY: 'auto',
+                         zIndex: 20,
+                       }} value={amountValue}
+                       onClick={handleAmountValueChange}>
+                         <ListGroup.Item className='sub_item' value="0-1000">0-1000</ListGroup.Item>
+                         <ListGroup.Item className='sub_item' value="1000-5000">1000-5000</ListGroup.Item>
+                         <ListGroup.Item className='sub_item' value="5000-10000">5000-10000</ListGroup.Item>
+                         <ListGroup.Item className='sub_item' value="10000">10000 Above</ListGroup.Item>
+                       </ListGroup>
+                     )}
+                   </ListGroup.Item>
+                 </ListGroup>
+               </div>
+               
+                
+                
 
                   }
 

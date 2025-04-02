@@ -98,3 +98,22 @@
    /* border-radius: 8px; */
   min-height: 20px !important;
 }
+@media (max-width: 768px) {
+  .show-scroll-category {
+      right: 0 !important;
+      width: 100%;
+      max-height: 150px;
+      overflow-y: auto;
+      left: 100px;
+  }
+  
+}
+
+@media (max-width: 480px) {
+  .show-scroll-category {
+      right: 0 !important;
+      width: 100%;
+      max-height: 120px;
+      overflow-y: auto;
+  }
+}

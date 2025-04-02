@@ -2422,12 +2422,13 @@ const handleBack = () => {
                 )}
                
                 {filterStatus && value === "2" && (
-        <RangePicker
-          value={bookingDateRange}
-          onChange={handleDateRangeChangeBooking}
-          format="DD/MM/YYYY"
-          style={{ marginLeft: 10 }}
-        />
+       
+       <RangePicker
+         value={bookingDateRange}
+         onChange={handleDateRangeChangeBooking}
+         format="DD/MM/YYYY" // Adjust width
+       />
+     
       )}
        {value === "3" && filterStatus && (
                         <div
