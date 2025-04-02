@@ -1046,7 +1046,7 @@ function* handleNewSubscriptionList() {
    const response = yield call(SubscriptionList);
    console.log("handleNewSubscriptionList",response)
    if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'NEW_SUBSCRIPTION_LIST', payload: response.data, statusCode: response.status || response.data.statusCode })
+      yield put({ type: 'NEW_SUBSCRIPTION_LIST', payload: {response:response.data, statusCode: response.status || response.data.statusCode} })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

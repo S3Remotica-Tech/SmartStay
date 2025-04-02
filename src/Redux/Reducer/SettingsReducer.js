@@ -427,7 +427,7 @@ case 'ERROR_COMPLIANTS':
             return { ...state, statusCodeNewSubscription: 0 };
       
             case 'NEW_SUBSCRIPTION_LIST':
-              return { ...state, subcripitionAllDetails: action.payload, statusCodeForhostelListNewDetails: action.payload.statusCode }
+              return { ...state, subcripitionAllDetails: action.payload.response, statusCodeForSubcripitionAllDetails: action.payload.statusCode }
           case 'CLEAR_NEW_SUBSCRIPTION_LIST':
               return { ...state, statusCodeForSubcripitionAllDetails: 0 }
           default:
