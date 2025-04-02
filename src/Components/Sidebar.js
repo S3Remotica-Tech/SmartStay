@@ -942,7 +942,7 @@ function Sidebar() {
                   className={` align-items-center list-Items ${currentPage === "profile" ? "active" : ""
                     }`}
                   //  onClick={() => handlePageClick('profile')}
-                  style={{ listStyleType: "none", display: "flex", width: 200 }}
+                  style={{ listStyleType: "none", display: "flex", width: 190 }}
                 >
                   <div className="mr-3" style={{ cursor: "pointer" }}>
                     <Image
@@ -959,7 +959,8 @@ function Sidebar() {
                       }
                       alt="profile-image"
                       roundedCircle
-                      style={{ height: "40px", width: "40px" }}
+                      style={{ height: "35px", width: "35px" }}
+                      
                     // onClick={() => handlePageClick('profile')}
                     />
                   </div>
@@ -1001,7 +1002,7 @@ function Sidebar() {
                   flexDirection: "row",
                   justifyContent: "space-around",
                 }}
-                className=" w-100"
+                className="w-100"
               >
                 {/* Settings Icon */}
                 <div
@@ -1009,9 +1010,10 @@ function Sidebar() {
                   onMouseLeave={handleMouseLeave}
                   onClick={handleSettingspage}
                   style={{
+                    cursor:"pointer",
                     position: "relative",
                     display: "inline-block",
-                    cursor: "pointer",
+                 
                   }}
                 >
                   <img src={SettingIcon} alt="Settings Icon" />
@@ -1025,7 +1027,7 @@ function Sidebar() {
                         transform: "translateX(-50%)",
                         backgroundColor: "White",
                         color: "black",
-                        padding: "5px 8px",
+                        padding: "4px 8px",
                         borderRadius: "4px",
                         fontSize: "12px",
                         whiteSpace: "nowrap",
@@ -1379,3 +1381,6 @@ function Sidebar() {
 }
 
 export default Sidebar;
+
+
+

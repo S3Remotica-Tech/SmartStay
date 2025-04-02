@@ -743,7 +743,8 @@ function Banking() {
                 filterStatus &&
 
  
-                <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8,    width: search ? "120px" : "120px", }}>
+                <div className='me-3' 
+                style={{ border: "1px solid #D4D4D4", borderRadius: 8,    width: search ? "120px" : "120px", }}>
 
                   <Form.Select
                     onChange={(e) => handleStatusFilter(e)}
@@ -1644,23 +1645,36 @@ function Banking() {
             )}
 
             {transactionFilterddata?.length >= 5 && (
+              // <nav
+              //   style={{
+              //     display: "flex",
+              //     alignItems: "center",
+              //     justifyContent: "end",
+              //     padding: "10px",
+              //     position: "fixed",
+              //     bottom: "10px",
+              //     right: "10px",
+              //     backgroundColor: "#fff",
+              //     borderRadius: "5px",
+              //     zIndex: 1000,
+              //     marginTop: 10
+              //   }}
+              // >
               <nav
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end",
-                  padding: "10px",
-                  position: "fixed",
-                  bottom: "10px",
-                  right: "10px",
-                  backgroundColor: "#fff",
-                  borderRadius: "5px",
-                  // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                  zIndex: 1000,
-                  marginTop: 10
-                }}
-              >
-                {/* Dropdown for Items Per Page */}
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "end",
+    padding: "10px",
+    backgroundColor: "#fff",
+    borderRadius: "5px",
+    width: "100%", 
+    marginTop: "10px", 
+    position: "relative", 
+    zIndex: 1000,
+  }}
+>
+
                 <div>
                   <select
                     value={transactionrowsPerPage}
@@ -1683,7 +1697,6 @@ function Banking() {
                   </select>
                 </div>
 
-                {/* Pagination Controls */}
                 <ul
                   style={{
                     display: "flex",
@@ -1693,7 +1706,7 @@ function Banking() {
                     padding: 0,
                   }}
                 >
-                  {/* Previous Button */}
+
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1726,7 +1739,6 @@ function Banking() {
                     </button>
                   </li>
 
-                  {/* Current Page Indicator */}
                   <li
                     style={{
                       margin: "0 10px",
@@ -1737,7 +1749,6 @@ function Banking() {
                     {transactioncurrentPage} of {totalPagesTransaction}
                   </li>
 
-                  {/* Next Button */}
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{

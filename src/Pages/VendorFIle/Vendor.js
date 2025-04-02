@@ -715,7 +715,20 @@ function Vendor() {
             </div>
             {
               filteredData.length >= 5 &&
-              <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
+              // <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
+              <nav
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "end",
+                padding: "10px",
+                backgroundColor: "#fff",
+                borderRadius: "5px",
+                width: "100%", 
+                marginTop: "10px", 
+                position: "relative", 
+                zIndex: 1000,
+              }}
               >
                 <div>
                   <select
