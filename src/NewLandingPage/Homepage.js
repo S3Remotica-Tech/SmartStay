@@ -14,6 +14,7 @@ import HostelTopBlackImage from "../Assets/Images/landingpageimages/hosteltopima
 import Line from "../Assets/Images/landingpageimages/line.png";
 import hostelBackround from "../Assets/Images/landingpageimages/Rectangle 34625101.png"
 import RightArrow from "../Assets/Images/landingpageimages/right_arrow.png";
+import "./Homepage.css"
 
 const HomePage = () => {
 

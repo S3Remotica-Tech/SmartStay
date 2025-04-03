@@ -154,7 +154,7 @@ function FrontPage() {
           <RoomManagement/>
           <TestimonialSlider />
           {/* <SmartStaySection/> */}
-          <Getanswer />
+          {/* <Getanswer /> */}
         </Element>
       )}
 
@@ -166,7 +166,7 @@ function FrontPage() {
         </Element>
       )}
 
-{activeSection === "Pricing" && (
+  {activeSection === "Pricing" && (
         <Element name="Pricing" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
           <SubscriptionPlan />
           <SmartStaySection/>
