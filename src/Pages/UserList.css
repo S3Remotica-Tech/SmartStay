@@ -321,8 +321,8 @@ text-decoration: underline;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; /* Spacing between elements */
-  flex-direction: row; /* Default: Row layout */
+  gap: 10px; 
+  flex-direction: row; 
 }
 
 /* Mobile View: Change to Column Layout */
