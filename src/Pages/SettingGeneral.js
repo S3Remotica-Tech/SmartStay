@@ -756,10 +756,11 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
   return (
     <>
       <div
-        // className="container d-flex justify-content-between align-items-center settingGreneral "
-        
-        className="container-fluid d-flex flex-wrap justify-content-between align-items-center" 
-        style={{
+        // className="container d-flex justify-content-between align-items-center settingGreneral"
+           
+          //  className="container-fluid d-flex flex-column flex-sm-row justify-content-between align-items-start settingGreneral mt-lg-3 px-3"
+          className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+           style={{
           position: "sticky",
           top: 0,
           right: 0,
@@ -767,11 +768,13 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
           zIndex: 1000,
           backgroundColor: "#FFFFFF",
           height: 83,
-          padding: "0px",
-         
+          // height: "auto",
+          // padding:"0px",
+          whiteSpace: "nowrap",
         }}
       >
-      <div >
+      {/* <div  className="me-sm-7"> */}
+      <div className="w-100 text-md-start text-center">
         <div>
           <label
             style={{
@@ -779,6 +782,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
               color: "#000000",
               fontWeight: 600,
               fontFamily: "Gilroy", 
+              whiteSpace: "nowrap",
               
             }}
           >
@@ -788,19 +792,13 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
         </div>
         <div
           // className="d-flex justify-content-between align-items-center"
-          className="d-flex flex-wrap justify-content-end w-100"
-            
-          
-          style={{
-            flexWrap: "nowrap", // Prevents flexbox from breaking into a new line
-            paddingLeft: "10px", // Adds space to prevent left-side cutoff
-          }}
+          // className="mt-2 mt-sm-0 text-start text-sm-end w-100 w-sm-auto"
+          className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
         >
-
           <div 
            >
             <Button
-            className="btn btn-primary w-auto "
+            // className="btn btn-primary w-auto "
               // style={{
               //   fontFamily: "Montserrat",
               //   fontSize: 14,
@@ -814,6 +812,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
               //   cursor: "pointer",
               //   width: "160px"
               // }}
+            //  className="w-100 w-sm-auto "
               style={{
                 fontFamily: "Gilroy",
                 fontSize: "14px",
@@ -821,14 +820,14 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
                 color: "white",
                 fontWeight: 600,
                 borderRadius: "8px",
-                padding: "10px 16px",
-                // maxHeight: 45,
-                minWidth: "140px", // Set a minimum width
-                maxWidth: "160px",
-                marginTop: -5,
-                marginLeft: "10px", // Ensures spacing from the left edge
-                whiteSpace: "nowrap",
-
+                padding: "12px 18px",
+                // marginBottom: "10px",
+                Height: 43,
+                Width: "140px", 
+                // marginTop: -5,
+                  
+                  //  maxWidth: "160px",
+                   minWidth: "140px",
               }}
               //   disabled={ebAddPermission}
               onClick={handleShowFormGreneral}
