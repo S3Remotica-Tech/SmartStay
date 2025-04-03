@@ -123,7 +123,7 @@ const RoomManagement = () => {
                  <TabPanel value="1">
 
 
-                 <div className="row  rounded" style={{paddingTop:'100px'}}>
+                 <div className="row  rounded-3 border" style={{paddingTop:'100px', paddingBottom:'40px'}}>
         <div className="col-md-5">
           <h2 style={{ fontSize: 28, fontWeight: 700, color: 'rgba(9, 15, 41, 1)', fontFamily: 'Montserrat' }}>Room Management</h2>
           <p style={{ fontSize: 15, fontWeight: 500, color: 'rgba(76, 98, 128, 1)', fontFamily: 'Montserrat' }}>Easily manage room availability, bookings, and occupancy status.</p>
@@ -171,7 +171,7 @@ const RoomManagement = () => {
               {/* Top Black Bar on Dashboard */}
               <img src={HostelTopBlackImage} alt="Hostel Top" className="position-absolute" style={{ top: "-30px", width: "97%", zIndex: "2", }} />
               <img    src={Rectangle} 
-    alt="Rectangle" className="position-absolute" style={{ top: "-60px", left:"10px", right:'30px', height:'600px', width: "100%", zIndex: "1", }} />
+    alt="Rectangle" className="position-absolute" style={{ top: "-60px", left:"-5px", right:'30px', height:'600px', width: "100%", zIndex: "1", }} />
     
  <div className="position-relative d-inline-block w-100">
   
@@ -206,7 +206,7 @@ const RoomManagement = () => {
                    <TabPanel value="2">
                     
 
-                   <div className="row  rounded" style={{paddingTop:'100px'}}>
+                   <div className="row  rounded-3 border" style={{paddingTop:'100px' , paddingBottom:'40px'}}>
         <div className="col-md-5">
           <h2 style={{ fontSize: 28, fontWeight: 700, color: 'rgba(9, 15, 41, 1)', fontFamily: 'Montserrat' }}>Customer Management</h2>
           <p style={{ fontSize: 15, fontWeight: 500, color: 'rgba(76, 98, 128, 1)', fontFamily: 'Montserrat' }}>Easily manage room availability, bookings, and occupancy status.</p>
@@ -254,7 +254,7 @@ const RoomManagement = () => {
               {/* Top Black Bar on Dashboard */}
               <img src={HostelTopBlackImage} alt="Hostel Top" className="position-absolute" style={{ top: "-30px", width: "97%", zIndex: "2", }} />
               <img    src={Rectangle} 
-    alt="Rectangle" className="position-absolute" style={{ top: "-60px", left:"10px", right:'30px', height:'600px', width: "100%", zIndex: "1", }} />
+    alt="Rectangle" className="position-absolute" style={{ top: "-60px", left:"-5px", right:'30px', height:'600px', width: "100%", zIndex: "1", }} />
     
  <div className="position-relative d-inline-block w-100">
   
@@ -288,7 +288,7 @@ const RoomManagement = () => {
 
                    <TabPanel value="3">
                     
-                 <div className="row  rounded" style={{paddingTop:'100px'}}>
+                 <div className="row  rounded-3 border" style={{paddingTop:'100px' , paddingBottom:'40px'}}>
         <div className="col-md-5">
           <h2 style={{ fontSize: 28, fontWeight: 700, color: 'rgba(9, 15, 41, 1)', fontFamily: 'Montserrat' }}>Inventory Management</h2>
           <p style={{ fontSize: 15, fontWeight: 500, color: 'rgba(76, 98, 128, 1)', fontFamily: 'Montserrat' }}>Easily manage room availability, bookings, and occupancy status.</p>
@@ -336,7 +336,7 @@ const RoomManagement = () => {
               {/* Top Black Bar on Dashboard */}
               <img src={HostelTopBlackImage} alt="Hostel Top" className="position-absolute" style={{ top: "-30px", width: "97%", zIndex: "2", }} />
               <img    src={Rectangle} 
-    alt="Rectangle" className="position-absolute" style={{ top: "-60px", left:"10px", right:'30px', height:'600px', width: "100%", zIndex: "1", }} />
+    alt="Rectangle" className="position-absolute" style={{ top: "-60px", left:"-5px", right:'30px', height:'600px', width: "100%", zIndex: "1", }} />
     
  <div className="position-relative d-inline-block w-100">
   
@@ -370,7 +370,7 @@ const RoomManagement = () => {
 
                    <TabPanel value="4">
                     
-                 <div className="row  rounded" style={{paddingTop:'100px'}}>
+                 <div className="row  rounded-3 border" style={{paddingTop:'100px', paddingBottom:'40px'}}>
         <div className="col-md-5">
           <h2 style={{ fontSize: 28, fontWeight: 700, color: 'rgba(9, 15, 41, 1)', fontFamily: 'Montserrat' }}>Vendor Management</h2>
           <p style={{ fontSize: 15, fontWeight: 500, color: 'rgba(76, 98, 128, 1)', fontFamily: 'Montserrat' }}>Easily manage room availability, bookings, and occupancy status.</p>
@@ -418,7 +418,7 @@ const RoomManagement = () => {
               {/* Top Black Bar on Dashboard */}
               <img src={HostelTopBlackImage} alt="Hostel Top" className="position-absolute" style={{ top: "-30px", width: "97%", zIndex: "2", }} />
               <img    src={Rectangle} 
-    alt="Rectangle" className="position-absolute" style={{ top: "-60px", left:"10px", right:'30px', height:'600px', width: "100%", zIndex: "1", }} />
+    alt="Rectangle" className="position-absolute" style={{ top: "-60px", left:"-5px", right:'30px', height:'600px', width: "100%", zIndex: "1", }} />
     
  <div className="position-relative d-inline-block w-100">
   
@@ -452,7 +452,7 @@ const RoomManagement = () => {
 
                    <TabPanel value="5">
                     
-                 <div className="row  rounded" style={{paddingTop:'100px'}}>
+                 <div className="row  rounded-3 border" style={{paddingTop:'100px' , paddingBottom:'40px'}}>
         <div className="col-md-5">
           <h2 style={{ fontSize: 28, fontWeight: 700, color: 'rgba(9, 15, 41, 1)', fontFamily: 'Montserrat' }}>Complaint Management</h2>
           <p style={{ fontSize: 15, fontWeight: 500, color: 'rgba(76, 98, 128, 1)', fontFamily: 'Montserrat' }}>Easily manage room availability, bookings, and occupancy status.</p>
@@ -500,7 +500,7 @@ const RoomManagement = () => {
               {/* Top Black Bar on Dashboard */}
               <img src={HostelTopBlackImage} alt="Hostel Top" className="position-absolute" style={{ top: "-30px", width: "97%", zIndex: "2", }} />
               <img    src={Rectangle} 
-    alt="Rectangle" className="position-absolute" style={{ top: "-60px", left:"10px", right:'30px', height:'600px', width: "100%", zIndex: "1", }} />
+    alt="Rectangle" className="position-absolute" style={{ top: "-60px", left:"-5px", right:'30px', height:'600px', width: "100%", zIndex: "1", }} />
     
  <div className="position-relative d-inline-block w-100">
   

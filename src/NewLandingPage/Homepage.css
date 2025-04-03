@@ -1,0 +1,30 @@
+@media (max-width: 768px) {
+    .homepage-text {
+      padding: 20px;
+      text-align: center;
+    }
+  }
+
+  
+  @media (max-width: 768px) {
+    .background-img, .dashboard-img, .men-img, .peopleonboard-img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  
+  @media (max-width: 576px) {
+    h1 {
+      font-size: 28px !important;
+    }
+  }
+
+  
+  @media (max-width: 768px) {
+    .homepage-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
