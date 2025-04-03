@@ -523,6 +523,7 @@ function Expenses({ allPageHostel_Id }) {
     setSelectedValue(null);
     setCategoryValue(e.target.getAttribute("value"));
     setShowFilter(false);
+    setShowCategory(false);
   };
 
   const handleModeValueChange = (e) => {
