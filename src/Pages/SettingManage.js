@@ -724,7 +724,9 @@ function SettingManage(props) {
           {hidePgList && (
             <>
               <div
-                className=" justify-content-between d-flex align-items-center"
+                // className=" justify-content-between d-flex align-items-center"
+                className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+  
                 style={{
                   position: "sticky",
                   top: 0,
@@ -733,25 +735,28 @@ function SettingManage(props) {
                   zIndex: 1000,
                   backgroundColor: "#FFFFFF",
                   height: 83,
+                  padding: "10px",
+                  whiteSpace: "nowrap",
                 }}
               >
 
-                <div >
+                <div className="w-100 text-md-start text-center">
                   <label
                     style={{
                       fontSize: 18,
                       color: "rgba(34, 34, 34, 1)",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     Manage PG
                   </label>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center">
-
-
+                {/* <div className="d-flex justify-content-between align-items-center"> */}
+               
+                <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
                   <div>
                     <Button
                       onClick={handleShowAddPg}
@@ -764,12 +769,16 @@ function SettingManage(props) {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "12px 57px",
-                        width: "auto",
-                        maxWidth: "100%",
+                        // padding: "12px 57px",
+                        // padding: "12px 20px",
+                        // width: "auto",
+                        // maxWidth: "100%",
                         marginBottom: "10px",
-                        maxHeight: 45,
+                        // maxHeight: 45,
                         marginTop: "15px",
+                        height: "43px",
+                        width: "140px",
+                        minWidth: "140px",
 
                       }}
                     >
