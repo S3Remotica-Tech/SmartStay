@@ -1,68 +1,60 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from 'react';
-import { FormControl, InputGroup, Table, Modal } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import AddExpenses from './AddExpenses';
-import ExpensesListTable from './ExpensesListTable';
-import 'react-datepicker/dist/react-datepicker.css';
-import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
-import Calendars from '../../Assets/Images/New_images/calendar.png'
-import moment from 'moment';
-import './Expenses.css'
-import ListGroup from 'react-bootstrap/ListGroup';
-import { format } from 'date-fns';
-import 'react-toastify/dist/ReactToastify.css';
-import {CloseCircle, SearchNormal1, Sort} from 'iconsax-react';
-import EmptyState from '../../Assets/Images/New_images/empty_image.png';
+import React, { useEffect, useState, useRef } from "react";
+import { FormControl, InputGroup, Table, Modal } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import { useDispatch, useSelector } from "react-redux";
+import AddExpenses from "./AddExpenses";
+import ExpensesListTable from "./ExpensesListTable";
+import "react-datepicker/dist/react-datepicker.css";
+import "./Expenses.css";
+import ListGroup from "react-bootstrap/ListGroup";
+import "react-toastify/dist/ReactToastify.css";
+import { CloseCircle, SearchNormal1, Sort } from "iconsax-react";
+import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
-import { ArrowLeft2, ArrowRight2,} from "iconsax-react";
+import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import PropTypes from "prop-types";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 function Expenses({ allPageHostel_Id }) {
-
-
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
-  const filterRef = useRef(null); 
-
-  const [getData, setGetData] = useState([])
-  const selectedPriceRange= 'All'
-  const [showModal, setShowModal] = useState(null)
-  const [showFilter, setShowFilter] = useState(false)
-  const [categoryValue, setCategoryValue] = useState('')
-  const [assetValue, setAssetValue] = useState('')
-  const [vendorValue, setVendorValue] = useState('')
-  const [modeValue, setModeValue] = useState('')
-  const [selectedValue, setSelectedValue] = useState('');
-  const [amountValue, setAmountValue] = useState('')
+  const filterRef = useRef(null);
+  const { RangePicker } = DatePicker;
+  const [getData, setGetData] = useState([]);
+  const selectedPriceRange = "All";
+  const [showModal, setShowModal] = useState(null);
+  const [showFilter, setShowFilter] = useState(false);
+  const [categoryValue, setCategoryValue] = useState("");
+  const [assetValue, setAssetValue] = useState("");
+  const [vendorValue, setVendorValue] = useState("");
+  const [modeValue, setModeValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+  const [amountValue, setAmountValue] = useState("");
   const [minAmount, setMinAmount] = useState(0);
   const [maxAmount, setMaxAmount] = useState(0);
 
   const [expencerolePermission, setExpenceRolePermission] = useState("");
 
   const [expencepermissionError, setExpencePermissionError] = useState("");
-  const [expenceAddPermission, setExpenceAddPermission] = useState("")
-  const [expenceDeletePermission, setExpenceDeletePermission] = useState("")
-  const [expenceEditPermission, setExpenceEditPermission] = useState("")
-  const [excelDownload, setExcelDownload] = useState("")
+  const [expenceAddPermission, setExpenceAddPermission] = useState("");
+  const [expenceDeletePermission, setExpenceDeletePermission] = useState("");
+  const [expenceEditPermission, setExpenceEditPermission] = useState("");
+  const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-
 
   const handleClickOutside = (event) => {
     if (filterRef.current && !filterRef.current.contains(event.target)) {
       setShowFilter(false);
     }
   };
-  
 
   useEffect(() => {
     if (showFilter) {
@@ -73,50 +65,40 @@ function Expenses({ allPageHostel_Id }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showFilter]);
 
-
-
-
-
-
-
-
-
-
-
-
   useEffect(() => {
     if (state.UsersList?.exportExpenceDetails?.response?.fileUrl) {
-      setExcelDownload(state.UsersList?.exportExpenceDetails?.response?.fileUrl);
+      setExcelDownload(
+        state.UsersList?.exportExpenceDetails?.response?.fileUrl
+      );
     }
   }, [state.UsersList?.exportExpenceDetails?.response?.fileUrl]);
 
   const handleExpenceExcel = () => {
-    dispatch({ type: "EXPORTEXPENCESDETAILS", payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id } });
-    setIsDownloadTriggered(true)
+    dispatch({
+      type: "EXPORTEXPENCESDETAILS",
+      payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id },
+    });
+    setIsDownloadTriggered(true);
   };
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
-
       const link = document.createElement("a");
       link.href = excelDownload;
       link.download = "smartstay_file.xlsx";
       link.click();
       setTimeout(() => {
         setExcelDownload("");
-        setIsDownloadTriggered(false)
-
+        setIsDownloadTriggered(false);
       }, 500);
     }
   }, [excelDownload && isDownloadTriggered]);
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportExpence === 200) {
-
       setTimeout(() => {
         dispatch({ type: "CLEAR_EXPORT_EXPENSE_DETAILS" });
       }, 200);
     }
-  }, [state.UsersList?.statusCodeForExportExpence])
-
+  }, [state.UsersList?.statusCodeForExportExpence]);
 
   useEffect(() => {
     setExpenceRolePermission(state.createAccount.accountList);
@@ -133,8 +115,6 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [expencerolePermission]);
 
-
-
   useEffect(() => {
     if (
       expencerolePermission[0]?.is_owner === 1 ||
@@ -145,7 +125,6 @@ function Expenses({ allPageHostel_Id }) {
       setExpenceAddPermission("Permission Denied");
     }
   }, [expencerolePermission]);
-
 
   useEffect(() => {
     if (
@@ -168,307 +147,317 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [expencerolePermission]);
 
-  const [flatpickrInstance, setFlatpickrInstance] = useState(null);
+  const [dates, setDates] = useState([]);
 
-  const [formattedDates, setFormattedDates] = useState('');
+  const [pickerKey, setPickerKey] = useState(0);
+  const handleDateChange = (selectedDates) => {
+    if (!selectedDates || selectedDates.length !== 2) {
+      setDates([]);
+      setSelectedValue("All");
+      setPickerKey((prevKey) => prevKey + 1);
+
+      setTimeout(() => {
+        dispatch({
+          type: "EXPENSELIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      }, 0);
+
+      return;
+    }
+
+    const newStartDate = dayjs(selectedDates[0]).startOf("day");
+    const newEndDate = dayjs(selectedDates[1]).endOf("day");
+
+    setDates([newStartDate, newEndDate]);
+  };
 
   useEffect(() => {
-    const now = new Date();
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    if (dates.length === 2) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: {
+          start_date: dates[0].format("YYYY-MM-DD"),
+          end_date: dates[1].format("YYYY-MM-DD"),
+          hostel_id: state.login.selectedHostel_Id,
+        },
+      });
+    } else if (dates?.length === 0) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+  }, [dates, dispatch, state.login.selectedHostel_Id]);
 
-    const formattedStart = format(startOfMonth, 'dd MMM');
-    const formattedEnd = format(endOfMonth, 'dd MMM');
+  useEffect(() => {
+    if (selectedValue === "All") {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      setCategoryValue("");
+      setAssetValue("");
+      setVendorValue("");
+      setModeValue("");
+      setSelectedValue("");
+      setDates("");
+      setAmountValue("");
+      setMinAmount("");
+      setMaxAmount("");
+    } else if (categoryValue) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: {
+          category: categoryValue,
+          hostel_id: state.login.selectedHostel_Id,
+        },
+      });
+      setCategoryValue("");
+      setAssetValue("");
+      setVendorValue("");
+      setModeValue("");
+      setSelectedValue("");
+      setDates("");
+      setAmountValue("");
+      setMinAmount("");
+      setMaxAmount("");
+    } else if (assetValue) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: {
+          asset_id: assetValue,
+          hostel_id: state.login.selectedHostel_Id,
+        },
+      });
+      setCategoryValue("");
+      setAssetValue("");
+      setVendorValue("");
+      setModeValue("");
+      setSelectedValue("");
+      setDates("");
+      setAmountValue("");
+      setMinAmount("");
+      setMaxAmount("");
+    } else if (vendorValue) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: {
+          vendor_id: vendorValue,
+          hostel_id: state.login.selectedHostel_Id,
+        },
+      });
+      setCategoryValue("");
+      setAssetValue("");
+      setVendorValue("");
+      setModeValue("");
+      setSelectedValue("");
+      setDates("");
+      setAmountValue("");
+      setMinAmount("");
+      setMaxAmount("");
+    } else if (modeValue) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: {
+          payment_mode: modeValue,
+          hostel_id: state.login.selectedHostel_Id,
+        },
+      });
+      setCategoryValue("");
+      setAssetValue("");
+      setVendorValue("");
+      setModeValue("");
+      setSelectedValue("");
+      setDates("");
+      setAmountValue("");
+      setMinAmount("");
+      setMaxAmount("");
+    }
+    //  else if (startDate && endDate) {
+    //   dispatch({ type: 'EXPENSELIST', payload: { start_date: startDate, end_date: endDate, hostel_id: state.login.selectedHostel_Id } })
+    //   setCategoryValue('')
+    //   setAssetValue('')
+    //   setVendorValue('')
+    //   setModeValue('')
+    //   setSelectedValue('')
+    //   setDates('')
+    //   setAmountValue('')
+    //   setMinAmount('')
+    //   setMaxAmount('')
+    // }
+    else if (minAmount || maxAmount) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: {
+          min_amount: minAmount,
+          max_amount: maxAmount,
+          hostel_id: state.login.selectedHostel_Id,
+        },
+      });
+      setCategoryValue("");
+      setAssetValue("");
+      setVendorValue("");
+      setModeValue("");
+      setSelectedValue("");
+      setDates("");
+      setAmountValue("");
+      setMinAmount("");
+      setMaxAmount("");
+    }
+  }, [
+    selectedValue,
+    categoryValue,
+    assetValue,
+    vendorValue,
+    modeValue,
+    dates,
+    minAmount,
+    maxAmount,
+  ]);
 
-    setFormattedDates(`(${formattedStart} - ${formattedEnd})`);
-  }, []);
-  
-
-
- useEffect(() => {
-    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-  }, [state.login.selectedHostel_Id])
-console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
+  useEffect(() => {
+    dispatch({
+      type: "BANKINGLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, [state.login.selectedHostel_Id]);
 
   const handleShow = () => {
-   
-        if (!state.login.selectedHostel_Id ) {
-          toast.error('Please add a hostel before adding expense information.', {
-              hideProgressBar: true, autoClose: 1500,  style: { color: '#000', borderBottom:"5px solid red", fontFamily:"Gilroy"} 
-          });
-          return;
-      }
-      if (
-        !Array.isArray(state.bankingDetails.bankingList.banks) || 
-        state.bankingDetails.bankingList.banks.length === 0
-      ) {
-        toast.error('Please add bank details before adding expense information.', {
+    if (!state.login.selectedHostel_Id) {
+      toast.error("Please add a hostel before adding expense information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
+      return;
+    }
+    if (
+      !Array.isArray(state.bankingDetails.bankingList.banks) ||
+      state.bankingDetails.bankingList.banks.length === 0
+    ) {
+      toast.error(
+        "Please add bank details before adding expense information.",
+        {
           autoClose: 1500,
-          style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-        });
-        return;
-      }
-      
-      
-      setCurrentItem('');
-      setShowModal(true);
+          style: {
+            color: "#000",
+            borderBottom: "5px solid red",
+            fontFamily: "Gilroy",
+          },
+        }
+      );
+      return;
+    }
 
-  }
-
-
+    setCurrentItem("");
+    setShowModal(true);
+  };
 
   const handleAmountValueChange = (e) => {
     setSelectedValue(null);
-    const value = e.target.getAttribute('value');
+    const value = e.target.getAttribute("value");
     setAmountValue(value);
     setShowFilter(false);
     const amountRange = value;
-    const [minAmount, maxAmount] = amountRange.split('-').map(Number);
+    const [minAmount, maxAmount] = amountRange.split("-").map(Number);
     setMinAmount(minAmount);
     setMaxAmount(maxAmount);
-    setShowAmount(false)
+    setShowAmount(false);
   };
 
-
-  const [currentItem, setCurrentItem] = useState('')
-
-
-  const [dates, setDates] = useState([]);
-  const startDate = formatDate(dates[0] ? dates[0] : '')
-  const endDate = formatDate(dates[1] ? dates[1] : '')
-
-
-  function formatDate(dateString) {
-
-    const date = new Date(dateString);
-    if (isNaN(date)) {
-      return '';
-    }
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-
-    return `${month}/${day}/${year}`;
-  }
-
-
-
-  console.log("loading", loading)
-
+  const [currentItem, setCurrentItem] = useState("");
 
   useEffect(() => {
-    setLoading(true)
-    dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-    dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-    dispatch({ type: 'VENDORLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-    dispatch({ type: 'EXPENSELIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-
-  }, [state.login.selectedHostel_Id])
-
-
-
-  useEffect(() => {
-
-    // if(!startDate && !endDate){
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     text: `Please Select Start date and End Date`,
-    //     confirmButtonText: 'Ok'
-    //   })
-
-    //   return
-    // }
-
-    // if(!startDate){
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     text: `Please Select Start date`,
-    //     confirmButtonText: 'Ok'
-    //   })
-
-    //   return
-    // }
-    // if( !endDate){
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     text: `Please Select  End Date`,
-    //     confirmButtonText: 'Ok'
-    //   })
-
-    //   return
-    // }
-
-
-    console.log("assetValue", assetValue, "vendorValue", vendorValue, "modeValue", modeValue)
-
-
-    if (selectedValue === 'All') {
-      dispatch({ type: 'EXPENSELIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-      setCategoryValue('')
-      setAssetValue('')
-      setVendorValue('')
-      setModeValue('')
-      setSelectedValue('')
-      setDates('')
-      setAmountValue('')
-      setMinAmount('')
-      setMaxAmount('')
-    } else if (categoryValue) {
-      dispatch({ type: 'EXPENSELIST', payload: { category: categoryValue, hostel_id: state.login.selectedHostel_Id } })
-      setCategoryValue('')
-      setAssetValue('')
-      setVendorValue('')
-      setModeValue('')
-      setSelectedValue('')
-      setDates('')
-      setAmountValue('')
-      setMinAmount('')
-      setMaxAmount('')
-    } else if (assetValue) {
-      dispatch({ type: 'EXPENSELIST', payload: { asset_id: assetValue, hostel_id: state.login.selectedHostel_Id } })
-      setCategoryValue('')
-      setAssetValue('')
-      setVendorValue('')
-      setModeValue('')
-      setSelectedValue('')
-      setDates('')
-      setAmountValue('')
-      setMinAmount('')
-      setMaxAmount('')
-    } else if (vendorValue) {
-      dispatch({ type: 'EXPENSELIST', payload: { vendor_id: vendorValue, hostel_id: state.login.selectedHostel_Id } })
-      setCategoryValue('')
-      setAssetValue('')
-      setVendorValue('')
-      setModeValue('')
-      setSelectedValue('')
-      setDates('')
-      setAmountValue('')
-      setMinAmount('')
-      setMaxAmount('')
-    } else if (modeValue) {
-      dispatch({ type: 'EXPENSELIST', payload: { payment_mode: modeValue, hostel_id: state.login.selectedHostel_Id } })
-      setCategoryValue('')
-      setAssetValue('')
-      setVendorValue('')
-      setModeValue('')
-      setSelectedValue('')
-      setDates('')
-      setAmountValue('')
-      setMinAmount('')
-      setMaxAmount('')
-    } else if (startDate && endDate) {
-      dispatch({ type: 'EXPENSELIST', payload: { start_date: startDate, end_date: endDate, hostel_id: state.login.selectedHostel_Id } })
-      setCategoryValue('')
-      setAssetValue('')
-      setVendorValue('')
-      setModeValue('')
-      setSelectedValue('')
-      setDates('')
-      setAmountValue('')
-      setMinAmount('')
-      setMaxAmount('')
-    } else if (minAmount || maxAmount) {
-      dispatch({ type: 'EXPENSELIST', payload: { min_amount: minAmount, max_amount: maxAmount, hostel_id: state.login.selectedHostel_Id } })
-      setCategoryValue('')
-      setAssetValue('')
-      setVendorValue('')
-      setModeValue('')
-      setSelectedValue('')
-      setDates('')
-      setAmountValue('')
-      setMinAmount('')
-      setMaxAmount('')
-    }
-
-  }, [selectedValue, categoryValue, assetValue, vendorValue, modeValue, dates, minAmount, maxAmount, formattedDates])
-
-
-
-
-
+    setLoading(true);
+    dispatch({
+      type: "ASSETLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    dispatch({
+      type: "EXPENCES-CATEGORY-LIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    dispatch({
+      type: "VENDORLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    dispatch({
+      type: "EXPENSELIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.ExpenseList.getExpenseStatusCode === 200) {
-      setLoading(false)
-      setGetData(state.ExpenseList.expenseList)
+      setLoading(false);
+      setGetData(state.ExpenseList.expenseList);
 
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_EXPENSE_SATUS_CODE' })
-      }, 4000)
+        dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
+      }, 4000);
     }
-
-
-  }, [state.ExpenseList.getExpenseStatusCode])
-
+  }, [state.ExpenseList.getExpenseStatusCode]);
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
-      setGetData([])
-      setLoading(false)
+      setGetData([]);
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_NOEXPENSEdATA' })
-      }, 200)
+        dispatch({ type: "CLEAR_NOEXPENSEdATA" });
+      }, 200);
     }
-
-  }, [state.ExpenseList.nodataGetExpenseStatusCode])
-
-
-
-
-
-
-
-
-
+  }, [state.ExpenseList.nodataGetExpenseStatusCode]);
 
   useEffect(() => {
-    if (state.ExpenseList.StatusCodeForAddExpenseSuccess === 200 || state.ExpenseList.deleteExpenseStatusCode === 200) {
-      dispatch({ type: 'EXPENSELIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+    if (
+      state.ExpenseList.StatusCodeForAddExpenseSuccess === 200 ||
+      state.ExpenseList.deleteExpenseStatusCode === 200
+    ) {
+      dispatch({
+        type: "EXPENSELIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
       setShowModal(false);
-      setShowExpenseDelete(false)
+      setShowExpenseDelete(false);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_DELETE_EXPENSE' })
-      }, 2000)
+        dispatch({ type: "CLEAR_DELETE_EXPENSE" });
+      }, 2000);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_ADD_EXPENSE_SATUS_CODE' })
-      }, 2000)
-
+        dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
+      }, 2000);
     }
-  }, [state.ExpenseList.StatusCodeForAddExpenseSuccess, state.ExpenseList.deleteExpenseStatusCode])
-
-
-  
-
+  }, [
+    state.ExpenseList.StatusCodeForAddExpenseSuccess,
+    state.ExpenseList.deleteExpenseStatusCode,
+  ]);
 
   const filterByPriceRange = (data) => {
     switch (selectedPriceRange) {
-      case '0-100':
-        return data.filter(item => item.price <= 100);
-      case '100-500':
-        return data.filter(item => item.price > 100 && item.price <= 500);
-      case '500-1000':
-        return data.filter(item => item.price > 500 && item.price <= 1000);
-      case '1000+':
-        return data.filter(item => item.price > 1000);
-      case 'All':
-        return data
+      case "0-100":
+        return data.filter((item) => item.price <= 100);
+      case "100-500":
+        return data.filter((item) => item.price > 100 && item.price <= 500);
+      case "500-1000":
+        return data.filter((item) => item.price > 500 && item.price <= 1000);
+      case "1000+":
+        return data.filter((item) => item.price > 1000);
+      case "All":
+        return data;
       default:
         return data;
     }
   };
 
- 
-
   const handleFilterByPrice = () => {
-    setShowFilter(!showFilter)
-  }
+    setShowFilter(!showFilter);
+  };
 
-
-
-  //  pagination 
-
-
+  //  pagination
 
   const [currentPage, setCurrentPage] = useState(1);
   // const [itemsPerPage] = useState(10);
@@ -478,11 +467,15 @@ console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
   let filteredData = [];
 
   filteredData = filterByPriceRange(getData) || [];
-  const currentItems = (filteredData && filteredData.length > 0)
-    ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
-    : [];
-  // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil((filteredData && filteredData.length > 0) && filteredData.length / itemsPerPage);
+  const currentItems =
+    filteredData && filteredData.length > 0
+      ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
+      : [];
+  const totalPages = Math.ceil(
+    filteredData &&
+      filteredData.length > 0 &&
+      filteredData.length / itemsPerPage
+  );
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -492,378 +485,225 @@ console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
     setCurrentPage(pageNumber);
   };
 
-  // const renderPagination = () => {
-  //   const pageNumbers = [];
-  //   let startPage = Math.max(1, currentPage - 2);
-  //   let endPage = Math.min(totalPages, currentPage + 2);
-
-  //   if (startPage > 1) {
-  //     pageNumbers.push(
-  //       <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
-  //         1
-  //       </Pagination.Item>
-  //     );
-  //     if (startPage > 2) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-  //     }
-  //   }
-
-  //   for (let i = startPage; i <= endPage; i++) {
-  //     pageNumbers.push(
-  //       <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
-  //         {i}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   if (endPage < totalPages) {
-  //     if (endPage < totalPages - 1) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-  //     }
-  //     pageNumbers.push(
-  //       <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
-  //         {totalPages}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   return pageNumbers;
-  // };
-
-
-
-
-
-
-  const formatDates = (selectedDates) => {
-    if (selectedDates.length === 0) {
-      setFormattedDates('');
-      return;
-    }
-
-    const sortedDates = selectedDates.sort((a, b) => new Date(a) - new Date(b));
-    const startDate = moment(sortedDates[0]);
-    const endDate = moment(sortedDates[sortedDates.length - 1]);
-
-    const formattedDateRange = `(${startDate.format('D MMMM')} - ${endDate.format('D MMMM')})`;
-    setFormattedDates(formattedDateRange);
+  const handleEditExpen = (item) => {
+    setShowModal(true);
+    setCurrentItem(item);
   };
 
-  const handleEditExpen = (item) => {
-    setShowModal(true)
-    setCurrentItem(item);
-  }
-
-
-
-  // const handleDeleteExpense = (id) => {
-  //   if (id) {
-  //     Swal.fire({
-  //       icon: 'warning',
-  //       title: 'Do you want to delete the expense?',
-  //       confirmButtonText: 'Yes',
-  //       cancelButtonText: 'No',
-  //       showCancelButton: true,
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         dispatch({
-  //           type: 'DELETEEXPENSE',
-  //           payload: {
-  //             id: id,
-  //           },
-  //         });
-  //         Swal.fire({
-  //           icon: 'success',
-  //           title: 'Expense deleted Successfully',
-  //         })
-  //       }
-
-  //     });
-
-  //     setCurrentPage(1)
-  //   }
-
-  // }
-
-  const [showExpenseDelete, setShowExpenseDelete] = useState(false)
-  const [deleteExpenseRowData, setDeleteExpenseRowData] = useState('')
-
+  const [showExpenseDelete, setShowExpenseDelete] = useState(false);
+  const [deleteExpenseRowData, setDeleteExpenseRowData] = useState("");
 
   const handleDeleteExpense = (id) => {
     if (!id) return;
-    setShowExpenseDelete(true)
-    setDeleteExpenseRowData(id)
-
+    setShowExpenseDelete(true);
+    setDeleteExpenseRowData(id);
   };
 
-
   const handleCloseForDeleteExpense = () => {
-    setShowExpenseDelete(false)
-  }
-
+    setShowExpenseDelete(false);
+  };
 
   const ConfirmDeleteExpense = () => {
     if (deleteExpenseRowData) {
       dispatch({
-        type: 'DELETEEXPENSE',
+        type: "DELETEEXPENSE",
         payload: {
           id: deleteExpenseRowData,
         },
       });
       setCurrentPage(1);
     }
-  }
-
-  // const stateAccount = useSelector(state => state.createAccount)
-
-
-  // const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
-
-
-  // useEffect(() => {
-  //   if (stateAccount.statusCodeForAccountList == 200) {
-  //     const loginProfile = stateAccount.accountList[0].user_details.profile
-
-  //     // setProfile(loginProfile)
-  //   }
-
-  // }, [stateAccount.statusCodeForAccountList])
-
+  };
 
   const [showCategory, setShowCategory] = useState(false);
   const [showPaymentMode, setShowPaymentMode] = useState(false);
-  const [showAmount, setShowAmount] = useState(false)
-
+  const [showAmount, setShowAmount] = useState(false);
 
   const handleCatogoryChange = (e) => {
-    setSelectedValue(null)
-    setCategoryValue(e.target.getAttribute('value'));
-    setShowFilter(false)
-  }
-
-  
+    setSelectedValue(null);
+    setCategoryValue(e.target.getAttribute("value"));
+    setShowFilter(false);
+  };
 
   const handleModeValueChange = (e) => {
-    setSelectedValue(null)
-    setModeValue(e.target.getAttribute('value'));
-    setShowFilter(false)
-    setShowPaymentMode(false)
-
-  }
-  const handleExpenseAll = (event) => {
-    const value = event.target.getAttribute('value');
-    setSelectedValue(value);
-    setShowFilter(false)
+    setSelectedValue(null);
+    setModeValue(e.target.getAttribute("value"));
+    setShowFilter(false);
+    setShowPaymentMode(false);
   };
-
-
-
-
-
-
-
+  const handleExpenseAll = (event) => {
+    const value = event.target.getAttribute("value");
+    setSelectedValue(value);
+    setShowFilter(false);
+  };
 
   const skeletonStyle = {
-    backgroundColor: '#dcdcdc',
-    borderRadius: '10px',
-    height: '20px',
-    marginBottom: '10px',
+    backgroundColor: "#dcdcdc",
+    borderRadius: "10px",
+    height: "20px",
+    marginBottom: "10px",
   };
 
-
-
-
-  const [showFilterExpense, setShowFilterExpense] = useState(false)
-
+  const [showFilterExpense, setShowFilterExpense] = useState(false);
 
   const handleShowSearch = () => {
-    setShowFilterExpense(!showFilterExpense)
-  }
+    setShowFilterExpense(!showFilterExpense);
+  };
 
   const handleCloseSearch = () => {
-    setShowFilterExpense(false)
-    setGetData(state.ExpenseList.expenseList)
-    setSearchQuery('');
-  }
+    setShowFilterExpense(false);
+    setGetData(state.ExpenseList.expenseList);
+    setSearchQuery("");
+  };
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [showDropDown, setShowDropDown] = useState(false)
-
-
+  const [showDropDown, setShowDropDown] = useState(false);
 
   const handleInputChange = (e) => {
-    const searchItem = e.target.value
+    const searchItem = e.target.value;
     setSearchQuery(searchItem);
-    if (searchItem !== '') {
-      const filteredItems = state.ExpenseList.expenseList && state.ExpenseList.expenseList.filter((user) =>
-        user.category_Name && user.category_Name.toLowerCase().includes(searchItem.toLowerCase())
-      );
+    if (searchItem !== "") {
+      const filteredItems =
+        state.ExpenseList.expenseList &&
+        state.ExpenseList.expenseList.filter(
+          (user) =>
+            user.category_Name &&
+            user.category_Name.toLowerCase().includes(searchItem.toLowerCase())
+        );
 
       setGetData(filteredItems);
-      setShowDropDown(true)
-    }
-    else {
-      setGetData(state.ExpenseList.expenseList)
+      setShowDropDown(true);
+    } else {
+      setGetData(state.ExpenseList.expenseList);
     }
     setCurrentPage(1);
   };
-
-
 
   const handleDropDown = (value) => {
     const searchItem = value;
     setSearchQuery(searchItem);
-    if (searchItem !== '') {
-      const filteredItems = state.ExpenseList.expenseList && state.ExpenseList.expenseList.filter((user) =>
-        user.category_Name && user.category_Name.toLowerCase().includes(searchItem.toLowerCase())
-      );
+    if (searchItem !== "") {
+      const filteredItems =
+        state.ExpenseList.expenseList &&
+        state.ExpenseList.expenseList.filter(
+          (user) =>
+            user.category_Name &&
+            user.category_Name.toLowerCase().includes(searchItem.toLowerCase())
+        );
 
       setGetData(filteredItems);
-      setShowDropDown(true)
-    }
-    else {
-      setGetData(state.ExpenseList.expenseList)
+      setShowDropDown(true);
+    } else {
+      setGetData(state.ExpenseList.expenseList);
     }
     setCurrentPage(1);
-    setShowDropDown(false)
-  }
-
-
-
-  // ////////////////////////////////////////////////
-
-  console.log("state.ExpenseList.categoryList", state)
-
+    setShowDropDown(false);
+  };
 
   return (
     <>
+      {expencepermissionError ? (
+        <>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+            }}
+          >
+            {/* Image */}
+            <img
+              src={EmptyState}
+              alt="Empty State"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
 
-
-      {
-        expencepermissionError ? (
-          <>
+            {/* Permission Error */}
+            {expencepermissionError && (
+              <div
+                style={{
+                  color: "red",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  marginTop: "1rem",
+                }}
+              >
+                <MdError size={20} />
+                <span>{expencepermissionError}</span>
+              </div>
+            )}
+          </div>
+        </>
+      ) : (
+        <div className="container" style={{ width: "100%" }}>
+          <div className="container">
             <div
+              className="d-flex justify-content-between align-items-center flex-wrap"
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100vh",
+                position: "sticky",
+
+                backgroundColor: "white",
+                zIndex: 10,
               }}
             >
-              {/* Image */}
-              <img
-                src={EmptyState}
-                alt="Empty State"
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
-
-              {/* Permission Error */}
-              {expencepermissionError && (
-                <div
+              <div
+                className="d-flex align-items-center flex-wrap"
+                style={{ marginTop: -2 }}
+              >
+                <label
                   style={{
-                    color: "red",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    marginTop: "1rem",
+                    fontSize: 18,
+                    color: "#000000",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
                   }}
                 >
-                  <MdError size={20} />
-                  <span>{expencepermissionError}</span>
-                </div>
-              )}
-            </div>
-          </>
-        ) : <div className='container' style={{ width: "100%" }} >
+                  Expenses
+                </label>
 
-          <div className='container'>
-
-
-            <div className="d-flex justify-content-between align-items-center flex-wrap"
-              style={{
-                position: 'sticky',
-
-                backgroundColor: 'white',
-                zIndex: 10,
-
-              }}
-            >
-              <div className='d-flex align-items-center flex-wrap' style={{ marginTop: -2 }}>
-                <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Expenses</label>
-
-
-
-                <div style={{ margin: 20, position: 'relative', }}>
-                  <label
-                    htmlFor="date-input"
-                    style={{
-                      border: "1px solid #D9D9D9",
-                      borderRadius: 8,
-                      padding: "8px 16px",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      color: "#222222",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      cursor: "pointer"
-                    }}
-                    // onClick={() => document.getElementById('date-input')._flatpickr.open()}
-                    onClick={() => flatpickrInstance && flatpickrInstance.open()}
-                  >
-                    <img src={Calendars} alt='calendor' style={{ height: 24, width: 24, marginRight: 10 }} />
-                    Week {formattedDates}
-                  </label>
-                  
-                  <Flatpickr
-                    id="date-input"
-                    className='Expense-calendar'
-                    value={dates}
-                    onChange={(selectedDates) => {
-                      if (selectedDates) {
-                        setDates(selectedDates);
-                        formatDates(selectedDates);
-                        if (selectedDates.length === 2 && flatpickrInstance) {
-                          flatpickrInstance.close();
-                        }
-                      }
-                    }}
-                    options={{ mode: 'range', dateFormat: 'd-M', }}
-                    onReady={(selectedDates, dateStr, instance) => setFlatpickrInstance(instance)}
-                    placeholder="Select Date"
-                    style={{
-                      padding: 10,
-                      fontSize: 14,
-                      width: "100%",
-                      borderRadius: 8,
-                      border: "1px solid #D9D9D9",
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      zIndex: 1000,
-                      display: "none"
-                    }}
-                    onClose={() => { }}
-                  />
-                </div>
-
+                <RangePicker
+                  key={pickerKey}
+                  style={{
+                    height: 40,
+                    width: 250,
+                    marginLeft: 7,
+                    marginTop: 5,
+                  }}
+                  onChange={handleDateChange}
+                  value={dates.length === 2 ? [dates[0], dates[1]] : null}
+                  format="DD-MM-YYYY"
+                  placeholder={["Start Date", "End Date"]}
+                />
               </div>
-              
-              <div className="d-flex  flex-wrap justify-content-between align-items-center">
-              {
-                  !showFilterExpense &&
 
+              <div className="d-flex  flex-wrap justify-content-between align-items-center">
+                {!showFilterExpense && (
                   <div onClick={handleShowSearch} style={{ paddingRight: 11 }}>
                     <SearchNormal1
                       color="#222"
-                      style={{ height: "34px", width: "34px", cursor: 'pointer', paddingRight: 10, marginTop: 13 }}
+                      style={{
+                        height: "34px",
+                        width: "34px",
+                        cursor: "pointer",
+                        paddingRight: 10,
+                        marginTop: 13,
+                      }}
                     />
                   </div>
-                }
+                )}
 
-                <div style={{ position: 'relative', paddingRight: 20, marginTop: 11,background:"white" }}>
+                <div
+                  style={{
+                    position: "relative",
+                    paddingRight: 20,
+                    marginTop: 11,
+                    background: "white",
+                  }}
+                >
                   <Sort
                     Size="22"
                     color="#222"
@@ -872,185 +712,271 @@ console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
                     onClick={handleFilterByPrice}
                   />
 
-                  {showFilter &&
-                 <div style={{ position: 'relative' }}>
-                 <ListGroup ref={filterRef} style={{ position: 'absolute', top: 25, right: 0, fontFamily: "Gilroy", cursor: "pointer", background: "white", zIndex: 10 }}>
-                   
-                   <ListGroup.Item value="All" onClick={handleExpenseAll}>All</ListGroup.Item>
-               
-                   {/* Category */}
-                   <ListGroup.Item
-                     active={showCategory}
-                     onMouseEnter={() => setShowCategory(true)}
-                     onMouseLeave={() => setShowCategory(false)}
-                   >
-                     Category
-                     {showCategory && (
-                       <ListGroup className='show-scroll-category' style={{
-                         position: 'absolute', right: 250, top: 0, borderRadius: "8px",
-                         maxHeight: '200px',
-                         overflowY: 'auto',
-                         zIndex: 20,
-                       }} value={categoryValue} onClick={handleCatogoryChange}>
-                         {state.Settings.Expences.data && state.Settings.Expences.data.map((view) => (
-                           <ListGroup.Item className='sub_item' key={view.category_Id} value={view.category_Id}>
-                             {view.category_Name}
-                           </ListGroup.Item>
-                         ))}
-                       </ListGroup>
-                     )}
-                   </ListGroup.Item>
-               
-                   {/* Payment Mode */}
-                   <ListGroup.Item
-                     active={showPaymentMode}
-                     onMouseEnter={() => setShowPaymentMode(true)}
-                     onMouseLeave={() => setShowPaymentMode(false)}
-                   >
-                     Payment Mode
-                     {showPaymentMode && (
-                       <ListGroup className='show-scroll-category' style={{
-                         position: 'absolute', right: 250, top: 0, borderRadius: "8px",
-                         maxHeight: '200px',
-                         overflowY: 'auto',
-                         zIndex: 20,
-                       }} value={modeValue}
-                       onClick={handleModeValueChange}>
-                         <ListGroup.Item className='sub_item' value="UPI/BHIM">UPI/BHIM</ListGroup.Item>
-                         <ListGroup.Item className='sub_item' value="CASH">CASH</ListGroup.Item>
-                         <ListGroup.Item className='sub_item' value="Net Banking">Net Banking</ListGroup.Item>
-                       </ListGroup>
-                     )}
-                   </ListGroup.Item>
-               
-                   {/* Amount */}
-                   <ListGroup.Item
-                     active={showAmount}
-                     onMouseEnter={() => setShowAmount(true)}
-                     onMouseLeave={() => setShowAmount(false)}
-                   >
-                     Amount
-                     {showAmount && (
-                       <ListGroup className='show-scroll-category' style={{
-                         position: 'absolute', right: 250, top: 0, borderRadius: "8px",
-                         maxHeight: '200px',
-                         overflowY: 'auto',
-                         zIndex: 20,
-                       }} value={amountValue}
-                       onClick={handleAmountValueChange}>
-                         <ListGroup.Item className='sub_item' value="0-1000">0-1000</ListGroup.Item>
-                         <ListGroup.Item className='sub_item' value="1000-5000">1000-5000</ListGroup.Item>
-                         <ListGroup.Item className='sub_item' value="5000-10000">5000-10000</ListGroup.Item>
-                         <ListGroup.Item className='sub_item' value="10000">10000 Above</ListGroup.Item>
-                       </ListGroup>
-                     )}
-                   </ListGroup.Item>
-                 </ListGroup>
-               </div>
-               
-                
-                
+                  {showFilter && (
+                    <div style={{ position: "relative" }}>
+                      <ListGroup
+                        ref={filterRef}
+                        style={{
+                          position: "absolute",
+                          top: 25,
+                          right: 0,
+                          fontFamily: "Gilroy",
+                          cursor: "pointer",
+                          background: "white",
+                          zIndex: 10,
+                        }}
+                      >
+                        <ListGroup.Item value="All" onClick={handleExpenseAll}>
+                          All
+                        </ListGroup.Item>
 
-                  }
+                        {/* Category */}
+                        <ListGroup.Item
+                          active={showCategory}
+                          onMouseEnter={() => setShowCategory(true)}
+                          onMouseLeave={() => setShowCategory(false)}
+                        >
+                          Category
+                          {showCategory && (
+                            <ListGroup
+                              className="show-scroll-category"
+                              style={{
+                                position: "absolute",
+                                right: 250,
+                                top: 0,
+                                borderRadius: "8px",
+                                maxHeight: "200px",
+                                overflowY: "auto",
+                                zIndex: 20,
+                              }}
+                              value={categoryValue}
+                              onClick={handleCatogoryChange}
+                            >
+                              {state.Settings.Expences.data &&
+                                state.Settings.Expences.data.map((view) => (
+                                  <ListGroup.Item
+                                    className="sub_item"
+                                    key={view.category_Id}
+                                    value={view.category_Id}
+                                  >
+                                    {view.category_Name}
+                                  </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                          )}
+                        </ListGroup.Item>
 
+                        {/* Payment Mode */}
+                        <ListGroup.Item
+                          active={showPaymentMode}
+                          onMouseEnter={() => setShowPaymentMode(true)}
+                          onMouseLeave={() => setShowPaymentMode(false)}
+                        >
+                          Payment Mode
+                          {showPaymentMode && (
+                            <ListGroup
+                              className="show-scroll-category"
+                              style={{
+                                position: "absolute",
+                                right: 250,
+                                top: 0,
+                                borderRadius: "8px",
+                                maxHeight: "200px",
+                                overflowY: "auto",
+                                zIndex: 20,
+                              }}
+                              value={modeValue}
+                              onClick={handleModeValueChange}
+                            >
+                              <ListGroup.Item
+                                className="sub_item"
+                                value="UPI/BHIM"
+                              >
+                                UPI/BHIM
+                              </ListGroup.Item>
+                              <ListGroup.Item className="sub_item" value="CASH">
+                                CASH
+                              </ListGroup.Item>
+                              <ListGroup.Item
+                                className="sub_item"
+                                value="Net Banking"
+                              >
+                                Net Banking
+                              </ListGroup.Item>
+                            </ListGroup>
+                          )}
+                        </ListGroup.Item>
 
+                        {/* Amount */}
+                        <ListGroup.Item
+                          active={showAmount}
+                          onMouseEnter={() => setShowAmount(true)}
+                          onMouseLeave={() => setShowAmount(false)}
+                        >
+                          Amount
+                          {showAmount && (
+                            <ListGroup
+                              className="show-scroll-category"
+                              style={{
+                                position: "absolute",
+                                right: 250,
+                                top: 0,
+                                borderRadius: "8px",
+                                maxHeight: "200px",
+                                overflowY: "auto",
+                                zIndex: 20,
+                              }}
+                              value={amountValue}
+                              onClick={handleAmountValueChange}
+                            >
+                              <ListGroup.Item
+                                className="sub_item"
+                                value="0-1000"
+                              >
+                                0-1000
+                              </ListGroup.Item>
+                              <ListGroup.Item
+                                className="sub_item"
+                                value="1000-5000"
+                              >
+                                1000-5000
+                              </ListGroup.Item>
+                              <ListGroup.Item
+                                className="sub_item"
+                                value="5000-10000"
+                              >
+                                5000-10000
+                              </ListGroup.Item>
+                              <ListGroup.Item
+                                className="sub_item"
+                                value="10000"
+                              >
+                                10000 Above
+                              </ListGroup.Item>
+                            </ListGroup>
+                          )}
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </div>
+                  )}
                 </div>
-                
-               
-                {
-                  showFilterExpense &&
-                  <div className='me-3 ' style={{ position: 'relative' }}>
-                    <InputGroup style={{
-                      display: 'flex',
-                      flexWrap: 'nowrap',
-                      width: '100%',
-                      marginTop:10
-                    }}>
 
-                      <FormControl size="lg"
+                {showFilterExpense && (
+                  <div className="me-3 " style={{ position: "relative" }}>
+                    <InputGroup
+                      style={{
+                        display: "flex",
+                        flexWrap: "nowrap",
+                        width: "100%",
+                        marginTop: 10,
+                      }}
+                    >
+                      <FormControl
+                        size="lg"
                         value={searchQuery}
                         onChange={handleInputChange}
-
                         style={{
-                          width: 235, boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                          //  '::placeholder': { color: "#222", fontWeight: 500 } 
+                          width: 235,
+                          boxShadow: "none",
+                          borderColor: "lightgray",
+                          borderRight: "none",
+                          fontSize: 15,
+                          fontWeight: 500,
+                          color: "#222",
+                          //  '::placeholder': { color: "#222", fontWeight: 500 }
                         }}
                         placeholder="Search..."
                       />
                       <InputGroup.Text style={{ backgroundColor: "#ffffff" }}>
-                        <CloseCircle size="24" color="#222" style={{ cursor: 'pointer' }} onClick={handleCloseSearch} />
+                        <CloseCircle
+                          size="24"
+                          color="#222"
+                          style={{ cursor: "pointer" }}
+                          onClick={handleCloseSearch}
+                        />
                       </InputGroup.Text>
                     </InputGroup>
 
-
-
-                    {
-                      getData?.length > 0 && searchQuery !== '' && showDropDown && (
-
-                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 60, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                          <ul className='show-scroll' style={{                           
-                            width: 260,
-                            backgroundColor: '#fff',  
-                            maxHeight: "174px",
-                            minHeight: getData?.length > 1 ? "100px" : "auto",
-                            overflowY: getData?.length > 2 ? "auto" : "hidden",  
-                            padding: '5px 10px',
-                            margin: '0',
-                            listStyleType: 'none',
-
+                    {getData?.length > 0 &&
+                      searchQuery !== "" &&
+                      showDropDown && (
+                        <div
+                          style={{
+                            border: "1px solid #d9d9d9 ",
+                            position: "absolute",
+                            top: 60,
+                            left: 0,
+                            zIndex: 1000,
+                            padding: 10,
                             borderRadius: 8,
-                            boxSizing: 'border-box'
-                          }}>
-                            {
-                              getData.map((user, index) => (
-                                <li
-                                  key={index}
-                                  onClick={() => {
-                                    handleDropDown(user.category_Name);
-                                    
+                            backgroundColor: "#fff",
+                          }}
+                        >
+                          <ul
+                            className="show-scroll"
+                            style={{
+                              width: 260,
+                              backgroundColor: "#fff",
+                              maxHeight: "174px",
+                              minHeight: getData?.length > 1 ? "100px" : "auto",
+                              overflowY:
+                                getData?.length > 2 ? "auto" : "hidden",
+                              padding: "5px 10px",
+                              margin: "0",
+                              listStyleType: "none",
 
-                                  }}
-                                  onMouseEnter={() => setHoveredIndex(index)}
-                                  onMouseLeave={() => setHoveredIndex(null)}
-                                  style={{
-                                    padding: '10px',
-                                    cursor: 'pointer',
-                                    borderBottom: '1px solid #dcdcdc',
-                                    fontSize: '14px',
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: 500,
-                                    backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
-
-                                  }}
-                                >
-                                  {user.category_Name}
-                                </li>
-                              ))
-                            }
+                              borderRadius: 8,
+                              boxSizing: "border-box",
+                            }}
+                          >
+                            {getData.map((user, index) => (
+                              <li
+                                key={index}
+                                onClick={() => {
+                                  handleDropDown(user.category_Name);
+                                }}
+                                onMouseEnter={() => setHoveredIndex(index)}
+                                onMouseLeave={() => setHoveredIndex(null)}
+                                style={{
+                                  padding: "10px",
+                                  cursor: "pointer",
+                                  borderBottom: "1px solid #dcdcdc",
+                                  fontSize: "14px",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  backgroundColor:
+                                    hoveredIndex === index
+                                      ? "#1E45E1"
+                                      : "transparent",
+                                }}
+                              >
+                                {user.category_Name}
+                              </li>
+                            ))}
                           </ul>
                         </div>
-                      )
-                    }
-
+                      )}
                   </div>
+                )}
 
-
-                }
-
-
-                <div className='me-3' style={{ cursor: 'pointer', marginTop: 11 }}>
-                  <img src={excelimg} alt='excel' width={38} height={38}
+                <div
+                  className="me-3"
+                  style={{ cursor: "pointer", marginTop: 11 }}
+                >
+                  <img
+                    src={excelimg}
+                    alt="excel"
+                    width={38}
+                    height={38}
                     onClick={handleExpenceExcel}
                   />
                 </div>
 
-
-                <div className='me-3' style={{ marginTop: 9 }}>
-                  <Button disabled={expenceAddPermission} onClick={handleShow}
-                    // style={{
-                    //   fontSize: 14, backgroundColor: "#1E45E1", color: "white", fontWeight: 600,
-                    //   borderRadius: 12, padding: "12px 16px 12px 16px", fontFamily: "Gilroy"
-                    // }}
+                <div className="me-3" style={{ marginTop: 9 }}>
+                  <Button
+                    disabled={expenceAddPermission}
+                    onClick={handleShow}
+                    
                     style={{
                       fontFamily: "Gilroy",
                       fontSize: "14px",
@@ -1059,209 +985,359 @@ console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
                       fontWeight: 600,
                       borderRadius: "8px",
                       padding: "11px 39px",
-                      paddingLeft: 40
-
+                      paddingLeft: 40,
                     }}
-                  > + Expense</Button>
+                  >
+                    {" "}
+                    + Expense
+                  </Button>
                 </div>
               </div>
             </div>
-
           </div>
 
-
-
           {searchQuery && (
-            <div className='container mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
+            <div
+              className="container mb-4"
+              style={{ marginTop: "20px", fontWeight: 600, fontSize: 16 }}
+            >
               {getData.length > 0 ? (
-                <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
-                  {getData.length} result{getData.length > 1 ? 's' : ''} found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;${searchQuery}&quot;</span>
+                <span
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 16,
+                    color: "rgba(100, 100, 100, 1)",
+                  }}
+                >
+                  {getData.length} result{getData.length > 1 ? "s" : ""} found
+                  for{" "}
+                  <span
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: 16,
+                      color: "rgba(34, 34, 34, 1)",
+                    }}
+                  >
+                    &quot;${searchQuery}&quot;
+                  </span>
                 </span>
               ) : (
-                <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>No results found for <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(34, 34, 34, 1)" }}>&quot;${searchQuery}&quot;</span></span>
+                <span
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 16,
+                    color: "rgba(100, 100, 100, 1)",
+                  }}
+                >
+                  No results found for{" "}
+                  <span
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: 16,
+                      color: "rgba(34, 34, 34, 1)",
+                    }}
+                  >
+                    &quot;${searchQuery}&quot;
+                  </span>
+                </span>
               )}
             </div>
           )}
 
-
-          {loading &&
+          {loading && (
             <div
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 right: 0,
                 bottom: 0,
-                left: '200px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
+                left: "200px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "transparent",
                 opacity: 0.75,
                 zIndex: 10,
               }}
             >
               <div
                 style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
+                  borderTop: "4px solid #1E45E1",
+                  borderRight: "4px solid transparent",
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  animation: "spin 1s linear infinite",
                 }}
               ></div>
             </div>
-          }
-
-
+          )}
 
           {currentItems && currentItems.length > 0 && (
-            <div className='p-3'>
-              <div style={{
-                // height: "400px",
-                height: currentItems.length >= 6 ? "380px" : "auto",
-                overflowY: currentItems.length >= 6 ? "auto" : "visible",
-                borderRadius: "24px",
-                border: "1px solid #DCDCDC",
-                // borderBottom:"none"
-              }} >
-                <Table responsive="md"
+            <div className="p-3">
+              <div
+                style={{
+                  // height: "400px",
+                  height: currentItems.length >= 6 ? "380px" : "auto",
+                  overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                  borderRadius: "24px",
+                  border: "1px solid #DCDCDC",
+                  // borderBottom:"none"
+                }}
+              >
+                <Table
+                  responsive="md"
                   className="Table_Design"
-                  style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
+                  style={{
+                    border: "1px solid #DCDCDC",
+                    borderBottom: "1px solid transparent",
+                    borderEndStartRadius: 0,
+                    borderEndEndRadius: 0,
+                  }}
                 >
-                  <thead style={{
-                    fontFamily: "Gilroy", color: "#939393", fontSize: 14, fontStyle: "normal", fontWeight: 500, backgroundColor: "rgba(231, 241, 255, 1)", position: "sticky",
+                  <thead
+                    style={{
+                      fontFamily: "Gilroy",
+                      color: "#939393",
+                      fontSize: 14,
+                      fontStyle: "normal",
+                      fontWeight: 500,
+                      backgroundColor: "rgba(231, 241, 255, 1)",
+                      position: "sticky",
 
-                    top: 0,
-                    zIndex: 1,
-                  }}>
+                      top: 0,
+                      zIndex: 1,
+                    }}
+                  >
                     <tr>
-                      {/* <th style={{ color: "", fontWeight: 500, verticalAlign: 'middle', textAlign: "center",  borderTopLeftRadius: 24  }}>
-                <input type='checkbox' style={customCheckboxStyle} />
-              </th> */}
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500, paddingLeft: "20px", borderTopLeftRadius: 24 }}>Date</th>
+                     
+                      <th
+                        style={{
+                          textAlign: "start",
+                          fontFamily: "Gilroy",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: 14,
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          paddingLeft: "20px",
+                          borderTopLeftRadius: 24,
+                        }}
+                      >
+                        Date
+                      </th>
 
                       {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th> */}
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Category</th>
+                      <th
+                        style={{
+                          textAlign: "start",
+                          fontFamily: "Gilroy",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: 14,
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Category
+                      </th>
                       {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th> */}
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Description</th>
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Unit Count</th>
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Per Unit Price</th>
+                      <th
+                        style={{
+                          textAlign: "start",
+                          fontFamily: "Gilroy",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: 14,
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Description
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "start",
+                          fontFamily: "Gilroy",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: 14,
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Unit Count
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "start",
+                          fontFamily: "Gilroy",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: 14,
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Per Unit Price
+                      </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Total Amount</th>
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}>Mode of Payment</th>
-                      <th style={{ borderTopRightRadius: 24, textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 14, fontStyle: "normal", fontWeight: 500 }}></th>
+                      <th
+                        style={{
+                          textAlign: "start",
+                          fontFamily: "Gilroy",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: 14,
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Total Amount
+                      </th>
+                      <th
+                        style={{
+                          textAlign: "start",
+                          fontFamily: "Gilroy",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: 14,
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Mode of Payment
+                      </th>
+                      <th
+                        style={{
+                          borderTopRightRadius: 24,
+                          textAlign: "start",
+                          fontFamily: "Gilroy",
+                          color: "rgb(147, 147, 147)",
+                          fontSize: 14,
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                        }}
+                      ></th>
                     </tr>
                   </thead>
-                  {/* <tbody>
-            {
-              loading ? <>
-                <tr>
-                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                  <td style={{border:"none"}}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                </tr>
-
-              </>
-
-                :
-                currentItems && currentItems.map((item) => (
-                  <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} />
-                ))}
-
-<tr className="d-flex justify-content-center align-items-center" style={{ height: 'auto', width: "100%" }}>
-<td style={{ textAlign: 'center', verticalAlign: 'middle', maxWidth: '100%' ,border:"none"}}>
-  {
-    !loading && currentItems.length === 0 ? (
-      <h5 style={{ fontSize: 14, color: "red" ,textAlign:"center"}}>No Expense Found</h5>
-    ) : null
-  }
-</td>
-</tr>
-
-
-
-
-
-          </tbody> */}
+               
                   <tbody>
-                    {
-                      loading ? (
-                        <>
-                          <tr>
-                            <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td style={{ border: "none" }}><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                          </tr>
-                        </>
-                      ) : currentItems && currentItems.length > 0 && (
-                        currentItems.map((item) => (
-                          <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense} expenceEditPermission={expenceEditPermission} expenceDeletePermission={expenceDeletePermission} />
-                        ))
-                      )
-
-
-                    }
+                    {loading ? (
+                      <>
+                        <tr>
+                          <td style={{ border: "none" }}>
+                            <div
+                              style={{ ...skeletonStyle, width: "100%" }}
+                            ></div>
+                          </td>
+                          <td style={{ border: "none" }}>
+                            <div
+                              style={{ ...skeletonStyle, width: "100%" }}
+                            ></div>
+                          </td>
+                          <td style={{ border: "none" }}>
+                            <div
+                              style={{ ...skeletonStyle, width: "100%" }}
+                            ></div>
+                          </td>
+                          <td style={{ border: "none" }}>
+                            <div
+                              style={{ ...skeletonStyle, width: "100%" }}
+                            ></div>
+                          </td>
+                          <td style={{ border: "none" }}>
+                            <div
+                              style={{ ...skeletonStyle, width: "100%" }}
+                            ></div>
+                          </td>
+                          <td style={{ border: "none" }}>
+                            <div
+                              style={{ ...skeletonStyle, width: "100%" }}
+                            ></div>
+                          </td>
+                          <td style={{ border: "none" }}>
+                            <div
+                              style={{ ...skeletonStyle, width: "100%" }}
+                            ></div>
+                          </td>
+                          <td style={{ border: "none" }}>
+                            <div
+                              style={{ ...skeletonStyle, width: "100%" }}
+                            ></div>
+                          </td>
+                        </tr>
+                      </>
+                    ) : (
+                      currentItems &&
+                      currentItems.length > 0 &&
+                      currentItems.map((item) => (
+                        <ExpensesListTable
+                          key={item.id}
+                          item={item}
+                          OnEditExpense={handleEditExpen}
+                          handleDelete={handleDeleteExpense}
+                          expenceEditPermission={expenceEditPermission}
+                          expenceDeletePermission={expenceDeletePermission}
+                        />
+                      ))
+                    )}
                   </tbody>
-
                 </Table>
-
-
-
-
-
               </div>
             </div>
           )}
 
-
-
-
-
-
-          {!loading && currentItems && currentItems.length === 0 &&
-            <div className='d-flex align-items-center justify-content-center animated-text mt-5' style={{ width: "100%", height: 350, margin: "0px auto" }}>
-
+          {!loading && currentItems && currentItems.length === 0 && (
+            <div
+              className="d-flex align-items-center justify-content-center animated-text mt-5"
+              style={{ width: "100%", height: 350, margin: "0px auto" }}
+            >
               <div>
-                <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No expenses available</div>
-                <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no expenses available.</div>
+                <div className="d-flex  justify-content-center">
+                  <img
+                    src={EmptyState}
+                    style={{ height: 240, width: 240 }}
+                    alt="Empty state"
+                  />
+                </div>
+                <div
+                  className="pb-1 mt-3"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 20,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  No expenses available
+                </div>
+                <div
+                  className="pb-1 mt-2"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 16,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  There are no expenses available.
+                </div>
                 {/* <div className='d-flex justify-content-center pb-1 mt-3'>                  
                    <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
                   disabled={expenceAddPermission} onClick={handleShow}
                 > + Expense</Button>
                 </div> */}
               </div>
-              <div>
-
-              </div>
+              <div></div>
             </div>
-
-
-
-
-          }
-
-
-
-
-
-
-
-
+          )}
 
           {/*  Pagination code */}
-          {filteredData.length >= 5 &&
+          {filteredData.length >= 5 && (
             <nav
               style={{
                 display: "flex",
@@ -1291,7 +1367,6 @@ console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
                     cursor: "pointer",
                     outline: "none",
                     boxShadow: "none",
-
                   }}
                 >
                   <option value={5}>5</option>
@@ -1329,12 +1404,21 @@ console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                   >
-                    <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+                    <ArrowLeft2
+                      size="16"
+                      color={currentPage === 1 ? "#ccc" : "#1E45E1"}
+                    />
                   </button>
                 </li>
 
                 {/* Current Page Indicator */}
-                <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                <li
+                  style={{
+                    margin: "0 10px",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                  }}
+                >
                   {currentPage} of {totalPages}
                 </li>
 
@@ -1345,7 +1429,8 @@ console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
                       padding: "5px",
                       textDecoration: "none",
                       color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                      cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                      cursor:
+                        currentPage === totalPages ? "not-allowed" : "pointer",
                       borderRadius: "50%",
                       display: "inline-block",
                       minWidth: "30px",
@@ -1364,92 +1449,104 @@ console.log("state.bankingDetails.bankingList",state.bankingDetails.bankingList)
                 </li>
               </ul>
             </nav>
-          }
-
+          )}
         </div>
-      }
+      )}
 
-      {showModal && <AddExpenses hostelId={allPageHostel_Id} show={showModal} currentItem={currentItem} setShowModal={setShowModal} />}
+      {showModal && (
+        <AddExpenses
+          hostelId={allPageHostel_Id}
+          show={showModal}
+          currentItem={currentItem}
+          setShowModal={setShowModal}
+        />
+      )}
 
-
-
-      <Modal show={showExpenseDelete} onHide={handleCloseForDeleteExpense} 
-      centered backdrop="static" 
-      dialogClassName="custom-delete-modal"
+      <Modal
+        show={showExpenseDelete}
+        onHide={handleCloseForDeleteExpense}
+        centered
+        backdrop="static"
+        dialogClassName="custom-delete-modal"
+      >
+        <Modal.Header
+          style={{
+            borderBottom: "none",
+          }}
         >
-        <Modal.Header style={{
-          borderBottom: "none"
-        }} >
-          <Modal.Title 
-          className="w-100 text-center"
-          style={{ 
-            fontSize: 18, fontWeight: 600, fontFamily: "Gilroy",  }}>
-              Delete expense?</Modal.Title>
+          <Modal.Title
+            className="w-100 text-center"
+            style={{
+              fontSize: 18,
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+            }}
+          >
+            Delete expense?
+          </Modal.Title>
           {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
         </Modal.Header>
 
-
-
-
-        <Modal.Body 
-        className="text-center"
-        style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",marginTop: "-10px" }}>
+        <Modal.Body
+          className="text-center"
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            marginTop: "-10px",
+          }}
+        >
           Are you sure you want to delete this expense?
         </Modal.Body>
 
-
-        <Modal.Footer  
-        className="d-flex justify-content-center"
-        style={{  borderTop: "none",  marginTop: "-10px",
-         }}>
-          <Button 
-          className="me-2"
-          onClick={handleCloseForDeleteExpense} 
-          style={{
-            width: "100%",
-            maxWidth: 160,
-            height: 52,
-            borderRadius: 8,
-            padding: "12px 20px",
-            background: "#fff",
-            color: "#1E45E1",
-            border: "1px solid #1E45E1",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-          }}
+        <Modal.Footer
+          className="d-flex justify-content-center"
+          style={{ borderTop: "none", marginTop: "-10px" }}
+        >
+          <Button
+            className="me-2"
+            onClick={handleCloseForDeleteExpense}
+            style={{
+              width: "100%",
+              maxWidth: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
           >
             Cancel
           </Button>
 
-          <Button 
-          
-          style={{
-            width: "100%",
-            maxWidth: 160,
-            height: 52,
-            borderRadius: 8,
-            padding: "12px 20px",
-            background: "#1E45E1",
-            color: "#FFFFFF",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-          }}
-            onClick={ConfirmDeleteExpense}>
+          <Button
+            style={{
+              width: "100%",
+              maxWidth: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={ConfirmDeleteExpense}
+          >
             Delete
           </Button>
-
         </Modal.Footer>
       </Modal>
-
-
     </>
-  )
+  );
 }
 Expenses.propTypes = {
   allPageHostel_Id: PropTypes.func.isRequired,
 };
-
 
 export default Expenses;

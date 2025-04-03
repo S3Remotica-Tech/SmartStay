@@ -5072,6 +5072,25 @@ const handleBack = () => {
                 </div>
               </Form.Group>
 
+              {/* {invoiceduedateerrmsg.trim() !== "" && (
+                <div>
+                  <p
+                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
+                  >
+                    {invoiceduedateerrmsg !== " " && (
+                      <MdError
+                        style={{
+                          fontSize: "15px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
+                        }}
+                      />
+                    )}{" "}
+                    {invoiceduedateerrmsg}
+                  </p>
+                </div>
+              )} */}
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
                   <p
@@ -5228,9 +5247,9 @@ const handleBack = () => {
      </Form.Select>
      
       {tableErrmsg.trim() !== "" && (
-                   <div>
+                   <div >
                      <p
-                       style={{ fontSize: "12px", color: "red", marginTop: "3px", textAlign: "center",fontWeight:500,fontFamily:"Gilroy" }}
+                       style={{ fontSize: "12px", color: "red", marginTop: "5px", textAlign: "center",fontWeight:500,fontFamily:"Gilroy" }}
                      >
                        {tableErrmsg !== " " && (
                          <MdError

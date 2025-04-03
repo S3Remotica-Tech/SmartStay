@@ -2467,17 +2467,18 @@ useEffect(() => {
   ]);
 
 
-
   return (
     <div>
       {showAllBill && (
         <div className="container">
          <div
   className="container-fluid sticky-top bg-white py-2 "
-  style={{ zIndex: 1000, height: 'auto' }}
+  style={{ zIndex: 1000, height: 'auto'}}
 >
-<div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:"-10px"}}>
-            <div className="mb-2 ms-2">
+<div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:"-10px"}} >
+            <div className=" ms-3 " style={{
+    marginTop: value === "1" || value === "3" ? "7px" : "8px",
+  }}>
       <label style={{ fontSize: 18, color: "#000000", fontWeight: 600 }}>Bills</label>
     </div>
 
@@ -2917,7 +2918,7 @@ useEffect(() => {
                         borderRadius: "8px",
                         padding: "11px 24px",
                         paddingLeft: 25,
-                        marginTop: 19,
+                        marginTop: 21,
                         whiteSpace: "nowrap",
                         // width: "170px",
                       }}
@@ -2984,17 +2985,18 @@ useEffect(() => {
                 
               >
                 <TabList
+                  
                   // orientation={isSmallScreen ? "vertical" : "horizontal"}
                   // onChange={handleChanges}
                   // aria-label="lab API tabs example"
-                  // style={{ marginLeft: "7px"}}
-                  // className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+                  // style={{ marginLeft: "14px" ,marginTop:"-15px"}}
+                  // className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "14px" ,marginTop:"-15px"}}
+                  style={{ marginLeft: "14px", marginTop: "-10px" }}
+                 
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
-                
                 >
                   <Tab
                     label="Bills"
@@ -3451,7 +3453,7 @@ useEffect(() => {
                                       /> */}
                                        <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                         <DatePicker
-                                          style={{ width: "100%", height: 48 }}
+                                          style={{ width: "100%", height: 48,cursor:"pointer" }}
                                           format="DD/MM/YYYY"
                                           placeholder="DD/MM/YYYY"
                                           value={selectedDate ? dayjs(selectedDate) : null}
@@ -6003,7 +6005,7 @@ useEffect(() => {
                                                   style={{ position: "relative", width: "100%" }}
                                                 >
                                                   <DatePicker
-                                                    style={{ width: "100%", height: 48 }}
+                                                    style={{ width: "100%", height: 48,cursor:"pointer" }}
                                                     format="DD/MM/YYYY"
                                                     placeholder="DD/MM/YYYY"
                                                     value={startdate ? dayjs(startdate) : null}
@@ -6042,28 +6044,13 @@ useEffect(() => {
         End Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
       </p>
      
-        {/* <DatePicker
-          selected={enddate}
-          onChange={(date) => handleEndDate(date)}
-          dateFormat="dd/MM/yyyy"
-          showMonthDropdown
-          showYearDropdown
-          scrollableYearDropdown
-          yearDropdownItemNumber={100}
-          popperPlacement="bottom-start"
-          popperModifiers={[{ name: "offset", options: { offset: [0, -300] } }]}
-          customInput={
-            <CustomEndDateInput
-              value={enddate ? enddate.toLocaleDateString("en-GB") : ""}
-            />
-          }
-        /> */}
+        
            <div
                                                   className="datepicker-wrapper"
                                                   style={{ position: "relative", width: "100%" }}
                                                 >
                                                   <DatePicker
-                                                    style={{ width: "100%", height: 48 }}
+                                                    style={{ width: "100%", height: 48,cursor:"pointer" }}
                                                     format="DD/MM/YYYY"
                                                     placeholder="DD/MM/YYYY"
                                                     value={enddate ? dayjs(enddate) : null}
@@ -6128,7 +6115,7 @@ useEffect(() => {
                   customInput={<CustomInvoiceDateInput value={invoicedate ? invoicedate.toLocaleDateString("en-GB") : ""} />}
                 /> */}
                  <DatePicker
-                                                    style={{ width: "100%", height: 48 }}
+                                                    style={{ width: "100%", height: 48,cursor:"pointer" }}
                                                     format="DD/MM/YYYY"
                                                     placeholder="DD/MM/YYYY"
                                                     value={invoicedate ? dayjs(invoicedate) : null}
@@ -6171,7 +6158,7 @@ useEffect(() => {
               }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
                    <DatePicker
-                                                    style={{ width: "100%", height: 48 }}
+                                                    style={{ width: "100%", height: 48,cursor:"pointer" }}
                                                     format="DD/MM/YYYY"
                                                     placeholder="DD/MM/YYYY"
                                                     value={invoiceduedate ? dayjs(invoiceduedate) : null}
@@ -6186,7 +6173,7 @@ useEffect(() => {
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "13px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                    style={{ fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
                       fontWeight: 500, }}
                   >
                     {invoiceduedateerrmsg !== " " && (
@@ -6372,7 +6359,7 @@ useEffect(() => {
  {tableErrmsg.trim() !== "" && (
               <div>
                 <p
-                  style={{ fontSize: "12px", color: "red", marginTop: "3px", textAlign: "center", fontFamily: "Gilroy",
+                  style={{ fontSize: "12px", color: "red", marginTop: "4px", textAlign: "center", fontFamily: "Gilroy",
                     fontWeight: 500, }}
                 >
                   {tableErrmsg !== " " && (
