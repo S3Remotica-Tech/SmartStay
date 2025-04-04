@@ -779,6 +779,7 @@ function SettingManage(props) {
                         height: "43px",
                         width: "140px",
                         minWidth: "140px",
+                        
 
                       }}
                     >

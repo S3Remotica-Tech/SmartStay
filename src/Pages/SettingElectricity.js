@@ -368,16 +368,23 @@ const SettingElectricity = ({ hostelid }) => {
         left: 0,
         zIndex: 1000,
         backgroundColor: "#FFFFFF",
+        whiteSpace: "nowrap",
+        // height: 83,
+        // padding: "10px",
       }} >
-        <Col>
+        <Col className="w-100 text-md-start text-center">
           <h4 style={{
             fontSize: 20,
             color: "#000000",
             fontWeight: 600,
-            fontFamily: "Gilroy", marginTop: 5
+            fontFamily: "Gilroy", marginTop: 5,
+            whiteSpace: "nowrap",
           }}>Electricity</h4>
         </Col>
-        <Col className="d-flex justify-content-end">
+        <Col 
+        // className="d-flex justify-content-end"
+        className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
+        >
           {/* <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
           padding:"12px 16px 12px 16px"
            }} 
@@ -399,8 +406,9 @@ const SettingElectricity = ({ hostelid }) => {
                   fontWeight: 600,
                   borderRadius: 8,
                   padding: "11px 27px",
-                  paddingLeft:26,
-                  marginTop:-2
+                  // paddingLeft:26,
+                  // marginTop:-2
+                 
                 }}
               >
                 Edit Electricity
