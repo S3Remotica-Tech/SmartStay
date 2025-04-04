@@ -471,19 +471,29 @@ function SettingInvoice({ hostelid }) {
       </div>
       }
 
-      <div className="pt-4" style={{
-        display: "flex", flexDirection: "row", justifyContent: "space-between", position: "sticky",
+      <div 
+      // className="pt-4" 
+      className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+      style={{
+        // display: "flex", flexDirection: "row", justifyContent: "space-between", 
+        position: "sticky",
         top: 0,
         right: 0,
         left: 0,
         zIndex: 1000,
         backgroundColor: "#FFFFFF",
         // height: 83, 
-        marginTop: 5
+        marginTop: 5,
+        whiteSpace: "nowrap",
+        padding: "10px",
       }}>
-        <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Invoice</h3>
+        <div className="w-100 text-md-start text-center">
+        <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,
+          whiteSpace: "nowrap",
+         }}>Invoice</h3>
 
-
+        </div>
+        <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
         {InvoiceList && InvoiceList.length > 0 ? (
           InvoiceList.map((list) => {
             const isDefaultPrefixSuffix =
@@ -516,10 +526,11 @@ function SettingInvoice({ hostelid }) {
                   maxWidth: "100%",
                   marginBottom: "10px",
                   maxHeight: 50,
-                  marginTop: "-7px",
+                  marginTop: "10px",
                   // borderColor: "#1E45E1",
-                  border: "2px solid #1E45E1" 
+                  border: "2px solid #1E45E1",
                   // border: "none",
+                  minWidth: "140px",
                 }}
                 disabled={showPopup}
               >
@@ -551,19 +562,21 @@ function SettingInvoice({ hostelid }) {
                   maxWidth: "100%",
                   marginBottom: "10px",
                   maxHeight: 50,
-                  marginTop: "-7px",
+                  marginTop: "10px",
                   // borderColor: "#1E45E1",
-                  border: "2px solid #1E45E1" 
+                  border: "2px solid #1E45E1",
                   // border: "none",
+                  minWidth: "140px",
                 }}
               >
                 Edit Invoice
               </button>
             );
           })
+          
         ) : null}
 
-
+</div>
 
 
 

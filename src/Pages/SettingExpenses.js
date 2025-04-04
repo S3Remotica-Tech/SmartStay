@@ -644,8 +644,10 @@ function SettingExpenses({ hostelid }) {
 
 
 
-      <div style={{
-        display: "flex", flexDirection: "row", justifyContent: "space-between",
+      <div 
+      className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+      style={{
+        // display: "flex", flexDirection: "row", justifyContent: "space-between",
         position: 'sticky',
         top: 0,
         right: 0,
@@ -654,11 +656,20 @@ function SettingExpenses({ hostelid }) {
         backgroundColor: "#FFFFFF",
         height: 63,
         alignItems: "center",
+        // whiteSpace: "nowrap",
 
       }} >
-        <div style={{ marginTop: 25 }}>
-          <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Expenses Category</h3></div>
-        <div >
+        <div 
+         className="w-100 text-md-start text-center"
+        style={{ marginTop: 25 }}>
+          <h3 style={{ fontFamily: "Gilroy", 
+            fontSize: 20, color: "#222", 
+            fontWeight: 600, 
+            // whiteSpace: "nowrap",
+            }}>Expenses Category</h3></div>
+        <div 
+        className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
+        >
           <Button onClick={handleShow}
             style={{
               fontFamily: "Gilroy",
@@ -673,7 +684,9 @@ function SettingExpenses({ hostelid }) {
               maxWidth: "100%",
               marginBottom: "10px",
               maxHeight: 50,
-              marginTop: 35
+              marginTop: 20,
+              minWidth: "130px",
+              whiteSpace: "nowrap",
             }}
             disabled={showPopup}
           >+ Category</Button></div>
