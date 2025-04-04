@@ -1672,6 +1672,8 @@ useEffect(() => {
 
     setValue(newValue);
     setSearch(false);
+    setFilterInput("");
+    setDropdownVisible(false)
   };
 
   const handleDisplayInvoiceDownload = (isVisible, rowData) => {
@@ -2598,130 +2600,139 @@ useEffect(() => {
                         )}
                       {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
                           <div
+                          style={{
+                            border: "1px solid #d9d9d9 ",
+                            position: "absolute",
+                            top: 70,
+                            left: 0,
+                            zIndex: 9999, // Increased zIndex
+                            padding: 10,
+                            borderRadius: 8,
+                            backgroundColor: "#fff",
+                            width: "100%",
+                            pointerEvents: "auto", // Ensure clicks are registered
+                          }}
+                        >
+                          <ul
+                            className="show-scroll p-0"
                             style={{
-                              border: "1px solid #d9d9d9 ",
-                              position: "absolute",
-                              top: 60,
-                              left: 0,
-                              zIndex: 1000,
-                              padding: 10,
-                              borderRadius: 8,
                               backgroundColor: "#fff",
-                              width: "94%",
+                              borderRadius: "4px",
+                              minHeight: 50,
+                              maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
+                              overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
+                              margin: "0",
+                              listStyleType: "none",
+                              boxSizing: "border-box",
                             }}
                           >
-                          <ul
-  className="show-scroll p-0"
-  style={{
-    backgroundColor: "#fff",
-    borderRadius: "4px",
-    maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
-    overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
-    margin: "0",
-    listStyleType: "none",
-    boxSizing: "border-box",
-  }}
->
-  {recurringbills?.length === 0 ? (
-    <li style={{ padding: "10px" }}>No results found</li>
-  ) : (
-    recurringbills?.map((user, index) => (
-      <li
-        key={index}
-        className="list-group-item d-flex align-items-center"
-        style={{
-          cursor: "pointer",
-          padding: "10px 5px",
-          borderBottom: index !== recurringbills.length - 1 ? "1px solid #eee" : "none",
-        }}
-        onClick={() => handleUserRecuire(user)}
-      >
-        <Image
-          src={user.profile || Profile}
-          alt={user.user_name || "Default Profile"}
-          roundedCircle
-          style={{ height: "30px", width: "30px", marginRight: "10px" }}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = Profile;
-          }}
-        />
-        <span>{user.user_name}</span>
-      </li>
-    ))
-  )}
-</ul>
-
-                          </div>
+                            {recurringbills?.length === 0 ? (
+                              <li style={{ padding: "10px" }}>No results found</li>
+                            ) : (
+                              recurringbills?.map((user, index) => (
+                                <li
+                                  key={index}
+                                  className="list-group-item d-flex align-items-center"
+                                  style={{
+                                    cursor: "pointer",
+                                    padding: "10px 5px",
+                                    borderBottom: index !== recurringbills.length - 1 ? "1px solid #eee" : "none",
+                                  }}
+                                  onClick={(e) => {
+                                    e.preventDefault(); 
+                                    e.stopPropagation(); 
+                                    console.log(`Clicked on: ${user.user_name}`); 
+                                    handleUserRecuire(user);
+                                  }}
+                                >
+                                  <Image
+                                    src={user.profile || Profile}
+                                    alt={user.user_name || "Default Profile"}
+                                    roundedCircle
+                                    style={{ height: "30px", width: "30px", marginRight: "10px" }}
+                                    onError={(e) => {
+                                      e.target.onerror = null;
+                                      e.target.src = Profile;
+                                    }}
+                                  />
+                                  <span>{user.user_name}</span>
+                                </li>
+                              ))
+                            )}
+                          </ul>
+                        </div>
+                        
                         )}
 
                       {value === "3" &&
                         isDropdownVisible &&
                         receiptdata?.length > 0 && (
                           <div
-                            style={{
-                              border: "1px solid #d9d9d9 ",
-                              position: "absolute",
-                              top: 70,
-                              left: 0,
-                              zIndex: 1000,
-                              padding: 10,
-                              borderRadius: 8,
-                              backgroundColor: "#fff",
-                              width: "100%",
-                            }}
-                          >
-                            <ul
-                              className="show-scroll p-0"
-                              style={{
-                                backgroundColor: "#fff",
-                                borderRadius: "4px",
-                                maxHeight:
-                                  receiptdata?.length > 1 ? "174px" : "auto",
-                                minHeight: 100,
-                                overflowY:
-                                  receiptdata?.length > 1 ? "auto" : "hidden",
-                                margin: "0",
-                                listStyleType: "none",
-                                boxSizing: "border-box",
-                              }}
-                            >
-                              {receiptdata?.map((user, index) => {
-                                const imagedrop = user.profile || Profile;
-                                return (
-                                  <li
-                                    key={index}
-                                    className="list-group-item d-flex align-items-center"
-                                    style={{
-                                      cursor: "pointer",
-                                      padding: "10px 5px",
-                                      borderBottom:
-                                        index !== receiptdata?.length - 1
-                                          ? "1px solid #eee"
-                                          : "none",
-                                    }}
-                                    onClick={() => handleUserReceipt(user)}
-                                  >
-                                    <Image
-                                      src={imagedrop}
-                                      alt={user.Name || "Default Profile"}
-                                      roundedCircle
-                                      style={{
-                                        height: "30px",
-                                        width: "30px",
-                                        marginRight: "10px",
-                                      }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
-                                      }}
-                                    />
-                                    <span>{user.Name}</span>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
+  style={{
+    border: "1px solid #d9d9d9 ",
+    position: "absolute",
+    top: 70,
+    left: 0,
+    zIndex: 9999,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    width: "100%",
+    pointerEvents: "auto",
+  }}
+>
+  <ul
+    className="show-scroll p-0"
+    style={{
+      backgroundColor: "#fff",
+      borderRadius: "4px",
+      minHeight: 50,
+      maxHeight: receiptdata?.length > 1 ? "100px" : "auto",
+      overflowY: receiptdata?.length > 3 ? "auto" : "hidden",
+      margin: "0",
+      listStyleType: "none",
+      boxSizing: "border-box",
+    }}
+  >
+    {receiptdata?.map((user, index) => {
+      const imagedrop = user.profile || Profile;
+      return (
+        <li
+          key={index}
+          className="list-group-item d-flex align-items-center"
+          style={{
+            cursor: "pointer",
+            padding: "10px 5px",
+            borderBottom: index !== receiptdata?.length - 1 ? "1px solid #eee" : "none",
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log(`Clicked on: ${user.Name}`); // Debug line
+            handleUserReceipt(user);
+          }}
+        >
+          <Image
+            src={imagedrop}
+            alt={user.Name || "Default Profile"}
+            roundedCircle
+            style={{
+              height: "30px",
+              width: "30px",
+              marginRight: "10px",
+            }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = Profile;
+            }}
+          />
+          <span>{user.Name}</span>
+        </li>
+      );
+    })}
+  </ul>
+</div>
+
                         )}
                     </div>
                   </>
