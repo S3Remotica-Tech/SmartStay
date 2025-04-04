@@ -1536,7 +1536,7 @@ useEffect(() => {
      placement="bottomLeft"
   /> */}
   <DatePicker
-  style={{ height: 48,width: "100%", }}
+  style={{ height: 48,width: "100%",cursor:"pointer" }}
   format="DD/MM/YYYY"
     placeholder="DD/MM/YYYY"
   value={selectedDate ? dayjs(selectedDate) : null}

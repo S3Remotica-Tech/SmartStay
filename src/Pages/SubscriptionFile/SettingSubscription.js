@@ -172,6 +172,7 @@ useEffect(()=>{
   dispatch({ type: "ACCOUNTDETAILS"});
 },[])
 const [customerDetails,setCustomerDetails] = useState("")
+const [planTypeTrail,setPlanTypeTrail] = useState("")
 useEffect(()=>{
   if(state?.createAccount?.accountList[0]?.user_details){
     const customerDetailsPage = state?.createAccount?.accountList[0]?.user_details;
@@ -179,6 +180,8 @@ useEffect(()=>{
     setUserId(customerDetails.id)
     setCustomerId(customerDetails.customer_id)
     setPlanType(customerDetails.plan_code)
+    setPlanTypeTrail(customerDetails.plan_type)
+
 
   }
 },[state?.createAccount?.accountList[0]?.user_details])

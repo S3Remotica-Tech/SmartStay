@@ -1402,7 +1402,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                                                                   style={{ position: "relative", width: "100%" }}
                                                                 >
                                                                  <DatePicker
-                                                                   style={{ height: 48,width: "100%", }}
+                                                                   style={{ height: 48,width: "100%",cursor:"pointer" }}
                                                                    format="DD/MM/YYYY"
                                                                      placeholder="DD/MM/YYYY"
                                                                    value={selectedDate ? dayjs(selectedDate) : null}

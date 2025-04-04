@@ -486,78 +486,7 @@ function ExpensesListTable(props) {
           <Modal.Body>
         <div style={{ marginTop: 10, width: "100%" }}>
 
-        {/* <FormControl
-      fullWidth
-      variant="outlined"
-      className="mb-2"
-      sx={{
-        "& #vendor-select": { height: "auto" },
-        "& .MuiOutlinedInput-root": {
-          "& fieldset": { borderColor: "#D9D9D9" },
-          "&:hover fieldset": { borderColor: "#40a9ff" },
-          "&.Mui-focused fieldset": { borderColor: "#40a9ff" },
-        },
-        "& .MuiSelect-select": {
-          paddingTop: "10px",
-          paddingBottom: "10px",
-          display: "flex",
-          alignItems: "center",
-          color: "#000",
-        },
-        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-      }}
-    >
-      <Select
-        labelId="asset-select-label"
-        id="vendor-select"
-        value={assetname}
-        onChange={handleAssetname}
-        displayEmpty
-        renderValue={(selected) =>
-          !selected ? <span style={{ color: "#BDBDBD" }}>Select Asset</span> : selected
-        }
-        MenuProps={{
-          PaperProps: {
-            sx: {
-              maxHeight: 150,
-              marginTop:1,
-              overflowY: "auto",
-              "& .MuiMenuItem-root:hover": {
-                backgroundColor: "#1E45E1",
-                color: "#fff",
-              },
-              "& .Mui-selected": {
-                backgroundColor: "#1E45E1 !important",
-                color: "#fff",
-              },
-              "& .Mui-selected:hover": {
-                backgroundColor: "#1E45E1 !important",
-                color: "#fff",
-              },
-              "&::-webkit-scrollbar": { width: "6px" },
-              "&::-webkit-scrollbar-thumb": {
-                backgroundColor: "#1E45E1",
-                borderRadius: "4px",
-              },
-              "&::-webkit-scrollbar-track": { backgroundColor: "#f0f0f0" },
-            },
-            style: { scrollbarWidth: "thin" },
-          },
-        }}
-      >
-        {state.AssetList.assetList.length > 0 ? (
-          state.AssetList.assetList?.map((view) => (
-            <MenuItem key={view.asset_id} value={view.asset_name}>
-              {view.asset_name}
-            </MenuItem>
-          ))
-        ) : (
-          <MenuItem value="" disabled>
-            No assets available
-          </MenuItem>
-        )}
-      </Select>
-    </FormControl> */}
+      
     <FormControl
       fullWidth
       variant="outlined"
@@ -596,6 +525,7 @@ function ExpensesListTable(props) {
               maxHeight: 150,
               marginTop: 1,
               overflowY: "auto",
+              border: "2px solid #D9D9D9",
               "& .MuiMenuItem-root:hover": {
                 backgroundColor: "#1E45E1",
                 color: "#fff",
@@ -612,6 +542,7 @@ function ExpensesListTable(props) {
               "&::-webkit-scrollbar-thumb": {
                 backgroundColor: "#1E45E1",
                 borderRadius: "4px",
+                 border: "1px solid #D9D9D9",
               },
               "&::-webkit-scrollbar-track": { backgroundColor: "#f0f0f0" },
             },
