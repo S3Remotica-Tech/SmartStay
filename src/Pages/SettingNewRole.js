@@ -212,8 +212,10 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   return (
     <div className="container " style={{ position: "relative" }}>
-      <div className=' d-flex justify-content-between align-items-center'
-        style={{
+      <div 
+      // className=' d-flex justify-content-between align-items-center'
+      className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+      style={{
           position: "sticky",
           top: 0,
           right: 0,
@@ -222,17 +224,20 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
           backgroundColor: "#FFFFFF",
           height: 83,
         }}>
-        <div style={{ marinTop: -4 }}>
+        <div 
+        className="w-100 text-md-start text-center"
+        style={{ marinTop: -4 }}>
           <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Role</label>
 
 
         </div>
-        <div>
+        <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
           <Button
             onClick={handleAddRole}
             style={{
               fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-              fontWeight: 600, borderRadius: 8, padding: "11px 53px", paddingLeft: 52, marginTop: 5
+              fontWeight: 600, borderRadius: 8, padding: "11px 53px", paddingLeft: 52, marginTop: 5,
+              whiteSpace: "nowrap",
             }}
             disabled={showPopup}
           >

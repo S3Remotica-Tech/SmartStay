@@ -217,9 +217,12 @@ function SettingNewUser() {
 
 
 
-            <div className='d-flex justify-content-between align-items-center'
-                style={{
-                    display: "flex", flexDirection: "row", justifyContent: "space-between", position: "sticky",
+            <div 
+            // className='d-flex justify-content-between align-items-center'
+            className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+            style={{
+                    // display: "flex", flexDirection: "row", justifyContent: "space-between", 
+                    position: "sticky",
                     top: 0,
                     right: 0,
                     left: 0,
@@ -227,10 +230,12 @@ function SettingNewUser() {
                     backgroundColor: "#FFFFFF",
                     height: 83,
                 }}  >
-                <div style={{ marinTop: -4 }}>
+                <div 
+                className="w-100 text-md-start text-center"
+                style={{ marinTop: -4 }}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Users</label>
                 </div>
-                <div>
+                <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
                     <Button
                         onClick={handleOpenAddUser}
                         // style={{
@@ -248,8 +253,9 @@ function SettingNewUser() {
                             // width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,
-                            marginTop: 5
-
+                            marginTop: 5,
+                            whiteSpace: "nowrap",
+                            
                         }}
                         disabled={showPopup}
                     >
@@ -712,34 +718,6 @@ function SettingNewUser() {
                     </ul>
                 </nav>
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             {

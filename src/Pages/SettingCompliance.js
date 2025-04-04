@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import message from "../Assets/Images/New_images/messages_gray.png";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
-import { Button, Col, Form, FormControl } from "react-bootstrap";
+import { Row, Button, Col, Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
@@ -297,20 +297,51 @@ function SettingCompliance({ hostelid }) {
                                      </div>
             }
 
-
-
-
-
-            <div style={{ position: "sticky", top: 0, zIndex: 1000, backgroundColor: "white" }}>
-                <div className="d-flex row mb-4 " >
-                    <div style={{ marginTop: 28 }}>
-                        <Col>
-                            <h4 style={{ fontSize: 20, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>
+            <div 
+             className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+             
+            style={{ position: "sticky", top: 0, 
+                right: 0,
+                left: 0,
+                // padding: "10px",
+            zIndex: 1000, 
+            backgroundColor: "white",
+            // whiteSpace: "nowrap",
+             }}>
+                <div 
+                // className="d-flex row mb-4 " 
+                 className="w-100 "
+                >
+                    <Row 
+                        className="d-flex flex-column flex-md-row align-items-center ">
+                     
+                    <div
+                    style={{ marginTop: 30,
+                        // marginBottom: 20
+                     }} >
+                  
+                        <Col xs={12} md="auto" className="text-center text-md-start mb-5 mb-md-0">
+                            <h4 style={{ fontSize: 20, color: "#000000", fontWeight: 600, 
+                               
+                                fontFamily: "Gilroy",
+                                // marginBottom: "30px", 
+                                // marginTop: 28
+                                // whiteSpace: "nowrap",
+                                }}>
                                 Complaint Type </h4>
-                        </Col></div>
-                    <div style={{ marginTop: -27 }}>
-                        <Col>
-                            <div className="d-flex justify-content-end">
+                        </Col>
+                        </div>
+                    <div 
+                    style={{ marginTop: -40,
+                        marginBottom: "20px",
+                            
+                    }}
+                    >
+                        <Col xs={12} md="auto"
+                        className=
+                                   "d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
+                                //    style={{ marginTop: -27 }}
+                                   >  
                                 <Button
                                     style={{
                                         fontFamily: "Gilroy",
@@ -320,18 +351,24 @@ function SettingCompliance({ hostelid }) {
                                         fontWeight: 600,
                                         borderRadius: "8px",
                                         padding: "11px 15px",
-                                        paddingLeft: 16,
+                                        paddingLeft: 7,
+                                        // marginBottom: "10px", 
                                         // width: "auto",
                                         // maxWidth: "100%",
                                         // maxHeight: 50,
-                                        marginTop: "-11px",
+                                        // marginTop: "15px",
+                                        whiteSpace: "nowrap",
+                                        minWidth: "130px",
 
                                     }}
                                     onClick={handleShowForm} disabled={showPopupvalidation}>
                                     + Complaint Type
                                 </Button>
-                            </div>
-                        </Col></div>
+                            
+                        </Col>
+                       
+                        </div>
+                        </Row>
                 </div>
             </div>
 
