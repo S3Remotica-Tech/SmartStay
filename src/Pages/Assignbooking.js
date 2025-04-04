@@ -737,7 +737,7 @@ function AssignBooking(props) {
 
  <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%",marginTop:6}}>
   <DatePicker
-    style={{ width: "100%", height: 48 }}
+    style={{ width: "100%", height: 48,cursor:"pointer"}}
     format="DD/MM/YYYY"
     placeholder="DD/MM/YYYY"
     value={joiningDate ? dayjs(joiningDate) : null}

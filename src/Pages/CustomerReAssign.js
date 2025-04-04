@@ -927,7 +927,7 @@ function CustomerReAssign(props) {
                                                                     style={{ position: "relative", width: "100%" }}
                                                                   >
                                                                     <DatePicker
-                                                                      style={{ width: "100%", height: 48,border: "1px solid lightgrey", }}
+                                                                      style={{ width: "100%", height: 48,border: "1px solid lightgrey",cursor:"pointer" }}
                                                                       format="DD/MM/YYYY"
                                                                       placeholder="DD/MM/YYYY"
                                                                       value={selectedDate ? dayjs(selectedDate) : null}

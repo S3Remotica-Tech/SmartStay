@@ -216,6 +216,7 @@ function InvoiceDetail(props) {
           placeholderText="Start Date"
           className="form-control"
           dateFormat="dd/MM/yyyy"
+          style={{cursor:"pointer"}}
         />
       </div>
  
@@ -232,6 +233,7 @@ function InvoiceDetail(props) {
           placeholderText="End Date"
           className="form-control"
           dateFormat="dd/MM/yyyy"
+          style={{cursor:"pointer"}}
         />
       </div>
  
