@@ -497,8 +497,8 @@ function Asset() {
               )}
             </div></>
         ) :
-          <div className='container p-0'>
-              <div className="container d-flex justify-content-between align-items-center mb-1 flex-wrap h-auto"
+          <div className='container p-0 ' style={{marginTop:7}}>
+              <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
                 style={{
                   position: 'sticky',
 
@@ -677,7 +677,7 @@ function Asset() {
   </div>
 )}
 
-                  <div style={{ paddingRight: "29px", marginTop: 10, cursor: "pointer" }}>
+                  <div className='me-2' style={{ marginTop: 8, cursor: "pointer" }}>
                     <img src={excelimg} alt='excel' width={38} height={38}
                       onClick={handleAssetsExcel}
                     />

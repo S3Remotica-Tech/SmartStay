@@ -577,15 +577,16 @@ function Banking() {
       ) : (
         <div className="container" >
           <div
-            className="d-flex flex-wrap justify-content-between align-items-center"
+            className="d-flex flex-wrap justify-content-between align-items-center "
 
-          >
-            <div className="ms-2" style={{ marginTop: 10 }}>
+        style={{paddingLeft:4,paddingRight:4, marginTop:3}}  >
+            <div className="ms-2">
               <label style={{
                 fontSize: 18,
                 color: "#000000",
                 fontWeight: 600,
                 fontFamily: "Gilroy",
+                marginTop:17
               }}>Banking</label>
             </div>
 
@@ -784,18 +785,17 @@ function Banking() {
   disabled={bankingAddPermission}
   onClick={handleShowForm}
   style={{
-    fontSize: 13,
-    backgroundColor: "#1E45E1",
-    color: "white",
-    height: 43,
-    fontWeight: 600,
-    borderRadius: 8,
-    padding: "14px 47px",  
-    fontFamily: "Montserrat",
-    whiteSpace: "nowrap",
-    display: "flex", 
-    justifyContent: "center",  
-    alignItems: "center",  
+    fontFamily: "Gilroy",
+fontSize: "14px",
+backgroundColor: "#1E45E1",
+color: "white",
+fontWeight: 600,
+borderRadius: "8px",
+padding: "12px",
+marginBottom: "10px",
+maxHeight: 45,
+width: "146px",
+whiteSpace: "nowrap"
   }}
 >
   + Bank
@@ -1663,18 +1663,18 @@ function Banking() {
               //   }}
               // >
               <nav className="pagination-code"
-  style={{
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "end",
-    padding: "10px",
-    backgroundColor: "#fff",
-    borderRadius: "5px",
-    width: "100%", 
-    marginTop: "10px", 
-    position: "relative", 
-    zIndex: 1000,
-  }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "end",
+                padding: "10px",
+                position: "fixed",
+                bottom: "10px",
+                right: "10px",
+                // backgroundColor: "#fff", // Optional: to give a background for better visibility
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
+                borderRadius: "5px", // Optional: to make edges rounded
+              }}
 >
 
                 <div>

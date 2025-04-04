@@ -336,7 +336,9 @@ text-decoration: underline;
 /* Ensures the calendar dropdown is scrollable */
 .ant-picker-dropdown {
   max-height: 300px !important; /* Set max height */
-  overflow-y: auto !important; /* Enable vertical scroll */
+  overflow-y: auto !important;
+  border: 2px solid #c5c5c5 !important;
+  border-radius: 8px !important; /* Enable vertical scroll */
 }
 
 /* Adjust calendar width to prevent cutting */

@@ -977,7 +977,8 @@ useEffect(()=>{
                         borderRadius: "8px",
                         padding: "11px",
                         paddingLeft: 30,
-                        paddingRight: 26
+                        paddingRight: 26,
+                        whiteSpace:"nowrap"
 
                       }}
                     >
