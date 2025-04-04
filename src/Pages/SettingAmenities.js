@@ -334,9 +334,12 @@ function SettingAmenities({ hostelid }) {
                 position: "relative", maxHeight: "500px",
                 overflowY: "auto",
             }}>
-            <div className='d-flex justify-content-between align-items-center'
+            <div 
+            // className='d-flex justify-content-between align-items-center'
+                 className="d-flex flex-column flex-md-row justify-content-between align-items-center"
                 style={{
-                    display: "flex", flexDirection: "row", justifyContent: "space-between", position: "sticky",
+                    // display: "flex", flexDirection: "row", justifyContent: "space-between",
+                     position: "sticky",
                     top: 0,
                     right: 0,
                     left: 0,
@@ -344,10 +347,14 @@ function SettingAmenities({ hostelid }) {
                     backgroundColor: "#FFFFFF",
                     height: 83,
                 }}>
-                <div style={{ marginTop: -4 }}>
+                <div 
+                className="w-100 text-md-start text-center"
+                style={{ marginTop: -4 }}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
                 </div>
-                <div>
+                <div 
+                className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
+                >
                     <Button
                         onClick={handleOpenAmenities}
                         // style={{
@@ -366,8 +373,9 @@ function SettingAmenities({ hostelid }) {
                             width: "auto",
                             maxWidth: "100%",
                             maxHeight: 50,
-                            marginTop: 5
-
+                            marginTop: 5,
+                            minWidth: "130px",
+                            whiteSpace: "nowrap",
                         }}
                         disabled={showPopup}
                     >
