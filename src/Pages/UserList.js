@@ -2239,6 +2239,20 @@ const handleBack = () => {
       </div>
     );
   };
+  const buttonStyle = {
+    fontFamily: "Gilroy",
+    fontSize: "14px",
+    backgroundColor: "#1E45E1",
+    color: "white",
+    fontWeight: 600,
+    borderRadius: "8px",
+    padding: "12px",
+    marginBottom: "10px",
+    maxHeight: 45,
+    width: "146px",
+    whiteSpace: "nowrap"
+  };
+  
 
   return (
     // <div style={{ padding: 10, marginLeft: 20 }}>
@@ -2270,33 +2284,18 @@ const handleBack = () => {
       />
 
       {userList && (
-        <div className="container">
+        <div >
           
-          <div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:value === "1"? "-7px" : 0}}> 
-          <div
-  className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ms-lg-4"
-  style={{
-    marginTop: value === "1" ? "17px" : window.innerWidth >= 544 ? "10px" : "0px",
-  }}
->
-  <label
-    style={{
-      fontSize: 18,
-      color: "#000000",
-      fontWeight: 600,
-      fontFamily: "Gilroy",
-      marginLeft:"-5px",
-    }}
-  >
-    Customers
-  </label>
-</div>
+          <div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:14}}> 
+  <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ms-lg-4">
+    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy", marginLeft:"-5px" }}>
+      Customers
+    </label>
+  </div>
 
-
-    <div className="d-flex flex-wrap align-items-center gap-2">
-      
-      {/* Search Box */}
-      {search ? (
+  <div className="d-flex flex-wrap align-items-center gap-2">
+    {/* Search Box */}
+    {search ? (
         <div style={{ position: "relative", width: "240px" }}>
           <div className="input-group">
             <span className="input-group-text bg-white border-end-0">
@@ -2406,7 +2405,7 @@ const handleBack = () => {
         <Image
           src={searchteam}
           alt="search"
-          style={{ height: "24px", width: "24px", cursor: "pointer",marginTop:value === "1"? "10px":0 }}
+          style={{ height: "24px", width: "24px", cursor: "pointer" }}
           onClick={handleShowSearch}
         />
       )}
@@ -2420,17 +2419,19 @@ const handleBack = () => {
                     />
                   </div>
                 )}
-               
-                {filterStatus && value === "2" && (
-       
-       <RangePicker
-         value={bookingDateRange}
-         onChange={handleDateRangeChangeBooking}
-         format="DD/MM/YYYY" // Adjust width
-       />
-     
-      )}
-       {value === "3" && filterStatus && (
+
+    {value === "2" && filterStatus && (
+      <div style={{ width: 240 }}>
+        <RangePicker
+          value={bookingDateRange}
+          onChange={handleDateRangeChangeBooking}
+          format="DD/MM/YYYY"
+          style={{ width: "100%" }}
+        />
+      </div>
+    )}
+
+{value === "3" && filterStatus && (
                         <div
                           className="me-3"
                           style={{
@@ -2458,37 +2459,32 @@ const handleBack = () => {
                           </Form.Select>
                         </div>
                       )}
-                      {statusFilterCheckout === "date" && (  
-    <div >
-    <RangePicker
-      value={checkoutDateRange}
-      format="YYYY-MM-DD"
-      onChange={handleDateRangeChangeCheckout}
-      style={{ height: "38px", borderRadius: 8 }}
-      allowClear
-    />
-  </div>
-)}
-   {/* {filterStatus && value === "3" && (
+
+    {value === "3" && statusFilterCheckout === "date" && (
+      <div>
         <RangePicker
           value={checkoutDateRange}
+          format="YYYY-MM-DD"
           onChange={handleDateRangeChangeCheckout}
-          format="DD/MM/YYYY"
-          style={{ marginLeft: 10 }}
+          style={{ height: "38px", borderRadius: 8 }}
+          allowClear
         />
-      )} */}
+      </div>
+    )}
 
-
-
-         {filterStatus && value === "4" && (
+    {value === "4" && filterStatus && (
+      <div style={{ width: 240 }}>
         <RangePicker
           value={walkinDateRange}
           onChange={handleDateRangeChangeWalkin}
           format="DD/MM/YYYY"
+          style={{ width: "100%" }}
         />
-      )}
-      {/* Excel Button */}
-      <div>
+      </div>
+    )}
+
+    {/* Excel Buttons */}
+    <div style={{marginTop:1}}>
         {value === "1" && (
           <img
             src={excelimg}
@@ -2496,7 +2492,7 @@ const handleBack = () => {
             width={38}
             height={38}
 
-            style={{ cursor: "pointer",marginTop:8 }}
+            style={{ cursor: "pointer" }}
             onClick={handleCustomerExcel}
           />
         )}
@@ -2532,106 +2528,48 @@ const handleBack = () => {
         )}
       </div>
 
-      {/* Action Button */}
-      <div className="mt-2 me-lg-4 mt-lg-2 me-md-4 mt-sm-4 mt-md-4 mx-auto text-center"
-      >
-        {value === "1" && (
-          <Button
-            disabled={customerAddPermission}
-            onClick={handleShow}
-            
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "8px",
-              padding: "12px",
-              // paddingLeft: 50,
-              // paddingRight: 50,
-              marginBottom: "10px",
-              maxHeight: 45,
-              width: "160px", 
-              whiteSpace:"nowrap",
-              marginTop:7
-            }}
-          >
-            + Customer
-          </Button>
-        )}
-        {value === "2" && (
-          <Button
-            disabled={customerBookingAddPermission}
-            onClick={toggleForm}
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "8px",
-              padding: "12px",
-              // paddingLeft: 50,
-              // paddingRight: 50,
-              marginBottom: "10px",
-              maxHeight: 45,
-              width: "160px", 
-              whiteSpace:"nowrap"
-            }}
-          >
-            + Bookings
-          </Button>
-        )}
-       {value === "3" && (
-  <Button
-    disabled={customerCheckoutPermission}
-    onClick={checkOutForm}
-    style={{
-      fontFamily: "Gilroy",
-      fontSize: "14px",
-      backgroundColor: "#1E45E1",
-      color: "white",
-      fontWeight: 600,
-      borderRadius: "8px",
-      padding: "12px",
-      // paddingLeft: 50,
-      // paddingRight: 50,
-      marginBottom: "10px",
-      maxHeight: 45,
-      width: "160px", 
-      whiteSpace:"nowrap"
-    }}
-  >
-    + Check-Out
-  </Button>
-)}
-        {value === "4" && (
-          <Button
-            disabled={customerWalkInAddPermission}
-            onClick={walkinForm}
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "8px",
-              padding: "12px",
-              // paddingLeft: 50,
-              // paddingRight: 50,
-              marginBottom: "10px",
-              maxHeight: 45,
-              width: "160px", 
-              whiteSpace:"nowrap"
-            }}
-          >
-            + Walk-In
-          </Button>
-        )}
-      </div>
+    {/* Action Buttons */}
+    <div className="mt-2 me-lg-4 text-center">
+      {value === "1" && (
+        <Button
+          disabled={customerAddPermission}
+          onClick={handleShow}
+          style={buttonStyle}
+        >
+          + Customer
+        </Button>
+      )}
+      {value === "2" && (
+        <Button
+          disabled={customerBookingAddPermission}
+          onClick={toggleForm}
+          style={buttonStyle}
+        >
+          + Bookings
+        </Button>
+      )}
+      {value === "3" && (
+        <Button
+          disabled={customerCheckoutPermission}
+          onClick={checkOutForm}
+          style={buttonStyle}
+        >
+          + Check-Out
+        </Button>
+      )}
+      {value === "4" && (
+        <Button
+          disabled={customerWalkInAddPermission}
+          onClick={walkinForm}
+          style={buttonStyle}
+        >
+          + Walk-In
+        </Button>
+      )}
     </div>
   </div>
+</div>
+
 
 
           {filterInput && (

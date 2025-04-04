@@ -450,7 +450,7 @@ function Vendor() {
               )}
             </div></>
         ) :
-          <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} className='container'>
+          <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative",marginTop:22 }} className='container'>
 
 
             <div
@@ -477,11 +477,11 @@ function Vendor() {
                 }}
               >
 
-                <div style={{ marginTop: 4 }}>
+                <div >
                   <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendors</label>
                 </div>
 
-                <div style={{ marginTop: 22 }} className="d-flex justify-content-between align-items-center flex-wrap">
+                <div className="d-flex justify-content-between align-items-center flex-wrap">
 
 
 
@@ -498,7 +498,7 @@ function Vendor() {
                   {
                     showFilterData &&
                     <div className=' me-3  flex flex-wrap'
-                      style={{ position: 'relative' }}
+                      style={{ position: 'relative',marginTop:"-4px" }}
                     >
 
                       <div className=''>
@@ -600,14 +600,16 @@ function Vendor() {
                     <Button disabled={vendorAddPermission} onClick={handleShow}  className="vendor-button"
                       style={{
                         fontFamily: "Gilroy",
-                        fontSize: "14px",
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        fontWeight: 600,
-                        borderRadius: "8px",
-                        padding: "11px 42px",
-                        paddingLeft: 45,
-                        marginBottom: "10px",
+    fontSize: "14px",
+    backgroundColor: "#1E45E1",
+    color: "white",
+    fontWeight: 600,
+    borderRadius: "8px",
+    padding: "12px",
+    marginBottom: "10px",
+    maxHeight: 45,
+    width: "146px",
+    whiteSpace: "nowrap"
                       }}
                     > + Vendor</Button>
                   </div>
@@ -720,11 +722,11 @@ function Vendor() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "end",
-                padding: "10px",
+                padding: "15px",
                 backgroundColor: "#fff",
                 borderRadius: "5px",
                 width: "100%", 
-                marginTop: "10px", 
+                marginTop: "20px", 
                 position: "relative", 
                 zIndex: 1000,
               }}

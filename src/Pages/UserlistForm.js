@@ -1711,6 +1711,7 @@ const handleBed = (selectedOption) => {
       setSelectedDate(date ? date.toDate() : null);
     }}
     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+   
   />
 </div>
                       </Form.Group>

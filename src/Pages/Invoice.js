@@ -504,43 +504,46 @@ useEffect(() => {
   const handleAmount = (e) => {
     const inputValue = e.target.value.trim();
   
-    // Update the invoiceList state immediately (keep input in sync)
-    setInvoiceList((prevState) => ({
-      ...prevState,
-      payableAmount: inputValue, // keep as string temporarily to avoid flickering
-    }));
-  
     if (!inputValue) {
       setAmountErrmsg("Please Enter Amount");
+  
+      setInvoiceList((prevState) => ({
+        ...prevState,
+        payableAmount: "",
+        balanceDue: prevState.amount - prevState.paidAmount,
+      }));
       return;
     } else {
       setAmountErrmsg("");
     }
-  
-    const AmountValue = parseFloat(inputValue);
-    if (
-      !isNaN(AmountValue) &&
-      !isNaN(invoiceList.amount) &&
-      !isNaN(invoiceList.paidAmount) &&
-      !isNaN(invoiceList.balanceDue)
-    ) {
-      const total_amount = invoiceList.amount;
-      const paid_amount = invoiceList.paidAmount;
-      const payablAmount = AmountValue;
-      const cal1 = paid_amount + payablAmount;
-      const new_balance_due = total_amount - cal1;
-  
-      if (total_amount < cal1) {
-        console.log("This is Not correct value");
-      } else {
-        setInvoiceList((prevState) => ({
-          ...prevState,
-          payableAmount: payablAmount,
-          balanceDue: new_balance_due >= 0 ? new_balance_due : prevState.balanceDue,
-        }));
-      }
+ 
+    const payableAmount = parseFloat(inputValue);
+    if (isNaN(payableAmount)) {
+      setAmountErrmsg("Invalid amount entered");
+      return;
     }
+  
+    setInvoiceList((prevState) => {
+      const totalAmount = parseFloat(prevState.amount) || 0;
+      const paidAmount = parseFloat(prevState.paidAmount) || 0;
+  
+      const newPaidAmount = paidAmount + payableAmount;
+      const newBalanceDue = totalAmount - newPaidAmount;
+  
+      
+      if (newPaidAmount > totalAmount) {
+        setAmountErrmsg("Payable Amount Cannot Exceed Due Amount");
+        return prevState; 
+      }
+  
+      return {
+        ...prevState,
+        payableAmount,
+        balanceDue: newBalanceDue >= 0 ? newBalanceDue : prevState.balanceDue,
+      };
+    });
   };
+  
   
   
 
@@ -850,7 +853,8 @@ useEffect(() => {
   const handleShowForm = (props) => {
     setShowform(true);
     setInvoiceValue(props.item);
-
+  
+     
     if (props.item.id !== undefined) {
       // setEditOption("Edit");
       const dateObject = new Date(props.item.Date);
@@ -900,6 +904,8 @@ useEffect(() => {
       // setShowMenu(true);
     }
   };
+
+  console.log("props", invoiceList.balanceDue);
   const handleCloseForm = () => {
     // setEdit(!edit)
     setPaymodeErrmsg("")
@@ -2472,25 +2478,25 @@ useEffect(() => {
   return (
     <div>
       {showAllBill && (
-        <div className="container">
+        <div style={{marginTop:"5px"}}>
          <div
-  className="container-fluid sticky-top bg-white py-2 "
-  style={{ zIndex: 1000, height: 'auto'}}
+  className="container-fluid sticky-top bg-white "
+  style={{ zIndex: 1000, height: 'auto',paddingLeft:7,paddingRight:6}}
 >
-<div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:"-10px"}} >
+<div className="d-flex justify-content-between align-items-center flex-wrap mt-2"  >
             <div className=" ms-3 " style={{
     marginTop: value === "1" || value === "3" ? "7px" : "8px",
   }}>
-      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600 }}>Bills</label>
+      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,fontFamily: "Gilroy",marginTop:10 }}>Bills</label>
     </div>
 
-            <div>
+            <div >
               {showLoader && <LoaderComponent />}
               {loading && <LoaderComponent />}
-              <div  className="d-flex flex-wrap align-items-center gap-2">
+              <div  className="d-flex flex-wrap align-items-center gap-2" style={{marginTop:"-6px",paddingLeft:25}}>
                 {search ? (
                   <>
-                    <div className="position-relative" style={{ minWidth: 160,maxWidth:250 }}>
+                    <div className="position-relative" style={{ minWidth: 160,maxWidth:250, }}>
                      
                        
                         <div
@@ -2738,7 +2744,7 @@ useEffect(() => {
                   </>
                 ) : (
                   <>
-                    <div style={{ paddingRight: 15, marginTop: 18 }}>
+                    <div style={{ marginTop: 18 }}>
                       <Image
                         src={searchteam}
                         roundedCircle
@@ -2754,7 +2760,7 @@ useEffect(() => {
                 )}
 
                 {(value === "1" || value === "3") && (
-                  <div style={{ paddingRight: 15 }}>
+                  <div >
                     <Image
                       src={Filters}
                       roundedCircle
@@ -2869,23 +2875,12 @@ useEffect(() => {
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
 
-                <div className="me-3">
+                <div style={{paddingRight:18}} >
                   {value === "1" && (
                     <Button
                       disabled={billAddPermission}
                       onClick={handleManualShow}
-                      // style={{
-                      //   fontSize: 14,
-                      //   backgroundColor: "#1E45E1",
-                      //   color: "white",
-                      //   height: 52,
-                      //   fontWeight: 600,
-                      //   borderRadius: 8,
-                      //   width: 152,
-                      //   padding: "12px, 16px, 12px, 16px",
-                      //   color: "#FFF",
-                      //   fontFamily: "Montserrat",
-                      // }}
+                      
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: "14px",
@@ -2893,8 +2888,8 @@ useEffect(() => {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "11px 32px",
-                        marginTop: 19,
+                        padding: "11px 33px",
+                        marginTop: 17,
                         paddingLeft: 34,
                         whiteSpace: "nowrap",
                       }}
@@ -2927,9 +2922,9 @@ useEffect(() => {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "11px 24px",
+                        padding: "11px 25px",
                         paddingLeft: 25,
-                        marginTop: 21,
+                        marginTop: 20,
                         whiteSpace: "nowrap",
                         // width: "170px",
                       }}
@@ -2963,10 +2958,10 @@ useEffect(() => {
                         color: "white",
                         fontWeight: 600,
                         borderRadius: "8px",
-                        padding: "11px 17px",
+                        padding: "11px 18px",
                         paddingLeft: 18,
                         whiteSpace: "nowrap",
-                        marginTop: 19,
+                        marginTop: 17,
                       }}
                     >
                       {" "}
@@ -3005,7 +3000,7 @@ useEffect(() => {
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "14px", marginTop: "-10px" }}
+                  style={{ marginLeft: "14px" }}
                  
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
@@ -3747,7 +3742,7 @@ useEffect(() => {
                                                        color: "#000",
                                                      }),
                                                    }}
-                                                   isDisabled={currentItem}
+                                                  //  isDisabled={currentItem}
                                                    noOptionsMessage={() =>
                                                     bankking?.length === 0
                                                        ? "No accounts available"
@@ -4555,7 +4550,7 @@ useEffect(() => {
                         borderRadius: "24px",
                         border: "1px solid #DCDCDC",
                         // borderBottom:"none"
-                        // marginTop:"-15px"
+                        marginTop:"3px"
                       }}
                     >
                       <Table

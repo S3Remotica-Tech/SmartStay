@@ -753,15 +753,15 @@ function SettingExpenses({ hostelid }) {
     position: "absolute",
     top: "100%",
     left: 0,
-    width: "100%", // Ensures the dropdown takes full width of the parent
+    width: "100%",
     zIndex: 999,
     backgroundColor: "#fff",
     border: "1px solid #ddd",
     borderRadius: "0 0 10px 10px",
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
     padding: "10px",
-    maxHeight: "250px", // Sets a maximum height for the dropdown
-    overflowY: "auto", // Allows the entire dropdown to scroll
+    maxHeight: "250px", 
+    overflowY: "auto",
     marginTop: "5px"
   }}>
     <ul className="p-2 m-0">
@@ -797,9 +797,9 @@ function SettingExpenses({ hostelid }) {
 </div>
 
       {expensesFilterddata?.length >= 2 && (
-        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{zIndex:995}}>
           {/* Dropdown for Items Per Page */}
-          <div>
+          <div >
             <select
               value={expensesrowsPerPage}
               onChange={handleItemsPerPageChange}
