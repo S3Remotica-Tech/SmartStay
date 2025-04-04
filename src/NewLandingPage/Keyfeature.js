@@ -3,7 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import Roommangement from "../Assets/Images/landingpageimages/room_manage_icon.png";
 import Custommangement from "../Assets/Images/landingpageimages/cus_manage_icon.png";
 import Report from "../Assets/Images/landingpageimages/Report.png";
-import Hostel from "../Assets/Images/landingpageimages/hostel.png";
+import Hostel from "../Assets/Images/landingpageimages/sm_hostel.png";
 import Lists from "../Assets/Images/landingpageimages/list.svg";
 
 const features = [
@@ -90,35 +90,38 @@ const handleScrollToFeature = (id) => {
 {/* )} */}
 
       <div  className={`position-sticky top-10 w-100  p-3 ${hideTopbar ? "d-none" : "d-block"}`} style={{ zIndex: 1000, transition: "0.3s ease-in-out" }}>
-        <Row className="justify-content-center ms-2 me-2">
-          {features.map((feature) => (
-            <Col xs={12} sm={6} md={3} key={feature.id}>
-              <Button
-                variant="light"
-                className="d-flex flex-row align-items-center gap-2 px-4 py-3 w-100 shadow-sm fw-medium"
-                style={{
-                  borderRadius: "20px",
-                  border: activeFeature === feature.id ? "2px solid rgba(30, 69, 225, 1)" : "2px solid transparent",
-                  color: activeFeature === feature.id ? "rgba(30, 69, 225, 1)" : "#6c757d",
-                }}
-                onClick={() => handleScrollToFeature(feature.id)}
-              >
-                <div
-                  className="d-flex align-items-center justify-content-center"
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "10px",
-                    backgroundColor: "rgba(232, 236, 252)",
-                  }}
-                >
-                  <img src={feature.icon} alt={feature.name} style={{ width: "20px", height: "20px" }} />
-                </div>
-                <span>{feature.name}</span>
-              </Button>
-            </Col>
-          ))}
-        </Row>
+      <Row className="justify-content-center ms-2 me-2 g-2">
+  {features.map((feature) => (
+    <Col xs={12} sm={6} md={3} key={feature.id} className="d-flex">
+      <div className="w-100">
+        <Button
+          variant="light"
+          className="d-flex flex-row align-items-center gap-2 px-4 py-3 w-100 shadow-sm fw-medium mb-2 mb-sm-0"
+          style={{
+            borderRadius: "20px",
+            border: activeFeature === feature.id ? "2px solid rgba(30, 69, 225, 1)" : "2px solid transparent",
+            color: activeFeature === feature.id ? "rgba(30, 69, 225, 1)" : "#6c757d",
+          }}
+          onClick={() => handleScrollToFeature(feature.id)}
+        >
+          <div
+            className="d-flex align-items-center justify-content-center"
+            style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "10px",
+              backgroundColor: "rgba(232, 236, 252)",
+            }}
+          >
+            <img src={feature.icon} alt={feature.name} style={{ width: "20px", height: "20px" }} />
+          </div>
+          <span>{feature.name}</span>
+        </Button>
+      </div>
+    </Col>
+  ))}
+</Row>
+
       </div>
 
       <div className="mt-5 pt-5 pb-4 me-0" style={{ backgroundColor: "white" }}>
