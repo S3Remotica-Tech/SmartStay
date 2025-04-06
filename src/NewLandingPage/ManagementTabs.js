@@ -9,10 +9,10 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import HostelTopBlackImage from "../Assets/Images/landingpageimages/hosteltopimage.png";
-import hostelBackround from "../Assets/Images/landingpageimages/Rectangle 34625101.png"
+// import HostelTopBlackImage from "../Assets/Images/landingpageimages/hosteltopimage.png";
+// import hostelBackround from "../Assets/Images/landingpageimages/Rectangle 34625101.png"
 import dashboardImg from "../Assets/Images/landingpageimages/roommanagement.png";
-import Rectangle from "../Assets/Images/landingpageimages/Rectangle 34624179.png";
+// import Rectangle from "../Assets/Images/landingpageimages/Rectangle 34624179.png";
 
 
 

@@ -458,6 +458,13 @@ function StaticExample({ show, handleClose, currentItem }) {
                     dropdownIndicator: (base) => ({
                       ...base,
                       color: "#555",
+                      cursor: "pointer",
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer", 
+                      backgroundColor: state.isFocused ? "lightblue" : "white", 
+                      color: "#000",
                     }),
                     indicatorSeparator: () => ({
                       display: "none",
@@ -499,7 +506,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                       fontWeight: 500,
                     }}
                   >
-                    Select a room{" "}
+                    Select a Room{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   {/* <Form.Select
@@ -582,6 +589,13 @@ function StaticExample({ show, handleClose, currentItem }) {
                       dropdownIndicator: (base) => ({
                         ...base,
                         color: "#555",
+                        cursor: "pointer", 
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer", 
+                        backgroundColor: state.isFocused ? "lightblue" : "white", 
+                        color: "#000",
                       }),
                       indicatorSeparator: () => ({
                         display: "none",

@@ -673,7 +673,7 @@ function Asset() {
         }
       }}
       format="YYYY-MM-DD"
-      style={{ height: 40 }}
+      style={{ height: 40,cursor:"pointer" }}
     />
   </div>
 )}

@@ -1681,6 +1681,12 @@ useEffect(() => {
     setSearch(false);
     setFilterInput("");
     setDropdownVisible(false)
+    setFilterStatus(false)
+    setStatusFilterReceipt("")
+    setStatusfilter("");
+      setDateRange([]);        
+      setStartDate(null);   
+      setEndDate(null);
   };
 
   const handleDisplayInvoiceDownload = (isVisible, rowData) => {
@@ -2623,6 +2629,8 @@ useEffect(() => {
                                                       : "none",
                                                   backgroundColor:
                                                     hoveredIndex === index ? "#1E45E1" : "transparent",
+                                                    color:
+                                                    hoveredIndex === index ? "white" : "black",
                                                 }}
                                                 onClick={() => handleUserSelect(user)}
                                                 onMouseEnter={() => setHoveredIndex(index)}
@@ -2653,7 +2661,7 @@ useEffect(() => {
                           style={{
                             border: "1px solid #d9d9d9 ",
                             position: "absolute",
-                            top: 70,
+                            top: 80,
                             left: 0,
                             zIndex: 9999, // Increased zIndex
                             padding: 10,
@@ -2721,7 +2729,7 @@ useEffect(() => {
   style={{
     border: "1px solid #d9d9d9 ",
     position: "absolute",
-    top: 70,
+    top: 80,
     left: 0,
     zIndex: 9999,
     padding: 10,
@@ -2845,10 +2853,10 @@ useEffect(() => {
                  
                   </div>
                 )}
-{statusfilter === "date" && (
+{statusfilter === "date" && value === "1" && (
   <div className="mt-4">
     <RangePicker
-  style={{ height: 40 }}
+  style={{ height: 40,cursor:"pointer" }}
   onChange={(dates) => {
     if (!dates || dates.length === 0) {
       setStatusfilter("");
@@ -2889,6 +2897,7 @@ useEffect(() => {
                         color: "rgba(34, 34, 34, 1)",
                         fontWeight: 600,
                         fontFamily: "Gilroy",
+                        cursor:"pointer"
                       }}
                     >
                       <option value="All">All</option>
@@ -2901,13 +2910,13 @@ useEffect(() => {
                   </div>
                 )}
 
-{statusFilterReceipt === "date" && (
+{statusFilterReceipt === "date" && value === "3" && (
   <div className="me-3 mt-3">
     <RangePicker
       value={receiptDateRange}
       format="YYYY-MM-DD"
       onChange={handleDateRangeChangeReceipt}
-      style={{ height: "38px", borderRadius: 8 }}
+      style={{ height: "38px", borderRadius: 8,cursor:"pointer"}}
       allowClear
     />
   </div>
@@ -3018,7 +3027,7 @@ useEffect(() => {
           </div>
           </div>
 
-          <TabContext value={value}>
+          <TabContext value={value} >
           <div
              style={{
               position: "sticky",
@@ -3044,7 +3053,7 @@ useEffect(() => {
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "14px" }}
+                  style={{ marginLeft: "14px",marginTop:"-10px" }}
                  
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >

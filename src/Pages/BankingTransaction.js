@@ -363,6 +363,13 @@ function BankingEditTransaction(props) {
       dropdownIndicator: (base) => ({
         ...base,
         color: "#555",
+        cursor:"pointer"
+      }),
+      option: (base, state) => ({
+        ...base,
+        cursor: "pointer", 
+        backgroundColor: state.isFocused ? "lightblue" : "white", 
+        color: "#000",
       }),
       indicatorSeparator: () => ({
         display: "none",
@@ -514,6 +521,7 @@ function BankingEditTransaction(props) {
                   border: "1px solid #D9D9D9",
                   height: 50,
                   borderRadius: 8,
+                  cursor:"pointer"
                 }}
                 value={transaction}
                 onChange={(e) => handleTransaction(e)}

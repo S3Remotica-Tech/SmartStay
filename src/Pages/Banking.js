@@ -773,7 +773,7 @@ function Banking() {
         value={dateRange}
         format="YYYY-MM-DD"
         onChange={handleDateRangeChange}
-        style={{ height: "38px", borderRadius: 8 }}
+        style={{ height: "38px", borderRadius: 8,cursor:"pointer"}}
       />
     </div>
   )}

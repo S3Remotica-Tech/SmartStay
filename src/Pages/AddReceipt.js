@@ -552,6 +552,17 @@ const AddReceiptForm = (props) => {
       scrollbarWidth: "thin",  
       msOverflowStyle: "none",
     }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      cursor:"pointer"
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer", 
+      backgroundColor: state.isFocused ? "lightblue" : "white", 
+      color: "#000",
+    }),
     control: (base) => ({
       ...base,
       fontSize: 16,
@@ -681,6 +692,17 @@ const AddReceiptForm = (props) => {
           overflowY: "auto", 
           scrollbarWidth: "thin",  
           msOverflowStyle: "none",
+        }),
+        dropdownIndicator: (base) => ({
+          ...base,
+          color: "#555",
+          cursor:"pointer"
+        }),
+        option: (base, state) => ({
+          ...base,
+          cursor: "pointer", 
+          backgroundColor: state.isFocused ? "lightblue" : "white", 
+          color: "#000",
         }),
         control: (base) => ({
           ...base,
@@ -868,6 +890,7 @@ const AddReceiptForm = (props) => {
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       fontWeight: modeOfPayment ? 600 : 500,
+                      cursor:"pointer"
                     }}
                   >
                  <option selected>select </option>
@@ -1007,6 +1030,17 @@ const AddReceiptForm = (props) => {
       overflowY: "auto",
       scrollbarWidth: "thin",
       msOverflowStyle: "none",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      cursor:"pointer"
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer", 
+      backgroundColor: state.isFocused ? "lightblue" : "white", 
+      color: "#000",
     }),
     control: (base) => ({
       ...base,

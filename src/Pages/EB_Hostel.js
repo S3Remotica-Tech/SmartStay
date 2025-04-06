@@ -873,7 +873,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
           value={customerDateRange}
           onChange={handleDateRangeChangeEb}
           format="DD/MM/YYYY"
-          style={{ height: 40 }}
+          style={{ height: 40,cursor:"pointer" }}
         />
       </div>
     )}
@@ -1789,6 +1789,13 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
                     dropdownIndicator: (base) => ({
                       ...base,
                       color: "#555",
+                      cursor:"pointer"
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer", 
+                      backgroundColor: state.isFocused ? "lightblue" : "white", 
+                      color: "#000",
                     }),
                     indicatorSeparator: () => ({
                       display: "none",
@@ -1914,6 +1921,13 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
                     dropdownIndicator: (base) => ({
                       ...base,
                       color: "#555",
+                      cursor:"pointer"
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer", 
+                      backgroundColor: state.isFocused ? "lightblue" : "white", 
+                      color: "#000",
                     }),
                     indicatorSeparator: () => ({
                       display: "none",

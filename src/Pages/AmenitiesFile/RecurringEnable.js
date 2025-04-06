@@ -82,6 +82,7 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
             lineHeight: 1,
             stroke: "currentColor",
             strokeWidth: 0,
+            cursor:"pointer"
           }),
           indicatorSeparator: () => ({
             display: "none",
@@ -90,6 +91,7 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
   
     const handleStartDateChange = (selectedOption) => {
         setStartDate(selectedOption ? selectedOption.value : null);
+        setErrorStartDate("")
     };
     const handleEndDateChange = (selectedOption) => {
         setEndDate(selectedOption ? selectedOption.value : null);

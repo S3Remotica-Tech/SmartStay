@@ -943,7 +943,7 @@ const Compliance = () => {
           value={selectedDateRange}
           onChange={handleDateChange}
           format="YYYY-MM-DD"
-          style={{ height: 40 }}
+          style={{ height: 40,cursor:"pointer" }}
         />
       </div>
     )}

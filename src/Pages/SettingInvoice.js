@@ -424,6 +424,7 @@ function SettingInvoice({ hostelid }) {
   const handleInvoiceStartDateChange = (selectedOption) => {
     setTotalErrmsg("");
     setInvoiceDate(selectedOption?.value);
+    setInvoiceDateErrmsg("")
   };
   const handleInvoiceEndDateChange = (selectedOption) => {
     setTotalErrmsg("");
@@ -432,9 +433,11 @@ function SettingInvoice({ hostelid }) {
 
   const handleStartDateChange = (selectedOption) => {
     setCalculatedstartdate(selectedOption?.value);
+    setCalculatedstartdateErrmsg("")
   };
   const handleEndDateChange = (selectedOption) => {
     setCalculatedEnddate(selectedOption?.value);
+    setCalculatedEnddateErrMsg("")
   };
 
 
@@ -886,6 +889,7 @@ function SettingInvoice({ hostelid }) {
                             lineHeight: 1,
                             stroke: "currentColor",
                             strokeWidth: 0,
+                            cursor:"pointer"
                           }),
                           indicatorSeparator: () => ({
                             display: "none",
@@ -961,6 +965,7 @@ function SettingInvoice({ hostelid }) {
                             lineHeight: 1,
                             stroke: "currentColor",
                             strokeWidth: 0,
+                             cursor:"pointer"
                           }),
                           indicatorSeparator: () => ({
                             display: "none",
@@ -1173,6 +1178,13 @@ function SettingInvoice({ hostelid }) {
                             lineHeight: 1,
                             stroke: "currentColor",
                             strokeWidth: 0,
+                            cursor:"pointer"
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            cursor: "pointer", 
+                            backgroundColor: state.isFocused ? "lightblue" : "white", 
+                            color: "#000",
                           }),
                           indicatorSeparator: () => ({
                             display: "none",
@@ -1242,6 +1254,13 @@ function SettingInvoice({ hostelid }) {
                             lineHeight: 1,
                             stroke: "currentColor",
                             strokeWidth: 0,
+                            cursor:"pointer"
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            cursor: "pointer", 
+                            backgroundColor: state.isFocused ? "lightblue" : "white", 
+                            color: "#000",
                           }),
                           indicatorSeparator: () => ({
                             display: "none",

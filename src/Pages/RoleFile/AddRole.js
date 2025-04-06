@@ -319,17 +319,41 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
         }
       
       },[addRole])
+      useEffect(() => {
+        document.body.style.overflow = showRole ? "hidden" : "auto";
+      }, [showRole]);
 
 
     return (
         <div
-            className="modal show"
+        className="modal show"
+        style={{
+          display: "block",
+          position: "fixed", // fixed so it doesn't move on scroll
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 1050,
+          overflow: "hidden", // this locks page scroll
+          backgroundColor: "rgba(0, 0, 0, 0.3)", // optional backdrop
+        }}
+      >
+        <Modal
+  show={showRole}
+  onHide={handleClose}
+  centered
+  backdrop="static"
+  dialogClassName="custom-modal-no-scroll"
+>
+          <Modal.Dialog
             style={{
-                display: 'block', position: 'initial'
+              maxWidth: 850,
+              width: "100%",
+              margin: 0,
             }}
-        >
-            <Modal show={showRole} onHide={handleClose} centered backdrop="static" className="custom-modal-width-Amenities" >
-                <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
+            className="m-0 p-0"
+          >
                     <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
                         <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{editRoleDetails ? 'Edit Role' : 'Create Role' }</Modal.Title>
 
@@ -359,7 +383,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
                                 </Form.Label>
                                 <FormControl
                                     id="form-controls"
-                                    placeholder="Enter role"
+                                    placeholder="Enter Role"
                                     type="text"
                                     value={roleName}
                                     onChange={(e) => handleRoleName(e)}
@@ -377,7 +401,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
                             </Form.Group>
 
                             {roleError && (
-                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
+                            <div className="d-flex align-items-center" style={{marginTop:"-10px"}}>
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {roleError}
@@ -385,7 +409,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
                             </div>
                         )}
                            {editRoleError && (
-                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
+                            <div className="d-flex align-items-center  " style={{marginTop:"-10px"}}>
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {editRoleError}
@@ -396,7 +420,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
 
 
                             {errorForm && (
-                            <div className="d-flex align-items-center p-1 mt-2 mb-2">
+                            <div className="d-flex align-items-center" style={{marginTop:"-10px"}}>
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {errorForm}
@@ -409,7 +433,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
 
 
 
-                        <div className="mt-3 " style={{ border: "1px solid #DCDCDC", borderRadius: "16px" , maxHeight: "350px", overflowY: "auto",}}>
+                        <div className="mt-3 " style={{ border: "1px solid #DCDCDC", borderRadius: "16px" , maxHeight: "280px", overflowY: "auto",}}>
                             <table className="table mb-0">
                                 <thead style={{ backgroundColor: "#E7F1FF",
                                     position:"sticky",
@@ -468,7 +492,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
                        
 
                         {errorPermission && (
-                            <div className="d-flex align-items-center p-1 mt-2 mb-2 ms-3">
+                            <div className="d-flex align-items-center ms-3" style={{marginTop:"-10px"}}>
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {errorPermission}

@@ -2427,7 +2427,7 @@ const handleBack = () => {
           value={bookingDateRange}
           onChange={handleDateRangeChangeBooking}
           format="DD/MM/YYYY"
-          style={{ width: "100%" }}
+          style={{ width: "100%",cursor:"pointer" }}
         />
       </div>
     )}
@@ -2467,7 +2467,7 @@ const handleBack = () => {
           value={checkoutDateRange}
           format="YYYY-MM-DD"
           onChange={handleDateRangeChangeCheckout}
-          style={{ height: "38px", borderRadius: 8 }}
+          style={{ height: "38px", borderRadius: 8,cursor:"pointer" }}
           allowClear
         />
       </div>
@@ -2479,7 +2479,7 @@ const handleBack = () => {
           value={walkinDateRange}
           onChange={handleDateRangeChangeWalkin}
           format="DD/MM/YYYY"
-          style={{ width: "100%" }}
+          style={{ width: "100%",cursor:"pointer" }}
         />
       </div>
     )}

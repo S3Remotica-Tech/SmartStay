@@ -1123,6 +1123,7 @@ const SettingElectricity = ({ hostelid }) => {
                             lineHeight: 1,
                             stroke: "currentColor",
                             strokeWidth: 0,
+                            cursor:"pointer"
                           }),
                           indicatorSeparator: () => ({
                             display: "none",
@@ -1217,6 +1218,7 @@ const SettingElectricity = ({ hostelid }) => {
                             lineHeight: 1,
                             stroke: "currentColor",
                             strokeWidth: 0,
+                            cursor:"pointer"
                           }),
                           indicatorSeparator: () => ({
                             display: "none",

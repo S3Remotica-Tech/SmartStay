@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Expenses.css";
 import ListGroup from "react-bootstrap/ListGroup";
 import "react-toastify/dist/ReactToastify.css";
-import { CloseCircle, SearchNormal1, Sort } from "iconsax-react";
+import { CloseCircle, SearchNormal1 } from "iconsax-react";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
 import excelimg from "../../Assets/Images/New_images/excel_blue.png";
@@ -676,6 +676,7 @@ function Expenses({ allPageHostel_Id }) {
                     width: 250,
                     marginLeft: 7,
                     marginTop: 5,
+                    cursor:"pointer"
                   }}
                   onChange={handleDateChange}
                   value={dates.length === 2 ? [dates[0], dates[1]] : null}

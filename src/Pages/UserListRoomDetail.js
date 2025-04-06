@@ -3118,6 +3118,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
       lineHeight: 1,
       stroke: "currentColor",
       strokeWidth: 0,
+      cursor:"pointer"
     }),
     indicatorSeparator: () => ({
       display: "none",
@@ -3258,6 +3259,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
       lineHeight: 1,
       stroke: "currentColor",
       strokeWidth: 0,
+      cursor:"pointer"
     }),
     indicatorSeparator: () => ({
       display: "none",
@@ -3397,6 +3399,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
       lineHeight: 1,
       stroke: "currentColor",
       strokeWidth: 0,
+      cursor:"pointer"
     }),
     indicatorSeparator: () => ({
       display: "none",

@@ -1380,6 +1380,7 @@ const handleBed = (selectedOption) => {
         lineHeight: 1,
         stroke: "currentColor",
         strokeWidth: 0,
+        cursor:"pointer"
       }),
       indicatorSeparator: () => ({
         display: "none",
@@ -1507,6 +1508,7 @@ const handleBed = (selectedOption) => {
         lineHeight: 1,
         stroke: "currentColor",
         strokeWidth: 0,
+        cursor:"pointer"
       }),
       indicatorSeparator: () => ({
         display: "none",
@@ -1667,6 +1669,7 @@ const handleBed = (selectedOption) => {
         lineHeight: 1,
         stroke: "currentColor",
         strokeWidth: 0,
+        cursor:"pointer"
       }),
       indicatorSeparator: () => ({
         display: "none",
