@@ -728,7 +728,7 @@ const Compliance = () => {
           </>
         ) :
           <>
-            <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} className='container'>
+            <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} >
               <div >
                    
               {loading  &&
@@ -785,10 +785,10 @@ const Compliance = () => {
   className="container-fluid sticky-top bg-white py-2"
   style={{ zIndex: 1000, height: 'auto' }}
 >
-  <div className="d-flex justify-content-between align-items-center flex-wrap">
+  <div className="d-flex justify-content-between align-items-center flex-wrap" style={{paddingTop:11}}>
     {/* Left Title */}
-    <div className="mb-2 ms-3">
-      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600 }}>Complaints</label>
+    <div className=" ms-2" >
+      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,marginTop:5,marginLeft:3 }}>Complaints</label>
     </div>
 
     {/* Right Actions */}
@@ -895,7 +895,7 @@ const Compliance = () => {
                           )}
         </div>
       ) : (
-        <div className='me-1' style={{ cursor: "pointer" }}>
+        <div className='me-2' style={{ cursor: "pointer" }}>
           <Image
             src={searchteam}
             style={{ height: "24px", width: "24px" }}
@@ -949,7 +949,7 @@ const Compliance = () => {
     )}
 
       {/* Excel Button */}
-      <div className='me-3' style={{ cursor: "pointer" }}>
+      <div className='me-2' style={{ cursor: "pointer" }}>
         <img
           src={excelimg}
           alt="excel"
@@ -960,18 +960,19 @@ const Compliance = () => {
       </div>
 
       {/* Complaint Button */}
-      <div className='me-3'>
+      <div className='me-2' style={{paddingRight:4}}>
       <Button
                         disabled={complianceAddPermission}
                         onClick={handleShow}
                         style={{
                           fontSize: 13, backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 8,
 
-                          padding: "12px 31px",
-                          paddingBottom: 11,
-                          paddingLeft: 32,
+                         
                           color: '#FFF', fontFamily: 'Montserrat',
-                          whiteSpace: "nowrap"
+                          whiteSpace: "nowrap",
+                          width:146,
+                          height:45,
+                          textAlign:"center"
                         }} > + Complaint</Button>
       </div>
     </div>

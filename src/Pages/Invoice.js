@@ -166,6 +166,7 @@ const InvoicePage = () => {
   const [originalReceipt, setOriginalReceipt] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 const [startDate, endDate] = dateRange;
 
   useEffect(() => {
@@ -2485,7 +2486,7 @@ useEffect(() => {
 >
 <div className="d-flex justify-content-between align-items-center flex-wrap mt-2"  >
             <div className=" ms-3 " style={{
-    marginTop: value === "1" || value === "3" ? "7px" : "8px",
+    marginTop: value === "1" || value === "3" ? "8px" : "11px",
   }}>
       <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,fontFamily: "Gilroy",marginTop:10 }}>Bills</label>
     </div>
@@ -2549,16 +2550,11 @@ useEffect(() => {
                               width: "100%",
                             }}
                           >
-                            <ul
+                            {/* <ul
                               className="show-scroll p-0"
                               style={{
                                 backgroundColor: "#fff",
                                 borderRadius: "4px",
-                                // maxHeight: bills?.length > 1 ? "174px" : "auto",
-                                // minHeight: 100,
-                                // overflowY:
-                                //   bills?.length > 1 ? "auto" : "hidden",
-                                // maxHeight: "174px",
                                 minHeight: 50,
                                 maxHeight: bills?.length > 1 ? "100px" : "auto",
                                 overflowY: bills?.length > 3 ? "auto" : "hidden",
@@ -2601,7 +2597,55 @@ useEffect(() => {
                                   </li>
                                 );
                               })}
-                            </ul>
+                            </ul> */}
+                             <ul
+                                            className="show-scroll p-0"
+                                            style={{
+                                              listStyleType: "none",
+                                              maxHeight: 174,
+                                              minHeight:
+                                              bills?.length > 1 ? "100px" : "auto",
+                                              overflowY:
+                                              bills?.length > 3 ? "auto" : "hidden",
+                                              margin: 0,
+                                            }}
+                                          >
+                                            {bills?.map((user, index) => (
+                                              <li
+                                                key={index}
+                                                className="d-flex align-items-center"
+                                                style={{
+                                                  padding: "10px 5px",
+                                                  cursor: "pointer",
+                                                  borderBottom:
+                                                    index !== bills?.length - 1
+                                                      ? "1px solid #eee"
+                                                      : "none",
+                                                  backgroundColor:
+                                                    hoveredIndex === index ? "#1E45E1" : "transparent",
+                                                }}
+                                                onClick={() => handleUserSelect(user)}
+                                                onMouseEnter={() => setHoveredIndex(index)}
+                                                onMouseLeave={() => setHoveredIndex(null)}
+                                              >
+                                                <Image
+                                                  src={user.profile || Profile}
+                                                  alt={user.Name}
+                                                  roundedCircle
+                                                  style={{
+                                                    height: "30px",
+                                                    width: "30px",
+                                                    marginRight: "10px",
+                                                  }}
+                                                  onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = Profile;
+                                                  }}
+                                                />
+                                                <span>{user.Name}</span>
+                                              </li>
+                                            ))}
+                                          </ul>
                           </div>
                         )}
                       {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
@@ -2982,7 +3026,7 @@ useEffect(() => {
               right: 0,
               left: 0,
               zIndex: 1000,
-              backgroundColor: search ? undefined : "#FFFFFF", // Only apply background color if search is false
+              backgroundColor: search ? undefined : "#FFFFFF", 
               height: 60,
             }}
             >
@@ -3008,7 +3052,7 @@ useEffect(() => {
                     label="Bills"
                     value="1"
                     style={{
-                      marginTop: 0,
+                      // marginTop: 0,
                       fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
@@ -3022,7 +3066,7 @@ useEffect(() => {
                     label="Recurring Bills"
                     value="2"
                     style={{
-                      marginTop: 0,
+                      // marginTop: 0,
                       fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
@@ -3036,7 +3080,7 @@ useEffect(() => {
                     label="Receipt"
                     value="3"
                     style={{
-                      marginTop: 0,
+                      // marginTop: 0,
                       fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",

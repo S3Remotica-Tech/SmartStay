@@ -286,7 +286,7 @@ function SettingNewUser() {
                 {currentItems?.length > 0 ? (
 
                     <div style={{
-                        height: currentItems.length >= 6 ? "400px" : "auto",
+                        height: currentItems.length >= 6 ? "420px" : "auto",
                         overflowY:
                             currentItems.length >= 6 ? "auto" : "visible",
                         borderRadius: "24px",

@@ -600,6 +600,7 @@ function Asset() {
                                       fontFamily: 'Gilroy',
                                       fontWeight: 500,
                                       backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
+                                      color: hoveredIndex === index ? 'white' : 'black',
 
                                     }}
                                   >

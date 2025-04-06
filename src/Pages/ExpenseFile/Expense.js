@@ -19,6 +19,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+// import Filters from "../Assets/Images/Filters.svg";
+import Filters from "../../Assets/Images/Filters.svg";
+import Image from 'react-bootstrap/Image';
 
 function Expenses({ allPageHostel_Id }) {
   const state = useSelector((state) => state);
@@ -640,8 +643,8 @@ function Expenses({ allPageHostel_Id }) {
           </div>
         </>
       ) : (
-        <div className="container" style={{ width: "100%" }}>
-          <div className="container">
+        <div  style={{ width: "100%" }}>
+          <div className="container" style={{paddingTop:12}}>
             <div
               className="d-flex justify-content-between align-items-center flex-wrap"
               style={{
@@ -653,7 +656,7 @@ function Expenses({ allPageHostel_Id }) {
             >
               <div
                 className="d-flex align-items-center flex-wrap"
-                style={{ marginTop: -2 }}
+                style={{ marginTop: 10,marginLeft:11 }}
               >
                 <label
                   style={{
@@ -691,29 +694,20 @@ function Expenses({ allPageHostel_Id }) {
                         width: "34px",
                         cursor: "pointer",
                         paddingRight: 10,
-                        marginTop: 13,
+                        marginTop: 11,
                       }}
                     />
                   </div>
                 )}
 
-                <div
-                  style={{
-                    position: "relative",
-                    paddingRight: 20,
-                    marginTop: 11,
-                    background: "white",
-                  }}
-                >
-                  <Sort
-                    Size="22"
-                    color="#222"
-                    style={{ cursor: "pointer" }}
-                    variant="Outline"
-                    onClick={handleFilterByPrice}
-                  />
-
-                  {showFilter && (
+                <div className='me-3' style={{ cursor: "pointer",marginTop:5}}>
+                       <Image
+                         src={Filters}
+                         style={{ height: "50px", width: "50px" }}
+                         onClick={handleFilterByPrice}
+                       />
+                     </div>
+                {showFilter && (
                     <div style={{ position: "relative" }}>
                       <ListGroup
                         ref={filterRef}
@@ -860,7 +854,6 @@ function Expenses({ allPageHostel_Id }) {
                       </ListGroup>
                     </div>
                   )}
-                </div>
 
                 {showFilterExpense && (
                   <div className="me-3 " style={{ position: "relative" }}>
@@ -949,6 +942,11 @@ function Expenses({ allPageHostel_Id }) {
                                     hoveredIndex === index
                                       ? "#1E45E1"
                                       : "transparent",
+                                      color:
+                                    hoveredIndex === index
+                                      ? "white"
+                                      : "black",
+                                      
                                 }}
                               >
                                 {user.category_Name}
@@ -962,7 +960,7 @@ function Expenses({ allPageHostel_Id }) {
 
                 <div
                   className="me-3"
-                  style={{ cursor: "pointer", marginTop: 11 }}
+                  style={{ cursor: "pointer", marginTop: 8 }}
                 >
                   <img
                     src={excelimg}
@@ -973,7 +971,7 @@ function Expenses({ allPageHostel_Id }) {
                   />
                 </div>
 
-                <div className="me-3" style={{ marginTop: 9 }}>
+                <div className="me-2" style={{ marginTop: 10 ,paddingRight:4}}>
                   <Button
                     disabled={expenceAddPermission}
                     onClick={handleShow}
@@ -985,8 +983,9 @@ function Expenses({ allPageHostel_Id }) {
                       color: "white",
                       fontWeight: 600,
                       borderRadius: "8px",
-                      padding: "11px 39px",
-                      paddingLeft: 40,
+                      width:146,
+                      height:45,
+                      textAlign:"center"
                     }}
                   >
                     {" "}

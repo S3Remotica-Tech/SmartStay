@@ -3077,7 +3077,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
       }))
       .find((option) => String(option.value) === String(Floor)) || null
   }
-  placeholder="Select no. of floor"
+  placeholder="Select a Floor"
   classNamePrefix="custom"
   menuPlacement="auto"
   styles={{

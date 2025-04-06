@@ -153,7 +153,7 @@ const RecurringBillList = (props) => {
                 />
               </span>
             </div> */}
-            <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer" }}
+            <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500, cursor: "pointer" }}
             // onClick={()=>handleDownload(props.item)}
 
             >{props.item.user_name}</div><br />
