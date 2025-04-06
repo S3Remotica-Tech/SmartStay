@@ -678,6 +678,13 @@ function StaticExample({ show, setShow, currentItem }) {
       dropdownIndicator: (base) => ({
         ...base,
         color: "#555",
+        cursor:"pointer"
+      }),
+      option: (base, state) => ({
+        ...base,
+        cursor: "pointer", 
+        backgroundColor: state.isFocused ? "lightblue" : "white", 
+        color: "#000",
       }),
       indicatorSeparator: () => ({
         display: "none",
@@ -947,6 +954,7 @@ function StaticExample({ show, setShow, currentItem }) {
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       fontWeight: modeOfPayment ? 600 : 500,
+                      cursor:"pointer"
                     }}
                   >
                     <option value="">Select Mode Of Payment</option>
@@ -1069,7 +1077,7 @@ function StaticExample({ show, setShow, currentItem }) {
                    option: (base, state) => ({
                      ...base,
                      cursor: "pointer", 
-                     backgroundColor: state.isFocused ? "#f0f0f0" : "white", 
+                     backgroundColor: state.isFocused ? "lightblue" : "white", 
                      color: "#000",
                    }),
                  }}

@@ -2405,6 +2405,7 @@ const handleBack = () => {
         <Image
           src={searchteam}
           alt="search"
+          className="me-2"
           style={{ height: "24px", width: "24px", cursor: "pointer" }}
           onClick={handleShowSearch}
         />
@@ -5109,9 +5110,15 @@ const handleBack = () => {
                 type="text"
                 placeholder="Enter total amount"
                 value={u.amount}
-                onChange={(e) =>
-                  handleNewRowChange(index, "amount", e.target.value)
-                }
+                // onChange={(e) =>
+                //   handleNewRowChange(index, "amount", e.target.value)
+                // }
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d*\.?\d*$/.test(value)) {
+                    handleNewRowChange(index, "amount", value);
+                  }
+                }}
               />
             </td>
             <td style={{ alignItems: "center" }}>
