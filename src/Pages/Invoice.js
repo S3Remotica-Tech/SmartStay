@@ -2488,11 +2488,11 @@ useEffect(() => {
         <>
          <div
   className="container-fluid sticky-top bg-white "
-  style={{ zIndex: 1000, height: '70px',top:10,paddingLeft:7,paddingRight:6,backgroundColor:"#ffffff"}}
+  style={{ zIndex: 1000, height: '70px',top:10,paddingLeft:8,paddingRight:6,backgroundColor:"#ffffff"}}
 >
 <div className="d-flex justify-content-between align-items-center flex-wrap mt-2">
             <div className=" ms-3 " style={{
-    marginTop: value === "1" || value === "3" ? "7px" : "11px",
+    marginTop: value === "1" || value === "3" ? "11px" : "15px",
   }}>
       <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,fontFamily: "Gilroy" }}>Bills</label>
     </div>
