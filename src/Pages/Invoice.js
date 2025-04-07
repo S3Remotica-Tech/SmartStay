@@ -2485,12 +2485,12 @@ useEffect(() => {
   return (
     <div>
       {showAllBill && (
-        <div style={{marginTop:"5px"}}>
+        <>
          <div
   className="container-fluid sticky-top bg-white "
-  style={{ zIndex: 1000, height: 'auto',paddingLeft:7,paddingRight:6}}
+  style={{ zIndex: 1000, height: '70px',top:10,paddingLeft:7,paddingRight:6,backgroundColor:"#ffffff"}}
 >
-<div className="d-flex justify-content-between align-items-center flex-wrap mt-2"  >
+<div className="d-flex justify-content-between align-items-center flex-wrap mt-2">
             <div className=" ms-3 " style={{
     marginTop: value === "1" || value === "3" ? "8px" : "11px",
   }}>
@@ -2942,7 +2942,7 @@ useEffect(() => {
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "11px 33px",
-                        marginTop: 17,
+                        marginTop: 12,
                         paddingLeft: 34,
                         whiteSpace: "nowrap",
                       }}
@@ -2977,7 +2977,7 @@ useEffect(() => {
                         borderRadius: "8px",
                         padding: "11px 25px",
                         paddingLeft: 25,
-                        marginTop: 20,
+                        marginTop: 18,
                         whiteSpace: "nowrap",
                         // width: "170px",
                       }}
@@ -3014,7 +3014,7 @@ useEffect(() => {
                         padding: "11px 18px",
                         paddingLeft: 18,
                         whiteSpace: "nowrap",
-                        marginTop: 17,
+                        marginTop: 12,
                       }}
                     >
                       {" "}
@@ -3881,10 +3881,10 @@ useEffect(() => {
 
                     <Container fluid className="p-0">
                       <Row
-                        className={` ${DownloadInvoice
-                            ? "m-0 g-2 d-flex justify-content-between"
-                            : "m-0 g-0"
-                          }`}
+                        className={` ${DownloadReceipt
+                          ? "m-0 g-2 d-flex justify-content-between"
+                          : "m-0 g-0"
+                        }`}
                       >
                         <Col
                           lg={DownloadInvoice ? 4 : 12}
@@ -3895,7 +3895,7 @@ useEffect(() => {
                           {DownloadInvoice ? (
                             <div
                               className="show-scroll p-2"
-                              style={{ maxHeight: 700, overflowY: "auto" }}
+                              style={{ maxHeight: 500, overflowY: "auto" }}
                             >
                               {bills &&
                                 bills.map((item) => (
@@ -5779,7 +5779,7 @@ useEffect(() => {
               )}
             </TabPanel>
           </TabContext>
-        </div>
+          </>
       )}
 
       {showmanualinvoice && (

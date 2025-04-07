@@ -38,10 +38,13 @@ function SettingAllPages() {
   const [userPageShow, setUserPageShow] = useState(false);
   const [rolePageShow, setRolePageShow] = useState(false);
   const [hostel_Id, setHostel_Id] = useState('')
+  const [activePage, setActivePage] = useState("General");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
+  const [hasUserNavigated, setHasUserNavigated] = useState(false);
 
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if (!hasUserNavigated && state.login.selectedHostel_Id) {
       setHostel_Id(state.login.selectedHostel_Id)
     }
 
@@ -50,16 +53,23 @@ function SettingAllPages() {
 
 
 
-
-
-
   useEffect(() => {
-    if (state.PgList.isManageEnable) {
-      setActiveItem("Manage PG")
-      handleShowManagePage()
-
+    if (!hasUserNavigated && state.PgList.isManageEnable) {
+      setActivePage('Manage PG');
+      handleShowManagePage();
+    } else if (hasUserNavigated) {
+      setHasUserNavigated(false);
     }
-  }, [state.PgList.isManageEnable])
+  }, [state.PgList.isManageEnable, hasUserNavigated]);
+  
+
+  // useEffect(() => {
+  //   if (state.PgList.isManageEnable) {
+  //     setActivePage("Manage PG")
+  //     handleShowManagePage()
+
+  //   }
+  // }, [state.PgList.isManageEnable])
 
 
   const handleShowGeneralPage = () => {
@@ -271,12 +281,12 @@ function SettingAllPages() {
 
   // console.log("isSidebarOpen", isSidebarOpen)
 
-  const [activePage, setActivePage] = useState('General');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
+ 
 
 
   const handleTabClick = (itemName) => {
-    setActiveItem(itemName);
+    // setActiveItemS(itemName);
+    setHasUserNavigated(true);
     setActivePage(itemName);
     if (window.innerWidth < 768) {
       setIsSidebarOpen(false); 
@@ -360,13 +370,13 @@ function SettingAllPages() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "General" ? "#4a90e2" : "#000000",
+                  color: activePage === "General" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
                 General
                 <img
-                  src={activeItem === "General" ? blueArrow : blackArrow}
+                  src={activePage === "General" ? blueArrow : blackArrow}
                   width={16}
                   height={16}
                   alt="Arrow Icon"
@@ -387,13 +397,13 @@ function SettingAllPages() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "Manage PG" ? "#4a90e2" : "#000000",
+                  color: activePage === "Manage PG" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
                 Manage PG
                 <img
-                  src={activeItem === "Manage PG" ? blueArrow : blackArrow}
+                  src={activePage === "Manage PG" ? blueArrow : blackArrow}
                   width={16}
                   height={16}
                   alt="Arrow Icon"
@@ -416,13 +426,13 @@ function SettingAllPages() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "Security" ? "#4a90e2" : "#000000",
+                  color: activePage === "Security" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
                 Security
                 <img
-                  src={activeItem === "Security" ? blueArrow : blackArrow}
+                  src={activePage === "Security" ? blueArrow : blackArrow}
                   width={16}
                   height={16}
                   alt="Arrow Icon"
@@ -444,13 +454,13 @@ function SettingAllPages() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "Subscription" ? "#4a90e2" : "#000000",
+                  color: activePage === "Subscription" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
                 Subscription
                 <img
-                  src={activeItem === "Subscription" ? blueArrow : blackArrow}
+                  src={activePage === "Subscription" ? blueArrow : blackArrow}
                   width={16}
                   height={16}
                   alt="Arrow Icon"
@@ -473,13 +483,13 @@ function SettingAllPages() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "Integration" ? "#4a90e2" : "#000000",
+                  color: activePage === "Integration" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
                 Integration
                 <img
-                  src={activeItem === "Integration" ? blueArrow : blackArrow}
+                  src={activePage === "Integration" ? blueArrow : blackArrow}
                   width={16}
                   height={16}
                   alt="Arrow Icon"
@@ -525,13 +535,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Electricity" ? "#4a90e2" : "#000000", 
+                    color: activePage === "Electricity" ? "#4a90e2" : "#000000", 
                     cursor: "pointer",
                   }}
                 >
                   Electricity
                   <img
-                    src={activeItem === "Electricity" ? blueArrow : blackArrow}
+                    src={activePage === "Electricity" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -552,13 +562,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Invoice" ? "#4a90e2" : "#000000",
+                    color: activePage === "Invoice" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   Invoice
                   <img
-                    src={activeItem === "Invoice" ? blueArrow : blackArrow}
+                    src={activePage === "Invoice" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -581,13 +591,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Expenses" ? "#4a90e2" : "#000000",
+                    color: activePage === "Expenses" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   Expenses
                   <img
-                    src={activeItem === "Expenses" ? blueArrow : blackArrow}
+                    src={activePage === "Expenses" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -609,13 +619,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Complaints" ? "#4a90e2" : "#000000",
+                    color: activePage === "Complaints" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   Complaints
                   <img
-                    src={activeItem === "Complaints" ? blueArrow : blackArrow}
+                    src={activePage === "Complaints" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -637,13 +647,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Amenities" ? "#4a90e2" : "#000000",
+                    color: activePage === "Amenities" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   Amenities
                   <img
-                    src={activeItem === "Amenities" ? blueArrow : blackArrow}
+                    src={activePage === "Amenities" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -668,13 +678,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "User" ? "#4a90e2" : "#000000",
+                    color: activePage === "User" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   User
                   <img
-                    src={activeItem === "User" ? blueArrow : blackArrow}
+                    src={activePage === "User" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -698,13 +708,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Role" ? "#4a90e2" : "#000000",
+                    color: activePage === "Role" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   Role
                   <img
-                    src={activeItem === "Role" ? blueArrow : blackArrow}
+                    src={activePage === "Role" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
