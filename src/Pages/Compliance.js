@@ -26,6 +26,7 @@ import Select from "react-select";
 import { toast } from 'react-toastify';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import {CloseCircle} from "iconsax-react";
 
 const Compliance = () => {
 
@@ -1135,7 +1136,7 @@ const Compliance = () => {
 
                           <Modal.Header style={{ marginBottom: "30px", position: "relative",marginTop:"-15px" }}>
                             <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
-                            <button
+                            {/* <button
                               type="button"
                               className="close"
                               aria-label="Close"
@@ -1162,7 +1163,9 @@ const Compliance = () => {
                                 paddingBottom: "6px"
 
                               }}>&times;</span>
-                            </button>
+                            </button> */}
+                              <CloseCircle size="24" color="#000" onClick={handleClose} 
+                                        style={{ cursor: 'pointer'}}/>
 
                             {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : ""}</Modal.Title> */}
                           </Modal.Header>

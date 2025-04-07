@@ -23,6 +23,7 @@ import {ArrowLeft2,ArrowRight2,} from "iconsax-react";
 import { MdError } from "react-icons/md";
 import './SettingAll.css'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import {CloseCircle} from "iconsax-react";
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -1266,7 +1267,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
           >
             {edit ? "Edit General" : "Add General"}
           </div>
-          <button
+          {/* <button
             type="button"
             className="close"
             aria-label="Close"
@@ -1296,7 +1297,10 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
             >
               &times;
             </span>
-          </button>
+          </button> */}
+          <CloseCircle size="24" color="#000" onClick={handleClose} 
+            style={{ cursor: 'pointer' }}/>
+			
         </Modal.Header>
         <div className="d-flex align-items-center" style={{ marginLeft: 10 }}>
           <div
@@ -1832,7 +1836,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
           >
             Current Password
           </div>
-          <button
+          {/* <button
             type="button"
             className="close"
             aria-label="Close"
@@ -1861,7 +1865,10 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
             >
               &times;
             </span>
-          </button>
+          </button> */}
+          <CloseCircle size="24" color="#000" onClick={handleCloseChangepassword} 
+            style={{ cursor: 'pointer' }}/>
+			
         </Modal.Header>
         <Modal.Body style={{ marginTop: '0px' }}>
           {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> */}

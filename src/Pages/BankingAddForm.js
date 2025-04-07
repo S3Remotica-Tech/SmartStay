@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import { MdError } from "react-icons/md";
 import "./BankingAddForm.css";
 import PropTypes from "prop-types";
-
+import {CloseCircle} from "iconsax-react";
 
 function BankingAddForm(props) {
   const state = useSelector((state) => state);
@@ -233,7 +233,7 @@ function BankingAddForm(props) {
           >
             {props.edit ? "Edit Bank" : "Add Bank"}
           </div>
-          <button
+          {/* <button
             type="button"
             className="close"
             aria-label="Close"
@@ -263,7 +263,9 @@ function BankingAddForm(props) {
                   >
                     &times;
                   </span>
-          </button>
+          </button> */}
+          <CloseCircle size="24" color="#000" onClick={handleClose} 
+            style={{ cursor: 'pointer' }}/>
         </Modal.Header>
         <Modal.Body>
           <div className="row">

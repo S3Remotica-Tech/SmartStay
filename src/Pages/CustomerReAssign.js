@@ -12,6 +12,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 // import 'antd/dist/reset.css';
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import {CloseCircle} from "iconsax-react";
 dayjs.extend(customParseFormat);
 
 function CustomerReAssign(props) {
@@ -267,7 +268,7 @@ function CustomerReAssign(props) {
                     >
                       Reassign Bed
                     </div>
-                    <button
+                    {/* <button
                       type="button"
                       className="close"
                       aria-label="Close"
@@ -297,7 +298,9 @@ function CustomerReAssign(props) {
                       >
                         &times;
                       </span>
-                    </button>
+                    </button> */}
+                    <CloseCircle size="24" color="#000" onClick={handleCloseReAssign} 
+            style={{ cursor: 'pointer' }}/>
                   </Modal.Header>
 
                   <div className="row mb-3">

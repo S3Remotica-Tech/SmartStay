@@ -44,6 +44,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import {CloseCircle} from "iconsax-react";
 
 
 function UserListRoomDetail(props) {
@@ -2424,14 +2425,14 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                         }}
                         className="m-0 p-0"
                       >
-                        <Modal.Body style={{marginTop:-30}}>
+                        <Modal.Body >
                           <div className="d-flex align-items-center">
                             {customerdetailShow ? (
                               <div>
                                 <Modal.Header
                                   style={{
-                                    marginBottom: "30px",
                                     position: "relative",
+                                    paddingTop:"3px"
                                   }}
                                 >
                                   <div
@@ -2439,13 +2440,13 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       fontSize: 20,
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                      marginTop:8
+                                     
                                     }}
                                   >
                                     Edit Customer
                                     {/* {props.edit === 'Edit' ? "Edit Customer" : "Add an customer"} */}
                                   </div>
-                                  <button
+                                  {/* <button
                                     type="button"
                                     className="close"
                                     aria-label="Close"
@@ -2475,7 +2476,9 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     >
                                       &times;
                                     </span>
-                                  </button>
+                                  </button> */}
+                                  <CloseCircle size="24" color="#000" onClick={handleCloseEditcustomer} 
+            style={{ cursor: 'pointer' }}/>
                                 </Modal.Header>
 
                                 <div className="d-flex align-items-center">
@@ -2959,12 +2962,11 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
 
                             {customerAsignBed && customerAsignBed ? (
                               <div className="container">
-                                <div className="row mb-3"></div>
+                                <div className="row "></div>
 
                                 <Modal.Header
                                   style={{
-                                    marginBottom: "30px",
-                                    position: "relative",
+                                    position: "relative",paddingTop:"-0px"
                                   }}
                                 >
                                   <div
@@ -2976,7 +2978,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   >
                                     Edit Assign bed
                                   </div>
-                                  <button
+                                  {/* <button
                                     type="button"
                                     className="close"
                                     aria-label="Close"
@@ -3006,7 +3008,9 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     >
                                       &times;
                                     </span>
-                                  </button>
+                                  </button> */}
+                                  <CloseCircle size="24" color="#000" onClick={handleCloseEditcustomer} 
+            style={{ cursor: 'pointer' }}/>
                                 </Modal.Header>
 
                                 <div className="row mb-3">
@@ -3835,7 +3839,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       <div className="row mb-3"></div>
     
                       <Modal.Header
-                        style={{ marginBottom: "30px", position: "relative" }}
+                        style={{ position: "relative" }}
                       >
                         <div
                           style={{
@@ -3846,7 +3850,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                         >
                           Generate Advance
                         </div>
-                        <button
+                        {/* <button
                           type="button"
                           className="close"
                           aria-label="Close"
@@ -3876,7 +3880,9 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                           >
                             &times;
                           </span>
-                        </button>
+                        </button> */}
+                        <CloseCircle size="24" color="#000" onClick={handleCloseGenerateFormShow} 
+            style={{ cursor: 'pointer' }}/>
                       </Modal.Header>
     
     

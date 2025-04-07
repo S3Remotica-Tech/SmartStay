@@ -18,6 +18,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import {CloseCircle} from "iconsax-react";
 
 function EBRoomReading(props) {
   const dispatch = useDispatch();
@@ -1193,7 +1194,7 @@ useEffect(() => {
           >
             Edit Reading
           </div>
-          <button
+          {/* <button
             type="button"
             className="close"
             aria-label="Close"
@@ -1223,7 +1224,9 @@ useEffect(() => {
             >
               &times;
             </span>
-          </button>
+          </button> */}
+          <CloseCircle size="24" color="#000" onClick={handleClose} 
+          style={{ cursor: 'pointer'}}/>
         </Modal.Header>
         <Modal.Body style={{marginTop:"-10px"}}>
           <div className="row ">
