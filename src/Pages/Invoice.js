@@ -2492,9 +2492,9 @@ useEffect(() => {
 >
 <div className="d-flex justify-content-between align-items-center flex-wrap mt-2">
             <div className=" ms-3 " style={{
-    marginTop: value === "1" || value === "3" ? "8px" : "11px",
+    marginTop: value === "1" || value === "3" ? "7px" : "11px",
   }}>
-      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,fontFamily: "Gilroy",marginTop:10 }}>Bills</label>
+      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,fontFamily: "Gilroy" }}>Bills</label>
     </div>
 
             <div >
@@ -3044,16 +3044,11 @@ useEffect(() => {
                 
               >
                 <TabList
-                  
-                  // orientation={isSmallScreen ? "vertical" : "horizontal"}
-                  // onChange={handleChanges}
-                  // aria-label="lab API tabs example"
-                  // style={{ marginLeft: "14px" ,marginTop:"-15px"}}
-                  // className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+                
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "14px",marginTop:"-10px" }}
+                  style={{ marginLeft: "14px",marginTop:"-5px" }}
                  
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >

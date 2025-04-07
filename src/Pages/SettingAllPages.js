@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */ 
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SettingGeneral from "./SettingGeneral";
@@ -24,19 +25,6 @@ function SettingAllPages() {
 
  
   const state = useSelector(state => state);
-  const [activeItem, setActiveItem] = useState("General");
-  const [generalPageShow, setGeneralPageShow] = useState(true);
-  const [managePageShow, setManagePageShow] = useState(false);
-  const [securityPageShow, setSecurityPageShow] = useState(false);
-  const [subscriptionPageShow, setSubscriptionPageShow] = useState(false);
-  const [intgrationPageShow, setIntgrationPageShow] = useState(false);
-  const [electricityPageShow, setElectricityPageShow] = useState(false);
-  const [invoicePageShow, setInvoicePageShow] = useState(false);
-  const [compliancePageShow, setCompliancePageShow] = useState(false);
-  const [expensesPageShow, setExpensesPageShow] = useState(false);
-  const [amnitiesPageShow, setAmnitiesPageShow] = useState(false);
-  const [userPageShow, setUserPageShow] = useState(false);
-  const [rolePageShow, setRolePageShow] = useState(false);
   const [hostel_Id, setHostel_Id] = useState('')
   const [activePage, setActivePage] = useState("General");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
@@ -56,7 +44,6 @@ function SettingAllPages() {
   useEffect(() => {
     if (!hasUserNavigated && state.PgList.isManageEnable) {
       setActivePage('Manage PG');
-      handleShowManagePage();
     } else if (hasUserNavigated) {
       setHasUserNavigated(false);
     }
@@ -72,189 +59,27 @@ function SettingAllPages() {
   // }, [state.PgList.isManageEnable])
 
 
-  const handleShowGeneralPage = () => {
-    setGeneralPageShow(true);
-    setManagePageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
+ 
+
+
+ 
+ 
+  
+  
+
+  
 
 
 
-  const handleShowManagePage = () => {
-
-    setManagePageShow(true);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-    // props.onhandleShowsettingsPG()
-  };
-  const handleShowSecurityPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(true)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
-  const handleShowSubscriptionPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(true)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
-  const handleShowIntgrationPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(true)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
-  const handleShowElectricityPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(true)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
-  const handleShowInvoicePage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(true)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
-
-  const handleShowCompliancePage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(true)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  }
-  const handleShowExpensesPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(true)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  }
-
-  const handleShowAmnitiesPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(true)
-
-    setUserPageShow(false)
-    setRolePageShow(false)
-  }
+ 
 
 
 
 
 
-  const handleShowUserPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(true)
-    setRolePageShow(false)
-  }
+  
 
 
-  const handleShowRolePage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(true)
-  }
 
 
   // const handleHostelId = (e) => {
