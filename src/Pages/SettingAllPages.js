@@ -32,7 +32,7 @@ function SettingAllPages() {
 
 
   useEffect(() => {
-    if (!hasUserNavigated && state.login.selectedHostel_Id) {
+    if ( state.login.selectedHostel_Id) {
       setHostel_Id(state.login.selectedHostel_Id)
     }
 
@@ -42,12 +42,11 @@ function SettingAllPages() {
 
 
   useEffect(() => {
-    if (!hasUserNavigated && state.PgList.isManageEnable) {
+    if (state.PgList.isManageEnable) {
       setActivePage('Manage PG');
-    } else if (hasUserNavigated) {
-      setHasUserNavigated(false);
     }
-  }, [state.PgList.isManageEnable, hasUserNavigated]);
+    
+  }, [state.PgList.isManageEnable]);
   
 
   // useEffect(() => {
@@ -111,7 +110,6 @@ function SettingAllPages() {
 
   const handleTabClick = (itemName) => {
     // setActiveItemS(itemName);
-    setHasUserNavigated(true);
     setActivePage(itemName);
     if (window.innerWidth < 768) {
       setIsSidebarOpen(false); 

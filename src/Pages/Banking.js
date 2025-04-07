@@ -22,6 +22,7 @@ import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import {CloseCircle} from "iconsax-react";
 
 
 
@@ -1899,7 +1900,9 @@ whiteSpace: "nowrap"
               >
                 Add balance
               </div>
-              <button
+              <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance} 
+            style={{ cursor: 'pointer' }}/>
+              {/* <button
                 type="button"
                 className="close"
                 aria-label="Close"
@@ -1929,7 +1932,7 @@ whiteSpace: "nowrap"
                       >
                         &times;
                       </span>
-              </button>
+              </button> */}
             </Modal.Header>
             <Modal.Body>
               <div className="col-12" style={{ marginTop: "-35px" }}>

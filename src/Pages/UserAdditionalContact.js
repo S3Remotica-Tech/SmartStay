@@ -7,7 +7,7 @@ import "./UserList.css";
 import { InputGroup} from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
-
+import {CloseCircle} from "iconsax-react";
 function UserAdditionalContact(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -262,7 +262,7 @@ function UserAdditionalContact(props) {
                 {/* <div className="row mb-3"></div> */}
 
                 <Modal.Header
-                  style={{ marginBottom: "30px", position: "relative" }}
+                  style={{ position: "relative" ,paddingTop:"-0px"}}
                 >
                   <div
                     style={{
@@ -273,7 +273,7 @@ function UserAdditionalContact(props) {
                   >
                     + Add Contact
                   </div>
-                  <button
+                  {/* <button
                     type="button"
                     className="close"
                     aria-label="Close"
@@ -303,10 +303,12 @@ function UserAdditionalContact(props) {
                     >
                       &times;
                     </span>
-                  </button>
+                  </button> */}
+                  <CloseCircle size="24" color="#000" onClick={handleCloseAdditionalForm} 
+            style={{ cursor: 'pointer' }}/>
                 </Modal.Header>
 
-                <div className="row mb-3">
+                <div className="row mt-1">
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-3">
                       <Form.Label
