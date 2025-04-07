@@ -964,16 +964,25 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
                           cursor: "pointer",
                           backgroundColor: "#F9F9F9",
                           position: "absolute",
-                          right: 40,
-                          top: 28,
-                          width: 120,
-                          height: 70,
+                          // left: window.innerWidth <= 404 ? 0 : "auto",
+                          right: window.innerWidth <= 404 ? "auto" : 40, 
+                          // right: window.innerWidth <= 404 ? 5 : 40,
+                          // right: 40,
+                          // top: 28,
+                          top: 40,
+                          // width: 120,
+                          width: window.innerWidth <= 404 ? 100 : 120,
+                          // height: 70,
+                          height: "auto",
                           border: "1px solid #EBEBEB",
                           borderRadius: 10,
                           display: "flex",
                           flexDirection: "column",
                           padding: 10,
                           alignItems: "start",
+                          zIndex: 1050, 
+                         
+                          fontSize: window.innerWidth <= 404 ? 13 : 14,
                         }}
                       >
                         <div
@@ -1717,19 +1726,22 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
         onHide={handleCloseDeleteFormShow}
         centered
         backdrop="static"
-        style={{
-          width: 388,
-          height: 250,
-          marginLeft: "500px",
-          marginTop: "200px",
-        }}
+        dialogClassName="custom-delete-modal"
+        // style={{
+        //   width: 388,
+        //   height: 250,
+        //   marginLeft: "500px",
+        //   marginTop: "200px",
+        // }}
+
       >
         <Modal.Header style={{ borderBottom: "none" }}>
           <Modal.Title
+          className="w-100 text-center"
             style={{
               fontSize: "18px",
               fontFamily: "Gilroy",
-              textAlign: "center",
+              // textAlign: "center",
               fontWeight: 600,
               color: "#222222",
               flex: 1,
@@ -1740,13 +1752,14 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
         </Modal.Header>
 
         <Modal.Body
+        className="text-center"
           style={{
             fontSize: 14,
             fontWeight: 500,
             fontFamily: "Gilroy",
             color: "#646464",
             textAlign: "center",
-            marginTop: "-20px",
+            marginTop: "-10px",
           }}
         >
           Are you sure you want to delete this General?
@@ -1769,15 +1782,19 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
   </div>
 )}
         <Modal.Footer
+        className="d-flex justify-content-center"
           style={{
-            justifyContent: "center",
+            // justifyContent: "center",
             borderTop: "none",
             marginTop: "-10px",
           }}
         >
           <Button
+          className="me-2"
             style={{
-              width: 160,
+              // width: 160,
+              width: "100%",
+              maxWidth: 160,
               height: 52,
               borderRadius: 8,
               padding: "12px 20px",
@@ -1795,7 +1812,8 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
           </Button>
           <Button
             style={{
-              width: 160,
+              width: "100%",
+              maxWidth: 160,
               height: 52,
               borderRadius: 8,
               padding: "12px 20px",

@@ -51,7 +51,7 @@ function SettingIntergration(){
       </p>
     </div>
   </div>
-  <div className="col-12 col-md-6">
+  <div className="col-12 col-md-6 mb-4 mb-md-0">
     <div className="card p-3 cardnewsubs">
       <div className="d-flex justify-content-between align-items-center ">
         <img src={avtar} width={30} height={30} alt="Crown Icon" />
@@ -62,12 +62,14 @@ function SettingIntergration(){
           + Buy Credit
         </button>
       </div>
+    
       <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
       KYC Credits
       </p>
       <p style={{ fontSize: 12, fontFamily: "Gilroy", color: "#4B4B4B" }}>
         Enhance your customer communication with seamless SMS integration. Instantly reach your audience with personalized message alerts and updates, all within the platform.
       </p>
+     
     </div>
   </div>
 </div>

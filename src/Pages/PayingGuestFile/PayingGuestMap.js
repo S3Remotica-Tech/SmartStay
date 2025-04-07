@@ -204,7 +204,24 @@ function PayingGuestMap(props) {
 
                             {showDots && <>
 
-                                <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 50, top:0, width: 120, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                                <div ref={popupRef} style={{ 
+                                    cursor: "pointer", backgroundColor: "#F9F9F9", 
+                                    position: "absolute", 
+                                    // right: 50, 
+                                    // right: window.innerWidth <= 400 ? -55 : 50,
+                                    right:
+                                            window.innerWidth <= 420
+                                            ? -80 // Open to the left if screen too small
+                                            : window.innerWidth <= 576
+                                            ? 30 // Shift slightly if mid-size
+                                            : 50, // Default on large screens
+                                    top:0, 
+                                    width: 120, 
+                                    // width: window.innerWidth <= 404 ? 100 : 120,
+                                    height: 92, border: "1px solid #EBEBEB", borderRadius: 10, 
+                                    display: "flex", justifyContent: "start", padding: 15, alignItems: "center",
+                                    flexDirection: "column", 
+                                    zIndex: 1050,}}>
                                     <div >
                                         {/* <div className='d-flex gap-2 mb-2 align-items-center'
                                             onClick={() => handleEdit(props.hostel)} 
@@ -389,22 +406,27 @@ function PayingGuestMap(props) {
 
         {show &&
             <Modal show={show} onHide={handleClose} centered backdrop="static"
-                style={{
-                    width: 388,
-                    height: 250,
-                    marginLeft: "500px",
-                    marginTop: "200px",
-                }}>
+            dialogClassName="custom-delete-modal"
+                // style={{
+                //     width: 388,
+                //     height: 250,
+                //     marginLeft: "500px",
+                //     marginTop: "200px",
+                // }}
+                >
                 <Modal.Header
                     style={{
                         borderBottom: "none",
-                        justifyContent: "center",
-                        display: "flex"
+                        // justifyContent: "center",
+                        // display: "flex"
                     }}>
-                    <Modal.Title style={{
+                    <Modal.Title 
+                    className="w-100 text-center"
+                    style={{
                         fontSize: 18,
                         fontWeight: 600,
-                        fontFamily: "Gilroy"
+                        fontFamily: "Gilroy",
+                        color: "#222222",
                     }}>Delete paying guest?</Modal.Title>
 
 
@@ -413,7 +435,9 @@ function PayingGuestMap(props) {
 
                
 
-                <Modal.Body style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", marginTop: "-20px" }}>
+                <Modal.Body 
+                 className="text-center"
+                style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",  marginTop: "-10px" }}>
                     Are you sure you want to delete this paying guest?
                 </Modal.Body>
                 {pgDeleteError && (
@@ -434,10 +458,28 @@ function PayingGuestMap(props) {
   </div>
 )}
                 <Modal.Footer className='d-flex justify-content-center' style={{ border: "none" }}>
-                    <Button onClick={handleClose} style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
+                    <Button 
+                    className="me-2"
+                    onClick={handleClose} style={{ 
+                        width: "100%",
+                        maxWidth: 160,
+                        borderRadius: 8, 
+                        height: 52,
+                        padding: "12px 20px", 
+                        border: "1px solid rgba(36, 0, 255, 1)", 
+                        backgroundColor: "#FFF", color: "rgba(36, 0, 255, 1)", 
+                        fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
                         Cancel
                     </Button>
-                    <Button style={{ borderRadius: 8, padding: "16px 45px", border: "1px solid rgba(36, 0, 255, 1)", backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
+                    <Button style={{ 
+                        width: "100%",
+                        maxWidth: 160,
+                        height: 52,
+                        borderRadius: 8, 
+                        padding: "12px 20px", 
+                        border: "1px solid rgba(36, 0, 255, 1)", 
+                        backgroundColor: "rgba(36, 0, 255, 1)", color: "#fff", 
+                        fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}
                         onClick={() => handleDeletePG(props.hostel)}
                     >
                         Delete
