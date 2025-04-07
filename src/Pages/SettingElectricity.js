@@ -460,10 +460,11 @@ const SettingElectricity = ({ hostelid }) => {
             {EbList && EbList.length > 0 ? (
               EbList.map((v,index) => {
                 return (
-
+                
                   <Row key={index}>
                     <Col lg={8} md={12} sm={12}>
-                      <Card className="p-2 border" style={{ borderRadius: 16 }}>
+                    
+                      <Card className="p-2 border mb-4 mb-md-0" style={{ borderRadius: 16 }}>
                         <Card.Body>
                           <div className="d-flex justify-content-between align-items-center flex-wrap">
                             <div className="d-flex gap-2">
@@ -675,8 +676,10 @@ const SettingElectricity = ({ hostelid }) => {
                           </Form>
                         </Card.Body>
                       </Card>
+                     
                     </Col>
                   </Row>
+                 
                 )
               })
             ) : !loading && (

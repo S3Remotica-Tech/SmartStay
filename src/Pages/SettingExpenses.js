@@ -716,19 +716,33 @@ function SettingExpenses({ hostelid }) {
 
 
 <div className="mt-4 d-flex flex-wrap justify-content-between" style={{ gap: "20px", alignItems: "flex-start" }}>
+
   {currentRowExpense && currentRowExpense.length > 0 ? (
     currentRowExpense.map((category) => (
-      <div key={category.category_Id} className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2" style={{ flex: "0 0 48%", position: "relative" }}>
-        <Card className="d-flex justify-content-between border-0" style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}>
-          <div className="d-flex justify-content-between align-items-center border-0 gap-4">
-            <div>{category.category_Name}</div>
-            <div className="d-flex align-items-center">
+      <div key={category.category_Id} 
+      // className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2" 
+      
+       className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2 card-width-sm  mx-auto"
+      style={{ 
+        flex: "0 0 48%", 
+        position: "relative",
+        }}>
+        <Card className="d-flex justify-content-between border-0 card-height-sm" 
+        style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}>
+          {/* <div className="d-flex justify-content-between align-items-center border-0 gap-4"> */}
+          {/* <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2"> */}
+          <div className="d-flex justify-content-between align-items-center border-0 gap-4 flex-wrap card-inner">
+            <div className="category-title">{category.category_Name}</div>
+            {/* <div className="d-flex align-items-center gap-2 mt-2 mt-md-0"> */}
+            <div className="d-flex align-items-center " style={{ gap: "10px" }}>
               <img
                 src={Editbtn}
                 height={15}
                 width={15}
                 alt="edit"
-                style={{ marginRight: 10, cursor: "pointer" }}
+                style={{ 
+                  // marginRight: 10, 
+                  cursor: "pointer" }}
                 onClick={(e) => { e.stopPropagation(); handleEditCategory(category); }}
               />
               <img
@@ -736,7 +750,9 @@ function SettingExpenses({ hostelid }) {
                 height={15}
                 width={15}
                 alt="delete"
-                style={{ marginRight: 10, cursor: "pointer" }}
+                style={{ 
+                  // marginRight: 10, 
+                  cursor: "pointer" }}
                 onClick={(e) => { e.stopPropagation(); handleDeleteExpensesCategory(category); }}
               />
               <i
@@ -794,7 +810,7 @@ function SettingExpenses({ hostelid }) {
       </div>
     </div>
   )}
-</div>
+
 
       {expensesFilterddata?.length >= 2 && (
         <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{zIndex:995}}>
@@ -1230,7 +1246,9 @@ function SettingExpenses({ hostelid }) {
         </Modal.Footer>
       </Modal>
 
+   
     </div>
+  </div>
   )
 }
 

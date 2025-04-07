@@ -69,14 +69,16 @@ useEffect(() => {
 
   return (
     <>
-     
-
+  {/* <div className="w-100" style={{ display: "flex", justifyContent: "flex-start" }}>
+  <div className="w-100" style={{ maxWidth: "600px" }}> */}
       <Card
         className="h-100  fade-in mb-4"
         style={{
           borderRadius: 16,
           border: "1px solid #E6E6E6",
           width: "600px",
+          // maxWidth: "600px", 
+          // Width: "100%",
         }}
       >
         <Card.Body style={{ padding: 20 }}>
@@ -280,6 +282,8 @@ useEffect(() => {
           </div>
         </Card.Body>
       </Card>
+     {/* </div>
+     </div> */}
     </>
   );
 };
