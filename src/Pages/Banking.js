@@ -1662,20 +1662,20 @@ whiteSpace: "nowrap"
               //     marginTop: 10
               //   }}
               // >
-              <nav className="pagination-code"
+              <nav className='pagination-code'
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "end",
-                padding: "10px",
-                position: "fixed",
-                bottom: "10px",
-                right: "10px",
-                // backgroundColor: "#fff", // Optional: to give a background for better visibility
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
-                borderRadius: "5px", // Optional: to make edges rounded
+                padding: "15px",
+                backgroundColor: "#fff",
+                borderRadius: "5px",
+                width: "100%", 
+                marginTop: "20px", 
+                position: "relative", 
+                zIndex: 1000,
               }}
->
+              >
 
                 <div>
                   <select
