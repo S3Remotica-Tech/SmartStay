@@ -881,17 +881,20 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
 
 
               <div
-                className="card p-3 settingGreneral mt-2"
+                className="card p-3 settingGreneral mt-3"
                 style={{
                   borderRadius: 16,
                 
                 }}
                 key={item.id}
               >
-                <div className="d-flex flex-wrap justify-content-between align-items-center">
-                  <div className="d-flex align-items-center">
+                <div 
+                // className="d-flex flex-wrap justify-content-between align-items-center"
+                className="d-flex flex-wrap justify-content-between align-items-center w-100"
+                >
+                  <div className="d-flex align-items-center flex-wrap">
                     <Image
-                      src={imageUrl}
+                      src={imageUrl} 
                       alt={item.first_name || "Default Profile"}
                       roundedCircle
                       style={{
@@ -903,25 +906,25 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
                         e.target.src = Profile;
                       }}
                     />
-                    <div className="ms-3">
+                    <div className="ms-2">
                       <p
-                        className="mb-0"
+                        className="mb-0 text-break"
                         style={{
                           fontSize: 16,
                           fontWeight: 600,
                           fontFamily: "Gilroy",
-                          whiteSpace: "nowrap",
+                          // whiteSpace: "nowrap",
                         }}
                       >
                         {item.first_name} {item.last_name}
                       </p>
                     </div>
                   </div>
-                  <div className="d-flex align-items-center">
+                  <div className="d-flex align-items-center flex-wrap">
                     <img src={img2} width="20" height="20" alt="icon" />
                     <p
                       onClick={() => handleChangePassword(item)}
-                      className="mb-0 mx-2"
+                      className="mb-0 mx-2 text-wrap"
                       style={{
                         fontFamily: "Montserrat",
                         fontWeight: 600,
@@ -1811,13 +1814,15 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
         backdrop="static"
         centered
             dialogClassName="custom-modal"
-        className="modal-dialog-centered"
-        style={{
-          maxWidth: "353px",
-          width: "80vw",
-        }}
+        // className="modal-dialog-centered"
+        // style={{
+        //   maxWidth: "353px",
+        //   width: "80vw",
+        // }}
       >
-        <Modal.Header style={{ marginBottom: "0px", position: "relative" }}>
+        <Modal.Header style={{ 
+          // marginBottom: "0px", 
+          position: "relative" }}>
           <div
             style={{
               fontSize: "1.25rem",
@@ -1839,7 +1844,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
               border: "1px solid black",
               background: "transparent",
               cursor: "pointer",
-              padding: "0",
+              // padding: "0",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -1850,14 +1855,16 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
           >
             <span
               aria-hidden="true"
-              style={{ fontSize: "24px", paddingBottom: "6px" }}
+              style={{ fontSize: "24px", 
+                // paddingBottom: "6px" 
+              }}
             >
               &times;
             </span>
           </button>
         </Modal.Header>
         <Modal.Body style={{ marginTop: '0px' }}>
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> */}
             {/* {!editShow && ( */}
             <Form.Group className="">
               <Form.Label
@@ -1880,6 +1887,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
                   type={showPassword ? "text" : "password"}
                   value={checkPassword}
                   onChange={(e) => handleCheckPassword(e)}
+                  className="custom-input"
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -1918,7 +1926,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
               </InputGroup>
             </Form.Group>
             {passError && (
-              <div style={{ color: "red" }}>
+              <div className="text-danger" style={{ color: "red" }}>
                 <MdError />
 
                 <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passError}</span>
@@ -1926,11 +1934,12 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
             )}
 
             {/* )} */}
-          </div>
+          {/* </div> */}
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center" style={{border:"none"}}>
           <Button
-            className="col-12"
+            // className="col-12"
+            className="w-100 custom-button"
             style={{
               backgroundColor: "#1E45E1",
               fontWeight: 600,
@@ -1953,12 +1962,21 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
         onHide={() => handleCloseConfirmPass()}
         backdrop="static"
         centered
-        className="custom-modal modal-dialog-centered"
-        style={{
-          maxWidth: "353px",
-          width: "80vw",
-        }}
+        dialogClassName="custom-modal"
+        // className="custom-modal modal-dialog-centered"
+        // style={{
+        //   maxWidth: "353px",
+        //   width: "80vw",
+        // }}
       >
+         {/* <Modal.Dialog
+    className="w-100"
+    style={{
+      maxWidth: "min(95%, 400px)", // Ensures modal is responsive
+      width: "90vw", // Adapts to smaller screens
+      margin: "auto", // Centers properly
+    }}
+  > */}
         <Modal.Header style={{ marginBottom: "", position: "relative" }}>
           <div
             style={{
@@ -1999,7 +2017,9 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
           </button>
         </Modal.Header>
         <Modal.Body>
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div className="col-lg-12 
+          // col-md-12 col-sm-12 col-xs-12"
+          >
             {/* {!editShow && ( */}
             <Form.Group className="mb-3">
               <Form.Label
@@ -2020,6 +2040,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
                   type={showPassword ? "text" : "password"}
                   value={newPassword}
                   onChange={(e) => handleNewPassword(e)}
+                  className="custom-input"
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -2058,14 +2079,16 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
               </InputGroup>
             </Form.Group>
             {newPassError && (
-              <div style={{ color: "red" , fontSize:13, fontFamily:"Gilroy"}}>
+              <div className="text-danger" style={{ color: "red" , fontSize:13, fontFamily:"Gilroy"}}>
                 <MdError /> {''}
                 {newPassError}
               </div>
             )}
             {/* )} */}
           </div>
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div className="col-lg-12 
+          // col-md-12 col-sm-12 col-xs-12"
+          >
             <Form.Group className="mb-3">
               <Form.Label
                 style={{
@@ -2125,7 +2148,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
               </InputGroup>
             </Form.Group>
             {conformPasswordError && (
-              <div style={{ color: "red" , fontSize:13, fontFamily:"Gilroy" }}>
+              <div className="text-danger" style={{ color: "red" , fontSize:13, fontFamily:"Gilroy" }}>
                 <MdError /> {' '}
                 {conformPasswordError}
               </div>
@@ -2150,6 +2173,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
             Save Password
           </Button>
         </Modal.Footer>
+        {/* </Modal.Dialog> */}
       </Modal>
     </>
   );
