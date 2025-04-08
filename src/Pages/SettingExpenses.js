@@ -13,6 +13,7 @@ import CreatableSelect from "react-select/creatable";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import './Settingexpense.css';
 import PropTypes from "prop-types";
+import {CloseCircle} from "iconsax-react";
 
 
 function SettingExpenses({ hostelid }) {
@@ -937,7 +938,7 @@ function SettingExpenses({ hostelid }) {
 
 
                   </div>
-                  <button
+                  {/* <button
                     type="button"
                     className="close"
                     aria-label="Close"
@@ -966,7 +967,9 @@ function SettingExpenses({ hostelid }) {
                     >
                       &times;
                     </span>
-                  </button>
+                  </button> */}
+                  <CloseCircle size="24" color="#000" onClick={handleCloseForm} 
+            style={{ cursor: 'pointer' }}/>
 
                   {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
                 </Modal.Header>

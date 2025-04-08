@@ -8,6 +8,7 @@ import { Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { MdError } from "react-icons/md";
+import {CloseCircle} from "iconsax-react";
 
 function SettingSubscription() {
    const state = useSelector((state) => state);
@@ -362,7 +363,9 @@ console.log("customerDetails", customerDetails);
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Change Plan</h5>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleCloseCurrentPlan}></button>
+            {/* <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleCloseCurrentPlan}></button> */}
+            <CloseCircle size="24" color="#000" onClick={handleCloseCurrentPlan} 
+            style={{ cursor: 'pointer' }}/>
           </div>
           <div className="modal-body">
   <div className="row g-3">
@@ -639,7 +642,7 @@ console.log("customerDetails", customerDetails);
     : planCode} - {selectedPlan})
 </div>
 
-                              <button
+                              {/* <button
                                 type="button"
                                 className="close"
                                 aria-label="Close"
@@ -669,7 +672,9 @@ console.log("customerDetails", customerDetails);
                                 >
                                   &times;
                                 </span>
-                              </button>
+                              </button> */}
+                               <CloseCircle size="24" color="#000" onClick={handleClosePlanChange} 
+            style={{ cursor: 'pointer' }}/>
                             </Modal.Header>
           
           

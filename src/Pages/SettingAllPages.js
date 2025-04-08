@@ -27,8 +27,7 @@ function SettingAllPages() {
   const state = useSelector(state => state);
   const [hostel_Id, setHostel_Id] = useState('')
   const [activePage, setActivePage] = useState("General");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
-  const [hasUserNavigated, setHasUserNavigated] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
 
   useEffect(() => {

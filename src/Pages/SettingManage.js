@@ -686,7 +686,7 @@ function SettingManage(props) {
           </div>
         </>
       ) : (
-        <div className="container" style={{ position: "relative" }}>
+        <div  style={{ position: "relative" }}>
 
 
           {loading &&
@@ -740,7 +740,7 @@ function SettingManage(props) {
                 }}
               >
 
-                <div className="w-100 text-md-start text-center">
+                <div className="w-100 text-md-start text-center mt-1">
                   <label
                     style={{
                       fontSize: 18,
@@ -756,8 +756,8 @@ function SettingManage(props) {
 
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
                
-                <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
-                  <div>
+                <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0" style={{paddingRight:1}} >
+                  <div >
                     <Button
                       onClick={handleShowAddPg}
                       disabled={addPermissionError}
@@ -773,13 +773,10 @@ function SettingManage(props) {
                         // padding: "12px 20px",
                         // width: "auto",
                         // maxWidth: "100%",
-                        marginBottom: "10px",
                         // maxHeight: 45,
-                        marginTop: "15px",
-                        height: "43px",
-                        width: "140px",
-                        minWidth: "140px",
-                        
+                        height: "45px",
+                        width: "146px",
+                        marginTop:5
 
                       }}
                     >
