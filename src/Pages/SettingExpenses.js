@@ -811,7 +811,24 @@ function SettingExpenses({ hostelid }) {
 
 
       {expensesFilterddata?.length >= 2 && (
-        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{zIndex:995}}>
+        <nav 
+        // className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" 
+        // style={{zIndex:995}}
+        className="pagination-container"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "end",
+                padding: "10px",
+                position: "fixed",
+                bottom: "10px",
+                right: "10px",
+                backgroundColor: "#fff",
+                borderRadius: "5px",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                zIndex: 1000,
+              }}
+        >
           {/* Dropdown for Items Per Page */}
           <div >
             <select
