@@ -1694,7 +1694,7 @@ whiteSpace: "nowrap"
             >
 
                 <div>
-                  <select
+                  <select className="selectoption"
                     value={transactionrowsPerPage}
                     onChange={handleItemsPerPageChange}
                     style={{
@@ -1715,7 +1715,7 @@ whiteSpace: "nowrap"
                   </select>
                 </div>
 
-                <ul
+                <ul className="selectoption"
                   style={{
                     display: "flex",
                     alignItems: "center",

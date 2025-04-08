@@ -84,13 +84,18 @@
     .pagination-container {
       flex-direction: column;
       align-items: center;
-      position: static; 
+      position: absolute; 
       bottom: auto;
       right: auto;
       margin-top: 10px;
+      padding: 0;
+      
     }
   
     .items-per-page {
       margin-bottom: 10px; 
+    }
+    .selectoption{
+      font-size: 14px;
     }
   }

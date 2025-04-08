@@ -734,7 +734,7 @@ function Vendor() {
               <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-centers pagination-container'>
              
                 <div>
-                  <select
+                  <select className="selectoption"
                     value={itemsPerPage}
                     onChange={handleItemsPerPageChange}
                     style={{
@@ -757,7 +757,7 @@ function Vendor() {
                 </div>
 
                 {/* Pagination Controls */}
-                <ul
+                <ul className="selectoption"
                   style={{
                     display: "flex",
                     alignItems: "center",
