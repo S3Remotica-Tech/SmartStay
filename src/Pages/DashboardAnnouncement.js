@@ -1845,17 +1845,19 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         onHide={handleCloseDeletePopUP}
         centered
         backdrop="static"
-        style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
+         dialogClassName="custom-delete-modal"
+        // style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
       >
         <Modal.Header style={{ borderBottom: 'none' }}>
           <Modal.Title
+          className="w-100 text-center"
             style={{
               fontSize: '18px',
               fontFamily: 'Gilroy',
-              textAlign: 'center',
+              
               fontWeight: 600,
               color: '#222222',
-              flex: 1
+              // flex: 1
             }}
           >
             Delete Announcement?
@@ -1863,22 +1865,28 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         </Modal.Header>
 
         <Modal.Body
+        className="text-center"
           style={{
             fontSize: 14,
             fontWeight: 500,
             fontFamily: 'Gilroy',
             color: '#646464',
-            textAlign: 'center',
-            marginTop: '-20px'
+            // textAlign: 'center',
+            marginTop: '-10px'
           }}
         >
           Are you sure you want Delete Announcement?
         </Modal.Body>
 
-        <Modal.Footer style={{ justifyContent: 'center', borderTop: 'none', marginTop: '-10px' }}>
+        <Modal.Footer 
+         className="d-flex justify-content-center"
+        style={{  borderTop: 'none', marginTop: '-10px' }}>
           <Button
+          className="me-2"
             style={{
-              width: 160,
+              width: "100%",
+              maxWidth: 160,
+              // width: 160,
               height: 52,
               borderRadius: 8,
               padding: '12px 20px',
@@ -1888,7 +1896,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               fontWeight: 600,
               fontFamily: 'Gilroy',
               fontSize: '14px',
-              marginRight: 10
+              // marginRight: 10
             }}
             onClick={handleCloseDeletePopUP}
           >
@@ -1896,7 +1904,9 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
           </Button>
           <Button
             style={{
-              width: 160,
+              width: "100%",
+              maxWidth: 160,
+              // width: 160,
               height: 52,
               borderRadius: 8,
               padding: '12px 20px',

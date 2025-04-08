@@ -756,6 +756,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
  
   return (
     <>
+
       <div
         // className="container d-flex justify-content-between align-items-center settingGreneral"
            
@@ -772,6 +773,8 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
           // height: "auto",
           // padding:"0px",
           whiteSpace: "nowrap",
+          paddingRight:10,
+          paddingLeft:10
         }}
       >
       {/* <div  className="me-sm-7"> */}
@@ -795,7 +798,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
           // className="d-flex justify-content-between align-items-center"
           // className="mt-2 mt-sm-0 text-start text-sm-end w-100 w-sm-auto"
           className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
-        >
+       style={{paddingRight:1}} >
           <div 
            >
             <Button
@@ -814,22 +817,22 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
               //   width: "160px"
               // }}
             //  className="w-100 w-sm-auto "
-              style={{
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-                backgroundColor: "#1E45E1",
-                color: "white",
-                fontWeight: 600,
-                borderRadius: "8px",
-                padding: "12px 18px",
-                // marginBottom: "10px",
-                Height: 43,
-                Width: "140px", 
-                // marginTop: -5,
-                  
-                  //  maxWidth: "160px",
-                   minWidth: "140px",
-              }}
+            style={{
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              backgroundColor: "#1E45E1",
+              color: "white",
+              fontWeight: 600,
+              borderRadius: "8px",
+              padding: "11px",
+              // paddingLeft: 30,
+              // paddingRight: 20,
+              height:45,
+              width:146,
+              whiteSpace:"nowrap",
+              marginTop:5
+
+            }}
               //   disabled={ebAddPermission}
               onClick={handleShowFormGreneral}
             >
@@ -2012,7 +2015,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
           >
             Confirm Password
           </div>
-          <button
+          {/* <button
             type="button"
             className="close"
             aria-label="Close"
@@ -2039,7 +2042,9 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
             >
               &times;
             </span>
-          </button>
+          </button> */}
+          <CloseCircle size="24" color="#000" onClick={handleCloseConfirmPass} 
+            style={{ cursor: 'pointer' }}/>
         </Modal.Header>
         <Modal.Body>
           <div className="col-lg-12 

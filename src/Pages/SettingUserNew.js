@@ -183,7 +183,7 @@ function SettingNewUser() {
 
     return (
 
-        <div className="container" style={{ position: "relative" }}>
+        <div  style={{ position: "relative",paddingRight:10,paddingLeft:10 }}>
 
             {loading &&
                 <div
@@ -229,6 +229,7 @@ function SettingNewUser() {
                     zIndex: 1000,
                     backgroundColor: "#FFFFFF",
                     height: 83,
+                    paddingRight:1
                 }}  >
                 <div 
                 className="w-100 text-md-start text-center"

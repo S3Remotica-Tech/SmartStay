@@ -329,10 +329,11 @@ function SettingAmenities({ hostelid }) {
     console.log("switchStates", switchStates)
 
     return (
-        <div className="container"
+        <div 
             style={{
                 position: "relative", maxHeight: "500px",
                 overflowY: "auto",
+                paddingRight:11,paddingLeft:10
             }}>
             <div 
             // className='d-flex justify-content-between align-items-center'
@@ -348,8 +349,7 @@ function SettingAmenities({ hostelid }) {
                     height: 83,
                 }}>
                 <div 
-                className="w-100 text-md-start text-center"
-                style={{ marginTop: -4 }}>
+                className="w-100 text-md-start text-center">
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
                 </div>
                 <div 
@@ -432,7 +432,27 @@ function SettingAmenities({ hostelid }) {
 
                                                     {showDots === index && <>
 
-                                                        <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 40, top:0, width: 170, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                                                        <div ref={popupRef} 
+                                                        style={{ cursor: "pointer", 
+                                                        backgroundColor: "#F9F9F9", 
+                                                        position: "absolute", 
+                                                        // right: 40, 
+                                                        right: window.innerWidth <= 335 ? "auto" : 40,
+                                                         left: window.innerWidth <= 335 ? "auto" : "30",
+                                                        top:20, 
+                                                        // width: 170, 
+                                                        width: window.innerWidth <= 335 ? 100 : 150,
+                                                        height: "auto", 
+                                                        border: "1px solid #EBEBEB", 
+                                                        borderRadius: 10, display: "flex", 
+                                                        flexDirection: "column",
+                                                        // justifyContent: "start", 
+                                                        padding: 10, 
+                                                        alignItems: "start",
+                                                        zIndex: 1050, 
+                         
+                          fontSize: window.innerWidth <= 335 ? 13 : 14,
+                                                         }}>
                                                             <div >
                                                                 <div
                                                                     // onClick={()=>handleDisplayAssignAmenities(amenity)}

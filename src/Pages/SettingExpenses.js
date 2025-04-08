@@ -13,6 +13,7 @@ import CreatableSelect from "react-select/creatable";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import './Settingexpense.css';
 import PropTypes from "prop-types";
+import {CloseCircle} from "iconsax-react";
 
 
 function SettingExpenses({ hostelid }) {
@@ -604,9 +605,9 @@ function SettingExpenses({ hostelid }) {
 
 
   return (
-    <div className="container" style={{
+    <div  style={{
       position: "relative", maxHeight: "570px",
-      overflowY: "auto",
+      overflowY: "auto",paddingRight:10,paddingLeft:10
     }}>
 
 
@@ -688,20 +689,15 @@ function SettingExpenses({ hostelid }) {
           <Button onClick={handleShow}
             style={{
               fontFamily: "Gilroy",
-              fontSize: "14px",
+              fontSize: 14,
               backgroundColor: "#1E45E1",
               color: "white",
               fontWeight: 600,
-              borderRadius: "8px",
-              padding: "11px 35px",
-              paddingLeft: 36,
-              width: "auto",
-              maxWidth: "100%",
-              marginBottom: "10px",
-              maxHeight: 50,
-              marginTop: 20,
-              minWidth: "130px",
-              whiteSpace: "nowrap",
+              borderRadius: 8,
+              // padding: "11px 35px",
+              height:45,
+              width:146,
+              marginTop:-2,
             }}
             disabled={showPopup}
           >+ Category</Button></div>
@@ -968,7 +964,7 @@ function SettingExpenses({ hostelid }) {
 
 
                   </div>
-                  <button
+                  {/* <button
                     type="button"
                     className="close"
                     aria-label="Close"
@@ -997,7 +993,9 @@ function SettingExpenses({ hostelid }) {
                     >
                       &times;
                     </span>
-                  </button>
+                  </button> */}
+                  <CloseCircle size="24" color="#000" onClick={handleCloseForm} 
+            style={{ cursor: 'pointer' }}/>
 
                   {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
                 </Modal.Header>

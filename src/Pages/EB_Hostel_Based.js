@@ -917,6 +917,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
 
       {props.value === "3" && props.electricityHostel?.length >= 5 && (
         <nav
+        className="pagination-container"
           style={{
             display: "flex",
             alignItems: "center",

@@ -263,8 +263,8 @@ function SettingCompliance({ hostelid }) {
  
 
     return (
-        <div className="container" style={{ position: "relative", maxHeight: "570px",
-            overflowY: "auto", }}>
+        <div  style={{ position: "relative", maxHeight: "570px",
+            overflowY: "auto",paddingLeft:10,paddingRight:10 }}>
 
 
             {loading   &&
@@ -306,6 +306,7 @@ function SettingCompliance({ hostelid }) {
                 // padding: "10px",
             zIndex: 1000, 
             backgroundColor: "white",
+            paddingRight:1
             // whiteSpace: "nowrap",
              }}>
                 <div 
@@ -350,15 +351,18 @@ function SettingCompliance({ hostelid }) {
                                         color: "white",
                                         fontWeight: 600,
                                         borderRadius: "8px",
-                                        padding: "11px 15px",
-                                        paddingLeft: 7,
-                                        // marginBottom: "10px", 
-                                        // width: "auto",
-                                        // maxWidth: "100%",
-                                        // maxHeight: 50,
-                                        // marginTop: "15px",
-                                        whiteSpace: "nowrap",
-                                        minWidth: "130px",
+                                        // padding: "11px 15px",
+                                        // paddingLeft: 7,
+                                        // // marginBottom: "10px", 
+                                        // // width: "auto",
+                                        // // maxWidth: "100%",
+                                        // // maxHeight: 50,
+                                        // // marginTop: "15px",
+                                        // whiteSpace: "nowrap",
+                                        // minWidth: "130px",
+                                        width:146,
+                                        height:45,
+                                        textAlign:"center"
 
                                     }}
                                     onClick={handleShowForm} disabled={showPopupvalidation}>

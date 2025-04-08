@@ -3001,7 +3001,7 @@ useEffect(() => {
           <div
              style={{
               position: "sticky",
-              top:  69,
+              top:  70,
               right: 0,
               left: 0,
               zIndex: 1000,
@@ -3815,7 +3815,7 @@ useEffect(() => {
                     {/* {currentItems.length > 0 && */}
                     {/* <> */}
 
-                    <Container fluid className="p-0">
+                    <Container fluid className="p-0 ">
                       <Row
                         className={` ${DownloadReceipt
                           ? "m-0 g-2 d-flex justify-content-between"
@@ -3823,10 +3823,10 @@ useEffect(() => {
                         }`}
                       >
                         <Col
-                          lg={DownloadInvoice ? 4 : 12}
+                          lg={DownloadInvoice ? 4: 12}
                           md={DownloadInvoice ? 4 : 12}
-                          sm={DownloadInvoice ? 4 : 12}
-                          xs={DownloadInvoice ? 4 : 12}
+                          sm={DownloadInvoice ? 12 : 12}
+                          xs={DownloadInvoice ? 12: 12}
                         >
                           {DownloadInvoice ? (
                             <div
@@ -4365,15 +4365,6 @@ useEffect(() => {
 
                         {DownloadInvoice && (
                           <>
-                            {/* <Col lg={1} md={1} sm={12} xs={12} style={{ display: "flex", alignItems: "stretch", justifyContent: "end" }}>
-                  <div
-                    style={{
-                      borderLeft: "1px solid rgba(225, 225, 225, 1)",
-                      height: "100%",
-
-                    }}
-                  ></div>
-                </Col> */}
 
                             <Col
                               lg={8}
@@ -5200,8 +5191,8 @@ useEffect(() => {
                       <Col
                         lg={DownloadReceipt ? 4 : 12}
                         md={DownloadReceipt ? 4 : 12}
-                        sm={DownloadReceipt ? 4 : 12}
-                        xs={DownloadReceipt ? 4 : 12}
+                        sm={DownloadReceipt ? 12 : 12}
+                        xs={DownloadReceipt ? 12 : 12}
                       >
                         {DownloadReceipt ? (
                           <div
