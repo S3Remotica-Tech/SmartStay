@@ -605,9 +605,9 @@ function SettingExpenses({ hostelid }) {
 
 
   return (
-    <div className="container" style={{
+    <div className='mt-2' style={{
       position: "relative", maxHeight: "570px",
-      overflowY: "auto",
+      overflowY: "auto",paddingRight:10,paddingLeft:10,paddingTop:6
     }}>
 
 
@@ -657,15 +657,16 @@ function SettingExpenses({ hostelid }) {
         backgroundColor: "#FFFFFF",
         height: 63,
         alignItems: "center",
+        paddingRight:1
         // whiteSpace: "nowrap",
 
       }} >
         <div 
-         className="w-100 text-md-start text-center"
-        style={{ marginTop: 25 }}>
+         className="w-100 text-md-start text-center">
           <h3 style={{ fontFamily: "Gilroy", 
             fontSize: 20, color: "#222", 
             fontWeight: 600, 
+            marginTop:2
             // whiteSpace: "nowrap",
             }}>Expenses Category</h3></div>
         <div 
@@ -674,20 +675,15 @@ function SettingExpenses({ hostelid }) {
           <Button onClick={handleShow}
             style={{
               fontFamily: "Gilroy",
-              fontSize: "14px",
+              fontSize: 14,
               backgroundColor: "#1E45E1",
               color: "white",
               fontWeight: 600,
-              borderRadius: "8px",
-              padding: "11px 35px",
-              paddingLeft: 36,
-              width: "auto",
-              maxWidth: "100%",
-              marginBottom: "10px",
-              maxHeight: 50,
-              marginTop: 20,
-              minWidth: "130px",
-              whiteSpace: "nowrap",
+              borderRadius: 8,
+              // padding: "11px 35px",
+              height:45,
+              width:146,
+              marginTop:-2,
             }}
             disabled={showPopup}
           >+ Category</Button></div>
