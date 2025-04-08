@@ -329,10 +329,11 @@ function SettingAmenities({ hostelid }) {
     console.log("switchStates", switchStates)
 
     return (
-        <div className="container"
+        <div 
             style={{
                 position: "relative", maxHeight: "500px",
                 overflowY: "auto",
+                paddingRight:11,paddingLeft:10
             }}>
             <div 
             // className='d-flex justify-content-between align-items-center'
@@ -348,8 +349,7 @@ function SettingAmenities({ hostelid }) {
                     height: 83,
                 }}>
                 <div 
-                className="w-100 text-md-start text-center"
-                style={{ marginTop: -4 }}>
+                className="w-100 text-md-start text-center">
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
                 </div>
                 <div 
