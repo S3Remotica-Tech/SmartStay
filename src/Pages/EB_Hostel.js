@@ -34,6 +34,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import Filters from "../Assets/Images/Filters.svg";
+import {CloseCircle} from "iconsax-react";
 function EB_Hostel() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -1654,7 +1655,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
             >
               Add a Reading
             </div>
-            <button
+            {/* <button
               type="button"
               className="close"
               aria-label="Close"
@@ -1684,7 +1685,9 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
               >
                 &times;
               </span>
-            </button>
+            </button> */}
+            <CloseCircle size="24" color="#000" onClick={handleClose} 
+            style={{ cursor: 'pointer'}}/>
           </Modal.Header>
           <Modal.Body style={{ marginTop: "-10px" }}>
             <div className="row ">

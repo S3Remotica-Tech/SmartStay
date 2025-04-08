@@ -308,7 +308,7 @@ function AssignBooking(props) {
           </label>
 
           <CloseCircle
-            size="32"
+            size="24"
             color="#222222"
             onClick={handleAssignClose}
             style={{ cursor: "pointer" }}

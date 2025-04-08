@@ -17,6 +17,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import {CloseCircle} from "iconsax-react";
 
 function EBHostelReading(props) {
   const dispatch = useDispatch();
@@ -1057,7 +1058,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
           {/* {editeb ? "Edit Hostel Readig":"Add Hostel Reading"}   */}
           {props.editeb ? "Edit Hostel Reading" : "Add Hostel Reading"}
           </div>
-          <button
+          {/* <button
             type="button"
             className="close"
             aria-label="Close"
@@ -1087,7 +1088,9 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
             >
               &times;
             </span>
-          </button>
+          </button> */}
+          <CloseCircle size="24" color="#000" onClick={handleCloseHostel} 
+            style={{ cursor: 'pointer' }}/>
         </Modal.Header>
         <Modal.Body style={{marginTop:"-13px"}}>
           <div className="row ">

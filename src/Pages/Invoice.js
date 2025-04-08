@@ -47,6 +47,7 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import {CloseCircle} from "iconsax-react";
 
 
 
@@ -1989,38 +1990,7 @@ useEffect(() => {
     }
   }, [selectedDate]);
 
-  //  const handleDateChange = (e) => {
-  //     const selectedDate = new Date(e.target.value);
-
-  //     const year = selectedDate.getFullYear();
-  //     const month = selectedDate.getMonth() + 1;
-  //     const lastDayOfMonth = new Date(year, month, 0);
-  //     const formattedDueDate = `${lastDayOfMonth.getFullYear()}-${String(lastDayOfMonth.getMonth() + 1).padStart(2, '0')}-${String(lastDayOfMonth.getDate()).padStart(2, '0')}`;
-  //     const selectedMonth = selectedDate.getMonth();
-  //     const roomRent = filteredUserDetails[0]?.RoomRent;
-  //     const AlreadyPaidRoomRent = state.InvoiceList?.Invoice.filter(item => {
-  //       const itemDate = new Date(item.Date);
-  //       const itemMonth = itemDate.getMonth();
-  //       return itemMonth === selectedMonth && item.User_Id === selectedUserId;
-  //     });
-
-  //     let totalPaidAmount = 0;
-  //     AlreadyPaidRoomRent.forEach(item => {
-  //       const paidAmount = parseFloat(item.Amount) || 0;
-  //       totalPaidAmount += paidAmount;
-  //     });
-
-  //     const isRoomRentPaid = roomRent === totalPaidAmount;
-  //     // setDisplayText(isRoomRentPaid);
-  //     setIsSaveDisabled(isRoomRentPaid);
-
-  //     setInvoiceList(prevState => ({
-  //       ...prevState,
-  //       date: e.target.value,
-  //       dueDate: formattedDueDate,
-  //     }));
-  //   }
-
+ 
   useEffect(() => {
     if (hostelId) {
       dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
@@ -2485,16 +2455,16 @@ useEffect(() => {
   return (
     <div>
       {showAllBill && (
-        <div style={{marginTop:"5px"}}>
+        <>
          <div
   className="container-fluid sticky-top bg-white "
-  style={{ zIndex: 1000, height: 'auto',paddingLeft:7,paddingRight:6}}
+  style={{ zIndex: 1000, height: 'auto',top:10,paddingLeft:8,paddingRight:6,backgroundColor:"#ffffff"}}
 >
-<div className="d-flex justify-content-between align-items-center flex-wrap mt-2"  >
+<div className="d-flex justify-content-between align-items-center flex-wrap mt-2">
             <div className=" ms-3 " style={{
-    marginTop: value === "1" || value === "3" ? "8px" : "11px",
+    marginTop: value === "1" || value === "3" ? "11px" : "15px",
   }}>
-      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,fontFamily: "Gilroy",marginTop:10 }}>Bills</label>
+      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,fontFamily: "Gilroy" }}>Bills</label>
     </div>
 
             <div >
@@ -2928,7 +2898,7 @@ useEffect(() => {
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
 
-                <div style={{paddingRight:18}} >
+                <div className="text-center"  style={{paddingRight:18}} >
                   {value === "1" && (
                     <Button
                       disabled={billAddPermission}
@@ -2942,7 +2912,7 @@ useEffect(() => {
                         fontWeight: 600,
                         borderRadius: "8px",
                         padding: "11px 33px",
-                        marginTop: 17,
+                        marginTop: 12,
                         paddingLeft: 34,
                         whiteSpace: "nowrap",
                       }}
@@ -2977,7 +2947,7 @@ useEffect(() => {
                         borderRadius: "8px",
                         padding: "11px 25px",
                         paddingLeft: 25,
-                        marginTop: 20,
+                        marginTop: 18,
                         whiteSpace: "nowrap",
                         // width: "170px",
                       }}
@@ -3014,7 +2984,7 @@ useEffect(() => {
                         padding: "11px 18px",
                         paddingLeft: 18,
                         whiteSpace: "nowrap",
-                        marginTop: 17,
+                        marginTop: 12,
                       }}
                     >
                       {" "}
@@ -3036,7 +3006,7 @@ useEffect(() => {
               left: 0,
               zIndex: 1000,
               backgroundColor: search ? undefined : "#FFFFFF", 
-              height: 60,
+              height: "auto",
             }}
             >
               <Box
@@ -3044,16 +3014,11 @@ useEffect(() => {
                 
               >
                 <TabList
-                  
-                  // orientation={isSmallScreen ? "vertical" : "horizontal"}
-                  // onChange={handleChanges}
-                  // aria-label="lab API tabs example"
-                  // style={{ marginLeft: "14px" ,marginTop:"-15px"}}
-                  // className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
+                
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
-                  style={{ marginLeft: "14px",marginTop:"-10px" }}
+                  style={{ marginLeft: "14px", }}
                  
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
@@ -3260,7 +3225,7 @@ useEffect(() => {
                           centered
                         >
                           <Modal.Dialog
-                            style={{ maxWidth: 850, width: "600px" }}
+                           
                             className="m-0 p-0"
                           >
                             {/* <Modal.Header
@@ -3300,11 +3265,10 @@ useEffect(() => {
 
 
                             <Modal.Header
-                              style={{ paddingTop: 40, position: "relative" }}
+                              style={{ paddingTop: 10, position: "relative" }}
                             >
                               <div
                                 style={{
-                                  marginTop: -20,
                                   fontSize: 18,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy", textAlign: "start",
@@ -3331,37 +3295,9 @@ useEffect(() => {
                                   </span>
                                 )}
                               </div>
-                              <button
-                                type="button"
-                                className="close"
-                                aria-label="Close"
-                                onClick={handleCloseForm}
-                                style={{
-                                  position: "absolute",
-                                  right: "10px",
-                                  marginTop: -15,
-                                  border: "1px solid black",
-                                  background: "transparent",
-                                  cursor: "pointer",
-                                  padding: "0",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  width: "24px",
-                                  height: "24px",
-                                  borderRadius: "50%",
-                                }}
-                              >
-                                <span
-                                  aria-hidden="true"
-                                  style={{
-                                    fontSize: "30px",
-                                    paddingBottom: "6px",
-                                  }}
-                                >
-                                  &times;
-                                </span>
-                              </button>
+                              
+                              <CloseCircle size="24" color="#000" onClick={handleCloseForm} 
+            style={{ cursor: 'pointer' }}/>
                             </Modal.Header>
 
                             <Modal.Body>
@@ -3881,10 +3817,10 @@ useEffect(() => {
 
                     <Container fluid className="p-0">
                       <Row
-                        className={` ${DownloadInvoice
-                            ? "m-0 g-2 d-flex justify-content-between"
-                            : "m-0 g-0"
-                          }`}
+                        className={` ${DownloadReceipt
+                          ? "m-0 g-2 d-flex justify-content-between"
+                          : "m-0 g-0"
+                        }`}
                       >
                         <Col
                           lg={DownloadInvoice ? 4 : 12}
@@ -3895,7 +3831,7 @@ useEffect(() => {
                           {DownloadInvoice ? (
                             <div
                               className="show-scroll p-2"
-                              style={{ maxHeight: 700, overflowY: "auto" }}
+                              style={{ maxHeight: 500, overflowY: "auto" }}
                             >
                               {bills &&
                                 bills.map((item) => (
@@ -5779,7 +5715,7 @@ useEffect(() => {
               )}
             </TabPanel>
           </TabContext>
-        </div>
+          </>
       )}
 
       {showmanualinvoice && (

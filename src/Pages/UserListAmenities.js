@@ -11,6 +11,7 @@ import cross from "../Assets/Images/cross.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
+import {CloseCircle} from "iconsax-react";
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
@@ -326,7 +327,7 @@ const handleAmnitiesSelect = ()=>{
         
       >
        <Modal.Header
-                          style={{ marginBottom: "30px", position: "relative" }}
+                          style={{ position: "relative" }}
                         >
                           <div
                             style={{
@@ -339,7 +340,7 @@ const handleAmnitiesSelect = ()=>{
                           >
                            Add Amenities
                           </div>
-                          <button
+                          {/* <button
                             type="button"
                             className="close"
                             aria-label="Close"
@@ -369,7 +370,9 @@ const handleAmnitiesSelect = ()=>{
                             >
                               &times;
                             </span>
-                          </button>
+                          </button> */}
+                          <CloseCircle size="24" color="#000" onClick={handleFormClose} 
+            style={{ cursor: 'pointer' }}/>
                         </Modal.Header>
 
         <Modal.Body>

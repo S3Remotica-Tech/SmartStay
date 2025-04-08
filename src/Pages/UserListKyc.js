@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Button, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
 import PropTypes from "prop-types";
+import {CloseCircle} from "iconsax-react";
 function UserListKyc(props) {
 
   const dispatch = useDispatch()
@@ -116,7 +117,7 @@ function UserListKyc(props) {
                 <Modal.Header
                   style={{  position: "relative",
                     // marginBottom: "10px",
-                    padding: "20px", }}
+                    paddingTop: "2px",paddingBottom:6 }}
                 >
                   
                   <div
@@ -125,13 +126,12 @@ function UserListKyc(props) {
                       fontWeight: 600,
                       fontFamily: "Gilroy",
                       cursor: 'pointer',
-                      marginTop:-20,
                       marginLeft:-15
                     }}
                   >
                     KYC Verify
                   </div>
-                  <button
+                  {/* <button
                     type="button"
                     className="close"
                     aria-label="Close"
@@ -161,7 +161,9 @@ function UserListKyc(props) {
                     >
                       &times;
                     </span>
-                  </button>
+                  </button> */}
+                  <CloseCircle size="24" color="#000" onClick={handleCloseyc} 
+            style={{ cursor: 'pointer' }}/>
                 </Modal.Header>
 
                 <div className="row mb-3">

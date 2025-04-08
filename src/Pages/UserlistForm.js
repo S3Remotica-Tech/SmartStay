@@ -17,6 +17,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import {CloseCircle} from "iconsax-react";
 
 
 function UserlistForm(props) {
@@ -774,11 +775,10 @@ const handleBed = (selectedOption) => {
               {props.displayDetail ? (
                 <div>
                   <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
+                    style={{  position: "relative",paddingTop:5 }}
                   >
                     <div
                       style={{
-                        marginTop: -20,
                         fontSize: 18,
                         fontWeight: 600,
                         fontFamily: "Gilroy", textAlign: "start",
@@ -789,7 +789,7 @@ const handleBed = (selectedOption) => {
                         ? "Edit Customer"
                         : "Add Customer"}
                     </div>
-                    <button
+                    {/* <button
                       type="button"
                       className="close"
                       aria-label="Close"
@@ -819,10 +819,12 @@ const handleBed = (selectedOption) => {
                       >
                         &times;
                       </span>
-                    </button>
+                    </button> */}
+                    <CloseCircle size="24" color="#000" onClick={handleClose} 
+            style={{ cursor: 'pointer' }}/>
                   </Modal.Header>
 
-                  <div className="d-flex align-items-center">
+                  <div className="d-flex align-items-center mt-1">
                     <div
                       className=""
                       style={{ height: 100, width: 100, position: "relative" }}
@@ -1250,7 +1252,7 @@ const handleBed = (selectedOption) => {
                     >
                       Assign Bed
                     </div>
-                    <button
+                    {/* <button
                       type="button"
                       className="close"
                       aria-label="Close"
@@ -1280,7 +1282,9 @@ const handleBed = (selectedOption) => {
                       >
                         &times;
                       </span>
-                    </button>
+                    </button> */}
+                    <CloseCircle size="24" color="#000" onClick={handleClose} 
+            style={{ cursor: 'pointer' }}/>
                   </Modal.Header>
 
                   <div className="row">

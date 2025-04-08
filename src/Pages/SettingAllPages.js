@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */ 
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SettingGeneral from "./SettingGeneral";
@@ -24,24 +25,14 @@ function SettingAllPages() {
 
  
   const state = useSelector(state => state);
-  const [activeItem, setActiveItem] = useState("General");
-  const [generalPageShow, setGeneralPageShow] = useState(true);
-  const [managePageShow, setManagePageShow] = useState(false);
-  const [securityPageShow, setSecurityPageShow] = useState(false);
-  const [subscriptionPageShow, setSubscriptionPageShow] = useState(false);
-  const [intgrationPageShow, setIntgrationPageShow] = useState(false);
-  const [electricityPageShow, setElectricityPageShow] = useState(false);
-  const [invoicePageShow, setInvoicePageShow] = useState(false);
-  const [compliancePageShow, setCompliancePageShow] = useState(false);
-  const [expensesPageShow, setExpensesPageShow] = useState(false);
-  const [amnitiesPageShow, setAmnitiesPageShow] = useState(false);
-  const [userPageShow, setUserPageShow] = useState(false);
-  const [rolePageShow, setRolePageShow] = useState(false);
   const [hostel_Id, setHostel_Id] = useState('')
+  const [activePage, setActivePage] = useState("General");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
+  const [hasUserNavigated, setHasUserNavigated] = useState(false);
 
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if ( state.login.selectedHostel_Id) {
       setHostel_Id(state.login.selectedHostel_Id)
     }
 
@@ -50,201 +41,44 @@ function SettingAllPages() {
 
 
 
-
-
-
   useEffect(() => {
     if (state.PgList.isManageEnable) {
-      setActiveItem("Manage PG")
-      handleShowManagePage()
-
+      setActivePage('Manage PG');
     }
-  }, [state.PgList.isManageEnable])
+    
+  }, [state.PgList.isManageEnable]);
+  
+
+  // useEffect(() => {
+  //   if (state.PgList.isManageEnable) {
+  //     setActivePage("Manage PG")
+  //     handleShowManagePage()
+
+  //   }
+  // }, [state.PgList.isManageEnable])
 
 
-  const handleShowGeneralPage = () => {
-    setGeneralPageShow(true);
-    setManagePageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
+ 
+
+
+ 
+ 
+  
+  
+
+  
 
 
 
-  const handleShowManagePage = () => {
-
-    setManagePageShow(true);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-    // props.onhandleShowsettingsPG()
-  };
-  const handleShowSecurityPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(true)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
-  const handleShowSubscriptionPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(true)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
-  const handleShowIntgrationPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(true)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
-  const handleShowElectricityPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(true)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
-  const handleShowInvoicePage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(true)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  };
-
-  const handleShowCompliancePage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(true)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  }
-  const handleShowExpensesPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(true)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(false)
-  }
-
-  const handleShowAmnitiesPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(true)
-
-    setUserPageShow(false)
-    setRolePageShow(false)
-  }
+ 
 
 
 
 
 
-  const handleShowUserPage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(true)
-    setRolePageShow(false)
-  }
+  
 
 
-  const handleShowRolePage = () => {
-    setManagePageShow(false);
-    setGeneralPageShow(false);
-    setSecurityPageShow(false)
-    setSubscriptionPageShow(false)
-    setIntgrationPageShow(false)
-    setElectricityPageShow(false)
-    setInvoicePageShow(false)
-    setCompliancePageShow(false)
-    setExpensesPageShow(false)
-    setAmnitiesPageShow(false)
-    setUserPageShow(false)
-    setRolePageShow(true)
-  }
 
 
   // const handleHostelId = (e) => {
@@ -271,12 +105,11 @@ function SettingAllPages() {
 
   // console.log("isSidebarOpen", isSidebarOpen)
 
-  const [activePage, setActivePage] = useState('General');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
+ 
 
 
   const handleTabClick = (itemName) => {
-    setActiveItem(itemName);
+    // setActiveItemS(itemName);
     setActivePage(itemName);
     if (window.innerWidth < 768) {
       setIsSidebarOpen(false); 
@@ -360,13 +193,13 @@ function SettingAllPages() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "General" ? "#4a90e2" : "#000000",
+                  color: activePage === "General" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
                 General
                 <img
-                  src={activeItem === "General" ? blueArrow : blackArrow}
+                  src={activePage === "General" ? blueArrow : blackArrow}
                   width={16}
                   height={16}
                   alt="Arrow Icon"
@@ -387,13 +220,13 @@ function SettingAllPages() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "Manage PG" ? "#4a90e2" : "#000000",
+                  color: activePage === "Manage PG" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
                 Manage PG
                 <img
-                  src={activeItem === "Manage PG" ? blueArrow : blackArrow}
+                  src={activePage === "Manage PG" ? blueArrow : blackArrow}
                   width={16}
                   height={16}
                   alt="Arrow Icon"
@@ -416,13 +249,13 @@ function SettingAllPages() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "Security" ? "#4a90e2" : "#000000",
+                  color: activePage === "Security" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
                 Security
                 <img
-                  src={activeItem === "Security" ? blueArrow : blackArrow}
+                  src={activePage === "Security" ? blueArrow : blackArrow}
                   width={16}
                   height={16}
                   alt="Arrow Icon"
@@ -444,13 +277,13 @@ function SettingAllPages() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "Subscription" ? "#4a90e2" : "#000000",
+                  color: activePage === "Subscription" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
                 Subscription
                 <img
-                  src={activeItem === "Subscription" ? blueArrow : blackArrow}
+                  src={activePage === "Subscription" ? blueArrow : blackArrow}
                   width={16}
                   height={16}
                   alt="Arrow Icon"
@@ -473,13 +306,13 @@ function SettingAllPages() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  color: activeItem === "Integration" ? "#4a90e2" : "#000000",
+                  color: activePage === "Integration" ? "#4a90e2" : "#000000",
                   cursor: "pointer",
                 }}
               >
                 Integration
                 <img
-                  src={activeItem === "Integration" ? blueArrow : blackArrow}
+                  src={activePage === "Integration" ? blueArrow : blackArrow}
                   width={16}
                   height={16}
                   alt="Arrow Icon"
@@ -525,13 +358,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Electricity" ? "#4a90e2" : "#000000", 
+                    color: activePage === "Electricity" ? "#4a90e2" : "#000000", 
                     cursor: "pointer",
                   }}
                 >
                   Electricity
                   <img
-                    src={activeItem === "Electricity" ? blueArrow : blackArrow}
+                    src={activePage === "Electricity" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -552,13 +385,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Invoice" ? "#4a90e2" : "#000000",
+                    color: activePage === "Invoice" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   Invoice
                   <img
-                    src={activeItem === "Invoice" ? blueArrow : blackArrow}
+                    src={activePage === "Invoice" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -581,13 +414,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Expenses" ? "#4a90e2" : "#000000",
+                    color: activePage === "Expenses" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   Expenses
                   <img
-                    src={activeItem === "Expenses" ? blueArrow : blackArrow}
+                    src={activePage === "Expenses" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -609,13 +442,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Complaints" ? "#4a90e2" : "#000000",
+                    color: activePage === "Complaints" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   Complaints
                   <img
-                    src={activeItem === "Complaints" ? blueArrow : blackArrow}
+                    src={activePage === "Complaints" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -637,13 +470,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Amenities" ? "#4a90e2" : "#000000",
+                    color: activePage === "Amenities" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   Amenities
                   <img
-                    src={activeItem === "Amenities" ? blueArrow : blackArrow}
+                    src={activePage === "Amenities" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -668,13 +501,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "User" ? "#4a90e2" : "#000000",
+                    color: activePage === "User" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   User
                   <img
-                    src={activeItem === "User" ? blueArrow : blackArrow}
+                    src={activePage === "User" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -698,13 +531,13 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activeItem === "Role" ? "#4a90e2" : "#000000",
+                    color: activePage === "Role" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
                   Role
                   <img
-                    src={activeItem === "Role" ? blueArrow : blackArrow}
+                    src={activePage === "Role" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"

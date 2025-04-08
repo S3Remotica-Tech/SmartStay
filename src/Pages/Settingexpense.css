@@ -2,3 +2,47 @@
     border-radius: 20px;
     
   }
+
+  @media (max-width: 767.98px) {
+    .card-width-sm {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: 0 0 100% !important;
+      
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .card-height-sm {
+      padding: -15px !important; /* reduce card padding */
+    }
+  
+    .card-height-sm .icon-wrapper {
+      gap: 6px !important; /* reduce icon spacing */
+    }
+  
+    /* .card-height-sm .category-title {
+      font-size: 14px !important; reduce text size
+    } */
+  
+    .card-height-sm li {
+      margin-bottom: 0px !important; /* reduce list item spacing if dropdown is open */
+    }
+  }
+  
+  @media (max-width: 767.98px) {
+    .card-inner {
+      margin-top: -35px !important;
+    }
+  }
+
+  /* @media (max-width: 767.98px) {
+    .card-list-padding {
+      padding-top: 50px;   /* space above the first card */
+      /* padding-bottom: 50px;  */
+      
+      /* space below the last card */
+    /* }
+  }
+   */ 
+  

@@ -21,6 +21,7 @@ import { MdError } from "react-icons/md";
 import PropTypes from "prop-types"
 import Select from "react-select";
 import "./ComplianceList.css";
+import {CloseCircle} from "iconsax-react";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -1094,7 +1095,6 @@ useEffect(() => {
                                 alignItems: "center",
                                 width: "100%",
                                  marginleft:"-15px",
-                                 paddingTop:"-8px"
                               }}
                             >
                               <img
@@ -1131,7 +1131,7 @@ useEffect(() => {
                               </div>
                             </div>
 
-                            <button
+                            {/* <button
                               type="button"
                               className="close"
                               aria-label="Close"
@@ -1161,7 +1161,9 @@ useEffect(() => {
                               >
                                 &times;
                               </span>
-                            </button>
+                            </button> */}
+                            <CloseCircle size="24" color="#000" onClick={handleCloseIconClick} 
+            style={{ cursor: 'pointer' }}/>
                           </Modal.Header>
                         </div>
                         <div
@@ -1379,20 +1381,20 @@ useEffect(() => {
                     <Modal.Body>
                       <div>
                         <Modal.Header
-                          style={{ position: "relative" }}
+                          style={{ position: "relative",padding:"2px 15px" }}
                         >
                           <div
                             style={{
                               fontSize: 20,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              marginTop:"-14px",
+                              
                               marginLeft:"-10px"
                             }}
                           >
                             Change Status
                           </div>
-                          <button
+                          {/* <button
                             type="button"
                             className="close"
                             aria-label="Close"
@@ -1422,7 +1424,9 @@ useEffect(() => {
                             >
                               &times;
                             </span>
-                          </button>
+                          </button> */}
+                          <CloseCircle size="24" color="#000" onClick={ChangeStatusClose} 
+            style={{ cursor: 'pointer' }}/>
 
                           {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
                         </Modal.Header>
@@ -1576,25 +1580,27 @@ useEffect(() => {
                       maxWidth: 950,
                       paddingRight: "10px",
                       borderRadius: "30px",
+                      // padding:"5px"
                     }}
                     className="m-0 p-0"
                   >
                     <Modal.Body>
                       <div>
                         <Modal.Header
-                          style={{ marginBottom: "30px", position: "relative",marginTop:"-8px" }}
+                          style={{position: "relative",padding:"2px 15px" }}
                         >
                           <div
                             style={{
                               fontSize: 20,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              marginLeft:"-10px"
+                              marginLeft:"-10px",
+                              marginTop:5
                             }}
                           >
                             Assign Complaint
                           </div>
-                          <button
+                          {/* <button
                             type="button"
                             className="close"
                             aria-label="Close"
@@ -1624,7 +1630,9 @@ useEffect(() => {
                             >
                               &times;
                             </span>
-                          </button>
+                          </button> */}
+                          <CloseCircle size="24" color="#000" onClick={handleCloseAssign} 
+            style={{ cursor: 'pointer'}}/>
 
                           {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
                         </Modal.Header>

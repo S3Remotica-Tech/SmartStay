@@ -16,7 +16,6 @@ import "./Userlistbooking.css";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Delete from "../Assets/Images/New_images/trash.png";
 import Edit from "../Assets/Images/New_images/edit.png";
-import { CloseCircle } from "iconsax-react";
 import "react-toastify/dist/ReactToastify.css";
 import BookingModal from "./Addbookingform";
 import AssignBooking from "./Assignbooking";
@@ -34,6 +33,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import {CloseCircle} from "iconsax-react";
 
 function Booking(props) {
   const state = useSelector((state) => state);
@@ -1471,7 +1471,7 @@ if (!pattern.test(value)) {
             Edit Booking
           </Modal.Title>
           <CloseCircle
-            size="32"
+            size="24"
             color="#222222"
             onClick={handleCloseForm}
             style={{ cursor: "pointer" }}

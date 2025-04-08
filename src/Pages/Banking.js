@@ -22,6 +22,7 @@ import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import {CloseCircle} from "iconsax-react";
 
 
 
@@ -1647,22 +1648,50 @@ whiteSpace: "nowrap"
             )}
 
             {transactionFilterddata?.length >= 5 && (
+              // <nav
+              //   style={{
+              //     display: "flex",
+              //     alignItems: "center",
+              //     justifyContent: "end",
+              //     padding: "10px",
+              //     position: "fixed",
+              //     bottom: "10px",
+              //     right: "10px",
+              //     backgroundColor: "#fff",
+              //     borderRadius: "5px",
+              //     zIndex: 1000,
+              //     marginTop: 10
+              //   }}
+              // >
+              // <nav className='pagination-code'
+              // style={{
+              //   display: "flex",
+              //   alignItems: "center",
+              //   justifyContent: "end",
+              //   padding: "15px",
+              //   backgroundColor: "#fff",
+              //   borderRadius: "5px",
+              //   width: "100%", 
+              //   marginTop: "20px", 
+              //   position: "relative", 
+              //   zIndex: 1000,
+              // }}
+              // >
               <nav className="pagination-container"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end",
-                  padding: "10px",
-                  position: "fixed",
-                  bottom: "10px",
-                  right: "10px",
-                  backgroundColor: "#fff",
-                  borderRadius: "5px",
-                  zIndex: 1000,
-                  marginTop: 10
-                }}
-              >
-
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "end",
+                padding: "10px",
+                position: "fixed",
+                bottom: "10px",
+                right: "10px",
+                backgroundColor: "#fff",
+                borderRadius: "5px",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                zIndex: 1000,
+              }}
+            >
 
                 <div>
                   <select
@@ -1886,7 +1915,9 @@ whiteSpace: "nowrap"
               >
                 Add balance
               </div>
-              <button
+              <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance} 
+            style={{ cursor: 'pointer' }}/>
+              {/* <button
                 type="button"
                 className="close"
                 aria-label="Close"
@@ -1916,7 +1947,7 @@ whiteSpace: "nowrap"
                       >
                         &times;
                       </span>
-              </button>
+              </button> */}
             </Modal.Header>
             <Modal.Body>
               <div className="col-12" style={{ marginTop: "-35px" }}>
