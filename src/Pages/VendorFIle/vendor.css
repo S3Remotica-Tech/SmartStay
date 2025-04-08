@@ -5,7 +5,7 @@
     }
   }
 
-  .pagination-code {
+  /* .pagination-code {
     display: flex;
     align-items: center;
     justify-content: space-between; 
@@ -78,4 +78,19 @@
       margin-top: 20px !important;
     }
   }
+   */
+
+   @media (max-width: 450px) {
+    .pagination-container {
+      flex-direction: column;
+      align-items: center;
+      position: static; 
+      bottom: auto;
+      right: auto;
+      margin-top: 10px;
+    }
   
+    .items-per-page {
+      margin-bottom: 10px; 
+    }
+  }

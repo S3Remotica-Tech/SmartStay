@@ -715,10 +715,7 @@ function Vendor() {
                 </div>
               </div>
             </div>
-            {
-              filteredData.length >= 5 &&
-              // <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
-              <nav className='pagination-code'
+            {/* <nav className='pagination-container'
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -731,7 +728,11 @@ function Vendor() {
                 position: "relative", 
                 zIndex: 1000,
               }}
-              >
+              > */}
+            {
+              filteredData.length >= 5 &&
+              <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-centers pagination-container'>
+             
                 <div>
                   <select
                     value={itemsPerPage}

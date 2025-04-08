@@ -117,3 +117,79 @@
       overflow-y: auto;
   }
 }
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: auto;
+  max-width: 100%;
+
+}
+
+.items-per-page select {
+  padding: 5px;
+  border: 1px solid #1E45E1;
+  border-radius: 5px;
+  color: #1E45E1;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination-controls li {
+  margin: 0 10px;
+}
+
+.pagination-controls button {
+  padding: 5px;
+  text-decoration: none;
+  border-radius: 50%;
+  min-width: 30px;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+@media (max-width: 450px) {
+  .pagination-container {
+    flex-direction: column;
+    align-items: center;
+    position: static; 
+    bottom: auto;
+    right: auto;
+    margin-top: 10px;
+  }
+
+  .items-per-page {
+    margin-bottom: 10px; 
+  }
+}
