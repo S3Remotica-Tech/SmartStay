@@ -908,15 +908,18 @@ function Asset() {
               // </Pagination>
 
               <nav
+              className="pagination-container"
                 style={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "end",
                   padding: "10px",
                   position: "fixed",
-                  bottom: "0",
-                  right: "0",
+                  bottom: "10px",
+                  right: "10px",
                   backgroundColor: "white",
+                  borderRadius: "5px",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                   zIndex: "1000",
                 }}
               >
