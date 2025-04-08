@@ -105,12 +105,12 @@ function* handleHostelList(hostel) {
 
 function* handleAllHostelList(action) {
    const response = yield call(hostelList, action.payload)
-
+console.log("handleAllHostelList",response)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST_All', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'NO_HOSTEL_DETAILS', payload: { statusCode: response.status || response.statusCode } })
+   else if (response.status === 201 || response.data.statusCode === 201) {
+      yield put({ type: 'NO_HOSTEL_DETAILS', payload: { statusCode: response.status || response.data.statusCode } })
    }
    if (response) {
       refreshToken(response)

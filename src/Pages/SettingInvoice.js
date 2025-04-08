@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import Select from "react-select";
 import PropTypes from "prop-types";
+import {CloseCircle} from "iconsax-react";
 
 function SettingInvoice({ hostelid }) {
 
@@ -36,7 +37,7 @@ function SettingInvoice({ hostelid }) {
   const [duedateerrmsg, setDueDateErrmsg] = useState("");
   const [recurringform, setRecurringForm] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const initialValuesRef = useRef({});
 
   const [calculatedstartdate, setCalculatedstartdate] = useState("");
@@ -51,9 +52,10 @@ function SettingInvoice({ hostelid }) {
 
  
   useEffect(() => {
-    // if (state.login.selectedHostel_Id) {
+    if (state.login.selectedHostel_Id) {
     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-    // }
+    setLoading(true)
+    }
   }, [state.login.selectedHostel_Id]);
 
   console.log("state.UsersList.hotelDetailsinPg", state.UsersList.hotelDetailsinPg)
@@ -396,21 +398,44 @@ function SettingInvoice({ hostelid }) {
     }
 
   }, [state?.UsersList?.statuscodeForhotelDetailsinPg])
-  console.log("UsersListSTATUSCODE", state?.UsersList?.statuscodeForhotelDetailsinPg);
 
 
-  useEffect(() => {
-    if (InvoiceList.length === 0) {
-      setLoading(true)
-    }
-    else if (InvoiceList && InvoiceList?.every(
-      (item) =>
-        (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
-        (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
-    )) {
+  useState(()=>{
+    if(state.UsersList.noAllHosteListStatusCode === 201){
       setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
+      }, 1000);
     }
-  }, [InvoiceList])
+
+  },[state.UsersList.noAllHosteListStatusCode])
+  console.log("UsersListSTATUSCODE", state.UsersList.noAllHosteListStatusCode);
+
+
+  // useEffect(() => {
+  //   if (InvoiceList.length === 0) {
+  //   }
+  //   else if (InvoiceList && InvoiceList?.every(
+  //     (item) =>
+  //       (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
+  //       (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
+  //   )) {
+  //     setLoading(false)
+  //   }
+  // }, [InvoiceList])
+  useEffect(() => {
+    if (!InvoiceList || InvoiceList.length === 0) return;
+  
+    const allPrefixSuffixEmpty = InvoiceList.every(item =>
+      (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
+      (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
+    );
+  
+    if (allPrefixSuffixEmpty) {
+      setLoading(false);
+    }
+  }, [InvoiceList]);
+  
 
 
   console.log("InvoiceList:", InvoiceList);
@@ -442,7 +467,7 @@ function SettingInvoice({ hostelid }) {
 
 
   return (
-    <div className="container" style={{ position: "relative" }}>
+    <div className="mt-4" style={{ position: "relative",paddingRight:11,paddingLeft:10 }}>
 
 
       {loading &&
@@ -485,10 +510,9 @@ function SettingInvoice({ hostelid }) {
         left: 0,
         zIndex: 1000,
         backgroundColor: "#FFFFFF",
-        // height: 83, 
-        marginTop: 5,
+        // height: 83,
         whiteSpace: "nowrap",
-        padding: "10px",
+        
       }}>
         <div className="w-100 text-md-start text-center">
         <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,
@@ -524,16 +548,13 @@ function SettingInvoice({ hostelid }) {
                   color: "white",
                   fontWeight: 600,
                   borderRadius: "8px",
-                  padding: "10px 34px",
-                  width: "auto",
-                  maxWidth: "100%",
-                  marginBottom: "10px",
-                  maxHeight: 50,
-                  marginTop: "10px",
+                  width:146,
+                  height:45,
+                 
+                  marginTop: "-2px",
                   // borderColor: "#1E45E1",
                   border: "2px solid #1E45E1",
                   // border: "none",
-                  minWidth: "140px",
                 }}
                 disabled={showPopup}
               >
@@ -560,16 +581,18 @@ function SettingInvoice({ hostelid }) {
                   color: "white",
                   fontWeight: 600,
                   borderRadius: "8px",
-                  padding: "10px 34px",
-                  width: "auto",
-                  maxWidth: "100%",
-                  marginBottom: "10px",
-                  maxHeight: 50,
-                  marginTop: "10px",
+                  // padding: "10px 34px",
+                  // width: "auto",
+                  // maxWidth: "100%",
+                  // marginBottom: "10px",
+                  // maxHeight: 50,
+                  marginTop: "-2px",
                   // borderColor: "#1E45E1",
                   border: "2px solid #1E45E1",
                   // border: "none",
-                  minWidth: "140px",
+                  // minWidth: "140px",
+                  width:146,
+                  height:45
                 }}
               >
                 Edit Invoice
@@ -686,7 +709,7 @@ function SettingInvoice({ hostelid }) {
                     >
                       {edit ? "Edit Invoice" : "Add Invoice "}
                     </div>
-                    <button
+                    {/* <button
                       type="button"
                       className="close"
                       aria-label="Close"
@@ -699,7 +722,9 @@ function SettingInvoice({ hostelid }) {
                       >
                         &times;
                       </span>
-                    </button>
+                    </button> */}
+                    <CloseCircle size="24" color="#000" onClick={handleCloseForm} 
+            style={{ cursor: 'pointer' }}/>
                   </Modal.Header>
                 </div>
 
@@ -1093,7 +1118,7 @@ function SettingInvoice({ hostelid }) {
                     >
                       Recurring Enable
                     </div>
-                    <button
+                    {/* <button
                       type="button"
                       className="close"
                       aria-label="Close"
@@ -1123,7 +1148,9 @@ function SettingInvoice({ hostelid }) {
                       >
                         &times;
                       </span>
-                    </button>
+                    </button> */}
+                    <CloseCircle size="24" color="#000" onClick={handleCloseRecurringForm} 
+            style={{ cursor: 'pointer' }}/>
 
                   </Modal.Header>
                 </div>

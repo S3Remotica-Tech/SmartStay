@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Form, Button, FormControl } from 'react-bootstrap';
+import {Row, Col, Card, Form, Button, FormControl } from 'react-bootstrap';
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
 import { MdError } from "react-icons/md";
@@ -8,6 +8,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import Select from "react-select";
 import './SettingAll.css'
 import PropTypes from "prop-types";
+import {CloseCircle} from "iconsax-react";
 
 
 const SettingElectricity = ({ hostelid }) => {
@@ -329,7 +330,7 @@ const SettingElectricity = ({ hostelid }) => {
 
   return (
 
-    <Container className="mt-4" style={{ position: "relative" }}>
+    <div className="mt-4" style={{ position: "relative",paddingRight:10,paddingLeft:10 }}>
 
 
       {loading &&
@@ -369,6 +370,8 @@ const SettingElectricity = ({ hostelid }) => {
         zIndex: 1000,
         backgroundColor: "#FFFFFF",
         whiteSpace: "nowrap",
+        paddingRight:1
+        
         // height: 83,
         // padding: "10px",
       }} >
@@ -377,14 +380,14 @@ const SettingElectricity = ({ hostelid }) => {
             fontSize: 20,
             color: "#000000",
             fontWeight: 600,
-            fontFamily: "Gilroy", marginTop: 5,
+            fontFamily: "Gilroy", marginTop: 7,
             whiteSpace: "nowrap",
           }}>Electricity</h4>
         </Col>
         <Col 
         // className="d-flex justify-content-end"
         className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
-        >
+       >
           {/* <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
           padding:"12px 16px 12px 16px"
            }} 
@@ -405,9 +408,13 @@ const SettingElectricity = ({ hostelid }) => {
                   color: "white",
                   fontWeight: 600,
                   borderRadius: 8,
-                  padding: "11px 27px",
+                  // padding: "11px 27px",
                   // paddingLeft:26,
                   // marginTop:-2
+                  height:45,
+                  width:146,
+                  marginTop:-2,
+                 
                  
                 }}
               >
@@ -424,8 +431,10 @@ const SettingElectricity = ({ hostelid }) => {
                 color: "white",
                 fontWeight: 600,
                 borderRadius: 8,
-                padding: "11px 35px",
-                marginTop:-2
+                // padding: "11px 35px",
+                height:45,
+                width:146,
+                marginTop:-2,
               }}
               disabled={showPopup}
             >
@@ -729,7 +738,7 @@ const SettingElectricity = ({ hostelid }) => {
           >
             {edit ? "Edit Electricity" : "Add Electricity"}
           </div>
-          <button
+          {/* <button
             type="button"
             className="close"
             aria-label="Close"
@@ -759,7 +768,9 @@ const SettingElectricity = ({ hostelid }) => {
             >
               &times;
             </span>
-          </button>
+          </button> */}
+          <CloseCircle size="24" color="#000" onClick={handleClose} 
+            style={{ cursor: 'pointer' }}/>
 
         </Modal.Header>
         <Modal.Body style={{ marginBottom: "0px" }}>
@@ -878,7 +889,7 @@ const SettingElectricity = ({ hostelid }) => {
             style={{
               backgroundColor: "#1E45E1",
               fontWeight: 600,
-              height: 50,
+              height: 45,
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
@@ -1022,7 +1033,7 @@ const SettingElectricity = ({ hostelid }) => {
                     >
                       Recurring Enable
                     </div>
-                    <button
+                    {/* <button
                       type="button"
                       className="close"
                       aria-label="Close"
@@ -1052,7 +1063,9 @@ const SettingElectricity = ({ hostelid }) => {
                       >
                         &times;
                       </span>
-                    </button>
+                    </button> */}
+                    <CloseCircle size="24" color="#000" onClick={handleCloseRecurringForm} 
+            style={{ cursor: 'pointer' }}/>
 
                     {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
                   </Modal.Header>
@@ -1292,7 +1305,7 @@ const SettingElectricity = ({ hostelid }) => {
         </div>
       )}
 
-    </Container>
+    </div>
   );
 };
 
