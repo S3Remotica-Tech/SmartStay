@@ -5191,8 +5191,8 @@ useEffect(() => {
                       <Col
                         lg={DownloadReceipt ? 4 : 12}
                         md={DownloadReceipt ? 4 : 12}
-                        sm={DownloadReceipt ? 4 : 12}
-                        xs={DownloadReceipt ? 4 : 12}
+                        sm={DownloadReceipt ? 12 : 12}
+                        xs={DownloadReceipt ? 12 : 12}
                       >
                         {DownloadReceipt ? (
                           <div

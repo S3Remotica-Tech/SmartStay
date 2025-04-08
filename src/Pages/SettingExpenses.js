@@ -605,9 +605,9 @@ function SettingExpenses({ hostelid }) {
 
 
   return (
-    <div className='mt-2' style={{
+    <div  style={{
       position: "relative", maxHeight: "570px",
-      overflowY: "auto",paddingRight:10,paddingLeft:10,paddingTop:6
+      overflowY: "auto",paddingRight:10,paddingLeft:10
     }}>
 
 
@@ -657,7 +657,8 @@ function SettingExpenses({ hostelid }) {
         backgroundColor: "#FFFFFF",
         height: 63,
         alignItems: "center",
-        paddingRight:1
+        paddingRight:1,
+        paddingTop:28
         // whiteSpace: "nowrap",
 
       }} >
