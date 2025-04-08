@@ -11,7 +11,6 @@ import { MdError } from "react-icons/md";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PropTypes from "prop-types";
-import {CloseCircle} from "iconsax-react";
 
 function SettingCompliance({ hostelid }) {
 
@@ -264,8 +263,8 @@ function SettingCompliance({ hostelid }) {
  
 
     return (
-        <div className="container" style={{ position: "relative", maxHeight: "570px",
-            overflowY: "auto", }}>
+        <div  style={{ position: "relative", maxHeight: "570px",
+            overflowY: "auto",paddingLeft:10,paddingRight:10 }}>
 
 
             {loading   &&
@@ -307,6 +306,7 @@ function SettingCompliance({ hostelid }) {
                 // padding: "10px",
             zIndex: 1000, 
             backgroundColor: "white",
+            paddingRight:1
             // whiteSpace: "nowrap",
              }}>
                 <div 
@@ -351,15 +351,18 @@ function SettingCompliance({ hostelid }) {
                                         color: "white",
                                         fontWeight: 600,
                                         borderRadius: "8px",
-                                        padding: "11px 15px",
-                                        paddingLeft: 7,
-                                        // marginBottom: "10px", 
-                                        // width: "auto",
-                                        // maxWidth: "100%",
-                                        // maxHeight: 50,
-                                        // marginTop: "15px",
-                                        whiteSpace: "nowrap",
-                                        minWidth: "130px",
+                                        // padding: "11px 15px",
+                                        // paddingLeft: 7,
+                                        // // marginBottom: "10px", 
+                                        // // width: "auto",
+                                        // // maxWidth: "100%",
+                                        // // maxHeight: 50,
+                                        // // marginTop: "15px",
+                                        // whiteSpace: "nowrap",
+                                        // minWidth: "130px",
+                                        width:146,
+                                        height:45,
+                                        textAlign:"center"
 
                                     }}
                                     onClick={handleShowForm} disabled={showPopupvalidation}>
@@ -676,8 +679,37 @@ function SettingCompliance({ hostelid }) {
                     >
                         Edit Complaint Type
                     </div>
-                    <CloseCircle size="24" color="#000" onClick={handleClose} 
-            style={{ cursor: 'pointer' }}/>
+                    <button
+                        type="button"
+                        className="close"
+                        aria-label="Close"
+                        onClick={handleClose}
+                        style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "16px",
+                            border: "1px solid black",
+                            background: "transparent",
+                            cursor: "pointer",
+                            padding: "0",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "32px",
+                            height: "32px",
+                            borderRadius: "50%",
+                        }}
+                    >
+                        <span
+                            aria-hidden="true"
+                            style={{
+                                fontSize: "30px",
+                                paddingBottom:6,
+                            }}
+                        >
+                            &times;
+                        </span>
+                    </button>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="col">
@@ -760,8 +792,37 @@ function SettingCompliance({ hostelid }) {
                     >
                         Add Complaint Type
                     </div>
-                    <CloseCircle size="24" color="#000" onClick={handleClose} 
-            style={{ cursor: 'pointer' }}/>
+                    <button
+                        type="button"
+                        className="close"
+                        aria-label="Close"
+                        onClick={handleClose}
+                        style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "16px",
+                            border: "1px solid black",
+                            background: "transparent",
+                            cursor: "pointer",
+                            padding: "0",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "32px",
+                            height: "32px",
+                            borderRadius: "50%",
+                        }}
+                    >
+                        <span
+                            aria-hidden="true"
+                            style={{
+                                fontSize: "30px",
+                                paddingBottom: "6px",
+                            }}
+                        >
+                            &times;
+                        </span>
+                    </button>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="col">

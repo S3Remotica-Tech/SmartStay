@@ -211,7 +211,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   }, [state.Settings.StatusForEditPermission])
 
   return (
-    <div className="container " style={{ position: "relative" }}>
+    <div  style={{ position: "relative",paddingRight:10,paddingLeft:10 }}>
       <div 
       // className=' d-flex justify-content-between align-items-center'
       className="d-flex flex-column flex-md-row justify-content-between align-items-center"
@@ -223,6 +223,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
           zIndex: 1000,
           backgroundColor: "#FFFFFF",
           height: 83,
+          paddingRight:1
         }}>
         <div 
         className="w-100 text-md-start text-center"
