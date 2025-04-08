@@ -644,11 +644,10 @@ function SettingExpenses({ hostelid }) {
 
 
 
-      <div 
+      {/* <div 
       className="d-flex flex-column flex-md-row justify-content-between align-items-center"
       style={{
-        // display: "flex", flexDirection: "row", justifyContent: "space-between",
-        position: 'sticky',
+                position: 'sticky',
         top: 0,
         right: 0,
         left: 0,
@@ -656,20 +655,36 @@ function SettingExpenses({ hostelid }) {
         backgroundColor: "#FFFFFF",
         height: 63,
         alignItems: "center",
-        // whiteSpace: "nowrap",
-
-      }} >
-        <div 
+        
+      }} > */}
+      <div 
+  className="container-fluid"
+  style={{
+    position: 'sticky',
+    top: 0,
+    zIndex: 1000,
+    backgroundColor: "#FFFFFF",
+    height: 'auto',
+  }}
+>
+  <div 
+    className="row align-items-center justify-content-between"
+    style={{ paddingTop: 20, paddingBottom: 10 }}
+  >
+        {/* <div 
          className="w-100 text-md-start text-center"
-        style={{ marginTop: 25 }}>
+        style={{ marginTop: 25 }}> */}
+            <div className="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
           <h3 style={{ fontFamily: "Gilroy", 
             fontSize: 20, color: "#222", 
             fontWeight: 600, 
-            // whiteSpace: "nowrap",
-            }}>Expenses Category</h3></div>
-        <div 
+            }}>
+              Expenses Category</h3></div>
+        {/* <div 
         className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
-        >
+        
+        > */}
+    <div className="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
           <Button onClick={handleShow}
             style={{
               fontFamily: "Gilroy",
@@ -690,7 +705,7 @@ function SettingExpenses({ hostelid }) {
             }}
             disabled={showPopup}
           >+ Category</Button></div>
-
+</div>
       </div>
 
 
@@ -813,10 +828,10 @@ function SettingExpenses({ hostelid }) {
 
 
       {expensesFilterddata?.length >= 2 && (
-        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{zIndex:995}}>
+        <nav className="pagination-container position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{zIndex:995}}>
           {/* Dropdown for Items Per Page */}
           <div >
-            <select
+            <select className='selectoption'
               value={expensesrowsPerPage}
               onChange={handleItemsPerPageChange}
               style={{
@@ -839,7 +854,7 @@ function SettingExpenses({ hostelid }) {
           </div>
 
           {/* Pagination Controls */}
-          <ul
+          <ul className='selectoption'
             style={{
               display: "flex",
               alignItems: "center",

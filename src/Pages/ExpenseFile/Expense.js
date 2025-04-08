@@ -1362,7 +1362,7 @@ function Expenses({ allPageHostel_Id }) {
 
               {/* Dropdown for Items Per Page */}
               <div>
-                <select
+                <select className="selectoption"
                   value={itemsPerPage}
                   onChange={handleItemsPerPageChange}
                   style={{
@@ -1384,7 +1384,7 @@ function Expenses({ allPageHostel_Id }) {
               </div>
 
               {/* Pagination Controls */}
-              <ul
+              <ul className="selectoption"
                 style={{
                   display: "flex",
                   alignItems: "center",

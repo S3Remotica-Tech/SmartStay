@@ -35,7 +35,7 @@ const HomePage = () => {
       <>
   {/* Background Image */}
   <div
-    className="position-relative w-100"
+    className="position-relative w-100 "
     style={{
       // minHeight: "100vh",
       backgroundImage: `url(${HomebgImage})`,
@@ -56,8 +56,8 @@ const HomePage = () => {
         <Row className="align-items-center flex-column flex-md-row">
           {/* Left Side Content */}
           <Col md={6} className="d-flex flex-column align-items-start justify-content-center text-start">
-          <Col md={11} className="mt-5 ms-5">
-  <h1
+          <Col md={11} className="mt-5 ms-5 responsive-home-text">
+  <h1 className="responsive-title"
     style={{
       color: "rgba(9, 15, 41, 1)",
       fontWeight: 700,
@@ -74,8 +74,8 @@ const HomePage = () => {
     >
       SmartStay
     </span>
-  </h1>
-  <p
+  </h1> 
+  <p className="responsive-desc"
     style={{
       color: "#3A435C",
       fontWeight: 400,
@@ -86,9 +86,9 @@ const HomePage = () => {
   >
     Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.
   </p>
-  <div className="mt-4 d-flex gap-3">
+  <div className="mt-4 d-flex gap-3 responsive-buttons">
     <Button
-      className="d-flex align-items-center gap-2"
+      className="d-flex align-items-center gap-2 responsive-btn"
       onClick={handleSignUp}
       style={{
         backgroundColor: "#2D5EFF",
@@ -103,7 +103,7 @@ const HomePage = () => {
     >
       Get Started →
     </Button>
-    <Button
+    <Button className="responsive-btn"
       variant="outline-dark"
       onClick={handleSignIn}
       style={{
@@ -117,10 +117,10 @@ const HomePage = () => {
       Sign In →
     </Button>
   </div>
-  <Row className="mt-5 w-100">
+  <Row className="mt-5 w-100 responsive-stats">
     <Col xs={4}>
       <div>
-        <h3
+        <h3 className="responsive-count"
           style={{
             color: "#090F29",
             fontSize: "clamp(24px, 4vw, 34px)",
@@ -129,14 +129,14 @@ const HomePage = () => {
         >
           125K+
         </h3>
-        <p style={{ color: "#3A435C", fontSize: "clamp(12px, 2vw, 15px)" }}>
+        <p className="responsive-label" style={{ color: "#3A435C", fontSize: "clamp(12px, 2vw, 15px)" }}>
           Total Active Hostels
         </p>
       </div>
     </Col>
     <Col xs={4}>
       <div>
-        <h3
+        <h3  className="responsive-count"
           style={{
             color: "#090F29",
             fontSize: "clamp(24px, 4vw, 34px)",
@@ -145,7 +145,7 @@ const HomePage = () => {
         >
           468K+
         </h3>
-        <p style={{ color: "#3A435C", fontSize: "clamp(12px, 2vw, 15px)" }}>
+        <p className="responsive-label" style={{ color: "#3A435C", fontSize: "clamp(12px, 2vw, 15px)" }}>
           Total People Hostels
         </p>
       </div>
