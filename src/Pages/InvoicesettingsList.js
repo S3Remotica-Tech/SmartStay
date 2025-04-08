@@ -64,14 +64,27 @@ useEffect(() => {
   });
 
   
-
+  const labelStyle = {
+    color: "#939393",
+    fontSize: 14,
+    fontWeight: 500,
+    fontFamily: "Gilroy",
+  };
+  
+  const valueStyle = {
+    color: "#222222",
+    fontSize: 16,
+    fontWeight: 600,
+    fontFamily: "Gilroy",
+  };
+  
   
 
   return (
     <>
   {/* <div className="w-100" style={{ display: "flex", justifyContent: "flex-start" }}>
   <div className="w-100" style={{ maxWidth: "600px" }}> */}
-      <Card
+      {/* <Card
         className="h-100  fade-in mb-4"
         style={{
           borderRadius: 16,
@@ -281,9 +294,100 @@ useEffect(() => {
             </div>
           </div>
         </Card.Body>
-      </Card>
+      </Card> */}
      {/* </div>
      </div> */}
+     <Card
+  className="h-100 fade-in mb-4"
+  style={{
+    borderRadius: 16,
+    border: "1px solid #E6E6E6",
+    width: "100%",
+    maxWidth: "600px", 
+  }}
+>
+  <Card.Body style={{ padding: 20 }}>
+    <div className="d-flex justify-content-between align-items-center flex-wrap">
+      <div className="d-flex gap-2">
+        <label
+          style={{
+            fontFamily: "Gilroy",
+            fontSize: 18,
+            color: "#222",
+            fontWeight: 600,
+            marginLeft: "10px",
+          }}
+        >
+          Invoice Information
+        </label>
+      </div>
+    </div>
+
+    <hr style={{ border: "1px solid #E7E7E7" }} />
+    <div className="row mb-3">
+      <div className="col-12 col-md-4 mb-3">
+        <label style={labelStyle}>Invoice Number</label>
+        <div>
+          <label style={valueStyle}>
+            {props.item.prefix}{props.item.suffix}
+          </label>
+        </div>
+      </div>
+
+      <div className="col-12 col-md-4 mb-3">
+        <label style={labelStyle}>Invoice Date</label>
+        <div>
+          <label style={valueStyle}>{props.item.inv_date}</label>
+        </div>
+      </div>
+
+      <div className="col-12 col-md-4 mb-3">
+        <label style={labelStyle}>Due Date</label>
+        <div>
+          <label style={valueStyle}>{props.item.due_date}</label>
+        </div>
+      </div>
+    </div>
+    <div className="row mb-3">
+      <div className="col-12 col-md-6">
+        <label style={labelStyle}>Recurring</label>
+        <Form.Check
+          type="switch"
+          id={`custom-switch-${props.isChecked}`}
+          label="Recurring"
+          className="custom-switch-pointer"
+          checked={props.isChecked}
+          onChange={handleToggle}
+        />
+        <style>
+          {`
+            .custom-switch-pointer input[type="checkbox"],
+            .custom-switch-pointer label {
+              cursor: pointer !important;
+            }
+          `}
+        </style>
+      </div>
+    </div>
+    <div className="row mt-3">
+      <div className="col-12 col-md-4 mb-3">
+        <label style={labelStyle}>Calculation Type</label>
+        <div><label style={valueStyle}>Monthly</label></div>
+      </div>
+
+      <div className="col-12 col-md-4 mb-3">
+        <label style={labelStyle}>Calculation Start Date</label>
+        <div><label style={valueStyle}>{props.item.inv_startdate}</label></div>
+      </div>
+
+      <div className="col-12 col-md-4 mb-3">
+        <label style={labelStyle}>Calculation End Date</label>
+        <div><label style={valueStyle}>{props.item.inv_enddate}</label></div>
+      </div>
+    </div>
+  </Card.Body>
+</Card>
+
     </>
   );
 };
