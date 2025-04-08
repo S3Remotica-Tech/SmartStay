@@ -432,7 +432,27 @@ function SettingAmenities({ hostelid }) {
 
                                                     {showDots === index && <>
 
-                                                        <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#F9F9F9", position: "absolute", right: 40, top:0, width: 170, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
+                                                        <div ref={popupRef} 
+                                                        style={{ cursor: "pointer", 
+                                                        backgroundColor: "#F9F9F9", 
+                                                        position: "absolute", 
+                                                        // right: 40, 
+                                                        right: window.innerWidth <= 335 ? "auto" : 40,
+                                                         left: window.innerWidth <= 335 ? "auto" : "30",
+                                                        top:20, 
+                                                        // width: 170, 
+                                                        width: window.innerWidth <= 335 ? 100 : 150,
+                                                        height: "auto", 
+                                                        border: "1px solid #EBEBEB", 
+                                                        borderRadius: 10, display: "flex", 
+                                                        flexDirection: "column",
+                                                        // justifyContent: "start", 
+                                                        padding: 10, 
+                                                        alignItems: "start",
+                                                        zIndex: 1050, 
+                         
+                          fontSize: window.innerWidth <= 335 ? 13 : 14,
+                                                         }}>
                                                             <div >
                                                                 <div
                                                                     // onClick={()=>handleDisplayAssignAmenities(amenity)}
