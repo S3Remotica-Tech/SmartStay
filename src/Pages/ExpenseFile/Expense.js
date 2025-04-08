@@ -655,8 +655,9 @@ function Expenses({ allPageHostel_Id }) {
               }}
             >
               <div
-                className="d-flex align-items-center flex-wrap"
-                style={{ marginTop: 10,marginLeft:11 }}
+                // className="d-flex align-items-center flex-wrap"
+                className="col-12 col-md-auto d-flex flex-wrap align-items-center"
+                style={{ marginTop: 13,marginLeft:11 }}
               >
                 <label
                   style={{
@@ -685,17 +686,21 @@ function Expenses({ allPageHostel_Id }) {
                 />
               </div>
 
-              <div className="d-flex  flex-wrap justify-content-between align-items-center">
+              {/* <div className="d-flex  flex-wrap justify-content-between align-items-center"> */}
+              <div className="col-12 col-md d-flex flex-wrap justify-content-md-end align-items-center">
+
                 {!showFilterExpense && (
-                  <div onClick={handleShowSearch} style={{ paddingRight: 11 }}>
+                  <div onClick={handleShowSearch} 
+                  style={{ paddingRight: 16 }}
+                  >
                     <SearchNormal1
                       color="#222"
                       style={{
-                        height: "34px",
-                        width: "34px",
+                        height: "24px",
+                        width: "24px",
                         cursor: "pointer",
-                        paddingRight: 10,
-                        marginTop: 11,
+                        // paddingRight: 10,
+                        marginTop: 8,
                       }}
                     />
                   </div>
@@ -704,7 +709,7 @@ function Expenses({ allPageHostel_Id }) {
                 <div className='me-3' style={{ cursor: "pointer",marginTop:5}}>
                        <Image
                          src={Filters}
-                         style={{ height: "50px", width: "50px" }}
+                         style={{ height: "50px", width: "50px",}}
                          onClick={handleFilterByPrice}
                        />
                      </div>
@@ -961,7 +966,7 @@ function Expenses({ allPageHostel_Id }) {
 
                 <div
                   className="me-3"
-                  style={{ cursor: "pointer", marginTop: 8 }}
+                  style={{ cursor: "pointer", marginTop: 5 }}
                 >
                   <img
                     src={excelimg}
@@ -972,7 +977,7 @@ function Expenses({ allPageHostel_Id }) {
                   />
                 </div>
 
-                <div className="me-2" style={{ marginTop: 10 ,paddingRight:4}}>
+                <div className="me-2" style={{ marginTop: 7 ,paddingRight:4}}>
                   <Button
                     disabled={expenceAddPermission}
                     onClick={handleShow}
@@ -1339,7 +1344,7 @@ function Expenses({ allPageHostel_Id }) {
 
           {/*  Pagination code */}
           {filteredData.length >= 5 && (
-            <nav
+            <nav className="pagination-container"
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -1354,6 +1359,7 @@ function Expenses({ allPageHostel_Id }) {
                 zIndex: 1000,
               }}
             >
+
               {/* Dropdown for Items Per Page */}
               <div>
                 <select

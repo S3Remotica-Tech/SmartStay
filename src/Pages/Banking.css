@@ -20,71 +20,18 @@
     z-index: 100;
   }
 
-  .pagination-code {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    width: 100%;
-    margin-top: 10px;
-    position: relative;
-    z-index: 1000;
-  }
-  
-  .pagination-code select {
-    padding: 5px;
-    border: 1px solid #1e45e1;
-    border-radius: 5px;
-    color: #1e45e1;
-    font-weight: bold;
-    cursor: pointer;
-    outline: none;
-    box-shadow: none;
-  }
-  
-  .pagination-code ul {
-    display: flex;
-    align-items: center;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .pagination-code li {
-    margin: 0 10px;
-  }
-  
-  .pagination-code button {
-    padding: 5px;
-    text-decoration: none;
-    border-radius: 50%;
-    min-width: 30px;
-    text-align: center;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .pagination-code button:disabled {
-    color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .page-indicator {
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  @media (max-width: 350px) {
-    .pagination-code {
-      flex-direction: column; 
+  @media (max-width: 450px) {
+    .pagination-container {
+      flex-direction: column;
       align-items: center;
+      position: static; 
+      bottom: auto;
+      right: auto;
+      margin-top: 10px;
     }
   
-    .pagination-code ul {
-      margin-top: 5px;
+    .items-per-page {
+      margin-bottom: 10px; 
     }
   }
   
