@@ -346,3 +346,182 @@ text-decoration: underline;
   max-width: 90vw !important; /* Limits width for small screens */
   overflow-x: auto !important; /* Enables horizontal scroll if needed */
 }
+
+
+
+
+General Styles
+.header-container {
+  padding: 14px 0;
+}
+
+.customers-label {
+  font-size: 18px;
+  color: #000000;
+  font-weight: 600;
+  font-family: "Gilroy", sans-serif;
+  margin-left: -5px;
+}
+
+.search-input-group {
+  position: relative;
+  width: 240px;
+  transition: width 0.3s ease; /* Smooth width transition */
+}
+
+.search-input-group.active {
+  width: 100%; /* Expand to full width when active */
+}
+
+.search-input-group .input-group-text {
+  background-color: white;
+  border: none;
+}
+
+.search-input-group .form-control {
+  border: 1px solid #ced4da;
+  box-shadow: none;
+  border-right: none;
+}
+
+.search-dropdown {
+  border: 1px solid #d9d9d9;
+  position: absolute;
+  top: 48px;
+  left: 0;
+  z-index: 1000;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: white;
+  width: 100%;
+}
+
+.search-dropdown ul {
+  background-color: white;
+  max-height: 174px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.search-dropdown li {
+  cursor: pointer;
+  padding: 10px 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.search-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.filter-button {
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.date-range-picker {
+  width: 240px;
+}
+
+.date-range-picker .ant-picker {
+  width: 100%;
+  cursor: pointer;
+}
+
+.status-select {
+  border: 1px solid #d4d4d4;
+  border-radius: 8px;
+  width: 120px;
+}
+
+.status-select select {
+  color: rgba(34, 34, 34, 1);
+  font-weight: 600;
+  font-family: "Gilroy", sans-serif;
+  width: 100%;
+  border: none;
+}
+
+.excel-button {
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+}
+
+.action-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+  .header-container {
+    padding: 10px 15px;
+  }
+
+  .customers-label {
+    margin-left: 0;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .search-input-group,
+  .date-range-picker {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .status-select {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .excel-button,
+  .filter-button {
+    margin-bottom: 10px;
+  }
+
+  .action-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 575px) {
+  .header-container {
+    padding: 8px 10px;
+  }
+
+  .customers-label {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 450px) {
+  .pagination-container {
+    flex-direction: column;
+    align-items: center;
+    position: absolute; 
+    bottom: auto;
+    right: auto;
+    margin-top: 10px;
+    padding: 0;
+    
+  }
+
+  .items-per-page {
+    margin-bottom: 10px; 
+  }
+  .selectoption{
+    font-size: 14px;
+  }
+}

@@ -4224,21 +4224,36 @@ useEffect(() => {
                               )}
 
                               {bills?.length >= 5 && (
-                                <nav
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "end",
-                                    padding: "10px",
-                                    position: "fixed",
-                                    bottom: "1px",
-                                    right: "10px",
-                                    backgroundColor: "#fff",
-                                    borderRadius: "5px",
-                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                    zIndex: 1000,
-                                  }}
-                                >
+                                // <nav
+                                //   style={{
+                                //     display: "flex",
+                                //     alignItems: "center",
+                                //     justifyContent: "end",
+                                //     padding: "10px",
+                                //     position: "fixed",
+                                //     bottom: "1px",
+                                //     right: "10px",
+                                //     backgroundColor: "#fff",
+                                //     borderRadius: "5px",
+                                //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                //     zIndex: 1000,
+                                //   }}
+                                // >
+                                <nav className="pagination-container"
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "end",
+                                  padding: "10px",
+                                  position: "fixed",
+                                  bottom: "10px",
+                                  right: "10px",
+                                  backgroundColor: "#fff",
+                                  borderRadius: "5px",
+                                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                  zIndex: 1000,
+                                }}
+                              >
                                   {/* Dropdown for Items Per Page */}
                                   <div>
                                     <select
@@ -4663,21 +4678,36 @@ useEffect(() => {
 
 
                   {recurringbills && recurringbills.length >= 5 && (
-                    <nav
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed",
-                        bottom: "10px",
-                        right: "10px",
-                        backgroundColor: "#fff",
-                        borderRadius: "5px",
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                        zIndex: 1000,
-                      }}
-                    >
+                    // <nav
+                    //   style={{
+                    //     display: "flex",
+                    //     alignItems: "center",
+                    //     justifyContent: "end",
+                    //     padding: "10px",
+                    //     position: "fixed",
+                    //     bottom: "10px",
+                    //     right: "10px",
+                    //     backgroundColor: "#fff",
+                    //     borderRadius: "5px",
+                    //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    //     zIndex: 1000,
+                    //   }}
+                    // >
+                    <nav className="pagination-container"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "end",
+                      padding: "10px",
+                      position: "fixed",
+                      bottom: "10px",
+                      right: "10px",
+                      backgroundColor: "#fff",
+                      borderRadius: "5px",
+                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                      zIndex: 1000,
+                    }}
+                  >
                       {/* Dropdown for Items Per Page */}
                       <div>
                         <select
@@ -5491,21 +5521,36 @@ useEffect(() => {
                               )}
 
                             {receiptdata.length >= 5 && (
-                              <nav
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "end",
-                                  padding: "10px",
-                                  position: "fixed",
-                                  bottom: "10px",
-                                  right: "10px",
-                                  backgroundColor: "#fff",
-                                  borderRadius: "5px",
-                                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                  zIndex: 1000,
-                                }}
-                              >
+                              // <nav
+                              //   style={{
+                              //     display: "flex",
+                              //     alignItems: "center",
+                              //     justifyContent: "end",
+                              //     padding: "10px",
+                              //     position: "fixed",
+                              //     bottom: "10px",
+                              //     right: "10px",
+                              //     backgroundColor: "#fff",
+                              //     borderRadius: "5px",
+                              //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                              //     zIndex: 1000,
+                              //   }}
+                              // >
+                              <nav className="pagination-container"
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "end",
+                                padding: "10px",
+                                position: "fixed",
+                                bottom: "10px",
+                                right: "10px",
+                                backgroundColor: "#fff",
+                                borderRadius: "5px",
+                                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                zIndex: 1000,
+                              }}
+                            >
                                 <div>
                                   <select
                                     value={itemsperPage}

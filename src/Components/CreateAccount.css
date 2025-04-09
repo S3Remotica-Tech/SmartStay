@@ -1,0 +1,23 @@
+.responsive-image {
+    width: 100%;
+    max-width: 100%;
+  }
+
+@media (min-width: 768px) {
+    .image_div {
+      margin-left: 100px;
+    width: 450px;
+  
+    }
+  }
+  
+  @media (min-width: 800px) and (max-width: 1000px) {
+    .image_div {
+        width: 450px;
+      height: 200px;
+      margin-left: 50px;
+  
+    }
+  }
+  
+    

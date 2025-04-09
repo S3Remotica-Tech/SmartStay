@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     min-height: 70vh;
-    background-color: #f8fafc; /* Light background */
+    background-color: #f8fafc; 
     padding: 40px;
   }
   
@@ -28,7 +28,6 @@
   .testimonial-image {
     width: 180px;
     height: 180px;
-    /* border-radius: 50%; */
     object-fit: cover;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   }
@@ -44,7 +43,7 @@
   }
   
   .testimonial-rating {
-    color: #f59e0b; /* Gold color for stars */
+    color: #f59e0b; 
     margin: 10px 0;
   }
   
@@ -66,13 +65,16 @@
   .swiper-button-next {
     display: flex;
     flex-direction: row;
-    /* width: 50px; */
     margin-left: 80%;
     margin-top: 40px;
-    color: #1e40af; /* Dark blue navigation arrows */
+    color: #1e40af; 
   }
 
-  
+  .swiper-pagination{
+    bottom: 15px !important; 
+    text-align: center;
+    width: 100%;
+  }
   
   .swiper-pagination-bullet {
     background-color: #94a3b8;
@@ -90,14 +92,11 @@
    margin-left: -50px;
    margin-right: 10px;
   }
-
-/* Hide default Swiper arrow icons */
 .swiper-button-prev::after,
 .swiper-button-next::after {
   display: none;
 }
 
-/* Custom left arrow */
 .swiper-button-prev {
   background: url("../Assets/Images/landingpageimages/leftarr.png") no-repeat center;
   background-size: contain;
@@ -105,19 +104,12 @@
   height: 40px;
 }
 
-/* Custom right arrow */
 .swiper-button-next {
   background: url("../Assets/Images/landingpageimages/right_arrow.png") no-repeat center;
   background-size: contain;
   width: 40px;
   height: 40px;
 }
-/* .swiper-button-next {
-  background: url("../Assets/Images/landingpageimages/right_arrow.png") no-repeat center !important;
-  background-size: contain !important;
-  width: 40px !important;
-  height: 40px !important;
-} */
 
 .swiper-button-next::after {
   display: none !important;
@@ -128,10 +120,70 @@
   background-size: contain !important;
   width: 40px !important;
   height: 40px !important;
-  filter: brightness(1); /* Ensure it's not too light */
+  filter: brightness(1);
 }
 .swiper-button-next {
   z-index: 9999 !important;
 }
   
-  
+
+.testimonial-container {
+  padding: 2rem;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.testimonial-slider {
+  width: 100%;
+}
+
+.testimonial-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.testimonial-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .testimonial-slide {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .testimonial-content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.testimonial-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.testimonial-text {
+  max-width: 600px;
+  font-size: 1rem;
+}
+.testimonial-image {
+  width: 180px;
+  height: 180px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+
+@media (max-width: 768px) {
+  .swiper-pagination {
+    margin-top: 30px !important;
+  }
+}

@@ -646,6 +646,10 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
         centered
         backdrop="static"
         className="custom-modal-width-vendor"
+        style={{
+          maxWidth: '90%', 
+          margin: 'auto',
+        }}
       >
         <Modal.Dialog className="m-0 p-0">
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>

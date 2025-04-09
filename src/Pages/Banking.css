@@ -5,6 +5,7 @@
     .modal-dialog-centered{
         margin-left: 10px;
     } 
+    
 }
 @media only screen and (max-width: 1001px) and (min-width: 601px) {
     .modal-dialog-centered{
@@ -16,7 +17,7 @@
 
 .table-container {
     position: absolute;
-    top: 0; /* Adjust to position it correctly */
+    top: 0;
     z-index: 100;
   }
 
@@ -40,3 +41,109 @@
     }
   }
   
+  @media (max-width: 576px) { 
+    .input-group input[type="text"] {
+      width:60px !important; 
+    }
+  }
+
+  @media (max-width: 767px) {
+    .modal-dialog {
+      margin: 1rem;
+    }
+  
+    .modal-dialog-centered {
+      min-height: calc(100% - 2rem);
+      display: flex;
+      align-items: center;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991px) { 
+    .modal-dialog {
+      margin: 2rem auto; 
+      max-width: 540px; 
+    }
+  }
+
+  .modal-dialog-centered {
+    margin-left: 500px;
+  }
+  
+  @media only screen and (max-width: 600px) and (min-width: 300px) {
+    .modal-dialog-centered {
+      margin-left: 10px;
+    }
+  }
+  
+  @media only screen and (max-width: 1001px) and (min-width: 601px) {
+    .modal-dialog-centered {
+      margin-left: 70px;
+    }
+  }
+  
+  .table-container {
+    position: absolute;
+    top: 0;
+    z-index: 100;
+  }
+  
+  @media (max-width: 450px) {
+    .pagination-container {
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      bottom: auto;
+      right: auto;
+      margin-top: 10px;
+      padding: 0;
+    }
+  
+    .items-per-page {
+      margin-bottom: 10px;
+    }
+  
+    .selectoption {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .input-group input[type="text"] {
+      width: 60px !important;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .modal-dialog {
+      margin: 1rem;
+    }
+  
+    .modal-dialog-centered {
+      min-height: calc(100% - 2rem);
+      display: flex;
+      align-items: center;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991px) {
+    .modal-dialog {
+      margin: 2rem auto;
+      max-width: 540px;
+    }
+  }
+  
+  @media (max-width: 299px) {
+    .modal-dialog {
+      margin: 0.5rem; 
+      width: 95vw; 
+      max-width: none;
+    }
+  
+    .modal-dialog-centered {
+      margin-left: 0 !important;
+      min-height: calc(100% - 1rem); 
+      display: flex;
+      align-items: center;
+    }
+  }
