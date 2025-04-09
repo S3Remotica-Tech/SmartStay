@@ -80,7 +80,7 @@ function Dashboard(props) {
       const diffInDays = Math.floor((planEndDate - currentDate) / (1000 * 60 * 60 * 24));
       
       setDaysLeft(diffInDays);
-      if (diffInDays <= 5) { 
+      if (diffInDays <= 19) { 
         setShowWarning(true);
       } else {
         setShowWarning(false);
@@ -453,12 +453,28 @@ if(hostel_id){
           ⚠️ Your plan will expire in {Math.floor((new Date(accountList[0]?.plan_end_date) - new Date()) / (1000 * 60 * 60 * 24))} days!
         </div>
       )} */}
-      {showWarning && (
+      {/* {showWarning && (
         <div className="alert alert-warning mt-3 d-flex justify-content-between align-items-center" role="alert">
           ⚠️ Your plan will expire in {daysLeft} days!
           <button className="btn btn-sm btn-primary ms-3" onClick={handleOkClick}>OK</button>
         </div>
-      )}
+      )} */}
+      {showWarning && (
+  <div className="alert alert-warning mt-3 d-flex justify-content-between align-items-center" role="alert">
+    {daysLeft > 0 ? (
+      <>
+        ⚠️ Your plan will expire in {daysLeft} day{daysLeft > 1 ? 's' : ''}!
+        <button className="btn btn-sm btn-primary ms-3" onClick={handleOkClick}>OK</button>
+      </>
+    ) : (
+      <>
+        ❌ Your plan has expired!
+        <button className="btn btn-sm btn-primary ms-3" onClick={handleOkClick}>OK</button>
+      </>
+    )}
+  </div>
+)}
+
   </Marquee>
         <TabContext value={value}>
 

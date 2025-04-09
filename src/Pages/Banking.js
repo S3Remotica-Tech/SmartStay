@@ -127,6 +127,7 @@ function Banking() {
     setLoader(false);
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
       settransactionFilterddata(state.bankingDetails?.bankingList?.bank_trans);
+      setOriginalBillsFilter(state.bankingDetails?.bankingList?.bank_trans)
       setBanking(state.bankingDetails.bankingList.banks)
       setTimeout(() => {
         dispatch({ type: "CLEAR_BANKING_LIST" });

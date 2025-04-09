@@ -286,9 +286,14 @@ const RecurringBills = (props) => {
 
 
     
-                const totalAmount = billamounts.reduce((acc, item) => acc + item.amount, 0);
-                   setTotalAmount(totalAmount)
-    
+                // const totalAmount = billamounts.reduce((acc, item) => acc + item.amount, 0);
+                //    setTotalAmount(totalAmount)
+                const totalAmount = billamounts.reduce((acc, item) => {
+                  const amount = parseFloat(item.amount);
+                  return acc + (isNaN(amount) ? 0 : amount);
+                }, 0);
+                
+                setTotalAmount(totalAmount);
                       }
     
         },[billamounts,newRows])
