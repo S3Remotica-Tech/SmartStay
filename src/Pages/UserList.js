@@ -2285,10 +2285,10 @@ const handleBack = () => {
 
       {userList && (
         <div >
-          
+          <div className="header-container">
           <div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:14}}> 
   <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ms-lg-4">
-    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy", marginLeft:"-5px" }}>
+    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy", marginTop:-15 }}>
       Customers
     </label>
   </div>
@@ -2296,7 +2296,7 @@ const handleBack = () => {
   <div className="d-flex flex-wrap align-items-center gap-2">
     {/* Search Box */}
     {search ? (
-        <div style={{ position: "relative", width: "240px" }}>
+        <div style={{ position: "relative", width: isSmallScreen && search ? '150px' : '240px', }} className="search-box">
           <div className="input-group">
             <span className="input-group-text bg-white border-end-0">
               <Image
@@ -2311,7 +2311,7 @@ const handleBack = () => {
               placeholder="Search"
               value={filterInput}
               onChange={(e) => handlefilterInput(e)}
-              style={{ boxShadow: "none", borderRight: "none" }}
+              style={{ boxShadow: "none", borderRight: "none", }}
             />
             <span className="input-group-text bg-white border-start-0">
               <img
@@ -2570,7 +2570,7 @@ const handleBack = () => {
     </div>
   </div>
 </div>
-
+</div>
 
 
           {filterInput && (
@@ -3520,20 +3520,34 @@ const handleBack = () => {
                 {
                   (search ? filteredUsers?.length : userListDetail?.length) >=
                     5 && (
-                    <nav
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed",
-                        bottom: "10px",
-                        right: "10px",
-                        // backgroundColor: "#fff", // Optional: to give a background for better visibility
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
-                        borderRadius: "5px", // Optional: to make edges rounded
-                      }}
-                    >
+                    // <nav
+                    //   style={{
+                    //     display: "flex",
+                    //     alignItems: "center",
+                    //     justifyContent: "end",
+                    //     padding: "10px",
+                    //     position: "fixed",
+                    //     bottom: "10px",
+                    //     right: "10px",
+                    //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
+                    //     borderRadius: "5px", 
+                    //   }}
+                    // >
+                    <nav className="pagination-container"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "end",
+                      padding: "10px",
+                      position: "fixed",
+                      bottom: "10px",
+                      right: "10px",
+                      backgroundColor: "#fff",
+                      borderRadius: "5px",
+                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                      zIndex: 1000,
+                    }}
+                  >
                       {/* Dropdown for Items Per Page */}
                       <div>
                         <select

@@ -760,13 +760,26 @@ function CreateAccountPage() {
               </div>
 
             </div>
-            <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 d-flex justify-content-center mt-4" style={{ backgroundColor: "" }}>
+            {/* <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 d-flex justify-content-center mt-4" style={{ backgroundColor: "" }}>
               <div>
                 <img src={CreateAccount} alt="create" style={{ height: 460, width: 460 }} />
               </div>
 
+            </div> */}
+
+
+<div className='col-lg-6 col-md-6 col-sm-12 '>
+              <div className='image_div mt-5'>
+                <img src={CreateAccount} alt="create" className='responsive-image' />
+              </div>
+
             </div>
 
+            {/* <div className='col-lg-6 col-md-6 col-sm-12 '>
+          <div className='image_div mt-5'>
+            <img src={Loginimage} className='responsive-image' alt='Hai' />
+          </div>
+        </div> */}
 
           </div>
 

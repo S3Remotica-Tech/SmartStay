@@ -521,7 +521,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         <div className="row" >
           {currentItems?.length > 0 ? (
             currentItems?.map((data) => (
-              <div key={data.id}  className="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
+              <div key={data.id}  className="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mb-3">
 
                 <Card
                   className="card"
@@ -529,13 +529,16 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   style={{
                     borderRadius: "16px",
                     borderColor: "#DCDCDC",
-                    marginBottom: "20px",
+                    // marginBottom: "20px",
                     cursor: "pointer",
                   }}
                 >
                   <Card.Body>
-                    <div className="d-flex bd-highlight align-items-center">
-                      <div className="p-2 flex-grow-1 bd-highlight">
+                    {/* <div className="d-flex bd-highlight align-items-center"> */}
+                     {/* <div className="p-2 flex-grow-1 bd-highlight"> */}
+                    <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center"> 
+                     
+                      <div className="flex-grow-1 mb-2 mb-sm-0"> 
                         <p
                           style={{
                             fontFamily: "Gilroy",
@@ -559,6 +562,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                             fontSize: "16px",
                             color: "#222222",
                             marginBottom: "0px",
+                            cursor: "pointer", 
                           }}
                           onClick={() => handleCardTittleClick(data)}
                         >
@@ -591,17 +595,18 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                           </span>
                         </p>
                       </div>
-                   
+                      <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0"> 
                    {/* like */}
                       <div
-                        className="bd-highlight"
+                        // className="bd-highlight"
+                                    className="bd-highlight mb-2 mb-sm-0 me-sm-2"
                         style={{
                           border: "1px solid #DCDCDC",
                           borderRadius: "60px",
                           height: "36px",
                           width: "83px",
-                          marginTop: "6px",
-                          marginRight: "6px",
+                          // marginTop: "6px",
+                          // marginRight: "6px",
                           cursor: "pointer",
                         }}
                       // onClick={(e) => {
@@ -627,13 +632,14 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
 
                       <div
-                        className="bd-highlight"
+                        // className="bd-highlight"
+                        className="bd-highlight mb-2 mb-sm-0 me-sm-2" 
                         style={{
                           border: "1px solid #DCDCDC",
                           borderRadius: "60px",
                           height: "36px",
                           width: "72px",
-                          marginTop: "6px",
+                          // marginTop: "6px",
                           cursor: "pointer",
                         }}
                         onClick={(e) => {
@@ -659,15 +665,18 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
 
 
-                      <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, 
+                      <div 
+                       className="ms-sm-0 ms-md-2 card-popup-container" 
+                      // className="ms-2 me-2" 
+                      style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, 
                         border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", 
                         position: "relative", zIndex: showDots ? 1000 : 'auto'
                         ,  backgroundColor: showDots === data.id ? "#E7F1FF" : "white",
                         }} onClick={() => handleShowDots(data.id)}>
-                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }}/>
 
                         {showDots === data.id && (
-                          <div
+                          <div    className="card-popup"
                             ref={popupRef}
                             style={{
                               cursor: "pointer",
@@ -682,7 +691,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                               display: "flex",
                               flexDirection: "column",
                               justifyContent: "space-between",
-                              padding: "15px",
+                              padding: "15px",  zIndex: 1001,
                               alignItems: "flex-start"
                             }}
                           >
@@ -763,7 +772,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
                       </div>
 
-
+</div>
 
 
 
@@ -771,8 +780,6 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   </Card.Body>
                 </Card>
               </div>
-
-
 
             ))
           ) : (
@@ -865,7 +872,22 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
 <div>
       {filteredData.length >= 5 && (
-        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+        // <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+        <nav className="pagination-container"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "end",
+          padding: "10px",
+          position: "fixed",
+          bottom: "10px",
+          right: "10px",
+          backgroundColor: "#fff",
+          borderRadius: "5px",
+          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          zIndex: 1000,
+        }}
+      >
           <div>
             <select
               value={itemsPerPage}

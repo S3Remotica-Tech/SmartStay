@@ -612,28 +612,28 @@ if(hostel_id){
        
           <div className="col-md-9">
             <div className="row g-2">
-              <div className="col-6">
+              <div className="col-lg-6 col-md-12 col-sm-12">
                 <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                  <h6 className="text-muted mb-1">Occupied Beds</h6>
-                  <h5 className="mb-0">{ dashboardList[0]?.occupied_Bed || 0 }</h5>
+                  <h6 className="text-muted contents mb-1">Occupied Beds</h6>
+                  <h5 className="mb-0 counts">{ dashboardList[0]?.occupied_Bed || 0 }</h5>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-lg-6 col-md-12 col-sm-12">
                 <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                  <h6 className="text-muted mb-1">Next Month Projection</h6>
-                  <h5 className="mb-0">{ dashboardList[0]?.project_amount || 0 }</h5>
+                  <h6 className="text-muted mb-1 contents">Next Month Projection</h6>
+                  <h5 className="mb-0 counts">{ dashboardList[0]?.project_amount || 0 }</h5>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-lg-6 col-md-12 col-sm-12">
                 <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                  <h6 className="text-muted mb-1">Total Customers</h6>
-                  <h5 className="mb-0">{ dashboardList[0]?.customer_count || 0 }</h5>
+                  <h6 className="text-muted mb-1 contents">Total Customers</h6>
+                  <h5 className="mb-0 counts">{ dashboardList[0]?.customer_count || 0 }</h5>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-lg-6 col-md-12 col-sm-12">
                 <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                  <h6 className="text-muted mb-1">EB Amount</h6>
-                  <h5 className="mb-0">{ dashboardList[0]?.eb_amount || 0 }</h5>
+                  <h6 className="text-muted mb-1 contents">EB Amount</h6>
+                  <h5 className="mb-0 counts">{ dashboardList[0]?.eb_amount || 0 }</h5>
                 </div>
               </div>
             </div>
