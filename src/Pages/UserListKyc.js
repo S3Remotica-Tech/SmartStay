@@ -6,6 +6,7 @@ import { Button, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
 import PropTypes from "prop-types";
 import {CloseCircle} from "iconsax-react";
+import { MdError } from "react-icons/md";
 function UserListKyc(props) {
 
   const dispatch = useDispatch()
@@ -204,7 +205,24 @@ function UserListKyc(props) {
                         onChange={(e) =>{handleAadharNumber(e)}}
                       />
                     </Form.Group>
-                    {aadhaarErr && <p style={{ color: 'red' }}>{aadhaarErr}</p>}
+                    {/* {aadhaarErr && <p style={{ color: 'red',fontSize:12,fontFamily:"Gilroy",fontWeight:500 }}>{aadhaarErr}</p>} */}
+                     {aadhaarErr && (
+                                <div className="d-flex align-items-center p-1 mt-6">
+                                  <MdError style={{ color: "red", marginRight: "5px", }} />
+                                  <label
+                                    className="mb-0"
+                                    style={{
+                                      color: "red",
+                                      fontSize: "12px",
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                     
+                                    }}
+                                  >
+                                    {aadhaarErr}
+                                  </label>
+                                </div>
+                              )}
                   </div>
 
 

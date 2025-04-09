@@ -15,6 +15,9 @@ import {  FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import PlusIcon from "../Assets/Images/New_images/plusIcon.png";
+import Closebtn from "../Assets/Images/CloseCircle.png";
+import Delete from "../Assets/Images/New_images/trash.png";
 
 const CheckOutForm = ({
   // item,
@@ -26,12 +29,14 @@ const CheckOutForm = ({
   data,
   checkouteditaction,
   checkoutaddform,
+  cofirmForm,
+  setConfirmForm
 }) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
 
-
+console.log("CheckOutForm",state)
   const [checkOutDate, setCheckOutDate] = useState("");
   const [checkOutrequestDate, setCheckOutRequestDate] = useState("");
   // const [currentFloor, setCurrentFloor] = useState("");
@@ -65,6 +70,13 @@ const CheckOutForm = ({
     setReinburse(0)
     SetDueAmount('')
   };
+
+  const handleCloseConfirmForm = ()=>{
+    setConfirmForm(false)
+    dispatch({type:'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR'})
+    setConformCheckErr("")
+    setFields("")
+  }
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -474,14 +486,7 @@ const CheckOutForm = ({
 
 
   
-  useEffect(() => {
-    if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
-      handlecloseform()
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" });
-      }, 500);
-    }
-  }, [state.UsersList.statusCodeAddConfirmCheckout]);
+  
 
 
 
@@ -505,6 +510,51 @@ const CheckOutForm = ({
     }
   }, [validInvoices]);
 
+
+// const handleAddAmount = (e)=>{
+//   setAddAmount(e.target.value)
+// }
+// const handleAddAmount = (e) => {
+//   const value = e.target.value;
+//   setAddAmount(value);
+
+//   const numericValue = parseFloat(value);
+//   if (!isNaN(numericValue)) {
+//     const result = advanceamount - numericValue;
+//     setReturnAmount(result);
+//   } else {
+//     setReturnAmount("");
+//   }
+// };
+// const [advanceamount, setAdvanceAmount] = useState(0);
+const [totalDueAmount, setTotalDueAmount] = useState(0);
+// const [addAmount, setAddAmount] = useState("");
+// const [returnAmount, setReturnAmount] = useState("");
+
+// Optional: dynamic fields (if you add more in future)
+const [extraAmounts, setExtraAmounts] = useState([]);
+const [addAmount,setAddAmount] = useState("")
+const [returnAmount,setReturnAmount] = useState("")
+
+// This function will calculate returnAmount on change
+const handleAddAmount = (e) => {
+  const value = e.target.value;
+  setAddAmount(value);
+
+  const numericAdd = parseFloat(value);
+  const numericDue = parseFloat(dueamount);
+  const numericAdvance = parseFloat(advanceamount);
+
+  // Optional: total of extra/dynamic fields
+  const extraTotal = extraAmounts.reduce((sum, a) => sum + parseFloat(a.amount || 0), 0);
+
+  if (!isNaN(numericAdd)) {
+    const result = numericAdvance - (numericDue + numericAdd + extraTotal);
+    setReturnAmount(result.toFixed(2));
+  } else {
+    setReturnAmount("");
+  }
+};
 
   const handleCheckboxChange = (e) => {
     const checked = e.target.checked;
@@ -576,17 +626,87 @@ const CheckOutForm = ({
           id: selectedCustomer,
           hostel_id: data.Hostel_Id,
           comments: comments,
-          advance_return: advanceamount,
-          reinburse: reinburse, 
+          advance_return: returnAmount,
+          reinburse: 1,
+          reasons:fields
+
         },
       });
     }
 
   
   };
+  useEffect(() => {
+    if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
+      handleCloseConfirmForm()
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" });
+      }, 500);
+    }
+  }, [state.UsersList.statusCodeAddConfirmCheckout]);
+  console.log("state.UserList.conformChekoutError",state.UsersList.conformChekoutError)
 
+  const [fields, setFields] = useState([{ reason: "", amount: "" }]);
+  const [conformcheckErr,setConformCheckErr] = useState("")
+  useEffect(()=>{
+if(state.UsersList.conformChekoutError){
+  setConformCheckErr(state.UsersList.conformChekoutError)
+
+}
+  },[state.UsersList.conformChekoutError])
+
+  useEffect(() => {
+    const advance = parseFloat(advanceamount) || 0;
+    const due = parseFloat(dueamount) || 0;
   
+    const totalExtra = fields.reduce((acc, curr) => {
+      const amt = parseFloat(curr.amount);
+      return acc + (isNaN(amt) ? 0 : amt);
+    }, 0);
+  
+    const result = advance - (due + totalExtra);
+    setReturnAmount(result)
+  }, [advanceamount, dueamount, fields]);
+  
+  
+  
+  console.log("Advance:", advanceamount, "Due:", dueamount, "Fields:", fields);
+  
+  // Input field change handlers
+  const handleInputChange = (index, field, value) => {
+    const updatedFields = [...fields];
+    updatedFields[index][field] = value;
+    setFields(updatedFields);
+  };
+//  const ReturnAmount = advanceamount - (dueamount + fields);
+  
+  const handleAddField = () => {
+    setFields([...fields, { reason: "", amount: "" }]);
+  };
+  
+  const handleRemoveField = (index) => {
+    const updatedFields = [...fields];
+    updatedFields.splice(index, 1);
+    setFields(updatedFields);
+  };
 
+  const labelStyle = {
+    fontSize: 14,
+    color: "rgba(75, 75, 75, 1)",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+  };
+  
+  const inputStyle = {
+    height: "50px",
+    borderRadius: "8px",
+    fontSize: 16,
+    color: "#222",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    boxShadow: "none",
+    border: "1px solid #D9D9D9",
+  };
 
   return (
     <>
@@ -599,9 +719,8 @@ const CheckOutForm = ({
               fontFamily: "Gilroy",
             }}
           >
-            {data && checkoutaction
-              ? "Confirm Check-Out"
-              : currentItem && checkouteditaction
+            {
+               currentItem && checkouteditaction
               ? "Edit Check-Out"
               : "Add Check-Out"}
           </Modal.Title>
@@ -615,7 +734,7 @@ const CheckOutForm = ({
 
         <Modal.Body>
           <div className="row row-gap-2">
-            {!checkoutaction && !checkouteditaction && (
+            { !checkouteditaction && (
               <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
                 <div className="form-group">
                   <label
@@ -641,7 +760,7 @@ const CheckOutForm = ({
                     classNamePrefix="custom"
     menuPlacement="auto"
    
-                    isDisabled={checkouteditaction}
+                    // isDisabled={checkouteditaction}
                   />
 
                   {customerWError && (
@@ -798,7 +917,7 @@ const CheckOutForm = ({
               )}
             </div>
 
-            {!checkoutaction && (
+          
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group className="mb-2" controlId="purchaseDate">
                   <Form.Label
@@ -855,11 +974,305 @@ const CheckOutForm = ({
                   </div>
                 )}
               </div>
-            )}
+           
 
-            {checkoutaction && (
-              <>
-                <div className="col-lg-6 col-md-6 col-sm-12 colxs-12 mt-2">
+            
+
+            <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
+              <label
+                htmlFor="comments"
+                className="mt-2"
+                style={{
+                  fontSize: 14,
+                  color: "rgba(75, 75, 75, 1)",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Comments
+              </label>
+              <input
+                type="text"
+                name="comments"
+                id="comments"
+                value={comments}
+                onChange={handleCommentsChange}
+                className="form-control mt-2"
+                placeholder="Add Comments"
+                required
+                style={{
+                  height: "50px",
+                  borderRadius: "8px",
+                  fontSize: 16,
+                  color: comments ? "#222" : "#4b4b4b",
+                  fontFamily: "Gilroy",
+                  fontWeight: comments ? 600 : 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                }}
+              />
+            </div>
+
+            {dateDifference !== null && (
+              <div className="col-12 mt-3">
+                <p
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    color: "#1E45E1",
+                  }}
+                >
+                  ( Notice Days* - {dateDifference} days )
+                </p>
+              </div>
+            )}
+          </div>
+          {state.UsersList.errorMessageAddCheckOut && (
+            <div className="d-flex align-items-center p-1 mt-6">
+              <MdError style={{ color: "red", marginRight: "5px", }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                 
+                }}
+              >
+                {state.UsersList.errorMessageAddCheckOut}
+              </label>
+            </div>
+          )}
+
+         
+
+          {isChangedError && (
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ color: "red",marginTop:15 }}
+            >
+              <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {isChangedError}
+              </span>
+            </div>
+          )}
+
+          {/* {data && checkoutaction && !checkoutaddform && dueamount > 0 && (
+            <div className="d-flex align-items-center p-1  mt-2" style={{paddingTop:"6px"}}>
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                This customer has Due Amounts Total Due Amount is Rs{" "}
+                {dueamount}
+              </label>
+            </div>
+          )} */}
+
+          <Button
+            className="mt-3"
+            style={{
+              borderRadius: "8px",
+              fontFamily: "Gilroy",
+              fontWeight: "600",
+              fontSize: "14px",
+              padding: "16px 24px",
+              width: "100%",
+              backgroundColor: "#1E45E1",
+            }}
+            disabled={
+              !checkouteditaction &&
+              !checkoutaddform &&
+              dueamount > 0 }
+              onClick={() => {
+               if (checkouteditaction) {
+                  handleCheckOutCustomer();
+                } else {
+                  handleCheckOutCustomer();
+                }
+              }}
+              
+              
+               
+          >
+            { currentItem && checkouteditaction
+              ? "Save Changes"
+              : "Add Check-Out"}
+          </Button>
+        </Modal.Body>
+      </Modal>
+
+{/* confirm checkout form */}
+
+      <Modal show={cofirmForm} onHide={handleCloseConfirmForm} centered backdrop="static">
+        <Modal.Header className="d-flex justify-content-between align-items-center">
+          <Modal.Title
+            style={{
+              fontWeight: "600",
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+            }}
+          >
+           Confirm Check-Out
+          </Modal.Title>
+          <img
+            src={Closecircle}
+            alt="Close"
+            style={{ cursor: "pointer", width: "24px", height: "24px" }}
+            onClick={handleCloseConfirmForm}
+          />
+        </Modal.Header>
+
+        <Modal.Body>
+          <div className="row row-gap-2">
+          
+           
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group className="mb-3">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Current Floor{" "}
+                  {/* <span style={{ color: "red", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span> */}
+                </Form.Label>
+                <FormControl
+                  id="form-controls"
+                  placeholder="Enter Name"
+                  type="text"
+                  value={floorname}
+                  //   onChange={(e) => handleFirstName(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #E7F1FF",
+                    height: 50,
+                    borderRadius: 8,
+                    backgroundColor: "#E7F1FF",
+                  }}
+                />
+              </Form.Group>
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group className="mb-3">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Current Bed{" "}
+                </Form.Label>
+                <FormControl
+                  id="form-controls"
+                  placeholder="Enter name"
+                  type="text"
+                  value={bedname}
+                  //   onChange={(e) => handleFirstName(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #E7F1FF",
+                    height: 50,
+                    borderRadius: 8,
+                    backgroundColor: "#E7F1FF",
+                  }}
+                />
+              </Form.Group>
+            </div>
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Check-Out Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
+               
+
+
+               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                <DatePicker
+                  style={{ width: "100%", height: 48,cursor:"pointer" }}
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={checkOutDate ? dayjs(checkOutDate) : null}
+                  onChange={(date) => {
+                    setCheckOutDateError('');
+                    setIsChangedError("");
+                    setCheckOutDate(date ? date.toDate() : null);
+                  }}
+                  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                />
+              </div>
+              </Form.Group>
+              {checkoUtDateError && (
+                <div
+                  className="d-flex align-items-center p-1"
+                  style={{ marginTop: "-6px" }}
+                >
+                  <MdError
+                    style={{
+                      color: "red",
+                      marginRight: "5px",
+                      fontSize: "12px",
+                    }}
+                  />
+                  <label
+                    className="mb-0"
+                    style={{
+                      color: "red",
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {checkoUtDateError}
+                  </label>
+                </div>
+              )}
+            </div>
+
+          
+            <div className="col-lg-6 col-md-6 col-sm-12 colxs-12 mt-2">
                   <div style={{ display: "flex", flexDirection: "row" }}>
                     <label
                       htmlFor="Advance"
@@ -870,40 +1283,10 @@ const CheckOutForm = ({
                         fontWeight: 500,
                       }}
                     >
-                      Advance Return
+                     Advance Collected 
                     </label>
 
-                    {advanceamount >= dueamount && (
-                      <div
-                        className="d-flex align-items-center ms-1"
-                        style={{ gap: 5 }}
-                      >
-                        <input
-                          type="checkbox"
-                          style={{
-                            width: "16px",
-                            height: "16px",
-                            border: "2px solid #1E45E1",
-                            borderRadius: "3px",
-                            appearance: "auto",
-                            cursor: "pointer",
-                          }}
-                          onChange={handleCheckboxChange}
-                        />
-
-                        <p
-                          style={{
-                            margin: 0,
-                            fontSize: 10,
-                            color: "#1E45E1",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Reimburse with Rent
-                        </p>
-                      </div>
-                    )}
+                  
                   </div>
 
                   <input
@@ -928,52 +1311,141 @@ const CheckOutForm = ({
                   />
                 </div>
 
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-3">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Due Invoice{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                        {" "}
-                        *{" "}
-                      </span>
-                    </Form.Label>
 
-                    <FormControl
-                      id="form-controls"
-                      placeholder="Enter invoice"
-                      type="text"
-                      value={invoiceDisplay || "No valid invoices"}
-                      readOnly
-                      style={{
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        boxShadow: "none",
-                        border: "1px solid #E7F1FF",
-                        height: 50,
-                        borderRadius: 8,
-                        backgroundColor: "#E7F1FF",
-                      }}
-                    />
-                  </Form.Group>
-                  {/* {firstnameError && (
-                        <div style={{ color: "red" }}>
-                          {" "}
-                          <MdError style={{ width: 20, height: 20 }} />
-                          {firstnameError}
-                        </div>
-                      )} */}
-                </div>
-              </>
+  {/* Amount */}
+  <div className="col-lg-12 col-md-12 col-sm-12">
+    <label
+      htmlFor="amount"
+      className="form-label"
+      style={{
+        fontSize: 14,
+        color: "rgba(75, 75, 75, 1)",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+     Over All DueAmount
+    </label>
+    <input
+      type="text"
+      id="amount"
+      name="amount"
+      placeholder="Enter Amount"
+      className="form-control"
+      // onChange={(e)=>handleAddAmount(e)}
+      value={dueamount}
+      style={{
+        height: "50px",
+        borderRadius: "8px",
+        fontSize: 16,
+        color: "#222",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        border: "1px solid #D9D9D9",
+      }}
+    />
+  </div>
+                <div className="row">
+      {fields.map((item, index) => (
+        <React.Fragment key={index}>
+          <div className="col-lg-5 col-md-6 col-sm-12">
+            <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
+              Reason
+            </label>
+            <input
+              type="text"
+              id={`reason-${index}`}
+              name={`reason-${index}`}
+              placeholder="Enter Reason"
+              value={item.reason}
+              onChange={(e) => handleInputChange(index, "reason", e.target.value)}
+              className="form-control"
+              style={inputStyle}
+            />
+          </div>
+
+          <div className="col-lg-5 col-md-6 col-sm-12">
+            <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
+              Amount
+            </label>
+            <input
+              type="text"
+              id={`amount-${index}`}
+              name={`amount-${index}`}
+              placeholder="Enter Amount"
+              value={item.amount}
+              onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+              className="form-control"
+              style={inputStyle}
+            />
+          </div>
+
+          <div className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-start justify-content-lg-center align-items-end gap-2" >
+            {/* Plus icon - show only on last item */}
+            {index === fields.length - 1 && (
+              <img
+                src={PlusIcon}
+                alt="plus"
+                width={25}
+                height={25}
+                style={{ cursor: "pointer" }}
+                onClick={handleAddField}
+              />
             )}
+
+            {/* Close icon - show if more than one row */}
+            {fields.length > 1 && (
+              <img
+                src={Delete}
+                alt="remove"
+                width={20}
+                height={20}
+                style={{ cursor: "pointer" }}
+                onClick={() => handleRemoveField(index)}
+              />
+            )}
+          </div>
+        </React.Fragment>
+      ))}
+    </div>
+
+           
+<div className="col-lg-6 col-md-6 col-sm-12">
+    <label
+      htmlFor="amount"
+      className="form-label"
+      style={{
+        fontSize: 14,
+        color: "rgba(75, 75, 75, 1)",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+      ReturnAmount
+    </label>
+    <input
+      type="text"
+      id="amount"
+      name="amount"
+      placeholder="Enter Return Amount"
+      className="form-control"
+      disabled
+      // onChange={(e)=>handleAddAmount(e)}
+      value={returnAmount}
+      style={{
+        height: "50px",
+        borderRadius: "8px",
+        fontSize: 16,
+        color: "#222",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        boxShadow: "none",
+        border: "1px solid #D9D9D9",
+      }}
+    />
+  </div>
+            
 
             <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
               <label
@@ -1078,22 +1550,22 @@ const CheckOutForm = ({
             </div>
           )}
 
-          {data && checkoutaction && !checkoutaddform && dueamount > 0 && (
-            <div className="d-flex align-items-center p-1  mt-2" style={{paddingTop:"6px"}}>
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                This customer has Due Amounts Total Due Amount is Rs{" "}
-                {dueamount}
-              </label>
-            </div>
+          {conformcheckErr && (
+           <div
+           className="d-flex justify-content-center align-items-center"
+           style={{ color: "red",marginTop:15 }}
+         >
+           <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+           <span
+             style={{
+               fontSize: "12px",
+               fontFamily: "Gilroy",
+               fontWeight: 500,
+             }}
+           >
+             {conformcheckErr}
+           </span>
+         </div>
           )}
 
           <Button
@@ -1107,20 +1579,19 @@ const CheckOutForm = ({
               width: "100%",
               backgroundColor: "#1E45E1",
             }}
-            disabled={
-              !checkouteditaction &&
-              checkoutaction &&
-              !checkoutaddform &&
-              dueamount > 0 }
-              onClick={() => {
-                if (checkoutaction) {
-                  handleConfirmCheckout();
-                } else if (checkouteditaction) {
-                  handleCheckOutCustomer();
-                } else {
-                  handleCheckOutCustomer();
-                }
-              }}
+            // disabled={
+            //   !checkouteditaction &&
+            //   !checkoutaddform &&
+            //   dueamount > 0 }
+              // onClick={() => {
+              //    if (checkouteditaction) {
+              //     handleCheckOutCustomer();
+              //   } else {
+              //     handleCheckOutCustomer();
+              //   }
+              // }}
+
+              onClick={handleConfirmCheckout}
               
               
                
@@ -1133,6 +1604,7 @@ const CheckOutForm = ({
           </Button>
         </Modal.Body>
       </Modal>
+
     </>
   );
 };

@@ -46,6 +46,7 @@ function CheckOut(props) {
   const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
   const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
   const [checkoutLoader,setCheckOutLoader] = useState(true)
+  const [cofirmForm,setConfirmForm] = useState(false)
 
 console.log("checkOutCustomer",checkOutCustomer)
   
@@ -220,7 +221,7 @@ console.log("checkOutCustomer",checkOutCustomer)
 
   const handleConfirmCheckout = () => {
     setActiveDotsId(null);
-    setcheckoutForm(true);
+    setConfirmForm(true);
     // setCheckOutConfirm(checkout)
     setCheckoutAction(true)
     setCheckoutEditAction(false)
@@ -1182,19 +1183,26 @@ console.log("checkOutCustomer",checkOutCustomer)
         </div>
 
       }
-      {checkoutForm && (
-        <CheckOutForm
-          show={checkoutForm}
-          // confirmcheckoutform = {checkoutconfirmForm}
-          // handlecloseform = {checkoutConfirmcloseModal}
-          item={checkOutCustomer}
-          handleClose={checkoutcloseModal}
-          currentItem={checkOutEdit}
-          data={checkOutconfirm}
-          checkouteditaction={checkouteditaction}
-          checkoutaction={checkoutaction}
-        />
-      )}
+      {(checkoutForm || cofirmForm) && (
+  <CheckOutForm
+    show={checkoutForm}
+    item={checkOutCustomer}
+    handleClose={checkoutcloseModal}
+    currentItem={checkOutEdit}
+    data={checkOutconfirm}
+    checkouteditaction={checkouteditaction}
+    checkoutaction={checkoutaction}
+    cofirmForm={cofirmForm}
+    setConfirmForm={setConfirmForm}
+  />
+)}
+
+      {/* {
+        cofirmForm && (
+          <CheckOutForm  handleClose={checkoutcloseModal}/>
+
+        )
+      } */}
 
       <Modal
         show={modalType === "delete"}
