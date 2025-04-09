@@ -1381,7 +1381,7 @@ useEffect(() => {
                     <Modal.Body>
                       <div>
                         <Modal.Header
-                          style={{ position: "relative",padding:"2px 15px" }}
+                          style={{ position: "relative",paddingTop:"2px",paddingRight:1, }}
                         >
                           <div
                             style={{
@@ -1389,7 +1389,7 @@ useEffect(() => {
                               fontWeight: 600,
                               fontFamily: "Gilroy",
                               
-                              marginLeft:"-10px"
+                              marginLeft:"-13px"
                             }}
                           >
                             Change Status
@@ -1432,7 +1432,7 @@ useEffect(() => {
                         </Modal.Header>
                       </div>
 
-                      <div className="row mt-1">
+                      <div className="row mt-2">
                         {/* complaint type */}
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <Form.Group
@@ -1526,6 +1526,13 @@ useEffect(() => {
       dropdownIndicator: (base) => ({
         ...base,
         color: "#555",
+        cursor:"pointer"
+      }),
+      option: (base, state) => ({
+        ...base,
+        cursor: "pointer", 
+        backgroundColor: state.isFocused ? "lightblue" : "white", 
+        color: "#000",
       }),
       indicatorSeparator: () => ({
         display: "none",
@@ -1587,14 +1594,14 @@ useEffect(() => {
                     <Modal.Body>
                       <div>
                         <Modal.Header
-                          style={{position: "relative",padding:"2px 15px" }}
+                          style={{position: "relative",paddingTop:2,paddingRight:1}}
                         >
                           <div
                             style={{
                               fontSize: 20,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              marginLeft:"-10px",
+                              marginLeft:"-13px",
                               marginTop:5
                             }}
                           >
@@ -1638,10 +1645,10 @@ useEffect(() => {
                         </Modal.Header>
                       </div>
 
-                      <div className="row mt-1">
+                      <div className="row mt-1" style={{paddingTop:2}}>
                         {/* complaint type */}
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <Form.Group className="mb-3"
+                          <Form.Group 
 
                             controlId="exampleForm.ControlInput5"
                           >
@@ -1744,6 +1751,13 @@ useEffect(() => {
     dropdownIndicator: (base) => ({
       ...base,
       color: "#555",
+      cursor:"pointer"
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer", 
+      backgroundColor: state.isFocused ? "lightblue" : "white", 
+      color: "#000",
     }),
     indicatorSeparator: () => ({
       display: "none",
@@ -1758,7 +1772,7 @@ useEffect(() => {
 
                           {statusErrorType.trim() !== "" && (
                             <div style={{ marginTop: "20px" }}>
-                              <p className='text-center' style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                              <p className='text-center' style={{ fontSize: '12px', color: 'red', marginTop: '3px' }}>
                                 {statusErrorType !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
                               </p>
                             </div>
@@ -1779,7 +1793,7 @@ useEffect(() => {
                           fontFamily: "Gilroy",
                           fontStyle: "normal",
                           lineHeight: "normal",
-                          marginTop: "-20px"
+                          // marginTop: "px"
                         }}
                         onClick={handleAssignComplaintClick}
                       >

@@ -5067,15 +5067,32 @@ const handleBack = () => {
           </div>
 
           {allfielderrmsg.trim() !== "" && (
-            <div>
-              <p style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}>
-                {allfielderrmsg !== " " && (
-                  <MdError style={{ fontSize: "15px", color: "red" }} />
-                )}{" "}
-                {allfielderrmsg}
-              </p>
-            </div>
-          )}
+                      <div>
+                        <p
+                          style={{
+                            fontSize: "12px",
+                            color: "red",
+                            marginTop: "10px",
+                            fontFamily: "Gilroy",
+                            textAlign: "center",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {allfielderrmsg !== " " && (
+                            <MdError
+                              style={{
+                                fontSize: "15px",
+                                color: "red",
+                                fontFamily: "Gilroy",
+                                marginRight: "5px",
+                                marginBottom: "3px",
+                              }}
+                            />
+                          )}{" "}
+                          {allfielderrmsg}
+                        </p>
+                      </div>
+                    )}
 
           {/* Table */}
     

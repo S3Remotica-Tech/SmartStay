@@ -287,9 +287,14 @@ function Banking() {
   };
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-
-  const handleEditTrans = (id, event) => {
-    setEditTransaction((prevId) => (prevId === id ? null : id));
+  const handleEditTrans = (id,event) => {
+    // setEditTransaction((prevId) => (prevId === id ? null : id));
+    // setEditTransaction((prevId) => (prevId === id ? null : id));
+    if (EditTransaction === id) {
+      setEditTransaction(null);
+    } else {
+      setEditTransaction(id);
+    }
 
     const { top, left} = event.target.getBoundingClientRect();
     const popupTop = top - 10;
@@ -313,7 +318,7 @@ function Banking() {
   const handleEditTransForm = (item) => {
     setUpdateTransaction(item);
     setEditTransactionForm(true);
-    setEditTransaction(false);
+    setEditTransaction(null);
     setDeleteTransactionForm(false);
     setOpenMenuId(null);
   };
@@ -1465,7 +1470,7 @@ whiteSpace: "nowrap"
                               //zIndex:
                                 //EditTransaction === user.id ? 1000 : "auto",
                             }}
-                            onClick={(e) => handleEditTrans(user.id, e)}
+                            onClick={(e) => handleEditTrans(user.id,e)}
                           >
                             <PiDotsThreeOutlineVerticalFill
                               style={{ height: 20, width: 20 }}
@@ -1491,7 +1496,7 @@ whiteSpace: "nowrap"
                                   flexDirection: "column",
                                   padding: 10,
                                   alignItems: "start",
-                                  // zIndex: 9999,
+                                  zIndex: 1000,
                                 }}
                               >
                                 <div

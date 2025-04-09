@@ -25,24 +25,25 @@ function UserListKyc(props) {
   const handleValidate = () => {
     if (aadhaarNo) {
       if (validateAadharNumber(aadhaarNo)) {
-        dispatch({ type: 'KYCVALIDATE', payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID } })
-        setaadhaarErr('')
+        dispatch({
+          type: 'KYCVALIDATE',
+          payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID }
+        });
+        setaadhaarErr('');
       } else {
-        setaadhaarErr('Please Enter Valid Aadhar Number')
+        setaadhaarErr('Invalid Aadhaar Number');
       }
+    } else {
+      setaadhaarErr('Please Enter Aadhar Number');
     }
-    else {
-      setaadhaarErr('Please Enter Aadhar Number')
-    }
-  }
-  function validateAadharNumber(aadhar) {
-    if (typeof aadhar !== 'number') return false;
-    const aadharStr = aadhar.toString();
-    if (!/^\d{12}$/.test(aadharStr)) return false;
-    if (aadharStr.length !== 12) return false;
+  };
   
-    return true;
+  function validateAadharNumber(aadhar) {
+    const aadharStr = aadhar.toString(); // always convert to string
+    const regex = /^[2-9]{1}[0-9]{11}$/; // Aadhaar must start with 2-9 and be 12 digits
+    return regex.test(aadharStr);
   }
+  
   
   const handleAadharNumber = (e) => {
     const value = e.target.value;

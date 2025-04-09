@@ -16,8 +16,9 @@ import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import PlusIcon from "../Assets/Images/New_images/plusIcon.png";
-import Closebtn from "../Assets/Images/CloseCircle.png";
+// import Closebtn from "../Assets/Images/CloseCircle.png";
 import Delete from "../Assets/Images/New_images/trash.png";
+import {CloseCircle} from "iconsax-react";
 
 const CheckOutForm = ({
   // item,
@@ -67,7 +68,7 @@ console.log("CheckOutForm",state)
     setCustomerError("");
     setCheckOutRequestDateError("");
     setDateDifference(null);
-    setReinburse(0)
+    // setReinburse(0)
     SetDueAmount('')
   };
 
@@ -78,7 +79,7 @@ console.log("CheckOutForm",state)
     setFields("")
   }
 
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
 
   
 
@@ -492,15 +493,15 @@ console.log("CheckOutForm",state)
 
   const validInvoices = invoicenumber.filter((invoice) => invoice.balance > 0);
 
-  const invoiceDisplay = validInvoices
-    .map((invoice) => `${invoice.invoiceid} - ${invoice.balance}`)
-    .join(", ");
+  // const invoiceDisplay = validInvoices
+  //   .map((invoice) => `${invoice.invoiceid} - ${invoice.balance}`)
+  //   .join(", ");
   const hasBalance =
     Array.isArray(validInvoices) &&
     validInvoices.some((invoice) => invoice.balance > 0);
 
   useEffect(() => {
-    if (validInvoices && hasBalance && !isChecked) {
+    if (validInvoices && hasBalance ) {
       const totaldueamount = validInvoices.reduce(
         (total, invoice) => total + invoice.balance,
         0
@@ -527,70 +528,69 @@ console.log("CheckOutForm",state)
 //   }
 // };
 // const [advanceamount, setAdvanceAmount] = useState(0);
-const [totalDueAmount, setTotalDueAmount] = useState(0);
 // const [addAmount, setAddAmount] = useState("");
 // const [returnAmount, setReturnAmount] = useState("");
 
 // Optional: dynamic fields (if you add more in future)
-const [extraAmounts, setExtraAmounts] = useState([]);
-const [addAmount,setAddAmount] = useState("")
+// const [extraAmounts, setExtraAmounts] = useState([]);
+// const [addAmount,setAddAmount] = useState("")
 const [returnAmount,setReturnAmount] = useState("")
 
 // This function will calculate returnAmount on change
-const handleAddAmount = (e) => {
-  const value = e.target.value;
-  setAddAmount(value);
+// const handleAddAmount = (e) => {
+//   const value = e.target.value;
+//   setAddAmount(value);
 
-  const numericAdd = parseFloat(value);
-  const numericDue = parseFloat(dueamount);
-  const numericAdvance = parseFloat(advanceamount);
+//   const numericAdd = parseFloat(value);
+//   const numericDue = parseFloat(dueamount);
+//   const numericAdvance = parseFloat(advanceamount);
 
-  // Optional: total of extra/dynamic fields
-  const extraTotal = extraAmounts.reduce((sum, a) => sum + parseFloat(a.amount || 0), 0);
+//   // Optional: total of extra/dynamic fields
+//   const extraTotal = extraAmounts.reduce((sum, a) => sum + parseFloat(a.amount || 0), 0);
 
-  if (!isNaN(numericAdd)) {
-    const result = numericAdvance - (numericDue + numericAdd + extraTotal);
-    setReturnAmount(result.toFixed(2));
-  } else {
-    setReturnAmount("");
-  }
-};
+//   if (!isNaN(numericAdd)) {
+//     const result = numericAdvance - (numericDue + numericAdd + extraTotal);
+//     setReturnAmount(result.toFixed(2));
+//   } else {
+//     setReturnAmount("");
+//   }
+// };
 
-  const handleCheckboxChange = (e) => {
-    const checked = e.target.checked;
+  // const handleCheckboxChange = (e) => {
+  //   const checked = e.target.checked;
     
 
-    setIsChecked(checked);
+  //   setIsChecked(checked);
 
-    if (checked && dueamount > 0) {
-      const updatedAdvanceAmount = advanceamount - dueamount;
-      setAdvanceAmount(updatedAdvanceAmount);
+  //   if (checked && dueamount > 0) {
+  //     const updatedAdvanceAmount = advanceamount - dueamount;
+  //     setAdvanceAmount(updatedAdvanceAmount);
       
       
-    SetDueAmount(0);
+  //   SetDueAmount(0);
             
-    }
-  };
- const [reinburse, setReinburse] = useState(0)
-  useEffect(()=> {
-    if(isChecked){
-      SetDueAmount(0);
-      // const Reinburse = isChecked ? 1 : 0;
-      setReinburse(1)
-    }
-  },[isChecked])
+  //   }
+  // };
+//  const [reinburse, setReinburse] = useState(0)
+  // useEffect(()=> {
+  //   if(isChecked){
+  //     SetDueAmount(0);
+  //     // const Reinburse = isChecked ? 1 : 0;
+  //     setReinburse(1)
+  //   }
+  // },[isChecked])
 
-  useEffect(() => {
-    if (!isChecked) {
-      setAdvanceAmount(
-        state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
-      );
+  // useEffect(() => {
+  //   if (!isChecked) {
+  //     setAdvanceAmount(
+  //       state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
+  //     );
       
-      // SetDueAmount(
-      //   state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0
-      // );
-    }
-  }, [isChecked]);
+  //     // SetDueAmount(
+  //     //   state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0
+  //     // );
+  //   }
+  // }, [isChecked]);
 
   const handleConfirmCheckout = () => {
     if (!selectedCustomer || !data.Hostel_Id || !checkOutDate) {
@@ -724,12 +724,8 @@ if(state.UsersList.conformChekoutError){
               ? "Edit Check-Out"
               : "Add Check-Out"}
           </Modal.Title>
-          <img
-            src={Closecircle}
-            alt="Close"
-            style={{ cursor: "pointer", width: "24px", height: "24px" }}
-            onClick={handlecloseform}
-          />
+          <CloseCircle size="24" color="#000" onClick={handlecloseform} 
+            style={{ cursor: 'pointer' }}/>
         </Modal.Header>
 
         <Modal.Body>

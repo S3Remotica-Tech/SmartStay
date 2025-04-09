@@ -211,15 +211,17 @@ function PayingGuestMap(props) {
                                     // right: window.innerWidth <= 400 ? -55 : 50,
                                     right:
                                             window.innerWidth <= 420
-                                            ? -80 // Open to the left if screen too small
+                                            ? 50 // Open to the left if screen too small
                                             : window.innerWidth <= 576
                                             ? 30 // Shift slightly if mid-size
                                             : 50, // Default on large screens
                                     top:0, 
                                     width: 120, 
+                                    
                                     // width: window.innerWidth <= 404 ? 100 : 120,
-                                    height: 92, border: "1px solid #EBEBEB", borderRadius: 10, 
-                                    display: "flex", justifyContent: "start", padding: 15, alignItems: "center",
+                                   
+                                     border: "1px solid #EBEBEB", borderRadius: 10, 
+                                    display: "flex", justifyContent: "start", padding: 1, alignItems: "center",
                                     flexDirection: "column", 
                                     zIndex: 1050,}}>
                                     <div >
@@ -235,7 +237,7 @@ function PayingGuestMap(props) {
                                             </div>
                                         </div> */}
                                         <div
-                                            className="d-flex gap-2 mb-2 align-items-center"
+                                            className="d-flex gap-2  align-items-center"
                                             onClick={!props.editPermissionError ? () => handleEdit(props.hostel) : undefined}
                                             style={{
                                                 pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
@@ -274,7 +276,7 @@ function PayingGuestMap(props) {
                                             </div>
                                         </div> */}
                                         <div
-                                            className="d-flex gap-2 mb-2 align-items-center"
+                                            className="d-flex gap-2 mb-3 align-items-center"
                                             onClick={!props.editPermissionError ? () => handleDelete(props.hostel) : undefined}
                                             style={{
                                                 pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
@@ -348,7 +350,7 @@ function PayingGuestMap(props) {
 
                     <div className='pb-1' style={{ lineHeight: 1 }} >
                         <div className='pb-1'>
-                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
+                            <label style={{ color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
                         </div>
                         <div >
                             <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>{props.hostel.email_id && props.hostel.email_id !== "undefined" ? props.hostel.email_id : "N/A"}
@@ -359,7 +361,7 @@ function PayingGuestMap(props) {
 
                     <div className='pb-1' style={{ lineHeight: 1 }}>
                         <div className=''>
-                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</label>
+                            <label style={{color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</label>
                         </div>
                         <div className='text-center' >
                             <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}> {props.hostel && props.hostel.floorcount}
@@ -370,10 +372,10 @@ function PayingGuestMap(props) {
 
                     <div className='pb-1' style={{ lineHeight: 1 }}>
                         <div className=''>
-                            <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Contact Number</label>
+                            <label style={{ color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy",textAlign:"center" }}>Contact Number</label>
                         </div>
                         <div>
-                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
+                            <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",textAlign:"center" }}>
                                 +{props.hostel && String(props.hostel.hostel_PhoneNo).slice(0, String(props.hostel.hostel_PhoneNo).length - 10)}
                                 {' '}
                                 {props.hostel && String(props.hostel.hostel_PhoneNo).slice(-10)}
@@ -386,7 +388,7 @@ function PayingGuestMap(props) {
 
                 <div className='mb-2' style={{ lineHeight: 1 }}>
                     <div className='mb-1' style={{}}>
-                        <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}> Address</label>
+                        <label style={{ color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}> Address</label>
 
                     </div>
 

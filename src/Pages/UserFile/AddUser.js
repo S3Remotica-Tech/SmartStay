@@ -877,6 +877,13 @@ function User({ show, editDetails, setAddUserForm, edit }) {
         lineHeight: 1,
         stroke: "currentColor",
         strokeWidth: 0,
+        cursor:"pointer"
+      }),
+      option: (base, state) => ({
+        ...base,
+        cursor: "pointer", 
+        backgroundColor: state.isFocused ? "lightblue" : "white", 
+        color: "#000",
       }),
       indicatorSeparator: () => ({
         display: "none",
