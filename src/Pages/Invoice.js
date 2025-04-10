@@ -3871,6 +3871,15 @@ useEffect(() => {
 
                           </div>
                         </div> */}
+                                 <div
+                                  className="invoice-list-container"
+                                        style={{
+                                        height: '100%', // fallback
+                                        maxHeight: window.innerWidth < 768 ? '150px' : '250px',
+                                        overflowY: 'auto',
+                                        paddingRight: '10px',
+                                        }}
+                                       >
                                     <div className="" style={{}}>
                                       <div className="d-flex align-items-start justify-content-between w-100 p-2">
                                         <div>
@@ -3993,7 +4002,7 @@ useEffect(() => {
                                         </div>
                                       </div>
                                     </div>
-
+                                    </div>
                                     <hr />
                                   </>
                                 ))}

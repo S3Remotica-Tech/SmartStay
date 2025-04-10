@@ -92,11 +92,24 @@ console.log("Bill Row Data:",rowData);
 
 
                         <div className="mb-3">
-                            {rowData?.BalanceDue === 0 ? <span style={{ fontSize: '10px', backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
-                                style={{ fontSize: '10px', cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}
+                            {rowData?.BalanceDue === 0 ? <span 
+                            style={{ fontSize: '10px', 
+                              backgroundColor: '#D9FFD9', color: '#000', 
+                              borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>
+                                Paid
+                                </span> : <span
+                                style={{ fontSize: '10px', cursor: 'pointer', 
+                                backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', 
+                                borderRadius: '14px', padding: "8px 12px" }}>
+                                  Unpaid</span>}
                         </div>
                         <div className="mb-2 mt-2">
-                            <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD MMM YYYY')}</label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>#{rowData?.Invoices === null || rowData?.Invoices === '' ? '0.00' : rowData?.Invoices}</label>
+                            <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", 
+                              fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD MMM YYYY')}
+                              </label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", 
+                                fontFamily: "Gilroy" }}
+                                >#{rowData?.Invoices === null || rowData?.Invoices === '' ? '0.00' : rowData?.Invoices}
+                                </label>
                         </div>
                     </div>
                 </div>
@@ -441,14 +454,6 @@ console.log("Bill Row Data:",rowData);
                                 </div>
 
                             </div>
-
-
-
-
-
-
-
-
 
                         </Card.Body>
                         <div style={{ backgroundColor: "#dbaa16", borderBottomRightRadius: 24, borderBottomLeftRadius: 24 }} className="d-flex p-3 justify-content-center gap-3" >
