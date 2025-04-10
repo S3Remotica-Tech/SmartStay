@@ -284,6 +284,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
               {view.role_name}
             </span>
           </div>
+          
           <div
             className="d-flex justify-content-center align-items-center border rounded-circle"
             style={{
