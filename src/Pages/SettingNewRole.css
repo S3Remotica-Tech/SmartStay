@@ -1,6 +1,6 @@
 @media (max-width: 450px) and (min-width: 250px) {
     .scroll-issue {
-        margin-top: 20;
+        margin-top: 50;
       max-height: 350px;
       overflow-y: auto;
     }
@@ -9,4 +9,3 @@
       overflow-y: hidden;
     }
   }
-  

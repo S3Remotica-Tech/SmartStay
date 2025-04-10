@@ -12,6 +12,7 @@ import Modal from "react-bootstrap/Modal";
 import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import PropTypes from "prop-types";
+import './SettingNewRole.css';
 
 
 function SettingNewRole({ hostelid }) {
@@ -263,12 +264,12 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
 <div 
-  className="row mt-3 mb-3 overflow-auto show-scroll" 
-  style={{ maxHeight: "480px" }}
+  className="row mt-3 mb-3 overflow-auto scroll-issue" 
+  // style={{ maxHeight: "480px" }}
 >
   {currentItems.length > 0 ? (
     currentItems.map((view, index) => (
-      <div key={index} className="col-12 col-sm-6 col-md-12 col-lg-4 col-xs-12 mb-3">
+      <div key={index} className="col-12  col-sm-12 col-md-12 col-lg-4 col-xs-12 mb-3">
         <div
           className="d-flex align-items-center justify-content-between p-3 border rounded position-relative"
           style={{ height: 64, width: "100%" }}
