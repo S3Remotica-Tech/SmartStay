@@ -12,6 +12,7 @@ import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PropTypes from "prop-types";
 import {CloseCircle} from "iconsax-react";
+import './SettingCompliance.css';
 
 function SettingCompliance({ hostelid }) {
 
@@ -400,7 +401,7 @@ function SettingCompliance({ hostelid }) {
 
 
 
-            <div>
+            <div  className="scroll-issue">
                 {/* {state.Settings.Complainttypelist && state.Settings.Complainttypelist.length > 0 ? ( */}
                 {currentRowCompliance && currentRowCompliance.length > 0 && 
                     //     {/* {state.Settings.currentRowCompliance && state.Settings.currentRowCompliance.length > 0 ? ( */}

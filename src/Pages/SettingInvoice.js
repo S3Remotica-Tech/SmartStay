@@ -12,6 +12,7 @@ import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import Select from "react-select";
 import PropTypes from "prop-types";
 import {CloseCircle} from "iconsax-react";
+import './SettingInvoice.css';
 
 function SettingInvoice({ hostelid }) {
 
@@ -618,7 +619,7 @@ function SettingInvoice({ hostelid }) {
           </p>
         </div>)}
 
-      <div>
+      <div className="scroll-issue">
         {InvoiceList && InvoiceList.length > 0 ? (
           InvoiceList.every(
             (item) =>
