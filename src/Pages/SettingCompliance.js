@@ -711,15 +711,15 @@ function SettingCompliance({ hostelid }) {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            width: "32px",
-                            height: "32px",
+                            width: "20px",
+                            height: "20px",
                             borderRadius: "50%",
                         }}
                     >
                         <span
                             aria-hidden="true"
                             style={{
-                                fontSize: "30px",
+                                fontSize: "20px",
                                 paddingBottom:6,
                             }}
                         >
@@ -784,6 +784,7 @@ function SettingCompliance({ hostelid }) {
                             fontSize: 16,
                             fontFamily: "Montserrat, sans-serif",
                             marginTop: 8,
+                            width: "100%"
                         }}
                         onClick={handleEditType}
                     >
@@ -824,15 +825,15 @@ function SettingCompliance({ hostelid }) {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            width: "32px",
-                            height: "32px",
+                            width: "20px",
+                            height: "20px",
                             borderRadius: "50%",
                         }}
                     >
                         <span
                             aria-hidden="true"
                             style={{
-                                fontSize: "30px",
+                                fontSize: "20px",
                                 paddingBottom: "6px",
                             }}
                         >
@@ -901,6 +902,7 @@ function SettingCompliance({ hostelid }) {
                             padding: "12px 16px 12px 16px",
                             fontFamily: "Montserrat, sans-serif",
                             marginBottom: 15,
+                            width: "100%"
 
                         }}
                         onClick={handleAddComplaintType}

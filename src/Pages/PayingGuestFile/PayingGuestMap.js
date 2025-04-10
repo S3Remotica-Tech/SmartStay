@@ -218,10 +218,15 @@ function PayingGuestMap(props) {
                                     top:0, 
                                     width: 120, 
                                     // width: window.innerWidth <= 404 ? 100 : 120,
-                                    height: 92, border: "1px solid #EBEBEB", borderRadius: 10, 
-                                    display: "flex", justifyContent: "start", padding: 15, alignItems: "center",
+                                    // height: 70, 
+                                    border: "1px solid #EBEBEB", borderRadius: 10, 
+                                    display: "flex", 
+                                    justifyContent: "start", 
+                                    // padding: 10, 
+                                    alignItems: "center",
                                     flexDirection: "column", 
-                                    zIndex: 1050,}}>
+                                    zIndex: 1050,
+                                    }}>
                                     <div >
                                         {/* <div className='d-flex gap-2 mb-2 align-items-center'
                                             onClick={() => handleEdit(props.hostel)} 
@@ -235,7 +240,8 @@ function PayingGuestMap(props) {
                                             </div>
                                         </div> */}
                                         <div
-                                            className="d-flex gap-2 mb-2 align-items-center"
+                                            // className="d-flex gap-2 mb-2 align-items-center"
+                                             className="mb-0 d-flex justify-content-start align-items-center gap-2"
                                             onClick={!props.editPermissionError ? () => handleEdit(props.hostel) : undefined}
                                             style={{
                                                 pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction
@@ -274,7 +280,8 @@ function PayingGuestMap(props) {
                                             </div>
                                         </div> */}
                                         <div
-                                            className="d-flex gap-2 mb-2 align-items-center"
+                                            // className="d-flex gap-2 mb-2 align-items-center"
+                                             className="mb-2 d-flex justify-content-start align-items-center gap-2"
                                             onClick={!props.editPermissionError ? () => handleDelete(props.hostel) : undefined}
                                             style={{
                                                 pointerEvents: props.editPermissionError ? "none" : "auto", // Disables interaction

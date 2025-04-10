@@ -507,7 +507,8 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       <Modal show={show} onHide={handleCloseForm} centered backdrop="static">
         <Modal.Dialog style={{ maxWidth: 850, width: '100%' }} className='m-0 p-0'>
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>{edit ? 'Edit User' : 'Add User'}</Modal.Title>
+            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>
+              {edit ? 'Edit User' : 'Add User'}</Modal.Title>
 
             <CloseCircle size="24" color="#000" onClick={handleCloseForm} style={{ cursor: "pointer" }} />
 
@@ -936,7 +937,9 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
             <Button
               onClick={handleSubmit}
-              className='w-100' style={{ cursor: "pointer", backgroundColor: "#1E45E1", fontWeight: 600, padding: 12, borderRadius: 8, fontSize: 16, fontFamily: "Gilroy" }}>
+              className='w-100' style={{ cursor: "pointer", 
+              backgroundColor: "#1E45E1", fontWeight: 600, padding: 12, 
+              borderRadius: 8, fontSize: 14, fontFamily: "Gilroy" }}>
               {edit ? 'Save Changes' : ' + Create User'}
             </Button>
           </Modal.Footer>

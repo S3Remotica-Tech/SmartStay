@@ -1,0 +1,16 @@
+
+.responsive-modal-fix {
+  width: 100%;
+  max-width: 980px; 
+  margin: 0 auto;
+}
+
+
+@media (max-width: 709px) {
+  .responsive-modal-fix {
+    margin-left: 16px;
+    margin-right: 16px;
+    width: auto;
+    max-width: none;
+  }
+}
