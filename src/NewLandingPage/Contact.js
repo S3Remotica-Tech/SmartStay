@@ -104,13 +104,13 @@ function Contact () {
     
     return (
         <>
-        <div style={{}}>
-  <div style={{ display: 'flex', flexDirection: 'column',  alignItems: 'center', position: 'relative',  backgroundColor: 'rgba(226, 230, 255, 1)' , height:'450px' , zIndex:1 ,marginBottom:'100px',paddingTop:'50px'}}>
+        
+  <div  style={{ display: 'flex', flexDirection: 'column',textAlign: "center",  alignItems: 'center', position: 'relative',  backgroundColor: 'rgba(226, 230, 255, 1)' , height:'300px' , zIndex:1 ,marginBottom:'50px',paddingTop:'50px'}}>
      <img
-              src={TopLeftCurve}
-              alt="Top Left Curve"
-              className="position-absolute"
-              style={{ top: "0", left: "0", width: "150px", zIndex: "1" }}
+           src={TopLeftCurve}
+           alt="Top Left Curve"
+           className="position-absolute d-none d-md-block"
+           style={{ top: "0", left: "0", width: "150px", zIndex: "1" }}
             />
     <h1 style={{ fontSize: 40, fontWeight: 700, color: 'rgba(9, 15, 41, 1)', fontFamily: 'Montserrat' }}>
       Get in touch with us
@@ -122,8 +122,8 @@ function Contact () {
 
   
 
-  <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'absolute' , zIndex:4 , top:250 , left:100  }}>
-    <div className="row g-4 justify-content-center shadow rounded-5" style={{ padding: '50px', gap: '24px', marginBottom: '50px', marginTop: '40px', backgroundColor: 'white' }}>
+  <div className="container position-relative mt-3" style={{ zIndex: 4 }}>
+    <div className="row g-4 justify-content-center flex-wrap shadow rounded-5" style={{ padding: '50px', gap: '24px', marginBottom: '50px', marginTop: '40px', backgroundColor: 'white' }}>
       {/* Contact Details Section */}
       <div className="col-lg-5 col-md-12 col-sm-12" style={{ border: '1px solid #E2E2E2', borderRadius: '20px', padding: '30px', backgroundColor: 'rgba(9, 15, 41, 1)', color: 'white' }}>
         <h3 style={{ fontWeight: 600, fontFamily: "Montserrat", fontSize: 28 , color:'rgba(255, 255, 255, 1)' }}>
@@ -323,8 +323,8 @@ function Contact () {
       </div>
     </div>
   </div>
-  <div style={{ position: 'relative', backgroundColor: 'white', height:'450px',   zIndex:2 }}></div>
-</div>
+  {/* <div style={{ position: 'relative', backgroundColor: 'white', height:'450px',   zIndex:2 }}></div> */}
+
         </>
     );
 }
