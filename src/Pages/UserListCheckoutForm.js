@@ -31,7 +31,8 @@ const CheckOutForm = ({
   checkouteditaction,
   checkoutaddform,
   cofirmForm,
-  setConfirmForm
+  setConfirmForm,
+  handleCloseConformForm
 }) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -72,11 +73,15 @@ console.log("CheckOutForm",state)
     SetDueAmount('')
   };
 
-  const handleCloseConfirmForm = ()=>{
-    setConfirmForm(false)
+  const handleCloseConfirmFormPage = ()=>{
+    // handleCloseConformForm(false)
+    if (typeof handleCloseConformForm === "function") {
+      handleCloseConformForm(); 
+    }
     dispatch({type:'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR'})
     setConformCheckErr("")
-    setFields("")
+    // setFields("")
+    setFields([{ reason: "", amount: "" }]); 
   }
 
   // const [isChecked, setIsChecked] = useState(false);
@@ -619,6 +624,23 @@ const [returnAmount,setReturnAmount] = useState("")
    
 
     if (selectedCustomer && data.Hostel_Id && formattedDate && advanceamount) {
+      // dispatch({
+      //   type: "ADDCONFIRMCHECKOUTCUSTOMER",
+      //   payload: {
+      //     checkout_date: formattedDate,
+      //     id: selectedCustomer,
+      //     hostel_id: data.Hostel_Id,
+      //     comments: comments,
+      //     advance_return: returnAmount,
+      //     reinburse: 1,
+      //     reasons:fields
+
+      //   },
+      // });
+      const nonEmptyFields = fields.filter(
+        (field) => field.reason.trim() !== "" || field.amount.trim() !== ""
+      );
+      
       dispatch({
         type: "ADDCONFIRMCHECKOUTCUSTOMER",
         payload: {
@@ -628,8 +650,7 @@ const [returnAmount,setReturnAmount] = useState("")
           comments: comments,
           advance_return: returnAmount,
           reinburse: 1,
-          reasons:fields
-
+          reasons: nonEmptyFields,
         },
       });
     }
@@ -638,7 +659,7 @@ const [returnAmount,setReturnAmount] = useState("")
   };
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
-      handleCloseConfirmForm()
+      handleCloseConfirmFormPage()
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" });
       }, 500);
@@ -1115,7 +1136,7 @@ if(state.UsersList.conformChekoutError){
 
 {/* confirm checkout form */}
 
-      <Modal show={cofirmForm} onHide={handleCloseConfirmForm} centered backdrop="static">
+      <Modal show={cofirmForm} onHide={handleCloseConfirmFormPage} centered backdrop="static">
         <Modal.Header className="d-flex justify-content-between align-items-center">
           <Modal.Title
             style={{
@@ -1130,7 +1151,7 @@ if(state.UsersList.conformChekoutError){
             src={Closecircle}
             alt="Close"
             style={{ cursor: "pointer", width: "24px", height: "24px" }}
-            onClick={handleCloseConfirmForm}
+            onClick={handleCloseConfirmFormPage}
           />
         </Modal.Header>
 
