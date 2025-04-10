@@ -22,6 +22,7 @@ import dayjs from "dayjs";
 // import Filters from "../Assets/Images/Filters.svg";
 import Filters from "../../Assets/Images/Filters.svg";
 import Image from 'react-bootstrap/Image';
+import { useMediaQuery, useTheme } from '@mui/material'
 
 function Expenses({ allPageHostel_Id }) {
   const state = useSelector((state) => state);
@@ -476,8 +477,8 @@ function Expenses({ allPageHostel_Id }) {
       : [];
   const totalPages = Math.ceil(
     filteredData &&
-      filteredData.length > 0 &&
-      filteredData.length / itemsPerPage
+    filteredData.length > 0 &&
+    filteredData.length / itemsPerPage
   );
 
   const handleItemsPerPageChange = (event) => {
@@ -605,6 +606,10 @@ function Expenses({ allPageHostel_Id }) {
     setShowDropDown(false);
   };
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+
   return (
     <>
       {expencepermissionError ? (
@@ -643,8 +648,8 @@ function Expenses({ allPageHostel_Id }) {
           </div>
         </>
       ) : (
-        <div  style={{ width: "100%" }}>
-          <div className="container" style={{paddingTop:12}}>
+        <div style={{ width: "100%" }}>
+          <div className="container" style={{ paddingTop: 12 }}>
             <div
               className="d-flex justify-content-between align-items-center flex-wrap"
               style={{
@@ -657,7 +662,7 @@ function Expenses({ allPageHostel_Id }) {
               <div
                 // className="d-flex align-items-center flex-wrap"
                 className="col-12 col-md-auto d-flex flex-wrap align-items-center"
-                style={{ marginTop: 13,marginLeft:11 }}
+                style={{ marginTop: 13, marginLeft: 11 }}
               >
                 <label
                   style={{
@@ -670,14 +675,14 @@ function Expenses({ allPageHostel_Id }) {
                   Expenses
                 </label>
 
-                <RangePicker
+                <RangePicker className="range-picker"
                   key={pickerKey}
                   style={{
                     height: 40,
                     width: 250,
                     marginLeft: 7,
                     marginTop: 5,
-                    cursor:"pointer"
+                    cursor: "pointer"
                   }}
                   onChange={handleDateChange}
                   value={dates.length === 2 ? [dates[0], dates[1]] : null}
@@ -690,8 +695,8 @@ function Expenses({ allPageHostel_Id }) {
               <div className="col-12 col-md d-flex flex-wrap justify-content-md-end align-items-center">
 
                 {!showFilterExpense && (
-                  <div onClick={handleShowSearch} 
-                  style={{ paddingRight: 16 }}
+                  <div onClick={handleShowSearch}
+                    style={{ paddingRight: 16 }}
                   >
                     <SearchNormal1
                       color="#222"
@@ -706,163 +711,164 @@ function Expenses({ allPageHostel_Id }) {
                   </div>
                 )}
 
-                <div className='me-3' style={{ cursor: "pointer",marginTop:5}}>
-                       <Image
-                         src={Filters}
-                         style={{ height: "50px", width: "50px",}}
-                         onClick={handleFilterByPrice}
-                       />
-                     </div>
+                <div className='me-3' style={{ cursor: "pointer", marginTop: 5 }}>
+                  <Image
+                    src={Filters}
+                    style={{ height: "50px", width: "50px", }}
+                    onClick={handleFilterByPrice}
+                  />
+                </div>
                 {showFilter && (
-                    <div style={{ position: "relative" }}>
-                      <ListGroup
-                        ref={filterRef}
-                        style={{
-                          position: "absolute",
-                          top: 25,
-                          right: 0,
-                          fontFamily: "Gilroy",
-                          cursor: "pointer",
-                          background: "white",
-                          zIndex: 10,
-                        }}
+                  <div style={{ position: "relative" }}>
+                    <ListGroup className="filter-dropdown"
+                      ref={filterRef}
+                      style={{
+                        position: "absolute",
+                        top: 25,
+                        right: 0,
+                        fontFamily: "Gilroy",
+                        cursor: "pointer",
+                        background: "white",
+                        zIndex: 10,
+                      }}
+                    >
+                      <ListGroup.Item value="All" onClick={handleExpenseAll}>
+                        All
+                      </ListGroup.Item>
+
+                      {/* Category */}
+                      <ListGroup.Item
+                        active={showCategory}
+                        onMouseEnter={() => setShowCategory(true)}
+                        onMouseLeave={() => setShowCategory(false)}
                       >
-                        <ListGroup.Item value="All" onClick={handleExpenseAll}>
-                          All
-                        </ListGroup.Item>
+                        Category
+                        {showCategory && (
+                          <ListGroup
+                            // className="show-scroll-category"
+                            className="show-scroll-category submenu"
+                            style={{
+                              position: "absolute",
+                              right: 250,
+                              top: 0,
+                              borderRadius: "8px",
+                              maxHeight: "200px",
+                              overflowY: "auto",
+                              zIndex: 20,
+                            }}
+                            value={categoryValue}
+                            onClick={handleCatogoryChange}
+                          >
+                            {state.Settings.Expences.data &&
+                              state.Settings.Expences.data.map((view) => (
+                                <ListGroup.Item
+                                  className="sub_item"
+                                  key={view.category_Id}
+                                  value={view.category_Id}
+                                >
+                                  {view.category_Name}
+                                </ListGroup.Item>
+                              ))}
+                          </ListGroup>
+                        )}
+                      </ListGroup.Item>
 
-                        {/* Category */}
-                        <ListGroup.Item
-                          active={showCategory}
-                          onMouseEnter={() => setShowCategory(true)}
-                          onMouseLeave={() => setShowCategory(false)}
-                        >
-                          Category
-                          {showCategory && (
-                            <ListGroup
-                              className="show-scroll-category"
-                              style={{
-                                position: "absolute",
-                                right: 250,
-                                top: 0,
-                                borderRadius: "8px",
-                                maxHeight: "200px",
-                                overflowY: "auto",
-                                zIndex: 20,
-                              }}
-                              value={categoryValue}
-                              onClick={handleCatogoryChange}
+                      {/* Payment Mode */}
+                      <ListGroup.Item
+                        active={showPaymentMode}
+                        onMouseEnter={() => setShowPaymentMode(true)}
+                        onMouseLeave={() => setShowPaymentMode(false)}
+                      >
+                        Payment Mode
+                        {showPaymentMode && (
+                          <ListGroup
+                            className="show-scroll-category"
+                            style={{
+                              position: "absolute",
+                              right: 250,
+                              top: 0,
+                              borderRadius: "8px",
+                              maxHeight: "200px",
+                              overflowY: "auto",
+                              zIndex: 20,
+                            }}
+                            value={modeValue}
+                            onClick={handleModeValueChange}
+                          >
+                            <ListGroup.Item
+                              className="sub_item"
+                              value="UPI/BHIM"
                             >
-                              {state.Settings.Expences.data &&
-                                state.Settings.Expences.data.map((view) => (
-                                  <ListGroup.Item
-                                    className="sub_item"
-                                    key={view.category_Id}
-                                    value={view.category_Id}
-                                  >
-                                    {view.category_Name}
-                                  </ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                          )}
-                        </ListGroup.Item>
+                              UPI/BHIM
+                            </ListGroup.Item>
+                            <ListGroup.Item className="sub_item" value="CASH">
+                              CASH
+                            </ListGroup.Item>
+                            <ListGroup.Item
+                              className="sub_item"
+                              value="Net Banking"
+                            >
+                              Net Banking
+                            </ListGroup.Item>
+                          </ListGroup>
+                        )}
+                      </ListGroup.Item>
 
-                        {/* Payment Mode */}
-                        <ListGroup.Item
-                          active={showPaymentMode}
-                          onMouseEnter={() => setShowPaymentMode(true)}
-                          onMouseLeave={() => setShowPaymentMode(false)}
-                        >
-                          Payment Mode
-                          {showPaymentMode && (
-                            <ListGroup
-                              className="show-scroll-category"
-                              style={{
-                                position: "absolute",
-                                right: 250,
-                                top: 0,
-                                borderRadius: "8px",
-                                maxHeight: "200px",
-                                overflowY: "auto",
-                                zIndex: 20,
-                              }}
-                              value={modeValue}
-                              onClick={handleModeValueChange}
+                      {/* Amount */}
+                      <ListGroup.Item
+                        active={showAmount}
+                        onMouseEnter={() => setShowAmount(true)}
+                        onMouseLeave={() => setShowAmount(false)}
+                      >
+                        Amount
+                        {showAmount && (
+                          <ListGroup
+                            className="show-scroll-category"
+                            style={{
+                              position: "absolute",
+                              right: 250,
+                              top: 0,
+                              borderRadius: "8px",
+                              maxHeight: "200px",
+                              overflowY: "auto",
+                              zIndex: 20,
+                            }}
+                            value={amountValue}
+                            onClick={handleAmountValueChange}
+                          >
+                            <ListGroup.Item
+                              className="sub_item"
+                              value="0-1000"
                             >
-                              <ListGroup.Item
-                                className="sub_item"
-                                value="UPI/BHIM"
-                              >
-                                UPI/BHIM
-                              </ListGroup.Item>
-                              <ListGroup.Item className="sub_item" value="CASH">
-                                CASH
-                              </ListGroup.Item>
-                              <ListGroup.Item
-                                className="sub_item"
-                                value="Net Banking"
-                              >
-                                Net Banking
-                              </ListGroup.Item>
-                            </ListGroup>
-                          )}
-                        </ListGroup.Item>
-
-                        {/* Amount */}
-                        <ListGroup.Item
-                          active={showAmount}
-                          onMouseEnter={() => setShowAmount(true)}
-                          onMouseLeave={() => setShowAmount(false)}
-                        >
-                          Amount
-                          {showAmount && (
-                            <ListGroup
-                              className="show-scroll-category"
-                              style={{
-                                position: "absolute",
-                                right: 250,
-                                top: 0,
-                                borderRadius: "8px",
-                                maxHeight: "200px",
-                                overflowY: "auto",
-                                zIndex: 20,
-                              }}
-                              value={amountValue}
-                              onClick={handleAmountValueChange}
+                              0-1000
+                            </ListGroup.Item>
+                            <ListGroup.Item
+                              className="sub_item"
+                              value="1000-5000"
                             >
-                              <ListGroup.Item
-                                className="sub_item"
-                                value="0-1000"
-                              >
-                                0-1000
-                              </ListGroup.Item>
-                              <ListGroup.Item
-                                className="sub_item"
-                                value="1000-5000"
-                              >
-                                1000-5000
-                              </ListGroup.Item>
-                              <ListGroup.Item
-                                className="sub_item"
-                                value="5000-10000"
-                              >
-                                5000-10000
-                              </ListGroup.Item>
-                              <ListGroup.Item
-                                className="sub_item"
-                                value="10000"
-                              >
-                                10000 Above
-                              </ListGroup.Item>
-                            </ListGroup>
-                          )}
-                        </ListGroup.Item>
-                      </ListGroup>
-                    </div>
-                  )}
+                              1000-5000
+                            </ListGroup.Item>
+                            <ListGroup.Item
+                              className="sub_item"
+                              value="5000-10000"
+                            >
+                              5000-10000
+                            </ListGroup.Item>
+                            <ListGroup.Item
+                              className="sub_item"
+                              value="10000"
+                            >
+                              10000 Above
+                            </ListGroup.Item>
+                          </ListGroup>
+                        )}
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </div>
+                )}
 
                 {showFilterExpense && (
-                  <div className="me-3 " style={{ position: "relative" }}>
+                  <div className="me-3 " style={{ position: "relative", width: isSmallScreen && showFilterExpense ? '150px' : '240px' }}>
                     <InputGroup
                       style={{
                         display: "flex",
@@ -871,7 +877,9 @@ function Expenses({ allPageHostel_Id }) {
                         marginTop: 10,
                       }}
                     >
+
                       <FormControl
+                        className="search-input"
                         size="lg"
                         value={searchQuery}
                         onChange={handleInputChange}
@@ -948,11 +956,11 @@ function Expenses({ allPageHostel_Id }) {
                                     hoveredIndex === index
                                       ? "#1E45E1"
                                       : "transparent",
-                                      color:
+                                  color:
                                     hoveredIndex === index
                                       ? "white"
                                       : "black",
-                                      
+
                                 }}
                               >
                                 {user.category_Name}
@@ -977,11 +985,11 @@ function Expenses({ allPageHostel_Id }) {
                   />
                 </div>
 
-                <div className="me-2" style={{ marginTop: 7 ,paddingRight:4}}>
+                <div className="me-2" style={{ marginTop: 7, paddingRight: 4 }}>
                   <Button
                     disabled={expenceAddPermission}
                     onClick={handleShow}
-                    
+
                     style={{
                       fontFamily: "Gilroy",
                       fontSize: "14px",
@@ -989,9 +997,9 @@ function Expenses({ allPageHostel_Id }) {
                       color: "white",
                       fontWeight: 600,
                       borderRadius: "8px",
-                      width:146,
-                      height:45,
-                      textAlign:"center"
+                      width: 146,
+                      height: 45,
+                      textAlign: "center"
                     }}
                   >
                     {" "}
@@ -1124,7 +1132,7 @@ function Expenses({ allPageHostel_Id }) {
                     }}
                   >
                     <tr>
-                     
+
                       <th
                         style={{
                           textAlign: "start",
@@ -1228,7 +1236,7 @@ function Expenses({ allPageHostel_Id }) {
                       ></th>
                     </tr>
                   </thead>
-               
+
                   <tbody>
                     {loading ? (
                       <>

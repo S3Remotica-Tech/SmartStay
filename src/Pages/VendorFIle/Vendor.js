@@ -10,7 +10,7 @@ import Image from 'react-bootstrap/Image';
 import AddVendor from './AddVendor';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowLeft2, ArrowRight2,CloseCircle, SearchNormal1 } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2, CloseCircle, SearchNormal1 } from 'iconsax-react';
 import { MdError } from "react-icons/md";
 import { toast } from 'react-toastify';
 import "./vendor.css";
@@ -199,12 +199,12 @@ function Vendor() {
   const [show, setShow] = useState(false);
 
   const handleShow = () => {
-      if (!state.login.selectedHostel_Id) {
-          toast.error('Please add a hostel before adding vendor information.', {
-            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-          });
-          return;
-        }
+    if (!state.login.selectedHostel_Id) {
+      toast.error('Please add a hostel before adding vendor information.', {
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      });
+      return;
+    }
     setShow(true);
     setCurrentItem('')
 
@@ -381,10 +381,10 @@ function Vendor() {
     }
   }
 
- 
 
 
-  
+
+
 
 
 
@@ -409,8 +409,10 @@ function Vendor() {
       appearOnScro1l.observe(fader);
     })
   });
-const theme = useTheme();
+
+  const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <>
       {
@@ -450,7 +452,7 @@ const theme = useTheme();
               )}
             </div></>
         ) :
-          <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative",marginTop:22 }} className='container'>
+          <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative", marginTop: 22 }} className='container'>
 
 
             <div
@@ -488,7 +490,7 @@ const theme = useTheme();
                   {
                     !showFilterData &&
 
-                    <div onClick={handleShowSearch} style={{ paddingRight: 30,cursor:"pointer" }}>
+                    <div onClick={handleShowSearch} style={{ paddingRight: 30, cursor: "pointer" }}>
                       <SearchNormal1
                         size="26"
                         color="#222"
@@ -498,7 +500,7 @@ const theme = useTheme();
                   {
                     showFilterData &&
                     <div className=' me-3  flex flex-wrap'
-                      style={{ position: 'relative',marginTop:"-4px", width: isSmallScreen && showFilterData ? '150px' : '240px' }}
+                      style={{ position: 'relative', marginTop: "-4px", width: isSmallScreen && showFilterData ? '150px' : '240px' }}
                     >
 
                       <div className=''>
@@ -514,7 +516,7 @@ const theme = useTheme();
                             onChange={handleInputChange}
 
                             style={{
-                              width: 'auto', boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222", 
+                              width: 'auto', boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
                               //  '::placeholder': { color: "#222", fontWeight: 500 } 
                             }}
                             placeholder="Search..."
@@ -535,10 +537,10 @@ const theme = useTheme();
                               // top: '50px',
                               // left: 0,
                               width: 235,
-                              backgroundColor: '#fff',   
+                              backgroundColor: '#fff',
                               maxHeight: "174px",
                               minHeight: filteredData?.length > 1 ? "100px" : "auto",
-                              overflowY: filteredData?.length > 2 ? "auto" : "hidden",           
+                              overflowY: filteredData?.length > 2 ? "auto" : "hidden",
                               padding: '5px 10px',
                               margin: '0',
                               listStyleType: 'none',
@@ -554,7 +556,7 @@ const theme = useTheme();
 
                                     }}
                                     onMouseEnter={() => setHoveredIndex(index)}
-  onMouseLeave={() => setHoveredIndex(null)}
+                                    onMouseLeave={() => setHoveredIndex(null)}
                                     style={{
                                       padding: '10px',
                                       cursor: 'pointer',
@@ -598,19 +600,19 @@ const theme = useTheme();
                   </div> */}
 
                   <div >
-                    <Button disabled={vendorAddPermission} onClick={handleShow}  className="vendor-button"
+                    <Button disabled={vendorAddPermission} onClick={handleShow} className="vendor-button"
                       style={{
                         fontFamily: "Gilroy",
-    fontSize: "14px",
-    backgroundColor: "#1E45E1",
-    color: "white",
-    fontWeight: 600,
-    borderRadius: "8px",
-    padding: "12px",
-    marginBottom: "10px",
-    maxHeight: 45,
-    width: "146px",
-    whiteSpace: "nowrap"
+                        fontSize: "14px",
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        fontWeight: 600,
+                        borderRadius: "8px",
+                        padding: "12px",
+                        marginBottom: "10px",
+                        maxHeight: 45,
+                        width: "146px",
+                        whiteSpace: "nowrap"
                       }}
                     > + Vendor</Button>
                   </div>
@@ -634,35 +636,35 @@ const theme = useTheme();
             <div className='container'
             >
               {loading && (
-                  <div
+                <div
                   style={{
-                      position: 'fixed',
-             right: "40%",
-                      display: 'flex',
-                      height: "50vh",
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      opacity: 0.75,
-                      zIndex: 10,
+                    position: 'fixed',
+                    right: "40%",
+                    display: 'flex',
+                    height: "50vh",
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'transparent',
+                    opacity: 0.75,
+                    zIndex: 10,
                   }}
-              >
+                >
                   <div
-                      style={{
-                          borderTop: '4px solid #1E45E1',
-                          borderRight: '4px solid transparent',
-                          borderRadius: '50%',
-                          width: '40px',
-                          height: '40px',
-                          animation: 'spin 1s linear infinite',
-                      }}
+                    style={{
+                      borderTop: '4px solid #1E45E1',
+                      borderRight: '4px solid transparent',
+                      borderRadius: '50%',
+                      width: '40px',
+                      height: '40px',
+                      animation: 'spin 1s linear infinite',
+                    }}
                   ></div>
-              </div>
+                </div>
               )}
               <div style={{
                 maxHeight: "450px",
                 overflowY: "auto",
-                overflowX:"hidden",
+                overflowX: "hidden",
                 position: "relative"
 
               }}>
@@ -732,7 +734,7 @@ const theme = useTheme();
             {
               filteredData.length >= 5 &&
               <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-centers pagination-container'>
-             
+
                 <div>
                   <select className="selectoption"
                     value={itemsPerPage}
@@ -829,60 +831,61 @@ const theme = useTheme();
 
 
 
-            <Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor} 
-            centered backdrop="static" dialogClassName="custom-delete-modal">
+            <Modal show={showDeleteVendor} onHide={handleCloseForDeleteVendor}
+              centered backdrop="static" dialogClassName="custom-delete-modal">
               <Modal.Header style={{ borderBottom: "none" }}>
-                <Modal.Title 
-                className="w-100 text-center"
-                style={{ fontSize: "18px",fontFamily: "Gilroy", fontWeight: 600, color: "#222222", 
-                }}>Delete Vendor?</Modal.Title>
+                <Modal.Title
+                  className="w-100 text-center"
+                  style={{
+                    fontSize: "18px", fontFamily: "Gilroy", fontWeight: 600, color: "#222222",
+                  }}>Delete Vendor?</Modal.Title>
                 {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
               </Modal.Header>
 
-              <Modal.Body 
-              className="text-center"
-              style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop: "-10px",  }}>
+              <Modal.Body
+                className="text-center"
+                style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop: "-10px", }}>
                 Are you sure you want to delete this vendor?
               </Modal.Body>
 
 
-              <Modal.Footer 
-              className="d-flex justify-content-center"
-              style={{  borderTop: "none",  marginTop: "-10px" }}>
-                <Button 
-                className="me-2"
-                onClick={handleCloseForDeleteVendor} 
-                style={{
-                  width: "100%",
-                  maxWidth: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#fff",
-                  color: "#1E45E1",
-                  border: "1px solid #1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
+              <Modal.Footer
+                className="d-flex justify-content-center"
+                style={{ borderTop: "none", marginTop: "-10px" }}>
+                <Button
+                  className="me-2"
+                  onClick={handleCloseForDeleteVendor}
+                  style={{
+                    width: "100%",
+                    maxWidth: 160,
+                    height: 52,
+                    borderRadius: 8,
+                    padding: "12px 20px",
+                    background: "#fff",
+                    color: "#1E45E1",
+                    border: "1px solid #1E45E1",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                  }}
                 >
                   Cancel
                 </Button>
 
-                <Button 
-                
-                style={{
-                  width: "100%",
-                  maxWidth: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#1E45E1",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
+                <Button
+
+                  style={{
+                    width: "100%",
+                    maxWidth: 160,
+                    height: 52,
+                    borderRadius: 8,
+                    padding: "12px 20px",
+                    background: "#1E45E1",
+                    color: "#FFFFFF",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                  }}
                   onClick={ConfirmDeleteVendor}>
                   Delete
                 </Button>
