@@ -24,6 +24,7 @@ import { MdError } from "react-icons/md";
 import './SettingAll.css'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import {CloseCircle} from "iconsax-react";
+import './SettingGeneral.css';
 
 function SettingGeneral() {
   const state = useSelector((state) => state);
@@ -842,7 +843,8 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
         </div>
       </div>
 
-      <div className="container " style={{ position: "relative" ,  maxHeight: "470px",
+      <div className="container scroll-issue" style={{ position: "relative" ,  
+      // maxHeight: "470px",
                   overflowY: "auto",}}>
 
         {loading &&
@@ -885,7 +887,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
 
 
               <div
-                className="card p-3 settingGreneral mt-3"
+                className="card p-3 settingGreneral mt-3 "
                 style={{
                   borderRadius: 16,
                 

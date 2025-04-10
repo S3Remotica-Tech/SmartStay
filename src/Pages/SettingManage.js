@@ -28,6 +28,7 @@ import { MdError } from "react-icons/md";
 import "./Settings.css";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import PropTypes from "prop-types";
+import './SettingManage.css';
 
 
 
@@ -761,7 +762,6 @@ function SettingManage(props) {
                     <Button
                       onClick={handleShowAddPg}
                       disabled={addPermissionError}
-
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: "14px",
@@ -843,11 +843,13 @@ function SettingManage(props) {
                   )}
                 </div>
               )} */}
-              <div className="mt-2" style={{
+              <div className="scroll-issue" 
+              style={{
                 maxHeight: "400px",
                 overflowY: "auto",
                 overflowX: "hidden"
-              }}>
+              }}
+              >
                 <div className="row row-gap-3">
                   {currentItems?.length > 0 ?
                     currentItems.map((hostel) => {
