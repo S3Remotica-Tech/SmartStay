@@ -229,7 +229,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                       <span
                         style={{
                           color: "red",
-                          fontSize: "13px",
+                          fontSize: "12px",
                           fontFamily: "Gilroy",
                           fontWeight: 500,
                         }}
@@ -279,7 +279,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                       <span
                         style={{
                           color: "red",
-                          fontSize: "13px",
+                          fontSize: "12px",
                           fontFamily: "Gilroy",
                           fontWeight: 500,
                         }}

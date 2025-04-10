@@ -176,6 +176,7 @@ function UserListRoomDetail(props) {
   const handleChanges = (event, newValue) => {
     setValue(newValue);
     setFormShow(false);
+    setKycDetailForm(false)
   
   };
   // useEffect(() => {

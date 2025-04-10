@@ -14,7 +14,7 @@ import { ArrowLeft2, ArrowRight2,CloseCircle, SearchNormal1 } from 'iconsax-reac
 import { MdError } from "react-icons/md";
 import { toast } from 'react-toastify';
 import "./vendor.css";
-
+import { useMediaQuery, useTheme } from '@mui/material'
 
 function Vendor() {
 
@@ -409,8 +409,8 @@ function Vendor() {
       appearOnScro1l.observe(fader);
     })
   });
-
-
+const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
       {
@@ -498,7 +498,7 @@ function Vendor() {
                   {
                     showFilterData &&
                     <div className=' me-3  flex flex-wrap'
-                      style={{ position: 'relative',marginTop:"-4px" }}
+                      style={{ position: 'relative',marginTop:"-4px", width: isSmallScreen && showFilterData ? '150px' : '240px' }}
                     >
 
                       <div className=''>

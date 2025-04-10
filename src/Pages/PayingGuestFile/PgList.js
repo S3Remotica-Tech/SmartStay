@@ -1460,13 +1460,13 @@ useEffect(()=>{
                                         position: "absolute",
                                         right: 40,
                                         top: 10,
-                                        width: 120,
+                                        width: 100,
                                         height: "auto",
                                         border: "1px solid #EBEBEB",
                                         borderRadius: 10,
                                         display: "flex",
                                         justifyContent: "start",
-                                        padding: 15,
+                                        padding: 10,
                                         alignItems: "center",
                                       }}
                                     >

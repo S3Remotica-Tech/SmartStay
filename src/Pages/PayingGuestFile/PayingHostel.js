@@ -334,7 +334,7 @@ function PayingHostel(props) {
 
                             <div className='pb-1' style={{ lineHeight: 1 }} >
                                 <div className='pb-1'>
-                                    <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
+                                    <label style={{ color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Email ID </label>
                                 </div>
                                 <div >
                                     <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", textOverflow:"ellipsis", whiteSpace:"nowrap",  display: "block", overflow: "hidden", width:200}}>{props.filteredData[0]?.email_id && props.filteredData[0]?.email_id !== "undefined" ? props.filteredData[0]?.email_id : "N/A"}
@@ -345,7 +345,7 @@ function PayingHostel(props) {
 
                             <div className='pb-1' style={{ lineHeight: 1 }}>
                                 <div className=''>
-                                    <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</label>
+                                    <label style={{color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Floor</label>
                                 </div>
                                 <div className='text-center' >
                                     <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}> {props.filteredData[0] && props.filteredData[0].floorcount}
@@ -356,7 +356,7 @@ function PayingHostel(props) {
 
                             <div className='pb-1' style={{ lineHeight: 1 }}>
                                 <div className=''>
-                                    <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Contact Number</label>
+                                    <label style={{ color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>Contact Number</label>
                                 </div>
                                 <div>
                                     <label style={{ color: "#222222", fontSize: 16, fontWeight: 600, fontFamily: "Gilroy" }}>
@@ -372,7 +372,7 @@ function PayingHostel(props) {
 
                         <div className='mb-2' style={{ lineHeight: 1 }}>
                             <div className='mb-1' style={{}}>
-                                <label style={{ color: "#939393", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}> Address</label>
+                                <label style={{ color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}> Address</label>
 
                             </div>
 

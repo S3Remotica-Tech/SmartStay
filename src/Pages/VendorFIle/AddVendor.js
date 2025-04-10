@@ -399,19 +399,16 @@ const handleClose =()=>{
     }
 
     // Pin Code Validation - Only if it's been changed
-    if (pinCode !== initialState.pinCode) {
-      if (!pinCode) {
-        setPinCodeError("Please Enter Pincode");
-        isValid = false;
-      } else if (!/^\d+$/.test(pinCode)) {
-        setPinCodeError("Pin Code Must Be Numeric");
-        isValid = false;
-      } else if (pinCode.length !== 6) {
-        setPinCodeError("Pin Code Must Be Exactly 6 Digits");
-        isValid = false;
-      }
+    if (!pinCode) {
+      setPinCodeError("Please Enter Pincode");
+      isValid = false;
+    } else if (!/^\d+$/.test(pinCode)) {
+      setPinCodeError("Pin Code Must Be Numeric");
+      isValid = false;
+    } else if (pinCode.length !== 6) {
+      setPinCodeError("Pin Code Must Be Exactly 6 Digits");
+      isValid = false;
     }
-
     if (emailInvalid || mobileInvalid) {
       if (emailInvalid) {
         setEmailError("Enter Valid Email ID");
@@ -646,6 +643,10 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
         centered
         backdrop="static"
         className="custom-modal-width-vendor"
+        style={{
+          maxWidth: '90%', 
+          margin: 'auto',
+        }}
       >
         <Modal.Dialog className="m-0 p-0">
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>

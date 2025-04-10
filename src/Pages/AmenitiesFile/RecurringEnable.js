@@ -7,6 +7,7 @@ import {  CloseCircle} from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import Select from "react-select";
 import PropTypes from "prop-types";
+import { MdError } from "react-icons/md";
 // import { pointer } from '@testing-library/user-event/dist/cjs/pointer/index.js';
 
 function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
@@ -180,9 +181,22 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities Calculation Start Date Will Be
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                            {errorStartDate && (
-                            <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorStartDate}</div>
-                    )} 
+                       
+                      {errorStartDate && (
+                                        <div className="d-flex align-items-center">
+                                          <MdError style={{ color: "red", marginRight: "5px" }} />
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "12px",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {errorStartDate}
+                                          </span>
+                                        </div>
+                                      )}
                                 </Form.Group>
 
                             </div>
@@ -217,9 +231,22 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Amenities Calculation End Date Will Be
                                         <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
-                                        {errorEndDate && (
-                        <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorEndDate}</div>
-                    )}
+                       
+                     {errorEndDate && (
+                                        <div className="d-flex align-items-center">
+                                          <MdError style={{ color: "red", marginRight: "5px" }} />
+                                          <span
+                                            style={{
+                                              color: "red",
+                                              fontSize: "12px",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {errorEndDate}
+                                          </span>
+                                        </div>
+                                      )}
                                 </Form.Group>
 
                             </div>

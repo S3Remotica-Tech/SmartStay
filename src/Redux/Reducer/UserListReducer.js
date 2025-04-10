@@ -107,7 +107,8 @@ export const initialState = {
     statusCodeForhostelListNewDetails: 0,
     generateError: '',
     contactError: '',
-    checkoutcustomeEmpty: 0
+    checkoutcustomeEmpty: 0,
+    conformChekoutError:'',
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -250,7 +251,11 @@ const UserListReducer = (state = initialState, action) => {
         case 'CLEAR_EMAIL_ERROR':
             return { ...state, emailError: '' }
 
-
+            case 'ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
+                return { ...state, conformChekoutError: action.payload }
+    
+            case 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
+                return { ...state, conformChekoutError: '' }
 
         case 'DELETE_FLOOR_ERROR':
             return { ...state, deleteFloorError: action.payload }

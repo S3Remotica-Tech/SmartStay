@@ -6,6 +6,7 @@ import { Button, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
 import PropTypes from "prop-types";
 import {CloseCircle} from "iconsax-react";
+import { MdError } from "react-icons/md";
 function UserListKyc(props) {
 
   const dispatch = useDispatch()
@@ -24,24 +25,25 @@ function UserListKyc(props) {
   const handleValidate = () => {
     if (aadhaarNo) {
       if (validateAadharNumber(aadhaarNo)) {
-        dispatch({ type: 'KYCVALIDATE', payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID } })
-        setaadhaarErr('')
+        dispatch({
+          type: 'KYCVALIDATE',
+          payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID }
+        });
+        setaadhaarErr('');
       } else {
-        setaadhaarErr('Please Enter Valid Aadhar Number')
+        setaadhaarErr('Invalid Aadhaar Number');
       }
+    } else {
+      setaadhaarErr('Please Enter Aadhar Number');
     }
-    else {
-      setaadhaarErr('Please Enter Aadhar Number')
-    }
-  }
-  function validateAadharNumber(aadhar) {
-    if (typeof aadhar !== 'number') return false;
-    const aadharStr = aadhar.toString();
-    if (!/^\d{12}$/.test(aadharStr)) return false;
-    if (aadharStr.length !== 12) return false;
+  };
   
-    return true;
+  function validateAadharNumber(aadhar) {
+    const aadharStr = aadhar.toString(); // always convert to string
+    const regex = /^[2-9]{1}[0-9]{11}$/; // Aadhaar must start with 2-9 and be 12 digits
+    return regex.test(aadharStr);
   }
+  
   
   const handleAadharNumber = (e) => {
     const value = e.target.value;
@@ -204,7 +206,24 @@ function UserListKyc(props) {
                         onChange={(e) =>{handleAadharNumber(e)}}
                       />
                     </Form.Group>
-                    {aadhaarErr && <p style={{ color: 'red' }}>{aadhaarErr}</p>}
+                    {/* {aadhaarErr && <p style={{ color: 'red',fontSize:12,fontFamily:"Gilroy",fontWeight:500 }}>{aadhaarErr}</p>} */}
+                     {aadhaarErr && (
+                                <div className="d-flex align-items-center p-1 mt-6">
+                                  <MdError style={{ color: "red", marginRight: "5px", }} />
+                                  <label
+                                    className="mb-0"
+                                    style={{
+                                      color: "red",
+                                      fontSize: "12px",
+                                      fontFamily: "Gilroy",
+                                      fontWeight: 500,
+                                     
+                                    }}
+                                  >
+                                    {aadhaarErr}
+                                  </label>
+                                </div>
+                              )}
                   </div>
 
 

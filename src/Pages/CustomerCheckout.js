@@ -9,6 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import {CloseCircle} from "iconsax-react";
 
 function CustomerCheckout(props){
 
@@ -129,7 +130,7 @@ function CustomerCheckout(props){
                   <div className="row mb-3"></div>
 
                   <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
+                    style={{ marginBottom: "30px", position: "relative",paddingRight:1,paddingLeft:1 }}
                   >
                     <div
                       style={{
@@ -140,37 +141,8 @@ function CustomerCheckout(props){
                     >
                       Add Check-Out
                     </div>
-                    <button
-                      type="button"
-                      className="close"
-                      aria-label="Close"
-                      onClick={handleCloseCheckout}
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "16px",
-                        border: "1px solid black",
-                        background: "transparent",
-                        cursor: "pointer",
-                        padding: "0",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "50%",
-                      }}
-                    >
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          fontSize: "30px",
-                          paddingBottom: "6px",
-                        }}
-                      >
-                        &times;
-                      </span>
-                    </button>
+                    <CloseCircle size="24" color="#000" onClick={handleCloseCheckout} 
+            style={{ cursor: 'pointer' }}/>
                   </Modal.Header>
 
 
