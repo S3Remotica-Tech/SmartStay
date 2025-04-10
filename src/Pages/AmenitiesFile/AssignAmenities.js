@@ -149,30 +149,46 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
         display: 'block',
       }}
     >
-      <Modal show={show} onHide={handleClose} centered backdrop="static" className="custom-modal-width-Amenities" style={{border:"none"}}>
-        <Modal.Dialog style={{
-          maxWidth: 1000,
-          width: '100%',
-          position:"fixed",
-          top:100
+      <Modal show={show} onHide={handleClose} 
+      centered backdrop="static" 
+       dialogClassName="responsive-modal-fix"
+      // className="custom-modal-width-Amenities" 
+      style={{border:"none"}}>
+         <Modal.Dialog className="m-0 p-0" 
+        // style={{
+        //   maxWidth: 1000,
+        //   width: '100%',
+        //   position:"fixed",
+        //   top:100
 
-        }} className='m-0 p-0'>
-          <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
-            <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Assign Amenities</Modal.Title>
-            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
+        // }} 
+         > 
+        
+          <Modal.Header 
+          style={{ border: "1px solid #E7E7E7" }}>
+            <Modal.Title style={{ fontSize: 18, 
+            color: "#222222", 
+              fontFamily: "Gilroy", fontWeight: 600 }}>
+              Assign Amenities</Modal.Title>
+            <CloseCircle size="24" color="#000" 
+            onClick={handleClose} style={{cursor:"pointer"}} />
           </Modal.Header>
           <Modal.Body style={{border:"none"}}>
             {errorAssign && (
               <div className="d-flex align-items-center mt-1 mb-2">
                 <MdError style={{ color: 'red', marginRight: '5px' }} />
-                <span style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{errorAssign}</span>
+                <span style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', 
+                  fontWeight: 500 }}>
+                    {errorAssign}</span>
               </div>
             )}
 
             {errorUnAssign && (
               <div className="d-flex align-items-center mt-1 mb-2">
                 <MdError style={{ color: 'red', marginRight: '5px' }} />
-                <span style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{errorUnAssign}</span>
+                <span style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', 
+                  fontWeight: 500 }}>
+                  {errorUnAssign}</span>
               </div>
             )}
 

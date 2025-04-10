@@ -589,13 +589,13 @@ function UserAdditionalContact(props) {
                   </div>
                 </div>
                   {formError && (
-                          <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-25px"}}>
+                          <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
                             <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
                             <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
                           </div>
                         )}
                         {guardianAlreadyError && (
-                          <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-25px"}}>
+                          <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
                             <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
                             <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{guardianAlreadyError}</span>
                           </div>

@@ -1151,34 +1151,7 @@ const Compliance = () => {
 
                           <Modal.Header style={{ marginBottom: "30px", position: "relative",marginTop:"-15px" }}>
                             <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
-                            {/* <button
-                              type="button"
-                              className="close"
-                              aria-label="Close"
-                              onClick={handleClose}
-                              style={{
-                                position: 'absolute',
-                                right: '10px',
-                                top: '16px',
-                                border: '1px solid black',
-                                background: 'transparent',
-                                cursor: 'pointer',
-                                padding: '0',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: '25px',
-                                height: '25px',
-                                borderRadius: '50%',
-
-                              }}
-                            >
-                              <span aria-hidden="true" style={{
-                                fontSize: '30px',
-                                paddingBottom: "6px"
-
-                              }}>&times;</span>
-                            </button> */}
+                           
                               <CloseCircle size="24" color="#000" onClick={handleClose} 
                                         style={{ cursor: 'pointer'}}/>
 
@@ -1194,35 +1167,7 @@ const Compliance = () => {
                               <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
                                 Customer <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
-                              {/* <Form.Select className='border'
-                                value={selectedUsername}
-                                onChange={handleCheckoutChange}
-                                disabled={edit}
-                                style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8,backgroundColor: edit ? "#E7F1FF" : "#fff",}}
-                              >
-                                <option value="">Select a customer</option>
-
-                                {state.UsersList?.Users && state.UsersList?.Users.length > 0 && state.UsersList?.Users?.filter(u =>
-                                  u.Bed !== 'undefined' &&
-                                  u.Bed !== '0' &&
-                                  typeof u.Bed === 'string' &&
-                                  u.Bed.trim() !== '' &&
-                                  u.Rooms !== 'undefined' &&
-                                  u.Rooms !== '0' &&
-                                  typeof u.Rooms === 'string' &&
-                                  u.Rooms.trim() !== '')
-                                  .map(u => (
-                                    <option key={u.ID}  value={u.Name}>{u.Name}</option>
-                                  ))
-                                }
-
-
-
-
-
-
-
-                              </Form.Select> */}
+                            
                      
   <Select
     options={
@@ -1255,6 +1200,11 @@ const Compliance = () => {
     menuPlacement="auto"
     isDisabled={edit}
     noOptionsMessage={() => "No customers available"}
+    components={
+      edit
+        ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
+        : undefined
+    }
     styles={{
       control: (base) => ({
         ...base,
@@ -1288,10 +1238,19 @@ const Compliance = () => {
       dropdownIndicator: (base) => ({
         ...base,
         color: "#555",
+        opacity: 1,
+        cursor: edit ? "not-allowed" : "pointer",
+      }),
+      option: (base, state) => ({
+        ...base,
+        cursor: edit ? "not-allowed" : "pointer",
+        backgroundColor: state.isFocused ? "lightblue" : "white", 
+        color: "#000",
       }),
       indicatorSeparator: () => ({
         display: "none",
       }),
+     
     }}
   />
 
@@ -1399,6 +1358,11 @@ const Compliance = () => {
     classNamePrefix="custom"
     menuPlacement="auto"
     isDisabled={edit}
+    components={
+      edit
+        ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
+        : undefined
+    }
     noOptionsMessage={() => "No complaint types available"}
     styles={{
       control: (base) => ({
@@ -1411,6 +1375,7 @@ const Compliance = () => {
         fontFamily: "Gilroy",
         fontWeight: 500,
         boxShadow: "none",
+        backgroundColor: edit ? "#E7F1FF" : "#fff",
       }),
       menu: (base) => ({
         ...base,

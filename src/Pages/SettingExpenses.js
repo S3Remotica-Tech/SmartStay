@@ -1032,16 +1032,22 @@ function SettingExpenses({ hostelid }) {
                            
                             menuList: (provided) => ({
                               ...provided,
-                              maxHeight: '100px', // Forces height limit
-      minHeight: '80px', // Ensures dropdown doesn't collapse
-      overflowY: 'scroll', // Forces scrollbar even with few options
-      scrollbarWidth: 'thin', // Thin scrollbar (for better UI)
-      scrollbarColor: '#888 #f0f0f0', // Custom scrollbar colors
+                              maxHeight: '100px', 
+      minHeight: '80px', 
+      overflowY: 'scroll', 
+      scrollbarWidth: 'thin', 
+      scrollbarColor: '#888 #f0f0f0', 
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              opacity: 1,
+                              cursor: edit ? "not-allowed" : "pointer",
                             }),
                             option: (provided, state) => ({
                               ...provided,
                               padding: '6px 10px',
-                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              backgroundColor: state.isFocused ? "lightblue" : "white",
                               color: "#222",
                               cursor: "pointer",
                             }),

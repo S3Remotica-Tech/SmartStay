@@ -894,6 +894,7 @@ const SettingElectricity = ({ hostelid }) => {
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
               marginTop:'-10px',
+              width: "100%"
             }}
             onClick={handleAddElectricity}
           >

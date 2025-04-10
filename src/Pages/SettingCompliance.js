@@ -11,6 +11,7 @@ import { MdError } from "react-icons/md";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PropTypes from "prop-types";
+import {CloseCircle} from "iconsax-react";
 
 function SettingCompliance({ hostelid }) {
 
@@ -695,37 +696,9 @@ function SettingCompliance({ hostelid }) {
                     >
                         Edit Complaint Type
                     </div>
-                    <button
-                        type="button"
-                        className="close"
-                        aria-label="Close"
-                        onClick={handleClose}
-                        style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "16px",
-                            border: "1px solid black",
-                            background: "transparent",
-                            cursor: "pointer",
-                            padding: "0",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "32px",
-                            height: "32px",
-                            borderRadius: "50%",
-                        }}
-                    >
-                        <span
-                            aria-hidden="true"
-                            style={{
-                                fontSize: "30px",
-                                paddingBottom:6,
-                            }}
-                        >
-                            &times;
-                        </span>
-                    </button>
+                    <CloseCircle size="24" color="#000" onClick={handleClose} 
+            style={{ cursor: 'pointer' }}/>
+			
                 </Modal.Header>
                 <Modal.Body>
                     <div className="col">
@@ -784,6 +757,7 @@ function SettingCompliance({ hostelid }) {
                             fontSize: 16,
                             fontFamily: "Montserrat, sans-serif",
                             marginTop: 8,
+                            width: "100%"
                         }}
                         onClick={handleEditType}
                     >
@@ -808,37 +782,8 @@ function SettingCompliance({ hostelid }) {
                     >
                         Add Complaint Type
                     </div>
-                    <button
-                        type="button"
-                        className="close"
-                        aria-label="Close"
-                        onClick={handleClose}
-                        style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "16px",
-                            border: "1px solid black",
-                            background: "transparent",
-                            cursor: "pointer",
-                            padding: "0",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "32px",
-                            height: "32px",
-                            borderRadius: "50%",
-                        }}
-                    >
-                        <span
-                            aria-hidden="true"
-                            style={{
-                                fontSize: "30px",
-                                paddingBottom: "6px",
-                            }}
-                        >
-                            &times;
-                        </span>
-                    </button>
+                    <CloseCircle size="24" color="#000" onClick={handleClose} 
+            style={{ cursor: 'pointer' }}/>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="col">
@@ -901,6 +846,7 @@ function SettingCompliance({ hostelid }) {
                             padding: "12px 16px 12px 16px",
                             fontFamily: "Montserrat, sans-serif",
                             marginBottom: 15,
+                            width: "100%"
 
                         }}
                         onClick={handleAddComplaintType}

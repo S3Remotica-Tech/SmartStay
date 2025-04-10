@@ -1287,19 +1287,19 @@ function SettingManage(props) {
                                         position: "absolute",
                                         right: 40,
                                         top: 20,
-                                        width: 140,
+                                        width: 100,
                                         height: "auto",
                                         border: "1px solid #EBEBEB",
                                         borderRadius: 10,
                                         display: "flex",
                                         justifyContent: "start",
-                                        padding: '6px',
+                                        padding: '10px',
                                         alignItems: "center",
                                       }}
                                     >
                                       <div>
                                         <div
-                                          className="d-flex gap-2 mb-2 align-items-center"
+                                          className="d-flex gap-1 align-items-center"
                                           // onClick={() => {
                                           //   if (editPermissionError) {
                                           //     handleEditFloor(floorClick, showHostelDetails.id, floorName);
@@ -1334,7 +1334,7 @@ function SettingManage(props) {
 
 
                                         <div
-                                          className="d-flex gap-2 mb-2 align-items-center"
+                                          className="d-flex gap-1 align-items-center"
                                           onClick={() => {
                                             if (!deletePermissionError) {
                                               handleShowDelete(floorClick, showHostelDetails.id, floorName);
