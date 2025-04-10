@@ -341,7 +341,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                         )} */}
             {generalError && (
               <div className="d-flex align-items-center p-1 mb-2">
-                <MdError style={{ color: "red", marginRight: "5px" }} />
+                <MdError style={{ color: "red", marginRight: "5px",fontSize:14 }} />
                 <label
                   className="mb-0"
                   style={{
@@ -478,7 +478,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                       style={{
                         color: "red",
                         marginRight: "5px",
-                        fontSize: "13px",
+                        fontSize: "14px",
                       }}
                     />
                     <label
@@ -609,7 +609,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                       style={{
                         color: "red",
                         marginRight: "5px",
-                        fontSize: "13px",
+                        fontSize: "14px",
                       }}
                     />
                     <label
@@ -684,7 +684,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                       style={{
                         color: "red",
                         marginRight: "5px",
-                        fontSize: "13px",
+                        fontSize: "14px",
                       }}
                     />
                     <label
@@ -709,7 +709,7 @@ function StaticExample({ show, handleClose, currentItem }) {
               className="d-flex align-items-center p-1 mb-2 mt-2"
               style={{ width: "100%", marginLeft: 170, textAlign: "center" }}
             >
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <MdError style={{ color: "red", marginRight: "5px",fontSize:14 }} />
               <label
                 className="mb-0"
                 style={{
@@ -737,7 +737,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 padding: 12,
               }}
             >
-              {currentItem.hostel_id ? "Save Changes" : "Assign asset"}
+              {currentItem.hostel_id ? "Save Changes" : "Assign Asset"}
             </Button>
           </Modal.Footer>
         </Modal.Dialog>

@@ -333,14 +333,23 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                 </label>
               </div>
             )}
-            {isChangedError && (
-                <div className="d-flex align-items-center justify-content-center"
-                  style={{ color: "red", fontSize: "14px", marginTop: "8px" }}
+             {isChangedError && (
+              <div className="d-flex justify-content-center align-items-center gap-2 ">
+                <MdError style={{ color: "red" }} />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    textAlign: "center"
+                  }}
                 >
-                  <MdError style={{ marginRight: "5px" }} />
                   {isChangedError}
-                </div>
-              )}
+                </label>
+              </div>
+            )}
 
             <Modal.Footer style={{ border: "none" }}>
               <Button

@@ -118,7 +118,7 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
   const handleAssignUser = () => {
 
     if (!assignedCheckedUsers || assignedCheckedUsers.length === 0) {
-      setErrorAssign("Please select at least one user before assigning amenities.");
+      setErrorAssign("Please Select at Least One User Before Assigning Amenities");
       return;
     }
 
@@ -131,7 +131,7 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
   const handleUnAssignUser = () => {
 
     if (!unAssignedCheckedUsers || unAssignedCheckedUsers.length === 0) {
-      setUnErrorAssign("Please select at least one user before Unassigning amenities.");
+      setUnErrorAssign("Please Select at Least One User Before Unassigning Amenities");
       return;
     }
 

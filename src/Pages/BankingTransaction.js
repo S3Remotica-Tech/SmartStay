@@ -383,11 +383,11 @@ function BankingEditTransaction(props) {
 
               {accountError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                   <span
                     style={{
                       color: "red",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -433,7 +433,7 @@ function BankingEditTransaction(props) {
                   <span
                     style={{
                       color: "red",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -477,10 +477,10 @@ function BankingEditTransaction(props) {
               </Form.Group>
               {amountError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                   <span
                     style={{
-                      fontSize: 13,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -535,10 +535,10 @@ function BankingEditTransaction(props) {
               </Form.Select>
               {transError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                   <span
                     style={{
-                      fontSize: 13,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -582,10 +582,10 @@ function BankingEditTransaction(props) {
               </Form.Group>
               {describtionError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                   <span
                     style={{
-                      fontSize: 13,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -607,7 +607,7 @@ function BankingEditTransaction(props) {
             <span
               style={{
                 color: "red",
-                fontSize: 13,
+                fontSize: 12,
                 fontFamily: "Gilroy",
                 fontWeight: 500,
               }}

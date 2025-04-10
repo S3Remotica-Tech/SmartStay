@@ -754,14 +754,16 @@ function SettingInvoice({ hostelid }) {
                         <div>
                           <p
                             style={{
-                              fontSize: "13px",
+                              fontSize: "12px",
                               color: "red",
+                              fontFamily:"Gilroy",
+                              fontWeight:500
                               
                             }}
                           >
                             {prefixerrormsg !== " " && (
                               <MdError
-                                style={{ fontSize: "13px", color: "red", marginBottom: "3px" }}
+                                style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
                               />
                             )}{" "}
                             {prefixerrormsg}
@@ -805,14 +807,16 @@ function SettingInvoice({ hostelid }) {
                           <div>
                             <p
                               style={{
-                                fontSize: "13px",
+                                fontSize: "12px",
                                 color: "red",
                                 marginTop: "3px",
+                                fontFamily:"Gilroy",
+                                fontWeight:500
                               }}
                             >
                               {suffixerrormsg !== " " && (
                                 <MdError
-                                  style={{ fontSize: "13px", color: "red", marginBottom: "3px" }}
+                                  style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
                                 />
                               )}{" "}
                               {suffixerrormsg}
@@ -925,12 +929,12 @@ function SettingInvoice({ hostelid }) {
                     </div>
                     {invoicedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                         <label
                           className="mb-0"
                           style={{
                             color: "red",
-                            fontSize: "13px",
+                            fontSize: "12px",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
                           }}
@@ -1013,12 +1017,12 @@ function SettingInvoice({ hostelid }) {
 
 {duedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                         <label
                           className="mb-0"
                           style={{
                             color: "red",
-                            fontSize: "13px",
+                            fontSize: "12px",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
                           }}
@@ -1038,13 +1042,15 @@ function SettingInvoice({ hostelid }) {
                     <div className="text-center">
                       <p
                         style={{
-                          fontSize: "15px",
+                          fontSize: "12px",
                           color: "red",
                           marginTop: "13px",
+                          fontFamily:"Gilroy",
+                          fontWeight:500
                         }}
                       >
                         {totalErrormsg !== " " && (
-                          <MdError style={{ fontSize: "12px", color: "red",marginBottom:"2px" }} />
+                          <MdError style={{ fontSize: "14px", color: "red",marginBottom:"2px" }} />
                         )}{" "}
                         {totalErrormsg}
                       </p>
@@ -1222,10 +1228,10 @@ function SettingInvoice({ hostelid }) {
                     </div>
                     {calculatedstartdateerrmsg.trim() !== "" && (
                       <div>
-                        <p style={{ fontSize: "13px", color: "red", marginTop: "-9px", fontFamily:"Gilroy" }}
+                        <p style={{ fontSize: "12px", color: "red", marginTop: "-9px", fontFamily:"Gilroy",fontWeight:500 }}
                         >
                           {calculatedstartdateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
+                            <MdError style={{ fontSize: "14px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
                           )}{" "}
                           {calculatedstartdateerrmsg}
                         </p>
@@ -1298,10 +1304,10 @@ function SettingInvoice({ hostelid }) {
                     </div>
                     {calculatedenddateerrmsg.trim() !== "" && (
                       <div>
-                        <p style={{ fontSize: "13px", color: "red", marginTop: "-9px" , fontFamily:"Gilroy"}}
+                        <p style={{ fontSize: "12px", color: "red", marginTop: "-9px" , fontFamily:"Gilroy",fontWeight:500}}
                         >
                           {calculatedenddateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
+                            <MdError style={{ fontSize: "14px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
                           )}{" "}
                           {calculatedenddateerrmsg}
                         </p>

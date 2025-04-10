@@ -1064,8 +1064,8 @@ function SettingExpenses({ hostelid }) {
 
                         {cateogoryerrmsg.trim() !== "" && (
                           <div>
-                            <p style={{ fontSize: '15px', color: 'red', marginTop: '5px', fontFamily: "Gilroy" }}>
-                              {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red', marginBottom: "3px" }} />} {cateogoryerrmsg}
+                            <p style={{ fontSize: '12px', color: 'red', marginTop: '5px', fontFamily: "Gilroy" }}>
+                              {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: "3px" }} />} {cateogoryerrmsg}
                             </p>
                           </div>
                         )}
@@ -1102,8 +1102,8 @@ function SettingExpenses({ hostelid }) {
 
                         {subcateogoryerrmsg.trim() !== "" && (
                           <div>
-                            <p style={{ fontSize: '15px', color: 'red', marginTop: '3px', fontFamily: "Gilroy" }}>
-                              {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {subcateogoryerrmsg}
+                            <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy" }}>
+                              {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {subcateogoryerrmsg}
                             </p>
                           </div>
                         )}
@@ -1117,7 +1117,7 @@ function SettingExpenses({ hostelid }) {
 
                   {totalErrormsg.trim() !== "" && (
                     <div>
-                      <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
+                      <p style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy",fontWeight:500 }}>
                         {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
                       </p>
                     </div>
@@ -1125,8 +1125,8 @@ function SettingExpenses({ hostelid }) {
 
                   {state.Settings?.alreadycategoryerror && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      <MdError style={{ color: "red", marginRight: '5px',fontSize:14 }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                         {state.Settings?.alreadycategoryerror}
                       </label>
                     </div>
@@ -1134,8 +1134,8 @@ function SettingExpenses({ hostelid }) {
 
 {formError && (
                     <div className="" style={{textAlign:"center"}}>
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px", }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                         {formError}
                       </label>
                     </div>
@@ -1145,8 +1145,8 @@ function SettingExpenses({ hostelid }) {
 
 {formCategoryError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px", }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                         {formCategoryError}
                       </label>
                     </div>

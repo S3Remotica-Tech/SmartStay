@@ -303,7 +303,7 @@ function BankingAddForm(props) {
               {accountNameError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{fontSize:"14",marginRight:"5px"}}/>
-                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
                 </div>
               )}
             </div>
@@ -342,7 +342,7 @@ function BankingAddForm(props) {
               {accountNumberError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{fontSize:"14",marginRight:"5px"}}/>
-                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
                 </div>
               )}
             </div>
@@ -380,7 +380,7 @@ function BankingAddForm(props) {
               {bankNameError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{fontSize:"14",marginRight:"5px"}}/>
-                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
                 </div>
               )}
             </div>
@@ -419,7 +419,7 @@ function BankingAddForm(props) {
               {ifcsCodeError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{fontSize:"14",marginRight:"5px"}}/>
-                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{ifcsCodeError}</span>
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{ifcsCodeError}</span>
                 </div>
               )}
             </div>
@@ -460,7 +460,7 @@ function BankingAddForm(props) {
         </Modal.Body>
         {error && (
           <div className=" " style={{ color: "red",textAlign:"center" ,paddingBottom:"8px"}}>
-            <MdError  style={{fontSize:"13px",marginRight:"5px"}}/>
+            <MdError  style={{fontSize:"14px",marginRight:"5px"}}/>
             <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
           </div>
         )}

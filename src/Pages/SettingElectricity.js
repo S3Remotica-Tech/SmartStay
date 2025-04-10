@@ -849,13 +849,15 @@ const SettingElectricity = ({ hostelid }) => {
                 <p 
                   style={{
                     color: "red",
-                    fontSize: 14,
+                    fontSize: 12,
                   textAlign:"start",
                     margin: 0,
+                    fontFamily:"Gilroy",
+                    fontWeight:500
                   }}
                 >
                   <span style={{ fontSize: "20px" }}>
-                    <MdError style={{ fontSize: "15px" }} />
+                    <MdError style={{ fontSize: "14px" }} />
                   </span>
                   {amountErr}
                 </p>
@@ -866,13 +868,15 @@ const SettingElectricity = ({ hostelid }) => {
                 <p 
                   style={{
                     color: "red",
-                    fontSize: 14,
+                    fontSize: 12,
                   textAlign:"center",
                     margin: 0,
+                    fontFamily:"Gilroy",
+                    fontWeight:500
                   }}
                 >
                   <span style={{ fontSize: "20px" }}>
-                    <MdError style={{ fontSize: "15px" }} />
+                    <MdError style={{ fontSize: "14px" }} />
                   </span>
                   {totalErr}
                 </p>

@@ -531,7 +531,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   <p
                     style={{
                       color: "red",
-                      fontSize: 14,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                       display: "flex",
@@ -574,7 +574,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                 </Form.Group>
 
                 {emailError && (
-                  <p style={{ color: "red", fontSize: 14, fontFamily: "Gilroy", display: "flex", alignItems: "center", margin: 0 }}>
+                  <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", display: "flex", alignItems: "center", margin: 0 }}>
                     <span style={{ fontSize: "14px", marginRight: "5px" }}>
                       <MdError style={{ marginBottom: "3px" }} />
                     </span>
@@ -584,7 +584,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
                 {state.Settings.emailIdError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                    <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px" }} />
                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                       {state.Settings.emailIdError}
                     </label>
@@ -668,7 +668,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   <p
                     style={{
                       color: "red",
-                      fontSize: 14,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                       display: "flex",
@@ -689,7 +689,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   <p
                     style={{
                       color: "red",
-                      fontSize: 14,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                       display: "flex",
@@ -697,7 +697,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       margin: 0,
                     }}
                   >
-                    <span style={{ fontSize: "15px", marginRight: "5px" }}>
+                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
                       <MdError style={{ marginBottom: "4px" }} />
                     </span>
                     {countryCodeError}
@@ -780,7 +780,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                     <p
                       style={{
                         color: "red",
-                        fontSize: 14,
+                        fontSize: 12,
                         fontFamily: "Gilroy",
                         fontWeight: 500,
                         display: "flex",
@@ -898,7 +898,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   <p
                     style={{
                       color: "red",
-                      fontSize: 14,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                       display: "flex",
@@ -906,7 +906,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       margin: 0,
                     }}
                   >
-                    <span style={{ fontSize: "15px", marginRight: "5px" }}>
+                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
                       <MdError style={{ marginBottom: "4px" }} />
                     </span>
                     {roleError}
@@ -928,7 +928,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
               {/* {error && <p style={{ fontSize: 12, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>{error}</p>} */}
               {error && (
                 <div className="d-flex align-items-center justify-content-center"
-                  style={{ color: "red", fontSize: "14px", marginTop: "16px" }}
+                  style={{ color: "red", fontSize: "12px", marginTop: "16px",fontFamily:"Gilroy",fontWeight:500 }}
                 >
                   <MdError style={{ marginRight: "5px" }} />
                   {error}

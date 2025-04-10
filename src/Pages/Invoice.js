@@ -3102,7 +3102,7 @@ useEffect(() => {
                             fontSize:12
                           }}
                         >
-                          <MdError size={20} />
+                          <MdError style={{fontSize:14}} />
                           <span>{billpermissionError}</span>
                         </div>
                       )}
@@ -3386,7 +3386,7 @@ useEffect(() => {
                                           {amounterrormsg !== " " && (
                                             <MdError
                                               style={{
-                                                fontSize: "15px",
+                                                fontSize: "14px",
                                                 color: "red",
                                                 marginBottom: "3px",
                                               }}
@@ -3522,7 +3522,7 @@ useEffect(() => {
                                         {dateerrmsg !== "" && (
                                           <MdError
                                             style={{
-                                              fontSize: "15px",
+                                              fontSize: "14px",
                                               color: "red",
                                               marginBottom: "2px",
                                             }}
@@ -3643,7 +3643,7 @@ useEffect(() => {
                                           {paymodeerrormsg !== " " && (
                                             <MdError
                                               style={{
-                                                fontSize: "15px",
+                                                fontSize: "14px",
                                                 color: "red",
                                                 marginBottom: "3px",
                                               }}
@@ -3760,7 +3760,7 @@ useEffect(() => {
                                           {accountError !== " " && (
                                             <MdError
                                               style={{
-                                                fontSize: "15px",
+                                                fontSize: "14px",
                                                 color: "red",
                                               }}
                                             />
@@ -3787,7 +3787,7 @@ useEffect(() => {
                                     {totalErrormsg !== " " && (
                                       <MdError
                                         style={{
-                                          fontSize: "12px",
+                                          fontSize: "14px",
                                           color: "red",
                                           
                                         }}
@@ -4478,7 +4478,7 @@ useEffect(() => {
                           fontWeight: 500,
                         }}
                       >
-                        <MdError size={20} />
+                      <MdError style={{fontSize:14}} />
                         <span>{recurringPermission}</span>
                       </div>
                     )}
@@ -4901,7 +4901,7 @@ useEffect(() => {
                           fontWeight: 500,
                         }}
                       >
-                        <MdError size={20} />
+                        <MdError style={{fontSize:14}} />
                         <span>{receiptPermission}</span>
                       </div>
                     )}
@@ -5951,7 +5951,7 @@ useEffect(() => {
                     {customererrmsg !== " " && (
                       <MdError
                         style={{
-                          fontSize: "12px",
+                          fontSize: "14px",
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "3px",
@@ -6004,7 +6004,7 @@ useEffect(() => {
                     {invoicenumbererrmsg !== " " && (
                       <MdError
                         style={{
-                          fontSize: "12px",
+                          fontSize: "14px",
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "2px",
@@ -6068,7 +6068,7 @@ useEffect(() => {
                         fontWeight: 500, }}>
             <MdError
               style={{
-                fontSize: "12px",
+                fontSize: "14px",
                 color: "red",
                 marginRight: "3px",
                 marginBottom: "3px",
@@ -6114,7 +6114,7 @@ useEffect(() => {
                         fontWeight: 500, }}>
             <MdError
               style={{
-                fontSize: "12px",
+                fontSize: "14px",
                 color: "red",
                 marginRight: "3px",
                 marginBottom: "3px",
@@ -6182,7 +6182,7 @@ useEffect(() => {
                     {invoicedateerrmsg !== " " && (
                       <MdError
                         style={{
-                          fontSize: "12px",
+                          fontSize: "14px",
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "3px",
@@ -6226,7 +6226,7 @@ useEffect(() => {
                     {invoiceduedateerrmsg !== " " && (
                       <MdError
                         style={{
-                          fontSize: "12px",
+                          fontSize: "14px",
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "3px",
@@ -6412,7 +6412,7 @@ useEffect(() => {
                   {tableErrmsg !== " " && (
                     <MdError
                       style={{
-                        fontSize: "15px",
+                        fontSize: "14px",
                         color: "red",
                         marginRight: "3px",
                         marginBottom: "3px",
@@ -6458,7 +6458,7 @@ useEffect(() => {
                   {allfielderrmsg !== " " && (
                     <MdError
                       style={{
-                        fontSize: "15px",
+                        fontSize: "14px",
                         color: "red",
                         fontFamily: "Gilroy",
                         marginRight: "5px",

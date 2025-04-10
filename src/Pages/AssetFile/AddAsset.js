@@ -471,7 +471,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
           {state.AssetList?.alreadyAssetNameHere && (
             <div className="d-flex align-items-center p-1">
-              <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px" }} />
+              <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -521,7 +521,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
                 {assetError && (
                   <div className="d-flex align-items-center">
-                    <MdError style={{ color: "red", marginRight: "5px" ,fontSize:"13px",marginBottom:"2px"}} />
+                    <MdError style={{ color: "red", marginRight: "5px" ,fontSize:"14px",marginBottom:"2px"}} />
                     <label
                       className="mb-0"
                       style={{
@@ -570,7 +570,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
                 {productNameError && (
                   <div className="d-flex align-items-center">
-                    <MdError style={{ color: "red", marginRight: "6px",fontSize:"13px" }} />
+                    <MdError style={{ color: "red", marginRight: "6px",fontSize:"14px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -764,7 +764,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
                 {serialNumberError && (
                   <div className="d-flex align-items-center ">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -781,7 +781,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
                 {state.AssetList?.alreadySerialNumberHere && (
                   <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -853,7 +853,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 </Form.Group>
                 {selectedDateError && (
                   <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px" ,marginBottom:"2px",fontSize:"13px"}} />
+                    <MdError style={{ color: "red", marginRight: "5px" ,marginBottom:"2px",fontSize:"14px"}} />
                     <label
                       className="mb-0"
                       style={{
@@ -903,7 +903,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 </Form.Group>
                 {priceError && (
                   <div className="d-flex align-items-center ">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -965,7 +965,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 </Form.Group>
                 {paymentError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px",marginBottom:"2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -982,7 +982,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
 {bankingError && (
                   <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -1095,7 +1095,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
                   {accountError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px",fontSize:14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1125,7 +1125,7 @@ function StaticExample({ show, setShow, currentItem }) {
           </Modal.Body>
           {isChangedError && (
             <div className="d-flex align-items-center justify-content-center mt-4">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <MdError style={{ color: "red", marginRight: "5px",fontSize:14 }} />
               <label
                 className="mb-0"
                 style={{

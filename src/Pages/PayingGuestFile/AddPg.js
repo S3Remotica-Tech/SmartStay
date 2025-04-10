@@ -595,7 +595,7 @@ useEffect(() => {
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "13px",
+                      fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -673,7 +673,7 @@ useEffect(() => {
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "13px",
+                      fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -690,7 +690,7 @@ useEffect(() => {
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "13px",
+                      fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -741,7 +741,7 @@ useEffect(() => {
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "13px",
+                      fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -791,7 +791,7 @@ useEffect(() => {
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "13px",
+                      fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
