@@ -283,7 +283,6 @@ function SettingNewUser() {
 
 
 
-
             <div className="mt-4 scroll-issue">
                 {currentItems?.length > 0 ? (
 
