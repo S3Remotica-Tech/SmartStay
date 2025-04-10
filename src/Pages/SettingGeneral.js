@@ -1729,7 +1729,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
               fontWeight: 600,
               height: 50,
               borderRadius: 12,
-              fontSize: 16,
+              fontSize: 14,
               fontFamily: "Montserrat, sans-serif",
               marginTop: 5,
             }}
@@ -1989,7 +1989,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
               fontWeight: 600,
               height: "50px",
               borderRadius: "12px",
-              fontSize: "1rem",
+              fontSize: "14px",
               fontFamily: "Montserrat, sans-serif",
               marginTop: "-5px",
             }}
@@ -2210,7 +2210,7 @@ const [generalDeleteError,setGeneralDeleteError] = useState("")
               fontWeight: 600,
               height: "50px",
               borderRadius: "12px",
-              fontSize: "1rem",
+              fontSize: "14px",
               fontFamily: "Montserrat, sans-serif",
               // marginTop: "10px",
             }}

@@ -223,7 +223,8 @@ function PayingGuestMap(props) {
                                      border: "1px solid #EBEBEB", borderRadius: 10, 
                                     display: "flex", justifyContent: "start", padding: 1, alignItems: "center",
                                     flexDirection: "column", 
-                                    zIndex: 1050,}}>
+                                    zIndex: 1050,
+                                    }}>
                                     <div >
                                         {/* <div className='d-flex gap-2 mb-2 align-items-center'
                                             onClick={() => handleEdit(props.hostel)} 

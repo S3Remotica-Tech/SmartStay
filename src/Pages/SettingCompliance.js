@@ -757,6 +757,7 @@ function SettingCompliance({ hostelid }) {
                             fontSize: 16,
                             fontFamily: "Montserrat, sans-serif",
                             marginTop: 8,
+                            width: "100%"
                         }}
                         onClick={handleEditType}
                     >
@@ -845,6 +846,7 @@ function SettingCompliance({ hostelid }) {
                             padding: "12px 16px 12px 16px",
                             fontFamily: "Montserrat, sans-serif",
                             marginBottom: 15,
+                            width: "100%"
 
                         }}
                         onClick={handleAddComplaintType}
