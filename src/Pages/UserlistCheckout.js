@@ -226,6 +226,9 @@ console.log("checkOutCustomer",checkOutCustomer)
     setCheckoutAction(true)
     setCheckoutEditAction(false)
   }
+  const handleCloseConformForm=()=>{
+    setConfirmForm(false); 
+  }
 
   const handleDelete = (checkout) => {
     setActiveDotsId(null);
@@ -1194,6 +1197,7 @@ console.log("checkOutCustomer",checkOutCustomer)
     checkoutaction={checkoutaction}
     cofirmForm={cofirmForm}
     setConfirmForm={setConfirmForm}
+    handleCloseConformForm={handleCloseConformForm}
   />
 )}
 
