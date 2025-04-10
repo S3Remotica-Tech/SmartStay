@@ -5,7 +5,7 @@
 }
 
 
-#custom-flatpickr-1  .flatpickr-calendar.animate.open{
+#custom-flatpickr-1 .flatpickr-calendar.animate.open {
   top: 500px !important;
   left: 310px !important;
 }
@@ -13,37 +13,39 @@
 
 
 .list-group-item {
-    width:250px !important;
+  width: 250px !important;
 }
+
 .list-group-item:hover {
-    background-color:  #1E45E1; 
-    color: #fff; 
-  }
-  
-  .list-group-item.active {
-    /* background-color: #E7F1FF;  */
-    color: #fff; 
-  }
+  background-color: #1E45E1;
+  color: #fff;
+}
+
+.list-group-item.active {
+  /* background-color: #E7F1FF;  */
+  color: #fff;
+}
 
 
-  .list-group-item .sub_item {
-    width:200px !important;
-    /* background-color: #E7F1FF;  */
-    color: #000; 
-  }
+.list-group-item .sub_item {
+  width: 200px !important;
+  /* background-color: #E7F1FF;  */
+  color: #000;
+}
 
-  .list-group-item .sub_item:hover {
-    background-color:  #1E45E1 !important; 
-    color: #fff; 
-  }
-  .list-group-item .sub_item:active {   
-    background-color: #1E45E1 !important; 
-  }
+.list-group-item .sub_item:hover {
+  background-color: #1E45E1 !important;
+  color: #fff;
+}
 
- 
+.list-group-item .sub_item:active {
+  background-color: #1E45E1 !important;
+}
 
 
- .list-group {
+
+
+.list-group {
   --bs-list-group-color: var(--bs-body-color);
   /* --bs-list-group-bg: #E7F1FF !important; */
   --bs-list-group-border-color: var(--bs-border-color);
@@ -59,7 +61,7 @@
   --bs-list-group-disabled-color: var(--bs-secondary-color);
   --bs-list-group-disabled-bg: var(--bs-body-bg);
   --bs-list-group-active-color: #fff;
-  --bs-list-group-active-bg:  #1E45E1 !important;
+  --bs-list-group-active-bg: #1E45E1 !important;
   --bs-list-group-active-border-color: #1E45E1 !important;
   display: flex;
   flex-direction: column;
@@ -69,12 +71,13 @@
 }
 
 .react-datepicker-wrapper {
-  width:100% !important;
+  width: 100% !important;
 
 }
+
 .custom-modal .modal-content {
   border-radius: 10px !important;
-  
+
 }
 
 
@@ -83,38 +86,39 @@
 
 .show-scroll-category::-webkit-scrollbar {
   width: 8px !important;
-  
+
 }
- 
+
 .show-scroll-category::-webkit-scrollbar-track {
   background: #dcdcdc !important;
   /* border-radius: 8px !important; */
- 
+
 }
- 
+
 .show-scroll-category::-webkit-scrollbar-thumb {
   background: #bcd4f5 !important;
   border: 3px solid #bcd4f5 !important;
-   /* border-radius: 8px; */
+  /* border-radius: 8px; */
   min-height: 20px !important;
 }
+
 @media (max-width: 768px) {
   .show-scroll-category {
-      right: 0 !important;
-      width: 100%;
-      max-height: 150px;
-      overflow-y: auto;
-      left: 100px;
+    right: 0 !important;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    left: 100px;
   }
-  
+
 }
 
 @media (max-width: 480px) {
   .show-scroll-category {
-      right: 0 !important;
-      width: 100%;
-      max-height: 120px;
-      overflow-y: auto;
+    right: 0 !important;
+    width: 100%;
+    max-height: 120px;
+    overflow-y: auto;
   }
 }
 
@@ -183,18 +187,94 @@
   .pagination-container {
     flex-direction: column;
     align-items: center;
-    position: absolute; 
+    position: absolute;
     bottom: auto;
     right: auto;
     margin-top: 10px;
     padding: 0;
-    
+
   }
 
   .items-per-page {
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
   }
-  .selectoption{
+
+  .selectoption {
     font-size: 14px;
+  }
+}
+
+/* .range-picker {
+  height: 40px !important;
+  margin-left: 7px !important;
+  margin-top: 5px !important;
+  cursor: pointer !important;
+  width: 250px !important;
+} */
+
+@media (max-width: 380px) {
+  .range-picker {
+    width: 190px !important;
+  }
+}
+
+@media (max-width: 320px) {
+  .range-picker {
+    width: 170px !important;
+  }
+}
+
+@media (max-width: 280px) {
+  .range-picker {
+    width: 120px !important;
+  }
+}
+
+/* Media Query (optional, for smaller screens) */
+@media (max-width: 768px) {
+  .filter-dropdown {
+    right: 40px;
+    width: 100px;
+  }
+
+  .submenu {
+    right: auto;
+    left: 100%;
+    top: 0;
+    width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .submenu {
+    right: auto;
+    left: 100%;
+    width: 50px;
+  }
+
+  .filter-dropdown {
+    right: 0;
+    left: auto;
+    width: 50px;
+  }
+}
+
+
+
+@media (max-width: 400px) {
+  .dots-popup {
+    width: 80px;
+    margin-top: 30px;
+    margin-left: 100px;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 280px) {
+  .dots-popup {
+    width: 80px;
+    margin-top: 30px;
+    margin-left: 60px;
+    transform: translate(-50%, -50%);
   }
 }

@@ -9,20 +9,20 @@ import closeicon from '../../Assets/Images/close.svg';
 import { Modal, Button } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import './Expenses.css'
-import { FormControl, Select, MenuItem} from '@mui/material';
+import { FormControl, Select, MenuItem } from '@mui/material';
 import PropTypes from "prop-types";
 function ExpensesListTable(props) {
- 
+
 
   const [showDots, setShowDots] = useState('')
   const popupRef = useRef(null);
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
- 
+
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-   
+
   const handleShowDots = (event) => {
     setShowDots(!showDots)
     const { top, left, height } = event.target.getBoundingClientRect();
@@ -70,15 +70,15 @@ function ExpensesListTable(props) {
     setAssetName(value);
     setAssetNameError(value ? '' : 'Please select an asset');
   };
-  
-  
 
 
 
 
- 
-  
- const handleTagAsset = () => {
+
+
+
+
+  const handleTagAsset = () => {
 
     if (!assetname) {
       setAssetNameError("Please Select a Asset Name ")
@@ -139,12 +139,12 @@ function ExpensesListTable(props) {
       <input type='checkbox' className="custom-checkbox" style={customCheckboxStyle} />
     </td> */}
 
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",paddingLeft:"20px" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</td>
 
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }}>
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{  fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center",  fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
+          <div style={{ fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
         </div>
       </td>
 
@@ -155,7 +155,7 @@ function ExpensesListTable(props) {
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }}>
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{  fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
+          <div style={{ fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
             {props.item.purchase_amount}
           </div >
         </div>
@@ -164,7 +164,7 @@ function ExpensesListTable(props) {
 
       <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }}>
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{  fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
+          <div style={{ fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
             {props.item.payment_mode}
           </div >
         </div>
@@ -174,16 +174,18 @@ function ExpensesListTable(props) {
 
       <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }} className=''>
         <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-          <div style={{ cursor: "pointer",backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EBEBEB", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e)=>handleShowDots(e)}>
+          <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EBEBEB", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(e)}>
             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
 
             {showDots && <>
-              <div ref={popupRef} 
-              style={{ cursor: "pointer", backgroundColor: "#f9f9f9",
-                position: "fixed",
-                top: popupPosition.top,
-                left: popupPosition.left,
-               width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
+              <div ref={popupRef} className="dots-popup"
+                style={{
+                  cursor: "pointer", backgroundColor: "#f9f9f9",
+                  position: "fixed",
+                  top: popupPosition.top,
+                  left: popupPosition.left,
+                  width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto'
+                }}>
                 <div style={{ backgroundColor: "#f9f9f9" }} className=''>
 
 
@@ -445,189 +447,189 @@ function ExpensesListTable(props) {
 
 
     {
-      showTagAsset && 
+      showTagAsset &&
       <Modal
-      show={showTagAsset}
-      onHide={handleHideTagAsset}
-      centered
-      dialogClassName="custom-modal"
-      backdrop="static"
-     
-    >
-      <Modal.Header
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          // borderBottom: "1px solid#E7E7E7",
-          paddingBottom: "10px",
-        }}
+        show={showTagAsset}
+        onHide={handleHideTagAsset}
+        centered
+        dialogClassName="custom-modal"
+        backdrop="static"
+
       >
-        <Modal.Title
+        <Modal.Header
           style={{
-            fontWeight: 600,
-            fontSize: 18,
-            fontFamily: "Gilroy, sans-serif",
-            margin: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            // borderBottom: "1px solid#E7E7E7",
+            paddingBottom: "10px",
           }}
         >
-          Tag Asset
-        </Modal.Title>
-        <img
-          src={closeicon}
-          alt="Close"
-          style={{ cursor: "pointer", width: 24, height: 24 }}
-          onClick={handleHideTagAsset}
-        />
-      </Modal.Header>
-
-
-         
-          <Modal.Body>
-        <div style={{ marginTop: 10, width: "100%" }}>
-
-      
-    <FormControl
-      fullWidth
-      variant="outlined"
-      className="mb-2"
-      sx={{
-       
-        "& #vendor-select": { height: "auto" },
-        "& .MuiOutlinedInput-root": {
-          "& fieldset": { borderColor: "#D9D9D9" },
-          "&:hover fieldset": { borderColor: "#40a9ff" },
-          "&.Mui-focused fieldset": { borderColor: "#40a9ff" },
-        },
-        "& .MuiSelect-select": {
-          paddingTop: "10px",
-          paddingBottom: "10px",
-          display: "flex",
-          alignItems: "center",
-          color: "#000",
-        },
-        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-      }}
-    >
-      <Select
-        labelId="asset-select-label"
-        id="vendor-select"
-        value={assetname}
-        onChange={handleAssetname}
-        displayEmpty
-        renderValue={(selected) =>
-          !selected ? <span style={{ color: "#BDBDBD" }}>Select Asset</span> : selected
-        }
-        MenuProps={{
-          PaperProps: {
-            sx: {
-              backgroundColor: "#f8f9fa", // White dropdown background
-              maxHeight: 150,
-              marginTop: 1,
-              overflowY: "auto",
-              border: "2px solid #D9D9D9",
-              "& .MuiMenuItem-root:hover": {
-                backgroundColor: "#1E45E1",
-                color: "#fff",
-              },
-              "& .Mui-selected": {
-                backgroundColor: "#D9E6FC !important", // Light blue like image
-                color: "#000",
-              },
-              "& .Mui-selected:hover": {
-                backgroundColor: "#1E45E1 !important",
-                color: "#fff",
-              },
-              "&::-webkit-scrollbar": { width: "6px" },
-              "&::-webkit-scrollbar-thumb": {
-                backgroundColor: "#1E45E1",
-                borderRadius: "4px",
-                 border: "1px solid #D9D9D9",
-              },
-              "&::-webkit-scrollbar-track": { backgroundColor: "#f0f0f0" },
-            },
-            style: { scrollbarWidth: "thin" },
-          },
-        }}
-      >
-        {state.AssetList.assetList.length > 0 ? (
-          state.AssetList.assetList.map((view) => (
-            <MenuItem key={view.asset_id} value={view.asset_name}>
-              {view.asset_name}
-            </MenuItem>
-          ))
-        ) : (
-          <MenuItem value="" disabled>
-            No assets available
-          </MenuItem>
-        )}
-      </Select>
-    </FormControl>
-
-
-
-
-
-
-
-
-  {state.AssetList.assetList &&
-            state.AssetList.assetList.length === 0 && (
-              <label
-                className="pb-1"
-                style={{
-                  fontSize: 14,
-                  color: "red",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Please add an &apos;Asset&apos;option in Asset page, accessible after
-                adding an expense.
-              </label>
-            )}
-             {
-            assetnameerror &&
-
-
-            <div className="d-flex align-items-center justify-content-center p-2">
-              <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "14px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {assetnameerror}
-              </label>
-            </div>
-          }
-          
-          <Button
+          <Modal.Title
             style={{
-              // marginTop: 25,
-              marginBottom:10,
-              width: "100%",
-              height: "45px",
-              borderRadius: "12px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              border: "none",
-              fontSize: "16px",
-              fontWeight: 400,
-              fontFamily:"Gilroy",
-              cursor: "pointer",
+              fontWeight: 600,
+              fontSize: 18,
+              fontFamily: "Gilroy, sans-serif",
+              margin: 0,
             }}
-            onClick={handleTagAsset}
           >
             Tag Asset
-          </Button>
-        </div>
-      </Modal.Body>
-    </Modal>
+          </Modal.Title>
+          <img
+            src={closeicon}
+            alt="Close"
+            style={{ cursor: "pointer", width: 24, height: 24 }}
+            onClick={handleHideTagAsset}
+          />
+        </Modal.Header>
+
+
+
+        <Modal.Body>
+          <div style={{ marginTop: 10, width: "100%" }}>
+
+
+            <FormControl
+              fullWidth
+              variant="outlined"
+              className="mb-2"
+              sx={{
+
+                "& #vendor-select": { height: "auto" },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "#D9D9D9" },
+                  "&:hover fieldset": { borderColor: "#40a9ff" },
+                  "&.Mui-focused fieldset": { borderColor: "#40a9ff" },
+                },
+                "& .MuiSelect-select": {
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  color: "#000",
+                },
+                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+              }}
+            >
+              <Select
+                labelId="asset-select-label"
+                id="vendor-select"
+                value={assetname}
+                onChange={handleAssetname}
+                displayEmpty
+                renderValue={(selected) =>
+                  !selected ? <span style={{ color: "#BDBDBD" }}>Select Asset</span> : selected
+                }
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      backgroundColor: "#f8f9fa", // White dropdown background
+                      maxHeight: 150,
+                      marginTop: 1,
+                      overflowY: "auto",
+                      border: "2px solid #D9D9D9",
+                      "& .MuiMenuItem-root:hover": {
+                        backgroundColor: "#1E45E1",
+                        color: "#fff",
+                      },
+                      "& .Mui-selected": {
+                        backgroundColor: "#D9E6FC !important", // Light blue like image
+                        color: "#000",
+                      },
+                      "& .Mui-selected:hover": {
+                        backgroundColor: "#1E45E1 !important",
+                        color: "#fff",
+                      },
+                      "&::-webkit-scrollbar": { width: "6px" },
+                      "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: "#1E45E1",
+                        borderRadius: "4px",
+                        border: "1px solid #D9D9D9",
+                      },
+                      "&::-webkit-scrollbar-track": { backgroundColor: "#f0f0f0" },
+                    },
+                    style: { scrollbarWidth: "thin" },
+                  },
+                }}
+              >
+                {state.AssetList.assetList.length > 0 ? (
+                  state.AssetList.assetList.map((view) => (
+                    <MenuItem key={view.asset_id} value={view.asset_name}>
+                      {view.asset_name}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem value="" disabled>
+                    No assets available
+                  </MenuItem>
+                )}
+              </Select>
+            </FormControl>
+
+
+
+
+
+
+
+
+            {state.AssetList.assetList &&
+              state.AssetList.assetList.length === 0 && (
+                <label
+                  className="pb-1"
+                  style={{
+                    fontSize: 14,
+                    color: "red",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Please add an &apos;Asset&apos;option in Asset page, accessible after
+                  adding an expense.
+                </label>
+              )}
+            {
+              assetnameerror &&
+
+
+              <div className="d-flex align-items-center justify-content-center p-2">
+                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "14px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {assetnameerror}
+                </label>
+              </div>
+            }
+
+            <Button
+              style={{
+                // marginTop: 25,
+                marginBottom: 10,
+                width: "100%",
+                height: "45px",
+                borderRadius: "12px",
+                backgroundColor: "#1E45E1",
+                color: "white",
+                border: "none",
+                fontSize: "16px",
+                fontWeight: 400,
+                fontFamily: "Gilroy",
+                cursor: "pointer",
+              }}
+              onClick={handleTagAsset}
+            >
+              Tag Asset
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     }
 
 
