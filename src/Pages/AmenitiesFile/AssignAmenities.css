@@ -1,8 +1,9 @@
 
 .responsive-modal-fix {
   width: 100%;
-  max-width: 980px; 
+  max-width: 960px; 
   margin: 0 auto;
+  /* box-sizing: border-box; */
 }
 
 
@@ -14,3 +15,33 @@
     max-width: none;
   }
 }
+
+/* @media (max-width: 709px) {
+  .responsive-modal-fix {
+    width: 100%;
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+  }
+} */
+
+/* @media (max-width: 320px) {
+  .responsive-modal-fix {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+} */
+
+@media only screen and (max-width: 298px) and (min-width: 280px) {
+  .responsive-modal-fix {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+}
+
+
+       
+ 
