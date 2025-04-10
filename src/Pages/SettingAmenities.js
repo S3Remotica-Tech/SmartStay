@@ -14,7 +14,7 @@ import RecurringEnable from './AmenitiesFile/RecurringEnable';
 import AssignAmenities from './AmenitiesFile/AssignAmenities';
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import PropTypes from "prop-types";
-
+import './SettingsAmentities.css';
 
 function SettingAmenities({ hostelid }) {
 
@@ -401,7 +401,7 @@ function SettingAmenities({ hostelid }) {
             <div className='container mt-4 mb-3' style={{ position: "relative" }}>
 
 
-                <div className='row row-gap-3'>
+                <div className='row row-gap-3 scroll-issue'>
 
 
                     {/* { amenitiesList.length > 0 ? amenitiesList.map((amenity, index) => ( */}

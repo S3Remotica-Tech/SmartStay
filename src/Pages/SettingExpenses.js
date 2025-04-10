@@ -726,7 +726,7 @@ function SettingExpenses({ hostelid }) {
       )}
 
 
-<div className="mt-4 d-flex flex-wrap justify-content-between" style={{ gap: "20px", alignItems: "flex-start" }}>
+<div className="mt-4 d-flex flex-wrap justify-content-between scroll-issue" style={{ gap: "20px", alignItems: "flex-start" }}>
 
   {currentRowExpense && currentRowExpense.length > 0 ? (
     currentRowExpense.map((category) => (

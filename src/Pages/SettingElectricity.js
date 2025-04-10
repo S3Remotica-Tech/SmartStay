@@ -9,7 +9,7 @@ import Select from "react-select";
 import './SettingAll.css'
 import PropTypes from "prop-types";
 import {CloseCircle} from "iconsax-react";
-
+import './SettingElectricity.css';
 
 const SettingElectricity = ({ hostelid }) => {
 
@@ -470,7 +470,7 @@ const SettingElectricity = ({ hostelid }) => {
               EbList.map((v,index) => {
                 return (
                 
-                  <Row key={index}>
+                  <Row key={index} className='scroll-issue'>
                     <Col lg={8} md={12} sm={12}>
                     
                       <Card className="p-2 border mb-4 mb-md-0" style={{ borderRadius: 16 }}>

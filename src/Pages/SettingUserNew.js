@@ -13,6 +13,7 @@ import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import AddUser from '../Pages/UserFile/AddUser'
+import './SettingUsers.css';
 
 function SettingNewUser() {
 
@@ -283,7 +284,7 @@ function SettingNewUser() {
 
 
 
-            <div className="mt-4">
+            <div className="mt-4 scroll-issue">
                 {currentItems?.length > 0 ? (
 
                     <div style={{
