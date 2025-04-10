@@ -105,7 +105,7 @@ function Contact () {
     return (
         <>
         
-  <div style={{ display: 'flex', flexDirection: 'column',  alignItems: 'center', position: 'relative',  backgroundColor: 'rgba(226, 230, 255, 1)' , height:'350px' , zIndex:1 ,marginBottom:'50px',paddingTop:'50px'}}>
+  <div  style={{ display: 'flex', flexDirection: 'column',textAlign: "center",  alignItems: 'center', position: 'relative',  backgroundColor: 'rgba(226, 230, 255, 1)' , height:'300px' , zIndex:1 ,marginBottom:'50px',paddingTop:'50px'}}>
      <img
            src={TopLeftCurve}
            alt="Top Left Curve"
