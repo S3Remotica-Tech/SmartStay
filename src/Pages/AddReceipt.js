@@ -1179,8 +1179,8 @@ const AddReceiptForm = (props) => {
         />
                  {notes_errmsg.trim() !== "" && (
 <div>
-  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-    {notes_errmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {notes_errmsg}
+  <p style={{ fontSize: '12px', color: 'red', marginTop: '3px' }}>
+    {notes_errmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {notes_errmsg}
   </p>
 </div>
 )}
@@ -1201,8 +1201,8 @@ const AddReceiptForm = (props) => {
 
 {allfielderrmsg.trim() !== "" && (
   <div>
-    <p style={{ fontSize: '14px', color: 'red', marginTop: '3px', textAlign: "center" }}>
-      {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red',marginBottom:2 }} />} {allfielderrmsg}
+    <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', textAlign: "center" }}>
+      {allfielderrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red',marginBottom:2 }} />} {allfielderrmsg}
     </p>
   </div>
 )}

@@ -1159,7 +1159,7 @@ const SettingElectricity = ({ hostelid }) => {
                                          className="mb-0"
                                          style={{
                                            color: "red",
-                                           fontSize: "14px",
+                                           fontSize: "12px",
                                            fontFamily: "Gilroy",
                                            fontWeight: 500,
                                          }}
@@ -1250,7 +1250,7 @@ const SettingElectricity = ({ hostelid }) => {
                                          className="mb-0"
                                          style={{
                                            color: "red",
-                                           fontSize: "14px",
+                                           fontSize: "12px",
                                            fontFamily: "Gilroy",
                                            fontWeight: 500,
                                          }}

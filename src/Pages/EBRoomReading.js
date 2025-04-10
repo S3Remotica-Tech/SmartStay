@@ -278,7 +278,7 @@ useEffect(() => {
     if (isValueEmpty) {
       switch (fieldName) {
         case "reading":
-          setReadingError("reading is Required");
+          setReadingError("Reading is Required");
           break;
         case "Floor":
           setfloorError("Floor is Required");
@@ -1357,7 +1357,7 @@ useEffect(() => {
               {floorError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>
-                  <span style={{ fontSize: '14px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{floorError}</span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{floorError}</span>
                 </div>
               )}
             </div>
@@ -1481,7 +1481,7 @@ useEffect(() => {
               {roomError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>
-                  <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
                 </div>
               )}
             </div>
@@ -1520,7 +1520,7 @@ useEffect(() => {
               {readingError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{fontSize: '14px',marginRight:"5px"}}/>
-                  <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span>
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span>
                 </div>
               )}
             </div>
@@ -1588,7 +1588,7 @@ useEffect(() => {
         {formError && (
           <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
             <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
-            <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+            <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
           </div>
         )}
         <Modal.Footer className="d-flex justify-content-center "style={{borderTop:"none"}}>

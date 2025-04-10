@@ -1771,8 +1771,8 @@ useEffect(() => {
                           </Form.Group>
 
                           {statusErrorType.trim() !== "" && (
-                            <div style={{ marginTop: "20px" }}>
-                              <p className='text-center' style={{ fontSize: '12px', color: 'red', marginTop: '3px' }}>
+                            <div style={{marginTop:25}}>
+                              <p className='text-center' style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy",fontWeight:500 }}>
                                 {statusErrorType !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
                               </p>
                             </div>
@@ -1793,7 +1793,7 @@ useEffect(() => {
                           fontFamily: "Gilroy",
                           fontStyle: "normal",
                           lineHeight: "normal",
-                          // marginTop: "px"
+                          marginTop: "-20px"
                         }}
                         onClick={handleAssignComplaintClick}
                       >

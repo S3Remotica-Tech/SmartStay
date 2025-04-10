@@ -264,7 +264,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             </div>
           )}
 
-          {state.PgList && state.PgList?.alreadyRoomHere && (
+          {/* {state.PgList && state.PgList?.alreadyRoomHere && (
             // <div className="d-flex align-items-center p-1 mb-2">
             <div className="d-flex align-items-center">
               <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
@@ -273,6 +273,22 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
                 style={{
                   color: "red",
                   fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {state.PgList?.alreadyRoomHere}
+              </label>
+            </div>
+          )} */}
+          {state.PgList && state.PgList?.alreadyRoomHere && (
+            <div className="d-flex align-items- justify-content-center">
+              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px",marginTop:"2px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "13px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
                 }}
