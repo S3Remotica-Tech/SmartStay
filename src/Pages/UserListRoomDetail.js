@@ -3604,7 +3604,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                {formError && (
                                                         <div className="" style={{ color: "red",paddingBottom:"8px",textAlign:"center"}}>
                                                           <MdError style={{fontSize: '14px',marginRight:"6px" }}/>
-                                                          <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                                                          <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
                                                         </div>
                                                       )}
                                 <Button

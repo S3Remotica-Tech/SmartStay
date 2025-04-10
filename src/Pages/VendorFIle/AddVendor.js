@@ -405,10 +405,11 @@ const handleClose =()=>{
     } else if (!/^\d+$/.test(pinCode)) {
       setPinCodeError("Pin Code Must Be Numeric");
       isValid = false;
-    } else if (pinCode.length !== 6) {
+    } else if (String(pinCode).length !== 6) {
       setPinCodeError("Pin Code Must Be Exactly 6 Digits");
       isValid = false;
     }
+    
     if (emailInvalid || mobileInvalid) {
       if (emailInvalid) {
         setEmailError("Enter Valid Email ID");

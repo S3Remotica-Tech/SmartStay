@@ -1446,14 +1446,14 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
           {dateError && (
               <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
               <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
-              <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
+              <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
             </div>
               )}
         </Modal.Body>
          {formError && (
                                                                 <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
                                                                   <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
-                                                                  <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                                                                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
                                                                 </div>
                                                               )}
         <Modal.Footer className="d-flex justify-content-center" style={{border:"none"}}>

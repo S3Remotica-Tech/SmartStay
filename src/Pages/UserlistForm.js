@@ -655,14 +655,24 @@ const handleBed = (selectedOption) => {
 
 
     }
+    if (!RoomRent && RoomRent !== 0) {
+      setRoomRentError("Rental Amount is Required");
+      return;
+    }
     if (RoomRent <= 0) {
       setRoomRentError("Please Enter Valid Rental Amount");
       return;
     }
+    if (!AdvanceAmount && AdvanceAmount !== 0) {
+      setAdvanceAmountError("Advance Amount is Required");
+      return;
+    }
+    
     if (AdvanceAmount <= 0) {
       setAdvanceAmountError("Please Enter Valid Advance Amount");
       return;
     }
+    
     if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
       const incrementDateAndFormat = (date) => {
         const newDate = new Date(date);
@@ -1857,7 +1867,7 @@ const handleBed = (selectedOption) => {
                       borderRadius: 12,
                       fontSize: 16,
                       fontFamily: "Montserrat",
-                      marginBottom:"4px"
+                      marginTop:10
                     }}
                     onClick={handleSaveUserlistAddUser}
                   >
