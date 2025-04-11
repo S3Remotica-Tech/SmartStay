@@ -521,7 +521,9 @@ function SettingInvoice({ hostelid }) {
          }}>Invoice</h3>
 
         </div>
-        <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
+        <div 
+        className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
+        >
         {InvoiceList && InvoiceList.length > 0 ? (
           InvoiceList.map((list) => {
             const isDefaultPrefixSuffix =
@@ -604,11 +606,6 @@ function SettingInvoice({ hostelid }) {
         ) : null}
 
 </div>
-
-
-
-
-
 
       </div>
 

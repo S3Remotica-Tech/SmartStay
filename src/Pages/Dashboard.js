@@ -40,7 +40,7 @@ import { Table } from "react-bootstrap";
 import LoaderComponent from "./LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
-import { ChevronDown } from "lucide-react";
+// import { ChevronDown } from "lucide-react";
 
 const newChart = [
   { name: "Jan 2024", Advance: 10000, AdvanceReturn: 9000 },
