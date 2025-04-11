@@ -727,7 +727,7 @@ function SettingManage(props) {
               <div
                 // className=" justify-content-between d-flex align-items-center"
                 className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-  
+
                 style={{
                   position: "sticky",
                   top: 0,
@@ -740,8 +740,7 @@ function SettingManage(props) {
                   whiteSpace: "nowrap",
                 }}
               >
-
-                <div className="w-100 text-md-start text-center mt-1">
+               <div className="w-100 text-md-start text-center mt-1">
                   <label
                     style={{
                       fontSize: 18,
@@ -757,7 +756,8 @@ function SettingManage(props) {
 
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
                
-                <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0" style={{paddingRight:1}} >
+                <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0" 
+                style={{paddingRight:1}} >
                   <div >
                     <Button
                       onClick={handleShowAddPg}
@@ -1038,35 +1038,57 @@ function SettingManage(props) {
 
           {selectedHostel && (
             <div className="container mt-3">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <div className="d-flex align-items-center">
+              {/* <div className="d-flex justify-content-between align-items-center mb-3"> */}
+            {/* <div className="d-flex align-items-center"> */}
+            <div 
+      // className="pt-4" 
+      className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+      style={{
+        // display: "flex", flexDirection: "row", justifyContent: "space-between", 
+        position: "sticky",
+        top: 0,
+        right: 0,
+        left: 0,
+        zIndex: 1000,
+        backgroundColor: "#FFFFFF",
+        // height: 83,
+        whiteSpace: "nowrap",
+        padding: "25px"
+        
+      }}>
+        <div className="w-100 text-md-start text-center">
                   <ArrowLeft
                     size="32"
                     color="#222222"
                     onClick={handlebackToPG}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer", marginLeft: "-50px"}}
+                    
                   />
 
                   <label
-                    className="ms-4"
+                    // className="ms-3"
                     style={{
                       fontSize: 18,
                       color: "rgba(34, 34, 34, 1)",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
+                      marginLeft: "30px"
                     }}
                   >
                     {showHostelDetails?.Name}
                   </label>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="me-3">
+                {/* <div className="d-flex justify-content-between align-items-center">
+                  <div className="me-3"> */}
+                   <div className="d-flex justify-content-md-between align-items-center w-100 w-md-auto">
+                   {/* <div className="me-3 d-none"> */}
                     {/* <Sort Size="24" color="#222" variant="Outline" /> */}
                     {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
-                  </div>
-
-                  <div style={{ marginTop: 5 }}>
+                  {/* </div> */}
+                  <div 
+        className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
+        >
                     <Button
                       style={{
                         fontSize: 14,
