@@ -3878,31 +3878,31 @@ const InvoicePage = () => {
 
                           </div>
                         </div> */}
-                                    <div
-                                      className="invoice-list-container"
-                                      style={{
+                                 {/* <div
+                                  className="invoice-list-container"
+                                        style={{
                                         height: '100%', // fallback
                                         maxHeight: window.innerWidth < 768 ? '150px' : '250px',
                                         overflowY: 'auto',
                                         paddingRight: '10px',
-                                      }}
-                                    >
-                                      <div className="" style={{}}>
-                                        <div className="d-flex align-items-start justify-content-between w-100 p-2">
-                                          <div>
-                                            <span>
-                                              <img
-                                                src={
-                                                  item.user_profile &&
-                                                    item.user_profile !== "0"
-                                                    ? item.user_profile
-                                                    : User
-                                                }
-                                                style={{ height: 40, width: 40 }}
-                                                alt="User"
-                                              />
-                                            </span>
-                                          </div>
+                                        }}
+                                       > */}
+                                    <div className="" style={{}}>
+                                      <div className="d-flex align-items-start justify-content-between w-100 p-2">
+                                        <div>
+                                          <span>
+                                            <img
+                                              src={
+                                                item.user_profile &&
+                                                  item.user_profile !== "0"
+                                                  ? item.user_profile
+                                                  : User
+                                              }
+                                              style={{ height: 40, width: 40 }}
+                                              alt="User"
+                                            />
+                                          </span>
+                                        </div>
 
                                           <div className="flex-grow-1 ms-2">
                                             <div className="d-flex justify-content-between align-items-center mb-2">
@@ -3976,40 +3976,40 @@ const InvoicePage = () => {
                                               </div>
                                             </div>
 
-                                            <div className="mb-2">
-                                              {item.BalanceDue === 0 ? (
-                                                <span
-                                                  style={{
-                                                    fontSize: "10px",
-                                                    backgroundColor: "#D9FFD9",
-                                                    color: "#000",
-                                                    borderRadius: "14px",
-                                                    fontFamily: "Gilroy",
-                                                    padding: "8px 12px",
-                                                  }}
-                                                >
-                                                  Paid
-                                                </span>
-                                              ) : (
-                                                <span
-                                                  style={{
-                                                    cursor: "pointer",
-                                                    fontSize: "10px",
-                                                    backgroundColor: "#FFD9D9",
-                                                    fontFamily: "Gilroy",
-                                                    color: "#000",
-                                                    borderRadius: "14px",
-                                                    padding: "8px 12px",
-                                                  }}
-                                                >
-                                                  Unpaid
-                                                </span>
-                                              )}
-                                            </div>
+                                          <div className="mb-2">
+                                            {item.BalanceDue === 0 ? (
+                                              <span
+                                                style={{
+                                                  fontSize: "10px",
+                                                  backgroundColor: "#D9FFD9",
+                                                  color: "#000",
+                                                  borderRadius: "14px",
+                                                  fontFamily: "Gilroy",
+                                                  padding: "8px 12px",
+                                                }}
+                                              >
+                                                Paid
+                                              </span>
+                                            ) : (
+                                              <span
+                                                style={{
+                                                  cursor: "pointer",
+                                                  fontSize: "10px",
+                                                  backgroundColor: "#FFD9D9",
+                                                  fontFamily: "Gilroy",
+                                                  color: "#000",
+                                                  borderRadius: "14px",
+                                                  padding: "8px 12px",
+                                                }}
+                                              >
+                                                Unpaid
+                                              </span>
+                                            )}
                                           </div>
                                         </div>
                                       </div>
                                     </div>
+                                    {/* </div> */}
                                     <hr />
                                   </>
                                 ))}
