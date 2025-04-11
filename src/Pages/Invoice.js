@@ -47,8 +47,8 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import {CloseCircle} from "iconsax-react";
-
+import { CloseCircle } from "iconsax-react";
+import './BillPdfModal.css';
 
 
 
@@ -168,7 +168,7 @@ const InvoicePage = () => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [dateRange, setDateRange] = useState([null, null]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-const [startDate, endDate] = dateRange;
+  const [startDate, endDate] = dateRange;
 
   useEffect(() => {
     // setLoading(true); 
@@ -219,7 +219,7 @@ const [startDate, endDate] = dateRange;
     }
   }, [state.InvoiceList.NodataRecurringStatusCode]);
 
- 
+
 
 
   useEffect(() => {
@@ -359,7 +359,7 @@ const [startDate, endDate] = dateRange;
 
 
 
- 
+
   useEffect(() => {
     if (originalBillsFilter.length === 0 && bills.length > 0) {
       setOriginalBillsFilter(bills);
@@ -373,53 +373,53 @@ const [startDate, endDate] = dateRange;
   const handleStatusFilter = (event) => {
     const selected = event.target.value;
     setStatusfilter(selected);
-  
+
     // Clear date range if not 'date'
     if (selected !== "date") {
       setDateRange([null, null]);
     }
   };
 
-// useEffect(()=>{
-//   if (statusfilter === "All") {
-//     setBills(originalBillsFilter);
-//   } else {
-//     const filteredItems = originalBillsFilter.filter((user) =>
-//         user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
-//     );
+  // useEffect(()=>{
+  //   if (statusfilter === "All") {
+  //     setBills(originalBillsFilter);
+  //   } else {
+  //     const filteredItems = originalBillsFilter.filter((user) =>
+  //         user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
+  //     );
 
 
-//     setBills(filteredItems);
-//   }
+  //     setBills(filteredItems);
+  //   }
 
 
-//   setCurrentPage(1);
+  //   setCurrentPage(1);
 
-// },[statusfilter])
+  // },[statusfilter])
 
-useEffect(() => {
-  let filtered = originalBillsFilter;
+  useEffect(() => {
+    let filtered = originalBillsFilter;
 
-  if (statusfilter === "All") {
-    filtered = originalBillsFilter;
-  } else if (statusfilter === "Paid" || statusfilter === "Unpaid") {
-    filtered = filtered.filter(
-      (user) =>
-        user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
-    );
-  } else if (statusfilter === "date" && startDate && endDate) {
-    filtered = filtered.filter((user) => {
-      const invoiceDate = new Date(user.Date); // or user.invoiceDate
-      return (
-        invoiceDate >= startDate &&
-        invoiceDate <= endDate
+    if (statusfilter === "All") {
+      filtered = originalBillsFilter;
+    } else if (statusfilter === "Paid" || statusfilter === "Unpaid") {
+      filtered = filtered.filter(
+        (user) =>
+          user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
       );
-    });
-  }
+    } else if (statusfilter === "date" && startDate && endDate) {
+      filtered = filtered.filter((user) => {
+        const invoiceDate = new Date(user.Date); // or user.invoiceDate
+        return (
+          invoiceDate >= startDate &&
+          invoiceDate <= endDate
+        );
+      });
+    }
 
-  setBills(filtered);
-  setCurrentPage(1)
-}, [statusfilter, startDate, endDate, originalBillsFilter]);
+    setBills(filtered);
+    setCurrentPage(1)
+  }, [statusfilter, startDate, endDate, originalBillsFilter]);
 
 
 
@@ -427,8 +427,8 @@ useEffect(() => {
   const handleStatusFilterReceipt = (event) => {
     const searchTerm = event.target.value;
     setStatusFilterReceipt(searchTerm);
-     };
-  
+  };
+
 
   useEffect(() => {
     if (statusFilterReceipt !== "date") {
@@ -444,20 +444,20 @@ useEffect(() => {
       }
     }
   }, [statusFilterReceipt]);
-  
+
   const [receiptDateRange, setReceiptDateRange] = useState([]);
   const handleDateRangeChangeReceipt = (dates) => {
     setReceiptDateRange(dates);
-  
+
     // If cleared or not fully selected
     if (!dates || dates.length !== 2) {
       setStatusFilterReceipt("All");
       setReceiptData(originalBillsFilterReceipt);
       return;
     }
-  
+
     const [start, end] = dates;
-  
+
     const filtered = originalBillsFilterReceipt.filter((item) => {
       const itemDate = dayjs(item.payment_date);
       return (
@@ -466,12 +466,12 @@ useEffect(() => {
         (itemDate.isAfter(start) && itemDate.isBefore(end))
       );
     });
-  
+
     setReceiptData(filtered);
     setCurrentReceiptPage(1)
   };
-  
-  
+
+
   useEffect(() => {
     if (statusFilterReceipt !== "date") {
       setReceiptDateRange([]);
@@ -481,11 +481,11 @@ useEffect(() => {
     if (statusFilterReceipt === "All") {
       setReceiptData(originalBillsFilterReceipt);
       setReceiptDateRange([]);
-      
+
     }
   }, [statusFilterReceipt]);
-  
-  
+
+
   useEffect(() => {
     if (originalBillsFilterReceipt.length === 0 && receiptdata.length > 0) {
       setOriginalBillsFilterReceipt(receiptdata);
@@ -505,10 +505,10 @@ useEffect(() => {
 
   const handleAmount = (e) => {
     const inputValue = e.target.value.trim();
-  
+
     if (!inputValue) {
       setAmountErrmsg("Please Enter Amount");
-  
+
       setInvoiceList((prevState) => ({
         ...prevState,
         payableAmount: "",
@@ -518,26 +518,26 @@ useEffect(() => {
     } else {
       setAmountErrmsg("");
     }
- 
+
     const payableAmount = parseFloat(inputValue);
     if (isNaN(payableAmount)) {
       setAmountErrmsg("Invalid amount entered");
       return;
     }
-  
+
     setInvoiceList((prevState) => {
       const totalAmount = parseFloat(prevState.amount) || 0;
       const paidAmount = parseFloat(prevState.paidAmount) || 0;
-  
+
       const newPaidAmount = paidAmount + payableAmount;
       const newBalanceDue = totalAmount - newPaidAmount;
-  
-      
+
+
       if (newPaidAmount > totalAmount) {
         setAmountErrmsg("Payable Amount Cannot Exceed Due Amount");
-        return prevState; 
+        return prevState;
       }
-  
+
       return {
         ...prevState,
         payableAmount,
@@ -545,9 +545,9 @@ useEffect(() => {
       };
     });
   };
-  
-  
-  
+
+
+
 
   const [editvalue, setEditvalue] = useState("");
   const [receiptedit, setReceiptEdit] = useState(false);
@@ -690,7 +690,7 @@ useEffect(() => {
   const handleEditBill = () => {
     let isValid = true;
     let hasError = false;
-  
+
     // Reset all error messages
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
@@ -699,19 +699,19 @@ useEffect(() => {
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
-  
+
     // Validate Customer
     if (!customername) {
       setCustomerErrmsg("Customer is Required");
       isValid = false;
     }
-  
+
     // Validate Invoice Number
     if (!invoicenumber) {
       setInvoicenumberErrmsg("Invoice Number is Required");
       isValid = false;
     }
-  
+
     // Validate Start & End Date only if NOT advance invoice
     if (invoiceDetails?.action !== "advance") {
       if (!startdate) {
@@ -723,13 +723,13 @@ useEffect(() => {
         isValid = false;
       }
     }
-  
+
     // Validate Invoice Date
     if (!invoicedate) {
       setInvoiceDateErrmsg("Invoice Date is Required");
       isValid = false;
     }
-  
+
     // Validate Due Date
     if (!invoiceduedate) {
       setInvoiceDueDateErrmsg("Due Date is Required");
@@ -754,7 +754,7 @@ useEffect(() => {
     } else {
       setTableErrmsg("");
     }
-  
+
     if (hasError) {
       return;
     }
@@ -770,14 +770,14 @@ useEffect(() => {
       setAllFieldErrmsg("Please Fill Out All Required Fields");
       isValiding = false;
     }
-  
+
     // Format functions
     const formatDate = (date) => {
       if (!date) return "";
       const d = new Date(date);
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
     };
-  
+
     // Check if any value has changed
     const isChanged = (() => {
       const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
@@ -787,12 +787,12 @@ useEffect(() => {
       const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
       const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
       const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
-  
+
       const amenitiesChanged = newRows.some((row, index) => {
         const originalRow = invoiceDetails?.amenity?.[index] || {};
         return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
       });
-  
+
       return (
         userChanged ||
         invoiceChanged ||
@@ -803,20 +803,20 @@ useEffect(() => {
         amenitiesChanged
       );
     })();
-  
+
     // If no changes
     if (!isChanged) {
       setAllFieldErrmsg("No Changes Detected");
       return;
     }
-  
+
     // Final Save Condition
     if (isValid && isValiding && isChanged) {
       const formattedInvoiceDate = formatDate(invoicedate);
       const formattedDueDate = formatDate(invoiceduedate);
       const formattedStartDate = formatDate(startdate);
       const formattedEndDate = formatDate(enddate);
-  
+
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
         payload: {
@@ -829,7 +829,7 @@ useEffect(() => {
           end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
         },
       });
-  
+
       // Reset Form State
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
@@ -850,13 +850,13 @@ useEffect(() => {
       setAllFieldErrmsg("");
     }
   };
-  
+
 
   const handleShowForm = (props) => {
     setShowform(true);
     setInvoiceValue(props.item);
-  
-     
+
+
     if (props.item.id !== undefined) {
       // setEditOption("Edit");
       const dateObject = new Date(props.item.Date);
@@ -1069,7 +1069,7 @@ useEffect(() => {
     return dayjs(date).format("YYYY-MM-DD"); // Change format if needed
   };
 
- 
+
 
   const handlestartDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -1095,26 +1095,26 @@ useEffect(() => {
     }
 
   };
- 
+
   const handleInvoiceDate = (selectedDate) => {
     setAllFieldErrmsg("");
-  
+
     if (!selectedDate) {
       setInvoiceDate(null);
       setInvoiceDateErrmsg("Please Select Date");
       return;
     }
-  
+
     setInvoiceDate(selectedDate);
     setInvoiceDateErrmsg("");
     setEnddateErrmsg("");
     setStartdateErrmsg("");
-  
+
     const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
     setFormatInvoiceDate(formattedDate);
   };
-  
-  
+
+
 
   // const handleInvoiceDate = (selectedDates) => {
   //   setAllFieldErrmsg("");
@@ -1363,49 +1363,49 @@ useEffect(() => {
   const [dropdownValue, setDropdownValue] = useState("");
   const handleRowTypeSelect = (type) => {
     let newRow = { am_name: "", amount: "0" };
-  
+
     if (type === "RoomRent") {
       newRow.am_name = "Room Rent";
     } else if (type === "EB") {
       newRow.am_name = "EB";
     }
-  
+
     setNewRows((prev) => [...prev, newRow]);
-  
+
     // Add to selectedTypes only if not already added
     if (type !== "Other" && !selectedTypes.includes(type)) {
       setSelectedTypes((prev) => [...prev, type]);
     }
-  
+
     // Clear error messages
     setAllFieldErrmsg("");
     setTableErrmsg("");
-  
+
     // ✅ Reset dropdown cleanly using state
     setDropdownValue("");
   };
-  
-  
- 
+
+
+
   const handleDeleteNewRow = (index) => {
     setNewRows((prevRows) => {
       const deletedRow = prevRows[index];
       const updatedRows = prevRows.filter((_, i) => i !== index);
-  
+
       // Remove RoomRent or EB from selectedTypes if that row was deleted
       if (deletedRow.am_name === "Room Rent") {
         setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "RoomRent"));
       } else if (deletedRow.am_name === "EB") {
         setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "EB"));
       }
-  
+
       return updatedRows;
     });
-  
+
     setAllFieldErrmsg("");
     setTableErrmsg("");
   };
-  
+
   useEffect(() => {
     const types = [];
     newRows.forEach((row) => {
@@ -1414,7 +1414,7 @@ useEffect(() => {
     });
     setSelectedTypes(types);
   }, []);
-  
+
   const handleCreateBill = () => {
     let hasError = false;
 
@@ -1482,7 +1482,7 @@ useEffect(() => {
     } else {
       setTableErrmsg("");
     }
-    
+
 
     // Stop execution if there are errors
     if (hasError) {
@@ -1493,7 +1493,7 @@ useEffect(() => {
     const formattedStartDate = startdate ? dayjs(startdate).format("YYYY-MM-DD") : "";
 
     const formattedEndDate = enddate ? dayjs(enddate).format("YYYY-MM-DD") : "";
-    
+
     // Dispatch only if all fields are filled
     dispatch({
       type: "MANUAL-INVOICE-ADD",
@@ -1504,7 +1504,7 @@ useEffect(() => {
         // start_date: formattedStartDate,
         // end_date: formattedEndDate,
         start_date: invoiceDetails?.action === "advance" ? null : formattedStartDate,
-    end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
+        end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
         invoice_id: invoicenumber,
         total_amount: totalAmount,
         amenity: amenityArray.length > 0 ? amenityArray : [],
@@ -1528,7 +1528,7 @@ useEffect(() => {
     setNewRows([]);
   };
 
- 
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -1685,9 +1685,9 @@ useEffect(() => {
     setFilterStatus(false)
     setStatusFilterReceipt("")
     setStatusfilter("");
-      setDateRange([]);        
-      setStartDate(null);   
-      setEndDate(null);
+    setDateRange([]);
+    setStartDate(null);
+    setEndDate(null);
   };
 
   const handleDisplayInvoiceDownload = (isVisible, rowData) => {
@@ -1990,7 +1990,7 @@ useEffect(() => {
     }
   }, [selectedDate]);
 
- 
+
   useEffect(() => {
     if (hostelId) {
       dispatch({ type: "USERLIST", payload: { hostel_id: hostelId } });
@@ -2268,7 +2268,7 @@ useEffect(() => {
     state.InvoiceList.deleterecurringbillsStatuscode,
   ]);
 
-  
+
 
   useEffect(() => {
     if (value === "1") {
@@ -2319,10 +2319,10 @@ useEffect(() => {
   };
 
   const handleCloseSearch = () => {
-    setDropdownVisible(false); 
+    setDropdownVisible(false);
     setSearch(false);
     setFilterInput("");
-    
+
     setBills(bills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
@@ -2359,8 +2359,8 @@ useEffect(() => {
     setRecurringBills([user]);
     setDropdownVisible(false);
   };
-  
- 
+
+
 
 
   const handleUserReceipt = (user) => {
@@ -2456,26 +2456,26 @@ useEffect(() => {
     <div>
       {showAllBill && (
         <>
-         <div
-  className="container-fluid sticky-top bg-white "
-  style={{ zIndex: 1000, height: 'auto',top:10,paddingLeft:8,paddingRight:6,backgroundColor:"#ffffff"}}
->
-<div className="d-flex justify-content-between align-items-center flex-wrap mt-2">
-            <div className=" ms-3 " style={{
-    marginTop: value === "1" || value === "3" ? "11px" : "15px",
-  }}>
-      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,fontFamily: "Gilroy" }}>Bills</label>
-    </div>
+          <div
+            className="container-fluid sticky-top bg-white "
+            style={{ zIndex: 1000, height: 'auto', top: 10, paddingLeft: 8, paddingRight: 6, backgroundColor: "#ffffff" }}
+          >
+            <div className="d-flex justify-content-between align-items-center flex-wrap mt-2">
+              <div className=" ms-3 " style={{
+                marginTop: value === "1" || value === "3" ? "11px" : "15px",
+              }}>
+                <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Bills</label>
+              </div>
 
-            <div >
-              {showLoader && <LoaderComponent />}
-              {loading && <LoaderComponent />}
-              <div  className="d-flex flex-wrap align-items-center gap-2" style={{marginTop:"-6px",paddingLeft:25}}>
-                {search ? (
-                  <>
-                    <div className="position-relative" style={{ minWidth: 160,maxWidth:250, }}>
-                     
-                       
+              <div >
+                {showLoader && <LoaderComponent />}
+                {loading && <LoaderComponent />}
+                <div className="d-flex flex-wrap align-items-center gap-2" style={{ marginTop: "-6px", paddingLeft: 25 }}>
+                  {search ? (
+                    <>
+                      <div className="position-relative" style={{ minWidth: 160, maxWidth: 250, }}>
+
+
                         <div
                           className="input-group"
                           style={{ marginRight: 20, paddingTop: "25px" }}
@@ -2508,25 +2508,25 @@ useEffect(() => {
                             />
                           </span>
                         </div>
-                     
 
-                      {value === "1" &&
-                        isDropdownVisible &&
-                        bills?.length > 0 && (
-                          <div
-                            style={{
-                              border: "1px solid #d9d9d9 ",
-                              position: "absolute",
-                              top: 80,
-                              left: 0,
-                              zIndex: 1000,
-                              padding: 10,
-                              borderRadius: 8,
-                              backgroundColor: "#fff",
-                              width: "100%",
-                            }}
-                          >
-                            {/* <ul
+
+                        {value === "1" &&
+                          isDropdownVisible &&
+                          bills?.length > 0 && (
+                            <div
+                              style={{
+                                border: "1px solid #d9d9d9 ",
+                                position: "absolute",
+                                top: 80,
+                                left: 0,
+                                zIndex: 1000,
+                                padding: 10,
+                                borderRadius: 8,
+                                backgroundColor: "#fff",
+                                width: "100%",
+                              }}
+                            >
+                              {/* <ul
                               className="show-scroll p-0"
                               style={{
                                 backgroundColor: "#fff",
@@ -2574,452 +2574,452 @@ useEffect(() => {
                                 );
                               })}
                             </ul> */}
-                             <ul
-                                            className="show-scroll p-0"
-                                            style={{
-                                              listStyleType: "none",
-                                              maxHeight: 174,
-                                              minHeight:
-                                              bills?.length > 1 ? "100px" : "auto",
-                                              overflowY:
-                                              bills?.length > 3 ? "auto" : "hidden",
-                                              margin: 0,
-                                            }}
-                                          >
-                                            {bills?.map((user, index) => (
-                                              <li
-                                                key={index}
-                                                className="d-flex align-items-center"
-                                                style={{
-                                                  padding: "10px 5px",
-                                                  cursor: "pointer",
-                                                  borderBottom:
-                                                    index !== bills?.length - 1
-                                                      ? "1px solid #eee"
-                                                      : "none",
-                                                  backgroundColor:
-                                                    hoveredIndex === index ? "#1E45E1" : "transparent",
-                                                    color:
-                                                    hoveredIndex === index ? "white" : "black",
-                                                }}
-                                                onClick={() => handleUserSelect(user)}
-                                                onMouseEnter={() => setHoveredIndex(index)}
-                                                onMouseLeave={() => setHoveredIndex(null)}
-                                              >
-                                                <Image
-                                                  src={user.profile || Profile}
-                                                  alt={user.Name}
-                                                  roundedCircle
-                                                  style={{
-                                                    height: "30px",
-                                                    width: "30px",
-                                                    marginRight: "10px",
-                                                  }}
-                                                  onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    e.target.src = Profile;
-                                                  }}
-                                                />
-                                                <span>{user.Name}</span>
-                                              </li>
-                                            ))}
-                                          </ul>
-                          </div>
-                        )}
-                      {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
+                              <ul
+                                className="show-scroll p-0"
+                                style={{
+                                  listStyleType: "none",
+                                  maxHeight: 174,
+                                  minHeight:
+                                    bills?.length > 1 ? "100px" : "auto",
+                                  overflowY:
+                                    bills?.length > 3 ? "auto" : "hidden",
+                                  margin: 0,
+                                }}
+                              >
+                                {bills?.map((user, index) => (
+                                  <li
+                                    key={index}
+                                    className="d-flex align-items-center"
+                                    style={{
+                                      padding: "10px 5px",
+                                      cursor: "pointer",
+                                      borderBottom:
+                                        index !== bills?.length - 1
+                                          ? "1px solid #eee"
+                                          : "none",
+                                      backgroundColor:
+                                        hoveredIndex === index ? "#1E45E1" : "transparent",
+                                      color:
+                                        hoveredIndex === index ? "white" : "black",
+                                    }}
+                                    onClick={() => handleUserSelect(user)}
+                                    onMouseEnter={() => setHoveredIndex(index)}
+                                    onMouseLeave={() => setHoveredIndex(null)}
+                                  >
+                                    <Image
+                                      src={user.profile || Profile}
+                                      alt={user.Name}
+                                      roundedCircle
+                                      style={{
+                                        height: "30px",
+                                        width: "30px",
+                                        marginRight: "10px",
+                                      }}
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = Profile;
+                                      }}
+                                    />
+                                    <span>{user.Name}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
                           <div
-                          style={{
-                            border: "1px solid #d9d9d9 ",
-                            position: "absolute",
-                            top: 80,
-                            left: 0,
-                            zIndex: 9999, // Increased zIndex
-                            padding: 10,
-                            borderRadius: 8,
-                            backgroundColor: "#fff",
-                            width: "100%",
-                            pointerEvents: "auto", // Ensure clicks are registered
-                          }}
-                        >
-                          <ul
-                            className="show-scroll p-0"
                             style={{
+                              border: "1px solid #d9d9d9 ",
+                              position: "absolute",
+                              top: 80,
+                              left: 0,
+                              zIndex: 9999, // Increased zIndex
+                              padding: 10,
+                              borderRadius: 8,
                               backgroundColor: "#fff",
-                              borderRadius: "4px",
-                              minHeight: 50,
-                              maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
-                              overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
-                              margin: "0",
-                              listStyleType: "none",
-                              boxSizing: "border-box",
+                              width: "100%",
+                              pointerEvents: "auto", // Ensure clicks are registered
                             }}
                           >
-                            {recurringbills?.length === 0 ? (
-                              <li style={{ padding: "10px" }}>No results found</li>
-                            ) : (
-                              recurringbills?.map((user, index) => (
-                                <li
-                                  key={index}
-                                  className="list-group-item d-flex align-items-center"
-                                  style={{
-                                    cursor: "pointer",
-                                    padding: "10px 5px",
-                                    borderBottom: index !== recurringbills.length - 1 ? "1px solid #eee" : "none",
-                                  }}
-                                  onClick={(e) => {
-                                    e.preventDefault(); 
-                                    e.stopPropagation(); 
-                                    console.log(`Clicked on: ${user.user_name}`); 
-                                    handleUserRecuire(user);
-                                  }}
-                                >
-                                  <Image
-                                    src={user.profile || Profile}
-                                    alt={user.user_name || "Default Profile"}
-                                    roundedCircle
-                                    style={{ height: "30px", width: "30px", marginRight: "10px" }}
-                                    onError={(e) => {
-                                      e.target.onerror = null;
-                                      e.target.src = Profile;
+                            <ul
+                              className="show-scroll p-0"
+                              style={{
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                minHeight: 50,
+                                maxHeight: recurringbills?.length > 1 ? "174px" : "auto",
+                                overflowY: recurringbills?.length > 1 ? "auto" : "hidden",
+                                margin: "0",
+                                listStyleType: "none",
+                                boxSizing: "border-box",
+                              }}
+                            >
+                              {recurringbills?.length === 0 ? (
+                                <li style={{ padding: "10px" }}>No results found</li>
+                              ) : (
+                                recurringbills?.map((user, index) => (
+                                  <li
+                                    key={index}
+                                    className="list-group-item d-flex align-items-center"
+                                    style={{
+                                      cursor: "pointer",
+                                      padding: "10px 5px",
+                                      borderBottom: index !== recurringbills.length - 1 ? "1px solid #eee" : "none",
                                     }}
-                                  />
-                                  <span>{user.user_name}</span>
-                                </li>
-                              ))
-                            )}
-                          </ul>
-                        </div>
-                        
-                        )}
-
-                      {value === "3" &&
-                        isDropdownVisible &&
-                        receiptdata?.length > 0 && (
-                          <div
-  style={{
-    border: "1px solid #d9d9d9 ",
-    position: "absolute",
-    top: 80,
-    left: 0,
-    zIndex: 9999,
-    padding: 10,
-    borderRadius: 8,
-    backgroundColor: "#fff",
-    width: "100%",
-    pointerEvents: "auto",
-  }}
->
-  <ul
-    className="show-scroll p-0"
-    style={{
-      backgroundColor: "#fff",
-      borderRadius: "4px",
-      minHeight: 50,
-      maxHeight: receiptdata?.length > 1 ? "100px" : "auto",
-      overflowY: receiptdata?.length > 3 ? "auto" : "hidden",
-      margin: "0",
-      listStyleType: "none",
-      boxSizing: "border-box",
-    }}
-  >
-    {receiptdata?.map((user, index) => {
-      const imagedrop = user.profile || Profile;
-      return (
-        <li
-          key={index}
-          className="list-group-item d-flex align-items-center"
-          style={{
-            cursor: "pointer",
-            padding: "10px 5px",
-            borderBottom: index !== receiptdata?.length - 1 ? "1px solid #eee" : "none",
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log(`Clicked on: ${user.Name}`); // Debug line
-            handleUserReceipt(user);
-          }}
-        >
-          <Image
-            src={imagedrop}
-            alt={user.Name || "Default Profile"}
-            roundedCircle
-            style={{
-              height: "30px",
-              width: "30px",
-              marginRight: "10px",
-            }}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = Profile;
-            }}
-          />
-          <span>{user.Name}</span>
-        </li>
-      );
-    })}
-  </ul>
-</div>
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      console.log(`Clicked on: ${user.user_name}`);
+                                      handleUserRecuire(user);
+                                    }}
+                                  >
+                                    <Image
+                                      src={user.profile || Profile}
+                                      alt={user.user_name || "Default Profile"}
+                                      roundedCircle
+                                      style={{ height: "30px", width: "30px", marginRight: "10px" }}
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = Profile;
+                                      }}
+                                    />
+                                    <span>{user.user_name}</span>
+                                  </li>
+                                ))
+                              )}
+                            </ul>
+                          </div>
 
                         )}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div style={{ marginTop: 18 }}>
+
+                        {value === "3" &&
+                          isDropdownVisible &&
+                          receiptdata?.length > 0 && (
+                            <div
+                              style={{
+                                border: "1px solid #d9d9d9 ",
+                                position: "absolute",
+                                top: 80,
+                                left: 0,
+                                zIndex: 9999,
+                                padding: 10,
+                                borderRadius: 8,
+                                backgroundColor: "#fff",
+                                width: "100%",
+                                pointerEvents: "auto",
+                              }}
+                            >
+                              <ul
+                                className="show-scroll p-0"
+                                style={{
+                                  backgroundColor: "#fff",
+                                  borderRadius: "4px",
+                                  minHeight: 50,
+                                  maxHeight: receiptdata?.length > 1 ? "100px" : "auto",
+                                  overflowY: receiptdata?.length > 3 ? "auto" : "hidden",
+                                  margin: "0",
+                                  listStyleType: "none",
+                                  boxSizing: "border-box",
+                                }}
+                              >
+                                {receiptdata?.map((user, index) => {
+                                  const imagedrop = user.profile || Profile;
+                                  return (
+                                    <li
+                                      key={index}
+                                      className="list-group-item d-flex align-items-center"
+                                      style={{
+                                        cursor: "pointer",
+                                        padding: "10px 5px",
+                                        borderBottom: index !== receiptdata?.length - 1 ? "1px solid #eee" : "none",
+                                      }}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        console.log(`Clicked on: ${user.Name}`); // Debug line
+                                        handleUserReceipt(user);
+                                      }}
+                                    >
+                                      <Image
+                                        src={imagedrop}
+                                        alt={user.Name || "Default Profile"}
+                                        roundedCircle
+                                        style={{
+                                          height: "30px",
+                                          width: "30px",
+                                          marginRight: "10px",
+                                        }}
+                                        onError={(e) => {
+                                          e.target.onerror = null;
+                                          e.target.src = Profile;
+                                        }}
+                                      />
+                                      <span>{user.Name}</span>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+
+                          )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div style={{ marginTop: 18 }}>
+                        <Image
+                          src={searchteam}
+                          roundedCircle
+                          style={{
+                            height: "24px",
+                            width: "24px",
+                            cursor: "pointer"
+                          }}
+                          onClick={handleSearch}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {(value === "1" || value === "3") && (
+                    <div >
                       <Image
-                        src={searchteam}
+                        src={Filters}
                         roundedCircle
-                        style={{
-                          height: "24px",
-                          width: "24px",
-                          cursor: "pointer"
-                        }}
-                        onClick={handleSearch}
+                        style={{ height: "50px", width: "50px", marginTop: 18, cursor: "pointer" }}
+                        onClick={handleFilterd}
                       />
                     </div>
-                  </>
-                )}
+                  )}
 
-                {(value === "1" || value === "3") && (
-                  <div >
-                    <Image
-                      src={Filters}
-                      roundedCircle
-                      style={{ height: "50px", width: "50px", marginTop: 18, cursor: "pointer" }}
-                      onClick={handleFilterd}
-                    />
-                  </div>
-                )}
-
-                {value === "1" && filterStatus && (
-                  <div
-                    className="me-3"
-                    style={{
-                      border: "1px solid #D4D4D4",
-                      borderRadius: 8,
-                      width: search ? "120px" : "120px",
-                      marginTop: "20px",
-                    }}
-                  >
-                    <Form.Select
-                      onChange={(e) => handleStatusFilter(e)}
-                      value={statusfilter}
-                      aria-label="Select Price Range"
-                      className=""
-                      id="statusselect"
+                  {value === "1" && filterStatus && (
+                    <div
+                      className="me-3"
                       style={{
-                        color: "rgba(34, 34, 34, 1)",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        cursor: "pointer"
+                        border: "1px solid #D4D4D4",
+                        borderRadius: 8,
+                        width: search ? "120px" : "120px",
+                        marginTop: "20px",
                       }}
                     >
-                      <option value="All">All</option>
-                      <option value="Unpaid">UnPaid</option>
-                      <option value="Paid">Paid</option>
-                      <option value="date">Date</option>
-                    </Form.Select>
-                 
-                  </div>
-                )}
-{statusfilter === "date" && value === "1" && (
-  <div className="mt-4">
-    <RangePicker
-  style={{ height: 40,cursor:"pointer" }}
-  onChange={(dates) => {
-    if (!dates || dates.length === 0) {
-      setStatusfilter("");
-      setDateRange([]);        
-      setStartDate(null);   
-      setEndDate(null); 
-    } else {
-      setDateRange(dates);
-      setStartDate(dates[0]);
-      setEndDate(dates[1]);
-    }
-  }}
-  value={dateRange}
-  format="YYYY-MM-DD"
-  className="w-100"
-/>
+                      <Form.Select
+                        onChange={(e) => handleStatusFilter(e)}
+                        value={statusfilter}
+                        aria-label="Select Price Range"
+                        className=""
+                        id="statusselect"
+                        style={{
+                          color: "rgba(34, 34, 34, 1)",
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          cursor: "pointer"
+                        }}
+                      >
+                        <option value="All">All</option>
+                        <option value="Unpaid">UnPaid</option>
+                        <option value="Paid">Paid</option>
+                        <option value="date">Date</option>
+                      </Form.Select>
 
-  </div>
-)}
+                    </div>
+                  )}
+                  {statusfilter === "date" && value === "1" && (
+                    <div className="mt-4">
+                      <RangePicker
+                        style={{ height: 40, cursor: "pointer" }}
+                        onChange={(dates) => {
+                          if (!dates || dates.length === 0) {
+                            setStatusfilter("");
+                            setDateRange([]);
+                            setStartDate(null);
+                            setEndDate(null);
+                          } else {
+                            setDateRange(dates);
+                            setStartDate(dates[0]);
+                            setEndDate(dates[1]);
+                          }
+                        }}
+                        value={dateRange}
+                        format="YYYY-MM-DD"
+                        className="w-100"
+                      />
 
-                {value === "3" && filterStatus && (
-                  <div
-                    className="me-3"
-                    style={{
-                      border: "1px solid #D4D4D4",
-                      borderRadius: 8,
-                      width: search ? "120px" : "120px",
-                      marginTop: "20px",
-                    }}
-                  >
-                    <Form.Select
-                      onChange={(e) => handleStatusFilterReceipt(e)}
-                      value={statusFilterReceipt}
-                      aria-label="Select Price Range"
-                      className=""
-                      id="statusselect"
+                    </div>
+                  )}
+
+                  {value === "3" && filterStatus && (
+                    <div
+                      className="me-3"
                       style={{
-                        color: "rgba(34, 34, 34, 1)",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        cursor:"pointer"
+                        border: "1px solid #D4D4D4",
+                        borderRadius: 8,
+                        width: search ? "120px" : "120px",
+                        marginTop: "20px",
                       }}
                     >
-                      <option value="All">All</option>
-                      <option value="Cash">Cash</option>
-                      <option value="upi">UPI</option>
-                      <option value="Credit Card">Credit Card</option>
-                      <option value="Debit Card">Debit Card</option>
-                      <option value="date">Date</option>
-                    </Form.Select>
-                  </div>
-                )}
+                      <Form.Select
+                        onChange={(e) => handleStatusFilterReceipt(e)}
+                        value={statusFilterReceipt}
+                        aria-label="Select Price Range"
+                        className=""
+                        id="statusselect"
+                        style={{
+                          color: "rgba(34, 34, 34, 1)",
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
+                          cursor: "pointer"
+                        }}
+                      >
+                        <option value="All">All</option>
+                        <option value="Cash">Cash</option>
+                        <option value="upi">UPI</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="Debit Card">Debit Card</option>
+                        <option value="date">Date</option>
+                      </Form.Select>
+                    </div>
+                  )}
 
-{statusFilterReceipt === "date" && value === "3" && (
-  <div className="me-3 mt-3">
-    <RangePicker
-      value={receiptDateRange}
-      format="YYYY-MM-DD"
-      onChange={handleDateRangeChangeReceipt}
-      style={{ height: "38px", borderRadius: 8,cursor:"pointer"}}
-      allowClear
-    />
-  </div>
-)}
+                  {statusFilterReceipt === "date" && value === "3" && (
+                    <div className="me-3 mt-3">
+                      <RangePicker
+                        value={receiptDateRange}
+                        format="YYYY-MM-DD"
+                        onChange={handleDateRangeChangeReceipt}
+                        style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
+                        allowClear
+                      />
+                    </div>
+                  )}
 
-                {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
+                  {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
 
 <div className='me-3'>
 <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
 </div> */}
 
-                <div className="text-center"  style={{paddingRight:18}} >
-                  {value === "1" && (
-                    <Button
-                      disabled={billAddPermission}
-                      onClick={handleManualShow}
-                      
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        fontWeight: 600,
-                        borderRadius: "8px",
-                        padding: "11px 33px",
-                        marginTop: 12,
-                        paddingLeft: 34,
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {" "}
-                      + Create Bill
-                    </Button>
-                  )}
-                  {value === "2" && (
-                    <Button
-                      disabled={recuringbillAddPermission}
-                      onClick={handleRecurrBillShow}
-                      // style={{
-                      //   fontSize: 14,
-                      //   backgroundColor: "#1E45E1",
-                      //   color: "white",
-                      //   height: 52,
-                      //   fontWeight: 600,
-                      //   borderRadius: 8,
-                      //   width: 200,
-                      //   padding: "12px, 16px, 12px, 16px",
-                      //   color: "#FFF",
-                      //   fontFamily: "Montserrat",
-                      //   whiteSpace: "nowrap",
-                      // }}
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        fontWeight: 600,
-                        borderRadius: "8px",
-                        padding: "11px 25px",
-                        paddingLeft: 25,
-                        marginTop: 18,
-                        whiteSpace: "nowrap",
-                        // width: "170px",
-                      }}
-                    >
-                      {" "}
-                      + Recurring Bill
-                    </Button>
-                  )}
+                  <div className="text-center" style={{ paddingRight: 18 }} >
+                    {value === "1" && (
+                      <Button
+                        disabled={billAddPermission}
+                        onClick={handleManualShow}
 
-                  {value === "3" && (
-                    <Button
-                      disabled={receiptaddPermission}
-                      onClick={handleReceiptShow}
-                      // style={{
-                      //   fontSize: 14,
-                      //   backgroundColor: "#1E45E1",
-                      //   color: "white",
-                      //   height: 52,
-                      //   fontWeight: 600,
-                      //   borderRadius: 8,
-                      //   width: 180,
-                      //   padding: "12px, 16px, 12px, 16px",
-                      //   color: "#FFF",
-                      //   fontFamily: "Montserrat",
-                      //   whiteSpace: "nowrap",
-                      // }}
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        fontWeight: 600,
-                        borderRadius: "8px",
-                        padding: "11px 18px",
-                        paddingLeft: 18,
-                        whiteSpace: "nowrap",
-                        marginTop: 12,
-                      }}
-                    >
-                      {" "}
-                      + Create Receipt
-                    </Button>
-                  )}
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: "14px",
+                          backgroundColor: "#1E45E1",
+                          color: "white",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          padding: "11px 33px",
+                          marginTop: 12,
+                          paddingLeft: 34,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {" "}
+                        + Create Bill
+                      </Button>
+                    )}
+                    {value === "2" && (
+                      <Button
+                        disabled={recuringbillAddPermission}
+                        onClick={handleRecurrBillShow}
+                        // style={{
+                        //   fontSize: 14,
+                        //   backgroundColor: "#1E45E1",
+                        //   color: "white",
+                        //   height: 52,
+                        //   fontWeight: 600,
+                        //   borderRadius: 8,
+                        //   width: 200,
+                        //   padding: "12px, 16px, 12px, 16px",
+                        //   color: "#FFF",
+                        //   fontFamily: "Montserrat",
+                        //   whiteSpace: "nowrap",
+                        // }}
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: "14px",
+                          backgroundColor: "#1E45E1",
+                          color: "white",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          padding: "11px 25px",
+                          paddingLeft: 25,
+                          marginTop: 18,
+                          whiteSpace: "nowrap",
+                          // width: "170px",
+                        }}
+                      >
+                        {" "}
+                        + Recurring Bill
+                      </Button>
+                    )}
+
+                    {value === "3" && (
+                      <Button
+                        disabled={receiptaddPermission}
+                        onClick={handleReceiptShow}
+                        // style={{
+                        //   fontSize: 14,
+                        //   backgroundColor: "#1E45E1",
+                        //   color: "white",
+                        //   height: 52,
+                        //   fontWeight: 600,
+                        //   borderRadius: 8,
+                        //   width: 180,
+                        //   padding: "12px, 16px, 12px, 16px",
+                        //   color: "#FFF",
+                        //   fontFamily: "Montserrat",
+                        //   whiteSpace: "nowrap",
+                        // }}
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: "14px",
+                          backgroundColor: "#1E45E1",
+                          color: "white",
+                          fontWeight: 600,
+                          borderRadius: "8px",
+                          padding: "11px 18px",
+                          paddingLeft: 18,
+                          whiteSpace: "nowrap",
+                          marginTop: 12,
+                        }}
+                      >
+                        {" "}
+                        + Create Receipt
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          </div>
 
           <TabContext value={value} >
-          <div
-             style={{
-              position: "sticky",
-              top:  70,
-              right: 0,
-              left: 0,
-              zIndex: 1000,
-              backgroundColor: search ? undefined : "#FFFFFF", 
-              height: "auto",
-            }}
+            <div
+              style={{
+                position: "sticky",
+                top: 70,
+                right: 0,
+                left: 0,
+                zIndex: 1000,
+                backgroundColor: search ? undefined : "#FFFFFF",
+                height: "auto",
+              }}
             >
               <Box
-               sx={{ borderBottom: 0, borderColor: "divider" }}
-                
+                sx={{ borderBottom: 0, borderColor: "divider" }}
+
               >
                 <TabList
-                
+
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
                   onChange={handleChanges}
                   aria-label="lab API tabs example"
                   style={{ marginLeft: "14px", }}
-                 
+
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
                   <Tab
@@ -3066,8 +3066,8 @@ useEffect(() => {
                   />
                 </TabList>
               </Box>
-            
-</div>
+
+            </div>
             <TabPanel value="1">
               <>
                 {billpermissionError ? (
@@ -3099,10 +3099,10 @@ useEffect(() => {
                             marginTop: "1rem",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
-                            fontSize:12
+                            fontSize: 12
                           }}
                         >
-                          <MdError style={{fontSize:14}} />
+                          <MdError style={{ fontSize: 14 }} />
                           <span>{billpermissionError}</span>
                         </div>
                       )}
@@ -3115,11 +3115,11 @@ useEffect(() => {
                   >
                     <div className="texxttt">
                       <div style={{ flex: 1 }}>
-          
+
                       </div>
                     </div>
 
-         
+
 
                     {showdeleteform && (
                       <div>
@@ -3132,14 +3132,14 @@ useEffect(() => {
                         >
                           <Modal.Header style={{ borderBottom: "none" }}>
                             <Modal.Title
-                            className="w-100 text-center"
+                              className="w-100 text-center"
                               style={{
                                 fontSize: "18px",
                                 fontFamily: "Gilroy",
-                               
+
                                 fontWeight: 600,
                                 color: "#222222",
-                                
+
                               }}
                             >
                               Delete Billing?
@@ -3147,13 +3147,13 @@ useEffect(() => {
                           </Modal.Header>
 
                           <Modal.Body
-                          className="text-center"
+                            className="text-center"
                             style={{
                               fontSize: 14,
                               fontWeight: 500,
                               fontFamily: "Gilroy",
                               color: "#646464",
-                              
+
                               marginTop: "-10px",
                             }}
                           >
@@ -3161,28 +3161,28 @@ useEffect(() => {
                           </Modal.Body>
 
                           <Modal.Footer
-                          className="d-flex justify-content-center"
+                            className="d-flex justify-content-center"
                             style={{
-                              
+
                               borderTop: "none",
                               marginTop: "-10px",
                             }}
                           >
                             <Button
-                            className="me-2"
-                            style={{
-                              width: "100%",
-                              maxWidth: 160,
-                              height: 52,
-                              borderRadius: 8,
-                              padding: "12px 20px",
-                              background: "#fff",
-                              color: "#1E45E1",
-                              border: "1px solid #1E45E1",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              fontSize: "14px",
-                            }}
+                              className="me-2"
+                              style={{
+                                width: "100%",
+                                maxWidth: 160,
+                                height: 52,
+                                borderRadius: 8,
+                                padding: "12px 20px",
+                                background: "#fff",
+                                color: "#1E45E1",
+                                border: "1px solid #1E45E1",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                fontSize: "14px",
+                              }}
                               onClick={handleCloseDeleteform}
                             >
                               Cancel
@@ -3225,7 +3225,7 @@ useEffect(() => {
                           centered
                         >
                           <Modal.Dialog
-                           
+
                             className="m-0 p-0"
                           >
                             {/* <Modal.Header
@@ -3295,9 +3295,9 @@ useEffect(() => {
                                   </span>
                                 )}
                               </div>
-                              
-                              <CloseCircle size="24" color="#000" onClick={handleCloseForm} 
-            style={{ cursor: 'pointer' }}/>
+
+                              <CloseCircle size="24" color="#000" onClick={handleCloseForm}
+                                style={{ cursor: 'pointer' }} />
                             </Modal.Header>
 
                             <Modal.Body>
@@ -3357,18 +3357,18 @@ useEffect(() => {
                                         handleAmount(e);
                                       }}
                                     /> */}
- <Form.Control
-  type="number"
-  min="0"
-  step="1"
-  placeholder="Enter Amount"
-  className="no-spinner"
-  value={invoiceList.payableAmount || ""}
-  onChange={(e) => handleAmount(e)}
-  onKeyDown={(e) => {
-    if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
-  }}
-/>
+                                    <Form.Control
+                                      type="number"
+                                      min="0"
+                                      step="1"
+                                      placeholder="Enter Amount"
+                                      className="no-spinner"
+                                      value={invoiceList.payableAmount || ""}
+                                      onChange={(e) => handleAmount(e)}
+                                      onKeyDown={(e) => {
+                                        if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
+                                      }}
+                                    />
 
 
 
@@ -3446,9 +3446,9 @@ useEffect(() => {
                                             : "",
                                         })}
                                       /> */}
-                                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                         <DatePicker
-                                          style={{ width: "100%", height: 48,cursor:"pointer" }}
+                                          style={{ width: "100%", height: 48, cursor: "pointer" }}
                                           format="DD/MM/YYYY"
                                           placeholder="DD/MM/YYYY"
                                           value={selectedDate ? dayjs(selectedDate) : null}
@@ -3558,7 +3558,7 @@ useEffect(() => {
                                         *
                                       </span>
                                     </Form.Label>
-                                   
+
 
                                     <Select
                                       options={[
@@ -3613,14 +3613,14 @@ useEffect(() => {
                                         }),
                                         option: (base, state) => ({
                                           ...base,
-                                          cursor: "pointer", 
-                                          backgroundColor: state.isFocused ? "lightblue" : "white", 
+                                          cursor: "pointer",
+                                          backgroundColor: state.isFocused ? "lightblue" : "white",
                                           color: "#000",
                                         }),
                                         dropdownIndicator: (base) => ({
                                           ...base,
                                           color: "#555",
-                                          cursor:"pointer"
+                                          cursor: "pointer"
                                         }),
                                         indicatorSeparator: () => ({
                                           display: "none",
@@ -3677,75 +3677,75 @@ useEffect(() => {
                                         *{" "}
                                       </span>
                                     </Form.Label>
-                                   <Select
-                                                   placeholder="Select Account"
-                                                   options={
-                                                    bankking?.length > 0
-                                                       ? bankking.map((u) => ({
-                                                           value: u.id,
-                                                           label: u.bank_name,
-                                                         }))
-                                                       : []
-                                                   }
-                                                   value={
-                                                     bankking.map((u) => ({
-                                                       value: u.id,
-                                                       label: u.bank_name,
-                                                     })).find((opt) => opt.value === account) || null
-                                                   }
-                                                   onChange={handleAccount}
-                                                   styles={{
-                                                     control: (base) => ({
-                                                       ...base,
-                                                       height: "48px",
-                                                       border: "1px solid #D9D9D9",
-                                                       borderRadius: "8px",
-                                                       fontSize: "16px",
-                                                       color: "#4B4B4B",
-                                                       fontFamily: "Gilroy",
-                                                       fontWeight: 500,
-                                                       boxShadow: "none",
-                                                     }),
-                                                     menu: (base) => ({
-                                                       ...base,
-                                                       backgroundColor: "#f8f9fa",
-                                                       border: "1px solid #ced4da",
-                                                     }),
-                                                     menuList: (base) => ({
-                                                       ...base,
-                                                       backgroundColor: "#f8f9fa",
-                                                       maxHeight: "120px",
-                                                       padding: 0,
-                                                       scrollbarWidth: "thin",
-                                                       overflowY: "auto",
-                                                     }),
-                                                     placeholder: (base) => ({
-                                                       ...base,
-                                                       color: "#555",
-                                                     }),
-                                                     dropdownIndicator: (base) => ({
-                                                       ...base,
-                                                       color: "#555",
-                                                       cursor: "pointer",
-                                                     }),
-                                                     indicatorSeparator: () => ({
-                                                       display: "none",
-                                                     }),
-                                                     option: (base, state) => ({
-                                                       ...base,
-                                                       cursor: "pointer", 
-                                                       backgroundColor: state.isFocused ? "#f0f0f0" : "white", 
-                                                       color: "#000",
-                                                     }),
-                                                   }}
-                                                  //  isDisabled={currentItem}
-                                                   noOptionsMessage={() =>
-                                                    bankking?.length === 0
-                                                       ? "No accounts available"
-                                                       : "No match found"
-                                                   }
-                                                 />
-                                  
+                                    <Select
+                                      placeholder="Select Account"
+                                      options={
+                                        bankking?.length > 0
+                                          ? bankking.map((u) => ({
+                                            value: u.id,
+                                            label: u.bank_name,
+                                          }))
+                                          : []
+                                      }
+                                      value={
+                                        bankking.map((u) => ({
+                                          value: u.id,
+                                          label: u.bank_name,
+                                        })).find((opt) => opt.value === account) || null
+                                      }
+                                      onChange={handleAccount}
+                                      styles={{
+                                        control: (base) => ({
+                                          ...base,
+                                          height: "48px",
+                                          border: "1px solid #D9D9D9",
+                                          borderRadius: "8px",
+                                          fontSize: "16px",
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                        }),
+                                        menu: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          border: "1px solid #ced4da",
+                                        }),
+                                        menuList: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          maxHeight: "120px",
+                                          padding: 0,
+                                          scrollbarWidth: "thin",
+                                          overflowY: "auto",
+                                        }),
+                                        placeholder: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        dropdownIndicator: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                          cursor: "pointer",
+                                        }),
+                                        indicatorSeparator: () => ({
+                                          display: "none",
+                                        }),
+                                        option: (base, state) => ({
+                                          ...base,
+                                          cursor: "pointer",
+                                          backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                                          color: "#000",
+                                        }),
+                                      }}
+                                      //  isDisabled={currentItem}
+                                      noOptionsMessage={() =>
+                                        bankking?.length === 0
+                                          ? "No accounts available"
+                                          : "No match found"
+                                      }
+                                    />
+
                                     {accountError.trim() !== "" && (
                                       <div>
                                         <p
@@ -3789,7 +3789,7 @@ useEffect(() => {
                                         style={{
                                           fontSize: "14px",
                                           color: "red",
-                                          
+
                                         }}
                                       />
                                     )}{" "}
@@ -3822,18 +3822,18 @@ useEffect(() => {
                     {/* {currentItems.length > 0 && */}
                     {/* <> */}
 
-                    <Container fluid className="p-0 ">
+                    <Container fluid className="p-0 table-bills">
                       <Row
                         className={` ${DownloadReceipt
                           ? "m-0 g-2 d-flex justify-content-between"
                           : "m-0 g-0"
-                        }`}
+                          }`}
                       >
                         <Col
-                          lg={DownloadInvoice ? 4: 12}
+                          lg={DownloadInvoice ? 4 : 12}
                           md={DownloadInvoice ? 4 : 12}
                           sm={DownloadInvoice ? 12 : 12}
-                          xs={DownloadInvoice ? 12: 12}
+                          xs={DownloadInvoice ? 12 : 12}
                         >
                           {DownloadInvoice ? (
                             <div
@@ -3878,137 +3878,137 @@ useEffect(() => {
 
                           </div>
                         </div> */}
-                                 <div
-                                  className="invoice-list-container"
-                                        style={{
+                                    <div
+                                      className="invoice-list-container"
+                                      style={{
                                         height: '100%', // fallback
                                         maxHeight: window.innerWidth < 768 ? '150px' : '250px',
                                         overflowY: 'auto',
                                         paddingRight: '10px',
-                                        }}
-                                       >
-                                    <div className="" style={{}}>
-                                      <div className="d-flex align-items-start justify-content-between w-100 p-2">
-                                        <div>
-                                          <span>
-                                            <img
-                                              src={
-                                                item.user_profile &&
-                                                  item.user_profile !== "0"
-                                                  ? item.user_profile
-                                                  : User
-                                              }
-                                              style={{ height: 40, width: 40 }}
-                                              alt="User"
-                                            />
-                                          </span>
-                                        </div>
-
-                                        <div className="flex-grow-1 ms-2">
-                                          <div className="d-flex justify-content-between align-items-center mb-2">
-                                            <div
-                                              className="Invoice_Name"
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "14px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                                cursor: "pointer",
-                                              }}
-                                              onClick={() =>
-                                                handleDisplayInvoiceDownload(
-                                                  true,
-                                                  item
-                                                )
-                                              }
-                                            >
-                                              {item.Name}
-                                            </div>
-                                            <div
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "12px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                              }}
-                                            >
-                                              {item.Amount}
-                                            </div>
+                                      }}
+                                    >
+                                      <div className="" style={{}}>
+                                        <div className="d-flex align-items-start justify-content-between w-100 p-2">
+                                          <div>
+                                            <span>
+                                              <img
+                                                src={
+                                                  item.user_profile &&
+                                                    item.user_profile !== "0"
+                                                    ? item.user_profile
+                                                    : User
+                                                }
+                                                style={{ height: 40, width: 40 }}
+                                                alt="User"
+                                              />
+                                            </span>
                                           </div>
 
-                                          <div className="d-flex justify-content-between gap-3 mb-2">
-                                            <div
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "12px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                              }}
-                                            >
-                                              {item.Invoices === null ||
-                                                item.Invoices === ""
-                                                ? "0.00"
-                                                : item.Invoices}
+                                          <div className="flex-grow-1 ms-2">
+                                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                              <div
+                                                className="Invoice_Name"
+                                                style={{
+                                                  fontFamily: "Gilroy",
+                                                  fontSize: "14px",
+                                                  wordWrap: "break-word",
+                                                  color: "#222",
+                                                  fontStyle: "normal",
+                                                  lineHeight: "normal",
+                                                  fontWeight: 600,
+                                                  cursor: "pointer",
+                                                }}
+                                                onClick={() =>
+                                                  handleDisplayInvoiceDownload(
+                                                    true,
+                                                    item
+                                                  )
+                                                }
+                                              >
+                                                {item.Name}
+                                              </div>
+                                              <div
+                                                style={{
+                                                  fontFamily: "Gilroy",
+                                                  fontSize: "12px",
+                                                  wordWrap: "break-word",
+                                                  color: "#222",
+                                                  fontStyle: "normal",
+                                                  lineHeight: "normal",
+                                                  fontWeight: 600,
+                                                }}
+                                              >
+                                                {item.Amount}
+                                              </div>
                                             </div>
-                                            <div
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: "12px",
-                                                wordWrap: "break-word",
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                                fontWeight: 600,
-                                              }}
-                                            >
-                                              {moment(item.Date).format(
-                                                "DD MMM YYYY"
+
+                                            <div className="d-flex justify-content-between gap-3 mb-2">
+                                              <div
+                                                style={{
+                                                  fontFamily: "Gilroy",
+                                                  fontSize: "12px",
+                                                  wordWrap: "break-word",
+                                                  color: "#222",
+                                                  fontStyle: "normal",
+                                                  lineHeight: "normal",
+                                                  fontWeight: 600,
+                                                }}
+                                              >
+                                                {item.Invoices === null ||
+                                                  item.Invoices === ""
+                                                  ? "0.00"
+                                                  : item.Invoices}
+                                              </div>
+                                              <div
+                                                style={{
+                                                  fontFamily: "Gilroy",
+                                                  fontSize: "12px",
+                                                  wordWrap: "break-word",
+                                                  color: "#222",
+                                                  fontStyle: "normal",
+                                                  lineHeight: "normal",
+                                                  fontWeight: 600,
+                                                }}
+                                              >
+                                                {moment(item.Date).format(
+                                                  "DD MMM YYYY"
+                                                )}
+                                              </div>
+                                            </div>
+
+                                            <div className="mb-2">
+                                              {item.BalanceDue === 0 ? (
+                                                <span
+                                                  style={{
+                                                    fontSize: "10px",
+                                                    backgroundColor: "#D9FFD9",
+                                                    color: "#000",
+                                                    borderRadius: "14px",
+                                                    fontFamily: "Gilroy",
+                                                    padding: "8px 12px",
+                                                  }}
+                                                >
+                                                  Paid
+                                                </span>
+                                              ) : (
+                                                <span
+                                                  style={{
+                                                    cursor: "pointer",
+                                                    fontSize: "10px",
+                                                    backgroundColor: "#FFD9D9",
+                                                    fontFamily: "Gilroy",
+                                                    color: "#000",
+                                                    borderRadius: "14px",
+                                                    padding: "8px 12px",
+                                                  }}
+                                                >
+                                                  Unpaid
+                                                </span>
                                               )}
                                             </div>
                                           </div>
-
-                                          <div className="mb-2">
-                                            {item.BalanceDue === 0 ? (
-                                              <span
-                                                style={{
-                                                  fontSize: "10px",
-                                                  backgroundColor: "#D9FFD9",
-                                                  color: "#000",
-                                                  borderRadius: "14px",
-                                                  fontFamily: "Gilroy",
-                                                  padding: "8px 12px",
-                                                }}
-                                              >
-                                                Paid
-                                              </span>
-                                            ) : (
-                                              <span
-                                                style={{
-                                                  cursor: "pointer",
-                                                  fontSize: "10px",
-                                                  backgroundColor: "#FFD9D9",
-                                                  fontFamily: "Gilroy",
-                                                  color: "#000",
-                                                  borderRadius: "14px",
-                                                  padding: "8px 12px",
-                                                }}
-                                              >
-                                                Unpaid
-                                              </span>
-                                            )}
-                                          </div>
                                         </div>
                                       </div>
-                                    </div>
                                     </div>
                                     <hr />
                                   </>
@@ -4256,20 +4256,20 @@ useEffect(() => {
                                 //   }}
                                 // >
                                 <nav className="pagination-container"
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "end",
-                                  padding: "10px",
-                                  position: "fixed",
-                                  bottom: "10px",
-                                  right: "10px",
-                                  backgroundColor: "#fff",
-                                  borderRadius: "5px",
-                                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                  zIndex: 1000,
-                                }}
-                              >
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "end",
+                                    padding: "10px",
+                                    position: "fixed",
+                                    bottom: "10px",
+                                    right: "10px",
+                                    backgroundColor: "#fff",
+                                    borderRadius: "5px",
+                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                    zIndex: 1000,
+                                  }}
+                                >
                                   {/* Dropdown for Items Per Page */}
                                   <div>
                                     <select
@@ -4473,12 +4473,12 @@ useEffect(() => {
                           alignItems: "center",
                           gap: "0.5rem",
                           marginTop: "1rem",
-                          fontSize:12,
+                          fontSize: 12,
                           fontFamily: "Gilroy",
                           fontWeight: 500,
                         }}
                       >
-                      <MdError style={{fontSize:14}} />
+                        <MdError style={{ fontSize: 14 }} />
                         <span>{recurringPermission}</span>
                       </div>
                     )}
@@ -4561,7 +4561,7 @@ useEffect(() => {
                         borderRadius: "24px",
                         border: "1px solid #DCDCDC",
                         // borderBottom:"none"
-                        marginTop:"3px"
+                        marginTop: "3px"
                       }}
                     >
                       <Table
@@ -4710,20 +4710,20 @@ useEffect(() => {
                     //   }}
                     // >
                     <nav className="pagination-container"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "end",
-                      padding: "10px",
-                      position: "fixed",
-                      bottom: "10px",
-                      right: "10px",
-                      backgroundColor: "#fff",
-                      borderRadius: "5px",
-                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                      zIndex: 1000,
-                    }}
-                  >
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "10px",
+                        right: "10px",
+                        backgroundColor: "#fff",
+                        borderRadius: "5px",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                        zIndex: 1000,
+                      }}
+                    >
                       {/* Dropdown for Items Per Page */}
                       <div>
                         <select
@@ -4896,12 +4896,12 @@ useEffect(() => {
                           alignItems: "center",
                           gap: "0.5rem",
                           marginTop: "1rem",
-                          fontSize:12,
+                          fontSize: 12,
                           fontFamily: "Gilroy",
                           fontWeight: 500,
                         }}
                       >
-                        <MdError style={{fontSize:14}} />
+                        <MdError style={{ fontSize: 14 }} />
                         <span>{receiptPermission}</span>
                       </div>
                     )}
@@ -5230,8 +5230,8 @@ useEffect(() => {
                   <Container fluid className="p-0">
                     <Row
                       className={` ${DownloadReceipt
-                          ? "m-0 g-2 d-flex justify-content-between"
-                          : "m-0 g-0"
+                        ? "m-0 g-2 d-flex justify-content-between"
+                        : "m-0 g-0"
                         }`}
                     >
                       <Col
@@ -5553,20 +5553,20 @@ useEffect(() => {
                               //   }}
                               // >
                               <nav className="pagination-container"
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "end",
-                                padding: "10px",
-                                position: "fixed",
-                                bottom: "10px",
-                                right: "10px",
-                                backgroundColor: "#fff",
-                                borderRadius: "5px",
-                                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                zIndex: 1000,
-                              }}
-                            >
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "end",
+                                  padding: "10px",
+                                  position: "fixed",
+                                  bottom: "10px",
+                                  right: "10px",
+                                  backgroundColor: "#fff",
+                                  borderRadius: "5px",
+                                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                  zIndex: 1000,
+                                }}
+                              >
                                 <div>
                                   <select
                                     value={itemsperPage}
@@ -5767,46 +5767,46 @@ useEffect(() => {
               )}
             </TabPanel>
           </TabContext>
-          </>
+        </>
       )}
 
       {showmanualinvoice && (
         <div className="mt-4" style={{ paddingLeft: 25 }}>
           <div
-                             className="container justify-content-start  d-flex align-items-start"
-                             style={{ 
-                               position: "sticky", 
-             top: 0,
-             left: 0,
-             width: "100%",
-             zIndex: 1000,
-             backgroundColor: "#FFFFFF",
-             height: "60px",
-             padding: "10px 5px", 
-                             }}
-                           >
-                             <div style={{position:"fixed"}}>
-                             <img
-                               src={leftarrow}
-                               alt="leftarrow"
-                               width={20}
-                               height={20}
-                               onClick={handleBackBill}
-                               style={{ cursor: "pointer" }}
-                             />
-                             <span
-                               style={{
-                                 fontWeight: 500,
-                                 fontSize: "18px",
-                                 // marginLeft: 15,
-                                 fontFamily: "Gilroy",
-                                 paddingLeft:"10px"
-                               }}
-                             >
-                               {billMode}
-                             </span>{" "}
-                             </div>
-                           </div>
+            className="container justify-content-start  d-flex align-items-start"
+            style={{
+              position: "sticky",
+              top: 0,
+              left: 0,
+              width: "100%",
+              zIndex: 1000,
+              backgroundColor: "#FFFFFF",
+              height: "60px",
+              padding: "10px 5px",
+            }}
+          >
+            <div style={{ position: "fixed" }}>
+              <img
+                src={leftarrow}
+                alt="leftarrow"
+                width={20}
+                height={20}
+                onClick={handleBackBill}
+                style={{ cursor: "pointer" }}
+              />
+              <span
+                style={{
+                  fontWeight: 500,
+                  fontSize: "18px",
+                  // marginLeft: 15,
+                  fontFamily: "Gilroy",
+                  paddingLeft: "10px"
+                }}
+              >
+                {billMode}
+              </span>{" "}
+            </div>
+          </div>
 
           <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -5934,8 +5934,8 @@ useEffect(() => {
                   }),
                   option: (base, state) => ({
                     ...base,
-                    cursor: "pointer", 
-                    backgroundColor: state.isFocused ? "#f0f0f0" : "white", 
+                    cursor: "pointer",
+                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
                     color: "#000",
                   }),
                 }}
@@ -5945,8 +5945,10 @@ useEffect(() => {
               {customererrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "5px", fontFamily: "Gilroy",
-                      fontWeight: 500, }}
+                    style={{
+                      fontSize: "12px", color: "red", marginTop: "5px", fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
                   >
                     {customererrmsg !== " " && (
                       <MdError
@@ -5998,8 +6000,10 @@ useEffect(() => {
               {invoicenumbererrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                      fontWeight: 500, }}
+                    style={{
+                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
                   >
                     {invoicenumbererrmsg !== " " && (
                       <MdError
@@ -6008,7 +6012,7 @@ useEffect(() => {
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "2px",
-                          
+
                         }}
                       />
                     )}{" "}
@@ -6019,17 +6023,17 @@ useEffect(() => {
             </Form.Group>
           </div>
           {invoiceDetails?.action !== "advance" && (
-  <div style={{ display: "flex", flexDirection: "row" }}>
-    <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
-      <p className="mt-1 mb-1" style={{
-        fontSize: 14,
-        color: "#222222",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-      }}>
-        Start Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-      </p>
-      {/* <div style={{ position: "relative", width: "100%" }}>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
+                <p className="mt-1 mb-1" style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}>
+                  Start Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </p>
+                {/* <div style={{ position: "relative", width: "100%" }}>
         <DatePicker
           selected={startdate}
           onChange={(date) => handlestartDate(date)}
@@ -6047,87 +6051,91 @@ useEffect(() => {
           }
         />
       </div> */}
-         <div
-                                                  className="datepicker-wrapper"
-                                                  style={{ position: "relative", width: "100%" }}
-                                                >
-                                                  <DatePicker
-                                                    style={{ width: "100%", height: 48,cursor:"pointer" }}
-                                                    format="DD/MM/YYYY"
-                                                    placeholder="DD/MM/YYYY"
-                                                    value={startdate ? dayjs(startdate) : null}
-                                                    onChange={(date) => handlestartDate(date)}
-                                                    getPopupContainer={(triggerNode) =>
-                                                      triggerNode.closest(".datepicker-wrapper")
-                                                    }
-                                                  />
-                                                </div>
-      {startdateerrmsg.trim() !== "" && (
-        <div>
-          <p style={{ fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                        fontWeight: 500, }}>
-            <MdError
-              style={{
-                fontSize: "14px",
-                color: "red",
-                marginRight: "3px",
-                marginBottom: "3px",
-                
-              }}
-            />
-            {startdateerrmsg}
-          </p>
-        </div>
-      )}
-    </div>
+                <div
+                  className="datepicker-wrapper"
+                  style={{ position: "relative", width: "100%" }}
+                >
+                  <DatePicker
+                    style={{ width: "100%", height: 48, cursor: "pointer" }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={startdate ? dayjs(startdate) : null}
+                    onChange={(date) => handlestartDate(date)}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.closest(".datepicker-wrapper")
+                    }
+                  />
+                </div>
+                {startdateerrmsg.trim() !== "" && (
+                  <div>
+                    <p style={{
+                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}>
+                      <MdError
+                        style={{
+                          fontSize: "14px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
 
-    <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-      <p className="mt-1 mb-1" style={{
-        fontSize: 14,
-        color: "#222222",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-      }}>
-        End Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-      </p>
-     
-        
-           <div
-                                                  className="datepicker-wrapper"
-                                                  style={{ position: "relative", width: "100%" }}
-                                                >
-                                                  <DatePicker
-                                                    style={{ width: "100%", height: 48,cursor:"pointer" }}
-                                                    format="DD/MM/YYYY"
-                                                    placeholder="DD/MM/YYYY"
-                                                    value={enddate ? dayjs(enddate) : null}
-                                                    onChange={(date) => handleEndDate(date)}
-                                                    getPopupContainer={(triggerNode) =>
-                                                      triggerNode.closest(".datepicker-wrapper")
-                                                    }
-                                                  />
-                                                </div>
-      
-      {enddateerrmsg.trim() !== "" && (
-        <div>
-          <p style={{ fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                        fontWeight: 500, }}>
-            <MdError
-              style={{
-                fontSize: "14px",
-                color: "red",
-                marginRight: "3px",
-                marginBottom: "3px",
-                
-              }}
-            />
-            {enddateerrmsg}
-          </p>
-        </div>
-      )}
-    </div>
-  </div>
-)}
+                        }}
+                      />
+                      {startdateerrmsg}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <p className="mt-1 mb-1" style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}>
+                  End Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </p>
+
+
+                <div
+                  className="datepicker-wrapper"
+                  style={{ position: "relative", width: "100%" }}
+                >
+                  <DatePicker
+                    style={{ width: "100%", height: 48, cursor: "pointer" }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={enddate ? dayjs(enddate) : null}
+                    onChange={(date) => handleEndDate(date)}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.closest(".datepicker-wrapper")
+                    }
+                  />
+                </div>
+
+                {enddateerrmsg.trim() !== "" && (
+                  <div>
+                    <p style={{
+                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}>
+                      <MdError
+                        style={{
+                          fontSize: "14px",
+                          color: "red",
+                          marginRight: "3px",
+                          marginBottom: "3px",
+
+                        }}
+                      />
+                      {enddateerrmsg}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
 
 
@@ -6161,23 +6169,25 @@ useEffect(() => {
                   ]}
                   customInput={<CustomInvoiceDateInput value={invoicedate ? invoicedate.toLocaleDateString("en-GB") : ""} />}
                 /> */}
-                 <DatePicker
-                                                    style={{ width: "100%", height: 48,cursor:"pointer" }}
-                                                    format="DD/MM/YYYY"
-                                                    placeholder="DD/MM/YYYY"
-                                                    value={invoicedate ? dayjs(invoicedate) : null}
-                                                    onChange={(date) => handleInvoiceDate(date)}
-                                                    getPopupContainer={(triggerNode) =>
-                                                      triggerNode.closest(".datepicker-wrapper")
-                                                    }
-                                                  />
+                <DatePicker
+                  style={{ width: "100%", height: 48, cursor: "pointer" }}
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={invoicedate ? dayjs(invoicedate) : null}
+                  onChange={(date) => handleInvoiceDate(date)}
+                  getPopupContainer={(triggerNode) =>
+                    triggerNode.closest(".datepicker-wrapper")
+                  }
+                />
               </div>
 
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                      fontWeight: 500, }}
+                    style={{
+                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
                   >
                     {invoicedateerrmsg !== " " && (
                       <MdError
@@ -6186,7 +6196,7 @@ useEffect(() => {
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "3px",
-                         
+
                         }}
                       />
                     )}{" "}
@@ -6204,24 +6214,26 @@ useEffect(() => {
                 fontWeight: 500,
               }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
-                   <DatePicker
-                                                    style={{ width: "100%", height: 48,cursor:"pointer" }}
-                                                    format="DD/MM/YYYY"
-                                                    placeholder="DD/MM/YYYY"
-                                                    value={invoiceduedate ? dayjs(invoiceduedate) : null}
-                                                    onChange={(date) => handleDueDate(date)}
-                                                    getPopupContainer={(triggerNode) =>
-                                                      triggerNode.closest(".datepicker-wrapper")
-                                                    }
-                                                  />
+                <DatePicker
+                  style={{ width: "100%", height: 48, cursor: "pointer" }}
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={invoiceduedate ? dayjs(invoiceduedate) : null}
+                  onChange={(date) => handleDueDate(date)}
+                  getPopupContainer={(triggerNode) =>
+                    triggerNode.closest(".datepicker-wrapper")
+                  }
+                />
               </div>
 
 
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                      fontWeight: 500, }}
+                    style={{
+                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
                   >
                     {invoiceduedateerrmsg !== " " && (
                       <MdError
@@ -6230,7 +6242,7 @@ useEffect(() => {
                           color: "red",
                           marginRight: "3px",
                           marginBottom: "3px",
-                          
+
                         }}
                       />
                     )}{" "}
@@ -6243,95 +6255,95 @@ useEffect(() => {
 
           {/* Table */}
           {Array.isArray(newRows) && newRows.length > 0 && (
-          <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
-            <Table className="ebtable mt-2" responsive>
-              <thead
-                style={{
-                  backgroundColor: "#E7F1FF",
-                  position: "sticky",
-                  top: 0,
-                  zIndex: 1,
-                }}
-              >
-                <tr>
-                  <th className="text-center"
-                    style={{
-                      color: "rgb(147, 147, 147)",
-                      fontSize: 14,
-                      fontweight: 500,
-                    }}
-                  >
-                    S.No
-                  </th>
-                  <th
-                    style={{
-                      color: "rgb(147, 147, 147)",
-                      fontSize: 14,
-                      fontweight: 500,
-                    }}
-                  >
-                    Description
-                  </th>
-                  {/* <th>EB Unit </th>
+            <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
+              <Table className="ebtable mt-2" responsive>
+                <thead
+                  style={{
+                    backgroundColor: "#E7F1FF",
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1,
+                  }}
+                >
+                  <tr>
+                    <th className="text-center"
+                      style={{
+                        color: "rgb(147, 147, 147)",
+                        fontSize: 14,
+                        fontweight: 500,
+                      }}
+                    >
+                      S.No
+                    </th>
+                    <th
+                      style={{
+                        color: "rgb(147, 147, 147)",
+                        fontSize: 14,
+                        fontweight: 500,
+                      }}
+                    >
+                      Description
+                    </th>
+                    {/* <th>EB Unit </th>
               <th>Unit Price </th>
               <th>Actual Amount</th> */}
-                  <th
-                    style={{
-                      color: "rgb(147, 147, 147)",
-                      fontSize: 14,
-                      fontweight: 500,
-                    }}
-                  >
-                    Total Amount
-                  </th>
-                  <th
-                    style={{
-                      color: "rgb(147, 147, 147)",
-                      fontSize: 14,
-                      fontweight: 500,
-                    }}
-                  >
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {newRows &&
-                  newRows.length > 0 &&
-                  newRows.map((u, index) => (
-                    <tr key={`new-${index}`}>
-                      <td
-                        className="text-center"
-                        style={{ fontFamily: "Gilroy" }}
-                      >
-                        {serialNumber++}
-                      </td>
-                      <td>
-                        <div
-                          className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
+                    <th
+                      style={{
+                        color: "rgb(147, 147, 147)",
+                        fontSize: 14,
+                        fontweight: 500,
+                      }}
+                    >
+                      Total Amount
+                    </th>
+                    <th
+                      style={{
+                        color: "rgb(147, 147, 147)",
+                        fontSize: 14,
+                        fontweight: 500,
+                      }}
+                    >
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {newRows &&
+                    newRows.length > 0 &&
+                    newRows.map((u, index) => (
+                      <tr key={`new-${index}`}>
+                        <td
+                          className="text-center"
+                          style={{ fontFamily: "Gilroy" }}
+                        >
+                          {serialNumber++}
+                        </td>
+                        <td>
+                          <div
+                            className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
+                            style={{ alignItems: "center" }}
+                          >
+                            <Form.Control
+                              type="text"
+                              style={{ fontFamily: "Gilroy" }}
+                              placeholder="Enter Description"
+                              value={u.am_name}
+                              onChange={(e) =>
+                                handleNewRowChange(
+                                  index,
+                                  "am_name",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </div>
+                        </td>
+
+                        <td
+                          className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
                           style={{ alignItems: "center" }}
                         >
-                          <Form.Control
-                            type="text"
-                            style={{ fontFamily: "Gilroy" }}
-                            placeholder="Enter Description"
-                            value={u.am_name}
-                            onChange={(e) =>
-                              handleNewRowChange(
-                                index,
-                                "am_name",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </div>
-                      </td>
-
-                      <td
-                        className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
-                        style={{ alignItems: "center" }}
-                      >
-                        {/* <Form.Control
+                          {/* <Form.Control
                           type="text"
                           style={{ fontFamily: "Gilroy" }}
                           placeholder="Enter total amount"
@@ -6340,74 +6352,76 @@ useEffect(() => {
                             handleNewRowChange(index, "amount", e.target.value)
                           }
                         /> */}
-        <Form.Control
-  type="text"
-  placeholder="Enter Total Amount"
-  value={u.amount}
-  className={`${u.amount === "" ? "border-danger" : ""}`}
-  onChange={(e) => {
-    const value = e.target.value;
-    if (/^\d*\.?\d*$/.test(value)) {
-      handleNewRowChange(index, "amount", value);
-    }
-  }}
-/>
-
-
-                      </td>
-                      <td style={{ alignItems: "center" }}>
-                        <span
-                          style={{
-                            cursor: "pointer",
-                            color: "red",
-                            marginLeft: "10px",
-                          }}
-                          onClick={() => handleDeleteNewRow(index)}
-                        >
-                          <img
-                            src={Closebtn}
-                            height={15}
-                            width={15}
-                            alt="delete"
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter Total Amount"
+                            value={u.amount}
+                            className={`${u.amount === "" ? "border-danger" : ""}`}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (/^\d*\.?\d*$/.test(value)) {
+                                handleNewRowChange(index, "amount", value);
+                              }
+                            }}
                           />
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
-          </div>
+
+
+                        </td>
+                        <td style={{ alignItems: "center" }}>
+                          <span
+                            style={{
+                              cursor: "pointer",
+                              color: "red",
+                              marginLeft: "10px",
+                            }}
+                            onClick={() => handleDeleteNewRow(index)}
+                          >
+                            <img
+                              src={Closebtn}
+                              height={15}
+                              width={15}
+                              alt="delete"
+                            />
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </Table>
+            </div>
           )}
-        <div  className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-2">
-        <Form.Select
-  className="border"
-  style={{
-    fontSize: 16,
-    color: "#4B4B4B",
-    fontFamily: "Gilroy",
-    lineHeight: "18.83px",
-    fontWeight: 500,
-    boxShadow: "none",
-    border: "1px solid #D9D9D9",
-    height: 38,
-    borderRadius: 8,
-    cursor:"pointer"
-  }}
-  value={dropdownValue}
-  onChange={(e) => handleRowTypeSelect(e.target.value)}
->
-  <option value="" disabled>Select Item Type</option>
-  {!selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
-  {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
-  <option value="Other">Other</option>
-</Form.Select>
+          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-2">
+            <Form.Select
+              className="border"
+              style={{
+                fontSize: 16,
+                color: "#4B4B4B",
+                fontFamily: "Gilroy",
+                lineHeight: "18.83px",
+                fontWeight: 500,
+                boxShadow: "none",
+                border: "1px solid #D9D9D9",
+                height: 38,
+                borderRadius: 8,
+                cursor: "pointer"
+              }}
+              value={dropdownValue}
+              onChange={(e) => handleRowTypeSelect(e.target.value)}
+            >
+              <option value="" disabled>Select Item Type</option>
+              {!selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
+              {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
+              <option value="Other">Other</option>
+            </Form.Select>
 
 
- {tableErrmsg.trim() !== "" && (
+            {tableErrmsg.trim() !== "" && (
               <div>
                 <p
-                  style={{ fontSize: "12px", color: "red", marginTop: "4px", textAlign: "center", fontFamily: "Gilroy",
-                    fontWeight: 500, }}
+                  style={{
+                    fontSize: "12px", color: "red", marginTop: "4px", textAlign: "center", fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
                 >
                   {tableErrmsg !== " " && (
                     <MdError
@@ -6416,7 +6430,7 @@ useEffect(() => {
                         color: "red",
                         marginRight: "3px",
                         marginBottom: "3px",
-                        
+
                       }}
                     />
                   )}{" "}
@@ -6424,7 +6438,7 @@ useEffect(() => {
                 </p>
               </div>
             )}
-</div>
+          </div>
           {/* <div>
             <p
               style={{
@@ -6472,15 +6486,15 @@ useEffect(() => {
             )}
           </div>
           <div>
-            
+
           </div>
 
           <div style={{ float: "right", marginRight: "130px" }}>
-          {Array.isArray(newRows) && newRows.length > 0 && (
-            <h5 style={{ fontFamily: "Gilroy" }}>
-              Total Amount ₹{totalAmount}
-            </h5>
-          )}
+            {Array.isArray(newRows) && newRows.length > 0 && (
+              <h5 style={{ fontFamily: "Gilroy" }}>
+                Total Amount ₹{totalAmount}
+              </h5>
+            )}
             <Button
               onClick={isEditing ? handleEditBill : handleCreateBill}
               className="w-100 mt-3 mb-5"
