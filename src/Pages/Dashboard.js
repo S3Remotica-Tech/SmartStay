@@ -10,7 +10,7 @@ import vector from "../Assets/Images/New_images/Asset_Arrow.png";
 import key from "../Assets/Images/key.png";
 import clock from "../Assets/Images/Car.png";
 import { useDispatch, useSelector } from "react-redux";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
+// import Profile from "../Assets/Images/New_images/profile-picture.png";
 import drop from "../Assets/Images/New_images/arrow-down.png";
 import DashboardAnnouncement from "./DashboardAnnouncement";
 import DashboardUpdates from "./DashboardUpdates";
@@ -36,11 +36,17 @@ import {
 } from "recharts";
 import { MdError } from "react-icons/md";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
-import { Table } from "react-bootstrap";
+// import { Table } from "react-bootstrap";
 import LoaderComponent from "./LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
-import { ChevronDown } from "lucide-react";
+import pendingimg from "../Assets/Images/New_images/pending_rent.png";
+import currentMatch from "../Assets/Images/New_images/currentmatch.png";
+import activeImage from "../Assets/Images/New_images/Active compliant.png";
+import coinImage from "../Assets/Images/New_images/coinimage.png";
+import advancedHand from "../Assets/Images/New_images/AdvancedHand.png";
+import newBooking from "../Assets/Images/New_images/NewBooking.png";
+
 
 const newChart = [
   { name: "Jan 2024", Advance: 10000, AdvanceReturn: 9000 },
@@ -58,7 +64,7 @@ function Dashboard(props) {
   const [dashboardList, setDashboardList] = useState([]);
   const [lablesdata, setLables] = useState([]);
   const [totalAmount, setTotalAmount] = useState([]);
-  const [activecommpliance, setActivecommpliance] = useState([]);
+  // const [activecommpliance, setActivecommpliance] = useState([]);
   const [rolePermission, setRolePermission] = useState("");
   const [permissionError, setPermissionError] = useState("");
   const [announcePermissionError, setAnnouncePermissionError] = useState("");
@@ -273,9 +279,9 @@ function Dashboard(props) {
     setTotalAmount(state.PgList?.dashboardFilter?.total_amount);
   }, [state.PgList?.dashboardFilter?.total_amount]);
 
-  const handlecompliance = (compliance) => {
-    props.displayCompliance(compliance);
-  };
+  // const handlecompliance = (compliance) => {
+  //   props.displayCompliance(compliance);
+  // };
 
   useEffect(() => {
     setLables(state.PgList?.dashboardFilter?.exp_data || []);
@@ -303,9 +309,9 @@ function Dashboard(props) {
     }
   }, [state.PgList.dashboardDetails.dashboardList]);
 
-  useEffect(() => {
-    setActivecommpliance(state.PgList.dashboardDetails?.com_data);
-  }, [state.PgList.dashboardDetails?.com_data]);
+  // useEffect(() => {
+  //   setActivecommpliance(state.PgList.dashboardDetails?.com_data);
+  // }, [state.PgList.dashboardDetails?.com_data]);
 
   useEffect(() => {
     setCashBackData(state.PgList?.dashboardFilterCashback?.cash_back_data);
@@ -725,6 +731,77 @@ function Dashboard(props) {
                         </div>
                       </div>
                     </div>
+      
+  <div className="container">
+    <div className="row g-3">
+
+     
+      <div className="col-12 col-md-6 col-lg-4">
+        <div className="d-flex align-items-center p-3 border rounded-4 bg-primary bg-opacity-10">
+          <div className="me-3  text-primary"><img src={advancedHand} alt="advancedhand" width={32} height={32} /></div>
+          <div>
+            <h6 className="text-muted ">Advance in Hand</h6>
+            <div className="fw-semibold fs-5">₹ 32,500</div>
+          </div>
+        </div>
+      </div>
+
+     
+      <div className="col-12 col-md-6 col-lg-4">
+        <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
+          <div className="me-3  text-primary"><img src={activeImage} alt="activeImage" width={32} height={32} /></div>
+          <div>
+            <h6 className="text-muted ">Active Complaint</h6>
+            <div className="fw-semibold fs-5">153</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="col-12 col-md-6 col-lg-4">
+        <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
+          <div className="me-3 text-primary"><img src={currentMatch} alt="currentMatch" width={32} height={32} /></div>
+          <div>
+            <h6 className="text-muted ">Current Month Profit</h6>
+            <div className="fw-semibold fs-5">₹ 84,550</div>
+          </div>
+        </div>
+      </div>
+
+
+      <div className="col-12 col-md-6 col-lg-4">
+        <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
+          <div className="me-3  text-primary"><img src={coinImage} alt="coinImage" width={32} height={32} /></div>
+          <div>
+            <h6 className="text-muted ">Other Profit</h6>
+            <div className="fw-semibold fs-5">₹ 73,800</div>
+          </div>
+        </div>
+      </div>
+
+     
+      <div className="col-12 col-md-6 col-lg-4">
+        <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
+          <div className="me-3  text-primary"><img src={pendingimg} alt="coinImage" width={32} height={32} /></div>
+          <div>
+            <h6 className="text-muted ">Pending invoice count</h6>
+            <div className="fw-semibold fs-5">52</div>
+          </div>
+        </div>
+      </div>
+
+     
+      <div className="col-12 col-md-6 col-lg-4">
+        <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
+          <div className="me-3  text-primary"><img src={newBooking} alt="coinImage" width={32} height={32} /></div>
+          <div>
+            <h6 className="text-muted ">New booking</h6>
+            <div className="fw-semibold fs-5">147</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
                     <div className="circulardes">
                       <div className="animated-text" style={{ flex: 1 }}>
