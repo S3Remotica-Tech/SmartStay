@@ -74,8 +74,17 @@ function Sidebar() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   const [currentPage, setCurrentPage] = useState("dashboard");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Toggle for sm/md mode
+
+
+
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   useEffect(() => {
@@ -225,6 +234,7 @@ function Sidebar() {
     setCurrentPage(page);
     setIsDropdownOpen(false);
     localStorage.setItem("currentPage", page);
+    setIsSidebarOpen(false); 
   };
 
   useEffect(() => {
@@ -284,6 +294,7 @@ function Sidebar() {
   const handledisplaycompliace = () => {
     setCurrentPage("compliance");
     localStorage.setItem("currentPage", "compliance");
+    setIsSidebarOpen(false); // Hide sidebar in mobile view
   };
 
   const [settignspgshow, setSettingsPGShow] = useState(false);
@@ -292,6 +303,7 @@ function Sidebar() {
     setCurrentPage("settingNewDesign");
     localStorage.setItem("currentPage", "settingNewDesign");
     setSettingsPGShow(true);
+    setIsSidebarOpen(false); // Hide sidebar in mobile view
   };
 
   const [selectedProfileImage, setSelectedProfileImage] = useState("");
@@ -307,6 +319,7 @@ function Sidebar() {
 
     localStorage.setItem("selectedHostelId", id);
     localStorage.setItem("selectedHostelName", name);
+    setIsSidebarOpen(false); // Hide sidebar in mobile view
   };
 
   const handleSettingspage = () => {
@@ -412,6 +425,7 @@ function Sidebar() {
     handledisplaySettingsPG(settingNewDesign);
     dispatch({ type: "MANAGE_PG" });
     setPgshow(true);
+    setIsSidebarOpen(false); // Hide sidebar in mobile view
   };
 
   const [hoveredIcon, setHoveredIcon] = useState(null);
@@ -427,16 +441,45 @@ function Sidebar() {
     <>
       <Container fluid className="p-0">
         <Row className="g-0 m-0">
+               {/* Hamburger Icon for sm mode */}
+               <Col xs={12} sm={12} className="d-md-none p-2 bg-white">
+            <button
+              onClick={toggleSidebar}
+              style={{
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+              }}
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 6H20M4 12H20M4 18H20"
+                  stroke="#000000"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </Col>
           <Col
             lg={2}
             md={2}
             sm={3}
-            xs={3}
-            className="d-sm-block  sidebar h-100"
+            xs={12}
+            className={`sidebar h-100 ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"} d-md-block`}
             style={{
               cursor: "pointer",
               backgroundColor: "#E0ECFF",
               position: "fixed",
+              zIndex:1000,
               //  maxWidth: 240, width: "100%", height: "100%", maxHeight: 768
             }}
           >
@@ -561,7 +604,8 @@ function Sidebar() {
 
               {!(hostelListDetail ?? []).length && (
                 <li
-                  className="align-items-center d-flex justify-content-center list-Button mb-2"
+                  className="align-items-center d-flex justify-content-center
+                   list-Button mb-2"
                   style={{
                     listStyleType: "none",
                     display: "flex",
@@ -926,7 +970,7 @@ function Sidebar() {
             </div>
 
             <div
-              className="mb-3"
+              className="mb-3 sidebar-bottom"
               style={{
                 position: "absolute",
                 bottom: 0,
@@ -1002,7 +1046,7 @@ function Sidebar() {
                   flexDirection: "row",
                   justifyContent: "space-around",
                 }}
-                className="w-100"
+                className="w-100 four-icons"
               >
                 {/* Settings Icon */}
                 <div
@@ -1301,7 +1345,8 @@ function Sidebar() {
         style={{
           width: 388,
           height: 250,
-          marginLeft: "500px",
+          marginLeft: "auto",
+          marginRight:"auto",
           marginTop: "200px",
         }}
       >
@@ -1381,6 +1426,8 @@ function Sidebar() {
 }
 
 export default Sidebar;
+
+
 
 
 
