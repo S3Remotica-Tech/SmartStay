@@ -210,11 +210,17 @@ function PayingGuestMap(props) {
                                     // right: 50, 
                                     // right: window.innerWidth <= 400 ? -55 : 50,
                                     right:
+                                            
                                             window.innerWidth <= 420
-                                            ? 50 // Open to the left if screen too small
+                                            ? 50 
                                             : window.innerWidth <= 576
-                                            ? 30 // Shift slightly if mid-size
-                                            : 50, // Default on large screens
+                                            ? 30 
+                                            : 50, 
+
+                                            left:
+                                            window.innerWidth <= 331
+                                            ? 10 : "auto",
+
                                     top:0, 
                                     width: 120, 
                                     
