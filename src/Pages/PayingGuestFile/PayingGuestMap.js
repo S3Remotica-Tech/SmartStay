@@ -430,7 +430,7 @@ function PayingGuestMap(props) {
                         // display: "flex"
                     }}>
                     <Modal.Title 
-                    className="w-100 text-center"
+                    className="w-100 text-center mt-2"
                     style={{
                         fontSize: 18,
                         fontWeight: 600,
@@ -446,7 +446,7 @@ function PayingGuestMap(props) {
 
                 <Modal.Body 
                  className="text-center"
-                style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",  marginTop: "-10px" }}>
+                style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",  marginTop: "-27px" }}>
                     Are you sure you want to delete this paying guest?
                 </Modal.Body>
                 {pgDeleteError && (

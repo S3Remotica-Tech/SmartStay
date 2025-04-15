@@ -227,7 +227,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
           paddingRight:1
         }}>
         <div 
-        className="w-100 text-md-start text-center"
+        className="w-100 text-md-start text-center mt-3"
         style={{ marinTop: -4 }}>
           <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Role</label>
 
@@ -515,7 +515,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
         >
           <Modal.Header style={{ borderBottom: "none" }}>
             <Modal.Title
-              className="w-100 text-center"
+              className="w-100 text-center mt-2"
               style={{
                 fontSize: "18px",
                 fontFamily: "Gilroy",
@@ -530,14 +530,14 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
           </Modal.Header>
 
           <Modal.Body
-          className="text-center"
+          className="text-center  "
             style={{
               fontSize: 14,
               fontWeight: 500,
               fontFamily: "Gilroy",
               color: "#646464",
               
-              marginTop: "-10px",
+              marginTop: "-27px",
             }}
           >
             Are you sure you want to delete this Role?

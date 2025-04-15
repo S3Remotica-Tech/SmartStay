@@ -1078,7 +1078,7 @@ const indianStates = [
                 // className="d-flex flex-wrap justify-content-between align-items-center"
                 className="d-flex flex-wrap justify-content-between align-items-center w-100"
                 >
-                  <div className="d-flex align-items-center flex-wrap">
+                  <div className="d-flex align-items-center flex-wrap mt-2">
                     <Image
                       src={imageUrl} 
                       alt={item.first_name || "Default Profile"}
@@ -1092,7 +1092,7 @@ const indianStates = [
                         e.target.src = Profile;
                       }}
                     />
-                    <div className="ms-2">
+                    <div className="ms-2 mt-2">
                       <p
                         className="mb-0 text-break"
                         style={{
@@ -2201,7 +2201,7 @@ const indianStates = [
       >
         <Modal.Header style={{ borderBottom: "none" }}>
           <Modal.Title
-          className="w-100 text-center"
+          className="w-100 text-center mt-2"
             style={{
               fontSize: "18px",
               fontFamily: "Gilroy",
@@ -2223,7 +2223,7 @@ const indianStates = [
             fontFamily: "Gilroy",
             color: "#646464",
             textAlign: "center",
-            marginTop: "-10px",
+            marginTop: "-27px",
           }}
         >
           Are you sure you want to delete this General?

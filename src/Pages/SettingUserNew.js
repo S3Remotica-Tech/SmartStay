@@ -233,7 +233,7 @@ function SettingNewUser() {
                     paddingRight:1
                 }}  >
                 <div 
-                className="w-100 text-md-start text-center"
+                className="w-100 text-md-start text-center mt-3"
                 style={{ marinTop: -4 }}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Users</label>
                 </div>
@@ -746,7 +746,7 @@ function SettingNewUser() {
                     >
                     <Modal.Header style={{ borderBottom: "none" }} >
                         <Modal.Title 
-                        className="w-100 text-center"
+                        className="w-100 text-center mt-2"
                         style={{
                             fontSize: "18px",
                             fontFamily: "Gilroy",
@@ -768,7 +768,7 @@ function SettingNewUser() {
                         fontFamily: "Gilroy",
                         color: "#646464",
                        
-                        marginTop: "-10px",
+                        marginTop: "-27px",
                     }}>
                         Are you sure you want to delete the User ?    </Modal.Body>
                     <Modal.Footer

@@ -308,7 +308,9 @@ function SettingCompliance({ hostelid }) {
                 // padding: "10px",
             zIndex: 1000, 
             backgroundColor: "white",
-            paddingRight:1
+            paddingRight:1,
+            // paddingBottom: "20px",
+
             // whiteSpace: "nowrap",
              }}>
                 <div 
@@ -342,7 +344,7 @@ function SettingCompliance({ hostelid }) {
                     >
                         <Col xs={12} md="auto"
                         className=
-                                   "d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
+                                   "d-flex justify-content-center justify-content-md-end w-100  mt-4 mt-md-0"
                                 //    style={{ marginTop: -27 }}
                                    >  
                                 <Button
@@ -909,7 +911,7 @@ function SettingCompliance({ hostelid }) {
             >
                 <Modal.Header style={{ borderBottom: 'none' }}>
                     <Modal.Title
-                    className="w-100 text-center"
+                    className="w-100 text-center mt-2"
                         style={{
                             fontSize: '18px',
                             fontFamily: 'Gilroy',
@@ -931,7 +933,7 @@ function SettingCompliance({ hostelid }) {
                         fontFamily: 'Gilroy',
                         color: '#646464',
                         
-                        marginTop: '-10px'
+                        marginTop: '-27px'
                     }}
                 >
                     Are you sure you want to delete this Complaint-type?
