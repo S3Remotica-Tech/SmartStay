@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2,ArrowUp2, ArrowDown2, } from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -1454,6 +1454,37 @@ setSelectedTypes("")
   const totalPages = Math.ceil(
     (search ? filteredUsers?.length : userListDetail?.length) / itemsPerPage
   );
+   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+    
+      const sortedData = React.useMemo(() => {
+        if (!sortConfig.key) return currentItems;
+    
+        const sorted = [...currentItems].sort((a, b) => {
+          const valueA = a[sortConfig.key];
+          const valueB = b[sortConfig.key];
+    
+    
+          if (!isNaN(valueA) && !isNaN(valueB)) {
+            return sortConfig.direction === 'asc'
+              ? valueA - valueB
+              : valueB - valueA;
+          }
+    
+          if (typeof valueA === 'string' && typeof valueB === 'string') {
+            return sortConfig.direction === 'asc'
+              ? valueA.localeCompare(valueB)
+              : valueB.localeCompare(valueA);
+          }
+    
+          return 0;
+        });
+    
+        return sorted;
+      }, [currentItems, sortConfig]);
+      const handleSort = (key, direction) => {
+        setSortConfig({ key, direction });
+      };
+  
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -2284,7 +2315,7 @@ const handleBack = () => {
       />
 
       {userList && (
-        <div >
+        <div className="container p-0">
           <div className="header-container">
           <div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:14}}> 
   <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ms-lg-4">
@@ -2767,8 +2798,8 @@ const handleBack = () => {
                   </>
                 ) : (
                  
-                    <div>
-                      {currentItems && currentItems.length > 0 && (
+                    <>
+                      {sortedData && sortedData.length > 0 && (
                         <div
                           className="checkin-table"
                           style={{
@@ -2782,39 +2813,33 @@ const handleBack = () => {
                             marginLeft:"-20px",
                             // marginTop:8
                             // borderBottom:"none"
+                            height: sortedData?.length >= 8 || sortedData?.length >= 8 ? "350px" : "auto",
+                            overflow: "auto",
+                            borderTop: "1px solid #E8E8E8",
+                            marginBottom: 20,
+                            marginTop: "20px",
+                            paddingRight:0,
+                            paddingLeft:0
+                            //  borderBottom:"1px solid #DCDCDC"
                           }}
                         >
                           <Table
                             responsive="md"
-                            className="Table_Design"
+                            // className="Table_Design"
                             style={{
-                              border: "1px solid #DCDCDC",
-                              borderBottom: "1px solid transparent",
-                              borderEndStartRadius: 0,
-                              borderEndEndRadius: 0,
+                              fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                              top: 0,
+                              zIndex: 1,
+                              borderRadius:0
                             }}
                           >
-                            <thead
-                              style={{
-                                backgroundColor: "#E7F1FF",
-                                position: "sticky",
-                                top: 0,
-                                zIndex: 1,
-                              }}
-                            >
+                            <thead style={{
+                                         fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                         top: 0,
+                                         zIndex: 1
+                                       }}>
                               <tr>
-                                {/* <th
-                                  style={{
-                                    textAlign: "center",
-                                    fontFamily: "Gilroy",
-                                    color: "rgba(34, 34, 34, 1)",
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    borderTopLeftRadius: 24,
-                                  }}
-                                >
-                                  <img src={squre} height={20} width={20} />
-                                </th> */}
+                              
                                 <th
                                   style={{
                                     textAlign: "start",
@@ -2823,11 +2848,16 @@ const handleBack = () => {
                                     fontSize: "14px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    borderTopLeftRadius: 24,
+                                    // borderTopLeftRadius: 24,
                                     paddingLeft: "20px",
                                   }}
                                 >
-                                  Name
+                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                           </div>
+                                                                            Name</div>
                                 </th>
                                 <th
                                   style={{
@@ -2839,7 +2869,12 @@ const handleBack = () => {
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Paying Guest
+                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                             <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'asc')} style={{ cursor: "pointer" }} />
+                                                                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'desc')} style={{ cursor: "pointer" }} />
+                                                                            </div>
+                                                                             Paying Guest</div>
                                 </th>
                                 <th
                                   style={{
@@ -2851,7 +2886,12 @@ const handleBack = () => {
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Email ID
+                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Email", 'asc')} style={{ cursor: "pointer" }} />
+                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Email", 'desc')} style={{ cursor: "pointer" }} />
+                                                                           </div>
+                                                                            Email ID</div>
                                 </th>
                                 <th
                                   style={{
@@ -2863,7 +2903,12 @@ const handleBack = () => {
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Mobile No
+                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'asc')} style={{ cursor: "pointer" }} />
+                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'desc')} style={{ cursor: "pointer" }} />
+                                                                           </div>
+                                                                            Mobile No</div>
                                 </th>
 
                                 <th
@@ -2876,7 +2921,12 @@ const handleBack = () => {
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Room
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Rooms", 'asc')} style={{ cursor: "pointer" }} />
+                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Rooms", 'desc')} style={{ cursor: "pointer" }} />
+                                                                           </div>
+                                                                            Room</div>
                                 </th>
                                 <th
                                   style={{
@@ -2888,7 +2938,12 @@ const handleBack = () => {
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Bed
+                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Bed", 'asc')} style={{ cursor: "pointer" }} />
+                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Bed", 'desc')} style={{ cursor: "pointer" }} />
+                                                                           </div>
+                                                                            Bed</div>
                                 </th>
                                 <th
                                   style={{
@@ -2897,9 +2952,10 @@ const handleBack = () => {
                                     color: "rgba(34, 34, 34, 1)",
                                     fontSize: 14,
                                     fontWeight: 500,
-                                    borderTopRightRadius: 24,
+                                    // borderTopRightRadius: 24,
                                   }}
                                 >
+                                  Action
                                   {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
           <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
         </div> */}
@@ -2907,79 +2963,11 @@ const handleBack = () => {
                               </tr>
                             </thead>
                             <tbody style={{ textAlign: "center" }}>
+                            {   sortedData && sortedData.length > 0 && (
+                              <>
                               {
-                                // Array.from({
-                                //   length: currentItems?.length || 5,
-                                // }).map((_, index) => (
-                                //   <tr key={index}>
-                                //     <td
-                                //       style={{
-                                //         borderBottom:
-                                //           index === 0
-                                //             ? "none"
-                                //             : "1px solid #DCDCDC",
-                                //       }}
-                                //     >
-                                //       <Skeleton
-                                //         circle={true}
-                                //         height={40}
-                                //         width={40}
-                                //       />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={80} />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={120} />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={120} />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={120} />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={50} />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={50} />
-                                //     </td>
-                                //   </tr>
-                                // ))
-
-                                // :
-
-                                currentItems.map((user) => {
+                                
+                                sortedData.map((user) => {
                                   return (
                                     <tr
                                       key={user.ID}
@@ -3477,12 +3465,15 @@ const handleBack = () => {
                                   );
                                 })
                               }
+                            
+                              </>
+                            )}
                             </tbody>
                           </Table>
                         </div>
                       )}
-                    </div>
-                 
+                  
+                  </>
                 )}
 
                 {!loading && userListDetail?.length === 0 && (

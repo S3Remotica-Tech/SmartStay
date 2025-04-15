@@ -525,7 +525,9 @@ General Styles
     font-size: 14px;
   }
 }
-
+.css-13xfq8m-MuiTabPanel-root {
+  padding: 0px !important;
+}
 
 @media only screen and (width: 344px) and (height: 882px) {
 
