@@ -23,6 +23,16 @@ export async function AddBooking(datum) {
   if (datum.mob_no) formData.append('mob_no', datum.mob_no);
   if (datum.email_id) formData.append('email_id', datum.email_id);
   if (datum.address) formData.append('address', datum.address);
+  if (datum.area) formData.append("area", datum.area)
+  if (datum.landmark) formData.append("landmark", datum.landmark)
+  if (datum.city) formData.append("city", datum.city)
+  if (datum.pin_code) formData.append("pin_code", datum.pin_code)
+  if (datum.state) formData.append("state", datum.state)
+  // if (datum.area) formData.append("area", datum.area)
+  // if (datum.landmark) formData.append("landmark", datum.landmark)
+  // if (datum.city) formData.append("city", datum.city)
+  // if (datum.pin_code) formData.append("pin_code", datum.pin_code)
+  // if (datum.state) formData.append("state", datum.state)
 
   try {
     // Send a POST request with formData

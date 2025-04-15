@@ -325,8 +325,9 @@ function VendorListMap(props) {
                   fontFamily: "Gilroy",
                 }}
               >
-                {props.vendor && props.vendor.Vendor_Address} {""}{" "}
-                {props.vendor.Country} {""} {props.vendor.Pincode}
+                {props.vendor && props.vendor.Vendor_Address} {""}{" "} ,
+                {props.vendor?.area ? props.vendor.area :''}, {""} {props.vendor?.city ? props.vendor.city :''} {""} {props.vendor?.state ? props.vendor.state : ''} <br></br>
+                {props.vendor.Pincode}
               </label>
             </div>
           </div>

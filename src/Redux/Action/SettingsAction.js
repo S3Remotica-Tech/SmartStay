@@ -140,6 +140,11 @@ export async function AddGeneral(params) {
   if (params.mob_no) formData.append("mob_no", params.mob_no);
   if (params.email_id) formData.append("email_id", params.email_id);
   if (params.address) formData.append("address", params.address);
+  if (params.area) formData.append("area", params.area)
+  if (params.landmark) formData.append("landmark", params.landmark)
+  if (params.city) formData.append("city", params.city)
+  if (params.pin_code) formData.append("pin_code", params.pin_code)
+  if (params.state) formData.append("state", params.state)
   if (params.password) formData.append("password", params.password);
   if (params.profile) formData.append("profile", params.profile);
   if (params.id) formData.append("id", params.id);
