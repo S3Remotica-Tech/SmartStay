@@ -270,7 +270,6 @@ function Sidebar() {
 
   const handleLogout = () => {
     dispatch({ type: "LOG_OUT" });
-
     const encryptData = CryptoJS.AES.encrypt(JSON.stringify(false), "abcd");
     localStorage.setItem("login", encryptData.toString());
     localStorage.setItem("loginId", "");
