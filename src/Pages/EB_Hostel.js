@@ -1468,7 +1468,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
 
                 {electricityFilterddata?.length >= 5 && (
                   <nav
-                  className="pagination-container"
+                  // className="pagination-container"
                     style={{
                       display: "flex",
                       alignItems: "center",

@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
+
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
 
@@ -325,16 +326,19 @@ function UserlistWalkin(props) {
  ></div>
 </div>
 ) : currentCustomers?.length > 0 && (
-  <div className=" walkin_table_custom">
+  <div className=" walkin_table_custom walkin-table">
                 <div style={{
                   // height: "400px",
-                  height: currentCustomers.length >= 6 ? "380px" : "auto",
-                  overflowY: currentCustomers.length >= 6 ? "auto" : "visible",
+                  // height: currentCustomers.length >= 6 ? "380px" : "auto",
+                  // overflowY: currentCustomers.length >= 6 ? "auto" : "visible",
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
                   // borderBottom:"none"
                 }}>
-                  <Table responsive="md" className="table_walkin" style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}>
+                  <Table responsive="md" className="table_walkin"
+                  
+                  style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", 
+                  borderEndStartRadius: 0, borderEndEndRadius: 0 }}>
                     <thead style={{
                       border: "none", position: "sticky",
                       top: 0,
