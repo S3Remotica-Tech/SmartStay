@@ -3,17 +3,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import whatsapp from "../Assets/Images/New_images/newWhats.png"
 import avtar from "../Assets/Images/New_images/settinAvthar.png"
 import msg from "../Assets/Images/New_images/message.png"
+import './SettingIntergration.css';
 
 function SettingIntergration(){
     return(
         <>
-       <div className="container ">
+       <div className="container py-4">
+       <div className="mb-4">
         <div style={{marginTop:25}}>
             <p style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Integration</p>
         </div>
+        {/* <div className="d-md-block d-flex flex-column" style={{ maxHeight: '100vh', overflowY: 'auto' }}> */}
        <div className="row g-3">
   <div className="col-12 col-md-6">
-    <div className="card p-3 cardnewsubs">
+    <div className="card p-3 cardnewsubs h-100">
       <div className="d-flex justify-content-between align-items-center ">
         <img src={msg} width={30} height={30} alt="Crown Icon" />
         <button
@@ -33,7 +36,7 @@ function SettingIntergration(){
   </div>
 
   <div className="col-12 col-md-6">
-    <div className="card p-3 cardnewsubs">
+    <div className="card p-3 cardnewsubs h-100">
       <div className="d-flex justify-content-between align-items-center">
         <img src={whatsapp} width={40} height={40} alt="Crown Icon" />
         <button
@@ -52,7 +55,7 @@ function SettingIntergration(){
     </div>
   </div>
   <div className="col-12 col-md-6 mb-4 mb-md-0">
-    <div className="card p-3 cardnewsubs">
+    <div className="card p-3 cardnewsubs h-100">
       <div className="d-flex justify-content-between align-items-center ">
         <img src={avtar} width={30} height={30} alt="Crown Icon" />
         <button
@@ -73,7 +76,7 @@ function SettingIntergration(){
     </div>
   </div>
 </div>
-
+</div>
     </div>
         </>
     )

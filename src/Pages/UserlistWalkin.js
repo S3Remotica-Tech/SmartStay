@@ -544,8 +544,9 @@ function UserlistWalkin(props) {
                             }}
                           >
                             {customer.comments || "-"}
-                            {customer.area ? customer.area :''}, {""} {customer.city ? customer.city :''} {""} {customer?.state ? customer.state : ''} <br></br>
-                            {/* {customer.Pincode} */}
+                            {customer.area ? customer.area :''}, {""} {customer.city ? customer.city :''} {""}<br></br>
+                             {customer?.state ? customer.state : ''}  {customer.pin_code ? -  customer.pin_code : ''}
+                            
                           </td>
 
                           <td>

@@ -637,9 +637,15 @@ const [returnAmount,setReturnAmount] = useState("")
 
       //   },
       // });
+      // const nonEmptyFields = fields.filter(
+      //   (field) => field.reason.trim() !== "" || field.amount.trim() !== ""
+      // );
       const nonEmptyFields = fields.filter(
-        (field) => field.reason.trim() !== "" || field.amount.trim() !== ""
+        (field) =>
+          field.reason !== "DueAmount" &&
+          (field.reason.trim() !== "" || field.amount.trim() !== "")
       );
+      
       
       dispatch({
         type: "ADDCONFIRMCHECKOUTCUSTOMER",
@@ -679,26 +685,50 @@ if(state.UsersList.conformChekoutError){
   useEffect(() => {
     const advance = parseFloat(advanceamount) || 0;
     const due = parseFloat(dueamount) || 0;
-  
-    const totalExtra = fields.reduce((acc, curr) => {
-      const amt = parseFloat(curr.amount);
-      return acc + (isNaN(amt) ? 0 : amt);
-    }, 0);
+    const totalExtra = fields
+      .slice(1)
+      .reduce((acc, curr) => {
+        const amt = parseFloat(curr.amount);
+        return acc + (isNaN(amt) ? 0 : amt);
+      }, 0);
   
     const result = advance - (due + totalExtra);
-    setReturnAmount(result)
+    setReturnAmount(result);
   }, [advanceamount, dueamount, fields]);
   
+  
+  useEffect(() => {
+    if (fields.length === 0) {
+      setFields([{ reason: "DueAmount", amount: String(dueamount || "") }]);
+    } else {
+      // Always update first field's amount with current dueamount
+      const updatedFields = [...fields];
+      updatedFields[0] = {
+        ...updatedFields[0],
+        reason: "DueAmount",
+        amount: String(dueamount || ""),
+      };
+      setFields(updatedFields);
+    }
+  }, [dueamount]);
   
   
   console.log("Advance:", advanceamount, "Due:", dueamount, "Fields:", fields);
   
   // Input field change handlers
+  // const handleInputChange = (index, field, value) => {
+  //   const updatedFields = [...fields];
+  //   updatedFields[index][field] = value;
+  //   setFields(updatedFields);
+  // };
   const handleInputChange = (index, field, value) => {
     const updatedFields = [...fields];
     updatedFields[index][field] = value;
+  
+    // Optional: If editing first amount field, you could sync with dueamount logic here if needed
     setFields(updatedFields);
   };
+  
 //  const ReturnAmount = advanceamount - (dueamount + fields);
   
   const handleAddField = () => {
@@ -1329,103 +1359,72 @@ if(state.UsersList.conformChekoutError){
                 </div>
 
 
-  {/* Amount */}
-  <div className="col-lg-12 col-md-12 col-sm-12">
-    <label
-      htmlFor="amount"
-      className="form-label"
-      style={{
-        fontSize: 14,
-        color: "rgba(75, 75, 75, 1)",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-      }}
-    >
-     Over All DueAmount
-    </label>
-    <input
-      type="text"
-      id="amount"
-      name="amount"
-      placeholder="Enter Amount"
-      className="form-control"
-      // onChange={(e)=>handleAddAmount(e)}
-      value={dueamount}
-      style={{
-        height: "50px",
-        borderRadius: "8px",
-        fontSize: 16,
-        color: "#222",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-        border: "1px solid #D9D9D9",
-      }}
-    />
-  </div>
-                <div className="row">
-      {fields.map((item, index) => (
-        <React.Fragment key={index}>
-          <div className="col-lg-5 col-md-6 col-sm-12">
-            <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
-              Reason
-            </label>
-            <input
-              type="text"
-              id={`reason-${index}`}
-              name={`reason-${index}`}
-              placeholder="Enter Reason"
-              value={item.reason}
-              onChange={(e) => handleInputChange(index, "reason", e.target.value)}
-              className="form-control"
-              style={inputStyle}
-            />
-          </div>
+  <h6>Advance Deduction</h6>
+  
+  <div className="row align-items-center">
+  {fields.map((item, index) => (
+    <React.Fragment key={index}>
+      <div className="col-lg-5 col-md-6 col-sm-12">
+        <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
+          {index === 0 ? 'DueAmount ' : 'Reason'}
+        </label>
+        <input
+          type="text"
+          id={`reason-${index}`}
+          name={`reason-${index}`}
+          placeholder={index === 0 ? 'Due Reason' : 'Enter Reason'}
+          value={item.reason}
+          onChange={(e) => handleInputChange(index, "reason", e.target.value)}
+          className="form-control"
+          style={inputStyle}
+          disabled={index === 0} // 🔒 Disable DueAmount Reason
+        />
+      </div>
 
-          <div className="col-lg-5 col-md-6 col-sm-12">
-            <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
-              Amount
-            </label>
-            <input
-              type="text"
-              id={`amount-${index}`}
-              name={`amount-${index}`}
-              placeholder="Enter Amount"
-              value={item.amount}
-              onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-              className="form-control"
-              style={inputStyle}
-            />
-          </div>
+      <div className="col-lg-5 col-md-6 col-sm-12">
+        <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
+          Amount
+        </label>
+        <input
+          type="text"
+          id={`amount-${index}`}
+          name={`amount-${index}`}
+          placeholder={index === 0 ? `₹${dueamount || 0}` : 'Enter Amount'}
+          value={index === 0 ? (fields[0].amount || dueamount || "") : item.amount}
+          onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+          className="form-control"
+          style={inputStyle}
+          disabled={index === 0} // 🔒 Disable DueAmount Amount
+        />
+      </div>
 
-          <div className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-start justify-content-lg-center align-items-end gap-2" >
-            {/* Plus icon - show only on last item */}
-            {index === fields.length - 1 && (
-              <img
-                src={PlusIcon}
-                alt="plus"
-                width={25}
-                height={25}
-                style={{ cursor: "pointer" }}
-                onClick={handleAddField}
-              />
-            )}
+      <div className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-center align-items-center gap-2" style={{ marginTop: 30 }}>
+        {index === fields.length - 1 && (
+          <img
+            src={PlusIcon}
+            alt="plus"
+            width={25}
+            height={25}
+            style={{ cursor: "pointer" }}
+            onClick={handleAddField}
+          />
+        )}
+        {fields.length > 1 && index !== 0 && (
+          <img
+            src={Delete}
+            alt="remove"
+            width={20}
+            height={20}
+            style={{ cursor: "pointer" }}
+            onClick={() => handleRemoveField(index)}
+          />
+        )}
+      </div>
+    </React.Fragment>
+  ))}
+</div>
 
-            {/* Close icon - show if more than one row */}
-            {fields.length > 1 && (
-              <img
-                src={Delete}
-                alt="remove"
-                width={20}
-                height={20}
-                style={{ cursor: "pointer" }}
-                onClick={() => handleRemoveField(index)}
-              />
-            )}
-          </div>
-        </React.Fragment>
-      ))}
-    </div>
+
 
            
 <div className="col-lg-6 col-md-6 col-sm-12">

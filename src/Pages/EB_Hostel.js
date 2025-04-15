@@ -34,6 +34,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import Filters from "../Assets/Images/Filters.svg";
+import { ArrowUp2, ArrowDown2, SearchNormal1, Sort, } from 'iconsax-react';
 import {CloseCircle} from "iconsax-react";
 function EB_Hostel() {
   const dispatch = useDispatch();
@@ -559,6 +560,42 @@ const { RangePicker } = DatePicker;
     electricityFilterddata?.length / electricityrowsPerPage
   );
 
+
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  
+    const sortedData = React.useMemo(() => {
+      if (!sortConfig.key) return currentRoomelectricity;
+  
+      const sorted = [...currentRoomelectricity].sort((a, b) => {
+        const valueA = a[sortConfig.key];
+        const valueB = b[sortConfig.key];
+  
+  
+        if (!isNaN(valueA) && !isNaN(valueB)) {
+          return sortConfig.direction === 'asc'
+            ? valueA - valueB
+            : valueB - valueA;
+        }
+  
+        if (typeof valueA === 'string' && typeof valueB === 'string') {
+          return sortConfig.direction === 'asc'
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        }
+  
+        return 0;
+      });
+  
+      return sorted;
+    }, [currentRoomelectricity, sortConfig]);
+  
+    const handleSort = (key, direction) => {
+      setSortConfig({ key, direction });
+    };
+
+
+   
+
   // const renderPageNumberselectricity = () => {
   //   const pageNumberselectricity = [];
   //   let startPageelectricity = electricitycurrentPage - 1;
@@ -1056,382 +1093,310 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
               </>
             ) : (
               <>
-                {currentRoomelectricity?.length > 0 && (
-                  <div
+
+           {sortedData && sortedData.length > 0 && (
+                     
+                     
+                     
+                                   <div
+                                     className='show-scrolls'
+                                     style={{
+                                       // height: "400px",
+                                       // height: currentItems.length >= 6 ? "380px" : "auto",
+                                       // overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                                       // borderRadius: "24px",
+                                       // border: "1px solid #DCDCDC",
+                                       // borderBottom:"none"
+                                       height: currentRoomelectricity.length >= 8 || sortedData.length >= 8 ? "500px" : "auto",
+                                       overflow: "auto",
+                                       borderTop: "1px solid #E8E8E8",
+                                       marginBottom: 20,
+                                       marginTop: "20px"
+                                       //  borderBottom:"1px solid #DCDCDC"
+                                     }}>
+                     
+                                     <Table
+                                       responsive="md"
+                                     >
+                     
+                                       <thead style={{
+                                         fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                         top: 0,
+                                         zIndex: 1
+                                       }}>
+                                         <tr>
+                                         <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Name</div></th>
+
+                                           <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}>
+                                             <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div>  Paying Guest</div> 
+                                            </th>
+
+                                           {hostelBased !== 1 && (
+                                        <>
+                                          <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }} >
+                                             <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Floor</div> 
+                                
+                                           </th>
+
+                                          <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }} >
+                                              <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Room</div> 
+                                
+                                          </th>
+                           
+                                         </>
+                                               )}
+
+                     
+                                           <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("start_meter", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("start_meter", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Previous </div></th>
+
+                                           <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("end_meter", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("end_meter", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Current </div></th>
+                     
+                                           <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading_date", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading_date", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div>  Date </div></th>
+                     
+                                           <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Units</div></th>
+                     
+                                           <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div>  Amount </div></th>
+                     
+                                         </tr>
+                                       </thead>
+                     
+                     
+                                       <tbody>
+                                         {   sortedData && sortedData.length > 0 && (
+                                                 <>
+                                                   {sortedData.map((v) => {
+           
+            const formattedDate = v.reading_date
+              ? v.reading_date.split("-").reverse().join("-")
+              : "";
+
+            return (
+              <tr key={v.id}>
+                <td
+                  style={{
+                    border: "none",
+                    display: "flex",
+                    padding: "10px",
+                    paddingLeft: "20px",
+                  }}
+                >
+                  {/* <Image
+                      src={imageUrl}
+                      alt={v.Name || "Default Profile"}
+                      roundedCircle
+                      style={{
+                        height: "40px",
+                        width: "40px",
+                        marginRight: "10px",
+                      }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = Profile;
+                      }}
+                    /> */}
+                  <span
                     style={{
-                      // height: "400px",
-                      height:
-                        currentRoomelectricity.length >= 6 ? "400px" : "auto",
-                      overflowY:
-                        currentRoomelectricity.length >= 6 ? "auto" : "visible",
-                      borderRadius: "24px",
-                      border: "1px solid #DCDCDC",
-                      // borderBottom:"none"
+                      fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      cursor: "pointer",
+                      paddingTop: 10,
+                      textAlign: "start",
                     }}
                   >
-                    <Table
-                      responsive="md"
-                      className="Table_Design"
+                    {v.Name}
+                  </span>
+                </td>
+
+
+                <td
+                  style={{
+                    paddingTop: 20,
+                    border: "none",
+                    textAlign: "start",
+                    fontSize: 13, 
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    marginTop: 10,
+                  }}
+                >
+                  <span
+                    style={{
+                      paddingTop: "3px",
+                      paddingLeft: "12px",
+                      paddingRight: "12px",
+                      paddingBottom: "3px",
+                      borderRadius: "60px",
+                      backgroundColor: "#FFEFCF",
+                      textAlign: "start",
+                      fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      verticalAlign: "middle",
+                      whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                    }}
+                  >
+                    {v.HostelName}
+                  </span>
+                </td>
+                {hostelBased !== 1 && (
+                  <>
+                    <td
                       style={{
-                        border: "1px solid #DCDCDC",
-                        borderBottom: "1px solid transparent",
-                        borderEndStartRadius: 0,
-                        borderEndEndRadius: 0,
+                        fontSize: 13, 
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        textAlign: "start",
+                        verticalAlign: "middle",
+                        borderBottom: "none",
                       }}
                     >
-                      <thead
-                        style={{
-                          color: "gray",
-                          fontSize: "11px",
-                          backgroundColor: "#E7F1FF",
-                          position: "sticky",
-                          top: 0,
-                          zIndex: 1,
-                        }}
-                      >
-                        <tr style={{ height: "30px" }}>
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "14px",
-                              fontFamily: "Gilroy",
-                              paddingTop: "10px",
-                              paddingBottom: "10px",
-                              textAlign: "start",
-                              paddingLeft: "20px",
-                              borderTopLeftRadius: 24,
-                              // textAlign: hostelBased === 1 ? "start" : "center",
-                            }}
-                          >
-                            Name
-                          </th>
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "14px",
-                              fontFamily: "Gilroy",
-                              paddingTop: "10px",
-                              paddingBottom: "10px",
-                              textAlign: "start",
-                            }}
-                          >
-                            Paying Guest
-                          </th>
-
-                          {hostelBased !== 1 && (
-                            <>
-                              <th
-                                style={{
-                                  color: "rgb(147, 147, 147)",
-                                  fontWeight: 500,
-                                  fontSize: "14px",
-                                  fontFamily: "Gilroy",
-                                  paddingTop: "10px",
-                                  paddingBottom: "10px",
-                                  textAlign: "start",
-                                }}
-                              >
-                                Floor
-                              </th>
-                              <th
-                                style={{
-                                  color: "rgb(147, 147, 147)",
-                                  fontWeight: 500,
-                                  fontSize: "14px",
-                                  fontFamily: "Gilroy",
-                                  paddingTop: "10px",
-                                  paddingBottom: "10px",
-                                  paddingRight: "5px",
-                                  textAlign: "start",
-                                }}
-                              >
-                                Room
-                              </th>
-                            </>
-                          )}
-
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "14px",
-                              fontFamily: "Gilroy",
-                              paddingTop: "10px",
-                              paddingBottom: "10px",
-                              textAlign: "start",
-                            }}
-                          >
-                            Previous
-                          </th>
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "14px",
-                              fontFamily: "Gilroy",
-                              paddingTop: "10px",
-                              paddingBottom: "10px",
-                              textAlign: "start",
-                            }}
-                          >
-                            Current
-                          </th>
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "14px",
-                              fontFamily: "Gilroy",
-                              paddingTop: "10px",
-                              paddingBottom: "10px",
-                              textAlign: "start",
-                              paddingLeft: "15px",
-                            }}
-                          >
-                            Date
-                          </th>
-                          <th
-                            style={{
-                              color: "rgb(147, 147, 147)",
-                              fontWeight: 500,
-                              fontSize: "14px",
-                              fontFamily: "Gilroy",
-                              paddingTop: "10px",
-                              paddingBottom: "10px",
-                              textAlign: "start",
-                            }}
-                          >
-                            Units
-                          </th>
-                          <th
-                            style={{
-                              textAlign: "start",
-                              fontFamily: "Gilroy",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: 14,
-                              fontWeight: 500,
-                            }}
-                          >
-                            Amount
-                          </th>
-                          <th
-                            style={{
-                              textAlign: "start",
-                              fontFamily: "Gilroy",
-                              color: "rgb(147, 147, 147)",
-                              fontSize: 14,
-                              fontWeight: 500,
-                              borderTopRightRadius: 24,
-                            }}
-                          >
-                            {" "}
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody style={{ fontSize: "12px" }}>
-                        {currentRoomelectricity.map((v) => {
-                          const formattedDate = v.reading_date
-                            ? v.reading_date.split("-").reverse().join("-")
-                            : "";
-
-                          return (
-                            <tr key={v.id}>
-                              <td
-                                style={{
-                                  border: "none",
-                                  display: "flex",
-                                  padding: "10px",
-                                  paddingLeft: "20px",
-                                }}
-                              >
-                                {/* <Image
-                                    src={imageUrl}
-                                    alt={v.Name || "Default Profile"}
-                                    roundedCircle
-                                    style={{
-                                      height: "40px",
-                                      width: "40px",
-                                      marginRight: "10px",
-                                    }}
-                                    onError={(e) => {
-                                      e.target.onerror = null;
-                                      e.target.src = Profile;
-                                    }}
-                                  /> */}
-                                <span
-                                  style={{
-                                    fontSize: "16px",
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    cursor: "pointer",
-                                    paddingTop: 10,
-                                    textAlign: "start",
-                                  }}
-                                >
-                                  {v.Name}
-                                </span>
-                              </td>
-
-                              {/* <td
-              style={{
-                fontSize: "16px",
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                textAlign: "center",
-                verticalAlign: "middle",
-                borderBottom: "none",
-              }}
-            >
-              {v.HostelName}
-            </td> */}
-                              <td
-                                style={{
-                                  paddingTop: 20,
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  marginTop: 10,
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    paddingTop: "3px",
-                                    paddingLeft: "12px",
-                                    paddingRight: "12px",
-                                    paddingBottom: "3px",
-                                    borderRadius: "60px",
-                                    backgroundColor: "#FFEFCF",
-                                    textAlign: "start",
-                                    fontSize: "14px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    verticalAlign: "middle",
-                                  }}
-                                >
-                                  {v.HostelName}
-                                </span>
-                              </td>
-                              {hostelBased !== 1 && (
-                                <>
-                                  <td
-                                    style={{
-                                      fontSize: "16px",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      borderBottom: "none",
-                                    }}
-                                  >
-                                    {v.floor_name}
-                                  </td>
-                                  <td
-                                    style={{
-                                      fontSize: "16px",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      borderBottom: "none",
-                                    }}
-                                  >
-                                    {v.Room_Id}
-                                  </td>
-                                </>
-                              )}
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.start_meter}
-                              </td>
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.end_meter}
-                              </td>
-                              <td
-                                style={{
-                                  paddingTop: "15px",
-                                  border: "none",
-                                  textAlign: "start",
-                                  fontSize: "16px",
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  verticalAlign: "middle",
-                                  whiteSpace: "nowrap",
-                                  marginBottom: "-20px",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    paddingTop: "5px",
-                                    paddingLeft: "16px",
-                                    paddingRight: "16px",
-                                    paddingBottom: "5px",
-                                    borderRadius: "60px",
-                                    backgroundColor: "#EBEBEB",
-                                    textAlign: "start",
-                                    fontSize: "14px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    display: "inline-block",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                  }}
-                                >
-                                  {formattedDate}
-                                </span>
-                              </td>
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.unit}
-                              </td>
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.amount}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </Table>
-                  </div>
+                      {v.floor_name}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                        textAlign: "start",
+                        verticalAlign: "middle",
+                        borderBottom: "none",
+                      }}
+                    >
+                      {v.Room_Id}
+                    </td>
+                  </>
                 )}
+                <td
+                  style={{
+                    fontSize: 13, 
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    textAlign: "start",
+                    verticalAlign: "middle",
+                    borderBottom: "none",
+                  }}
+                >
+                  {v.start_meter}
+                </td>
+                <td
+                  style={{
+                    fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    textAlign: "start",
+                    verticalAlign: "middle",
+                    borderBottom: "none",
+                  }}
+                >
+                  {v.end_meter}
+                </td>
+                <td
+                  style={{
+                    paddingTop: "15px",
+                    border: "none",
+                    textAlign: "start",
+                    fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    verticalAlign: "middle",
+                    whiteSpace: "nowrap",
+                    marginBottom: "-20px",
+                  }}
+                >
+                  <span
+                    style={{
+                      paddingTop: "5px",
+                      paddingLeft: "16px",
+                      paddingRight: "16px",
+                      paddingBottom: "5px",
+                      borderRadius: "60px",
+                      backgroundColor: "#EBEBEB",
+                      textAlign: "start",
+                      fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      display: "inline-block",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {formattedDate}
+                  </span>
+                </td>
+                <td
+                  style={{
+                    fontSize: 13, 
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    textAlign: "start",
+                    verticalAlign: "middle",
+                    borderBottom: "none",
+                  }}
+                >
+                  {v.unit}
+                </td>
+                <td
+                  style={{
+                    fontSize: 13, 
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    textAlign: "start",
+                    verticalAlign: "middle",
+                    borderBottom: "none",
+                  }}
+                >
+                  {v.amount}
+                </td>
+              </tr>
+            );
+        
+                           
+                     })}
+                                                 </>
+                                               
+                     
+                                             )
+                                         }
+                                       </tbody>
+                     
+                     
+                                     </Table>
+                                   </div>
+                     
+                     
+                                 )}
+
+
+                
 
                 {customerLoader && (
                   <div
