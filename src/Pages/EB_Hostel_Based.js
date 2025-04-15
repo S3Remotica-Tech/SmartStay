@@ -17,6 +17,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import { ArrowUp2, ArrowDown2, SearchNormal1, Sort, } from 'iconsax-react';
 import {CloseCircle} from "iconsax-react";
 
 function EBHostelReading(props) {
@@ -448,6 +449,40 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     hostelEbList?.length / electricityrowsPerPage
   );
 
+
+
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  
+    const sortedData = React.useMemo(() => {
+      if (!sortConfig.key) return currentRowelectricity;
+  
+      const sorted = [...currentRowelectricity].sort((a, b) => {
+        const valueA = a[sortConfig.key];
+        const valueB = b[sortConfig.key];
+  
+  
+        if (!isNaN(valueA) && !isNaN(valueB)) {
+          return sortConfig.direction === 'asc'
+            ? valueA - valueB
+            : valueB - valueA;
+        }
+  
+        if (typeof valueA === 'string' && typeof valueB === 'string') {
+          return sortConfig.direction === 'asc'
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        }
+  
+        return 0;
+      });
+  
+      return sorted;
+    }, [currentRowelectricity, sortConfig]);
+  
+    const handleSort = (key, direction) => {
+      setSortConfig({ key, direction });
+    };
+
   // const renderPageNumberselectricity = () => {
   //   const pageNumberselectricity = [];
   //   let startPageelectricity = electricitycurrentPage - 1;
@@ -514,113 +549,86 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
   return (
     <>
       <div>
-        {props.value === "3" &&   currentRowelectricity?.length > 0 ? (
-          <div style={{
-            // height: "400px",
-            height: currentRowelectricity.length >= 6 ? "400px" : "auto",
-            overflowY: currentRowelectricity.length >= 6 ? "auto" : "visible",
-            borderRadius: "24px",
-            border: "1px solid #DCDCDC",
-            // borderBottom:"none"
-          }}>
-            <Table
-              responsive="md"
-              className="Table_Design"
-              style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
-            >
-              <thead
-                style={{
-                  color: "gray",
-                  fontSize: "11px",
-                  backgroundColor: "#E7F1FF",
-                  position: "sticky",
-                  top: 0,
-                  zIndex: 1,
-                }}
-              >
-                <tr style={{ height: "30px" }}>
+        {props.value === "3" &&   sortedData?.length > 0 ? (
+          <>
+           {sortedData && sortedData.length > 0 && (
+          
+          
+          
+                        <div
+                          className='show-scrolls'
+                          style={{
+                            // height: "400px",
+                            // height: currentItems.length >= 6 ? "380px" : "auto",
+                            // overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                            // borderRadius: "24px",
+                            // border: "1px solid #DCDCDC",
+                            // borderBottom:"none"
+                            height: currentRowelectricity.length >= 8 || sortedData.length >= 8 ? "500px" : "auto",
+                            overflow: "auto",
+                            borderTop: "1px solid #E8E8E8",
+                            marginBottom: 20,
+                            marginTop: "20px"
+                            //  borderBottom:"1px solid #DCDCDC"
+                          }}>
+          
+                          <Table
+                            responsive="md"
+                          >
+          
+                            <thead style={{
+                              fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                              top: 0,
+                              zIndex: 1
+                            }}>
+                              <tr>
+                                <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
+                                </div>  Paying Guest</div>  </th>
+          
+                                {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
+                                </div> Floor</div></th>
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
+                                </div> Room no </div> </th> */}
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
+                                </div> Reading </div></th>
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
+                                </div>  Date </div></th>
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
+                                </div> Units</div></th>
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
+                                </div>  Amount </div></th>
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
+                              </tr>
+                            </thead>
+          
+          
+                            <tbody>
+                              {   sortedData && sortedData.length > 0 && (
+                                      <>
+                                        {sortedData.map((v) => {
 
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                      textAlign: "start",
-                      borderTopLeftRadius: 24,
-                      paddingLeft: "25px"
-                    }}
-                  >
-                    Paying Guest
-                  </th>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                      textAlign: "start",
-                    }}
-                  >
-                    Reading
-                  </th>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                      textAlign: "start",
-                    }}
-                  >
-                    Date
-                  </th>
-                  <th
-                    style={{
-                      color: "#939393",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      fontFamily: "Gilroy",
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                      textAlign: "start",
-                    }}
-                  >
-                    Units
-                  </th>
-                  <th
-                    style={{
-                      textAlign: "start",
-                      fontFamily: "Gilroy",
-                      color: "#939393",
-                      fontSize: 14,
-                      fontWeight: 600,
-                    }}
-                  >
-                    Amount
-                  </th>
-                  <th
-                    style={{
-                      textAlign: "start",
-                      fontFamily: "Gilroy",
-                      color: "#939393",
-                      fontSize: 14,
-                      fontWeight: 600,
-                      borderTopRightRadius: 24,
-                    }}
-                  >
-                   Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody style={{ fontSize: "12px" }}>
-                {currentRowelectricity.map((v) => {
+
+          
                   let formattedDate;
 
                   // Check if v.date exists and is not "00-00-00"
@@ -670,8 +678,8 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                           /> */}
                           <span
                             style={{
-                              fontSize: "16px",
-                              fontWeight: 600,
+                              fontSize: 13, 
+                              fontWeight: 500,
                               fontFamily: "Gilroy",
                             }}
                           >
@@ -681,7 +689,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       </td>
                       <td
                         style={{
-                          fontSize: "16px",
+                          fontSize: 13, 
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                           textAlign: "start",
@@ -696,7 +704,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                           textAlign: "start",
                           verticalAlign: "middle",
                           borderBottom: "none",
-                          fontSize: "16px",
+                          fontSize: 13, 
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                         }}
@@ -708,9 +716,9 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       </td>
                       <td
                         style={{
-                          fontSize: "16px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
+                          fontSize: 13, 
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
                           textAlign: "start",
                           verticalAlign: "middle",
                           borderBottom: "none",
@@ -720,7 +728,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       </td>
                       <td
                         style={{
-                          fontSize: "16px",
+                          fontSize: 13, 
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                           textAlign: "start",
@@ -732,10 +740,10 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       </td>
                       <td  style={{
                       textAlign: "start",
-                      fontFamily: "Gilroy",
                       color: "#939393",
-                      fontSize: 14,
-                      fontWeight: 600,
+                      fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
                       // borderTopRightRadius: 24,
                     }}>
                         <div
@@ -846,10 +854,25 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
                       </td>
                     </tr>
                   );
-                })}
-              </tbody>
-            </Table>
-          </div>
+                
+          })}
+                                      </>
+                                    
+          
+                                  )
+                              }
+                            </tbody>
+          
+          
+                          </Table>
+                        </div>
+          
+          
+                      )}
+
+        
+
+          </>
         ) :
          props.value === "3"  && !props.loading && currentRowelectricity  && currentRowelectricity?.length === 0 ? (
           <div>

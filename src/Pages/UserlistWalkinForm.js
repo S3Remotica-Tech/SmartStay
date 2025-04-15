@@ -815,7 +815,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                                                                       )}
                                                                     </div>
                                                         
-                                                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                                                                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
                                                                       <Form.Group className="">
                                                                         <Form.Label
                                                                           style={{
@@ -854,7 +854,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                                                                       )}
                                                                     </div>
                                                         
-                                                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                                                                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
                                                                       <Form.Group className="">
                                                                         <Form.Label
                                                                           style={{
