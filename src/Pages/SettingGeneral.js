@@ -948,6 +948,8 @@ const indianStates = [
            
           //  className="container-fluid d-flex flex-column flex-sm-row justify-content-between align-items-start settingGreneral mt-lg-3 px-3"
           className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+          
+        
            style={{
           position: "sticky",
           top: 0,
@@ -955,16 +957,22 @@ const indianStates = [
           left: 0,
           zIndex: 1000,
           backgroundColor: "#FFFFFF",
-          height: 83,
+          // height: 83,
           // height: "auto",
           // padding:"0px",
+          minHeight: 83,
           whiteSpace: "nowrap",
           paddingRight:10,
-          paddingLeft:10
+          paddingLeft:10,
+          // paddingTop: 20, 
+          // paddingBottom: 20,
+
         }}
       >
       {/* <div  className="me-sm-7"> */}
-      <div className="w-100 text-md-start text-center">
+      {/* <div className="w-100 text-center text-md-start pt-2 pt-md-0"> */}
+      {/* <div className="w-100 d-flex justify-content-center justify-content-md-start align-items-center pt-3 pt-md-0"> */}
+      <div className="w-100 text-md-start text-center mt-3">
         <div>
           <label
             style={{
@@ -985,24 +993,11 @@ const indianStates = [
           // className="mt-2 mt-sm-0 text-start text-sm-end w-100 w-sm-auto"
           className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
        style={{paddingRight:1}} >
+        
           <div 
            >
             <Button
-            // className="btn btn-primary w-auto "
-              // style={{
-              //   fontFamily: "Montserrat",
-              //   fontSize: 14,
-              //   backgroundColor: "#1E45E1",
-              //   color: "white",
-              //   fontWeight: 600,
-              //   borderRadius: 8,
-              //   width: "100%",
-              //   padding: "12px 16px 12px 16px",
-              //   border: "none",
-              //   cursor: "pointer",
-              //   width: "160px"
-              // }}
-            //  className="w-100 w-sm-auto "
+            
             style={{
               fontFamily: "Gilroy",
               fontSize: "14px",
