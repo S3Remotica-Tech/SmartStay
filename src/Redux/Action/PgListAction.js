@@ -14,6 +14,11 @@ export async function createPgList(params) {
   if (params.phoneNo) formData.append("phoneNo", params.phoneNo);
   if (params.email_Id) formData.append("email_Id", params.email_Id);
   if (params.location) formData.append("location", params.location);
+  if (params.area) formData.append("area", params.area);
+  if (params.landmark) formData.append("landmark", params.landmark);
+  if (params.pin_code) formData.append("pin_code", params.pin_code);
+  if (params.city) formData.append("city", params.city);
+  if (params.state) formData.append("state", params.state);
   if (params.id) formData.append("id", params.id);
   if (params.image1) formData.append("image1", params.image1);
   if (params.image2) formData.append("image2", params.image2);

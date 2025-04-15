@@ -30,6 +30,12 @@ export async function addVendor(params) {
   if (params.Vendor_Email) formData.append("Vendor_Email", params.Vendor_Email)
   if (params.Vendor_Mobile) formData.append("Vendor_Mobile", params.Vendor_Mobile)
   if (params.Vendor_Address) formData.append("Vendor_Address", params.Vendor_Address)
+  // if (params.address) formData.append("address", params.address);
+  if (params.area) formData.append("area", params.area)
+  if (params.landmark) formData.append("landmark", params.landmark)
+  if (params.city) formData.append("city", params.city)
+  if (params.pin_code) formData.append("pin_code", params.pin_code)
+  if (params.state) formData.append("state", params.state)
     if (params.Business_Name) formData.append("Business_Name", params.Business_Name)
       if(params.Vendor_Id) formData.append("Vendor_Id" ,params.Vendor_Id)
         if(params.id) formData.append("id", params.id)
