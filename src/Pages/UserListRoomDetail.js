@@ -2538,7 +2538,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                                       Address
                                                     </p>
                                                     <p className="mb-0 fw-semibold">
-                                                      {v.address}
+                                                      {v.address} , {v.area} , {v.city} <br></br>
+                                                      {v.state}- {v.pin_code}
                                                     </p>
                                                   </div>
                                                 </div>

@@ -18,6 +18,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
+import { ArrowUp2, ArrowDown2, SearchNormal1, Sort, } from 'iconsax-react';
 import {CloseCircle} from "iconsax-react";
 
 function EBRoomReading(props) {
@@ -417,9 +418,41 @@ useEffect(() => {
     setelectricitycurrentPage(1)
   };
 
-  const totalPagesinvoice = Math.ceil(
-    roomelectricity?.length / electricityrowsPerPage
-  );
+  const totalPagesinvoice = Math.ceil(roomelectricity?.length / electricityrowsPerPage);
+
+
+  
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  
+    const sortedData = React.useMemo(() => {
+      if (!sortConfig.key) return currentRowelectricity;
+  
+      const sorted = [...currentRowelectricity].sort((a, b) => {
+        const valueA = a[sortConfig.key];
+        const valueB = b[sortConfig.key];
+  
+  
+        if (!isNaN(valueA) && !isNaN(valueB)) {
+          return sortConfig.direction === 'asc'
+            ? valueA - valueB
+            : valueB - valueA;
+        }
+  
+        if (typeof valueA === 'string' && typeof valueB === 'string') {
+          return sortConfig.direction === 'asc'
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        }
+  
+        return 0;
+      });
+  
+      return sorted;
+    }, [currentRowelectricity, sortConfig]);
+  
+    const handleSort = (key, direction) => {
+      setSortConfig({ key, direction });
+    };
 
   // const renderPageNumberselectricity = () => {
   //   const pageNumberselectricity = [];
@@ -560,486 +593,391 @@ useEffect(() => {
           </div>
         ) :
           <>
-            <div>
-              {currentRowelectricity?.length > 0 && (
-                <div
-                  style={{
-                    // height: "400px",
-                    height: currentRowelectricity?.length >= 6 ? "400px" : "auto",
-                    overflowY: "auto",
-                    // overflowY: currentRowelectricity.length >= 6 ? "auto" : "visible",
-                    borderRadius: "24px",
-                    border: "1px solid #DCDCDC",
-                    // borderBottom:"none"
-                  }}>
-                  <Table
-                    responsive="md"
-                    className="Table_Design"
-                    style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
-                  >
-                    <thead
-                      style={{
-                        color: "gray",
-                        fontSize: "11px",
-                        backgroundColor: "#E7F1FF",
-                        position: "sticky",
-                        top: 0,
-                        zIndex: 1,
-                      }}
-                    >
-                      <tr style={{ height: "30px" }}>
 
-                        <th
-                          style={{
-                            color: "rgb(147, 147, 147)",
-                            fontWeight: 500,
-                            fontSize: "14px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                            paddingLeft: "20px",
-                            borderTopLeftRadius:24
-                          }}
-                        >
-                          Paying Guest
-                        </th>
-                        <th
-                          style={{
-                            color: "rgb(147, 147, 147)",
-                            fontWeight: 500,
-                            fontSize: "14px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                          }}
-                        >
-                          Floor
-                        </th>
-                        <th
-                          style={{
-                            color: "rgb(147, 147, 147)",
-                            fontWeight: 500,
-                            fontSize: "14px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                          }}
-                        >
-                          Room no
-                        </th>
-                        {/* <th
+
+ {sortedData && sortedData.length > 0 && (
+
+
+
+              <div
+                className='show-scrolls'
+                style={{
+                  // height: "400px",
+                  // height: currentItems.length >= 6 ? "380px" : "auto",
+                  // overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                  // borderRadius: "24px",
+                  // border: "1px solid #DCDCDC",
+                  // borderBottom:"none"
+                  height: currentRowelectricity.length >= 8 || sortedData.length >= 8 ? "500px" : "auto",
+                  overflow: "auto",
+                  borderTop: "1px solid #E8E8E8",
+                  marginBottom: 20,
+                  marginTop: "20px"
+                  //  borderBottom:"1px solid #DCDCDC"
+                }}>
+
+                <Table
+                  responsive="md"
+                >
+
+                  <thead style={{
+                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                    top: 0,
+                    zIndex: 1
+                  }}>
+                    <tr>
+                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
+                      </div>  Paying Guest</div>  </th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Floor</div></th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Room no </div> </th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Reading </div></th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
+                      </div>  Date </div></th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Units</div></th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
+                      </div>  Amount </div></th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
+                    </tr>
+                  </thead>
+
+
+                  <tbody>
+                    {   sortedData && sortedData.length > 0 && (
+                            <>
+                              {sortedData.map((v) => {
+
+                         let formattedDate;
+
+// Check if v.date exists and is not "00-00-00"
+if (v.date && v.date !== '0000-00-00') {
+  let Dated = new Date(v.date);
+  let day = Dated.getDate();
+  let month = Dated.getMonth() + 1;
+  let year = Dated.getFullYear();
+  formattedDate = `${day}/${month}/${year}`;
+} else {
+  // Use a default initial date if v.date is empty or "00-00-00"
+  let initialDate = new Date(v.initial_date); // Set your default initial date here
+  let day = initialDate.getDate();
+  let month = initialDate.getMonth() + 1;
+  let year = initialDate.getFullYear();
+  formattedDate = `${day}/${month}/${year}`;
+}
+
+
+
+return (
+  <tr key={v.id}>
+    <td
+      style={{
+        border: "none",
+        padding: "10px",
+        textAlign: "start",
+        verticalAlign: "middle", // Center vertically
+        paddingLeft:"20px"
+      }}
+    >
+      <div
+        style={{
+          // display: "flex",
+          // alignItems: "center",
+          // justifyContent: "center",
+          // textAlign:"start",
+          // paddingLeft:"20px"
+        }}
+      >
+        {/* <Image
+          src={imageUrl}
+          alt={v.hoatel_Name || "Default Profile"}
+          roundedCircle
+          style={{
+            height: "40px",
+            width: "40px",
+            marginRight: "10px",
+          }}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = Profile;
+          }}
+        /> */}
+        <span
+          style={{
+            fontSize: 13, 
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+          }}
+        >
+          {v.hoatel_Name}
+        </span>
+      </div>
+    </td>
+    <td
+      style={{
+        fontSize: 13, 
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle",
+        borderBottom: "none",
+      }}
+    >
+      {v.floor_name}
+    </td>
+    <td
+      style={{
+        fontSize: 13, 
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle",
+        borderBottom: "none",
+      }}
+    >
+      {v.Room_Id}
+    </td>
+
+    <td
+      style={{
+        fontSize: 13, 
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle",
+        borderBottom: "none",
+      }}
+    >
+      {v.reading}
+    </td>
+    <td
+      style={{
+        textAlign: "start",
+        verticalAlign: "middle", // Center vertically
+        borderBottom: "none",
+      }}
+    >
+      <span
+        style={{
+          backgroundColor: "#EBEBEB",
+          paddingTop: "5px",
+          paddingLeft: "16px",
+          paddingRight: "16px",
+          paddingBottom: "5px",
+          borderRadius: "60px",
+          fontSize: 13, 
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+        }}
+      >
+        {formattedDate}
+      </span>
+    </td>
+    <td
+      style={{
+        fontSize: 13, 
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle", // Center vertically
+        borderBottom: "none",
+      }}
+    >
+      {v.total_reading}
+    </td>
+    <td
+      style={{
+        fontSize: 13, 
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle",
+        borderBottom: "none",
+      }}
+    >
+      {v.total_amount}
+    </td>
+    <td  style={{
+       fontSize: 13, 
+       fontWeight: 500,
+       fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle",
+        borderBottom: "none",
+      }}>
+
+      <div
+        style={{
+          cursor: "pointer",
+          height: 35,
+          width: 35,
+          borderRadius: 100,
+          border: "1px solid #EFEFEF",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
+          // zIndex: 1000,
+          // zIndex:activeRow === v.eb_Id? 1000: "auto",
+          backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
+        }}
+        onClick={(e) => handleShowDots(v.eb_Id,e)}
+      >
+        <PiDotsThreeOutlineVerticalFill
+          style={{ height: 20, width: 20,color:"black" }}
+        />
+        {activeRow === v.eb_Id && (
+          <>
+            <div
+              ref={popupRef}
+              style={{
+                cursor: "pointer",
+                backgroundColor: "#F9F9F9",
+                position: "fixed",
+                top: popupPosition.top,
+                left: popupPosition.left,
+                // position: "absolute",
+                // right: 50,
+                // top: 20,
+                width: 120,
+                height: "auto",
+                border: "1px solid #EBEBEB",
+                borderRadius: 10,
+                display: "flex",
+                justifyContent: "start",
+                padding: 10,
+                alignItems: "center",
+                zIndex: 1000 ,
+              }}
+            >
+              <div
+                style={{ backgroundColor: "#F9F9F9" }}
+                className=""
+              >
+                <div
+                  className={"mb-3 d-flex justify-content-start align-items-center gap-2"}
                   style={{
-                    color: "#939393",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
-                    textAlign: "center",
+                    // backgroundColor: props.ebEditPermission ? "#f9f9f9" : "#fff",
+                    cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+                  }}
+                  onClick={() => {
+                    if (!props.ebEditPermission) {
+                      handleEditRoomReading(v);
+                    }
                   }}
                 >
-                  Previous
-                </th> */}
-                        <th
-                          style={{
-                            color: "rgb(147, 147, 147)",
-                            fontWeight: 500,
-                            fontSize: "14px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                          }}
-                        >
-                          Reading
-                        </th>
-                        <th
-                          style={{
-                            color: "rgb(147, 147, 147)",
-                            fontWeight: 500,
-                            fontSize: "14px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                          }}
-                        >
-                          Date
-                        </th>
-                        <th
-                          style={{
-                            color: "rgb(147, 147, 147)",
-                            fontWeight: 500,
-                            fontSize: "14px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                          }}
-                        >
-                          Units
-                        </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            fontFamily: "Gilroy",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: 14,
-                            fontWeight: 500,
-                            // borderTopRightRadius: 24
-                          }}
-                        >
-                          Amount
-                        </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            fontFamily: "Gilroy",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: 14,
-                            fontWeight: 500,
-                            borderTopRightRadius: 24,
-                          }}
-                        >
-                         Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody style={{ fontSize: "12px" }}>
-                      {currentRowelectricity &&
-                        currentRowelectricity.map((v) => {
+                  <img
+                    src={Edit}
+                    style={{
+                      height: 16,
+                      width: 16,
+                      filter: props.ebEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                    }}
+                    alt="Edit"
+                  />
+                  <label
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy, sans-serif",
+                      color: props.ebEditPermission ? "#ccc" : "#222222",
+                      cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    Edit
+                  </label>
+                </div>
+
+
+
+                <div
+                  className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
+                  style={{
+                    // backgroundColor: props.ebDeletePermission ? "#f9f9f9" : "#fff",
+                    cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
+                  }}
+                  onClick={() => {
+                    if (!props.ebDeletePermission) {
+                      handleDeleteShow(v);
+                    }
+                  }}
+                >
+                  <img
+                    src={Delete}
+                    style={{
+                      height: 16,
+                      width: 16,
+                      filter: props.ebDeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                    }}
+                    alt="Delete"
+                  />
+                  <label
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy, sans-serif",
+                      color: props.ebDeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
+                      cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    Delete
+                  </label>
+                </div>
+
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+    </td>
+  </tr>
+);
+})}
+                            </>
                           
 
-                          let formattedDate;
+                        )
+                    }
+                  </tbody>
 
-                          // Check if v.date exists and is not "00-00-00"
-                          if (v.date && v.date !== '0000-00-00') {
-                            let Dated = new Date(v.date);
-                            let day = Dated.getDate();
-                            let month = Dated.getMonth() + 1;
-                            let year = Dated.getFullYear();
-                            formattedDate = `${day}/${month}/${year}`;
-                          } else {
-                            // Use a default initial date if v.date is empty or "00-00-00"
-                            let initialDate = new Date(v.initial_date); // Set your default initial date here
-                            let day = initialDate.getDate();
-                            let month = initialDate.getMonth() + 1;
-                            let year = initialDate.getFullYear();
-                            formattedDate = `${day}/${month}/${year}`;
-                          }
+
+                </Table>
+              </div>
+
+
+            )}
+
+
+           
 
 
 
-                          return (
-                            <tr key={v.id}>
-                              <td
-                                style={{
-                                  border: "none",
-                                  padding: "10px",
-                                  textAlign: "start",
-                                  verticalAlign: "middle", // Center vertically
-                                  paddingLeft:"20px"
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    // display: "flex",
-                                    // alignItems: "center",
-                                    // justifyContent: "center",
-                                    // textAlign:"start",
-                                    // paddingLeft:"20px"
-                                  }}
-                                >
-                                  {/* <Image
-                                    src={imageUrl}
-                                    alt={v.hoatel_Name || "Default Profile"}
-                                    roundedCircle
-                                    style={{
-                                      height: "40px",
-                                      width: "40px",
-                                      marginRight: "10px",
-                                    }}
-                                    onError={(e) => {
-                                      e.target.onerror = null;
-                                      e.target.src = Profile;
-                                    }}
-                                  /> */}
-                                  <span
-                                    style={{
-                                      fontSize: "16px",
-                                      fontWeight: 600,
-                                      fontFamily: "Gilroy",
-                                    }}
-                                  >
-                                    {v.hoatel_Name}
-                                  </span>
-                                </div>
-                              </td>
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.floor_name}
-                              </td>
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.Room_Id}
-                              </td>
-
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.reading}
-                              </td>
-                              <td
-                                style={{
-                                  textAlign: "start",
-                                  verticalAlign: "middle", // Center vertically
-                                  borderBottom: "none",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    backgroundColor: "#EBEBEB",
-                                    paddingTop: "5px",
-                                    paddingLeft: "16px",
-                                    paddingRight: "16px",
-                                    paddingBottom: "5px",
-                                    borderRadius: "60px",
-                                    fontSize: "14px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  {formattedDate}
-                                </span>
-                              </td>
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle", // Center vertically
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.total_reading}
-                              </td>
-                              <td
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}
-                              >
-                                {v.total_amount}
-                              </td>
-                              <td  style={{
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle",
-                                  borderBottom: "none",
-                                }}>
-
-                                <div
-                                  style={{
-                                    cursor: "pointer",
-                                    height: 35,
-                                    width: 35,
-                                    borderRadius: 100,
-                                    border: "1px solid #EFEFEF",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    position: "relative",
-                                    // zIndex: 1000,
-                                    // zIndex:activeRow === v.eb_Id? 1000: "auto",
-                                    backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
-                                  }}
-                                  onClick={(e) => handleShowDots(v.eb_Id,e)}
-                                >
-                                  <PiDotsThreeOutlineVerticalFill
-                                    style={{ height: 20, width: 20,color:"black" }}
-                                  />
-                                  {activeRow === v.eb_Id && (
-                                    <>
-                                      <div
-                                        ref={popupRef}
-                                        style={{
-                                          cursor: "pointer",
-                                          backgroundColor: "#F9F9F9",
-                                          position: "fixed",
-                                          top: popupPosition.top,
-                                          left: popupPosition.left,
-                                          // position: "absolute",
-                                          // right: 50,
-                                          // top: 20,
-                                          width: 120,
-                                          height: "auto",
-                                          border: "1px solid #EBEBEB",
-                                          borderRadius: 10,
-                                          display: "flex",
-                                          justifyContent: "start",
-                                          padding: 10,
-                                          alignItems: "center",
-                                          zIndex: 1000 ,
-                                        }}
-                                      >
-                                        <div
-                                          style={{ backgroundColor: "#F9F9F9" }}
-                                          className=""
-                                        >
-                                          <div
-                                            className={"mb-3 d-flex justify-content-start align-items-center gap-2"}
-                                            style={{
-                                              // backgroundColor: props.ebEditPermission ? "#f9f9f9" : "#fff",
-                                              cursor: props.ebEditPermission ? "not-allowed" : "pointer",
-                                            }}
-                                            onClick={() => {
-                                              if (!props.ebEditPermission) {
-                                                handleEditRoomReading(v);
-                                              }
-                                            }}
-                                          >
-                                            <img
-                                              src={Edit}
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                filter: props.ebEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
-                                              }}
-                                              alt="Edit"
-                                            />
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: props.ebEditPermission ? "#ccc" : "#222222",
-                                                cursor: props.ebEditPermission ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Edit
-                                            </label>
-                                          </div>
-
-
-
-                                          <div
-                                            className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
-                                            style={{
-                                              // backgroundColor: props.ebDeletePermission ? "#f9f9f9" : "#fff",
-                                              cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
-                                            }}
-                                            onClick={() => {
-                                              if (!props.ebDeletePermission) {
-                                                handleDeleteShow(v);
-                                              }
-                                            }}
-                                          >
-                                            <img
-                                              src={Delete}
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                filter: props.ebDeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
-                                              }}
-                                              alt="Delete"
-                                            />
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: props.ebDeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
-                                                cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Delete
-                                            </label>
-                                          </div>
-
-                                        </div>
-                                      </div>
-                                    </>
-                                  )}
-                                </div>
-
-                                {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </Table>
-                </div>
-              )}
-             
-
-              {!props.loading   && currentRowelectricity?.length === 0 && (
-                <div style={{ marginTop: 40 }}>
-                  <div style={{ textAlign: "center" }}>
-                    <img src={emptyimg} width={240} height={240} alt="emptystate" />
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      fontSize: 20,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    No room readings{" "}
-                  </div>
-                  <div
-                    className="pb-1"
-                    style={{
-                      textAlign: "center",
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      fontSize: 16,
-                      color: "rgba(75, 75, 75, 1)",
-                    }}
-                  >
-                    There are no room readings available.{" "}
-                  </div>
-
-
-                </div>
-              )}
-            </div>
             {props.loading &&
                   <div
                     style={{

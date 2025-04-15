@@ -309,17 +309,16 @@ function UserAdditionalContact(props) {
     }
 
     if (props.editAdditional && props.contactEdit.id) {
-      const isChanged = !(
-        userName === initialState.userName &&
-        guardian === initialState.guardian &&
-        Number(countryCode + Phone) === Number(initialState.Phone) &&
+      const isChanged = (
+        userName !== initialState.userName ||
+        guardian !== initialState.guardian ||
+        Number(countryCode + Phone) !== Number(initialState.Phone) ||
+        house_no !== initialState.house_no ||
+        street !== initialState.street ||
+        landmark !== initialState.landmark ||
+        city !== initialState.city ||
         String(pincode).trim() !== String(initialState.pinCode || "").trim() ||
-        house_no === initialState.house_no ||
-        street === initialState.street ||
-        landmark === initialState.landmark ||
-        city === initialState.city ||
-        state_name === initialState.state
-        // address === initialState.address 
+        state_name !== initialState.state
       );
       if (!isChanged) {
         setFormError("No Changes Detected");
