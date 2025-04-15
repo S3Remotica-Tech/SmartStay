@@ -2799,19 +2799,28 @@ const handleBack = () => {
                 ) : (
                  
                     <>
-                      {sortedData && sortedData.length > 0 && (
+                     {sortedData && sortedData.length > 0 && (
                         <div
-                          className="checkin-table"
+                          // className="z-0"
+                          // style={{
+                          //   // height: "400px",
+                          //   // position: "relative",
+                          //   height: sortedData.length >= 6 ? "400px" : "auto",
+                          //   overflowY:
+                          //   sortedData.length >= 6 ? "auto" : "visible",
+                          //   borderRadius: "24px",
+                          //   border: "1px solid #DCDCDC",
+                          //   marginLeft:"-20px",
+                          //   // marginTop:8
+                          //   // borderBottom:"none"
+                          // }}
+                          className='show-scrolls'
                           style={{
                             // height: "400px",
-                            // position: "relative",
-                            // height: currentItems.length >= 6 ? "400px" : "auto",
-                            // overflowY:
-                            //   currentItems.length >= 6 ? "auto" : "visible",
-                            borderRadius: "24px",
-                            border: "1px solid #DCDCDC",
-                            marginLeft:"-20px",
-                            // marginTop:8
+                            // height: currentItems.length >= 6 ? "380px" : "auto",
+                            // overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                            // borderRadius: "24px",
+                            // border: "1px solid #DCDCDC",
                             // borderBottom:"none"
                             height: sortedData?.length >= 8 || sortedData?.length >= 8 ? "350px" : "auto",
                             overflow: "auto",
