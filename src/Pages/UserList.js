@@ -2770,13 +2770,13 @@ const handleBack = () => {
                     <div>
                       {currentItems && currentItems.length > 0 && (
                         <div
-                          // className="z-0"
+                          className="checkin-table"
                           style={{
                             // height: "400px",
                             // position: "relative",
-                            height: currentItems.length >= 6 ? "400px" : "auto",
-                            overflowY:
-                              currentItems.length >= 6 ? "auto" : "visible",
+                            // height: currentItems.length >= 6 ? "400px" : "auto",
+                            // overflowY:
+                            //   currentItems.length >= 6 ? "auto" : "visible",
                             borderRadius: "24px",
                             border: "1px solid #DCDCDC",
                             marginLeft:"-20px",
@@ -3520,34 +3520,20 @@ const handleBack = () => {
                 {
                   (search ? filteredUsers?.length : userListDetail?.length) >=
                     5 && (
-                    // <nav
-                    //   style={{
-                    //     display: "flex",
-                    //     alignItems: "center",
-                    //     justifyContent: "end",
-                    //     padding: "10px",
-                    //     position: "fixed",
-                    //     bottom: "10px",
-                    //     right: "10px",
-                    //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
-                    //     borderRadius: "5px", 
-                    //   }}
-                    // >
-                    <nav className="pagination-container"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "end",
-                      padding: "10px",
-                      position: "fixed",
-                      bottom: "10px",
-                      right: "10px",
-                      backgroundColor: "#fff",
-                      borderRadius: "5px",
-                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                      zIndex: 1000,
-                    }}
-                  >
+                    <nav
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "10px",
+                        right: "10px",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
+                        borderRadius: "5px", 
+                      }}
+                    >
+                 
                       {/* Dropdown for Items Per Page */}
                       <div>
                         <select

@@ -1,69 +1,44 @@
-.table_walkin {
-    border: 1px solid #DCDCDC;
-    border-radius: 24px;
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    overflow: visible !important;
-
-}
-
-.walkin_table_custom .table-responsive {
-    overflow: visible !important;
-}
-
-.table td {
-    border: none;
-}
-
-
-.hover-button:hover {
-    background-color: #1E45E1 !important;
-    color: white !important;
-}
-
-
 @media only screen and (width: 344px) and (height: 882px) {
 
 }
 
 @media only screen and (width: 360px) and (height: 740px) {
-  .walkin-table{
+  .checkout-table{
     max-height: 280px;
     overflow-y: auto;
   }
 }
 
 @media only screen and (width: 375px) and (height: 667px) {
-.walkin-table{
+.checkout-table{
   max-height: 200px;
   overflow-y: auto;
 }
 }
 
 @media only screen and (width: 390px) and (height: 844px) {
-  .walkin-table{
-    max-height: 370px;
+  .checkout-table{
+    max-height: 450px;
     overflow-y: auto;
   }
 }
 
 @media only screen and (width: 412px) and (height: 915px) {
-  .walkin-table{
+  .checkout-table{
     max-height: 500px;
     overflow-y: auto;
   }
 }
 
 @media only screen and (width: 412px) and (height: 914px) {
-  .walkin-table{
+  .checkout-table{
     max-height: 500px;
     overflow-y: auto;
   }
 }
 
 @media only screen and (width: 414px) and (height: 896px) {
-  .walkin-table{
+  .checkout-table{
     max-height: 500px;
     overflow-y: auto;
   }
@@ -71,7 +46,7 @@
 
 
   @media only screen and (width: 430px) and (height: 932px) {
-    .walkin-table{
+    .checkout-table{
       max-height: 500px;
       overflow-y: auto;
     }
@@ -79,7 +54,7 @@
 
 
   @media only screen and (width: 540px) and (height: 720px) {
-    .walkin-table{
+    .checkout-table{
       max-height: 280px;
       overflow-y: auto;
     }
@@ -87,40 +62,40 @@
 
 
   @media only screen and (width: 768px) and (height: 1024px) {
-    .walkin-table{
-      max-height: 500px;
+    .checkout-table{
+      max-height: 300px;
       overflow-y: auto;
     }
 }
 
 @media only screen and (width: 820px) and (height: 1180px) {
-  .walkin-table{
-    max-height: 400px;
+  .checkout-table{
+    max-height: 410px;
     overflow-y: auto;
   }
 }
 
 @media only screen and (width: 853px) and (height: 1280px) {
-  .walkin-table{
+  .checkout-table{
     max-height: 600px;
     overflow-y: auto;
   }
   }
 
 @media only screen and (width: 912px) and (height: 1368px) {
-  .walkin-table{
+  .checkout-table{
     max-height: 600px;
     overflow-y: auto;
   }
 }
 @media only screen and (width: 1024px) and (height: 1366px) {
-  .walkin-table{
-    max-height: 400px;
+  .checkout-table{
+    max-height: 300px;
     overflow-y: auto;
   }  
 }
 @media only screen and (width: 1024px) and (height: 600px) {
-  .walkin-table{
+  .checkout-table{
     max-height: 300px;
     overflow-y: auto;
   }  

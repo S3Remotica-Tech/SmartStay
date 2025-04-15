@@ -237,3 +237,116 @@ margin-left: 200px;
     font-size: 14px;
   }
 }
+
+
+
+
+
+@media only screen and (width: 344px) and (height: 882px) {
+
+}
+
+@media only screen and (width: 360px) and (height: 740px) {
+  .billstab-table{
+    max-height: 200px;
+    overflow-y: auto;
+  }
+}
+
+@media only screen and (width: 375px) and (height: 667px) {
+.billstab-table{
+  max-height: 200px;
+  overflow-y: auto;
+}
+}
+
+@media only screen and (width: 390px) and (height: 844px) {
+  .billstab-table{
+    max-height: 450px;
+    overflow-y: auto;
+  }
+}
+
+@media only screen and (width: 412px) and (height: 915px) {
+  .billstab-table{
+    max-height: 500px;
+    overflow-y: auto;
+  }
+}
+
+@media only screen and (width: 412px) and (height: 914px) {
+  .billstab-table{
+    max-height: 500px;
+    overflow-y: auto;
+  }
+}
+
+@media only screen and (width: 414px) and (height: 896px) {
+  .billstab-table{
+    max-height: 600px;
+    overflow-y: auto;
+  }
+  }
+
+
+  @media only screen and (width: 430px) and (height: 932px) {
+    .billstab-table{
+      max-height: 500px;
+      overflow-y: auto;
+    }
+  }
+
+
+  @media only screen and (width: 540px) and (height: 720px) {
+    .billstab-table{
+      max-height: 250px;
+      overflow-y: auto;
+    }
+  }
+
+
+  @media only screen and (width: 768px) and (height: 1024px) {
+    .billstab-table{
+      max-height: 300px;
+      overflow-y: auto;
+    }
+}
+
+@media only screen and (width: 820px) and (height: 1180px) {
+  .billstab-table{
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}
+
+@media only screen and (width: 853px) and (height: 1280px) {
+  .billstab-table{
+    max-height: 600px;
+    overflow-y: auto;
+  }
+  }
+
+@media only screen and (width: 912px) and (height: 1368px) {
+  .billstab-table{
+    max-height: 600px;
+    overflow-y: auto;
+  }
+}
+@media only screen and (width: 1024px) and (height: 1366px) {
+  .billstab-table{
+    max-height: 300px;
+    overflow-y: auto;
+  }  
+}
+@media only screen and (width: 1024px) and (height: 600px) {
+  .billstab-table{
+    max-height: 330px;
+    overflow-y: auto;
+  }  
+}
+@media only screen and (width: 1280px) and (height: 800px) {
+  .billstab-table{
+    max-height: 580px;
+    overflow-y: auto;
+  }  
+} 

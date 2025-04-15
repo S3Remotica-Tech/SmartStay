@@ -15,7 +15,7 @@ import moment from "moment";
 import "sweetalert2/dist/sweetalert2.min.css";
 import LoaderComponent from "./LoaderComponent";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
-import "../Pages/Invoices.css";
+import './Invoices.css';
 import InvoiceTable from "./InvoicelistTable";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import Box from "@mui/material/Box";
@@ -4017,7 +4017,7 @@ const InvoicePage = () => {
                           ) : (
                             <>
                               {currentItems && currentItems.length > 0 ? (
-                                <div
+                                <div className="billstab-table"
                                   style={{
                                     // height: "400px",
                                     height:
@@ -4240,29 +4240,14 @@ const InvoicePage = () => {
                               )}
 
                               {bills?.length >= 5 && (
-                                // <nav
-                                //   style={{
-                                //     display: "flex",
-                                //     alignItems: "center",
-                                //     justifyContent: "end",
-                                //     padding: "10px",
-                                //     position: "fixed",
-                                //     bottom: "1px",
-                                //     right: "10px",
-                                //     backgroundColor: "#fff",
-                                //     borderRadius: "5px",
-                                //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                //     zIndex: 1000,
-                                //   }}
-                                // >
-                                <nav className="pagination-container"
+                                <nav
                                   style={{
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "end",
                                     padding: "10px",
                                     position: "fixed",
-                                    bottom: "10px",
+                                    bottom: "1px",
                                     right: "10px",
                                     backgroundColor: "#fff",
                                     borderRadius: "5px",
@@ -4270,6 +4255,7 @@ const InvoicePage = () => {
                                     zIndex: 1000,
                                   }}
                                 >
+                                
                                   {/* Dropdown for Items Per Page */}
                                   <div>
                                     <select
@@ -4694,22 +4680,7 @@ const InvoicePage = () => {
 
 
                   {recurringbills && recurringbills.length >= 5 && (
-                    // <nav
-                    //   style={{
-                    //     display: "flex",
-                    //     alignItems: "center",
-                    //     justifyContent: "end",
-                    //     padding: "10px",
-                    //     position: "fixed",
-                    //     bottom: "10px",
-                    //     right: "10px",
-                    //     backgroundColor: "#fff",
-                    //     borderRadius: "5px",
-                    //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                    //     zIndex: 1000,
-                    //   }}
-                    // >
-                    <nav className="pagination-container"
+                    <nav
                       style={{
                         display: "flex",
                         alignItems: "center",
@@ -4724,6 +4695,7 @@ const InvoicePage = () => {
                         zIndex: 1000,
                       }}
                     >
+                    
                       {/* Dropdown for Items Per Page */}
                       <div>
                         <select
@@ -5379,17 +5351,17 @@ const InvoicePage = () => {
                           <>
                             {currentReceiptData &&
                               currentReceiptData.length > 0 && (
-                                <div
+                                <div className="billstab-table"
                                   style={{
                                     // height: "400px",
-                                    height:
-                                      currentReceiptData.length >= 6
-                                        ? "380px"
-                                        : "auto",
-                                    overflowY:
-                                      currentReceiptData.length >= 6
-                                        ? "auto"
-                                        : "visible",
+                                    // height:
+                                    //   currentReceiptData.length >= 6
+                                    //     ? "380px"
+                                    //     : "auto",
+                                    // overflowY:
+                                    //   currentReceiptData.length >= 6
+                                    //     ? "auto"
+                                    //     : "visible",
                                     borderRadius: "24px",
                                     border: "1px solid #DCDCDC",
                                     // borderBottom:"none"
@@ -5537,22 +5509,7 @@ const InvoicePage = () => {
                               )}
 
                             {receiptdata.length >= 5 && (
-                              // <nav
-                              //   style={{
-                              //     display: "flex",
-                              //     alignItems: "center",
-                              //     justifyContent: "end",
-                              //     padding: "10px",
-                              //     position: "fixed",
-                              //     bottom: "10px",
-                              //     right: "10px",
-                              //     backgroundColor: "#fff",
-                              //     borderRadius: "5px",
-                              //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                              //     zIndex: 1000,
-                              //   }}
-                              // >
-                              <nav className="pagination-container"
+                              <nav
                                 style={{
                                   display: "flex",
                                   alignItems: "center",
@@ -5567,6 +5524,7 @@ const InvoicePage = () => {
                                   zIndex: 1000,
                                 }}
                               >
+                            
                                 <div>
                                   <select
                                     value={itemsperPage}

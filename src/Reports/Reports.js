@@ -20,6 +20,7 @@ import CatoryActive from "../Assets/Images/New_images/category-active.png";
 import HostelRentProjection from '../Reports/HostelRentProjection';
 import { FormControl, InputGroup, Row, Col } from 'react-bootstrap';
 import { CloseCircle, SearchNormal1} from 'iconsax-react';
+import './Reports.css';
 
 
 function Reports() {
@@ -243,7 +244,7 @@ function Reports() {
 
   return (
 
-    <div className='container' style={{ width: "100%",marginTop:26 }}>
+    <div className='container margin-top-lg' style={{ width: "100%" }}>
 
 <div className='container'>
 <div className="d-flex justify-content-between  flex-wrap">
@@ -290,16 +291,17 @@ function Reports() {
                     {
                       reports.length > 0 && searchQuery !== '' && showDropDown && (
 
-                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                          <ul className='show-scroll' style={{
+                        <div className='report-card' style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, 
+                        zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                          <ul  style={{
                             // position: 'absolute',
                             // top: '50px',
                             // left: 0,
                             width: 260,
                             backgroundColor: '#fff',
-                            maxHeight: 174,
-                            minHeight: 100,
-                            overflowY: 'auto',
+                            // maxHeight: 174,
+                            // minHeight: 100,
+                            // overflowY: 'auto',
                             padding: '5px 10px',
                             margin: '0',
                             listStyleType: 'none',
@@ -364,7 +366,9 @@ function Reports() {
 
         <Col lg={showReport ? 4 : 12} md={showReport ? 4 : 12} style={{ borderRight: showReport && "1px solid #E7F1FF" }}>
 
-          <div className='container show-scroll' style={{ maxHeight: showReport ? 650 : 'unset', overflowY: showReport ? 'auto' : "unset", backgroundColor: "" }}>
+          <div className='container report-card' 
+          // style={{ maxHeight: showReport ? 650 : 'unset', overflowY: showReport ? 'auto' : "unset", backgroundColor: "" }}
+          >
 
             
 

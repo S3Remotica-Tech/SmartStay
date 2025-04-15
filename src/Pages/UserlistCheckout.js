@@ -24,7 +24,7 @@ import {
   
 } from "react-bootstrap";
 import PropTypes from "prop-types";
-
+import './UserlistCheckout.css';
 
 function CheckOut(props) {
 
@@ -413,14 +413,14 @@ console.log("checkOutCustomer",checkOutCustomer)
           <div>
             {currentCustomers?.length > 0 ?  (
               <div
-                className="p-10 booking-table-userlist"
+                className="p-10 booking-table-userlist checkout-table"
                 style={{ paddingBottom: "20px" }}
               >
                 <div
                   style={{
                     // height: "400px",
-                    height: currentCustomers.length >= 6 ? "380px" : "auto",
-                    overflowY: currentCustomers.length >= 6 ? "auto" : "visible",
+                    // height: currentCustomers.length >= 6 ? "380px" : "auto",
+                    // overflowY: currentCustomers.length >= 6 ? "auto" : "visible",
                     borderRadius: "24px",
                     border: "1px solid #DCDCDC",
                     // borderBottom:"none"

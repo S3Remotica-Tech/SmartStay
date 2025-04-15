@@ -1189,14 +1189,14 @@ whiteSpace: "nowrap"
             )}
           </div>
 
-          <div style={{ marginTop: 30 }} className="container">
+          <div style={{ marginTop: 30 }} className="container bankingtab-table">
             {currentRowTransaction?.length > 0 ? (
               <div
                 style={{
                   // height: "400px",
-                  height: currentRowTransaction.length >= 4 ? "240px" : "auto",
-                  overflowY:
-                    currentRowTransaction.length >= 4 ? "auto" : "visible",
+                  // height: currentRowTransaction.length >= 4 ? "240px" : "auto",
+                  // overflowY:
+                  //   currentRowTransaction.length >= 4 ? "auto" : "visible",
                   borderRadius: "24px",
                   border: "1px solid #DCDCDC",
 
@@ -1654,51 +1654,21 @@ whiteSpace: "nowrap"
             )}
 
             {transactionFilterddata?.length >= 5 && (
-              // <nav
-              //   style={{
-              //     display: "flex",
-              //     alignItems: "center",
-              //     justifyContent: "end",
-              //     padding: "10px",
-              //     position: "fixed",
-              //     bottom: "10px",
-              //     right: "10px",
-              //     backgroundColor: "#fff",
-              //     borderRadius: "5px",
-              //     zIndex: 1000,
-              //     marginTop: 10
-              //   }}
-              // >
-              // <nav className='pagination-code'
-              // style={{
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "end",
-              //   padding: "15px",
-              //   backgroundColor: "#fff",
-              //   borderRadius: "5px",
-              //   width: "100%", 
-              //   marginTop: "20px", 
-              //   position: "relative", 
-              //   zIndex: 1000,
-              // }}
-              // >
-              <nav className="pagination-container"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "end",
-                padding: "10px",
-                position: "fixed",
-                bottom: "10px",
-                right: "10px",
-                backgroundColor: "#fff",
-                borderRadius: "5px",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                zIndex: 1000,
-              }}
-            >
-
+              <nav
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "end",
+                  padding: "10px",
+                  position: "fixed",
+                  bottom: "10px",
+                  right: "10px",
+                  backgroundColor: "#fff",
+                  borderRadius: "5px",
+                  zIndex: 1000,
+                  marginTop: 10
+                }}
+              >
                 <div>
                   <select className="selectoption"
                     value={transactionrowsPerPage}
