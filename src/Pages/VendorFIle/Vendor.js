@@ -14,6 +14,7 @@ import { ArrowLeft2, ArrowRight2, CloseCircle, SearchNormal1 } from 'iconsax-rea
 import { MdError } from "react-icons/md";
 import { toast } from 'react-toastify';
 import "./vendor.css";
+import './VendorListMap.css';
 import { useMediaQuery, useTheme } from '@mui/material'
 
 function Vendor() {
@@ -661,7 +662,7 @@ function Vendor() {
                   ></div>
                 </div>
               )}
-              <div style={{
+              <div className='vendor-card' style={{
                 maxHeight: "450px",
                 overflowY: "auto",
                 overflowX: "hidden",
@@ -671,7 +672,7 @@ function Vendor() {
 
                 <div className='row row-gap-3 '>
                   {currentItems && currentItems.length > 0 && currentItems.map((vendor) => (
-                    <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 vendor-card'>
+                    <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
                       <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
                         onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
                       />
@@ -717,24 +718,11 @@ function Vendor() {
                 </div>
               </div>
             </div>
-            {/* <nav className='pagination-container'
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "end",
-                padding: "15px",
-                backgroundColor: "#fff",
-                borderRadius: "5px",
-                width: "100%", 
-                marginTop: "20px", 
-                position: "relative", 
-                zIndex: 1000,
-              }}
-              > */}
+          
             {
               filteredData.length >= 5 &&
-              <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-centers pagination-container'>
-
+              <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-centers'>
+             
                 <div>
                   <select className="selectoption"
                     value={itemsPerPage}
