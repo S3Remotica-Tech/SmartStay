@@ -1340,15 +1340,10 @@ function Sidebar() {
         show={logoutformshow}
         onHide={handleCloseLogout}
         centered
-        backdrop="static"
-        style={{
-          width: 388,
-          height: 250,
-          marginLeft: "auto",
-          marginRight:"auto",
-          marginTop: "200px",
-        }}
-      >
+  backdrop="static"
+  className="logout-card d-flex justify-content-center align-items-center"
+  dialogClassName="custom-modal-width">
+    
         <Modal.Header style={{ borderBottom: "none" }}>
           <Modal.Title
             style={{
@@ -1420,6 +1415,7 @@ function Sidebar() {
           </Button>
         </Modal.Footer>
       </Modal>
+
     </>
   );
 }

@@ -908,7 +908,7 @@ function Asset() {
               // </Pagination>
 
               <nav
-              className="pagination-container"
+
                 style={{
                   display: "flex",
                   alignItems: "center",

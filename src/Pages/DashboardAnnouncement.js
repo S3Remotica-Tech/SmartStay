@@ -433,7 +433,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             maxWidth: "100%",
             marginBottom: "10px",
             maxHeight: 50,
-            marginTop: "-20px",
+            marginTop: "20px",
+            marginRight:10
           }}
           onClick={handleShowAnnouncement}
           className="responsive-button"
@@ -533,6 +534,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                     borderColor: "#DCDCDC",
                     // marginBottom: "20px",
                     cursor: "pointer",
+                  
                   }}
                 >
                   <Card.Body>

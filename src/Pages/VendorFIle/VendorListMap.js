@@ -8,6 +8,7 @@ import Image from "react-bootstrap/Image";
 import { Edit } from "iconsax-react";
 import PropTypes from "prop-types";
 import "./VendorListMap.css";
+import "./vendor.css";
 
 function VendorListMap(props) {
   const [showDots, setShowDots] = useState(null);
@@ -135,7 +136,7 @@ function VendorListMap(props) {
                 {showDots && (
                   <div
                     ref={popupRef}
-                    className="ven-popup"
+                    className="ven-popup showdots-btn"
                     style={{
                       cursor: "pointer",
                       backgroundColor: "#F9F9F9",

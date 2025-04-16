@@ -35,3 +35,22 @@
   }
 }
 
+@media only screen and (width: 375px) and (height: 667px) {
+
+.electricity-table{
+max-height: 250px;
+overflow-y: auto;
+}}
+@media only screen and (width: 360px) and (height: 740px) {
+
+  .electricity-table{
+  max-height: 300px;
+  overflow-y: auto;
+  }}
+
+  @media only screen and (width: 540px) and (height: 720px) {
+
+    .electricity-table{
+    max-height: 400px;
+    overflow-y: auto;
+    }}

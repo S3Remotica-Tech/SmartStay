@@ -1099,7 +1099,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
                      
                      
                                    <div
-                                     className='show-scrolls'
+                                     className='show-scrolls electricity-table'
                                      style={{
                                        // height: "400px",
                                        // height: currentItems.length >= 6 ? "380px" : "auto",
@@ -1107,7 +1107,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
                                        // borderRadius: "24px",
                                        // border: "1px solid #DCDCDC",
                                        // borderBottom:"none"
-                                       height: currentRoomelectricity.length >= 8 || sortedData.length >= 8 ? "500px" : "auto",
+                                       height: currentRoomelectricity.length >= 8 || sortedData.length >= 8 ? "400px" : "auto",
                                        overflow: "auto",
                                        borderTop: "1px solid #E8E8E8",
                                        marginBottom: 20,
