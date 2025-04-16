@@ -1,0 +1,93 @@
+
+@media only screen and (width: 344px) and (height: 882px) {
+    .report-card{
+        max-height: 600px;
+        overflow-y: auto;
+    }
+}
+@media only screen and (width: 360px) and (height: 740px) {
+    .report-card{
+        max-height: 550px;
+        overflow-y: auto;
+    }
+}
+@media only screen and (width: 375px) and (height: 667px) {
+.report-card{
+    max-height: 450px;
+    overflow-y: auto;
+}
+}
+@media only screen and (width: 390px) and (height: 844px) {
+    .report-card{
+        max-height: 600px;
+        overflow-y: auto;
+    }
+
+}
+@media only screen and (width: 412px) and (height: 915px) {
+    .report-card{
+        max-height: 650px;
+        overflow-y: auto;
+    }
+
+}
+@media only screen and (width: 412px) and (height: 914px) {
+    .report-card{
+        max-height: 650px;
+        overflow-y: auto;
+    }
+}
+@media only screen and (width: 414px) and (height: 896px) {
+    .report-card{
+        max-height: 600px;
+        overflow-y: auto;
+    }
+  }
+
+@media only screen and (width: 430px) and (height: 932px) {
+    .report-card{
+        max-height: 650px;
+        overflow-y: auto;
+    }
+  }
+
+@media only screen and (width: 540px) and (height: 720px) {
+    .report-card{
+        max-height: 500px;
+        overflow-y: auto;
+    }
+  }
+
+@media only screen and (width: 768px) and (height: 1024px) {
+    .report-card{
+        max-height: 650px;
+        overflow-y: auto;
+    }
+    
+}
+@media only screen and (width: 820px) and (height: 1180px) {
+    .report-card{
+        max-height: 560px;
+        overflow-y: auto;
+    }
+}
+@media only screen and (width: 853px) and (height: 1280px) {
+
+  }
+
+@media only screen and (width: 912px) and (height: 1368px) {
+
+}
+@media only screen and (width: 1024px) and (height: 600px) {
+    .report-card{
+        max-height: 450px;
+        overflow-y: auto;
+    }
+}
+
+
+@media (min-width: 992px) {
+    .margin-top-lg {
+      margin-top: 24px;
+    }
+  }

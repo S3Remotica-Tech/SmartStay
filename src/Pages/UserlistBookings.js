@@ -925,14 +925,14 @@ if (!pattern.test(value)) {
 ) : currentItems?.length > 0 ? (
  
   <div
-                className="p-10 booking-table-userlist"
+                className="p-10 booking-table-userlist  booking-table"
                 style={{ paddingBottom: "20px" }}
               >
                 <div
                   style={{
                     // height: "400px",
-                    height: currentItems.length >= 6 ? "380px" : "auto",
-                    overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                    // height: currentItems.length >= 6 ? "380px" : "auto",
+                    // overflowY: currentItems.length >= 6 ? "auto" : "visible",
                     borderRadius: "24px",
                     border: "1px solid #DCDCDC",
                     borderRight: "1px solid transparent",

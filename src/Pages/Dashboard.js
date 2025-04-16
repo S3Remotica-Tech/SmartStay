@@ -606,7 +606,7 @@ function Dashboard(props) {
                 </div>
               ) : (
                 <>
-                  <div className="mt-4">
+                  <div className="mt-4 dashboard-tab-one">
                     <div className=" my-4">
                       <div className="row g-3">
                         <div className="col-md-2">

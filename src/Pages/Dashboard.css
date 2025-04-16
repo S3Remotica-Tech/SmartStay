@@ -652,3 +652,60 @@
    
 
 }
+
+@media only screen and (width: 375px) and (height: 667px) {
+.dashboard-tab-one{
+max-height: 400px;
+overflow-y: auto;
+}
+}
+@media only screen and (width: 414px) and (height: 896px) {
+  .dashboard-tab-one{
+  max-height: 500px;
+  overflow-y: auto;
+  }
+  }
+
+  @media only screen and (width: 390px) and (height: 844px) {
+    .dashboard-tab-one{
+    max-height: 500px;
+    overflow-y: auto;
+    }
+    }
+
+    @media only screen and (width: 430px) and (height: 932px) {
+      .dashboard-tab-one{
+      max-height: 600px;
+      overflow-y: auto;
+      }
+      }
+      @media only screen and (width: 412px) and (height: 915px) {
+        .dashboard-tab-one{
+        max-height: 550px;
+        overflow-y: auto;
+        }
+        }
+        @media only screen and (width: 360px) and (height: 740px) {
+          .dashboard-tab-one{
+          max-height: 420px;
+          overflow-y: auto;
+          }
+          }
+          @media only screen and (width: 540px) and (height: 720px) {
+            .dashboard-tab-one{
+            max-height: 420px;
+            overflow-y: auto;
+            }
+             }
+             @media only screen and (width: 344px) and (height: 882px) {
+              .dashboard-tab-one{
+              max-height: 500px;
+              overflow-y: auto;
+              }
+               }
+               @media only screen and (width: 412px) and (height: 914px) {
+                .dashboard-tab-one{
+                max-height: 500px;
+                overflow-y: auto;
+                }
+                 }

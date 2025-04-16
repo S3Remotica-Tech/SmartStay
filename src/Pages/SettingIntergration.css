@@ -1,5 +1,7 @@
-html, body {
-    height: 100%;
-    overflow-x: hidden;
+@media (max-width: 768px) {
+    .scrollable-wrapper {
+      max-height: calc(100vh - 450px); /* Adjust based on your header/footer */
+      overflow-y: auto;
+    }
   }
   

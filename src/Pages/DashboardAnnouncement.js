@@ -517,11 +517,13 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       //     )}
       //   </div>
       // ) : (
-      <div  style={{ maxHeight: "420px", overflowY: "auto", overflowX: "hidden" }}>
-        <div className="row" >
+      <div 
+      //  style={{ maxHeight: "420px", overflowY: "auto", overflowX: "hidden" }}
+      >
+        <div className="row announcement-card" >
           {currentItems?.length > 0 ? (
             currentItems?.map((data) => (
-              <div key={data.id}  className="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mb-3">
+              <div key={data.id}  className="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12 mb-3">
 
                 <Card
                   className="card"
@@ -872,22 +874,8 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
 <div>
       {filteredData.length >= 5 && (
-        // <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
-        <nav className="pagination-container"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "end",
-          padding: "10px",
-          position: "fixed",
-          bottom: "10px",
-          right: "10px",
-          backgroundColor: "#fff",
-          borderRadius: "5px",
-          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-          zIndex: 1000,
-        }}
-      >
+        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+        
           <div>
             <select
               value={itemsPerPage}
@@ -1872,7 +1860,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       >
         <Modal.Header style={{ borderBottom: 'none' }}>
           <Modal.Title
-          className="w-100 text-center"
+          className="w-100 text-center delete-card"
             style={{
               fontSize: '18px',
               fontFamily: 'Gilroy',
@@ -1894,7 +1882,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             fontFamily: 'Gilroy',
             color: '#646464',
             // textAlign: 'center',
-            marginTop: '-10px'
+            marginTop: '-30px'
           }}
         >
           Are you sure you want Delete Announcement?

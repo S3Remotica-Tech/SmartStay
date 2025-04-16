@@ -1135,7 +1135,9 @@ function Expenses({ allPageHostel_Id }) {
 
 
               <div
+
                 className='show-scrolls'
+
                 style={{
                   // height: "400px",
                   // height: currentItems.length >= 6 ? "380px" : "auto",
@@ -1301,7 +1303,8 @@ function Expenses({ allPageHostel_Id }) {
 
           {/*  Pagination code */}
           {filteredData.length >= 5 && (
-            <nav className="pagination-container"
+            <nav 
+            // className="pagination-container"
               style={{
                 display: "flex",
                 alignItems: "center",

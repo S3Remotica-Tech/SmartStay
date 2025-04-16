@@ -737,6 +737,7 @@ function SettingExpenses({ hostelid }) {
       style={{ 
         flex: "0 0 48%", 
         position: "relative",
+        paddingBottom: "30px"
         }}>
         <Card className="d-flex justify-content-between border-0 card-height-sm" 
         style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}>
@@ -824,7 +825,20 @@ function SettingExpenses({ hostelid }) {
 
 
       {expensesFilterddata?.length >= 2 && (
-        <nav className="pagination-container position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{zIndex:995}}>
+        <nav 
+        // className="pagination-container position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{zIndex:995}}
+        // className="position-sticky bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
+        className="container d-flex justify-content-center justify-content-lg-end align-items-center"
+        style={{
+          position: "fixed",
+          bottom: "16px",
+          right: "16px",
+          left: "16px", 
+          zIndex: 995,
+          backgroundColor: "#fff",
+          paddingBottom: '30px',
+        }}
+        >
           {/* Dropdown for Items Per Page */}
           <div >
             <select className='selectoption'
@@ -1195,7 +1209,7 @@ function SettingExpenses({ hostelid }) {
       >
         <Modal.Header style={{ borderBottom: 'none' }}>
           <Modal.Title
-          className="w-100 text-center"
+          className="w-100 text-center mt-2"
             style={{
               fontSize: '18px',
               fontFamily: 'Gilroy',
@@ -1217,7 +1231,7 @@ function SettingExpenses({ hostelid }) {
             fontFamily: 'Gilroy',
             color: '#646464',
             
-            marginTop: '-10px'
+            marginTop: '-27px'
           }}
         >
           Are you sure you want to delete this Expences-category?

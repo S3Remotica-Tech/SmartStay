@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2,ArrowUp2, ArrowDown2, } from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -1454,6 +1454,37 @@ setSelectedTypes("")
   const totalPages = Math.ceil(
     (search ? filteredUsers?.length : userListDetail?.length) / itemsPerPage
   );
+   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+    
+      const sortedData = React.useMemo(() => {
+        if (!sortConfig.key) return currentItems;
+    
+        const sorted = [...currentItems].sort((a, b) => {
+          const valueA = a[sortConfig.key];
+          const valueB = b[sortConfig.key];
+    
+    
+          if (!isNaN(valueA) && !isNaN(valueB)) {
+            return sortConfig.direction === 'asc'
+              ? valueA - valueB
+              : valueB - valueA;
+          }
+    
+          if (typeof valueA === 'string' && typeof valueB === 'string') {
+            return sortConfig.direction === 'asc'
+              ? valueA.localeCompare(valueB)
+              : valueB.localeCompare(valueA);
+          }
+    
+          return 0;
+        });
+    
+        return sorted;
+      }, [currentItems, sortConfig]);
+      const handleSort = (key, direction) => {
+        setSortConfig({ key, direction });
+      };
+  
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -2284,7 +2315,7 @@ const handleBack = () => {
       />
 
       {userList && (
-        <div >
+        <div className="container p-0">
           <div className="header-container">
           <div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:14}}> 
   <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ms-lg-4">
@@ -2767,103 +2798,126 @@ const handleBack = () => {
                   </>
                 ) : (
                  
-                    <div>
-                      {currentItems && currentItems.length > 0 && (
+                    <>
+                     {sortedData && sortedData.length > 0 && (
                         <div
                           // className="z-0"
+                          // style={{
+                          //   // height: "400px",
+                          //   // position: "relative",
+                          //   height: sortedData.length >= 6 ? "400px" : "auto",
+                          //   overflowY:
+                          //   sortedData.length >= 6 ? "auto" : "visible",
+                          //   borderRadius: "24px",
+                          //   border: "1px solid #DCDCDC",
+                          //   marginLeft:"-20px",
+                          //   // marginTop:8
+                          //   // borderBottom:"none"
+                          // }}
+                          className='show-scrolls'
                           style={{
                             // height: "400px",
-                            // position: "relative",
-                            height: currentItems.length >= 6 ? "400px" : "auto",
-                            overflowY:
-                              currentItems.length >= 6 ? "auto" : "visible",
-                            borderRadius: "24px",
-                            border: "1px solid #DCDCDC",
-                            marginLeft:"-20px",
-                            // marginTop:8
+                            // height: currentItems.length >= 6 ? "380px" : "auto",
+                            // overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                            // borderRadius: "24px",
+                            // border: "1px solid #DCDCDC",
                             // borderBottom:"none"
+                            height: sortedData?.length >= 8 || sortedData?.length >= 8 ? "350px" : "auto",
+                            overflow: "auto",
+                            borderTop: "1px solid #E8E8E8",
+                            marginBottom: 20,
+                            marginTop: "20px",
+                            paddingRight:0,
+                            paddingLeft:0
+                            //  borderBottom:"1px solid #DCDCDC"
                           }}
                         >
                           <Table
                             responsive="md"
-                            className="Table_Design"
+                            // className="Table_Design"
                             style={{
-                              border: "1px solid #DCDCDC",
-                              borderBottom: "1px solid transparent",
-                              borderEndStartRadius: 0,
-                              borderEndEndRadius: 0,
+                              fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                              top: 0,
+                              zIndex: 1,
+                              borderRadius:0
                             }}
                           >
-                            <thead
-                              style={{
-                                backgroundColor: "#E7F1FF",
-                                position: "sticky",
-                                top: 0,
-                                zIndex: 1,
-                              }}
-                            >
+                            <thead style={{
+                                         fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                         top: 0,
+                                         zIndex: 1
+                                       }}>
                               <tr>
-                                {/* <th
-                                  style={{
-                                    textAlign: "center",
-                                    fontFamily: "Gilroy",
-                                    color: "rgba(34, 34, 34, 1)",
-                                    fontSize: 14,
-                                    fontWeight: 600,
-                                    borderTopLeftRadius: 24,
-                                  }}
-                                >
-                                  <img src={squre} height={20} width={20} />
-                                </th> */}
+                              
                                 <th
                                   style={{
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    borderTopLeftRadius: 24,
+                                    // borderTopLeftRadius: 24,
                                     paddingLeft: "20px",
                                   }}
                                 >
-                                  Name
+                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                           </div>
+                                                                            Name</div>
                                 </th>
                                 <th
                                   style={{
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Paying Guest
+                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                             <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'asc')} style={{ cursor: "pointer" }} />
+                                                                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'desc')} style={{ cursor: "pointer" }} />
+                                                                            </div>
+                                                                             Paying Guest</div>
                                 </th>
                                 <th
                                   style={{
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Email ID
+                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Email", 'asc')} style={{ cursor: "pointer" }} />
+                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Email", 'desc')} style={{ cursor: "pointer" }} />
+                                                                           </div>
+                                                                            Email ID</div>
                                 </th>
                                 <th
                                   style={{
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Mobile No
+                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'asc')} style={{ cursor: "pointer" }} />
+                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'desc')} style={{ cursor: "pointer" }} />
+                                                                           </div>
+                                                                            Mobile No</div>
                                 </th>
 
                                 <th
@@ -2871,35 +2925,46 @@ const handleBack = () => {
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Room
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Rooms", 'asc')} style={{ cursor: "pointer" }} />
+                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Rooms", 'desc')} style={{ cursor: "pointer" }} />
+                                                                           </div>
+                                                                            Room</div>
                                 </th>
                                 <th
                                   style={{
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                  Bed
+                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Bed", 'asc')} style={{ cursor: "pointer" }} />
+                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Bed", 'desc')} style={{ cursor: "pointer" }} />
+                                                                           </div>
+                                                                            Bed</div>
                                 </th>
                                 <th
                                   style={{
                                     textAlign: "center",
                                     fontFamily: "Gilroy",
                                     color: "rgba(34, 34, 34, 1)",
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     fontWeight: 500,
-                                    borderTopRightRadius: 24,
+                                    // borderTopRightRadius: 24,
                                   }}
                                 >
+                                  Action
                                   {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
           <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
         </div> */}
@@ -2907,79 +2972,11 @@ const handleBack = () => {
                               </tr>
                             </thead>
                             <tbody style={{ textAlign: "center" }}>
+                            {   sortedData && sortedData.length > 0 && (
+                              <>
                               {
-                                // Array.from({
-                                //   length: currentItems?.length || 5,
-                                // }).map((_, index) => (
-                                //   <tr key={index}>
-                                //     <td
-                                //       style={{
-                                //         borderBottom:
-                                //           index === 0
-                                //             ? "none"
-                                //             : "1px solid #DCDCDC",
-                                //       }}
-                                //     >
-                                //       <Skeleton
-                                //         circle={true}
-                                //         height={40}
-                                //         width={40}
-                                //       />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={80} />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={120} />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={120} />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={120} />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={50} />
-                                //     </td>
-                                //     <td
-                                //       style={{
-                                //         padding: "10px",
-                                //         border: "none",
-                                //       }}
-                                //     >
-                                //       <Skeleton width={50} />
-                                //     </td>
-                                //   </tr>
-                                // ))
-
-                                // :
-
-                                currentItems.map((user) => {
+                                
+                                sortedData.map((user) => {
                                   return (
                                     <tr
                                       key={user.ID}
@@ -3016,7 +3013,7 @@ const handleBack = () => {
                                         <span
                                           className="Customer_Name_Hover"
                                           style={{
-                                            fontSize: "16px",
+                                            fontSize: "13px",
                                             fontWeight: 600,
                                             fontFamily: "Gilroy",
                                             color: "#1E45E1",
@@ -3036,7 +3033,7 @@ const handleBack = () => {
                                           paddingTop: 15,
                                           border: "none",
                                           textAlign: "start",
-                                          fontSize: "16px",
+                                          fontSize: "13px",
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
@@ -3052,7 +3049,7 @@ const handleBack = () => {
                                             borderRadius: "60px",
                                             backgroundColor: "#FFEFCF",
                                             textAlign: "start",
-                                            fontSize: "14px",
+                                            fontSize: "11px",
                                             fontWeight: 500,
                                             fontFamily: "Gilroy",
                                           }}
@@ -3064,7 +3061,7 @@ const handleBack = () => {
                                         style={{
                                           border: "none",
                                           textAlign: "start",
-                                          fontSize: "16px",
+                                          fontSize: "13px",
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           paddingTop: 15,
@@ -3078,7 +3075,7 @@ const handleBack = () => {
                                           paddingTop: 15,
                                           border: "none",
                                           textAlign: "start",
-                                          fontSize: "16px",
+                                          fontSize: "13px",
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
@@ -3100,7 +3097,7 @@ const handleBack = () => {
                                           paddingTop: 15,
                                           border: "none",
                                           textAlign: "start",
-                                          fontSize: "16px",
+                                          fontSize: "13px",
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           verticalAlign: "middle",
@@ -3118,7 +3115,7 @@ const handleBack = () => {
                                           border: "none",
                                           cursor: "pointer",
                                           textAlign: "start",
-                                          fontSize: "16px",
+                                          fontSize: "13px",
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
@@ -3460,7 +3457,7 @@ const handleBack = () => {
                                                       color:
                                                         customerDeletePermission
                                                           ? "#888888"
-                                                          : "#FF0000", // Greyed-out text if disabled
+                                                          : "#FF0000",
                                                     }}
                                                   >
                                                     Delete
@@ -3477,12 +3474,15 @@ const handleBack = () => {
                                   );
                                 })
                               }
+                            
+                              </>
+                            )}
                             </tbody>
                           </Table>
                         </div>
                       )}
-                    </div>
-                 
+                  
+                  </>
                 )}
 
                 {!loading && userListDetail?.length === 0 && (
@@ -3520,34 +3520,20 @@ const handleBack = () => {
                 {
                   (search ? filteredUsers?.length : userListDetail?.length) >=
                     5 && (
-                    // <nav
-                    //   style={{
-                    //     display: "flex",
-                    //     alignItems: "center",
-                    //     justifyContent: "end",
-                    //     padding: "10px",
-                    //     position: "fixed",
-                    //     bottom: "10px",
-                    //     right: "10px",
-                    //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
-                    //     borderRadius: "5px", 
-                    //   }}
-                    // >
-                    <nav className="pagination-container"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "end",
-                      padding: "10px",
-                      position: "fixed",
-                      bottom: "10px",
-                      right: "10px",
-                      backgroundColor: "#fff",
-                      borderRadius: "5px",
-                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                      zIndex: 1000,
-                    }}
-                  >
+                    <nav
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "10px",
+                        right: "10px",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
+                        borderRadius: "5px", 
+                      }}
+                    >
+                 
                       {/* Dropdown for Items Per Page */}
                       <div>
                         <select
@@ -3739,19 +3725,30 @@ const handleBack = () => {
   centered
   dialogClassName="custom-delete-modal"
 >
-  <Modal.Header  style={{borderBottom:"none"}}>
-    <Modal.Title
-      className="w-100 text-center"
-      style={{
-        fontSize: "18px",
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        color: "#222222",
-      }}
-    >
-      Delete Customer?
-    </Modal.Title>
-  </Modal.Header>
+<Modal.Header
+  style={{
+    borderBottom: "none",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    padding: "12px 16px",
+  }}
+>
+  <h5
+    style={{
+      fontSize: "18px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      color: "#222222",
+      margin: 0,
+      textAlign: "center",
+    }}
+  >
+    Delete Customer?
+  </h5>
+</Modal.Header>
+
 
   <Modal.Body
     className="text-center"

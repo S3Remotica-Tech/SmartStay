@@ -181,3 +181,45 @@ cursor:pointer;
     padding-top: 15px;
     } 
 }
+
+
+@media only screen and (width: 375px) and (height: 667px) {
+  .pg-card{
+  max-height: 500px;
+  overflow-y: auto;
+  }
+}
+
+@media only screen and (width: 390px) and (height: 844px) {
+  .pg-card{
+    max-height: 580px;
+  overflow-y: auto;
+  }
+}
+
+  @media only screen and (width: 768px) and (height: 1024px) {
+    .pg-card{
+      max-height: 400px;
+      overflow-y: auto; 
+    }
+  }
+
+@media only screen and (width: 820px) and (height: 1180px) {
+  .pg-card{
+    max-height: 390px;
+  overflow-y: auto;
+  }
+}
+
+@media only screen and (width: 1024px) and (height: 600px) {
+  .pg-card{
+    max-height: 320px;
+    overflow-y: auto;  
+  }
+}
+
+@media (min-width: 992px) {
+  .margin-top-lg {
+    margin-top: 24px;
+  }
+}

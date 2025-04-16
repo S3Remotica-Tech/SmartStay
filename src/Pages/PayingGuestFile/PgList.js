@@ -27,7 +27,7 @@ import DeleteFloor from "./DeleteFloor";
 import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
-
+import './PgList.css';
 
 function PgList(props) {
   const dispatch = useDispatch();
@@ -1046,7 +1046,7 @@ useEffect(()=>{
                   )}
                 </div>
               )}
-              <div className="container mt-2" style={{}}>
+              <div className="container mt-2 pg-card" style={{}}>
                 <div className="row row-gap-3">
                   {filteredData?.length > 0 ?
 

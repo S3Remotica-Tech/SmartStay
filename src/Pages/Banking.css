@@ -147,3 +147,108 @@
       align-items: center;
     }
   }
+
+
+  @media only screen and (width: 344px) and (height: 882px) {
+
+  }
+  
+  @media only screen and (width: 360px) and (height: 740px) {
+    .bankingtab-table{
+      max-height: 200px;
+      overflow-y: auto;
+    }
+  }
+  
+  @media only screen and (width: 375px) and (height: 667px) {
+  .bankingtab-table{
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  }
+  
+  @media only screen and (width: 390px) and (height: 844px) {
+    .bankingtab-table{
+      max-height: 450px;
+      overflow-y: auto;
+    }
+  }
+  
+  @media only screen and (width: 412px) and (height: 915px) {
+    .bankingtab-table{
+      max-height: 500px;
+      overflow-y: auto;
+    }
+  }
+  
+  @media only screen and (width: 412px) and (height: 914px) {
+    .bankingtab-table{
+      max-height: 500px;
+      overflow-y: auto;
+    }
+  }
+  
+  @media only screen and (width: 414px) and (height: 896px) {
+    .bankingtab-table{
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    }
+  
+  
+    @media only screen and (width: 430px) and (height: 932px) {
+      .bankingtab-table{
+        max-height: 500px;
+        overflow-y: auto;
+      }
+    }
+  
+  
+    @media only screen and (width: 540px) and (height: 720px) {
+      .bankingtab-table{
+        max-height: 250px;
+        overflow-y: auto;
+      }
+    }
+  
+  
+    @media only screen and (width: 768px) and (height: 1024px) {
+      .bankingtab-table{
+        max-height: 400px;
+        overflow-y: auto;
+      }
+  }
+  
+  @media only screen and (width: 820px) and (height: 1180px) {
+    .bankingtab-table{
+      max-height: 300px;
+      overflow-y: auto;
+    }
+  }
+  
+  @media only screen and (width: 853px) and (height: 1280px) {
+    .bankingtab-table{
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    }
+  
+  @media only screen and (width: 912px) and (height: 1368px) {
+    .bankingtab-table{
+      max-height: 600px;
+      overflow-y: auto;
+    }
+  }
+  @media only screen and (width: 1024px) and (height: 1366px) {
+    .bankingtab-table{
+      max-height: 300px;
+      overflow-y: auto;
+    }  
+  }
+  @media only screen and (width: 1024px) and (height: 600px) {
+    .bankingtab-table{
+      max-height: 170px;
+      overflow-y: auto;
+    }  
+  }
+    
