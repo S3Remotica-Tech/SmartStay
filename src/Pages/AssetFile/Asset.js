@@ -911,7 +911,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
               // </Pagination>
 
               <nav
-              className="pagination-container"
+
                 style={{
                   display: "flex",
                   alignItems: "center",

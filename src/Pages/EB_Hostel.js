@@ -1102,7 +1102,7 @@ className="p-0 booking-table-userlist  booking-table"
 style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
                                    <div
-                                     className='show-scrolls'
+                                     className='show-scrolls electricity-table'
                                      style={{
                                        // height: "400px",
                                        // height: currentItems.length >= 6 ? "380px" : "auto",
@@ -1110,7 +1110,9 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                        // borderRadius: "24px",
                                        // border: "1px solid #DCDCDC",
                                        // borderBottom:"none"
+
                                        height: sortedData.length >= 5 || sortedData.length >= 5 ? "350px" : "auto",
+
                                        overflow: "auto",
                                        borderTop: "1px solid #E8E8E8",
                                        marginBottom: 20,

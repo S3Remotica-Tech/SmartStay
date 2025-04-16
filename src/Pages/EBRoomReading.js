@@ -20,6 +20,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { ArrowUp2, ArrowDown2} from 'iconsax-react';
 import {CloseCircle} from "iconsax-react";
+import './EB_RoomReading.css';
 
 function EBRoomReading(props) {
   const dispatch = useDispatch();
@@ -603,7 +604,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
 
               <div
-                className='show-scrolls'
+                className='show-scrolls electricity-table'
                 style={{
                   // height: "400px",
                   // height: currentItems.length >= 6 ? "380px" : "auto",
@@ -611,7 +612,9 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   // borderRadius: "24px",
                   // border: "1px solid #DCDCDC",
                   // borderBottom:"none"
+
                   height: currentRowelectricity.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
+
                   overflow: "auto",
                   borderTop: "1px solid #E8E8E8",
                   marginBottom: 20,
