@@ -487,6 +487,7 @@ function Sidebar() {
               zIndex:1000,
               //  maxWidth: 240, width: "100%", height: "100%", maxHeight: 768
             }}
+            
           >
             <div className="container" style={{ position: "relative" }}>
               <div
