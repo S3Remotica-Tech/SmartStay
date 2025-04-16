@@ -304,6 +304,19 @@ text-decoration: underline;
   width: 90% !important;
   margin: auto;
 }
+.custom-delete-modal .modal-content {
+  padding: 16px;
+}
+.custom-delete-modal .modal-header {
+  justify-content: center !important;
+  text-align: center !important;
+}
+@media (max-width: 375px) {
+  .modal-title,
+  .modal-body {
+    font-size: 14px !important;
+  }
+}
 
 .ant-picker-input > input::placeholder {
   color: rgb(75, 75, 75) !important;

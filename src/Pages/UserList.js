@@ -3457,7 +3457,7 @@ const handleBack = () => {
                                                       color:
                                                         customerDeletePermission
                                                           ? "#888888"
-                                                          : "#FF0000", // Greyed-out text if disabled
+                                                          : "#FF0000",
                                                     }}
                                                   >
                                                     Delete
@@ -3725,19 +3725,30 @@ const handleBack = () => {
   centered
   dialogClassName="custom-delete-modal"
 >
-  <Modal.Header  style={{borderBottom:"none"}}>
-    <Modal.Title
-      className="w-100 text-center"
-      style={{
-        fontSize: "18px",
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        color: "#222222",
-      }}
-    >
-      Delete Customer?
-    </Modal.Title>
-  </Modal.Header>
+<Modal.Header
+  style={{
+    borderBottom: "none",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    padding: "12px 16px",
+  }}
+>
+  <h5
+    style={{
+      fontSize: "18px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      color: "#222222",
+      margin: 0,
+      textAlign: "center",
+    }}
+  >
+    Delete Customer?
+  </h5>
+</Modal.Header>
+
 
   <Modal.Body
     className="text-center"
