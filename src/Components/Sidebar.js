@@ -74,8 +74,7 @@ function Sidebar() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   const [currentPage, setCurrentPage] = useState("dashboard");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Toggle for sm/md mode
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 
 
@@ -85,6 +84,11 @@ function Sidebar() {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+    setCurrentPage("dashboard"); // Set default page to Home
+    localStorage.setItem("currentPage", "dashboard");
   };
 
   useEffect(() => {
@@ -441,7 +445,8 @@ function Sidebar() {
       <Container fluid className="p-0">
         <Row className="g-0 m-0">
                {/* Hamburger Icon for sm mode */}
-               <Col xs={12} sm={12} className="d-md-none p-2 bg-white">
+               <Col xs={12} sm={12} 
+               className="d-md-none p-2 bg-white">
             <button
               onClick={toggleSidebar}
               style={{
@@ -473,7 +478,8 @@ function Sidebar() {
             md={2}
             sm={3}
             xs={12}
-            className={`sidebar h-100 ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"} d-md-block`}
+            className={`sidebar h-100 
+              ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"} d-md-block`}
             style={{
               cursor: "pointer",
               backgroundColor: "#E0ECFF",
@@ -481,10 +487,11 @@ function Sidebar() {
               zIndex:1000,
               //  maxWidth: 240, width: "100%", height: "100%", maxHeight: 768
             }}
+            
           >
             <div className="container" style={{ position: "relative" }}>
               <div
-                className="d-flex align-items-center justify-content-start"
+                className="d-flex align-items-center justify-content-between"
                 style={{ padding: "16px 10px" }}
               >
                 <img
@@ -494,6 +501,34 @@ function Sidebar() {
                   className="Title"
                   onClick={() => handlePageClick("dashboard")}
                 />
+                 {/* Close Icon for mobile view */}
+                 <button
+                  onClick={closeSidebar}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    fontSize: "24px",
+                    cursor: "pointer",
+                    display: isSidebarOpen ? "block" : "none",
+                  }}
+                  className="d-md-none"
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 18L18 6M6 6L18 18"
+                      stroke="#000000"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
               </div>
 
               {hostelListDetail &&
