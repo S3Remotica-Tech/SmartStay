@@ -2854,7 +2854,7 @@ const handleBack = () => {
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                     // borderTopLeftRadius: 24,
@@ -2873,7 +2873,7 @@ const handleBack = () => {
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                   }}
@@ -2890,7 +2890,7 @@ const handleBack = () => {
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                   }}
@@ -2907,7 +2907,7 @@ const handleBack = () => {
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                   }}
@@ -2925,7 +2925,7 @@ const handleBack = () => {
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                   }}
@@ -2942,7 +2942,7 @@ const handleBack = () => {
                                     textAlign: "start",
                                     padding: "10px",
                                     color: "#939393",
-                                    fontSize: "14px",
+                                    fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
                                   }}
@@ -2959,7 +2959,7 @@ const handleBack = () => {
                                     textAlign: "center",
                                     fontFamily: "Gilroy",
                                     color: "rgba(34, 34, 34, 1)",
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     fontWeight: 500,
                                     // borderTopRightRadius: 24,
                                   }}
@@ -3013,7 +3013,7 @@ const handleBack = () => {
                                         <span
                                           className="Customer_Name_Hover"
                                           style={{
-                                            fontSize: "16px",
+                                            fontSize: "13px",
                                             fontWeight: 600,
                                             fontFamily: "Gilroy",
                                             color: "#1E45E1",
@@ -3033,7 +3033,7 @@ const handleBack = () => {
                                           paddingTop: 15,
                                           border: "none",
                                           textAlign: "start",
-                                          fontSize: "16px",
+                                          fontSize: "13px",
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
@@ -3049,7 +3049,7 @@ const handleBack = () => {
                                             borderRadius: "60px",
                                             backgroundColor: "#FFEFCF",
                                             textAlign: "start",
-                                            fontSize: "14px",
+                                            fontSize: "11px",
                                             fontWeight: 500,
                                             fontFamily: "Gilroy",
                                           }}
@@ -3061,7 +3061,7 @@ const handleBack = () => {
                                         style={{
                                           border: "none",
                                           textAlign: "start",
-                                          fontSize: "16px",
+                                          fontSize: "13px",
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           paddingTop: 15,
@@ -3075,7 +3075,7 @@ const handleBack = () => {
                                           paddingTop: 15,
                                           border: "none",
                                           textAlign: "start",
-                                          fontSize: "16px",
+                                          fontSize: "13px",
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
@@ -3097,7 +3097,7 @@ const handleBack = () => {
                                           paddingTop: 15,
                                           border: "none",
                                           textAlign: "start",
-                                          fontSize: "16px",
+                                          fontSize: "13px",
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           verticalAlign: "middle",
@@ -3115,7 +3115,7 @@ const handleBack = () => {
                                           border: "none",
                                           cursor: "pointer",
                                           textAlign: "start",
-                                          fontSize: "16px",
+                                          fontSize: "13px",
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
