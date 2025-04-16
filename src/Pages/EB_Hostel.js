@@ -1097,7 +1097,10 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
            {sortedData && sortedData.length > 0 && (
                      
                      
-                     
+                     <div
+className="p-0 booking-table-userlist  booking-table"
+style={{ paddingBottom: "20px",marginLeft:"-22px" }}
+>
                                    <div
                                      className='show-scrolls electricity-table'
                                      style={{
@@ -1107,7 +1110,9 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
                                        // borderRadius: "24px",
                                        // border: "1px solid #DCDCDC",
                                        // borderBottom:"none"
-                                       height: currentRoomelectricity.length >= 8 || sortedData.length >= 8 ? "400px" : "auto",
+
+                                       height: sortedData.length >= 5 || sortedData.length >= 5 ? "350px" : "auto",
+
                                        overflow: "auto",
                                        borderTop: "1px solid #E8E8E8",
                                        marginBottom: 20,
@@ -1130,7 +1135,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
                                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
                                            </div> Name</div></th>
 
-                                           <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}>
+                                           <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}>
                                              <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'asc')} style={{ cursor: "pointer" }} />
                                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'desc')} style={{ cursor: "pointer" }} />
@@ -1392,7 +1397,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
                                      </Table>
                                    </div>
                      
-                     
+                     </div>
                                  )}
 
 

@@ -7,7 +7,7 @@ import Addbtn from "../Assets/Images/New_images/add-circle.png"
 import Delete from "../Assets/Images/New_images/trash.png";
 import Edit from "../Assets/Images/edit_blue.svg";
 // import { Modal, Pagination, Form, Card } from "react-bootstrap";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2,ArrowUp2, ArrowDown2, } from "iconsax-react";
 // import Flatpickr from "react-flatpickr";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -197,6 +197,36 @@ console.log("checkOutCustomer",checkOutCustomer)
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1)
   };
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+      
+        const sortedData = React.useMemo(() => {
+          if (!sortConfig.key) return currentCustomers;
+      
+          const sorted = [...currentCustomers].sort((a, b) => {
+            const valueA = a[sortConfig.key];
+            const valueB = b[sortConfig.key];
+      
+      
+            if (!isNaN(valueA) && !isNaN(valueB)) {
+              return sortConfig.direction === 'asc'
+                ? valueA - valueB
+                : valueB - valueA;
+            }
+      
+            if (typeof valueA === 'string' && typeof valueB === 'string') {
+              return sortConfig.direction === 'asc'
+                ? valueA.localeCompare(valueB)
+                : valueB.localeCompare(valueA);
+            }
+      
+            return 0;
+          });
+      
+          return sorted;
+        }, [currentCustomers, sortConfig]);
+        const handleSort = (key, direction) => {
+          setSortConfig({ key, direction });
+        };
 
  useEffect(() => {
     if (props.resetPage) {
@@ -343,6 +373,7 @@ console.log("checkOutCustomer",checkOutCustomer)
   return (
 
     <>
+    
     <div>
     {checkoutLoader &&
         <div
@@ -409,33 +440,43 @@ console.log("checkOutCustomer",checkOutCustomer)
         </>
       ) :
 
-        <div className="p-10" style={{ marginLeft: "-20px" }}>
+        <div  >
           <div>
-            {currentCustomers?.length > 0 ?  (
-              <div
-                className="p-10 booking-table-userlist checkout-table"
-                style={{ paddingBottom: "20px" }}
-              >
+            {sortedData?.length > 0 ?  (
+             <div
+             className="p-0 booking-table-userlist  booking-table"
+             style={{ paddingBottom: "20px",marginLeft:"-20px" }}
+           >
                 <div
-                  style={{
-                    // height: "400px",
-                    // height: currentCustomers.length >= 6 ? "380px" : "auto",
-                    // overflowY: currentCustomers.length >= 6 ? "auto" : "visible",
-                    borderRadius: "24px",
-                    border: "1px solid #DCDCDC",
-                    // borderBottom:"none"
-                  }}
-                >
+                         
+                         className='show-scrolls'
+                         style={{
+                          
+                           height: sortedData?.length >= 8 || sortedData?.length >= 8 ? "350px" : "auto",
+                           overflow: "auto",
+                           borderTop: "1px solid #E8E8E8",
+                           marginBottom: 20,
+                           marginTop: "20px",
+                           paddingRight:0,
+                           paddingLeft:0
+                           //  borderBottom:"1px solid #DCDCDC"
+                         }}
+                       >
                   <Table
                     responsive="md"
-                    className="Table_Design"
-                    style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", borderEndStartRadius: 0, borderEndEndRadius: 0 }}
+                    // className="Table_Design"
+                    style={{
+                      fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 1,
+                      borderRadius:0
+                    }}
                   >
                     <thead
                       style={{
-                        position: "sticky",
+                        fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                         top: 0,
-                        zIndex: 1,
+                        zIndex: 1
                       }}
                     >
                       <tr>
@@ -445,16 +486,21 @@ console.log("checkOutCustomer",checkOutCustomer)
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            borderTopLeftRadius: 24,
+                            // borderTopLeftRadius: 24,
                             paddingLeft:"20px"
                           }}
                         >
-                          Name
+                                                    <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                               <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                              </div>
+                                                                                                                               Name</div>
                         </th>
 
                         <th
@@ -462,56 +508,77 @@ console.log("checkOutCustomer",checkOutCustomer)
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
+                            whiteSpace:"nowrap"
                           }}
                         >
-                          Mobile No
+                                                    <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                               <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                              </div>
+                                                                                                                               Mobile No</div>
                         </th>
                         <th
                           style={{
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
                           }}
                         >
-                          Floor
+                                                     <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                                <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                                 <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                                 <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                               </div>
+                                                                                                                                Floor</div>
                         </th>
                         <th
                           style={{
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
                           }}
                         >
-                          Room
+                                                     <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                                <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                                 <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("room_name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                                 <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("room_name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                               </div>
+                                                                                                                                Room</div>
                         </th>
                         <th
                           style={{
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
                           }}
                         >
-                          Bed
+                                                     <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                                <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                                 <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bed_name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                                 <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bed_name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                               </div>
+                                                                                                                                Bed</div>
                         </th>
 
                         <th
@@ -519,46 +586,59 @@ console.log("checkOutCustomer",checkOutCustomer)
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
+                            whiteSpace:"nowrap"
                           }}
                         >
-                          Check-Out Date
+                                                     <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                                <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                                 <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("CheckoutDate", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                                 <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("CheckoutDate", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                               </div>
+                                                                                                                                Check-Out Date</div>
                         </th>
                         <th
                           style={{
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
                           }}
                         >
-                          Status
+                                                     <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                                <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                                 <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("isActive", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                                 <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("isActive", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                               </div>
+                                                                                                                                Status</div>
                         </th>
                         <th
                           style={{
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            borderTopRightRadius: "24px",
+                            // borderTopRightRadius: "24px",
                           }}
-                        ></th>
+                        >
+                          Action
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {currentCustomers && currentCustomers.length > 0 && currentCustomers.map((checkout) => {
+                      {sortedData && sortedData.length > 0 && sortedData.map((checkout) => {
                         //  let Dated = new Date(customer.joining_date);
 
                         //  let day = Dated.getDate();
@@ -627,7 +707,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                 {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
                                 <span
                                   style={{
-                                    fontSize: "16px",
+                                    fontSize: "13px",
                                     fontWeight: 600,
                                     fontFamily: "Gilroy",
                                     color: "#222222",
@@ -645,7 +725,7 @@ console.log("checkOutCustomer",checkOutCustomer)
 
                             <td
                                style={{
-                                fontSize: "16px",
+                                fontSize: "13px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                                 color: "#000000",
@@ -667,7 +747,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                 padding: "10px",
                                 border: "none",
                                 textAlign: "start",
-                                fontSize: "16px",
+                                fontSize: "13px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
@@ -680,7 +760,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                   borderRadius: "60px",
                                   backgroundColor: "#EBEBEB",
                                   textAlign: "start",
-                                  fontSize: "14px",
+                                  fontSize: "13px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
                                   display: "inline-block",
@@ -699,7 +779,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                 padding: "10px",
                                 border: "none",
                                 textAlign: "start",
-                                fontSize: "16px",
+                                fontSize: "13px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
@@ -712,7 +792,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                   borderRadius: "60px",
                                   backgroundColor: "#EBEBEB",
                                   textAlign: "start",
-                                  fontSize: "14px",
+                                  fontSize: "11px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
                                   display: "inline-block",
@@ -730,7 +810,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                 padding: "10px",
                                 border: "none",
                                 textAlign: "start",
-                                fontSize: "16px",
+                                fontSize: "13px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
@@ -743,7 +823,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                   borderRadius: "60px",
                                   backgroundColor: "#EBEBEB",
                                   textAlign: "start",
-                                  fontSize: "14px",
+                                  fontSize: "13px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
                                   display: "inline-block",
@@ -761,7 +841,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                 padding: "10px",
                                 border: "none",
                                 textAlign: "start",
-                                fontSize: "16px",
+                                fontSize: "13px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
@@ -774,7 +854,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                   borderRadius: "60px",
                                   backgroundColor: "#EBEBEB",
                                   textAlign: "start",
-                                  fontSize: "14px",
+                                  fontSize: "13px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
                                   display: "inline-block",
@@ -820,7 +900,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                               padding: "10px",
                               border: "none",
                               textAlign: "start",
-                              fontSize: "16px",
+                              fontSize: "13px",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
                               verticalAlign: "middle",

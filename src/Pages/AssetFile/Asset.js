@@ -761,7 +761,10 @@ function Asset() {
 
             {sortedData && sortedData.length > 0 && (
 
-
+<div
+className="p-0 booking-table-userlist  booking-table"
+style={{ paddingBottom: "20px",marginLeft:"-22px" }}
+>
 
               <div
                 className='show-scrolls'
@@ -865,7 +868,7 @@ function Asset() {
                 </Table>
               </div>
 
-
+</div>
             )}
             {
               !loading && currentItems && currentItems.length === 0 &&
