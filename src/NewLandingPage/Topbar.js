@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useLocation  } from "react-router-dom";
 import { Link, Element, animateScroll as scroll } from "react-scroll";
 import HomePage from "./Homepage";
 import Footers from "./Footers";
@@ -37,10 +37,54 @@ function FrontPage() {
   const [activeSection, setActiveSection] = useState("firstPage");
 
   const handleSetActive = (section) => {
-    console.log("action", section);
-    
     setActiveSection(section);
+    switch (section) {
+      case "keyFeature":
+        navigate("/features");
+        break;
+      case "Pricing":
+        navigate("/pricing");
+        break;
+      case "Contact_us":
+        navigate("/contact");
+        break;
+      case "privacy_policy":
+          navigate("/privacy-policy");
+          break;
+      case "firstPage":
+        navigate("/");
+        break;
+      default:
+        break;
+    }
   };
+
+
+  const location = useLocation();
+
+useEffect(() => {
+  const path = location.pathname;
+  if (path === "/features") {
+    setActiveSection("keyFeature");
+    scroll.scrollTo(document.getElementById("keyFeature")?.offsetTop - 70 || 0);
+  } else if (path === "/pricing") {
+    setActiveSection("Pricing");
+    scroll.scrollTo(document.getElementById("Pricing")?.offsetTop - 70 || 0);
+  } 
+  else if (path === "/contact") {
+    setActiveSection("Contact_us");
+    scroll.scrollTo(document.getElementById("Contact_us")?.offsetTop - 70 || 0);
+  } 
+  else if (path === "/privacy-policy") {
+    setActiveSection("privacy_policy");
+    scroll.scrollTo(document.getElementById("privacy_policy")?.offsetTop - 70 || 0);
+  } 
+  else {
+    setActiveSection("firstPage");
+    scroll.scrollTo(0);
+  }
+}, [location.pathname]);
+  
 
   const linkStyle = (isActive) => ({
     cursor: "pointer",
