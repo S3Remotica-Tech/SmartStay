@@ -196,10 +196,10 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handlePgNameChange = (e) => {
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
+    // const pattern = /^[a-zA-Z\s]*$/;
+    // if (!pattern.test(value)) {
+    //   return;
+    // }
     setPgNameError("");
     setGeneralError("");
     setIsChangedError("");
