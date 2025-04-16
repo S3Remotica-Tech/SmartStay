@@ -22,21 +22,21 @@ function CustomerForm({ show, handleClose, initialData }) {
     const [mobile, setMobile] = useState('');
     const [countryCode, setCountryCode] = useState('91');
     const [walkInDate, setWalkInDate] = useState(null);
-    const [comments, setComments] = useState('');
+    // const [comments, setComments] = useState('');
      const [house_no, setHouseNo] = useState("");
       const [street, setStreet] = useState("");
       const [landmark, setLandmark] = useState("");
       const [pincode, setPincode] = useState("");
       const [city, setCity] = useState("")
       const [state_name, setStateName] = useState("");
-    const [errors, setErrors] = useState({
-        name: '',
-        lastname: '',
-        email: '',
-        mobile: '',
-        walkInDate: '',
-        comments: '',
-    });
+    // const [errors, setErrors] = useState({
+    //     name: '',
+    //     lastname: '',
+    //     email: '',
+    //     mobile: '',
+    //     walkInDate: '',
+    //     comments: '',
+    // });
 
 
     const state = useSelector(state => state)
@@ -150,7 +150,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
             setWalkInDate(initialData.walk_In_Date ? moment(initialData.walk_In_Date).toDate('') : null);
-            setComments(initialData.comments || '');
+            // setComments(initialData.comments || '');
         } else {
             setName('');
             setLastName('');
@@ -158,21 +158,21 @@ function CustomerForm({ show, handleClose, initialData }) {
             setCountryCode('91');
             setMobile('');
             setWalkInDate(null);
-            setComments('');
+            // setComments('');
             setHouseNo("");
             setStreet("");
             setLandmark("")
             setPincode("");
             setCity("");
             setStateName("")
-            setErrors({
-                name: '',
-                lastname: '',
-                email: '',
-                mobile: '',
-                walkInDate: '',
-                comments: '',
-            });
+            // setErrors({
+            //     name: '',
+            //     lastname: '',
+            //     email: '',
+            //     mobile: '',
+            //     walkInDate: '',
+            //     comments: '',
+            // });
         }
     }, [initialData, show]);
 
@@ -336,11 +336,11 @@ function CustomerForm({ show, handleClose, initialData }) {
         setNameError('');
         setIsChangedError('');
         setName(value);
-        if (value.trim() !== '') {
-            setErrors(prev => ({ ...prev, name: '' }));
-        } else {
-            setErrors(prev => ({ ...prev, name: 'Name is Required' }));
-        }
+        // if (value.trim() !== '') {
+        //     setErrors(prev => ({ ...prev, name: '' }));
+        // } else {
+        //     setErrors(prev => ({ ...prev, name: 'Name is Required' }));
+        // }
     };
 
     const handleLastNameChange = (e) => {
@@ -446,11 +446,11 @@ function CustomerForm({ show, handleClose, initialData }) {
         // setFormError("");
       }
     
-      const handlePincode = (e) => {
-        setPincode(e.target.value);
-        setPincodeError("");
-        // setFormError("");
-      }
+      // const handlePincode = (e) => {
+      //   setPincode(e.target.value);
+      //   setPincodeError("");
+      //   // setFormError("");
+      // }
 
       const handlePinCodeChange = (e) => {
         const value = e.target.value;
@@ -475,21 +475,21 @@ function CustomerForm({ show, handleClose, initialData }) {
         // setFormError("");
       }
     
-      const handleStateChange = (e) => {
-        setStateName(e.target.value);
-        setStateNameError("");
-        // setFormError("");
-      }
+      // const handleStateChange = (e) => {
+      //   setStateName(e.target.value);
+      //   setStateNameError("");
+      //   // setFormError("");
+      // }
 
 
 
-    const handleCommentsChange = (e) => {
-        const value = e.target.value;
-        setGeneralError('');
-        setComments(value);
-        setIsChangedError('');
+    // const handleCommentsChange = (e) => {
+    //     const value = e.target.value;
+    //     setGeneralError('');
+    //     setComments(value);
+    //     setIsChangedError('');
 
-    };
+    // };
 
     const [file, setFile] = useState(null);
 
@@ -509,7 +509,7 @@ function CustomerForm({ show, handleClose, initialData }) {
         }
     };
     const handleFormClose = () => {
-        setErrors('');
+        // setErrors('');
         setEmailError("")
         setNameError("")
         setMobileError("")

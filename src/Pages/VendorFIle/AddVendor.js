@@ -24,7 +24,7 @@ function AddVendor({ show, setShow, currentItem }) {
    const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
-  const [pincode, setPincode] = useState("");
+  // const [pincode, setPincode] = useState("");
   const [city, setCity] = useState("")
   const [state_name, setStateName] = useState("");
   const [email_Id, setEmail_Id] = useState("");
@@ -41,7 +41,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const [countryCodeError, setCountryCodeError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [addressError, setAddressError] = useState("");
+  // const [addressError, setAddressError] = useState("");
   const [businessNameError, setBusinessNameError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [countryError, setCountryError] = useState("");
@@ -52,7 +52,7 @@ function AddVendor({ show, setShow, currentItem }) {
      const [house_noError, setHouse_NoError] = useState("");
         const [streetError, setStreetError] = useState("");
         const [landmarkError, setLandmarkError] = useState("");
-        const [pincodeError, setPincodeError] = useState("");
+        // const [pincodeError, setPincodeError] = useState("");
         const [cityError, setCityError] = useState("");
         const [state_nameError, setStateNameError] = useState("");
 
@@ -156,13 +156,13 @@ function AddVendor({ show, setShow, currentItem }) {
     setIsChangedError("");
   }
 
-  const handlePincode = (e) => {
-    setPincode(e.target.value);
-    setPincodeError("");
-    setGeneralError("");
-    setIsChangedError("");
-    // setFormError("");
-  }
+  // const handlePincode = (e) => {
+  //   setPincode(e.target.value);
+  //   setPincodeError("");
+  //   setGeneralError("");
+  //   setIsChangedError("");
+  //   // setFormError("");
+  // }
 
   const handleCity = (e) => {
     setCity(e.target.value);
@@ -172,13 +172,13 @@ function AddVendor({ show, setShow, currentItem }) {
     // setFormError("");
   }
 
-  const handleStateChange = (e) => {
-    setStateName(e.target.value);
-    setStateNameError("");
-    setGeneralError("");
-    setIsChangedError("");
-    // setFormError("");
-  }
+  // const handleStateChange = (e) => {
+  //   setStateName(e.target.value);
+  //   setStateNameError("");
+  //   setGeneralError("");
+  //   setIsChangedError("");
+  //   // setFormError("");
+  // }
   
 
   // const handlePinCodeChange = (e) => {
@@ -389,25 +389,25 @@ const handleClose =()=>{
   //   }
   // };
 
-  const handleAddressChange = (e) => {
-    const value = e.target.value;
-    setGeneralError("");
-    setAddressError("");
-    setIsChangedError("");
-    if (value === "") {
-      setAddress(value);
-      // setErrors((prevErrors) => ({
-      //   ...prevErrors,
-      //   address: "Address cannot be empty or spaces only",
-      // }));
-      return;
-    }
+  // const handleAddressChange = (e) => {
+  //   const value = e.target.value;
+  //   setGeneralError("");
+  //   setAddressError("");
+  //   setIsChangedError("");
+  //   if (value === "") {
+  //     setAddress(value);
+  //     // setErrors((prevErrors) => ({
+  //     //   ...prevErrors,
+  //     //   address: "Address cannot be empty or spaces only",
+  //     // }));
+  //     return;
+  //   }
 
-    if (value.trim() !== "") {
-      setAddress(value);
-      // setErrors((prevErrors) => ({ ...prevErrors, address: "" }));
-    }
-  };
+  //   if (value.trim() !== "") {
+  //     setAddress(value);
+  //     // setErrors((prevErrors) => ({ ...prevErrors, address: "" }));
+  //   }
+  // };
 
   // const handleEmailChange = (e) => {
   //   const email = e.target.value;

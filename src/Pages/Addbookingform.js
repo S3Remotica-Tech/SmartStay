@@ -66,8 +66,8 @@ function BookingModal(props) {
   const [Phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-  const [Address, setAddress] = useState("");
-  const [addressError, setAddressError] = useState("");
+  // const [Address, setAddress] = useState("");
+  // const [addressError, setAddressError] = useState("");
   const [Email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [house_noError, setHouse_NoError] = useState("");
@@ -311,10 +311,10 @@ function BookingModal(props) {
   //   setJoiningDate(selectedDates[0]);
   //   setDateError("");
   // };
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
-    setAddressError("");
-  };
+  // const handleAddress = (e) => {
+  //   setAddress(e.target.value);
+  //   setAddressError("");
+  // };
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
@@ -334,11 +334,11 @@ function BookingModal(props) {
     // setFormError("");
   }
 
-  const handlePincode = (e) => {
-    setPincode(e.target.value);
-    setPincodeError("");
-    // setFormError("");
-  }
+  // const handlePincode = (e) => {
+  //   setPincode(e.target.value);
+  //   setPincodeError("");
+  //   // setFormError("");
+  // }
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -363,11 +363,11 @@ function BookingModal(props) {
     // setFormError("");
   }
 
-  const handleStateChange = (e) => {
-    setStateName(e.target.value);
-    setStateNameError("");
-    // setFormError("");
-  }
+  // const handleStateChange = (e) => {
+  //   setStateName(e.target.value);
+  //   setStateNameError("");
+  //   // setFormError("");
+  // }
 
   const handleEmail = (e) => {
     const emailValue = e.target.value.toLowerCase();
@@ -420,9 +420,9 @@ function BookingModal(props) {
         // case "bed":
         //   setBedError("Bed is required");
         //   break;
-        case "Address":
-          setAddressError("Address is Required");
-          break;
+        // case "Address":
+        //   setAddressError("Address is Required");
+        //   break;
 
         case "Houseno":
           setHouse_NoError("Please Enter House No/Flat");
@@ -475,9 +475,9 @@ function BookingModal(props) {
         // case "bed":
         //   setBedError("");
         //   break;
-        case "Address":
-          setAddressError("");
-          break;
+        // case "Address":
+        //   setAddressError("");
+        //   break;
           case "Houseno":
             setHouse_NoError("");
             break;
@@ -519,7 +519,7 @@ function BookingModal(props) {
     const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate");
     const isAmountValid = validateAssignField(amount, "amount");
     // const isHostelValid = validateAssignField(paying, "paying");
-    const isAddressValid = validateAssignField(Address, "Address");
+    // const isAddressValid = validateAssignField(Address, "Address");
     const isHousenoValid = validateAssignField(house_no, "Houseno");
     const isStreetValid = validateAssignField(street, "Street");
     const isLandmarkValid = validateAssignField(landmark, "Landmark");
@@ -618,8 +618,8 @@ try {
     setPincode("")
     setStateName("")
     setPhoneError("");
-    setAddress("");
-    setAddressError("");
+    // setAddress("");
+    // setAddressError("");
     setfirstNameError("");
     // setfloorError("");
     // setHostelIdError("");

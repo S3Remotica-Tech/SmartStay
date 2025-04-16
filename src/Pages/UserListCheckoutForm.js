@@ -31,7 +31,7 @@ const CheckOutForm = ({
   checkouteditaction,
   checkoutaddform,
   cofirmForm,
-  setConfirmForm,
+  // setConfirmForm,
   handleCloseConformForm
 }) => {
   const state = useSelector((state) => state);
@@ -1636,6 +1636,8 @@ CheckOutForm.propTypes = {
   checkoutaddform: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+  cofirmForm: PropTypes.func.isRequired,
+  handleCloseConformForm: PropTypes.func.isRequired,
 };
 
 export default CheckOutForm;

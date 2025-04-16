@@ -66,7 +66,7 @@ function Booking(props) {
   const [phoneError, setPhoneError] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [Address, setAddress] = useState("");
-  const [addressError, setAddressError] = useState("");
+  // const [addressError, setAddressError] = useState("");
   const [Email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
@@ -356,11 +356,11 @@ if (!pattern.test(value)) {
   //   dispatch({ type: "CLEAR_PHONE_ERROR" });
   // };
  
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
-    setAddressError("");
-    setFormError("");
-  };
+  // const handleAddress = (e) => {
+  //   setAddress(e.target.value);
+  //   setAddressError("");
+  //   setFormError("");
+  // };
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
@@ -380,11 +380,11 @@ if (!pattern.test(value)) {
     // setFormError("");
   }
 
-  const handlePincode = (e) => {
-    setPincode(e.target.value);
-    setPincodeError("");
-    // setFormError("");
-  }
+  // const handlePincode = (e) => {
+  //   setPincode(e.target.value);
+  //   setPincodeError("");
+  //   // setFormError("");
+  // }
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -409,11 +409,11 @@ if (!pattern.test(value)) {
     // setFormError("");
   }
 
-  const handleStateChange = (e) => {
-    setStateName(e.target.value);
-    setStateNameError("");
-    // setFormError("");
-  }
+  // const handleStateChange = (e) => {
+  //   setStateName(e.target.value);
+  //   setStateNameError("");
+  //   // setFormError("");
+  // }
 
   const handleCloseDelete = () => {
     setDeleteShow(false);
@@ -446,9 +446,9 @@ if (!pattern.test(value)) {
         // case "bed":
         //   setBedError("Bed is required");
         //   break;
-        case "Address":
-          setAddressError("Address is Required");
-          break;
+        // case "Address":
+        //   setAddressError("Address is Required");
+        //   break;
           case "Houseno":
             setHouse_NoError("Please Enter House No/Flat");
             break;
@@ -496,9 +496,9 @@ if (!pattern.test(value)) {
         // case "bed":
         //   setBedError("");
         //   break;
-        case "Address":
-          setAddressError("");
-          break;
+        // case "Address":
+        //   setAddressError("");
+        //   break;
           case "Houseno":
             setHouse_NoError("");
             break;
@@ -678,7 +678,7 @@ if (!pattern.test(value)) {
     setPhone("");
     setPhoneError("");
     setAddress("");
-    setAddressError("");
+    // setAddressError("");
     setfirstNameError("");
     setDateError("");
     setamountError("");
