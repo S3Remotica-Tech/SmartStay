@@ -4,6 +4,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 // import FrontPage from './LandingPage/FrontPage';
 import FrontPage from './NewLandingPage/Topbar';
+// import Policy from "./NewLandingPage/PrivacyPolicy"
 import LoginPage from './Components/LoginPage';
 import CreateAccount from './Components/CreateAccount';
 import ForgetPassword from "./Components/Forgetpass";
@@ -17,6 +18,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { StoreSelectedHostelAction } from './Redux/Action/smartStayAction';
 import LoaderComponent from './Pages/LoaderComponent';
+// import Contact from './NewLandingPage/Contact';
 
 function App() {
   const cookies = new Cookies();
@@ -123,6 +125,10 @@ function App() {
               <Route path="/login-Page" element={<LoginPage />} />
               <Route path="/create-account" element={<CreateAccount />} />
               <Route path="/forget-password" element={<ForgetPassword />} />
+              <Route path="/features" element={<FrontPage />} />
+              <Route path="/pricing" element={<FrontPage />} />
+              <Route path="/contact" element={<FrontPage />} />
+              <Route path="/privacy-policy" element={<FrontPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </>

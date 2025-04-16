@@ -39,7 +39,7 @@ function SettingGeneral() {
   const [countryCode, setCountryCode] = useState("91");
   const [Phone, setPhone] = useState("");
   const [emilId, setEmailId] = useState("");
-  const [address, setAddress] = useState("");
+  // const [address, setAddress] = useState("");
   const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
@@ -59,7 +59,7 @@ function SettingGeneral() {
   const [firstNameError, setFirstNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const [addressError, setAddressError] = useState("");
+  // const [addressError, setAddressError] = useState("");
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [landmarkError, setLandmarkError] = useState("");
@@ -226,7 +226,7 @@ const indianStates = [
     setFirstName("");
     setLastName("");
     setEmailId("");
-    setAddress("");
+    // setAddress("");
     setFile("");
     setPassword("");
     setPhone("");
@@ -246,7 +246,7 @@ const indianStates = [
     setPincodeError("")
     setStateNameError("")
     setPhoneError("");
-    setAddressError("");
+    // setAddressError("");
     setPasswordError("");
     setFormError("");
     setEmailError("")
@@ -349,11 +349,11 @@ const indianStates = [
 
 
 
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
-    setAddressError("");
-    setFormError("");
-  };
+  // const handleAddress = (e) => {
+  //   setAddress(e.target.value);
+  //   setAddressError("");
+  //   setFormError("");
+  // };
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
@@ -373,11 +373,11 @@ const indianStates = [
     setFormError("");
   }
 
-  const handlePincode = (e) => {
-    setPincode(e.target.value);
-    setPincodeError("");
-    setFormError("");
-  }
+  // const handlePincode = (e) => {
+  //   setPincode(e.target.value);
+  //   setPincodeError("");
+  //   setFormError("");
+  // }
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -402,11 +402,11 @@ const indianStates = [
     setFormError("");
   }
 
-  const handleStateChange = (e) => {
-    setStateName(e.target.value);
-    setStateNameError("");
-    setFormError("");
-  }
+  // const handleStateChange = (e) => {
+  //   setStateName(e.target.value);
+  //   setStateNameError("");
+  //   setFormError("");
+  // }
 
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -427,7 +427,7 @@ const indianStates = [
     setLastName(user.last_name);
     setPhone(mobileNumber);
     setCountryCode(countryCode);
-    setAddress(user.Address);
+    // setAddress(user.Address);
     setHouseNo(user.Address);
     setStreet(user.area);
     setLandmark(user.landmark)

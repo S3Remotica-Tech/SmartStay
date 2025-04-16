@@ -500,12 +500,12 @@ function UserListRoomDetail(props) {
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
-  const handleAddress = (e) => {
-    // handleInputChange()
-    setAddress(e.target.value);
-    setAddressError("");
-    setFormError("");
-  };
+  // const handleAddress = (e) => {
+  //   // handleInputChange()
+  //   setAddress(e.target.value);
+  //   setAddressError("");
+  //   setFormError("");
+  // };
 
 
   const handleHouseNo = (e) => {
@@ -779,7 +779,7 @@ function UserListRoomDetail(props) {
     setHostelIdError("");
     setFirstnameError("");
     setEmailError("");
-    setAddressError("");
+    // setAddressError("");
     setPhoneError("");
     setHouseNo("")
     setStreet("")
@@ -802,7 +802,7 @@ function UserListRoomDetail(props) {
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [addressError, setAddressError] = useState("");
+  // const [addressError, setAddressError] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
 
   const validateField = (value, fieldName) => {

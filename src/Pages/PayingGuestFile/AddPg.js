@@ -23,7 +23,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [pgName, setPgName] = useState("");
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
-  const [location, setLocation] = useState("");
+  // const [location, setLocation] = useState("");
   const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
@@ -36,7 +36,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [pgNameError, setPgNameError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [locationError, setLocationError] = useState("");
+  // const [locationError, setLocationError] = useState("");
   const [countryCodeError, setCountryCodeError] = useState("");
   const [generalError, setGeneralError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
@@ -196,10 +196,10 @@ function AddPg({ show, handleClose, currentItem }) {
 
   const handlePgNameChange = (e) => {
     const value = e.target.value;
-    const pattern = /^[a-zA-Z\s]*$/;
-    if (!pattern.test(value)) {
-      return;
-    }
+    // const pattern = /^[a-zA-Z\s]*$/;
+    // if (!pattern.test(value)) {
+    //   return;
+    // }
     setPgNameError("");
     setGeneralError("");
     setIsChangedError("");
@@ -219,12 +219,12 @@ function AddPg({ show, handleClose, currentItem }) {
   };
 
 
-  const handleLocationChange = (e) => {
-    setLocation(e.target.value);
-    setGeneralError("");
-    setLocationError("");
-    setIsChangedError("");
-  };
+  // const handleLocationChange = (e) => {
+  //   setLocation(e.target.value);
+  //   setGeneralError("");
+  //   setLocationError("");
+  //   setIsChangedError("");
+  // };
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
@@ -250,13 +250,13 @@ function AddPg({ show, handleClose, currentItem }) {
     // setFormError("");
   }
 
-  const handlePincode = (e) => {
-    setPincode(e.target.value);
-    setPincodeError("");
-    setGeneralError("");
-    setIsChangedError("");
-    // setFormError("");
-  }
+  // const handlePincode = (e) => {
+  //   setPincode(e.target.value);
+  //   setPincodeError("");
+  //   setGeneralError("");
+  //   setIsChangedError("");
+  //   // setFormError("");
+  // }
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -289,13 +289,13 @@ function AddPg({ show, handleClose, currentItem }) {
     // setFormError("");
   }
 
-  const handleStateChange = (e) => {
-    setStateName(e.target.value);
-    setStateNameError("");
-    setGeneralError("");
-    setIsChangedError("");
-    // setFormError("");
-  }
+  // const handleStateChange = (e) => {
+  //   setStateName(e.target.value);
+  //   setStateNameError("");
+  //   setGeneralError("");
+  //   setIsChangedError("");
+  //   // setFormError("");
+  // }
 
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
@@ -534,7 +534,7 @@ useEffect(() => {
       setPgName(initialData.pgName);
       setMobile(initialData.mobile);
       setEmail(initialData.email);
-      setLocation(initialData.location);
+      // setLocation(initialData.location);
       setFile(initialData.file);
       setCountryCode(initialData.countryCode);
       setHouseNo(initialData.house_no);

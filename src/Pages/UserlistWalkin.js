@@ -13,6 +13,7 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { MdError } from "react-icons/md";
+import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import PropTypes from "prop-types";
 
 function UserlistWalkin(props) {
@@ -245,7 +246,37 @@ function UserlistWalkin(props) {
   //     }
   // }, [walkInCustomer, currentPage, totalPages]);
 
- 
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+   
+     const sortedData = React.useMemo(() => {
+       if (!sortConfig.key) return currentCustomers;
+   
+       const sorted = [...currentCustomers].sort((a, b) => {
+         const valueA = a[sortConfig.key];
+         const valueB = b[sortConfig.key];
+   
+   
+         if (!isNaN(valueA) && !isNaN(valueB)) {
+           return sortConfig.direction === 'asc'
+             ? valueA - valueB
+             : valueB - valueA;
+         }
+   
+         if (typeof valueA === 'string' && typeof valueB === 'string') {
+           return sortConfig.direction === 'asc'
+             ? valueA.localeCompare(valueB)
+             : valueB.localeCompare(valueA);
+         }
+   
+         return 0;
+       });
+   
+       return sorted;
+     }, [currentCustomers, sortConfig]);
+   
+     const handleSort = (key, direction) => {
+       setSortConfig({ key, direction });
+     };
 
   return (
     <>
@@ -325,231 +356,178 @@ function UserlistWalkin(props) {
    }}
  ></div>
 </div>
-) : currentCustomers?.length > 0 && (
-  <div className=" walkin_table_custom walkin-table">
-                <div style={{
-                  // height: "400px",
-                  // height: currentCustomers.length >= 6 ? "380px" : "auto",
-                  // overflowY: currentCustomers.length >= 6 ? "auto" : "visible",
-                  borderRadius: "24px",
-                  border: "1px solid #DCDCDC",
-                  // borderBottom:"none"
-                }}>
-                  <Table responsive="md" className="table_walkin"
-                  
-                  style={{ border: "1px solid #DCDCDC", borderBottom: "1px solid transparent", 
-                  borderEndStartRadius: 0, borderEndEndRadius: 0 }}>
-                    <thead style={{
-                      border: "none", position: "sticky",
-                      top: 0,
-                      zIndex: 1,
-                    }}>
-                      <tr>
+) : 
 
-                        <th
+   sortedData.length > 0 && (
+          
+          
+          
+                        <div
+                          className='show-scrolls'
                           style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                            borderTopLeftRadius: 24,
-                            paddingLeft: "20px"
-                          }}
+                            // height: "400px",
+                            // height: currentItems.length >= 6 ? "380px" : "auto",
+                            // overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                            // borderRadius: "24px",
+                            // border: "1px solid #DCDCDC",
+                            // borderBottom:"none"
+                            height: currentCustomers.length >= 8 || sortedData.length >= 8 ? "500px" : "auto",
+                            overflow: "auto",
+                            borderTop: "1px solid #E8E8E8",
+                            marginBottom: 20,
+                            marginTop: "20px"
+                            //  borderBottom:"1px solid #DCDCDC"
+                          }}>
+          
+                          <Table
+                            responsive="md"
+                          >
+          
+                            <thead style={{
+                              fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                              top: 0,
+                              zIndex: 1
+                            }}>
+                              <tr>
+                                <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'desc')} style={{ cursor: "pointer" }} />
+                                </div> Name</div>  </th>
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_Id", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_Id", 'desc')} style={{ cursor: "pointer" }} />
+                                </div>  Email ID </div></th>
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("mobile_Number", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("mobile_Number", 'desc')} style={{ cursor: "pointer" }} />
+                                </div>   Mobile No </div></th>
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("walk_In_Date", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("walk_In_Date", 'desc')} style={{ cursor: "pointer" }} />
+                                </div>  Walk-In Date</div></th>
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("comments", 'asc')} style={{ cursor: "pointer" }} />
+                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("comments", 'desc')} style={{ cursor: "pointer" }} />
+                                </div>  Address </div></th>
+          
+                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
+                              </tr>
+                            </thead>
+          
+          
+                            <tbody>
+                              {   sortedData && sortedData.length > 0 && (
+                                      <>
+                                        {sortedData.map((v) => {
+
+
+                  return (
+                    <tr key={v.id}>
+
+                      <td
+                        style={{
+                          border: "none",
+                          padding: "10px",
+                          textAlign: "start",
+                          verticalAlign: "middle",
+                          paddingLeft:"25px"
+                        }}
+                      >
+                        <div
+                         
                         >
-                          Name
-                        </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                          }}
-                        >
-                          Email ID
-                        </th>
-
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                          }}
-                        >
-                          Mobile No
-                        </th>
-
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                          }}
-                        >
-                          Walk-In Date
-                        </th>
-
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                          }}
-                        >
-                          Address
-                        </th>
-
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                            borderTopRightRadius: "24px",
-                          }}
-                        ></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentCustomers?.map((customer) => (
-                        <tr key={customer.id} className="customer-row">
-
-                          <td style={{ verticalAlign: "middle" }}>
-                            <div className="d-flex align-items-center">
-                              {/* <Image
-                                src={Ellipse1}
-
-
-                                roundedCircle
-                                height={30}
-                                width={30}
-                                alt="avatar"
-                                style={{ textAlign: "start" }}
-                              /> */}
-                              <span
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: 600,
-                                  fontFamily: "Gilroy",
-                                  color: "#222222",
-                                  textAlign: "start",
-                                  paddingLeft: "10px",
-                                }}
-                                className=" customer-name"
-                              >
-                                {customer.first_name} {customer.last_name}
-                              </span>
-                            </div>
-                          </td>
-                          <td
+                          {/* <Image
+                            src={imageUrl}
+                            alt={v.hoatel_Name || "Default Profile"}
+                            roundedCircle
                             style={{
-                              fontSize: "16px",
+                              height: "40px",
+                              width: "40px",
+                              marginRight: "10px",
+                            }}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = Profile;
+                            }}
+                          /> */}
+                          <span
+                            style={{
+                              fontSize: 13, 
                               fontWeight: 500,
                               fontFamily: "Gilroy",
-                              color: "#000000",
-                              textAlign: "start",
-                              verticalAlign: "middle"
                             }}
                           >
-                            {customer.email_Id || "N/A"}
-                          </td>
-                          <td
-                            style={{
-                              fontSize: "16px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              color: "#000000",
-                              textAlign: "start",
-                              verticalAlign: "middle",
-                              padding: "10px",
-                            }}
-                          >
-                            {/* {customer.mobile_Number} */}
-                            +
-                              {customer &&
-                                String(customer.mobile_Number).slice(
+                             {v.first_name} {v.last_name}
+                          </span>
+                        </div>
+                      </td>
+                      <td
+                        style={{
+                          fontSize: 13, 
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          textAlign: "start",
+                          verticalAlign: "middle",
+                          borderBottom: "none",
+                        }}
+                      >
+                        {v.email_Id || "N/A"}
+                      </td>
+                      <td
+                        style={{
+                          textAlign: "start",
+                          verticalAlign: "middle",
+                          borderBottom: "none",
+                          fontSize: 13, 
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                        }}
+                      >
+                      
+                      +
+                              {v &&
+                                String(v.mobile_Number).slice(
                                   0,
-                                  String(customer.mobile_Number).length - 10
+                                  String(v.mobile_Number).length - 10
                                 )}{" "}
-                              {customer && String(customer.mobile_Number).slice(-10)}
-                          </td>
-
-                          <td
-                            style={{
-                              border: "none",
-
-                              textAlign: "start",
-                              fontSize: "16px",
-                              fontWeight: 600,
+                              {v && String(v.mobile_Number).slice(-10)}
+                          
+                        {/* </span> */}
+                      </td>
+                      <td
+                        style={{
+                          fontSize: 13, 
+                              fontWeight: 500,
                               fontFamily: "Gilroy",
-                              padding: "10px",
-                              verticalAlign: "middle"
-                            }}
-                          >
-                            <span
-                              style={{
-                                padding: "3px 7px",
-                                borderRadius: "60px",
-                                backgroundColor: "#EBEBEB",
-                                textAlign: "start",
-                                fontSize: "16px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                verticalAlign: "middle"
-                              }}
-                            >
-                              {moment(customer.walk_In_Date).format(
+                          textAlign: "start",
+                          verticalAlign: "middle",
+                          borderBottom: "none",
+                        }}
+                      >
+                        {moment(v.walk_In_Date).format(
                                 "DD/MMM/YYYY"
                               )}
-                            </span>
-                          </td>
-
-                          <td
-                            style={{
-                              fontSize: "16px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              color: "#000000",
-                              textAlign: "start",
-                              padding: "10px",
-                              whiteSpace: "nowrap",
-                              verticalAlign: "middle"
-                            }}
-                          >
-                            {customer.comments || "-"}
-                            {customer.area ? customer.area :''}, {""} {customer.city ? customer.city :''} {""}<br></br>
-                             {customer?.state ? customer.state : ''}  {customer.pin_code ? -  customer.pin_code : ''}
-                            
-                          </td>
-
-                          <td>
+                      </td>
+                      <td
+                        style={{
+                          fontSize: 13, 
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          textAlign: "start",
+                          verticalAlign: "middle",
+                          borderBottom: "none",
+                        }}
+                      >
+                        {v.total_amount}
+                        {v.comments || "-"}
+                            {v.area ? v.area :''}, {""} {v.city ? v.city :''} {""}<br></br>
+                             {v?.state ? v.state : ''}  {v.pin_code ? -  v.pin_code : ''}
+                      </td>
+                      <td>
                             <div
                               style={{
                                 cursor: "pointer",
@@ -561,16 +539,16 @@ function UserlistWalkin(props) {
                                 justifyContent: "center",
                                 alignItems: "center",
                                 position: "relative",
-                                backgroundColor: dotsButton === customer.id ? "#E7F1FF" : "white",
+                                backgroundColor: dotsButton === v.id ? "#E7F1FF" : "white",
                                 // zIndex:
                                 //   dotsButton === customer.id ? 1000 : "auto",
                               }}
-                              onClick={(e) => handleDotsClick(customer.id, e)}
+                              onClick={(e) => handleDotsClick(v.id, e)}
                             >
                               <PiDotsThreeOutlineVerticalFill
                                 style={{ height: 20, width: 20 }}
                               />
-                              {dotsButton === customer.id && (
+                              {dotsButton === v.id && (
                                 <div
                                   ref={popupRef}
                                   style={{
@@ -596,7 +574,7 @@ function UserlistWalkin(props) {
                                     className="mb-2 d-flex align-items-center"
                                     onClick={() => {
                                       if (!walkInEditPermissionError) {
-                                        handleEdit(customer);
+                                        handleEdit(v);
                                       }
                                     }}
                                     style={{
@@ -637,7 +615,7 @@ function UserlistWalkin(props) {
                                     className="d-flex align-items-center"
                                     onClick={() => {
                                       if (!walkInDeletePermissionError) {
-                                        handleDelete(customer);
+                                        handleDelete(v);
                                       }
                                     }}
                                     style={{
@@ -677,14 +655,32 @@ function UserlistWalkin(props) {
                               )}
                             </div>
                           </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </div>
+                    </tr>
+                  );
                 
-              </div>
-)}
+          })}
+                                      </>
+                                    
+          
+                                  )
+                              }
+                            </tbody>
+          
+          
+                          </Table>
+                        </div>
+          
+          
+                      )}
+
+
+
+
+
+
+
+
+
 
 {
    !walkinLoader && currentCustomers?.length === 0 && 

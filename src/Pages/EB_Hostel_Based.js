@@ -17,7 +17,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { ArrowUp2, ArrowDown2, SearchNormal1, Sort, } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2} from 'iconsax-react';
 import {CloseCircle} from "iconsax-react";
 
 function EBHostelReading(props) {

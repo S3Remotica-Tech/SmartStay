@@ -61,7 +61,7 @@ function UserlistForm(props) {
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [addressError, setAddressError] = useState("");
+  // const [addressError, setAddressError] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
   const [phonenumError, setphonenumError] = useState("");
   const [emailIdError, setemailIdError] = useState("");
@@ -344,10 +344,10 @@ const value = e.target.value
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
-    setAddressError("");
-  };
+  // const handleAddress = (e) => {
+  //   setAddress(e.target.value);
+  //   setAddressError("");
+  // };
 
   // const handleIsActiveUser = (e) => {
   //   setIsActive(e.target.value);
@@ -581,11 +581,11 @@ const handleBed = (selectedOption) => {
     // setFormError("");
   }
 
-  const handlePincode = (e) => {
-    setPincode(e.target.value);
-    setPincodeError("");
-    // setFormError("");
-  }
+  // const handlePincode = (e) => {
+  //   setPincode(e.target.value);
+  //   setPincodeError("");
+  //   // setFormError("");
+  // }
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -610,11 +610,11 @@ const handleBed = (selectedOption) => {
     // setFormError("");
   }
 
-  const handleStateChange = (e) => {
-    setStateName(e.target.value);
-    setStateNameError("");
-    // setFormError("");
-  }
+  // const handleStateChange = (e) => {
+  //   setStateName(e.target.value);
+  //   setStateNameError("");
+  //   // setFormError("");
+  // }
 
   // const handleAadharNo = (e) => {
   //   setAadharNo(e.target.value);
