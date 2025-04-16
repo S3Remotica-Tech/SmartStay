@@ -22,6 +22,7 @@ import dayjs from "dayjs";
 // import Filters from "../Assets/Images/Filters.svg";
 import Filters from "../../Assets/Images/Filters.svg";
 import Image from 'react-bootstrap/Image';
+import { ArrowUp2, ArrowDown2, Sort, } from 'iconsax-react';
 import { useMediaQuery, useTheme } from '@mui/material'
 
 function Expenses({ allPageHostel_Id }) {
@@ -488,6 +489,39 @@ function Expenses({ allPageHostel_Id }) {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  
+    const sortedData = React.useMemo(() => {
+      if (!sortConfig.key) return currentItems;
+  
+      const sorted = [...currentItems].sort((a, b) => {
+        const valueA = a[sortConfig.key];
+        const valueB = b[sortConfig.key];
+  
+  
+        if (!isNaN(valueA) && !isNaN(valueB)) {
+          return sortConfig.direction === 'asc'
+            ? valueA - valueB
+            : valueB - valueA;
+        }
+  
+        if (typeof valueA === 'string' && typeof valueB === 'string') {
+          return sortConfig.direction === 'asc'
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        }
+  
+        return 0;
+      });
+  
+      return sorted;
+    }, [currentItems, sortConfig]);
+  
+    const handleSort = (key, direction) => {
+      setSortConfig({ key, direction });
+    };
+  
 
   const handleEditExpen = (item) => {
     setShowModal(true);
@@ -1095,213 +1129,128 @@ function Expenses({ allPageHostel_Id }) {
             </div>
           )}
 
-          {currentItems && currentItems.length > 0 && (
-            <div className="p-3">
+
+ {sortedData && sortedData.length > 0 && (
+
+
+
               <div
+                className='show-scrolls'
                 style={{
                   // height: "400px",
-                  height: currentItems.length >= 6 ? "380px" : "auto",
-                  overflowY: currentItems.length >= 6 ? "auto" : "visible",
-                  borderRadius: "24px",
-                  border: "1px solid #DCDCDC",
+                  // height: currentItems.length >= 6 ? "380px" : "auto",
+                  // overflowY: currentItems.length >= 6 ? "auto" : "visible",
+                  // borderRadius: "24px",
+                  // border: "1px solid #DCDCDC",
                   // borderBottom:"none"
-                }}
-              >
+                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "500px" : "auto",
+                  overflow: "auto",
+                  borderTop: "1px solid #E8E8E8",
+                  marginBottom: 20,
+                  marginTop: "20px"
+                  //  borderBottom:"1px solid #DCDCDC"
+                }}>
+
                 <Table
                   responsive="md"
-                  className="Table_Design"
-                  style={{
-                    border: "1px solid #DCDCDC",
-                    borderBottom: "1px solid transparent",
-                    borderEndStartRadius: 0,
-                    borderEndEndRadius: 0,
-                  }}
                 >
-                  <thead
-                    style={{
-                      fontFamily: "Gilroy",
-                      color: "#939393",
-                      fontSize: 14,
-                      fontStyle: "normal",
-                      fontWeight: 500,
-                      backgroundColor: "rgba(231, 241, 255, 1)",
-                      position: "sticky",
 
-                      top: 0,
-                      zIndex: 1,
-                    }}
-                  >
+                  <thead style={{
+                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                    top: 0,
+                    zIndex: 1
+                  }}>
                     <tr>
+                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Date </div>  </th>
 
-                      <th
-                        style={{
-                          textAlign: "start",
-                          fontFamily: "Gilroy",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: 14,
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          paddingLeft: "20px",
-                          borderTopLeftRadius: 24,
-                        }}
-                      >
-                        Date
-                      </th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Category </div></th>
 
-                      {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Vendor Name</th> */}
-                      <th
-                        style={{
-                          textAlign: "start",
-                          fontFamily: "Gilroy",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: 14,
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Category
-                      </th>
-                      {/* <th style={{ textAlign: "center", fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 600 }}>Asset</th> */}
-                      <th
-                        style={{
-                          textAlign: "start",
-                          fontFamily: "Gilroy",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: 14,
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Description
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          fontFamily: "Gilroy",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: 14,
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Unit Count
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          fontFamily: "Gilroy",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: 14,
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Per Unit Price
-                      </th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Description </div> </th>
 
-                      <th
-                        style={{
-                          textAlign: "start",
-                          fontFamily: "Gilroy",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: 14,
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Total Amount
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          fontFamily: "Gilroy",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: 14,
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Mode of Payment
-                      </th>
-                      <th
-                        style={{
-                          borderTopRightRadius: 24,
-                          textAlign: "start",
-                          fontFamily: "Gilroy",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: 14,
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                        }}
-                      ></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Unit Count </div></th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'desc')} style={{ cursor: "pointer" }} />
+                      </div>  Per Unit Price </div></th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'desc')} style={{ cursor: "pointer" }} />
+                      </div> Total Amount </div></th>
+
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'asc')} style={{ cursor: "pointer" }} />
+                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'desc')} style={{ cursor: "pointer" }} />
+                      </div>  Mode of Payment </div></th>
+
+                      <th style={{ textAlign: "middle", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
                     </tr>
                   </thead>
 
+
                   <tbody>
-                    {loading ? (
-                      <>
-                        <tr>
-                          <td style={{ border: "none" }}>
-                            <div
-                              style={{ ...skeletonStyle, width: "100%" }}
-                            ></div>
-                          </td>
-                          <td style={{ border: "none" }}>
-                            <div
-                              style={{ ...skeletonStyle, width: "100%" }}
-                            ></div>
-                          </td>
-                          <td style={{ border: "none" }}>
-                            <div
-                              style={{ ...skeletonStyle, width: "100%" }}
-                            ></div>
-                          </td>
-                          <td style={{ border: "none" }}>
-                            <div
-                              style={{ ...skeletonStyle, width: "100%" }}
-                            ></div>
-                          </td>
-                          <td style={{ border: "none" }}>
-                            <div
-                              style={{ ...skeletonStyle, width: "100%" }}
-                            ></div>
-                          </td>
-                          <td style={{ border: "none" }}>
-                            <div
-                              style={{ ...skeletonStyle, width: "100%" }}
-                            ></div>
-                          </td>
-                          <td style={{ border: "none" }}>
-                            <div
-                              style={{ ...skeletonStyle, width: "100%" }}
-                            ></div>
-                          </td>
-                          <td style={{ border: "none" }}>
-                            <div
-                              style={{ ...skeletonStyle, width: "100%" }}
-                            ></div>
-                          </td>
-                        </tr>
-                      </>
-                    ) : (
-                      currentItems &&
-                      currentItems.length > 0 &&
-                      currentItems.map((item) => (
-                        <ExpensesListTable
-                          key={item.id}
-                          item={item}
-                          OnEditExpense={handleEditExpen}
-                          handleDelete={handleDeleteExpense}
-                          expenceEditPermission={expenceEditPermission}
-                          expenceDeletePermission={expenceDeletePermission}
-                        />
-                      ))
-                    )}
+                    {
+                      loading ? (
+                        <>
+                          <tr>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                          </tr>
+                        </>
+                      )
+
+
+
+                        : (
+                          sortedData && sortedData.length > 0 && (
+                            <>
+                              {sortedData.map((item) => (
+            <ExpensesListTable  key={item.id}  item={item}  OnEditExpense={handleEditExpen}  handleDelete={handleDeleteExpense}
+            expenceEditPermission={expenceEditPermission}
+            expenceDeletePermission={expenceDeletePermission}
+              />
+                              ))}
+                            </>
+                          )
+
+                        )
+                    }
                   </tbody>
+
+
                 </Table>
               </div>
-            </div>
-          )}
+
+
+            )}
+
+
+          
+
+
+
+
+
+
+
 
           {!loading && currentItems && currentItems.length === 0 && (
             <div
