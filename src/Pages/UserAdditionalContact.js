@@ -18,7 +18,7 @@ function UserAdditionalContact(props) {
   const [userName, setUserName] = useState("");
   const [guardian, setGuardian] = useState("");
   const [Phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  // const [address, setAddress] = useState("");
    const [house_no, setHouseNo] = useState("");
     const [street, setStreet] = useState("");
     const [landmark, setLandmark] = useState("");
@@ -29,7 +29,7 @@ function UserAdditionalContact(props) {
   const [countryCode, setCountryCode] = useState("91");
   const [contactId, setContactId] = useState("");
   const [formError, setFormError] = useState("");
-  const [addressError, setAddressError] = useState("");
+  // const [addressError, setAddressError] = useState("");
   const [userNameError, setUserNameError] = useState("");
   const [guardianError, setGuardianError] = useState("");
   const [guardianAlreadyError, setGuardianAlreadyError] = useState("");
@@ -102,7 +102,7 @@ function UserAdditionalContact(props) {
       setUserName(props.contactEdit.user_name);
       setGuardian(props.contactEdit.guardian);
       setPhone(mobileNumber);
-      setAddress(props.contactEdit.address);
+      // setAddress(props.contactEdit.address);
       // setUserId(props.contactEdit.user_id);
       setContactId(props.contactEdit.id);
       setCountryCode(countryCode);
@@ -152,11 +152,11 @@ function UserAdditionalContact(props) {
     setFormError("");
     setGuardianError("");
   };
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
-    setFormError("");
-    setAddressError("");
-  };
+  // const handleAddress = (e) => {
+  //   setAddress(e.target.value);
+  //   setFormError("");
+  //   setAddressError("");
+  // };
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
@@ -409,12 +409,12 @@ function UserAdditionalContact(props) {
     props.setAdditionalForm(false);
     setUserName("");
     setPhone("");
-    setAddress("");
+    // setAddress("");
     setGuardian("");
     setUserNameError("");
     setGuardianError("");
     setPhoneError("");
-    setAddressError("");
+    // setAddressError("");
     setHouseNo("")
     setStreet("")
     setLandmark("")

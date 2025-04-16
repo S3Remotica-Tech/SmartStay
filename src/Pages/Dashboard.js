@@ -57,7 +57,7 @@ const newChart = [
   { name: "Jun 2024", Advance: 15000, AdvanceReturn: 14000 },
 ];
 
-function Dashboard(props) {
+function Dashboard() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
@@ -812,7 +812,7 @@ function Dashboard(props) {
                             border: "1px solid #e0e0e0",
                             borderRadius: "20px",
                             backgroundColor: "#fff",
-                            marginLeft: "-3px",
+                            // marginLeft: "-3px",
                             paddingRight: 20,
                             width: "98%",
                             marginTop: 10,
@@ -820,81 +820,84 @@ function Dashboard(props) {
                         >
                           {/* Header Section */}
                           <div
-                            style={{
-                              display: "flex",
-                              flexWrap: "wrap",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              padding: "10px 10px",
-                              marginTop: "-15px",
-                            }}
-                          >
-                            <div
-                              style={{
-                                flex: "1 1 60%",
-                                textAlign: "start",
-                                paddingLeft: 15,
-                                marginBottom: "10px",
-                              }}
-                            >
-                              <p
-                                style={{
-                                  fontFamily: "Montserrat",
-                                  fontSize: 18,
-                                  fontWeight: 600,
-                                  margin: 0,
-                                }}
-                              >
-                                Expenses Vs Revenue
-                              </p>
-                            </div>
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "10px 10px",
+    marginTop: "-15px",
+  }}
+>
+  {/* Left Side - Title */}
+  <div
+    style={{
+      flex: "1 1 60%",
+      minWidth: "200px",
+      paddingLeft: 15,
+      marginBottom: 10,
+    }}
+  >
+    <p
+      style={{
+        fontFamily: "Montserrat",
+        fontSize: 18,
+        fontWeight: 600,
+        margin: 12,
+       whiteSpace:"nowrap"
+      }}
+    >
+      Expenses Vs Revenue
+    </p>
+  </div>
 
-                            {/* Select Dropdown */}
-                            <div
-                              style={{
-                                flex: "1 1 40%",
-                                maxWidth: "300px",
-                                marginLeft: "auto",
-                                display: "flex",
-                                justifyContent: "flex-end",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  position: "relative",
-                                  width: "100%",
-                                  height: 36,
-                                }}
-                              >
-                                <select
-                                  value={selectRevenu}
-                                  onChange={(e) => handleSelectedRevenue(e)}
-                                  style={{
-                                    fontSize: 12,
-                                    color: "#4B4B4B",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 600,
-                                    boxShadow: "none",
-                                    border: "1px solid #D9D9D9",
-                                    height: 36,
-                                    width: "100%",
-                                    borderRadius: 60,
-                                    padding: "6px 10px",
-                                    appearance: "none",
-                                    background: `url(${drop}) no-repeat right 10px center`,
-                                    backgroundSize: "16px 16px",
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  <option value="six_month">
-                                    last six months
-                                  </option>
-                                  <option value="this_year">this year</option>
-                                  <option value="last_year">last year</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
+  {/* Right Side - Dropdown */}
+  <div
+    style={{
+      flex: "1 1 40%",
+      minWidth: "150px",
+      display: "flex",
+      justifyContent: "flex-end",
+    }}
+  >
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        maxWidth: 250,
+        height: 36,
+        
+      }}
+    >
+      <select
+        value={selectRevenu}
+        onChange={(e) => handleSelectedRevenue(e)}
+        style={{
+          fontSize: 12,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 600,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 36,
+          width: "100%",
+          borderRadius: 60,
+          padding: "6px 10px",
+          appearance: "none",
+          background: `url(${drop}) no-repeat right 10px center`,
+          backgroundSize: "16px 16px",
+          cursor: "pointer",
+        }}
+      >
+        <option value="six_month">last six months</option>
+        <option value="this_year">this year</option>
+        <option value="last_year">last year</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+
 
                           {/* Chart Section */}
                           <div

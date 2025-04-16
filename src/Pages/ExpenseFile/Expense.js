@@ -22,7 +22,7 @@ import dayjs from "dayjs";
 // import Filters from "../Assets/Images/Filters.svg";
 import Filters from "../../Assets/Images/Filters.svg";
 import Image from 'react-bootstrap/Image';
-import { ArrowUp2, ArrowDown2, Sort, } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2} from 'iconsax-react';
 import { useMediaQuery, useTheme } from '@mui/material'
 
 function Expenses({ allPageHostel_Id }) {

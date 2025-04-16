@@ -34,7 +34,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import Filters from "../Assets/Images/Filters.svg";
-import { ArrowUp2, ArrowDown2, SearchNormal1, Sort, } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import {CloseCircle} from "iconsax-react";
 function EB_Hostel() {
   const dispatch = useDispatch();
