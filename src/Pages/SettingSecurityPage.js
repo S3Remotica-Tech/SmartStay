@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Button from 'react-bootstrap/Button';
-
+import './SettingSecurityPage.css';
 
  const Profile_Security = () => {
 
@@ -158,12 +158,22 @@ import Button from 'react-bootstrap/Button';
 //   )}
 // </div>
 // ):
-<div className="container " style={{marginTop:26}}>
+<div className="container" 
+style={{
+  marginTop:26,
+  minHeight: '100vh',
+  // display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  paddingBottom: '150px', 
+  overflowY: 'auto',
+  }}
+>
 <div>
     <p className="cardnewsubs" style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Security</p>
 </div>
-<div className='d-flex  justify-content-between mt-2 me-2 mb-3 cardnewsubs'>
-   <div className='col-6'>
+<div className='d-flex  justify-content-between mt-2 me-2 mb-3 cardnewsubs '>
+   <div className='col-6 '>
      <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>Enable Two-factor Authentication</h6>
      <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Enhance your account security by enabling two-factor authentication. This adds an extra layer of protection, ensuring only you can access your account.</p>
    </div>
@@ -193,7 +203,7 @@ import Button from 'react-bootstrap/Button';
  </div>
 
 
- <div className='d-flex  justify-content-between me-2 cardnewsubs'>
+ <div className='d-flex  justify-content-between me-2  cardnewsubs'>
    <div className='col-6'>
      <h6 style={{ fontSize: 16, fontFamily: "Gilroy", color: '#222', lineHeight: 'normal', fontStyle: 'normal', fontWeight: 600 }}>SMS Setup</h6>
      <p style={{ fontSize: isSmallScreen ? 10 : 14, fontFamily: "Montserrat", color: '#4B4B4B', lineHeight: '19.6px', fontStyle: 'normal', fontWeight: 500 }}>Set up SMS authentication to receive security alerts and verification codes via text messages for added account protection.</p>
@@ -206,7 +216,8 @@ import Button from 'react-bootstrap/Button';
    </div>
  </div>
 
- <div className='justify-content-end mt-3'>
+ {/* <div className='justify-content-end mt-3 '> */}
+ <div className=" justify-content-end mt-3 ">
    <Button onClick={handleTwoStepVerify} disabled={!isChanged} 
   //  style={{ fontFamily: 'Montserrat', fontSize: 16, fontWeight: 500, backgroundColor: "#1E45E1", color: "white", height: 56,
   //   letterSpacing: 1, borderRadius: 12, width: 170, padding: "18px, 10px, 18px, 10px" ,marginLeft:30}}
@@ -217,13 +228,13 @@ import Button from 'react-bootstrap/Button';
     color: "white",
     fontWeight: 600,
     borderRadius: "8px",
-    padding: "12px px",
+    padding: "12px ",
     width: "auto",
     maxWidth: "100%",
     marginBottom: "10px",
     maxHeight: 50,
     marginTop: "-20px",
-
+    whiteSpace: "nowrap",
   }}
     > Save Changes</Button>
 
