@@ -139,23 +139,23 @@ function ExpensesListTable(props) {
       <input type='checkbox' className="custom-checkbox" style={customCheckboxStyle} />
     </td> */}
 
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</td>
 
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }}>
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{ fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 14, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
+          <div style={{ fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 13, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
         </div>
       </td>
 
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.description || "-"}</td>
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.unit_count}</td>
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.unit_amount}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle',  fontSize: 13,  fontWeight: 50, fontFamily: "Gilroy", color: "#000000", }}>{props.item.description || "-"}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.unit_count}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{props.item.unit_amount}</td>
 
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }}>
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{ fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
+          <div style={{ fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
             {props.item.purchase_amount}
           </div >
         </div>
@@ -164,7 +164,7 @@ function ExpensesListTable(props) {
 
       <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }}>
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{ fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 14, width: "fit-content", fontFamily: "Gilroy" }} >
+          <div style={{ fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
             {props.item.payment_mode}
           </div >
         </div>
@@ -174,7 +174,7 @@ function ExpensesListTable(props) {
 
       <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none" }} className=''>
         <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-          <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 40, width: 40, borderRadius: 100, border: "1px solid #EBEBEB", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(e)}>
+          <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 30, width: 30, borderRadius: 100, border: "1px solid #EBEBEB", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(e)}>
             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
 
             {showDots && <>
