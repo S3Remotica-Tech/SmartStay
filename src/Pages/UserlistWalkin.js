@@ -13,7 +13,7 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { MdError } from "react-icons/md";
-import { ArrowUp2, ArrowDown2, Sort, } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import PropTypes from "prop-types";
 
 function UserlistWalkin(props) {
