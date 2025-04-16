@@ -597,7 +597,10 @@ useEffect(() => {
 
  {sortedData && sortedData.length > 0 && (
 
-
+<div
+className="p-0 booking-table-userlist  booking-table"
+style={{ paddingBottom: "20px",marginLeft:"-22px" }}
+>
 
               <div
                 className='show-scrolls'
@@ -608,7 +611,7 @@ useEffect(() => {
                   // borderRadius: "24px",
                   // border: "1px solid #DCDCDC",
                   // borderBottom:"none"
-                  height: currentRowelectricity.length >= 8 || sortedData.length >= 8 ? "500px" : "auto",
+                  height: currentRowelectricity.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
                   overflow: "auto",
                   borderTop: "1px solid #E8E8E8",
                   marginBottom: 20,
@@ -626,7 +629,7 @@ useEffect(() => {
                     zIndex: 1
                   }}>
                     <tr>
-                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
                       </div>  Paying Guest</div>  </th>
@@ -636,7 +639,7 @@ useEffect(() => {
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
                       </div> Floor</div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
                       </div> Room no </div> </th>
@@ -969,7 +972,7 @@ return (
 
                 </Table>
               </div>
-
+</div>
 
             )}
 

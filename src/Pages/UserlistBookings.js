@@ -33,7 +33,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import {CloseCircle} from "iconsax-react";
+import {CloseCircle,ArrowUp2, ArrowDown2,} from "iconsax-react";
 import Select from "react-select";
 
 function Booking(props) {
@@ -825,6 +825,37 @@ if (!pattern.test(value)) {
     : customerBooking?.slice(indexOfFirstItem, indexOfLastItem);
 
 
+       const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+        
+          const sortedData = React.useMemo(() => {
+            if (!sortConfig.key) return currentItems;
+        
+            const sorted = [...currentItems].sort((a, b) => {
+              const valueA = a[sortConfig.key];
+              const valueB = b[sortConfig.key];
+        
+        
+              if (!isNaN(valueA) && !isNaN(valueB)) {
+                return sortConfig.direction === 'asc'
+                  ? valueA - valueB
+                  : valueB - valueA;
+              }
+        
+              if (typeof valueA === 'string' && typeof valueB === 'string') {
+                return sortConfig.direction === 'asc'
+                  ? valueA.localeCompare(valueB)
+                  : valueB.localeCompare(valueA);
+              }
+        
+              return 0;
+            });
+        
+            return sorted;
+          }, [currentItems, sortConfig]);
+          const handleSort = (key, direction) => {
+            setSortConfig({ key, direction });
+          };
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -922,40 +953,43 @@ if (!pattern.test(value)) {
    }}
  ></div>
 </div>
-) : currentItems?.length > 0 ? (
+) : sortedData?.length > 0 ? (
  
   <div
                 className="p-10 booking-table-userlist  booking-table"
                 style={{ paddingBottom: "20px" }}
               >
                 <div
-                  style={{
-                    // height: "400px",
-                    // height: currentItems.length >= 6 ? "380px" : "auto",
-                    // overflowY: currentItems.length >= 6 ? "auto" : "visible",
-                    borderRadius: "24px",
-                    border: "1px solid #DCDCDC",
-                    borderRight: "1px solid transparent",
-                    // borderBottom:"none"
-                  }}
-                >
+                         
+                         className='show-scrolls'
+                         style={{
+                          
+                           height: sortedData?.length >= 8 || sortedData?.length >= 8 ? "350px" : "auto",
+                           overflow: "auto",
+                           borderTop: "1px solid #E8E8E8",
+                           marginBottom: 20,
+                           marginTop: "20px",
+                           paddingRight:0,
+                           paddingLeft:0
+                           //  borderBottom:"1px solid #DCDCDC"
+                         }}
+                       >
                   <Table
-                    className="Table_Design"
                     responsive="md"
+                    // className="Table_Design"
                     style={{
-                      border: "1px solid #DCDCDC",
-                      borderBottom: "1px solid transparent",
-                      borderEndStartRadius: 0,
-                     
-                      borderEndEndRadius: 0,
+                      fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 1,
+                      borderRadius:0
                     }}
                   >
                     <thead
-                      style={{
-                        position: "sticky",
-                        top: 0,
-                        zIndex: 1,
-                      }}
+                     style={{
+                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 1
+                    }}
                     >
                       <tr>
                         <th
@@ -963,104 +997,140 @@ if (!pattern.test(value)) {
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            borderTopLeftRadius: 24,
+                            // borderTopLeftRadius: 24,
                             paddingLeft: "20px",
                           }}
                         >
-                          Name
+                           <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                     </div>
+                                                                                                      Name</div>
                         </th>
                         <th
                           style={{
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
+                            border: "none",
+                            whiteSpace:"nowrap"
+                          }}
+                        >
+                           <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_id", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_id", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                     </div>
+                                                                                                      Email ID</div>
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
+                            border: "none",
+                            whiteSpace:"nowrap"
+                          }}
+                        >
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("phone_number", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("phone_number", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                    </div>
+                                                                                                     Mobile No</div>
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
+                            border: "none",
+                            whiteSpace:"nowrap"
+                          }}
+                        >
+                           <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("createdat", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("createdat", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                     </div>
+                                                                                                      Booking Date</div>
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
+                            border: "none",
+                            whiteSpace:"nowrap"
+                          }}
+                        >
+                           <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("joining_date", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("joining_date", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                     </div>
+                                                                                                      Joining Date</div>
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
                           }}
                         >
-                          Email ID
+                           <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                     </div>
+                                                                                                      Amount</div>
                         </th>
                         <th
                           style={{
                             textAlign: "start",
                             padding: "10px",
                             color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
+                            // borderTopRightRadius: "24px",
                           }}
                         >
-                          Mobile No
+                          Action
                         </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                          }}
-                        >
-                          Booking Date
-                        </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                          }}
-                        >
-                          Joining Date
-                        </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                          }}
-                        >
-                          Amount
-                        </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                            borderTopRightRadius: "24px",
-                          }}
-                        ></th>
                       </tr>
                     </thead>
                     <tbody>
-                      {currentItems?.map((customer) => {
+                      {sortedData?.map((customer) => {
                         let Dated = new Date(customer.joining_date);
                         let day = Dated.getDate();
                         let month = Dated.getMonth();
@@ -1115,7 +1185,7 @@ if (!pattern.test(value)) {
                                 {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
                                 <span
                                   style={{
-                                    fontSize: "16px",
+                                    fontSize: "13px",
                                     fontWeight: 600,
                                     fontFamily: "Gilroy",
                                     color: "#222222",
@@ -1132,7 +1202,7 @@ if (!pattern.test(value)) {
                             </td>
                             <td
                               style={{
-                                fontSize: "16px",
+                                fontSize: "13px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                                 color: "#000000",
@@ -1158,7 +1228,7 @@ if (!pattern.test(value)) {
 
                             <td
                               style={{
-                                fontSize: "16px",
+                                fontSize: "13px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                                 color: "#000000",
@@ -1181,7 +1251,7 @@ if (!pattern.test(value)) {
                                 padding: "10px",
                                 border: "none",
                                 textAlign: "start",
-                                fontSize: "16px",
+                                fontSize: "13px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
@@ -1194,7 +1264,7 @@ if (!pattern.test(value)) {
                                   borderRadius: "60px",
                                   backgroundColor: "#EBEBEB",
                                   textAlign: "start",
-                                  fontSize: "14px",
+                                  fontSize: "11px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
                                   display: "inline-block",
@@ -1213,7 +1283,7 @@ if (!pattern.test(value)) {
                                 padding: "10px",
                                 border: "none",
                                 textAlign: "start",
-                                fontSize: "16px",
+                                fontSize: "13px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
@@ -1226,7 +1296,7 @@ if (!pattern.test(value)) {
                                   borderRadius: "60px",
                                   backgroundColor: "#EBEBEB",
                                   textAlign: "start",
-                                  fontSize: "14px",
+                                  fontSize: "11px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
                                   display: "inline-block",
@@ -1244,7 +1314,7 @@ if (!pattern.test(value)) {
                                 padding: "10px",
                                 border: "none",
                                 textAlign: "start",
-                                fontSize: "16px",
+                                fontSize: "13px",
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
@@ -1257,7 +1327,7 @@ if (!pattern.test(value)) {
                                   borderRadius: "60px",
                                   backgroundColor: "#EBEBEB",
                                   textAlign: "start",
-                                  fontSize: "14px",
+                                  fontSize: "13px",
                                   fontWeight: 500,
                                   fontFamily: "Gilroy",
                                   display: "inline-block",
