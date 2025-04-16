@@ -1042,7 +1042,8 @@ function SettingManage(props) {
             {/* <div className="d-flex align-items-center"> */}
             <div 
       // className="pt-4" 
-      className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+      // className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+       className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-md-between w-100"
       style={{
         // display: "flex", flexDirection: "row", justifyContent: "space-between", 
         position: "sticky",
@@ -1056,29 +1057,35 @@ function SettingManage(props) {
         padding: "25px"
         
       }}>
-        <div className="w-100 text-md-start text-center">
+        {/* <div className="w-100 text-md-start text-center"> */}
+        <div className="w-100 d-flex justify-content-start">
+     
                   <ArrowLeft
                     size="32"
                     color="#222222"
                     onClick={handlebackToPG}
-                    style={{ cursor: "pointer", marginLeft: "-50px"}}
+                    style={{ cursor: "pointer", 
+                     
+                      
+                    }}
                     
                   />
-
+                  <div className="w-100 text-center text-md-start mt-2 mt-md-0">
                   <label
-                    // className="ms-3"
+                    // className="ms-md-3"
                     style={{
                       fontSize: 18,
                       color: "rgba(34, 34, 34, 1)",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      marginLeft: "30px"
+                      marginLeft: "20px"
+                      // paddingLeft: 0
                     }}
                   >
                     {showHostelDetails?.Name}
                   </label>
                 </div>
-
+                </div>
                 {/* <div className="d-flex justify-content-between align-items-center">
                   <div className="me-3"> */}
                    <div className="d-flex justify-content-md-between align-items-center w-100 w-md-auto">
@@ -1087,7 +1094,7 @@ function SettingManage(props) {
                     {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
                   {/* </div> */}
                   <div 
-        className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
+        className="d-flex justify-content-center justify-content-md-end w-100 mt-4 mt-md-0"
         >
                     <Button
                       style={{
