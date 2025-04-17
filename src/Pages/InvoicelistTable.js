@@ -98,29 +98,29 @@ const InvoiceTable = (props) => {
       <tr key={props.item.id} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
 
-      <td className="table-cells" style={{ border: "none", flexWrap: "wrap", }}>
+      <td className="table-cells" style={{ border: "none", flexWrap: "wrap",whiteSpace:"nowrap", }}>
           <div className="d-flex  align-items-center">
        
           <div className="Invoice_Name" style={{
-              fontFamily: 'Gilroy', fontSize: '16px', marginLeft: '8px', color: "#1E45E1",
-              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",paddingTop:"15px"
+              fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '8px', color: "#1E45E1",
+              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",paddingTop:"15px",paddingLeft:5,
             }}
             onClick={()=>handleDownload(props.item)}
             >{props.item.Name}</div>
 
           </div>
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} className=''>{props.item.Invoices === null || props.item.Invoices === '' ? '0.00' : props.item.Invoices}</td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize" }} className=''>{props.item.action === 'auto' ? "Recurring" : props.item.action}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} className=''>{props.item.Invoices === null || props.item.Invoices === '' ? '0.00' : props.item.Invoices}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize" }} className=''>{props.item.action === 'auto' ? "Recurring" : props.item.action}</td>
 
-        <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
-        <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDueDate}</span></td>
+        <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
+        <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDueDate}</span></td>
         <td
           style={{
             border: "none",
             textAlign: 'start',
             verticalAlign: 'middle',
-            fontSize: 16,
+            fontSize: 13,
             fontWeight: 500,
             color: "#000000",
             fontFamily: "Gilroy"
@@ -136,7 +136,7 @@ const InvoiceTable = (props) => {
             border: "none",
             textAlign: 'start',
             verticalAlign: 'middle',
-            fontSize: 16,
+            fontSize: 13,
             fontWeight: 500,
             color: "#000000",
             fontFamily: "Gilroy"
@@ -149,7 +149,7 @@ const InvoiceTable = (props) => {
     border: "none",
     textAlign: "start",
     verticalAlign: "middle",
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: 500,
     fontFamily: "Gilroy",
     color: props.item.status === "Paid" ? "green" : "red", // Text color

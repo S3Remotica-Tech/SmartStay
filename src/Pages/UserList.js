@@ -2803,7 +2803,7 @@ const handleBack = () => {
                      {sortedData && sortedData.length > 0 && (
                        <div
                        className=" booking-table-userlist  booking-table"
-                       style={{ paddingBottom: "20px",marginLeft:"-20px" }}
+                       style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                      >
                         <div
                          

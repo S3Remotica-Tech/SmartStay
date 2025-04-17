@@ -362,7 +362,7 @@ function UserlistWalkin(props) {
           
     <div
     className="p-10 booking-table-userlist  booking-table"
-    style={{ paddingBottom: "20px",marginLeft:"-10px" }}
+    style={{ paddingBottom: "20px",marginLeft:"-15px" }}
   >
           
                         <div
