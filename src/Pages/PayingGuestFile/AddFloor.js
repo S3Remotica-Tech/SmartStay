@@ -269,7 +269,7 @@ function StaticExample({
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
             <Button
               onClick={handleCreateFloor}
-              className="w-100"
+              className="w-100 mt-3"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 600,

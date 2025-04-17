@@ -481,7 +481,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
 
                     </Modal.Body>
                     {errorIsChanged && (
-                            <div className="" style={{textAlign:"center"}}>
+                            <div className="mb-3 mt-2" style={{textAlign:"center"}}>
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {errorIsChanged}
@@ -492,7 +492,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
                        
 
                         {errorPermission && (
-                            <div className="d-flex align-items-center ms-3" style={{marginTop:"-10px"}}>
+                            <div className="d-flex align-items-center ms-3 mb-3 mt-2" style={{marginTop:"-10px"}}>
                                 <MdError style={{ color: "red", marginRight: '5px' }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {errorPermission}
