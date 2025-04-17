@@ -10,3 +10,11 @@
     }
   }
   
+  @media (max-width: 767.98px) {
+    .scroll-issue .table-responsive {
+      border-top-right-radius: 24px;
+      border-top-left-radius: 24px;
+      overflow: hidden;
+    }
+  }
+  
