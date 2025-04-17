@@ -2386,46 +2386,47 @@ const handleBack = () => {
                   const imagedrop = user.profile || Profile;
                   return (
                     <li
-                      key={index}
-                      className="list-group-item d-flex align-items-center"
+                    key={index}
+                    className="d-flex align-items-center hover-bg"
+                    style={{
+                      cursor: "pointer",
+                      padding: "8px",
+                      borderBottom: index !== filteredUsers.length - 1 ? "1px solid #eee" : "none",
+                      minWidth: 0,
+                      transition: "background-color 0.2s ease",
+                    }}
+                    onClick={() => handleUserSelect(user)}
+                  >
+                    <Image
+                      src={imagedrop}
+                      alt={user.Name || "Default Profile"}
+                      roundedCircle
                       style={{
-                        cursor: "pointer",
-                        padding: "10px 5px",
-                        borderBottom:
-                          index !== filteredUsers.length - 1
-                            ? "1px solid #eee"
-                            : "none",
+                        height: "30px",
+                        width: "30px",
+                        marginRight: "10px",
+                        flexShrink: 0,
                       }}
-                      onClick={() => handleUserSelect(user)}
-                    >
-                      <Image
-                        src={imagedrop}
-                        alt={user.Name || "Default Profile"}
-                        roundedCircle
-                        style={{
-                          height: "30px",
-                          width: "30px",
-                          marginRight: "10px",
-                        }}
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = Profile;
-                        }}
-                      />
-                      <span>
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = Profile;
+                      }}
+                    />
+                    <div className="text-truncate" style={{ maxWidth: "100%" }}>
+                      <span style={{ fontSize: "14px", wordBreak: "break-word" }}>
                         {value === "1"
                           ? user.Name
                           : value === "2"
-                          ? [user?.first_name, user?.last_name]
-                              .filter(Boolean)
-                              .join(" ")
+                          ? [user?.first_name, user?.last_name].filter(Boolean).join(" ")
                           : value === "3"
                           ? user.Name
                           : value === "4"
                           ? user.first_name
                           : ""}
                       </span>
-                    </li>
+                    </div>
+                  </li>
+                  
                   );
                 })}
               </ul>

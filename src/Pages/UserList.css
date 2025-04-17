@@ -639,4 +639,8 @@ General Styles
     overflow-y: auto;
   }  
 }
+
+.hover-bg:hover {
+  background-color: #d0e3ff; 
+}
   
