@@ -293,6 +293,7 @@ function SettingNewUser() {
                         borderRadius: "24px",
                         border: "1px solid #DCDCDC",
                     }}>
+                         <div className="table-responsive">
                         <Table
                             responsive="md"
                             className='Table_Design'
@@ -583,7 +584,7 @@ function SettingNewUser() {
 
                             </tbody>
                         </Table></div>
-
+                        </div>
                 ) : !loading && (
                     <div style={{ marginTop: 90, alignItems: "center", justifyContent: "center" }}>
                         <div style={{ textAlign: "center" }}>

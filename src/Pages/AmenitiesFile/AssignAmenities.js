@@ -226,9 +226,16 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
               </div>
 
 
-              <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center" style={{ position: 'relative' }}>
-                <div className="d-flex flex-column align-items-center justify-content-center" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                  <div>
+              <div 
+              
+              className="col-lg-2 col-md-2 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center mt-5 mt-lg-0" 
+              style={{ position: 'relative',
+                minHeight: '100px'
+               }}> 
+                <div 
+                className="d-flex flex-column align-items-center justify-content-center" 
+                style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                  <div className="mb-3">
                     <Image src={Forward} onClick={handleAssignUser} style={{ cursor: "pointer" }} />
                   </div>
                   <div>
@@ -238,7 +245,8 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
               </div>
 
 
-              <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              
+              <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-3 mb-lg-0">
                 <Card style={{ border: "1px solid #DCDCDC", borderRadius: 8, cursor: "pointer" }} className='h-100 ' >
                   <Card.Header style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Assigned</Card.Header>
                   <Card.Body style={{ maxHeight: 350, overflowY: "auto" }} className="show-scroll m-1 p-2">

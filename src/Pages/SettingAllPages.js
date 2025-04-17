@@ -139,11 +139,11 @@ function SettingAllPages() {
             style={{ backgroundColor: "#1E45E1", border: "1px solid #1E45E1", borderRadius: "50%", color: "white", padding: 5 }}
             >
               {isSidebarOpen ? 
-              <ArrowLeft2 
+              <ArrowRight2 
                 size="22"
                 color="#FFF"
               /> :
-                <ArrowRight2 
+                <ArrowLeft2   
                   size="22"
                   color="#FFF"
                 />
