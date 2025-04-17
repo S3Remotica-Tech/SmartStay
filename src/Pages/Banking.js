@@ -16,7 +16,7 @@ import Modal from "react-bootstrap/Modal";
 import BankingEditTransaction from "./BankingTransaction";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import {ArrowLeft2,ArrowRight2,} from "iconsax-react";
+import {ArrowLeft2,ArrowRight2,ArrowUp2, ArrowDown2,} from "iconsax-react";
 import money from "../Assets/Images/New_images/Amount.png";
 import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -400,6 +400,37 @@ function Banking() {
   const handlePageChange = (pageNumber) => {
     settransactioncurrentPage(pageNumber);
   };
+
+   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+      
+        const sortedData = React.useMemo(() => {
+          if (!sortConfig.key) return currentRowTransaction;
+      
+          const sorted = [...currentRowTransaction].sort((a, b) => {
+            const valueA = a[sortConfig.key];
+            const valueB = b[sortConfig.key];
+      
+      
+            if (!isNaN(valueA) && !isNaN(valueB)) {
+              return sortConfig.direction === 'asc'
+                ? valueA - valueB
+                : valueB - valueA;
+            }
+      
+            if (typeof valueA === 'string' && typeof valueB === 'string') {
+              return sortConfig.direction === 'asc'
+                ? valueA.localeCompare(valueB)
+                : valueB.localeCompare(valueA);
+            }
+      
+            return 0;
+          });
+      
+          return sorted;
+        }, [currentRowTransaction, sortConfig]);
+        const handleSort = (key, direction) => {
+          setSortConfig({ key, direction });
+        };
   const handleItemsPerPageChange = (event) => {
     setTransactionrowsPerPage(Number(event.target.value));
   };
@@ -1190,88 +1221,112 @@ whiteSpace: "nowrap"
           </div>
 
           <div style={{ marginTop: 30 }} className="container bankingtab-table">
-            {currentRowTransaction?.length > 0 ? (
-              <div
-                style={{
-                  // height: "400px",
-                  // height: currentRowTransaction.length >= 4 ? "240px" : "auto",
-                  // overflowY:
-                  //   currentRowTransaction.length >= 4 ? "auto" : "visible",
-                  borderRadius: "24px",
-                  border: "1px solid #DCDCDC",
-
-                  // borderBottom:"none"
-                }}
-              >
-
-                <Table
-                  responsive="md"
-                  className="Table_Design"
-                  style={{
-                    border: "1px solid #DCDCDC",
-                    borderBottom: "1px solid transparent",
-                    borderEndStartRadius: 0,
-                    borderEndEndRadius: 0,
-                  }}
-                >
-                  <thead
-                    style={{
-                      backgroundColor: "#E7F1FF",
-                      zIndex: 1,
-                      position: "sticky",
-                      top: 0,
-                    }}
-                  >
+            {sortedData?.length > 0 ? (
+             <div
+                                   className=" booking-table-userlist  booking-table"
+                                   style={{ paddingBottom: "20px",marginLeft:"-22px" }}
+                                 >
+                                    <div
+                                     
+                                      className='show-scrolls'
+                                      style={{
+                                       
+                                        height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "250px" : "auto",
+                                        overflow: "auto",
+                                        borderTop: "1px solid #E8E8E8",
+                                        marginBottom: 20,
+                                        marginTop: "20px",
+                                        paddingRight:0,
+                                        paddingLeft:0
+                                        //  borderBottom:"1px solid #DCDCDC"
+                                      }}
+                                    >
+                                      <Table
+                                        responsive="md"
+                                        // className="Table_Design"
+                                        style={{
+                                          fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                          top: 0,
+                                          zIndex: 1,
+                                          borderRadius:0
+                                        }}
+                                      >
+                                        <thead style={{
+                                                     fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                     top: 0,
+                                                     zIndex: 1
+                                                   }}>
                     <tr>
                       <th
                         style={{
                           textAlign: "start",
                           padding: "10px",
                           color: "rgb(147, 147, 147)",
-                          fontSize: "14px",
+                          fontSize: "12px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                           paddingLeft: "20px",
-                          borderTopLeftRadius: 24,
+                          whiteSpace:"nowrap"
+                          // borderTopLeftRadius: 24,
                         }}
                       >
-                        Account Name
+                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                   <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bank_name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bank_name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                  </div>
+                                                                                                 Account Name</div>
                       </th>
                       <th
                         style={{
                           textAlign: "center",
                           padding: "10px",
                           color: "rgb(147, 147, 147)",
-                          fontSize: "14px",
+                          fontSize: "12px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                         }}
                       >
-                        Date
+                         <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                   </div>
+                                                                                                    Date</div>
                       </th>
                       <th
                         style={{
                           textAlign: "start",
                           padding: "10px",
                           color: "rgb(147, 147, 147)",
-                          fontSize: "14px",
+                          fontSize: "12px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                         }}
                       >
-                        Amount
+                         <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                   </div>
+                                                                                                    Amount</div>
                       </th>
                       <th
                         style={{
                           textAlign: "start",
                           padding: "10px",
                           color: "rgb(147, 147, 147)",
-                          fontSize: "14px",
+                          fontSize: "12px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                         }}
                       >
-                        Description
+                         <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("desc", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("desc", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                   </div>
+                                                                                                    Description</div>
                       </th>
 
                       <th
@@ -1279,23 +1334,28 @@ whiteSpace: "nowrap"
                           textAlign: "start",
                           padding: "10px",
                           color: "rgb(147, 147, 147)",
-                          fontSize: "14px",
+                          fontSize: "12px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                         }}
                       >
-                        Transaction
+                         <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("type", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("type", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                   </div>
+                                                                                                    Transaction</div>
                       </th>
                       <th
                         style={{
                           textAlign: "start",
                           padding: "10px",
                           color: "rgb(147, 147, 147)",
-                          fontSize: "14px",
+                          fontSize: "12px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                         }}
-                      ></th>
+                      >Action</th>
                       <th
                         style={{
                           textAlign: "center",
@@ -1303,13 +1363,13 @@ whiteSpace: "nowrap"
                           color: "rgb(147, 147, 147)",
                           fontSize: 14,
                           fontWeight: 500,
-                          borderTopRightRadius: 24,
+                          // borderTopRightRadius: 24,
                         }}
                       ></th>
                     </tr>
                   </thead>
                   <tbody style={{ textAlign: "center" }}>
-                    {currentRowTransaction?.map((user) => {
+                    {sortedData?.map((user) => {
                       let Dated = new Date(user.date);
 
                       let day = Dated.getDate();
@@ -1340,7 +1400,7 @@ whiteSpace: "nowrap"
                         <tr
                           key={user.id}
                           style={{
-                            fontSize: "16px",
+                            fontSize: "13px",
                             fontWeight: 600,
                             textAlign: "center",
                             marginTop: 10,
@@ -1350,7 +1410,7 @@ whiteSpace: "nowrap"
                             style={{
                               border: "none",
                               textAlign: "start",
-                              fontSize: "16px",
+                              fontSize: "13px",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
                               paddingTop: 15,
@@ -1363,8 +1423,8 @@ whiteSpace: "nowrap"
                             style={{
                               paddingTop: 15,
                               border: "none",
-                              textAlign: "center",
-                              fontSize: "16px",
+                              textAlign: "start",
+                              fontSize: "13px",
                               fontWeight: 500,
                               fontFamily: "Gilroy",
                               marginTop: 10,
@@ -1379,8 +1439,8 @@ whiteSpace: "nowrap"
                                 paddingBottom: "3px",
                                 borderRadius: "60px",
                                 // backgroundColor: "#FFEFCF",
-                                textAlign: "start",
-                                fontSize: "14px",
+                                textAlign: "center",
+                                fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                               }}
@@ -1392,7 +1452,7 @@ whiteSpace: "nowrap"
                             style={{
                               border: "none",
                               textAlign: "start",
-                              fontSize: "16px",
+                              fontSize: "13px",
                               fontWeight: 500,
                               fontFamily: "Gilroy",
                               paddingTop: 15,
@@ -1404,7 +1464,7 @@ whiteSpace: "nowrap"
                             style={{
                               border: "none",
                               textAlign: "start",
-                              fontSize: "16px",
+                              fontSize: "13px",
                               fontWeight: 500,
                               fontFamily: "Gilroy",
                               paddingTop: 15,
@@ -1417,7 +1477,7 @@ whiteSpace: "nowrap"
                               paddingTop: 15,
                               border: "none",
                               textAlign: "start",
-                              fontSize: "16px",
+                              fontSize: "13px",
                               fontWeight: 500,
                               fontFamily: "Gilroy",
                               whiteSpace: "nowrap",
@@ -1438,7 +1498,7 @@ whiteSpace: "nowrap"
                                 //       ? "#FFE0B2"
                                 //       : "#FFEFCF",
                                 textAlign: "start",
-                                fontSize: "14px",
+                                fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                               }}
@@ -1581,6 +1641,8 @@ whiteSpace: "nowrap"
                   </tbody>
                 </Table>
               </div>
+              </div>
+              
             ) : (
 
               <div>

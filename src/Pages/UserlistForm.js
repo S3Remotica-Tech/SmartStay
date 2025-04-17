@@ -1611,7 +1611,7 @@ const handleBed = (selectedOption) => {
                               </Form.Group>
                             
                               {state_nameError && (
-                                <div style={{ color: "red" }}>
+                                <div style={{ color: "red",marginTop:"-15px" }}>
                                   <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
                                   <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {state_nameError}
@@ -1712,7 +1712,7 @@ const handleBed = (selectedOption) => {
                   </div>
 
                   <Button
-                    className=" col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                     className="w-100"
                     style={{
                       backgroundColor: "#1E45E1",
                       fontWeight: 600,
@@ -1720,7 +1720,7 @@ const handleBed = (selectedOption) => {
                       borderRadius: 12,
                       fontSize: 16,
                       fontFamily: "Montserrat",
-                      marginTop: 10,
+                      marginTop: 20,
                     }}
                     onClick={handleSaveUserlist}
                   >

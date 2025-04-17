@@ -1425,6 +1425,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                     </span>{" "}
                     </div>
                   </div>
+   
+
                   <div className="card mt-3" style={{ borderRadius: "24px",marginLeft:'20px' }}>
                     <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div className="d-flex align-items-center mb-3 mb-md-0">
@@ -1668,7 +1670,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                         </TabList>
                       </Box>
                     </div>
-                    <TabPanel value="1" className="px-0">
+                    <TabPanel value="1" className="px-0 mt-2">
                       <>
                         <div className="roomdetailscard">
                           <div style={{ flex: 1 }}>
@@ -3398,7 +3400,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   </div>
                                 )}
                                 <Button
-                                  className=" col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                  className="w-100"
                                   style={{
                                     backgroundColor: "#1E45E1",
                                     fontWeight: 600,
@@ -4073,7 +4075,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     borderRadius: 12,
                                     fontSize: 16,
                                     fontFamily: "Montserrat",
-                                    marginTop:"10px !importent"
+                                    marginTop:"15px !importent"
                                   }}
                                   onClick={handleSaveUserlistAddUser}
                                 >

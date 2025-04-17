@@ -1505,7 +1505,7 @@ try {
             </Col>
           </Row>
 
-          <Modal.Footer style={{ borderTop: "none" }}>
+          
             <Button
               variant="primary"
               type="submit"
@@ -1518,13 +1518,13 @@ try {
                 color: "#fff",
                 fontSize: 16,
                 fontWeight: 600,
-                fontFamily: "Gilroy",marginTop:10
+                fontFamily: "Gilroy",marginTop:20
               }}
               onClick={handleSubmit}
             >
               Add Booking
             </Button>
-          </Modal.Footer>
+          
         </Modal.Body>
       </Modal>
     </div>

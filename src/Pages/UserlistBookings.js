@@ -2489,7 +2489,7 @@ if (!pattern.test(value)) {
               <span style={{fontSize:"14px"}}>{formError}</span>
             </div>
           )}
-          <Modal.Footer style={{borderTop:"none"}}>
+        
             <Button
               variant="primary"
               type="submit"
@@ -2503,12 +2503,13 @@ if (!pattern.test(value)) {
                 fontSize: 16,
                 fontWeight: 600,
                 fontFamily: "Gilroy",
+                marginTop:20
               }}
               onClick={handleSubmit}
             >
               Save Changes
             </Button>
-          </Modal.Footer>
+        
         </Modal.Body>
         {/* </Form> */}
       </Modal>
