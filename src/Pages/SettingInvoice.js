@@ -925,7 +925,7 @@ function SettingInvoice({ hostelid }) {
                       />
                     </div>
                     {invoicedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
+                      <div className="d-flex align-items-center p-1 ">
                         <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                         <label
                           className="mb-0"
@@ -1058,7 +1058,7 @@ function SettingInvoice({ hostelid }) {
 
               <Modal.Footer style={{ border: "none" }}>
                 <Button
-                  className="w-100"
+                  className="w-100 mt-2"
                   style={{
                     backgroundColor: "#1E45E1",
                     fontWeight: 500,
@@ -1224,7 +1224,7 @@ function SettingInvoice({ hostelid }) {
                       />
                     </div>
                     {calculatedstartdateerrmsg.trim() !== "" && (
-                      <div>
+                      <div className="mt-3">
                         <p style={{ fontSize: "12px", color: "red", marginTop: "-9px", fontFamily:"Gilroy",fontWeight:500 }}
                         >
                           {calculatedstartdateerrmsg !== " " && (
@@ -1300,7 +1300,7 @@ function SettingInvoice({ hostelid }) {
                       />
                     </div>
                     {calculatedenddateerrmsg.trim() !== "" && (
-                      <div>
+                      <div className="mt-3">
                         <p style={{ fontSize: "12px", color: "red", marginTop: "-9px" , fontFamily:"Gilroy",fontWeight:500}}
                         >
                           {calculatedenddateerrmsg !== " " && (

@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { MdError } from "react-icons/md";
 import {CloseCircle} from "iconsax-react";
+import "./SettingSubscription.css";
 
 function SettingSubscription() {
    const state = useSelector((state) => state);
@@ -346,20 +347,12 @@ console.log("customerDetails", customerDetails);
   )}
 </div>
 
-
         </div>
-
 
       </div>
 
-
-      
-
-
-
-
-      <div className="modal" id="changePlanModal" data-bs-backdrop="static"  tabIndex="-1" aria-hidden="true">
-      <div className="modal-dialog modal-lg modal-dialog-centered">
+      <div className="modal fade" id="changePlanModal" data-bs-backdrop="static"  tabIndex="-1" aria-hidden="true">
+      <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Change Plan</h5>
@@ -367,7 +360,8 @@ console.log("customerDetails", customerDetails);
             <CloseCircle size="24" color="#000" onClick={handleCloseCurrentPlan} 
             style={{ cursor: 'pointer' }}/>
           </div>
-          <div className="modal-body">
+          <div className="modal-body"> 
+          
   <div className="row g-3">
     
     {/* Suite Team Plan */}

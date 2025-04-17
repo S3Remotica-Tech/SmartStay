@@ -316,7 +316,7 @@ useEffect(()=>{
           <Modal.Footer style={{ border: "none",  paddingTop: 5 }}>
             <Button
               onClick={()=>{handleSubmit()}}
-              className="w-100"
+              className="w-100 mt-3"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 600,
