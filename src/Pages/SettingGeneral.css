@@ -8,4 +8,8 @@
       overflow-y: hidden;
     }
   }
-  
+  /* @media (max-width: 900px) and (min-width: 451px) {
+    .scroll-issue {
+      max-height: 220px;
+      overflow-y: auto;
+    }} */

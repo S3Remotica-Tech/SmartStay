@@ -9,4 +9,9 @@
       overflow-y: hidden;
     }
   }
-  
+  @media only screen and (width: 540px) and (height: 720px) {
+    .scroll-issue{
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  }

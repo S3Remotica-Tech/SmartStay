@@ -9,4 +9,16 @@
       overflow-y: hidden;
     }
   }
+
+
+  @media (max-width: 991.98px) {
+ .manage-pg {
+      height: 600px !important;
+    }
+  }
   
+  @media (max-width: 767.98px) { /* sm screens (up to 767.98px) */
+    .manage-pg{
+      height: 300px !important;
+    }
+  }

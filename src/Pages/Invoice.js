@@ -5199,7 +5199,7 @@ const InvoicePage = () => {
 
                   }
 
-                  <Container fluid className="p-0">
+                  <Container fluid className="p-0 table-bills">
                     <Row
                       className={` ${DownloadReceipt
                         ? "m-0 g-2 d-flex justify-content-between"
@@ -5354,14 +5354,14 @@ const InvoicePage = () => {
                                 <div className="billstab-table"
                                   style={{
                                     // height: "400px",
-                                    // height:
-                                    //   currentReceiptData.length >= 6
-                                    //     ? "380px"
-                                    //     : "auto",
-                                    // overflowY:
-                                    //   currentReceiptData.length >= 6
-                                    //     ? "auto"
-                                    //     : "visible",
+                                    height:
+                                      currentReceiptData.length >= 6
+                                        ? "370px"
+                                        : "auto",
+                                    overflowY:
+                                      currentReceiptData.length >= 6
+                                        ? "auto"
+                                        : "visible",
                                     borderRadius: "24px",
                                     border: "1px solid #DCDCDC",
                                     // borderBottom:"none"
@@ -5478,7 +5478,8 @@ const InvoicePage = () => {
                                         ></th>
                                       </tr>
                                     </thead>
-                                    <tbody style={{ fontSize: "10px" }}>
+                                    <tbody style={{ fontSize: "10px",     minHeight: "200px",
+                                        position: "relative", }}>
                                       {
                                         currentReceiptData &&
                                         currentReceiptData.length > 0 &&

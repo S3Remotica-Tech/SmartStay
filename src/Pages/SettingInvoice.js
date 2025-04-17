@@ -501,8 +501,7 @@ function SettingInvoice({ hostelid }) {
       }
 
       <div 
-      // className="pt-4" 
-      className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+      className=" d-flex flex-column flex-md-row justify-content-between align-items-center"
       style={{
         // display: "flex", flexDirection: "row", justifyContent: "space-between", 
         position: "sticky",

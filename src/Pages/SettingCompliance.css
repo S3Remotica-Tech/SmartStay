@@ -1,4 +1,4 @@
-@media (max-width: 450px) and (min-width: 250px) {
+/* @media (max-width: 450px) and (min-width: 250px) {
     .scroll-issue {
       max-height: 300px;
       overflow-y: auto;
@@ -7,5 +7,10 @@
     body {
       overflow-y: hidden;
     }
+  } */
+  @media only screen and (width: 375px) and (height: 667px) {
+    .scroll-issue{
+      max-height: 500px;
+      overflow-y: auto;
+    }
   }
-  

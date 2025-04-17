@@ -265,8 +265,10 @@ function SettingCompliance({ hostelid }) {
  
 
     return (
-        <div  style={{ position: "relative", maxHeight: "570px",
-            overflowY: "auto",paddingLeft:10,paddingRight:10 }}>
+        <div  style={{ position: "relative",
+            //  maxHeight: "500px",
+            // overflowY: "auto",
+            paddingLeft:10,paddingRight:10 }}>
 
 
             {loading   &&
@@ -403,13 +405,13 @@ function SettingCompliance({ hostelid }) {
 
 
 
-            <div  className="scroll-issue">
+            <div  className="">
                 {/* {state.Settings.Complainttypelist && state.Settings.Complainttypelist.length > 0 ? ( */}
                 {currentRowCompliance && currentRowCompliance.length > 0 && 
                     //     {/* {state.Settings.currentRowCompliance && state.Settings.currentRowCompliance.length > 0 ? ( */}
 
                     <div className="container">
-                        <div className="row">
+                        <div className="row scroll-issue">
                             {
                                 currentRowCompliance.map((u, i) => {
                                     // state.Settings.Complainttypelist && state.Settings.Complainttypelist.map((u, i) => {
@@ -418,7 +420,9 @@ function SettingCompliance({ hostelid }) {
                                             <div className="col-12 col-sm-6 col-md-12 col-lg-4 mb-3">
                                                 <div
                                                     className="d-flex align-items-center justify-content-between p-3 border rounded w-auto"
-                                                    style={{ height: 64, width: "100%" }}
+                                                    style={{
+                                                         height: 64,
+                                                         width: "100%" }}
                                                 >
                                                     <div className="d-flex align-items-center">
                                                         <img src={message} width={24} height={24} alt="Role Icon" />
