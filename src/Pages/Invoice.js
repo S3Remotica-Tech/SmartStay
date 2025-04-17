@@ -5365,7 +5365,7 @@ const InvoicePage = () => {
 
                   }
 
-                  <Container fluid className="p-0">
+                  <Container fluid className="p-0 table-bills">
                     <Row
                       className={` ${DownloadReceipt
                         ? "m-0 g-2 d-flex justify-content-between"
@@ -5676,7 +5676,8 @@ const InvoicePage = () => {
                                         >Action</th>
                                       </tr>
                                     </thead>
-                                    <tbody style={{ fontSize: "10px" }}>
+                                    <tbody style={{ fontSize: "10px",     minHeight: "200px",
+                                        position: "relative", }}>
                                       {
                                         sortedDataReceipt &&
                                         sortedDataReceipt.length > 0 &&

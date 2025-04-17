@@ -155,8 +155,9 @@ function SettingAllPages() {
 
           <div className={`col-12 col-md-3    ${isSidebarOpen ? "d-block col-3" : "d-none  d-md-block"}`}
             style={{
-              overflowY: "auto",
-              height: "100vh",
+              // overflowY: "auto",
+              // height: "100vh",
+              height:600,
               position: "sticky",
               marginLeft: 'auto',
               top: 0,
@@ -339,9 +340,9 @@ function SettingAllPages() {
                   marginLeft: 30,
                   maxWidth: '201px',
                   maxHeight: '250px',
-                  height: "100%",
-                  overflowY: "auto",
-                  WebkitOverflowScrolling: 'touch'
+                  // height: "100%",
+                  // overflowY: "auto",
+                  // WebkitOverflowScrolling: 'touch'
                 }} >
                 <p
                   // onClick={() => {
