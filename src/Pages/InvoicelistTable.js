@@ -47,7 +47,7 @@ const InvoiceTable = (props) => {
   let Dated = new Date(props.item.Date);
 
   let day = Dated.getDate();
-  let month = Dated.getMonth() + 1; // Months are zero-based
+  let month = Dated.getMonth() + 1; 
   let year = Dated.getFullYear();
 
   let formattedDate = `${day}/${month}/${year}`;
@@ -57,7 +57,7 @@ const InvoiceTable = (props) => {
   let dueDated = new Date(props.item.DueDate);
 
   let daydue = dueDated.getDate();
-  let monthdue = dueDated.getMonth() + 1; // Months are zero-based
+  let monthdue = dueDated.getMonth() + 1; 
   let yeardue = dueDated.getFullYear();
 
   let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
