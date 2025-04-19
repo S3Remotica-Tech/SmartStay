@@ -9,7 +9,7 @@ import {
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import { ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2,ArrowUp2, ArrowDown2, } from 'iconsax-react';
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import AddUser from '../Pages/UserFile/AddUser'
@@ -176,6 +176,36 @@ function SettingNewUser() {
         setItemsPerPage(Number(event.target.value));
         setCurrentPage(1);
     };
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+        const sortedData = React.useMemo(() => {
+            if (!sortConfig.key) return currentItems;
+        
+            const sorted = [...currentItems].sort((a, b) => {
+              const valueA = a[sortConfig.key];
+              const valueB = b[sortConfig.key];
+        
+        
+              if (!isNaN(valueA) && !isNaN(valueB)) {
+                return sortConfig.direction === 'asc'
+                  ? valueA - valueB
+                  : valueB - valueA;
+              }
+        
+              if (typeof valueA === 'string' && typeof valueB === 'string') {
+                return sortConfig.direction === 'asc'
+                  ? valueA.localeCompare(valueB)
+                  : valueB.localeCompare(valueA);
+              }
+        
+              return 0;
+            });
+        
+            return sorted;
+          }, [currentItems, sortConfig]);
+          const handleSort = (key, direction) => {
+            setSortConfig({ key, direction });
+          };
 
 
 
@@ -284,91 +314,121 @@ function SettingNewUser() {
 
 
             <div className="mt-4 scroll-issue">
-                {currentItems?.length > 0 ? (
+                {sortedData?.length > 0 ? (
 
-                    <div style={{
-                        height: currentItems.length >= 6 ? "420px" : "auto",
-                        overflowY:
-                            currentItems.length >= 6 ? "auto" : "visible",
-                        borderRadius: "24px",
-                        border: "1px solid #DCDCDC",
-                    }}>
-                         <div className="table-responsive">
-                        <Table
-                            responsive="md"
-                            className='Table_Design'
-                            style={{
-                                border: "1px solid #DCDCDC",
-                                borderBottom: "1px solid transparent",
-                                borderEndStartRadius: 0,
-                                borderEndEndRadius: 0,
-                            }}
-                        >
-                            <thead style={{
-                                backgroundColor: "#E7F1FF",
-                                position: "sticky",
-                                top: 0,
-                                zIndex: 1,
-                            }}>
+                      <div
+                                           className=" booking-table-userlist  booking-table"
+                                           style={{ paddingBottom: "20px" }}
+                                         >
+                                            <div
+                                             
+                                              className='show-scrolls'
+                                              style={{
+                                               
+                                                height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "400px" : "auto",
+                                                overflow: "auto",
+                                                borderTop: "1px solid #E8E8E8",
+                                                marginBottom: 20,
+                                                marginTop: "20px",
+                                                paddingRight:0,
+                                                paddingLeft:0
+                                                //  borderBottom:"1px solid #DCDCDC"
+                                              }}
+                                            >
+                                              <Table
+                                                responsive="md"
+                                                // className="Table_Design"
+                                                style={{
+                                                  fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                  top: 0,
+                                                  zIndex: 1,
+                                                  borderRadius:0
+                                                }}
+                                              >
+                                                <thead style={{
+                                                             fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                             top: 0,
+                                                             zIndex: 1
+                                                           }}>
                                 <tr>
                                     <th
                                         style={{
                                             color: "rgb(147, 147, 147)",
                                             fontWeight: 500,
-                                            fontSize: "14px",
+                                            fontSize: "12px",
                                             fontFamily: "Gilroy",
-                                            borderTopLeftRadius: "24px",
+                                            // borderTopLeftRadius: "24px",
                                             textAlign: "start",
                                             padding: "10px",
                                             paddingLeft:"25px"
                                         }}
                                     >
-                                        Users
+                                         <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                   </div>
+                                                                                                                   Users</div>
                                     </th>
                                     <th
                                         style={{
                                             color: "rgb(147, 147, 147)",
                                             fontWeight: 500,
-                                            fontSize: "14px",
+                                            fontSize: "12px",
                                             fontFamily: "Gilroy",
                                             padding: "10px",
                                             textAlign: "start",
                                         }}
                                     >
-                                        Email
+                                        <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_Id", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_Id", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                   </div>
+                                                                                                                   Email</div>
                                     </th>
                                     <th
                                         style={{
                                             color: "rgb(147, 147, 147)",
                                             fontWeight: 500,
-                                            fontSize: "14px",
+                                            fontSize: "12px",
                                             fontFamily: "Gilroy",
                                             padding: "10px",
                                             textAlign: "start",
                                         }}
                                     >
-                                        Mobile No
+                                       <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("mobileNo", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("mobileNo", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                   </div>
+                                                                                                                   Mobile No</div>
                                     </th>
                                     <th
                                         style={{
                                             color: "rgb(147, 147, 147)",
                                             fontWeight: 500,
-                                            fontSize: "14px",
+                                            fontSize: "12px",
                                             fontFamily: "Gilroy",
                                             padding: "10px",
                                             textAlign: "start",
                                         }}
                                     >
-                                        Role
+                                         <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("role_name", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("role_name", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                   </div>
+                                                                                                                   Role</div>
                                     </th>
                                     <th
                                         style={{
                                             color: "rgb(147, 147, 147)",
                                             fontWeight: 500,
-                                            fontSize: "14px",
+                                            fontSize: "12px",
                                             fontFamily: "Gilroy",
                                             padding: "10px",
-                                            borderTopRightRadius: "24px",
+                                            // borderTopRightRadius: "24px",
                                             textAlign: "start",
                                         }}
                                     >Action</th>
@@ -376,7 +436,7 @@ function SettingNewUser() {
                             </thead>
                             <tbody>
                                 {
-                                    currentItems?.map((item, index) => {
+                                    sortedData?.map((item, index) => {
                                         // const imageUrl = item.profile || Profile;
                                         return (
                                             <tr key={index} style={{ overflowX: 'auto' }}>
@@ -410,7 +470,7 @@ function SettingNewUser() {
                                                     <span
                                                         className="Customer_Name_Hover"
                                                         style={{
-                                                            fontSize: "16px",
+                                                            fontSize: "13px",
                                                             fontWeight: 500,
                                                             fontFamily: "Gilroy",
                                                             cursor: "pointer",
@@ -425,7 +485,7 @@ function SettingNewUser() {
                                                 <td title={item.email_Id}
                                                     style={{
                                                         fontWeight: 500,
-                                                        fontSize: "16px",
+                                                        fontSize: "13px",
                                                         fontFamily: "Gilroy",
                                                         textAlign: "start",
                                                         paddingTop: 17,
@@ -442,7 +502,7 @@ function SettingNewUser() {
                                                         paddingTop: 17,
                                                         border: "none",
                                                         textAlign: "start",
-                                                        fontSize: "16px",
+                                                        fontSize: "13px",
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy",
                                                         marginTop: 10,
@@ -470,7 +530,7 @@ function SettingNewUser() {
                                                 <td title={item.role_name}
                                                     style={{
                                                         fontWeight: 500,
-                                                        fontSize: "16px",
+                                                        fontSize: "13px",
                                                         fontFamily: "Gilroy",
                                                         textAlign: "start",
                                                         paddingTop: 17,
@@ -583,7 +643,8 @@ function SettingNewUser() {
                                 }
 
                             </tbody>
-                        </Table></div>
+                        </Table>
+                        </div>
                         </div>
                 ) : !loading && (
                     <div style={{ marginTop: 90, alignItems: "center", justifyContent: "center" }}>
