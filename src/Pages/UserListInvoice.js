@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import {Button } from "react-bootstrap";
 import {
   ArrowLeft2,
-  ArrowRight2,
+  ArrowRight2, ArrowUp2, ArrowDown2
 } from "iconsax-react";
 import Edit from '../Assets/Images/Edit-blue.png';
 import Delete from '../Assets/Images/Delete_red.png';
@@ -42,6 +42,35 @@ console.log("propss",props);
     setInvoicerowsPerPage(Number(event.target.value));
     setinvoicecurrentPage(1)
   };
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  
+    const sortedData = React.useMemo(() => {
+      if (!sortConfig.key) return currentRowinvoice;
+  
+      const sorted = [...currentRowinvoice].sort((a, b) => {
+        const valueA = a[sortConfig.key];
+        const valueB = b[sortConfig.key];
+  
+        if (!isNaN(valueA) && !isNaN(valueB)) {
+          return sortConfig.direction === "asc"
+            ? valueA - valueB
+            : valueB - valueA;
+        }
+  
+        if (typeof valueA === "string" && typeof valueB === "string") {
+          return sortConfig.direction === "asc"
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        }
+  
+        return 0;
+      });
+  
+      return sorted;
+    }, [currentRowinvoice, sortConfig]);
+    const handleSort = (key, direction) => {
+      setSortConfig({ key, direction });
+    };
 
   const totalPagesinvoice = Math.ceil(
     invoiceFilterddata?.length / invoicerowsPerPage
@@ -208,126 +237,317 @@ const handleDeleteBill = (user) => {
                     </Button>
                     </div>
 
-      <div style={{
-                            // height: "400px",
-                            height: currentRowinvoice?.length >= 3 ? "270px" : "auto",
-                            overflowY: "auto",
-                            borderRadius: "24px",
-                            border: "1px solid #DCDCDC",
-                            // borderBottom:"none"
-                            marginTop:10
-                          }}>
-                           
-        <Table  responsive="md"
-                            className="Table_Design"
-                            style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}} >
-          <thead
-            style={{
-              color: "gray",
-              fontSize: "11px",
-              marginLeft: 10,
-              backgroundColor: "#E7F1FF",
-              position:"sticky",
-              top:0,
-              zIndex:1,
-            }}
-          >
+       <div
+                                                className=" booking-table-userlist  booking-table"
+                                                style={{ paddingBottom: "20px" }}
+                                              >
+                                                 {sortedData?.length > 0 && (
+                                                 <div
+                                                  
+                                                   className='show-scrolls'
+                                                   style={{
+                                                    
+                                                     height: sortedData?.length >= 4 || sortedData?.length >= 4 ? "250px" : "auto",
+                                                     overflow: "auto",
+                                                     borderTop: "1px solid #E8E8E8",
+                                                     marginBottom: 20,
+                                                     marginTop: "20px",
+                                                     paddingRight:0,
+                                                     paddingLeft:0
+                                                     //  borderBottom:"1px solid #DCDCDC"
+                                                   }}
+                                                 >
+                                                   <Table
+                                                     responsive="md"
+                                                     // className="Table_Design"
+                                                     style={{
+                                                       fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                       top: 0,
+                                                       zIndex: 1,
+                                                       borderRadius:0
+                                                     }}
+                                                   >
+                                                     <thead style={{
+                                                                  fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                                  top: 0,
+                                                                  zIndex: 1
+                                                                }}>
             <tr className="" style={{ height: "30px" }}>
               <th
                 style={{
                   textAlign: "start",
                   color: "#939393",
                   fontWeight: 500,
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
-                  paddingLeft:"20px"
+                  paddingLeft:"20px",
+                  whiteSpace:"nowrap"
                 }}
               >
-                Invoice Number
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("Invoices", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("Invoices", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Invoice Number
+                                  </div>
               </th>
               <th
                 style={{
                   color: "#939393",
                   fontWeight: 500,
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
                   textAlign: "start",
+                  whiteSpace:"nowrap"
                 }}
               >
-                Invoice Type
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("action", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("action", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Invoice Type
+                                  </div>
               </th>
               <th
                 style={{
                   color: "#939393",
                   fontWeight: 500,
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
                   textAlign: "start",
+                  whiteSpace:"nowrap"
                 }}
               >
-                Invoice Date
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("Date", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("Date", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Invoice Date
+                                  </div>
               </th>
               <th
                 style={{
                   color: "#939393",
                   fontWeight: 500,
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
                   textAlign: "start",
+                  whiteSpace:"nowrap"
                 }}
               >
-                Due Date
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("DueDate", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("DueDate", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Due Date
+                                  </div>
               </th>
 
               <th
                 style={{
                   color: "#939393",
                   fontWeight: 500,
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
                   textAlign: "start",
                 }}
               >
-                Amount
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("Amount", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("Amount", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Amount
+                                  </div>
               </th>
               <th
                 style={{
                   color: "#939393",
                   fontWeight: 500,
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
                   textAlign: "start",
                 }}
               >
-                Due
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("BalanceDue", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("BalanceDue", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Due
+                                  </div>
               </th>
 
               <th
                 style={{
                   color: "#939393",
                   fontWeight: 500,
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontFamily: "Gilroy",
                   paddingTop: "10px",
                   paddingBottom: "10px",
                   textAlign: "start",
                 }}
               >
-                Status
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("status", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("status", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Status
+                                  </div>
               </th>
-              <th></th>
+              <th  style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                }}> Action</th>
             </tr>
           </thead>
           <tbody
@@ -337,7 +557,7 @@ const handleDeleteBill = (user) => {
               verticalAlign: "middle",
             }}
           >
-            {currentRowinvoice?.map((view) => {
+            {sortedData?.map((view) => {
               let Dated = new Date(view.Date);
 
               let day = Dated.getDate();
@@ -360,9 +580,9 @@ const handleDeleteBill = (user) => {
                     style={{
                       textAlign: "start",
                       fontWeight: 500,
-                      fontSize: "16px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
-                      paddingLeft:"20px"
+                      paddingLeft:"20px", borderBottom: "1px solid #E8E8E8"
                     }}
                   >
                     {view.Invoices}
@@ -371,14 +591,14 @@ const handleDeleteBill = (user) => {
                     style={{
                       textAlign: "start",
                       fontWeight: 500,
-                      fontSize: "16px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
-                      paddingLeft:"20px"
+                      paddingLeft:"20px", borderBottom: "1px solid #E8E8E8"
                     }}
                   >
                     {view.action}
                   </td>
-                  <td style={{textAlign:"start"}}>
+                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}>
                     <span
                       style={{
                         backgroundColor: "#EBEBEB",
@@ -389,7 +609,7 @@ const handleDeleteBill = (user) => {
                         borderRadius: "10px",
                         lineHeight: "1.5em",
                         margin: "0",
-                        fontSize: "14px",
+                        fontSize: "11px",
                         fontWeight: 500,
                         fontFamily: "Gilroy",
                         textAlign:"start"
@@ -398,7 +618,7 @@ const handleDeleteBill = (user) => {
                       {formattedDate}
                     </span>
                   </td>
-                  <td style={{textAlign:"start"}}>
+                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}>
                     <span
                       style={{
                         backgroundColor: "#EBEBEB",
@@ -409,7 +629,7 @@ const handleDeleteBill = (user) => {
                         borderRadius: "10px",
                         lineHeight: "1.5em",
                         margin: "0",
-                        fontSize: "14px",
+                        fontSize: "11px",
                         fontWeight: 500,
                         fontFamily: "Gilroy",
                         textAlign:"start"
@@ -421,9 +641,10 @@ const handleDeleteBill = (user) => {
                   <td
                     style={{
                       fontWeight: 500,
-                      fontSize: "16px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       textAlign:"start"
+                      , borderBottom: "1px solid #E8E8E8"
                     }}
                   >
                     ₹{view.Amount}
@@ -431,22 +652,23 @@ const handleDeleteBill = (user) => {
                   <td
                     style={{
                       fontWeight: 500,
-                      fontSize: "16px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
-                      textAlign:"start"
+                      textAlign:"start",
+                      borderBottom: "1px solid #E8E8E8"
                     }}
                   >
                     ₹{view.BalanceDue}
                   </td>
-                  <td style={{textAlign:"start"}}>
+                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}>
                     <span
                       style={{
                         color: "black",
                         backgroundColor:
-                          view.Status === "Success" ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
+                          view.Status === "Success" ? "#D9FFD9" : "#FFD9D9", 
                         paddingLeft: "10px",
                         paddingRight: "10px",
-                        fontSize: "14px",
+                        fontSize: "11px",
                         fontWeight: 500,
                         borderRadius: "10px",
                       }}
@@ -455,7 +677,7 @@ const handleDeleteBill = (user) => {
                     </span>
                   </td>
                   {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}
-                  <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none" }} className=''>
+                  <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
                   <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
                     <div
                       style={{
@@ -603,40 +825,35 @@ const handleDeleteBill = (user) => {
           </tbody>
         </Table>
       </div>
+                                                 )}
+      </div>
     
 
       {invoiceFilterddata?.length >= 4 && (
       
-                 <nav
-                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end",
-                  padding: "10px",
-                  position: "fixed",
-                  bottom: "10px",
-                  right: "10px",
-                  backgroundColor: "#fff", // Optional: to give a background for better visibility
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
-                  borderRadius: "5px", // Optional: to make edges rounded
-                }}
-                                   >
-                                     {/* Dropdown for Items Per Page */}
-                                     <div>
-                                       <select
-                                         value={invoicerowsPerPage}
-                                         onChange={handleItemsPerPageChange}
-                                         style={{
-                                          padding: "5px",
-                                          border: "1px solid #1E45E1",
-                                          borderRadius: "5px",
-                                          color: "#1E45E1",
-                                          fontWeight: "bold",
-                                          cursor: "pointer",
-                                          outline: "none",
-                                          boxShadow: "none",
-                                        }}
-                                       >
+      <nav
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "end",
+        padding: "10px",
+      }}
+    >
+      <div>
+        <select
+          value={invoicerowsPerPage}
+          onChange={handleItemsPerPageChange}
+          style={{
+            padding: "5px",
+            border: "1px solid #1E45E1",
+            borderRadius: "5px",
+            color: "#1E45E1",
+            fontWeight: "bold",
+            cursor: "pointer",
+            outline: "none",
+            boxShadow: "none",
+          }}
+        >
                                           <option value={4}>4</option>
                                          <option value={10}>10</option>
                                          <option value={50}>50</option>
