@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import {  ArrowLeft2, ArrowRight2 } from 'iconsax-react';
+import {  ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import PropTypes from "prop-types";
 
 function UserEb(props) {
@@ -25,6 +25,36 @@ function UserEb(props) {
     setEbCurrentPage(EbpageNumber);
 
   }
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+    
+      const sortedData = React.useMemo(() => {
+        if (!sortConfig.key) return currentRowsEb;
+    
+        const sorted = [...currentRowsEb].sort((a, b) => {
+          const valueA = a[sortConfig.key];
+          const valueB = b[sortConfig.key];
+    
+          if (!isNaN(valueA) && !isNaN(valueB)) {
+            return sortConfig.direction === "asc"
+              ? valueA - valueB
+              : valueB - valueA;
+          }
+    
+          if (typeof valueA === "string" && typeof valueB === "string") {
+            return sortConfig.direction === "asc"
+              ? valueA.localeCompare(valueB)
+              : valueB.localeCompare(valueA);
+          }
+    
+          return 0;
+        });
+    
+        return sorted;
+      }, [currentRowsEb, sortConfig]);
+      const handleSort = (key, direction) => {
+        setSortConfig({ key, direction });
+      };
+  
     const handleItemsPerPageChange = (event) => {
       setEbrowsPerPage(Number(event.target.value));
       setEbCurrentPage(1)
@@ -171,40 +201,225 @@ function UserEb(props) {
     <>
 
       <div>
-
-        <div   style={{
-                            // height: "400px",
-                            height: currentRowsEb?.length >= 6? "290px" : "auto",
-                            overflowY: "auto",
-                            borderRadius: "24px",
-                            border: "1px solid #DCDCDC",
-                            // borderBottom:"none"
-                          }}>
-          <Table  responsive="md"
-                            className="Table_Design"
-                            style={{ border: "1px solid #DCDCDC",borderBottom:"1px solid transparent",borderEndStartRadius:0,borderEndEndRadius:0}}  >
-
-            <thead style={{ backgroundColor: "#E7F1FF",
-               position:"sticky",
-               top:0,
-               zIndex:1,
-             }}>
+      <div
+                                                     className=" booking-table-userlist  booking-table"
+                                                     style={{ paddingBottom: "20px" }}
+                                                   >
+                                                      {sortedData?.length > 0 && (
+                                                      <div
+                                                       
+                                                        className='show-scrolls'
+                                                        style={{
+                                                         
+                                                          height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "280px" : "auto",
+                                                          overflow: "auto",
+                                                          borderTop: "1px solid #E8E8E8",
+                                                          marginBottom: 20,
+                                                          marginTop: "20px",
+                                                          paddingRight:0,
+                                                          paddingLeft:0
+                                                          //  borderBottom:"1px solid #DCDCDC"
+                                                        }}
+                                                      >
+                                                        <Table
+                                                          responsive="md"
+                                                          // className="Table_Design"
+                                                          style={{
+                                                            fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                            top: 0,
+                                                            zIndex: 1,
+                                                            borderRadius:0
+                                                          }}
+                                                        >
+                                                          <thead style={{
+                                                                       fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                                       top: 0,
+                                                                       zIndex: 1
+                                                                     }}>
               <tr >
 
-                <th style={{ textAlign: "center", color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}>Floor</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",paddingLeft:5 }}>Room</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Start Meter</th>
+                <th style={{  color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", paddingRight: "10px", paddingTop: "10px", paddingBottom: "10px" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
+                                                    <div
+                                                      style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "2px",
+                                                      }}
+                                                    >
+                                                      <ArrowUp2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("floor_name", "asc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                      <ArrowDown2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("floor_name", "desc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                    </div>
+                                                    Floor
+                                                  </div></th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px",paddingLeft:5 }}> <div className="d-flex gap-1 align-items-center justify-content-start">
+                                                    <div
+                                                      style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "2px",
+                                                      }}
+                                                    >
+                                                      <ArrowUp2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("Room_Id", "asc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                      <ArrowDown2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("Room_Id", "desc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                    </div>
+                                                    Room
+                                                  </div></th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px",whiteSpace:"nowrap" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
+                                                    <div
+                                                      style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "2px",
+                                                      }}
+                                                    >
+                                                      <ArrowUp2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("start_meter", "asc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                      <ArrowDown2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("start_meter", "desc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                    </div>
+                                                    Start Meter
+                                                  </div></th>
 
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>End Meter</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",textAlign:"start" }}>Date</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Unit</th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px",whiteSpace:"nowrap" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
+                                                    <div
+                                                      style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "2px",
+                                                      }}
+                                                    >
+                                                      <ArrowUp2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("end_meter", "asc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                      <ArrowDown2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("end_meter", "desc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                    </div>
+                                                    End Meter
+                                                  </div></th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px",textAlign:"start" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
+                                                    <div
+                                                      style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "2px",
+                                                      }}
+                                                    >
+                                                      <ArrowUp2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("reading_date", "asc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                      <ArrowDown2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("reading_date", "desc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                    </div>
+                                                    Date
+                                                  </div></th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
+                                                    <div
+                                                      style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "2px",
+                                                      }}
+                                                    >
+                                                      <ArrowUp2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("unit", "asc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                      <ArrowDown2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("unit", "desc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                    </div>
+                                                   Unit
+                                                  </div></th>
                 {/* <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Units used</th> */}
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px",textAlign:"center" }}>Amount</th>
-                <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}></th>
+                <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
+                                                    <div
+                                                      style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "2px",
+                                                      }}
+                                                    >
+                                                      <ArrowUp2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("amount", "asc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                      <ArrowDown2
+                                                        size="10"
+                                                        variant="Bold"
+                                                        color="#1E45E1"
+                                                        onClick={() => handleSort("amount", "desc")}
+                                                        style={{ cursor: "pointer" }}
+                                                      />
+                                                    </div>
+                                                    Amount
+                                                  </div></th>
+               
               </tr>
             </thead>
             <tbody style={{ height: "50px", fontSize: "11px" ,verticalAlign:'middle'}}>
-              {currentRowsEb?.map((u) => {
+              {sortedData?.map((u) => {
                 let Dated = new Date(u.reading_date);
 
                 let day = Dated.getDate();
@@ -215,131 +430,15 @@ function UserEb(props) {
                 return (
                   <tr key={u.id} style={{ lineHeight: "20px" }}>
 
-                    <td style={{ textAlign: "center", fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.floor_name}</td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy",}}>{u.Room_Id}</td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>₹{u.start_meter}</td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy"}}>{u.end_meter}</td>
-                    <td> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.unit}</td>
+                    <td style={{  fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8",paddingTop:10 }}>{u.floor_name}</td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}}>{u.Room_Id}</td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>₹{u.start_meter}</td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}}>{u.end_meter}</td>
+                    <td style={{borderBottom: "1px solid #E8E8E8"}}> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "11px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>{u.unit}</td>
                     {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td> */}
-                    <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy",textAlign:"center" }}>{u.amount}</td>
-                    <td style={{ cursor: "pointer" }}>
-                      {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000,
-                        }}
-                    
-                        onClick={(e) => handleShowDots(u.eb_Id,e)}
-                      
-                      >
-                        <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-
-                        {activeId === u.eb_Id && (
-                                    <>
-                                      <div
-                                        ref={popupRef}
-                                        style={{
-                                          cursor: "pointer",
-                                          backgroundColor: "#fff",
-                                          position: "fixed",
-                                          top: popupPosition.top,
-                                          left: popupPosition.left,
-                                          // position: "absolute",
-                                          // right: 50,
-                                          // top: 20,
-                                          width: 163,
-                                          height: "auto",
-                                          border: "1px solid #EBEBEB",
-                                          borderRadius: 10,
-                                          display: "flex",
-                                          justifyContent: "start",
-                                          padding: 10,
-                                          alignItems: "center",
-                                          zIndex: showDots ? 1000 : "auto",
-                                        }}
-                                      >
-                                        <div
-                                          style={{ backgroundColor: "#fff" }}
-                                          className=""
-                                        >
-                                          <div
-                                            className={"mb-3 d-flex justify-content-start align-items-center gap-2"}
-                                            style={{
-                                              // backgroundColor: props.ebEditPermission ? "#f9f9f9" : "#fff",
-                                              cursor: props.ebEditPermission ? "not-allowed" : "pointer",
-                                            }}
-                                          
-                                            // onClick={() => {
-                                            //   if (!props.ebEditPermission) {
-                                            //     handleEditRoomReading(u);
-                                            //   }
-                                            // }}
-                                            
-                                            
-                                          >
-                                            <img
-                                              src={Edit}
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                filter: props.ebEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
-                                              }}
-                                              alt="Edit"
-                                            />
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: props.ebEditPermission ? "#ccc" : "#222222",
-                                                cursor: props.ebEditPermission ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Edit
-                                            </label>
-                                          </div>
-
-
-
-                                          <div
-                                            className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
-                                            style={{
-                                              // backgroundColor: props.ebDeletePermission ? "#f9f9f9" : "#fff",
-                                              cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
-                                            }}
-                                              // onClick={() => {
-                                            //   if (!props.ebDeletePermission) {
-                                            //     handleDeleteShow(u);
-                                            //   }
-                                            // }}
-                                          >
-                                            <img
-                                              src={Delete}
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                filter: props.ebDeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
-                                              }}
-                                              alt="Delete"
-                                            />
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: props.ebDeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
-                                                cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Delete
-                                            </label>
-                                          </div>
-
-                                        </div>
-                                      </div>
-                                    </>
-                                  )}
-                      </div> */}
-                    
-                    </td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>{u.amount}</td>
+                   
 
                   </tr>
                 )
@@ -355,39 +454,33 @@ function UserEb(props) {
           </Table>
 
         </div>
-
+      )}
+      </div>
         {EbFilterddata?.length >= 6 && (
 
-           <nav
-           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "end",
-            padding: "10px",
-            position: "fixed",
-            bottom: "10px",
-            right: "10px",
-            backgroundColor: "#fff", // Optional: to give a background for better visibility
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Optional: to add some shadow
-            borderRadius: "5px", // Optional: to make edges rounded
-          }}
-                             >
-                               {/* Dropdown for Items Per Page */}
-                               <div>
-                                 <select
-                                   value={EbrowsPerPage}
-                                   onChange={handleItemsPerPageChange}
-                                   style={{
-                                    padding: "5px",
-                                    border: "1px solid #1E45E1",
-                                    borderRadius: "5px",
-                                    color: "#1E45E1",
-                                    fontWeight: "bold",
-                                    cursor: "pointer",
-                                    outline: "none",
-                                    boxShadow: "none",
-                                  }}
-                                 >
+<nav
+style={{
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "end",
+  padding: "10px",
+}}
+>
+<div>
+  <select
+    value={EbrowsPerPage}
+    onChange={handleItemsPerPageChange}
+    style={{
+      padding: "5px",
+      border: "1px solid #1E45E1",
+      borderRadius: "5px",
+      color: "#1E45E1",
+      fontWeight: "bold",
+      cursor: "pointer",
+      outline: "none",
+      boxShadow: "none",
+    }}
+  >
                                     <option value={6}>6</option>
                                    <option value={10}>10</option>
                                    <option value={50}>50</option>

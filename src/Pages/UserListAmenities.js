@@ -1,17 +1,17 @@
-/* eslint-disable react-hooks/exhaustive-deps */ 
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import {  Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
-import {ArrowLeft2, ArrowRight2,} from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Modal from "react-bootstrap/Modal";
-import { Button, Form, } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import cross from "../Assets/Images/cross.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import "./UserList.css";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
@@ -30,9 +30,9 @@ function UserListAmenities(props) {
 
   const handleselect = (selectedOption) => {
     const value = selectedOption?.value || "";
-  
+
     setselectAmneties(value);
-  
+
     if (value === "") {
       setamnityError("Please select a valid amenity Id");
       setaddamenityShow(false);
@@ -40,11 +40,13 @@ function UserListAmenities(props) {
     } else {
       setamnityError("");
     }
-  
-    const amenitiesHistory = state.UsersList?.amnetieshistory?.filter((item) => {
-      return String(item.amenity_Id) === String(value);
-    });
-  
+
+    const amenitiesHistory = state.UsersList?.amnetieshistory?.filter(
+      (item) => {
+        return String(item.amenity_Id) === String(value);
+      }
+    );
+
     if (amenitiesHistory && amenitiesHistory.length > 0) {
       if (amenitiesHistory[0].status === 0) {
         setaddamenityShow(true);
@@ -91,27 +93,22 @@ function UserListAmenities(props) {
       }
     });
   }
-  
 
   const [statusAmni, setStatusAmni] = useState(false);
   const [statusShow, setstatusShow] = useState(false);
-  const[selectError,setSelectError] = useState("")
+  const [selectError, setSelectError] = useState("");
 
   const handleStatusAmnities = (e) => {
     setStatusAmni(e.target.value);
-    setSelectError("")
+    setSelectError("");
   };
   const validateAssignField = (value, fieldName) => {
-    if (
-      !value ||
-      value === "Select Status" 
-      
-    ) {
+    if (!value || value === "Select Status") {
       switch (fieldName) {
         case "statusAmni":
           setSelectError("Status is Required");
           break;
-        
+
         default:
           break;
       }
@@ -121,35 +118,35 @@ function UserListAmenities(props) {
         case "statusAmni":
           setSelectError("");
           break;
-       
+
         default:
           break;
       }
       return true;
     }
   };
-const handleAmnitiesSelect = ()=>{
-  if (!validateAssignField(statusAmni, "statusAmni"));
-  if (statusAmni === "Select Status" || selectError) {
-    setSelectError("Please Select a Valid Status");
-    return;
-  }
-  if (statusAmni && statusShow) {
-    dispatch({
-      type: "AddUserAmnities",
-      payload: {
-        userID: props.customerUser_Id,
-        amenityID: selectAmneties,
-        Status:statusAmni,
-        hostelID: props.hostelIds,
-      },
-    });
-    setStatusAmni("");
-    setselectAmneties("");
-  }
-}
+  const handleAmnitiesSelect = () => {
+    if (!validateAssignField(statusAmni, "statusAmni"));
+    if (statusAmni === "Select Status" || selectError) {
+      setSelectError("Please Select a Valid Status");
+      return;
+    }
+    if (statusAmni && statusShow) {
+      dispatch({
+        type: "AddUserAmnities",
+        payload: {
+          userID: props.customerUser_Id,
+          amenityID: selectAmneties,
+          Status: statusAmni,
+          hostelID: props.hostelIds,
+        },
+      });
+      setStatusAmni("");
+      setselectAmneties("");
+    }
+  };
   const handleAddUserAmnities = () => {
-    if(selectAmneties){
+    if (selectAmneties) {
       dispatch({
         type: "AddUserAmnities",
         payload: {
@@ -159,59 +156,87 @@ const handleAmnitiesSelect = ()=>{
         },
       });
     }
-      
-      setStatusAmni("");
-      setselectAmneties("");
-    
+
+    setStatusAmni("");
+    setselectAmneties("");
   };
-
-  
-
+  const [activeDotsId, setActiveDotsId] = useState(null);
   const handleEdit = (v) => {
+    setActiveDotsId((prev) => (prev === v.id ? null : v.id));
     setaddamenityShow(true);
     setstatusShow(true);
     setselectAmneties(v.amenity_Id);
   };
-  const handleFormClose = ()=>{
-    setSelectError("")
+  const handleFormClose = () => {
+    setSelectError("");
     setaddamenityShow(false);
-    dispatch({type:'CLEAR_ERROR_USER_AMENITIES'})
-  }
+    setActiveDotsId(null)
+    dispatch({ type: "CLEAR_ERROR_USER_AMENITIES" });
+  };
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser === 200) {
-      handleFormClose()
+      handleFormClose();
     }
   }, [state.UsersList.statusCustomerAddUser]);
 
-  const [amentiesrowsPerPage, setAmentiesrowsPerPage] = useState(10);
+  const [amentiesrowsPerPage, setAmentiesrowsPerPage] = useState(2);
   const [amnitiescurrentPage, setAmnitycurrentPage] = useState(1);
   const [amnitiesFilterddata, setamnitiesFilterddata] = useState([]);
   const indexOfLastRowamneties = amnitiescurrentPage * amentiesrowsPerPage;
   const indexOfFirstRowamnities = indexOfLastRowamneties - amentiesrowsPerPage;
-  const currentRowAmnities = amnitiesFilterddata?.slice(indexOfFirstRowamnities,indexOfLastRowamneties);
+  const currentRowAmnities = amnitiesFilterddata?.slice(
+    indexOfFirstRowamnities,
+    indexOfLastRowamneties
+  );
 
-  console.log(" amnitiesFilterddata", amnitiesFilterddata)
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return currentRowAmnities;
+
+    const sorted = [...currentRowAmnities].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === "asc"
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      if (typeof valueA === "string" && typeof valueB === "string") {
+        return sortConfig.direction === "asc"
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [currentRowAmnities, sortConfig]);
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
+
+  console.log(" amnitiesFilterddata", amnitiesFilterddata);
 
   const handleAmnitiesPageChange = (amnitiespageNumber) => {
     setAmnitycurrentPage(amnitiespageNumber);
+    
   };
   const handleItemsPerPageChange = (event) => {
     setAmentiesrowsPerPage(Number(event.target.value));
+    setAmnitycurrentPage(1)
   };
 
   const totalPagesAmnities = Math.ceil(
     amnitiesFilterddata?.length / amentiesrowsPerPage
   );
 
- 
-
   useEffect(() => {
     setamnitiesFilterddata(state.UsersList?.amnetieshistory);
   }, [state.UsersList?.amnetieshistory]);
-
- 
-
 
   return (
     <div className="container mt-3">
@@ -228,79 +253,83 @@ const handleAmnitiesSelect = ()=>{
               }}
             >
               {" "}
-              Please add a &apos;Amenities&apos; option in Settings, accessible after
-              assign an amenities.
+              Please add a &apos;Amenities&apos; option in Settings, accessible
+              after assign an amenities.
             </label>
           </>
         )}
 
-      <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12" style={{marginTop:"-10px"}}>
+      <div
+        className="col-lg-8 col-md-8 col-sm-12 col-xs-12"
+        style={{ marginTop: "-10px" }}
+      >
         <Form.Label
           style={{ fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy" }}
         >
           Amenities
         </Form.Label>
-        <Select 
- 
-  // isDisabled={edit} // if you want to disable based on a flag
-  placeholder="Select an Amenities"
-  value={
-    state.UsersList?.customerdetails?.all_amenities
-      ?.find((item) => item.Amnities_Id === selectAmneties)
-      ? {
-          value: selectAmneties,
-          label: state.UsersList.customerdetails.all_amenities.find(
-            (item) => item.Amnities_Id === selectAmneties
-          )?.Amnities_Name,
-        }
-      : null
-  }
-  onChange={handleselect}
-  options={state.UsersList?.customerdetails?.all_amenities?.map((item) => ({
-    value: item.Amnities_Id,
-    label: item.Amnities_Name,
-  }))}
-   classNamePrefix="custom"
-  menuPlacement="auto"
-  styles={{
-    menu: (base) => ({
-      ...base,
-      maxHeight: "170px",
-      overflowY: "auto",
-      zIndex: 9999,
-    }),
-    menuList: (base) => ({
-      ...base,
-      maxHeight: "170px",
-      overflowY: "auto",
-      padding: 0,
-      scrollbarWidth: "thin",
-      cursor:"pointer"
-    }),
-    control: (base) => ({
-      ...base,
-      fontSize: 16,
-      borderRadius: 8,
-      border: "1px solid #D9D9D9",
-      height: 50,
-      fontWeight: 500,
-      fontFamily: "Gilroy, sans-serif",
-      boxShadow: "none",
-      boxShadowColor: "none",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      cursor: "pointer",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer", 
-      backgroundColor: state.isFocused ? "#f0f0f0" : "white", 
-      color: "#000",
-    }),
-  }}
-  
-/>
+        <Select
+          // isDisabled={edit} // if you want to disable based on a flag
+          placeholder="Select an Amenities"
+          value={
+            state.UsersList?.customerdetails?.all_amenities?.find(
+              (item) => item.Amnities_Id === selectAmneties
+            )
+              ? {
+                  value: selectAmneties,
+                  label: state.UsersList.customerdetails.all_amenities.find(
+                    (item) => item.Amnities_Id === selectAmneties
+                  )?.Amnities_Name,
+                }
+              : null
+          }
+          onChange={handleselect}
+          options={state.UsersList?.customerdetails?.all_amenities?.map(
+            (item) => ({
+              value: item.Amnities_Id,
+              label: item.Amnities_Name,
+            })
+          )}
+          classNamePrefix="custom"
+          menuPlacement="auto"
+          styles={{
+            menu: (base) => ({
+              ...base,
+              maxHeight: "170px",
+              overflowY: "auto",
+              zIndex: 9999,
+            }),
+            menuList: (base) => ({
+              ...base,
+              maxHeight: "170px",
+              overflowY: "auto",
+              padding: 0,
+              scrollbarWidth: "thin",
+              cursor: "pointer",
+            }),
+            control: (base) => ({
+              ...base,
+              fontSize: 16,
+              borderRadius: 8,
+              border: "1px solid #D9D9D9",
+              height: 50,
+              fontWeight: 500,
+              fontFamily: "Gilroy, sans-serif",
+              boxShadow: "none",
+              boxShadowColor: "none",
+            }),
+            dropdownIndicator: (base) => ({
+              ...base,
+              cursor: "pointer",
+            }),
+            option: (base, state) => ({
+              ...base,
+              cursor: "pointer",
+              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+              color: "#000",
+            }),
+          }}
+        />
         {amnityError && (
           <div style={{ color: "red" }}>
             {" "}
@@ -324,23 +353,20 @@ const handleAmnitiesSelect = ()=>{
         onHide={handleFormClose}
         backdrop="static"
         centered
-        
       >
-       <Modal.Header
-                          style={{ position: "relative" }}
-                        >
-                          <div
-                            style={{
-                              // marginTop: -20,
-                              fontSize: 18,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy", textAlign: "start",
-      
-                            }}
-                          >
-                           Add Amenities
-                          </div>
-                          {/* <button
+        <Modal.Header style={{ position: "relative" }}>
+          <div
+            style={{
+              // marginTop: -20,
+              fontSize: 18,
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              textAlign: "start",
+            }}
+          >
+            Add Amenities
+          </div>
+          {/* <button
                             type="button"
                             className="close"
                             aria-label="Close"
@@ -371,9 +397,13 @@ const handleAmnitiesSelect = ()=>{
                               &times;
                             </span>
                           </button> */}
-                          <CloseCircle size="24" color="#000" onClick={handleFormClose} 
-            style={{ cursor: 'pointer' }}/>
-                        </Modal.Header>
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleFormClose}
+            style={{ cursor: "pointer" }}
+          />
+        </Modal.Header>
 
         <Modal.Body>
           <div className="mb-3 ps-2 pe-2">
@@ -483,7 +513,7 @@ const handleAmnitiesSelect = ()=>{
                   backgroundColor: "#f8f9fa",
                   height: 45,
                   borderRadius: 8,
-                  opacity:1,
+                  opacity: 1,
                 }}
               >
                 <option
@@ -499,27 +529,26 @@ const handleAmnitiesSelect = ()=>{
                 <option value="1">Active</option>
                 <option value="0">In Active</option>
               </Form.Select>
-               {selectError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                        <label
-                                          className="mb-0"
-                                          style={{
-                                            color: "red",
-                                            fontSize: "12px",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {selectError}
-                                        </label>
-              
-                                      </div>
-                                    )}
+              {selectError && (
+                <div style={{ color: "red" }}>
+                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <label
+                    className="mb-0"
+                    style={{
+                      color: "red",
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {selectError}
+                  </label>
+                </div>
+              )}
             </div>
           )}
         </Modal.Body>
-       
+
         <Modal.Footer className="d-flex justify-content-center">
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
@@ -581,345 +610,500 @@ const handleAmnitiesSelect = ()=>{
             );
           })}
       </div>
-      <div className="show-scroll-amnities"
-        style={{
-          // height: "400px",
-          height: currentRowAmnities.length >= 1 ? "110px" : "auto",
-          overflowY: "auto",
-          borderRadius: "24px",
-          border: "1px solid #DCDCDC",
-          // borderBottom:"none"
-        }}
+      <div
+        className=" booking-table-userlist  booking-table"
       >
-        <Table
-          responsive="md"
-          className="Table_Design "
+          {sortedData?.length > 0 && (
+        <div
+          className="show-scrolls"
           style={{
-            border: "1px solid #DCDCDC",
-            borderBottom: "1px solid transparent",
-            borderEndStartRadius: 0,
-            borderEndEndRadius: 0,
+            height:
+              sortedData?.length >= 1 || sortedData?.length >= 1
+                ? "135px"
+                : "auto",
+            overflow: "auto",
+            borderTop: "1px solid #E8E8E8",
+            marginBottom: 20,
+            paddingRight: 0,
+            paddingLeft: 0,
+            //  borderBottom:"1px solid #DCDCDC"
           }}
         >
-          <thead style={{ backgroundColor: "#E7F1FF",
-             position:"sticky",
-             top:0,
-             zIndex:1,
-           }}>
-            <tr>
-              <th
-                scope="col"
-                style={{
-                  textAlign: "center",
-                  color: "#939393",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  fontFamily: "Gilroy",
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
-                }}
-              >
-                Amenities
-              </th>
-              <th
-                scope="col"
-                style={{
-                  color: "#939393",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  fontFamily: "Gilroy",
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
-                }}
-              >
-                Date
-              </th>
-              <th
-                scope="col"
-                style={{
-                  color: "#939393",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  fontFamily: "Gilroy",
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
-                }}
-              >
-                Subscription
-              </th>
-              <th
-                scope="col"
-                style={{
-                  color: "#939393",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  fontFamily: "Gilroy",
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
-                }}
-              >
-                Amount
-              </th>
-              <th
-                scope="col"
-                style={{
-                  color: "#939393",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  fontFamily: "Gilroy",
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
-                }}
-              >
-                Status
-              </th>
-              <th scope="col"   style={{
-                  color: "#939393",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  fontFamily: "Gilroy",
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
-                }}></th>
-            </tr>
-          </thead>
-
-         
-          <tbody  style={{ verticalAlign: "middle" }}>
-            {currentRowAmnities &&
-              currentRowAmnities?.map((v) => {
-                let Datform = new Date(v.created_At);
-
-                let day = Datform.getDate();
-                let month = Datform.getMonth() + 1;
-                let year = Datform.getFullYear();
-
-                let formattedDate = `${day}/${month}/${year}`;
-
-                return (
-                  <tr key={v.amenity_Id} style={{ marginTop: 30 }}>
-                    <td
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 500,
-                        fontSize: "16px",
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      {v.Amnities_Name}
-                    </td>
-                    <td>
-                      <span
-                        style={{
-                          backgroundColor: "#EBEBEB",
-                          padding: "3px 3px 3px 3px",
-                          borderRadius: "10px",
-                          lineHeight: "1.5em",
-                          margin: "0",
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        {formattedDate}
-                      </span>
-                    </td>
-                    <td
-                      style={{
-                        fontWeight: 500,
-                        fontSize: "16px",
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      {v.month_name}
-                    </td>
-                    <td
-                      style={{
-                        fontWeight: 500,
-                        fontSize: "16px",
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      {v.Amount}
-                    </td>
-                    <td
-                      style={{
-                        fontWeight: 500,
-                        fontSize: "16px",
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: "black",
-                          backgroundColor:
-                            v.status === 1 ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
-                          paddingTop: "2px",
-                          paddingLeft: "10px",
-                          paddingRight: "10px",
-                          paddingBottom: "2px",
-                          borderRadius: "5px",
-                        }}
-                      >
-                        {v.status === 1 ? "Active" : "Inactive"}
-                      </span>
-                    </td>
-                    <td>
-                      <div
-                        onClick={() => handleEdit(v)}
-                        style={{
-                          cursor: "pointer",
-                          height: 40,
-                          width: 40,
-                          borderRadius: 100,
-                          border: "1px solid #EFEFEF",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          position: "relative",
-                          // zIndex: 1000,
-                          
-                        }}
-                      >
-                        <PiDotsThreeOutlineVerticalFill
-                          style={{ height: 20, width: 20 }}
-                        />
-                      </div>
-
-                      {/* <img src={dottt} style={{ height: 40, width: 40,cursor:"pointer" }}  alt="edit" /> */}
-                    </td>
-                  </tr>
-                );
-              })}
-            {currentRowAmnities.length === 0 && (
-              <tr>
-                <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
-                  No data found
-                </td>
-              </tr>
-            )}
-          </tbody>
-          
-        </Table>
-      </div>
-       {amnitiesFilterddata?.length >= 1 && (
-<> 
-
-        <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "end", 
-            padding: "10px",
-         
-          }}
-        >
-                   <div>
-            <select
-              value={amentiesrowsPerPage}
-              onChange={handleItemsPerPageChange}
+          <Table
+            responsive="md"
+            // className="Table_Design"
+            style={{
+              fontFamily: "Gilroy",
+              color: "rgba(34, 34, 34, 1)",
+              fontSize: 14,
+              fontStyle: "normal",
+              fontWeight: 500,
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+              borderRadius: 0,
+            }}
+          >
+            <thead
               style={{
-                padding: "5px",
-                border: "1px solid #1E45E1",
-                borderRadius: "5px",
-                color: "#1E45E1",
-                fontWeight: "bold",
-                cursor: "pointer",
-                outline: "none",
-                boxShadow: "none",
+                fontFamily: "Gilroy",
+                backgroundColor: "rgba(231, 241, 255, 1)",
+                color: "rgba(34, 34, 34, 1)",
+                fontSize: 12,
+                fontStyle: "normal",
+                fontWeight: 500,
+                position: "sticky",
+                top: 0,
+                zIndex: 1,
               }}
             >
-              <option value={1}>1</option>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
-          </div>
+              <tr>
+                <th
+                  scope="col"
+                  style={{
+                    textAlign: "center",
+                    color: "#939393",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  {/* Amenities */}
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <ArrowUp2
+                        size="10"
+                        variant="Bold"
+                        color="#1E45E1"
+                        onClick={() => handleSort("Amnities_Name", "asc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                      <ArrowDown2
+                        size="10"
+                        variant="Bold"
+                        color="#1E45E1"
+                        onClick={() => handleSort("Amnities_Name", "desc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </div>
+                    Amenities
+                  </div>
+                </th>
+                <th
+                  scope="col"
+                  style={{
+                    color: "#939393",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <ArrowUp2
+                        size="10"
+                        variant="Bold"
+                        color="#1E45E1"
+                        onClick={() => handleSort("created_At", "asc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                      <ArrowDown2
+                        size="10"
+                        variant="Bold"
+                        color="#1E45E1"
+                        onClick={() => handleSort("created_At", "desc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </div>
+                    Date
+                  </div>
+                </th>
+                <th
+                  scope="col"
+                  style={{
+                    color: "#939393",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  {/* Subscription */}
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <ArrowUp2
+                        size="10"
+                        variant="Bold"
+                        color="#1E45E1"
+                        onClick={() => handleSort("month_name", "asc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                      <ArrowDown2
+                        size="10"
+                        variant="Bold"
+                        color="#1E45E1"
+                        onClick={() => handleSort("month_name", "desc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </div>
+                    Subscription
+                  </div>
+                </th>
+                <th
+                  scope="col"
+                  style={{
+                    color: "#939393",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <ArrowUp2
+                        size="10"
+                        variant="Bold"
+                        color="#1E45E1"
+                        onClick={() => handleSort("Amount", "asc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                      <ArrowDown2
+                        size="10"
+                        variant="Bold"
+                        color="#1E45E1"
+                        onClick={() => handleSort("Amount", "desc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </div>
+                    Amount
+                  </div>
+                </th>
+                <th
+                  scope="col"
+                  style={{
+                    color: "#939393",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <ArrowUp2
+                        size="10"
+                        variant="Bold"
+                        color="#1E45E1"
+                        onClick={() => handleSort("status", "asc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                      <ArrowDown2
+                        size="10"
+                        variant="Bold"
+                        color="#1E45E1"
+                        onClick={() => handleSort("status", "desc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </div>
+                    Status
+                  </div>
+                </th>
+                <th
+                  scope="col"
+                  style={{
+                    color: "#939393",
+                    fontWeight: 500,
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  Action
+                </th>
+              </tr>
+            </thead>
 
-          {/* Pagination Controls */}
-          <ul
+            <tbody style={{ verticalAlign: "middle" }}>
+              {sortedData &&
+                sortedData?.map((v) => {
+                  let Datform = new Date(v.created_At);
+
+                  let day = Datform.getDate();
+                  let month = Datform.getMonth() + 1;
+                  let year = Datform.getFullYear();
+
+                  let formattedDate = `${day}/${month}/${year}`;
+
+                  return (
+                    <tr key={v.amenity_Id} style={{ marginTop: 30 }}>
+                      <td
+                        style={{
+                          textAlign: "start",
+                          fontWeight: 500,
+                          fontSize: "13px",
+                          fontFamily: "Gilroy",
+                          paddingLeft:15, borderBottom: "1px solid #E8E8E8"
+
+                        }}
+                      >
+                        {v.Amnities_Name}
+                      </td>
+                      <td style={{borderBottom: "1px solid #E8E8E8"}}>
+                        <span
+                          style={{
+                            backgroundColor: "#EBEBEB",
+                            padding: "3px 3px 3px 3px",
+                            borderRadius: "10px",
+                            lineHeight: "1.5em",
+                            margin: "0",
+                            fontSize: 13,
+                            fontWeight: 500,
+                            fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                          }}
+                        >
+                          {formattedDate}
+                        </span>
+                      </td>
+                      <td
+                        style={{
+                          fontWeight: 500,
+                          fontSize: "13px",
+                          fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                        }}
+                      >
+                        {v.month_name}
+                      </td>
+                      <td
+                        style={{
+                          fontWeight: 500,
+                          fontSize: "13px",
+                          fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                        }}
+                      >
+                        {v.Amount}
+                      </td>
+                      <td
+                        style={{
+                          fontWeight: 500,
+                          fontSize: "13px",
+                          fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                        }}
+                      >
+                        <span
+                          style={{
+                            color: "black",
+                            backgroundColor:
+                              v.status === 1 ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
+                            paddingTop: "2px",
+                            paddingLeft: "10px",
+                            paddingRight: "10px",
+                            paddingBottom: "2px",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          {v.status === 1 ? "Active" : "Inactive"}
+                        </span>
+                      </td>
+                      <td style={{ borderBottom: "1px solid #E8E8E8"}}>
+                        <div
+                          onClick={() => handleEdit(v)}
+                          style={{
+                            cursor: "pointer",
+                            height: 40,
+                            width: 40,
+                            borderRadius: 100,
+                            border: "1px solid #EFEFEF",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            position: "relative",
+                            backgroundColor: activeDotsId === v.id ? "#E7F1FF" : "white", 
+                            // color: activeDotsId === v.id ? "white" : "black", 
+                            // zIndex: 1000,
+                          }}
+                        >
+                          <PiDotsThreeOutlineVerticalFill
+                            style={{ height: 20, width: 20 }}
+                          />
+                        </div>
+
+                        {/* <img src={dottt} style={{ height: 40, width: 40,cursor:"pointer" }}  alt="edit" /> */}
+                      </td>
+                    </tr>
+                  );
+                })}
+              {currentRowAmnities.length === 0 && (
+                <tr>
+                  <td colSpan="6" style={{ textAlign: "center", color: "red" }}>
+                    No data found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
+          )}
+      </div>
+      {amnitiesFilterddata?.length >= 1 && (
+        <>
+          <nav
             style={{
               display: "flex",
               alignItems: "center",
-              listStyleType: "none",
-              margin: 0,
-              padding: 0,
+              justifyContent: "end",
+              padding: "10px",
             }}
           >
-            {/* Previous Button */}
-            <li style={{ margin: "0 10px" }}>
-              <button
+            <div>
+              <select
+                value={amentiesrowsPerPage}
+                onChange={handleItemsPerPageChange}
                 style={{
                   padding: "5px",
-                  textDecoration: "none",
-                  color: amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1",
-                  cursor: amnitiescurrentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
+                  border: "1px solid #1E45E1",
+                  borderRadius: "5px",
+                  color: "#1E45E1",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  outline: "none",
+                  boxShadow: "none",
                 }}
-                onClick={() =>
-                  handleAmnitiesPageChange(amnitiescurrentPage - 1)
-                }
-                disabled={amnitiescurrentPage === 1}
               >
-                <ArrowLeft2
-                  size="16"
-                  color={amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1"}
-                />
-              </button>
-            </li>
+                <option value={2}>2</option>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
 
-            {/* Current Page Indicator */}
-            <li
-              style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
+            {/* Pagination Controls */}
+            <ul
+              style={{
+                display: "flex",
+                alignItems: "center",
+                listStyleType: "none",
+                margin: 0,
+                padding: 0,
+              }}
             >
-              {amnitiescurrentPage} of {totalPagesAmnities}
-            </li>
-
-            {/* Next Button */}
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color:
-                    amnitiescurrentPage === totalPagesAmnities
-                      ? "#ccc"
-                      : "#1E45E1",
-                  cursor:
-                    amnitiescurrentPage === totalPagesAmnities
-                      ? "not-allowed"
-                      : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() =>
-                  handleAmnitiesPageChange(amnitiescurrentPage + 1)
-                }
-                disabled={amnitiescurrentPage === totalPagesAmnities}
-              >
-                <ArrowRight2
-                  size="16"
-                  color={
-                    amnitiescurrentPage === totalPagesAmnities
-                      ? "#ccc"
-                      : "#1E45E1"
+              {/* Previous Button */}
+              <li style={{ margin: "0 10px" }}>
+                <button
+                  style={{
+                    padding: "5px",
+                    textDecoration: "none",
+                    color: amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1",
+                    cursor:
+                      amnitiescurrentPage === 1 ? "not-allowed" : "pointer",
+                    borderRadius: "50%",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  onClick={() =>
+                    handleAmnitiesPageChange(amnitiescurrentPage - 1)
                   }
-                />
-              </button>
-            </li>
-          </ul>
-        </nav>
-         </>
+                  disabled={amnitiescurrentPage === 1}
+                >
+                  <ArrowLeft2
+                    size="16"
+                    color={amnitiescurrentPage === 1 ? "#ccc" : "#1E45E1"}
+                  />
+                </button>
+              </li>
+
+              {/* Current Page Indicator */}
+              <li
+                style={{
+                  margin: "0 10px",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                }}
+              >
+                {amnitiescurrentPage} of {totalPagesAmnities}
+              </li>
+
+              {/* Next Button */}
+              <li style={{ margin: "0 10px" }}>
+                <button
+                  style={{
+                    padding: "5px",
+                    textDecoration: "none",
+                    color:
+                      amnitiescurrentPage === totalPagesAmnities
+                        ? "#ccc"
+                        : "#1E45E1",
+                    cursor:
+                      amnitiescurrentPage === totalPagesAmnities
+                        ? "not-allowed"
+                        : "pointer",
+                    borderRadius: "50%",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  onClick={() =>
+                    handleAmnitiesPageChange(amnitiescurrentPage + 1)
+                  }
+                  disabled={amnitiescurrentPage === totalPagesAmnities}
+                >
+                  <ArrowRight2
+                    size="16"
+                    color={
+                      amnitiescurrentPage === totalPagesAmnities
+                        ? "#ccc"
+                        : "#1E45E1"
+                    }
+                  />
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </>
       )}
     </div>
   );
