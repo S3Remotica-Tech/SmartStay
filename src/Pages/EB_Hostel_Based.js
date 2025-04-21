@@ -659,7 +659,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                           padding: "10px",
                           textAlign: "start",
                           verticalAlign: "middle",
-                          paddingLeft:"25px"
+                          paddingLeft:"25px",borderBottom: "1px solid #E8E8E8"
                         }}
                       >
                         <div
@@ -696,8 +696,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                           textAlign: "start",
-                          verticalAlign: "middle",
-                          borderBottom: "none",
+                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+                          
                         }}
                       >
                         {v.reading}
@@ -705,8 +705,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       <td
                         style={{
                           textAlign: "start",
-                          verticalAlign: "middle",
-                          borderBottom: "none",
+                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
                           fontSize: 13, 
                           fontWeight: 500,
                           fontFamily: "Gilroy",
@@ -723,8 +722,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                               fontWeight: 500,
                               fontFamily: "Gilroy",
                           textAlign: "start",
-                          verticalAlign: "middle",
-                          borderBottom: "none",
+                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                         }}
                       >
                         {v.total_reading}
@@ -735,8 +733,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                           fontWeight: 500,
                           fontFamily: "Gilroy",
                           textAlign: "start",
-                          verticalAlign: "middle",
-                          borderBottom: "none",
+                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                         }}
                       >
                         {v.total_amount}
@@ -746,7 +743,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       color: "#939393",
                       fontSize: 13, 
                       fontWeight: 500,
-                      fontFamily: "Gilroy",
+                      fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8"
                       // borderTopRightRadius: 24,
                     }}>
                         <div

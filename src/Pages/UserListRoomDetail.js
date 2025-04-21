@@ -293,6 +293,12 @@ function UserListRoomDetail(props) {
       setRooms(item[0].Rooms || "");
       setRoomId(item[0].room_id || "");
       setBedId(item[0].hstl_Bed || "");
+      setPincode(item[0].pincode );
+      setStreet(item[0].area)
+      setLandmark(item[0].landmark)
+      setCity(item[0].city)
+      setStateName(item[0].state)
+
 
       const isValidDate =
         item[0].user_join_date && item[0].user_join_date !== "0000-00-00";
@@ -1206,6 +1212,11 @@ const formatDate = (dateObj) => {
         Phone,
         Email,
         Address,
+        area:street ,
+        landmark ,
+        city,
+        pincode,
+        state:state_name,
         AadharNo,
         PancardNo,
         licence,

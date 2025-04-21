@@ -14,7 +14,6 @@ import "./SettingSubscription.css";
 function SettingSubscription() {
    const state = useSelector((state) => state);
     const dispatch = useDispatch();
-    console.log("SettingSubscription",state)
   const [plan,setPlan] = useState(false)
   const [changePlan,setChangePlan] = useState(false)
   const [userId,setUserId] = useState("")
@@ -132,7 +131,6 @@ const handleSubmit = () => {
   }
 
   if (isValid) {
-      console.log("Submitting:", { selectedPlan, hostelCount });
       dispatch({
           type: "NEWSUBSCRIPTION",
           payload: {
@@ -192,7 +190,6 @@ useEffect(()=>{
   }
 },[state?.createAccount?.accountList[0]?.plan_data])
 
-console.log("planActive",getPlanActive)
 useEffect(() => {
   if (state.Settings.statusCodeNewSubscription === 200) {
       // const Redirect_Url = state.Settings.subscriptionNew.url;
@@ -239,7 +236,6 @@ useEffect(() => {
 }, []);
 
 
-console.log("customerDetails", customerDetails);
 
   return (
     <div className="container">

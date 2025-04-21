@@ -1204,52 +1204,30 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 
             return (
               <tr key={v.id}>
-                <td
-                  style={{
-                    border: "none",
-                    display: "flex",
-                    padding: "10px",
-                    paddingLeft: "20px",
-                  }}
-                >
-                  {/* <Image
-                      src={imageUrl}
-                      alt={v.Name || "Default Profile"}
-                      roundedCircle
+                 <td
                       style={{
-                        height: "40px",
-                        width: "40px",
-                        marginRight: "10px",
+                        fontSize: 13, 
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        textAlign: "start",
+                        verticalAlign: "middle",
+                        border: "none",
+                        borderBottom: "1px solid #E8E8E8"
                       }}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = Profile;
-                      }}
-                    /> */}
-                  <span
-                    style={{
-                      fontSize: 13, 
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      cursor: "pointer",
-                      paddingTop: 10,
-                      textAlign: "start",
-                    }}
-                  >
-                    {v.Name}
-                  </span>
-                </td>
+                    >
+                      {v.Name}
+                    </td>
 
 
                 <td
                   style={{
-                    paddingTop: 20,
+                    paddingTop: 15,
                     border: "none",
                     textAlign: "start",
                     fontSize: 13, 
                     fontWeight: 500,
                     fontFamily: "Gilroy",
-                    marginTop: 10,
+                    marginTop: 10,borderBottom: "1px solid #E8E8E8"
                   }}
                 >
                   <span
@@ -1280,7 +1258,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                         fontFamily: "Gilroy",
                         textAlign: "start",
                         verticalAlign: "middle",
-                        borderBottom: "none",
+                        borderBottom: "1px solid #E8E8E8"
                       }}
                     >
                       {v.floor_name}
@@ -1292,7 +1270,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       fontFamily: "Gilroy",
                         textAlign: "start",
                         verticalAlign: "middle",
-                        borderBottom: "none",
+                        borderBottom: "1px solid #E8E8E8"
                       }}
                     >
                       {v.Room_Id}
@@ -1306,7 +1284,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     fontFamily: "Gilroy",
                     textAlign: "start",
                     verticalAlign: "middle",
-                    borderBottom: "none",
+                    borderBottom: "1px solid #E8E8E8"
                   }}
                 >
                   {v.start_meter}
@@ -1318,7 +1296,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       fontFamily: "Gilroy",
                     textAlign: "start",
                     verticalAlign: "middle",
-                    borderBottom: "none",
+                    borderBottom: "1px solid #E8E8E8"
                   }}
                 >
                   {v.end_meter}
@@ -1334,6 +1312,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     verticalAlign: "middle",
                     whiteSpace: "nowrap",
                     marginBottom: "-20px",
+                    borderBottom: "1px solid #E8E8E8"
                   }}
                 >
                   <span
@@ -1364,7 +1343,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     fontFamily: "Gilroy",
                     textAlign: "start",
                     verticalAlign: "middle",
-                    borderBottom: "none",
+                    borderBottom: "1px solid #E8E8E8"
                   }}
                 >
                   {v.unit}
@@ -1376,7 +1355,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     fontFamily: "Gilroy",
                     textAlign: "start",
                     verticalAlign: "middle",
-                    borderBottom: "none",
+                    borderBottom: "1px solid #E8E8E8"
                   }}
                 >
                   {v.amount}

@@ -2847,6 +2847,7 @@ const handleBack = () => {
                                     fontFamily: "Gilroy",
                                     // borderTopLeftRadius: 24,
                                     paddingLeft: "20px",
+                                   
                                   }}
                                 >
                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
@@ -2997,7 +2998,7 @@ const handleBack = () => {
                                           padding: "10px",
                                           textAlign: "start",
                                           paddingLeft: "20px",
-                                          verticalAlign: "middle",
+                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                                         }}
                                       >
                                        
@@ -3028,7 +3029,7 @@ const handleBack = () => {
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
-                                          verticalAlign: "middle",
+                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                                         }}
                                       >
                                         <span
@@ -3056,7 +3057,7 @@ const handleBack = () => {
                                           fontWeight: 500,
                                           fontFamily: "Gilroy",
                                           paddingTop: 15,
-                                          verticalAlign: "middle",
+                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                                         }}
                                       >
                                         {user.Email}
@@ -3071,7 +3072,7 @@ const handleBack = () => {
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
                                           whiteSpace: "nowrap",
-                                          verticalAlign: "middle",
+                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                                         }}
                                       >
                                         +
@@ -3091,7 +3092,7 @@ const handleBack = () => {
                                           fontSize: "13px",
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
-                                          verticalAlign: "middle",
+                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                                         }}
                                       >
                                         {" "}
@@ -3110,7 +3111,7 @@ const handleBack = () => {
                                           fontWeight: 600,
                                           fontFamily: "Gilroy",
                                           marginTop: 10,
-                                          verticalAlign: "middle",
+                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                                         }}
                                       >
                                         {!user.Bed ? "-" : user.Bed}
@@ -3118,7 +3119,7 @@ const handleBack = () => {
                                       <td
                                         style={{
                                           paddingTop: 12,
-                                          border: "none",
+                                          border: "none",borderBottom: "1px solid #E8E8E8"
                                         }}
                                       >
                                         {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
