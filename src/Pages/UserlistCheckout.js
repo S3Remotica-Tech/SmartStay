@@ -702,7 +702,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                         return (
                           <tr key={checkout.ID} className="customer-row">
 
-                            <td style={{verticalAlign: "middle"}}>
+                            <td style={{verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"}}>
                               <div className="d-flex align-items-center">
                                 {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
                                 <span
@@ -730,7 +730,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                 fontFamily: "Gilroy",
                                 color: "#000000",
                                 textAlign: "start",
-                                verticalAlign: "middle",
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               +
@@ -751,7 +751,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
-                                verticalAlign: "middle"
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               <span
@@ -767,7 +767,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
                                   whiteSpace: "nowrap",
-                                  verticalAlign: "middle"
+                                  verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                                 }}
                               >
                                 {checkout.floor_name}
@@ -783,7 +783,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
-                                verticalAlign: "middle"
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               <span
@@ -814,7 +814,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
-                                verticalAlign: "middle"
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               <span
@@ -845,7 +845,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
-                                verticalAlign: "middle"
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               <span
@@ -903,14 +903,14 @@ console.log("checkOutCustomer",checkOutCustomer)
                               fontSize: "13px",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              verticalAlign: "middle",
+                              verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
                               whiteSpace: "nowrap", color: checkout.BalanceDue === 0 ? "green" : "red"
                             }}>
                               {checkout.isActive === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Completed</span> : <span
                                 style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Pending</span>}</td>
 
 
-                            <td>
+                            <td style={{borderBottom: "1px solid #E8E8E8"}}>
                               <div
                                 style={{
                                   cursor: "pointer",

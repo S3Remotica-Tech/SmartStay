@@ -705,7 +705,7 @@ return (
         padding: "10px",
         textAlign: "start",
         verticalAlign: "middle", // Center vertically
-        paddingLeft:"20px"
+        paddingLeft:"20px",borderBottom: "1px solid #E8E8E8"
       }}
     >
       <div
@@ -750,7 +750,7 @@ return (
                               fontFamily: "Gilroy",
         textAlign: "start",
         verticalAlign: "middle",
-        borderBottom: "none",
+        borderBottom: "1px solid #E8E8E8"
       }}
     >
       {v.floor_name}
@@ -761,8 +761,8 @@ return (
         fontWeight: 500,
         fontFamily: "Gilroy",
         textAlign: "start",
-        verticalAlign: "middle",
-        borderBottom: "none",
+        verticalAlign: "middle"
+        ,borderBottom: "1px solid #E8E8E8"
       }}
     >
       {v.Room_Id}
@@ -775,7 +775,7 @@ return (
         fontFamily: "Gilroy",
         textAlign: "start",
         verticalAlign: "middle",
-        borderBottom: "none",
+       borderBottom: "1px solid #E8E8E8"
       }}
     >
       {v.reading}
@@ -784,7 +784,7 @@ return (
       style={{
         textAlign: "start",
         verticalAlign: "middle", // Center vertically
-        borderBottom: "none",
+        borderBottom: "1px solid #E8E8E8"
       }}
     >
       <span
@@ -809,8 +809,8 @@ return (
         fontWeight: 500,
         fontFamily: "Gilroy",
         textAlign: "start",
-        verticalAlign: "middle", // Center vertically
-        borderBottom: "none",
+        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8" // Center vertically
+       
       }}
     >
       {v.total_reading}
@@ -821,8 +821,8 @@ return (
         fontWeight: 500,
         fontFamily: "Gilroy",
         textAlign: "start",
-        verticalAlign: "middle",
-        borderBottom: "none",
+        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+        
       }}
     >
       {v.total_amount}
@@ -832,8 +832,7 @@ return (
        fontWeight: 500,
        fontFamily: "Gilroy",
         textAlign: "start",
-        verticalAlign: "middle",
-        borderBottom: "none",
+        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
       }}>
 
       <div

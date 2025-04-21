@@ -873,7 +873,7 @@ const handleBed = (selectedOption) => {
           area : street,
           landmark : landmark,
           city : city,
-          pin_code : pincode,
+          pincode : pincode,
           state:state_name,
           AadharNo: AadharNo,
           PancardNo: PancardNo,

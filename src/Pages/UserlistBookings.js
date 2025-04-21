@@ -1180,7 +1180,7 @@ if (!pattern.test(value)) {
 
                         return (
                           <tr key={customer.id} className="customer-row">
-                            <td style={{ verticalAlign: "middle" }}>
+                            <td style={{ verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}>
                               <div className="d-flex align-items-center">
                                 {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
                                 <span
@@ -1207,7 +1207,7 @@ if (!pattern.test(value)) {
                                 fontFamily: "Gilroy",
                                 color: "#000000",
                                 textAlign: "start",
-                                verticalAlign: "middle",
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               {/* {customer.email_id} */}
@@ -1233,7 +1233,7 @@ if (!pattern.test(value)) {
                                 fontFamily: "Gilroy",
                                 color: "#000000",
                                 textAlign: "start",
-                                verticalAlign: "middle",
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               +
@@ -1255,7 +1255,7 @@ if (!pattern.test(value)) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
-                                verticalAlign: "middle",
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               <span
@@ -1287,7 +1287,7 @@ if (!pattern.test(value)) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
-                                verticalAlign: "middle",
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               <span
@@ -1318,7 +1318,7 @@ if (!pattern.test(value)) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
-                                verticalAlign: "middle",
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               <span
@@ -1341,7 +1341,7 @@ if (!pattern.test(value)) {
                               </span>
                             </td>
 
-                            <td>
+                            <td style={{borderBottom: "1px solid #E8E8E8"}}>
                               <div
                                 style={{
                                   cursor: "pointer",

@@ -437,7 +437,7 @@ function UserlistWalkin(props) {
                           padding: "10px",
                           textAlign: "start",
                           verticalAlign: "middle",
-                          paddingLeft:"25px"
+                          paddingLeft:"25px",borderBottom: "1px solid #E8E8E8"
                         }}
                       >
                         <div
@@ -475,7 +475,7 @@ function UserlistWalkin(props) {
                           fontFamily: "Gilroy",
                           textAlign: "start",
                           verticalAlign: "middle",
-                          borderBottom: "none",
+                        borderBottom: "1px solid #E8E8E8"
                         }}
                       >
                         {v.email_Id || "N/A"}
@@ -484,10 +484,9 @@ function UserlistWalkin(props) {
                         style={{
                           textAlign: "start",
                           verticalAlign: "middle",
-                          borderBottom: "none",
                           fontSize: 13, 
                           fontWeight: 500,
-                          fontFamily: "Gilroy",
+                          fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8"
                         }}
                       >
                       
@@ -508,7 +507,7 @@ function UserlistWalkin(props) {
                               fontFamily: "Gilroy",
                           textAlign: "start",
                           verticalAlign: "middle",
-                          borderBottom: "none",
+                          borderBottom: "1px solid #E8E8E8"
                         }}
                       >
                         {moment(v.walk_In_Date).format(
@@ -522,7 +521,7 @@ function UserlistWalkin(props) {
                           fontFamily: "Gilroy",
                           textAlign: "start",
                           verticalAlign: "middle",
-                          borderBottom: "none",
+                         borderBottom: "1px solid #E8E8E8"
                         }}
                       >
                         {v.total_amount}
@@ -530,7 +529,7 @@ function UserlistWalkin(props) {
                             {v.area ? v.area :''}, {""} {v.city ? v.city :''} {""}<br></br>
                              {v?.state ? v.state : ''}  {v.pin_code ? -  v.pin_code : ''}
                       </td>
-                      <td>
+                      <td style={{borderBottom: "1px solid #E8E8E8"}}>
                             <div
                               style={{
                                 cursor: "pointer",
@@ -541,7 +540,7 @@ function UserlistWalkin(props) {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                position: "relative",
+                                position: "relative",borderBottom: "1px solid #E8E8E8",
                                 backgroundColor: dotsButton === v.id ? "#E7F1FF" : "white",
                                 // zIndex:
                                 //   dotsButton === customer.id ? 1000 : "auto",

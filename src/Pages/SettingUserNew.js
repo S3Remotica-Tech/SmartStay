@@ -450,7 +450,7 @@ function SettingNewUser() {
                                                         whiteSpace: "nowrap",
                                                         overflow: "hidden",
                                                         textOverflow: "ellipsis",
-                                                        paddingLeft:"25px"
+                                                        paddingLeft:"25px",borderBottom: "1px solid #E8E8E8"
                                                     }}
                                                 >
                                                     {/* <Image
@@ -490,7 +490,7 @@ function SettingNewUser() {
                                                         textAlign: "start",
                                                         paddingTop: 17,
                                                         overflow: "hidden",
-                                                        textOverflow: "ellipsis", whiteSpace: "nowrap"
+                                                        textOverflow: "ellipsis", whiteSpace: "nowrap",borderBottom: "1px solid #E8E8E8"
 
                                                     }}
                                                 >
@@ -508,7 +508,7 @@ function SettingNewUser() {
                                                         marginTop: 10,
                                                         whiteSpace: "nowrap",
                                                         overflow: "hidden",
-                                                        textOverflow: "ellipsis"
+                                                        textOverflow: "ellipsis",borderBottom: "1px solid #E8E8E8"
                                                     }}
                                                 >
                                                     {/* +
@@ -535,7 +535,7 @@ function SettingNewUser() {
                                                         textAlign: "start",
                                                         paddingTop: 17,
                                                         overflow: "hidden",
-                                                        textOverflow: "ellipsis", whiteSpace: "nowrap"
+                                                        textOverflow: "ellipsis", whiteSpace: "nowrap",borderBottom: "1px solid #E8E8E8"
                                                     }}
                                                 >
                                                     {item.role_name}
@@ -543,7 +543,7 @@ function SettingNewUser() {
                                                 <td style={{
                                                     textAlign: "center", display: "flex",
                                                     justifyContent: "center",
-                                                    alignItems: "center",
+                                                    alignItems: "center",borderBottom: "1px solid #E8E8E8"
                                                 }}>
                                                     <div
                                                         style={{
