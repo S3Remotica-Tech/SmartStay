@@ -13,5 +13,10 @@
     .modal-body {
       overflow-y: auto;
     }
+    .modal-backdrop.fade {
+      opacity: 0 !important;
+      height: auto !important;
+  } 
   }
+  
   

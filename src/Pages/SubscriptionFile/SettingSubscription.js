@@ -351,7 +351,7 @@ console.log("customerDetails", customerDetails);
 
       </div>
 
-      <div className="modal fade" id="changePlanModal" data-bs-backdrop="static"  tabIndex="-1" aria-hidden="true">
+      <div className="modal fade" id="changePlanModal" data-bs-backdrop="static"  tabIndex="-1" aria-hidden="true" >
       <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div className="modal-content">
           <div className="modal-header">
