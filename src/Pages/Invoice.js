@@ -4119,7 +4119,7 @@ const InvoicePage = () => {
                                                          className='show-scrolls'
                                                          style={{
                                                           
-                                                           height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "350px" : "auto",
+                                                           height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "360px" : "auto",
                                                            overflow: "auto",
                                                            borderTop: "1px solid #E8E8E8",
                                                            marginBottom: 20,
