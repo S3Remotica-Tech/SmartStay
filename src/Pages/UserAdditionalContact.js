@@ -223,15 +223,15 @@ function UserAdditionalContact(props) {
         // case "address":
         //   setAddressError("Address is Required");
         //   break;
-          case "Houseno":
-            setHouse_NoError("Please Enter House No/Flat");
-            break;
-          case "Street":
-            setStreetError("Please Enter Street");
-            break;
-          case "Landmark":
-            setLandmarkError("Please Enter Landmark");
-            break;
+          // case "Houseno":
+          //   setHouse_NoError("Please Enter House No/Flat");
+          //   break;
+          // case "Street":
+          //   setStreetError("Please Enter Street");
+          //   break;
+          // case "Landmark":
+          //   setLandmarkError("Please Enter Landmark");
+          //   break;
           case "City":
             setCityError("Please Enter City");
             break;
@@ -261,15 +261,15 @@ function UserAdditionalContact(props) {
       // case "address":
       //   setAddressError("");
       //   break;
-        case "Houseno":
-          setHouse_NoError("");
-          break;
-        case "Street":
-          setStreetError("");
-          break;
-        case "Landmark":
-          setLandmarkError("");
-          break;
+        // case "Houseno":
+        //   setHouse_NoError("");
+        //   break;
+        // case "Street":
+        //   setStreetError("");
+        //   break;
+        // case "Landmark":
+        //   setLandmarkError("");
+        //   break;
         case "City":
           setCityError("");
           break;
@@ -291,16 +291,14 @@ function UserAdditionalContact(props) {
     const isGuardianValid = validateAssignField(guardian, "gurardian");
     const isPhoneValid = validateAssignField(Phone, "Phone");
     // const isAddressValid = validateAssignField(address, "address");
-    const isHousenoValid = validateAssignField(house_no, "Houseno");
-    const isStreetValid = validateAssignField(street, "Street");
-    const isLandmarkValid = validateAssignField(landmark, "Landmark");
+    // const isHousenoValid = validateAssignField(house_no, "Houseno");
+    // const isStreetValid = validateAssignField(street, "Street");
+    // const isLandmarkValid = validateAssignField(landmark, "Landmark");
     const isCityValid = validateAssignField(city, "City");
     const isPincodeValid = validateAssignField(pincode, "Pincode");
     const isStatenameValid = validateAssignField(state_name, "Statename");
 
-    if (!isUserValid || !isGuardianValid || !isPhoneValid || !isHousenoValid ||
-      !isStreetValid  || 
-      !isLandmarkValid ||
+    if (!isUserValid || !isGuardianValid || !isPhoneValid || 
       !isCityValid  || 
       !isPincodeValid ||
       !isStatenameValid
@@ -309,17 +307,36 @@ function UserAdditionalContact(props) {
     }
 
     if (props.editAdditional && props.contactEdit.id) {
-      const isChanged = (
-        userName !== initialState.userName ||
-        guardian !== initialState.guardian ||
-        Number(countryCode + Phone) !== Number(initialState.Phone) ||
-        house_no !== initialState.house_no ||
-        street !== initialState.street ||
-        landmark !== initialState.landmark ||
-        city !== initialState.city ||
-        String(pincode).trim() !== String(initialState.pinCode || "").trim() ||
-        state_name !== initialState.state
-      );
+      // const isChanged = (
+      //   userName !== initialState.userName ||
+      //   guardian !== initialState.guardian ||
+      //   Number(countryCode + Phone) !== Number(initialState.Phone) ||
+      //   house_no !== initialState.house_no ||
+      //   street !== initialState.street ||
+      //   landmark !== initialState.landmark ||
+      //   city !== initialState.city ||
+      //   String(pincode).trim() !== String(initialState.pinCode || "").trim() ||
+      //   state_name !== initialState.state
+      // );
+
+      const normalize = (value) => {
+        const val = (value ?? "").toString().trim().toLowerCase();
+        return val === "null" || val === "undefined" ? "" : val;
+      };
+      
+
+const isChanged = (
+  userName !== initialState.userName ||
+  guardian !== initialState.guardian ||
+  Number(countryCode + Phone) !== Number(initialState.Phone) ||
+  normalize(house_no) !== normalize(initialState.house_no) ||
+  normalize(street) !== normalize(initialState.street) ||
+  normalize(landmark) !== normalize(initialState.landmark) ||
+  city !== initialState.city ||
+  String(pincode).trim() !== String(initialState.pinCode || "").trim() ||
+  state_name !== initialState.state
+);
+
       if (!isChanged) {
         setFormError("No Changes Detected");
         return;
@@ -720,7 +737,6 @@ function UserAdditionalContact(props) {
                                                                         }}
                                                                       >
                                                                         Flat , House no , Building , Company , Apartment {" "}
-                                                                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                                       </Form.Label>
                                                                       <FormControl
                                                                         type="text"
@@ -759,7 +775,6 @@ function UserAdditionalContact(props) {
                                                                         }}
                                                                       >
                                                                         Area , Street , Sector , Village{" "}
-                                                                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                                       </Form.Label>
                                                                       <FormControl
                                                                         type="text"
@@ -798,7 +813,6 @@ function UserAdditionalContact(props) {
                                                                         }}
                                                                       >
                                                                         Landmark{" "}
-                                                                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                                       </Form.Label>
                                                                       <FormControl
                                                                         type="text"

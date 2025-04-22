@@ -841,15 +841,7 @@ function UserListRoomDetail(props) {
         case "Hostel ID":
           setHostelIdError("Hostel ID is Required");
           break;
-          case "Houseno":
-            setHouse_NoError("Please Enter House No/Flat");
-            break;
-          case "Street":
-            setStreetError("Please Enter Street");
-            break;
-          case "Landmark":
-            setLandmarkError("Please Enter Landmark");
-            break;
+        
           case "City":
             setCityError("Please Enter City");
             break;
@@ -875,12 +867,9 @@ function UserListRoomDetail(props) {
     if (!validateField(Phone, "Phone Number")) return;
     if (!validateField(Address, "Address")) return;
     if (!validateField(hostel_Id, "Hostel ID")) return;
-    if (!validateField(house_no, "Houseno"))
-    if (!validateField(street, "Street"))
-    if (!validateField(landmark, "Landmark"));
-    if (!validateField(city, "City"));
-    if (!validateField(pincode, "Pincode"))
-    if (!validateField(state_name, "Statename"));
+    if (!validateField(city, "City"))return;
+    if (!validateField(pincode, "Pincode"))return;
+    if (!validateField(state_name, "Statename"))return;
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a valid PG"); 
@@ -909,6 +898,13 @@ function UserListRoomDetail(props) {
     
 
     if (hasError) return;
+
+
+    const normalize = (value) => {
+      const val = (value ?? "").toString().trim().toLowerCase();
+      return val === "null" || val === "undefined" ? "" : val;
+    };
+
     const isChanged = !(
       firstname === initialState.firstname &&
       lastname === initialState.lastname &&
@@ -916,9 +912,9 @@ function UserListRoomDetail(props) {
       Email === initialState.Email &&
       String(hostel_Id) === String(initialState.hostel_Id) &&
       file === initialState.file && 
-      house_no === initialState.house_no &&
-      street === initialState.street &&
-      landmark === initialState.landmark &&
+      normalize(house_no) === normalize(initialState.house_no) &&
+      normalize(street) === normalize(initialState.street) &&
+      normalize(landmark) === normalize(initialState.landmark) &&
       city === initialState.city &&
       String(pincode).trim() === String(initialState.pincode || "").trim() &&
       state_name === initialState.state 
@@ -3014,7 +3010,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                                                         }}
                                                                       >
                                                                         Flat , House no , Building , Company , Apartment {" "}
-                                                                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                                       </Form.Label>
                                                                       <FormControl
                                                                         type="text"
@@ -3053,7 +3048,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                                                         }}
                                                                       >
                                                                         Area , Street , Sector , Village{" "}
-                                                                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                                       </Form.Label>
                                                                       <FormControl
                                                                         type="text"
@@ -3092,7 +3086,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                                                         }}
                                                                       >
                                                                         Landmark{" "}
-                                                                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                                       </Form.Label>
                                                                       <FormControl
                                                                         type="text"
