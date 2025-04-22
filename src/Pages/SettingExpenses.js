@@ -670,7 +670,8 @@ function SettingExpenses({ hostelid }) {
 >
   <div 
     className="row align-items-center justify-content-between"
-    style={{ paddingTop: 20, paddingBottom: 10 }}
+    // style={{ paddingTop: 20, paddingBottom: 10 }}
+    style={{ marginTop: 20}}
   >
         {/* <div 
          className="w-100 text-md-start text-center"
@@ -678,14 +679,14 @@ function SettingExpenses({ hostelid }) {
             <div className="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
           <h3 style={{ fontFamily: "Gilroy", 
             fontSize: 20, color: "#222", 
-            fontWeight: 600, 
+            fontWeight: 600, marginLeft:-11,marginTop:18
             }}>
               Expenses Category</h3></div>
         {/* <div 
         className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
         
         > */}
-    <div className="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
+    <div  className="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
           <Button onClick={handleShow}
             style={{
               fontFamily: "Gilroy",
@@ -697,7 +698,8 @@ function SettingExpenses({ hostelid }) {
               // padding: "11px 35px",
               height:45,
               width:146,
-              marginTop:-2,
+              marginTop:5,
+              marginRight:-12
             }}
             disabled={showPopup}
           >+ Category</Button></div>

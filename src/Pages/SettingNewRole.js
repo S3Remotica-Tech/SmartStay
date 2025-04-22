@@ -227,7 +227,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
           paddingRight:1
         }}>
         <div 
-        className="w-100 text-md-start text-center mt-3"
+           className="w-100 d-flex justify-content-center justify-content-md-start mt-3"
         style={{ marinTop: -4 }}>
           <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Role</label>
 
@@ -238,7 +238,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
             onClick={handleAddRole}
             style={{
               fontFamily: "Gilroy", fontSize: 14, backgroundColor: "#1E45E1", color: "white",
-              fontWeight: 600, borderRadius: 8, padding: "11px 53px", paddingLeft: 52, marginTop: 5,
+              fontWeight: 600, borderRadius: 8, padding: "11px 53px", paddingLeft: 52, marginTop: 12,
               whiteSpace: "nowrap",
             }}
             disabled={showPopup}
@@ -251,6 +251,57 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
         </div>
 
       </div>
+      {/* <div 
+  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+  style={{
+    position: "sticky",
+    top: 0,
+    right: 0,
+    left: 0,
+    zIndex: 1000,
+    backgroundColor: "#FFFFFF",
+    height: 83,
+    paddingRight: 1,
+  }}
+>
+  <div 
+    className="w-100 d-flex justify-content-center justify-content-md-start mt-3"
+    style={{ marginTop: -4 }}
+  >
+    <label 
+      style={{ 
+        fontFamily: "Gilroy", 
+        fontSize: 20, 
+        color: "#222", 
+        fontWeight: 600 
+      }}
+    >
+      Role
+    </label>
+  </div>
+
+  <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
+    <Button
+      onClick={handleAddRole}
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 14,
+        backgroundColor: "#1E45E1",
+        color: "white",
+        fontWeight: 600,
+        borderRadius: 8,
+        padding: "11px 53px",
+        paddingLeft: 52,
+        marginTop: 5,
+        whiteSpace: "nowrap",
+      }}
+      disabled={showPopup}
+    >
+      + Role
+    </Button>
+  </div>
+</div> */}
+
       {showPopup && (
         <div className="d-flex flex-wrap">
           <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">

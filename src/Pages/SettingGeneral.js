@@ -944,9 +944,7 @@ const indianStates = [
     <>
 
       <div
-        // className="container d-flex justify-content-between align-items-center settingGreneral"
-           
-          //  className="container-fluid d-flex flex-column flex-sm-row justify-content-between align-items-start settingGreneral mt-lg-3 px-3"
+       
           className="d-flex flex-column flex-md-row justify-content-between align-items-center"
           
         
@@ -969,10 +967,8 @@ const indianStates = [
 
         }}
       >
-      {/* <div  className="me-sm-7"> */}
-      {/* <div className="w-100 text-center text-md-start pt-2 pt-md-0"> */}
-      {/* <div className="w-100 d-flex justify-content-center justify-content-md-start align-items-center pt-3 pt-md-0"> */}
-      <div className="w-100 text-md-start text-center mt-3">
+  
+      <div  className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
         <div>
           <label
             style={{
@@ -989,12 +985,11 @@ const indianStates = [
         </div>
         </div>
         <div
-          // className="d-flex justify-content-between align-items-center"
-          // className="mt-2 mt-sm-0 text-start text-sm-end w-100 w-sm-auto"
-          className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
-       style={{paddingRight:1}} >
+         className="d-flex justify-content-center justify-content-md-end w-100 mt-3 mt-md-0"
+      //  style={{paddingRight:1}} 
+       >
         
-          <div 
+          <div style={{marginTop:6}}
            >
             <Button
             

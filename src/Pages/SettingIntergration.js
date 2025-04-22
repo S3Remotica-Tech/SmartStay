@@ -10,8 +10,9 @@ function SettingIntergration(){
         <>
        <div className="container ">
        
-        <div style={{marginTop:25}}>
-            <p style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Integration</p>
+        <div style={{marginTop:35}}>
+      <div  className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
+            <p style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Integration</p> </div>
         </div>
         {/* <div className="d-md-block d-flex flex-column" style={{ maxHeight: '100vh', overflowY: 'auto' }}> */}
         <div className="scrollable-wrapper">

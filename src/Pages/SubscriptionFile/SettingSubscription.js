@@ -239,9 +239,10 @@ useEffect(() => {
 
   return (
     <div className="container">
-      <div style={{marginTop:26}}>
+      <div style={{marginTop:35}}>
+      <div  className="w-100 d-flex justify-content-center justify-content-md-start mt-4">
         <p className="cardnewsubs" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Subscription</p>
-
+</div>
       </div>
 
       <div className="row g-3">

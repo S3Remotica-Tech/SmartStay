@@ -169,7 +169,7 @@ style={{
   overflowY: 'auto',
   }}
 >
-<div>
+<div  className="w-100 d-flex justify-content-center justify-content-md-start mt-2">
     <p className="cardnewsubs" style={{fontSize:20,fontFamily:"Gilroy",fontWeight:600}}>Security</p>
 </div>
 <div className='d-flex  justify-content-between mt-2 me-2 mb-3 cardnewsubs '>

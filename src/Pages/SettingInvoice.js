@@ -500,9 +500,9 @@ function SettingInvoice({ hostelid }) {
       </div>
       }
 
-      <div 
-      className=" d-flex flex-column flex-md-row justify-content-between align-items-center"
-      style={{
+<div 
+  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+        style={{
         // display: "flex", flexDirection: "row", justifyContent: "space-between", 
         position: "sticky",
         top: 0,
@@ -512,17 +512,16 @@ function SettingInvoice({ hostelid }) {
         backgroundColor: "#FFFFFF",
         // height: 83,
         whiteSpace: "nowrap",
-        
+        marginTop:-2
       }}>
-        <div className="w-100 text-md-start text-center">
+          <div 
+    className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
         <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,
           whiteSpace: "nowrap",
          }}>Invoice</h3>
 
         </div>
-        <div 
-        className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
-        >
+        <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
         {InvoiceList && InvoiceList.length > 0 ? (
           InvoiceList.map((list) => {
             const isDefaultPrefixSuffix =
@@ -553,7 +552,7 @@ function SettingInvoice({ hostelid }) {
                   width:146,
                   height:45,
                  
-                  marginTop: "-2px",
+                  // marginTop: "-2px",
                   // borderColor: "#1E45E1",
                   border: "2px solid #1E45E1",
                   // border: "none",
@@ -588,7 +587,7 @@ function SettingInvoice({ hostelid }) {
                   // maxWidth: "100%",
                   // marginBottom: "10px",
                   // maxHeight: 50,
-                  marginTop: "-2px",
+                  // marginTop: "-2px",
                   // borderColor: "#1E45E1",
                   border: "2px solid #1E45E1",
                   // border: "none",
