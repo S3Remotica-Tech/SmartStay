@@ -301,7 +301,7 @@ function SettingCompliance({ hostelid }) {
                                      </div>
             }
 
-            <div 
+            {/* <div 
              className="d-flex flex-column flex-md-row justify-content-between align-items-center"
              
             style={{ position: "sticky", top: 0, 
@@ -380,8 +380,55 @@ function SettingCompliance({ hostelid }) {
                         </div>
                         </Row>
                 </div>
-            </div>
+            </div> */}
+ <div 
+  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+                style={{
+                    // display: "flex", flexDirection: "row", justifyContent: "space-between",
+                     position: "sticky",
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    zIndex: 1000,
+                    backgroundColor: "#FFFFFF",
+                    height: 83,
+                }}>
+                 <div 
+    className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
+                    <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}> Complaint Type</label>
+                </div>
+                <div  className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0 mb-3 mb-md-0">
 
+                    <Button
+                      onClick={handleShowForm} disabled={showPopupvalidation}
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: "14px",
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        fontWeight: 600,
+                        borderRadius: "8px",
+                        // padding: "11px 15px",
+                        // paddingLeft: 7,
+                        // // marginBottom: "10px", 
+                        // // width: "auto",
+                        // // maxWidth: "100%",
+                        // // maxHeight: 50,
+                        // // marginTop: "15px",
+                        // whiteSpace: "nowrap",
+                        // minWidth: "130px",
+                        width:146,
+                        height:45,
+                        textAlign:"center",
+                        marginTop:12,
+                    }}
+
+                    >
+                        {" "}
+                        + Complaint Type
+                    </Button>
+                </div>
+            </div>
             {showPopupvalidation && (
                 <div className="d-flex flex-wrap mt-3 align-items-center"
                     style={{ gap: "10px" }} >
@@ -405,7 +452,7 @@ function SettingCompliance({ hostelid }) {
 
 
 
-            <div  className="">
+            <div  className="complainttype">
                 {/* {state.Settings.Complainttypelist && state.Settings.Complainttypelist.length > 0 ? ( */}
                 {currentRowCompliance && currentRowCompliance.length > 0 && 
                     //     {/* {state.Settings.currentRowCompliance && state.Settings.currentRowCompliance.length > 0 ? ( */}

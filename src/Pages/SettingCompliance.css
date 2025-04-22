@@ -14,3 +14,7 @@
       overflow-y: auto;
     }
   }
+  @media (max-width: 576px) {
+.complainttype{
+margin-top: 30px;
+}}

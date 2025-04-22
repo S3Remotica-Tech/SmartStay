@@ -5,4 +5,12 @@ html, body {
     overflow-y: auto;
   }
 
+  @media (max-width: 576px) {
+    .cardnewsubs {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 5px;
+    }
   
+  
+  }

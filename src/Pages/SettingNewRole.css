@@ -9,89 +9,6 @@
       overflow-y: hidden;
     }
   } */
-  /* @media only screen and (width: 344px) and (height: 882px) {
-
-  }
-  
-  @media only screen and (width: 360px) and (height: 740px) {
-  
-  }
-  
-  @media only screen and (width: 375px) and (height: 667px) {
-  
-  }
-  
-  @media only screen and (width: 390px) and (height: 844px) {
-  
-  }
-  
-  @media only screen and (width: 412px) and (height: 915px) {
-  
-  }
-  
-  @media only screen and (width: 412px) and (height: 914px) {
-  }
-  
-  @media only screen and (width: 414px) and (height: 896px) {
-    }
-  
-  
-    @media only screen and (width: 430px) and (height: 932px) {
-    }
-  
-  
-    @media only screen and (width: 540px) and (height: 720px) {
-    }
-  
-  
-    @media only screen and (width: 768px) and (height: 1024px) {
-  }
-  
-  @media only screen and (width: 820px) and (height: 1180px) {
-  
-  }
-  
-  @media only screen and (width: 853px) and (height: 1280px) {
-  
-    }
-  
-  
-  
-  @media only screen and (width: 1024px) and (height: 600px) {
-    .scroll-issue {
-      margin-top: 50;
-    max-height: 350px;
-    overflow-y: auto;
-  }
-
-  body {
-    overflow-y: hidden;
-  }
-  }
-  
-  @media only screen and (width: 1280px) and (height: 801px) {
-    .scroll-issue {
-      margin-top: 50;
-    max-height: 350px;
-    overflow-y: auto;
-  }
-
-  body {
-    overflow-y: hidden;
-  }
-  }
-  
-  @media only screen and (width: 1281px) and (height: 800px) {
-    .scroll-issue {
-      margin-top: 50;
-    max-height: 350px;
-    overflow-y: auto;
-  }
-
-  body {
-    overflow-y: hidden;
-  }
-  } */
 
   @media only screen and (width: 912px) and (height: 1368px) {
     .scroll-issue {
@@ -113,3 +30,4 @@
       overflow-y: hidden;
     }
   }
+  

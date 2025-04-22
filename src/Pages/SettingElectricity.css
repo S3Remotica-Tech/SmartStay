@@ -8,4 +8,8 @@
       overflow-y: hidden;
     }
   }
-  
+  @media (max-width: 576px) {
+.electricity-btn{
+  margin-top: 20px;
+}
+  }

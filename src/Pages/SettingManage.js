@@ -724,10 +724,10 @@ function SettingManage(props) {
 
           {hidePgList && (
             <>
-              <div
-                // className=" justify-content-between d-flex align-items-center"
-                className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-
+              {/* <div
+                 className=" justify-content-between d-flex align-items-center"
+                 className="d-flex flex-column flex-md-row justify-content-between align-items-center" */}
+                <div className="d-flex flex-column flex-md-row justify-content-between align-items-center"
                 style={{
                   position: "sticky",
                   top: 0,
@@ -740,7 +740,7 @@ function SettingManage(props) {
                   whiteSpace: "nowrap",
                 }}
               >
-               <div className="w-100 text-md-start text-center mt-1">
+               <div     className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
                   <label
                     style={{
                       fontSize: 18,
@@ -756,9 +756,10 @@ function SettingManage(props) {
 
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
                
-                <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0" 
-                style={{paddingRight:1}} >
-                  <div >
+                <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
+                // style={{paddingRight:1}}
+                 >
+                  <div style={{marginTop:6}}>
                     <Button
                       onClick={handleShowAddPg}
                       disabled={addPermissionError}
