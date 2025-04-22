@@ -352,20 +352,20 @@ function AddPg({ show, handleClose, currentItem }) {
       hasError = true;
     }
   
-    if (!house_no) {
-      setHouse_NoError("Please Enter House No/Flat");
-      hasError = true;
-    }
+    // if (!house_no) {
+    //   setHouse_NoError("Please Enter House No/Flat");
+    //   hasError = true;
+    // }
 
-    if (!street) {
-      setStreetError("Please Enter Street");
-      hasError = true;
-    }
+    // if (!street) {
+    //   setStreetError("Please Enter Street");
+    //   hasError = true;
+    // }
 
-    if (!landmark) {
-      setLandmarkError("Please Enter Landmark");
-      hasError = true;
-    }
+    // if (!landmark) {
+    //   setLandmarkError("Please Enter Landmark");
+    //   hasError = true;
+    // }
 
     if (!city) {
       setCityError("Please Enter City");
@@ -373,17 +373,22 @@ function AddPg({ show, handleClose, currentItem }) {
     }
 
    
-
-    if (!pincode) {
+    const pinString = String(pincode).trim();
+    if (!pinString) {
       setPincodeError("Please Enter Pincode");
-      hasError = false;
-    } else if (!/^\d+$/.test(pincode)) {
+      hasError = true;
+    } else if (!/^\d+$/.test(pinString)) {
       setPincodeError("Pin Code Must Be Numeric");
-      hasError = false;
-    } else if (pincode.length !== 6) {
+      hasError = true;
+    } else if (pinString.length !== 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      hasError = false;
+      hasError = true;
+    } else {
+      setPincodeError(""); // clear error
     }
+    
+    
+    
 
     if (!state_name) {
       setStateNameError("Please Select State");
@@ -1229,6 +1234,7 @@ useEffect(() => {
                                                            options={indianStates}
                                                            onChange={(selectedOption) => {
                                                              setStateName(selectedOption?.value);
+                                                             setStateNameError("")
                                                            }}
                                                            value={
                                                              state_name ? { value: state_name, label: state_name } : null
