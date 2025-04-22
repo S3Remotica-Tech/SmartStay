@@ -449,15 +449,7 @@ if (!pattern.test(value)) {
         // case "Address":
         //   setAddressError("Address is Required");
         //   break;
-          case "Houseno":
-            setHouse_NoError("Please Enter House No/Flat");
-            break;
-          case "Street":
-            setStreetError("Please Enter Street");
-            break;
-          case "Landmark":
-            setLandmarkError("Please Enter Landmark");
-            break;
+        
           case "City":
             setCityError("Please Enter City");
             break;
@@ -499,15 +491,7 @@ if (!pattern.test(value)) {
         // case "Address":
         //   setAddressError("");
         //   break;
-          case "Houseno":
-            setHouse_NoError("");
-            break;
-          case "Street":
-            setStreetError("");
-            break;
-          case "Landmark":
-            setLandmarkError("");
-            break;
+      
           case "City":
             setCityError("");
             break;
@@ -534,10 +518,7 @@ if (!pattern.test(value)) {
     const isamountValid = validateAssignField(amount, "amount");
     const isphoneValid = validateAssignField(Phone, "Phone");
     const isHostelValid = validateAssignField(HostelIds, "paying");
-    const isaddressValid = validateAssignField(Address, "Address");
-    const isHousenoValid = validateAssignField(house_no, "Houseno");
-    const isStreetValid = validateAssignField(street, "Street");
-    const isLandmarkValid = validateAssignField(landmark, "Landmark");
+    // const isaddressValid = validateAssignField(Address, "Address");
     const isCityValid = validateAssignField(city, "City");
     const isPincodeValid = validateAssignField(pincode, "Pincode");
     const isStatenameValid = validateAssignField(state_name, "Statename");
@@ -575,11 +556,7 @@ if (!pattern.test(value)) {
       !isjoiningDateValid ||
       !isamountValid ||
       !isphoneValid ||
-      !isaddressValid ||
       !isHostelValid ||
-      !isHousenoValid || 
-      !isStreetValid  || 
-      !isLandmarkValid ||
       !isCityValid  || 
       !isPincodeValid ||
       !isStatenameValid
@@ -591,6 +568,12 @@ if (!pattern.test(value)) {
 
     // Check if any values have changed
     const isValidDate = (date) => !isNaN(Date.parse(date));
+
+    const normalize = (value) => {
+      const val = (value ?? "").toString().trim().toLowerCase();
+      return val === "null" || val === "undefined" ? "" : val;
+    };
+
 
     const isChangedBed =
       (isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
@@ -607,9 +590,10 @@ if (!pattern.test(value)) {
         file.name !== initialStateAssign.file?.name) || // Correct file comparison
       file !== initialStateAssign.file ||
       String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
-      house_no !== initialStateAssign.house_no ||
-      street !== initialStateAssign.street ||  
-      landmark !== initialStateAssign.landmark ||
+
+      normalize(house_no) !== normalize(initialStateAssign.house_no) ||
+      normalize(street) !== normalize(initialStateAssign.street) ||
+      normalize(landmark) !== normalize(initialStateAssign.landmark) ||
       city !== initialStateAssign.city ||
       state_name !== initialStateAssign.state;
 
@@ -2063,7 +2047,6 @@ if (!pattern.test(value)) {
                                                 }}
                                               >
                                                 Flat , House no , Building , Company , Apartment {" "}
-                                                <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                               </Form.Label>
                                               <FormControl
                                                 type="text"
@@ -2104,7 +2087,6 @@ if (!pattern.test(value)) {
                                                 }}
                                               >
                                                 Area , Street , Sector , Village{" "}
-                                                <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                               </Form.Label>
                                               <FormControl
                                                 type="text"
@@ -2143,7 +2125,6 @@ if (!pattern.test(value)) {
                                                 }}
                                               >
                                                 Landmark{" "}
-                                                <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                               </Form.Label>
                                               <FormControl
                                                 type="text"
@@ -2176,7 +2157,7 @@ if (!pattern.test(value)) {
                      <Row>
                      <Col md={6}>
                      <Form.Group
-                                                                                                                    className="mb-3"
+                                                                                                                    className=""
                                                                                                                     controlId="exampleForm.ControlInput1"
                                                                                                                   >
                                                                                                                     <Form.Label
@@ -2276,7 +2257,7 @@ if (!pattern.test(value)) {
                                          
                               
                                                                                           <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
-                                          <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                                          <Form.Group className="" controlId="exampleForm.ControlInput5">
                                             <Form.Label
                                               style={{
                                                 fontFamily: "Gilroy",
@@ -2349,15 +2330,15 @@ if (!pattern.test(value)) {
                                               }}
                                             />
                                           </Form.Group>
-                                        
-                                          {state_nameError && (
-                                            <div style={{ color: "red" }}>
-                                              <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                              <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                {state_nameError}
-                                              </span>
-                                            </div>
-                                          )}
+                                          {!state_name && state_nameError && (
+  <div style={{ color: "red" }}>
+    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {state_nameError}
+    </span>
+  </div>
+)}
+
                                         </div>
 
           {/* <Col md={12} className="mb-0">
