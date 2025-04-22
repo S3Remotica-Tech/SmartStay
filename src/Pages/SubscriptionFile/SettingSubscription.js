@@ -9,7 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { MdError } from "react-icons/md";
 import {CloseCircle} from "iconsax-react";
-import "./SettingSubscription.css";
+
 
 function SettingSubscription() {
    const state = useSelector((state) => state);
@@ -239,9 +239,10 @@ useEffect(() => {
 
   return (
     <div className="container">
-      <div style={{marginTop:26}}>
+      <div style={{marginTop:35}}>
+      <div  className="w-100 d-flex justify-content-center justify-content-md-start mt-4">
         <p className="cardnewsubs" style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}>Subscription</p>
-
+</div>
       </div>
 
       <div className="row g-3">

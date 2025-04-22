@@ -335,9 +335,9 @@ function SettingAmenities({ hostelid }) {
                 overflowY: "auto",
                 paddingRight:11,paddingLeft:10
             }}>
+            
             <div 
-            // className='d-flex justify-content-between align-items-center'
-                 className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
                 style={{
                     // display: "flex", flexDirection: "row", justifyContent: "space-between",
                      position: "sticky",
@@ -348,13 +348,11 @@ function SettingAmenities({ hostelid }) {
                     backgroundColor: "#FFFFFF",
                     height: 83,
                 }}>
-                <div 
-                className="w-100 text-md-start text-center mt-3">
+                 <div 
+    className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
                 </div>
-                <div 
-                className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
-                >
+                <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
                     <Button
                         onClick={handleOpenAmenities}
                         // style={{
@@ -369,11 +367,12 @@ function SettingAmenities({ hostelid }) {
                             fontWeight: 600,
                             borderRadius: "8px",
                             padding: "11px 35px",
-                            paddingLeft: 34,
-                            width: "auto",
+                            // paddingLeft: 34,
+                            width:146,
+                            height:45,
                             maxWidth: "100%",
                             maxHeight: 50,
-                            marginTop: 5,
+                            marginTop: 12,
                             minWidth: "130px",
                             whiteSpace: "nowrap",
                         }}

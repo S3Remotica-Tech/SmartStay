@@ -248,9 +248,8 @@ function SettingNewUser() {
 
 
 
-            <div 
-            // className='d-flex justify-content-between align-items-center'
-            className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+<div 
+  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
             style={{
                     // display: "flex", flexDirection: "row", justifyContent: "space-between", 
                     position: "sticky",
@@ -262,8 +261,8 @@ function SettingNewUser() {
                     height: 83,
                     paddingRight:1
                 }}  >
-                <div 
-                className="w-100 text-md-start text-center mt-3"
+                 <div 
+    className="w-100 d-flex justify-content-center justify-content-md-start mt-3"
                 style={{ marinTop: -4 }}>
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Users</label>
                 </div>
@@ -283,10 +282,12 @@ function SettingNewUser() {
                             borderRadius: "8px",
                             padding: "11px 52px",
                             // width: "auto",
-                            maxWidth: "100%",
-                            maxHeight: 50,
-                            marginTop: 5,
+                           width:146,
+                           height:45,
+                          marginLeft:5,
+                            marginTop: 12,
                             whiteSpace: "nowrap",
+                            
                             
                         }}
                         disabled={showPopup}
@@ -298,6 +299,58 @@ function SettingNewUser() {
                     </Button>
                 </div>
             </div>
+            {/* <div 
+  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+  style={{
+    position: "sticky",
+    top: 0,
+    right: 0,
+    left: 0,
+    zIndex: 1000,
+    backgroundColor: "#FFFFFF",
+    height: 83,
+    paddingRight: 1,
+  }}
+>
+  <div 
+    className="w-100 d-flex justify-content-center justify-content-md-start mt-3"
+    style={{ marginTop: -4 }}
+  >
+    <label 
+      style={{ 
+        fontFamily: "Gilroy", 
+        fontSize: 20, 
+        color: "#222", 
+        fontWeight: 600 
+      }}
+    >
+      Users
+    </label>
+  </div>
+
+  <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
+    <Button
+      onClick={handleOpenAddUser}
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: "14px",
+        backgroundColor: "#1E45E1",
+        color: "white",
+        fontWeight: 600,
+        borderRadius: "8px",
+        padding: "11px 52px",
+        maxWidth: "100%",
+        maxHeight: 50,
+        marginTop: 5,
+        whiteSpace: "nowrap",
+      }}
+      disabled={showPopup}
+    >
+      + User
+    </Button>
+  </div>
+</div> */}
+
             {showPopup && (
                 <div className="d-flex flex-wrap">
                     <p style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">

@@ -364,30 +364,30 @@ const SettingElectricity = ({ hostelid }) => {
 
 
 
-      <div className='d-flex row mb-4' style={{
-        position: 'sticky', top: 0, right: 0,
-        left: 0,
-        zIndex: 1000,
-        backgroundColor: "#FFFFFF",
-        whiteSpace: "nowrap",
-        paddingRight:1
-        
-        // height: 83,
-        // padding: "10px",
-      }} >
-        <Col className="w-100 text-md-start text-center">
+<div 
+  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+                style={{
+                    // display: "flex", flexDirection: "row", justifyContent: "space-between",
+                     position: "sticky",
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    zIndex: 1000,
+                    backgroundColor: "#FFFFFF",
+                    // height: 83,
+                }}>
+        <div 
+    className="w-100 d-flex justify-content-center justify-content-md-start mt-2">
           <h4 style={{
             fontSize: 20,
             color: "#000000",
             fontWeight: 600,
-            fontFamily: "Gilroy", marginTop: 7,
+            fontFamily: "Gilroy",
+             marginTop: 6,
             whiteSpace: "nowrap",
           }}>Electricity</h4>
-        </Col>
-        <Col 
-        // className="d-flex justify-content-end"
-        className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
-       >
+        </div>
+        <div className="d-flex justify-content-center justify-content-md-end w-100  mt-md-0" style={{marginTop:-10}}>
           {/* <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
           padding:"12px 16px 12px 16px"
            }} 
@@ -398,7 +398,7 @@ const SettingElectricity = ({ hostelid }) => {
 
           {EbList.length > 0 ? (
             EbList.map((v, i) => (
-              <Button
+              <Button className='electricity-btn'
                 key={i}
                 onClick={() => handleEditElectricity(v)}
                 style={{
@@ -413,7 +413,7 @@ const SettingElectricity = ({ hostelid }) => {
                   // marginTop:-2
                   height:45,
                   width:146,
-                  marginTop:-2,
+                  // marginTop:-2,
                  
                  
                 }}
@@ -422,7 +422,7 @@ const SettingElectricity = ({ hostelid }) => {
               </Button>
             ))
           ) : (
-            <Button
+            <Button className='electricity-btn'
               onClick={handleShowFormElectricity}
               style={{
                 fontFamily: "Gilroy",
@@ -434,7 +434,7 @@ const SettingElectricity = ({ hostelid }) => {
                 // padding: "11px 35px",
                 height:45,
                 width:146,
-                marginTop:-2,
+                // marginTop:-2,
               }}
               disabled={showPopup}
             >
@@ -442,8 +442,7 @@ const SettingElectricity = ({ hostelid }) => {
             </Button>
           )}
 
-
-        </Col>
+</div>
 
         {showPopup && (
           <div className="d-flex flex-wrap">
