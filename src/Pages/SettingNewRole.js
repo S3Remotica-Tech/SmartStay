@@ -478,7 +478,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
              position: 'fixed',
     right: "30%",
              display: 'flex',
-             height: "50vh",
+            //  height: "50vh",
              alignItems: 'center',
              justifyContent: 'center',
              backgroundColor: 'transparent',
