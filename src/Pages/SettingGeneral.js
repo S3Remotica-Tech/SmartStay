@@ -2201,7 +2201,7 @@ const indianStates = [
       >
         <Modal.Header style={{ borderBottom: "none" }}>
           <Modal.Title
-          className="w-100 text-center mt-2"
+          className="w-100 text-center mt-1"
             style={{
               fontSize: "18px",
               fontFamily: "Gilroy",
@@ -2428,7 +2428,7 @@ const indianStates = [
         <Modal.Footer className="d-flex justify-content-center" style={{border:"none"}}>
           <Button
             // className="col-12"
-            className="w-100 custom-button"
+            className="w-100 custom-button mt-2"
             style={{
               backgroundColor: "#1E45E1",
               fontWeight: 600,

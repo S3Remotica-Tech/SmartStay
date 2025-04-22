@@ -9,7 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { MdError } from "react-icons/md";
 import {CloseCircle} from "iconsax-react";
-import "./SettingSubscription.css";
+
 
 function SettingSubscription() {
    const state = useSelector((state) => state);
