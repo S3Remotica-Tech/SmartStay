@@ -458,10 +458,7 @@ const handleClose =()=>{
       // !address &&
       !business_Name &&
       !countryCode &&
-      !house_no && 
-      !street && 
       !city &&
-      !landmark&&
       !state_name &&
       !country &&
       !pinCode
@@ -501,20 +498,7 @@ const handleClose =()=>{
       isValid = false;
     }
 
-    if (!house_no) {
-      setHouse_NoError("Please Enter House No/Flat");
-      isValid = false;
-    }
-
-    if (!street) {
-      setStreetError("Please Enter Street");
-      isValid = false;
-    }
-
-    if (!landmark) {
-      setLandmarkError("Please Enter Landmark");
-      isValid = false;
-    }
+ 
 
     if (!city) {
       setCityError("Please Enter City");
@@ -552,6 +536,11 @@ const handleClose =()=>{
       isValid = false;
     }
 
+    const normalize = (value) => {
+      const val = (value ?? "").toString().trim().toLowerCase();
+      return val === "null" || val === "undefined" ? "" : val;
+    };
+
     const isChanged =
     first_Name.trim() !== (initialState.first_Name || "").trim() ||
     last_Name.trim() !== (initialState.last_Name || "").trim() ||
@@ -562,15 +551,20 @@ const handleClose =()=>{
     countryCode !== (initialState.countryCode || "") ||
     country.trim() !== (initialState.country || "").trim() ||
     String(pinCode).trim() !== String(initialState.pinCode || "").trim() ||
-    house_no !== initialState.house_no ||
-    street !== initialState.street ||
-    landmark !== initialState.landmark ||
+    normalize(house_no) !== normalize(initialState.house_no) ||
+    normalize(street) !== normalize(initialState.street) ||
+    normalize(landmark) !== normalize(initialState.landmark) ||
+    // house_no !== initialState.house_no ||
+    // street !== initialState.street ||
+    // landmark !== initialState.landmark ||
     city !== initialState.city ||
-    state_name !== initialState.state;
+   state_name?.trim() !== (initialState.state || "").trim()
+
   
+    console.log("ischanged",isChanged );
+    
 
-
-    if (!isChanged) {
+    if (!isChanged ) {
       setIsChangedError("No Changes Detected");
       isValid = false;
     }
@@ -690,6 +684,13 @@ const handleClose =()=>{
           ? ""
           : emailValue;
 
+          const sanitize = (value) => {
+            return value === null || value === undefined || value === "null" || value === "undefined"
+              ? ""
+              : value;
+          };
+
+
       setCheck("EDIT");
       setFirst_Name(firstName);
       setLast_Name(lastName);
@@ -705,9 +706,10 @@ const handleClose =()=>{
       setFile(currentItem.Vendor_profile ? currentItem.Vendor_profile : null);
       setCountry(currentItem.Country);
       setPinCode(currentItem.Pincode);
-      setHouseNo(currentItem.Vendor_Address)
-      setStreet(currentItem.area)
-      setLandmark(currentItem.landmark)
+      // setHouseNo(sanitize(item[0].Address));
+      setHouseNo(sanitize(currentItem.Vendor_Address))
+      setStreet(sanitize(currentItem.area))
+      setLandmark(sanitize(currentItem.landmark))
       setCity(currentItem.city)
       setStateName(currentItem.state)
 
@@ -717,11 +719,11 @@ const handleClose =()=>{
         vendor_Mobile: mobileNumber,
         countryCode: countryCode,
         // address: currentItem.Vendor_Address,
-        house_no: currentItem.Vendor_Address || '',
-        street: currentItem.area || '',
-        city: currentItem.city || '',
+        house_no: sanitize(currentItem.Vendor_Address) || '',
+        street: sanitize(currentItem.area) || '',
+        city: sanitize(currentItem.city) || '',
         // pincode:user.pin_code || '',
-        landmark:currentItem.landmark || '',
+        landmark:sanitize(currentItem.landmark)|| '',
         state: currentItem.state || '',
         email_Id: normalizedEmail,
         business_Name: currentItem.Business_Name,
@@ -732,6 +734,9 @@ const handleClose =()=>{
     }
   }, [currentItem]);
 
+
+   console.log("house_no", house_no , street , landmark);
+   
 
  
   useEffect(()=>{
@@ -1293,7 +1298,6 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                                                          }}
                                                        >
                                                          Flat , House no , Building , Company , Apartment {" "}
-                                                         <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                        </Form.Label>
                                                        <FormControl
                                                          type="text"
@@ -1332,7 +1336,6 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                                                          }}
                                                        >
                                                          Area , Street , Sector , Village{" "}
-                                                         <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                        </Form.Label>
                                                        <FormControl
                                                          type="text"
@@ -1371,7 +1374,6 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                                                          }}
                                                        >
                                                          Landmark{" "}
-                                                         <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                        </Form.Label>
                                                        <FormControl
                                                          type="text"
@@ -1497,7 +1499,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
               </div>
                                        
                                                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-  <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+  <Form.Group className="" controlId="exampleForm.ControlInput5">
     <Form.Label
       style={{
         fontFamily: "Gilroy",
@@ -1570,20 +1572,21 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
     />
   </Form.Group>
 
-  {state_nameError && (
-    <div style={{ color: "red" }}>
-      <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-      <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-        {state_nameError}
-      </span>
-    </div>
-  )}
+  {!state_name && state_nameError && (
+  <div style={{ color: "red" }}>
+    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {state_nameError}
+    </span>
+  </div>
+)}
+
 </div>
 
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-3"
+                  className=""
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -1592,6 +1595,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      marginBottom:'0px'
                     }}
                   >
                     Country

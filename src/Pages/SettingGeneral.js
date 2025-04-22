@@ -473,15 +473,7 @@ const indianStates = [
         case "password":
           setPasswordError("Password Required");
           break;
-          case "Houseno":
-            setHouse_NoError("Please Enter House No/Flat");
-            break;
-          case "Street":
-            setStreetError("Please Enter Street");
-            break;
-          case "Landmark":
-            setLandmarkError("Please Enter Landmark");
-            break;
+      
           case "City":
             setCityError("Please Enter City");
             break;
@@ -604,9 +596,6 @@ const indianStates = [
     const isPhoneValid = validateField(Phone, "Phone");
     // const isAddressValid = validateField(address, "address");
     const isPasswordValid = !edit ? validateField(password, "password") : true;
-    const isHousenoValid = validateField(house_no, "Houseno");
-    const isStreetValid = validateField(street, "Street");
-    const isLandmarkValid = validateField(landmark, "Landmark");
     const isCityValid = validateField(city, "City");
     const isPincodeValid = validateField(pincode, "Pincode");
     const isStatenameValid = validateField(state_name, "state_name");
@@ -641,9 +630,6 @@ const indianStates = [
       !isEmailValid ||
       !isPhoneValid ||
       !isPasswordValid ||
-      !isHousenoValid || 
-      !isStreetValid  || 
-      !isLandmarkValid ||
       !isCityValid  || 
       !isPincodeValid ||
       !isStatenameValid
@@ -666,9 +652,9 @@ const indianStates = [
         normalize(lastName) !== normalize(initialStateAssign.lastName) ||
         emilId !== initialStateAssign.emilId ||
         // address !== initialStateAssign.address ||
-        house_no !== initialStateAssign.house_no ||
-        street !== initialStateAssign.street ||
-        landmark !== initialStateAssign.landmark ||
+        normalize(house_no) !== normalize(initialStateAssign.house_no) ||
+        normalize(street) !== normalize(initialStateAssign.street) ||
+        normalize(landmark) !== normalize(initialStateAssign.landmark) ||
         city !== initialStateAssign.city ||
         String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
         state_name !== initialStateAssign.state ||
@@ -1286,9 +1272,9 @@ const indianStates = [
                         fontWeight: 600,
                       }}
                     >
-                      {item.Address} {""}{" "} ,
-                      {item.area ? item.area :''}, {""} {item.city ? item.city :''} {""} {item.state ? item.state : ''} <br></br>
-                      {item.pin_code}
+                      {item.Address ? item.Address : ''} {""}{" "} 
+                      {item.area ? item.area :''} {""} {item.city ? item.city :''} {""} {item.state ? item.state : ''} <br></br>
+                      {item.pin_code ? item.pin_code  : ''}
                     </p>
                   </div>
                 </div>
@@ -1864,7 +1850,6 @@ const indianStates = [
                   }}
                 >
                   Flat , House no , Building , Company , Apartment {" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -1903,7 +1888,6 @@ const indianStates = [
                   }}
                 >
                   Area , Street , Sector , Village{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -1942,7 +1926,6 @@ const indianStates = [
                   }}
                 >
                   Landmark{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -2140,14 +2123,14 @@ const indianStates = [
                />
              </Form.Group>
            
-             {state_nameError && (
-               <div style={{ color: "red" }}>
-                 <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                 <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                   {state_nameError}
-                 </span>
-               </div>
-             )}
+            {!state_name && state_nameError && (
+             <div style={{ color: "red" }}>
+               <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+               <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
+                 {state_nameError}
+               </span>
+             </div>
+           )}
            </div>
 
 

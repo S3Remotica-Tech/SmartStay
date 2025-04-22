@@ -424,15 +424,7 @@ function BookingModal(props) {
         //   setAddressError("Address is Required");
         //   break;
 
-        case "Houseno":
-          setHouse_NoError("Please Enter House No/Flat");
-          break;
-        case "Street":
-          setStreetError("Please Enter Street");
-          break;
-        case "Landmark":
-          setLandmarkError("Please Enter Landmark");
-          break;
+      
         case "City":
           setCityError("Please Enter City");
           break;
@@ -478,15 +470,7 @@ function BookingModal(props) {
         // case "Address":
         //   setAddressError("");
         //   break;
-          case "Houseno":
-            setHouse_NoError("");
-            break;
-          case "Street":
-            setStreetError("");
-            break;
-          case "Landmark":
-            setLandmarkError("");
-            break;
+         
           case "City":
             setCityError("");
             break;
@@ -520,9 +504,9 @@ function BookingModal(props) {
     const isAmountValid = validateAssignField(amount, "amount");
     // const isHostelValid = validateAssignField(paying, "paying");
     // const isAddressValid = validateAssignField(Address, "Address");
-    const isHousenoValid = validateAssignField(house_no, "Houseno");
-    const isStreetValid = validateAssignField(street, "Street");
-    const isLandmarkValid = validateAssignField(landmark, "Landmark");
+    // const isHousenoValid = validateAssignField(house_no, "Houseno");
+    // const isStreetValid = validateAssignField(street, "Street");
+    // const isLandmarkValid = validateAssignField(landmark, "Landmark");
     const isCityValid = validateAssignField(city, "City");
     const isPincodeValid = validateAssignField(pincode, "Pincode");
     const isStatenameValid = validateAssignField(state_name, "Statename");
@@ -561,9 +545,6 @@ function BookingModal(props) {
       !isJoiningDateValid ||
       // !isAddressValid ||
       !isAmountValid  || 
-      !isHousenoValid || 
-      !isStreetValid  || 
-      !isLandmarkValid ||
       !isCityValid  || 
       !isPincodeValid ||
       !isStatenameValid
@@ -1111,7 +1092,6 @@ try {
                                                               }}
                                                             >
                                                               Flat , House no , Building , Company , Apartment {" "}
-                                                              <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                             </Form.Label>
                                                             <FormControl
                                                               type="text"
@@ -1153,7 +1133,6 @@ try {
                                                                                                 }}
                                                                                               >
                                                                                                 Area , Street , Sector , Village{" "}
-                                                                                                <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                                                               </Form.Label>
                                                                                               <FormControl
                                                                                                 type="text"
@@ -1192,7 +1171,6 @@ try {
                                                                                                 }}
                                                                                               >
                                                                                                 Landmark{" "}
-                                                                                                <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                                                               </Form.Label>
                                                                                               <FormControl
                                                                                                 type="text"
@@ -1224,7 +1202,7 @@ try {
                                                       <Row>
                                                                           <Col md={6}>
                                                                           <Form.Group
-                                                                                                                                                                         className="mb-3"
+                                                                                                                                                                         className=""
                                                                                                                                                                          controlId="exampleForm.ControlInput1"
                                                                                                                                                                        >
                                                                                                                                                                          <Form.Label
@@ -1319,7 +1297,7 @@ try {
                                                                            </Row>   
 
     <Col md={12}>
-    <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+    <Form.Group className="" controlId="exampleForm.ControlInput5">
      <Form.Label
        style={{
          fontFamily: "Gilroy",

@@ -333,6 +333,14 @@ function UserListRoomDetail(props) {
 
   const handleEditUser = (item) => {
     if (item[0].ID) {
+
+      const sanitize = (value) => {
+        return value === null || value === undefined || value === "null" || value === "undefined"
+          ? ""
+          : value;
+      };
+
+      
       const phoneNumber = String(item[0].Phone || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
       const mobileNumber = phoneNumber.slice(-10);
@@ -370,13 +378,19 @@ function UserListRoomDetail(props) {
       setPaidAdvance(item[0].paid_advance || "");
       setPaidrent(item[0].paid_rent || "");
 
-      setPincode(item[0].pincode );
-      setHouseNo(item[0].Address || "")
-      setStreet(item[0].area)
-      setLandmark(item[0].landmark)
-      setCity(item[0].city)
-      setStateName(item[0].state)
+    
+      // setHouseNo(item[0].Address || "")
+      // setStreet(item[0].area)
+      // setLandmark(item[0].landmark)
+      // setCity(item[0].city)
+      // setStateName(item[0].state)
 
+      setHouseNo(sanitize(item[0].Address));
+      setStreet(sanitize(item[0].area));
+      setLandmark(sanitize(item[0].landmark));
+      setCity(sanitize(item[0].city));
+      setPincode(sanitize (item[0].pincode) );
+      setStateName(sanitize(item[0].state));
 
       setInitialState({
         firstname: value[0].trim(),
@@ -385,12 +399,12 @@ function UserListRoomDetail(props) {
         Email: item[0].Email || "",
         Address: item[0].Address || "",
         hostel_Id: item[0].Hostel_Id || "",
-        house_no: item[0].Address || '',
-        street: item[0].area || '',
-        city: item[0].city || '',
-        pincode:item[0].pincode || '',
-        landmark:item[0].landmark || '',
-        state: item[0].state || '',
+        house_no: sanitize(item[0].Address) || '',
+        street: sanitize(item[0].area)|| '',
+        city: sanitize(item[0].city) || '',
+        pincode:sanitize (item[0].pincode) || '',
+        landmark:sanitize(item[0].landmark) || '',
+        state: sanitize(item[0].state) || '',
 
         file: item[0].profile === "0" ? null : item[0].profile || null,
       });
@@ -812,10 +826,8 @@ function UserListRoomDetail(props) {
   const [hostelIdError, setHostelIdError] = useState("");
 
   const validateField = (value, fieldName) => {
-    // Ensure value is a string before using trim
     const stringValue = String(value).trim();
   
-    // Special case: Skip validation for Email if value is N/A or similar
     if (
       fieldName === "Email" &&
       ["n/a", "na"].includes(stringValue.toLowerCase())
@@ -835,41 +847,94 @@ function UserListRoomDetail(props) {
         case "Email":
           setEmailError("Email is Required");
           break;
-        // case "Address":
-        //   setAddressError("Address is Required");
-        //   break;
         case "Hostel ID":
           setHostelIdError("Hostel ID is Required");
           break;
-        
-          case "City":
-            setCityError("Please Enter City");
-            break;
-          case "Pincode":
-            setPincodeError("Please Enter Pincode");
-            break;
-          case "Statename":
-            setStateNameError("Please Select State");
-            break;
+        case "City":
+          setCityError("Please Enter City");
+          break;
+        case "Pincode":
+          setPincodeError("Please Enter Pincode");
+          break;
+        case "Statename":
+          setStateNameError("Please Select State");
+          break;
         default:
           break;
       }
       return false;
     }
   
+    // ✅ Clear old error if the value is now valid
+    switch (fieldName) {
+      case "First Name":
+        setFirstnameError("");
+        break;
+      case "Phone Number":
+        setPhoneError("");
+        break;
+      case "Email":
+        setEmailError("");
+        break;
+      case "Hostel ID":
+        setHostelIdError("");
+        break;
+      case "City":
+        setCityError("");
+        break;
+      case "Pincode":
+        setPincodeError("");
+        break;
+      case "Statename":
+        setStateNameError("");
+        break;
+      default:
+        break;
+    }
+  
     return true;
   };
   
+  
 
   const handleSaveUserlist = () => {
+
+    console.log({
+      firstname,
+      lastname,
+      fullPhone: Number(countryCode + Phone),
+      initPhone: Number(initialState.Phone),
+      Email,
+      initEmail: initialState.Email,
+      hostel_Id,
+      initHostel: initialState.hostel_Id,
+      file,
+      initFile: initialState.file,
+      house_no,
+      initHouse: initialState.house_no,
+      street,
+      initStreet: initialState.street,
+      landmark,
+      initLandmark: initialState.landmark,
+      city,
+      initCity: initialState.city,
+      pincode,
+      initPincode: initialState.pincode,
+      state_name,
+      initState: initialState.state,
+    });
+    
+
     let hasError = false;
+
     if (!validateField(firstname, "First Name")) return;
     if (!validateField(Phone, "Phone Number")) return;
     if (!validateField(Address, "Address")) return;
     if (!validateField(hostel_Id, "Hostel ID")) return;
-    if (!validateField(city, "City"))return;
-    if (!validateField(pincode, "Pincode"))return;
-    if (!validateField(state_name, "Statename"))return;
+    if (!validateField(city, "City")) return;
+    if (!validateField(pincode, "Pincode")) return;
+    if (!validateField(state_name, "Statename")) return;
+    
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a valid PG"); 
@@ -882,6 +947,8 @@ function UserListRoomDetail(props) {
       setPhoneError("");
       setPhoneErrorMessage("");
     }
+
+
   
     if (Email && !["n/a", "na"].includes(Email.toLowerCase().trim())) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
@@ -895,34 +962,40 @@ function UserListRoomDetail(props) {
     } else {
       setEmailError(""); // Don't show error if Email is empty or "N/A"
     }
-    
+   
+
 
     if (hasError) return;
 
 
-    const normalize = (value) => {
-      const val = (value ?? "").toString().trim().toLowerCase();
-      return val === "null" || val === "undefined" ? "" : val;
-    };
+    const normalize = (value) => (value === null ? "" : value);
 
+    
     const isChanged = !(
       firstname === initialState.firstname &&
       lastname === initialState.lastname &&
       Number(countryCode + Phone) === Number(initialState.Phone) &&
       Email === initialState.Email &&
       String(hostel_Id) === String(initialState.hostel_Id) &&
-      file === initialState.file && 
+      file === initialState.file &&
       normalize(house_no) === normalize(initialState.house_no) &&
       normalize(street) === normalize(initialState.street) &&
-      normalize(landmark) === normalize(initialState.landmark) &&
+      normalize(landmark) === normalize(initialState.landmark) &&      
       city === initialState.city &&
-      String(pincode).trim() === String(initialState.pincode || "").trim() &&
-      state_name === initialState.state 
+      String(pincode || "").trim() === String(initialState.pincode || "").trim() &&
+      state_name === initialState.state
     );
+
+    console.log("ischanged", isChanged);
+    
+    
+    
+    
     if (!isChanged) {
       setFormError("No Changes Detected");
       return;
-    } else {
+    }
+    else {
       setFormError("");
     }
     const capitalizeFirstLetter = (str) => {
@@ -970,6 +1043,8 @@ function UserListRoomDetail(props) {
 
     // setFormShow(false);
   };
+
+
   const [generateForm,seGenerateForm]= useState(false)
 const handlegenerateForm = ()=>{
   seGenerateForm(true)
@@ -3282,15 +3357,15 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                                                      }}
                                                                    />
                                                                  </Form.Group>
-                                                               
-                                                                 {state_nameError && (
-                                                                   <div style={{ color: "red" }}>
-                                                                     <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                                                     <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                                       {state_nameError}
-                                                                     </span>
-                                                                   </div>
-                                                                 )}
+                                                                 {!state_name && state_nameError && (
+  <div style={{ color: "red" }}>
+    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {state_nameError}
+    </span>
+  </div>
+)}
+
                                                                </div>
 
 

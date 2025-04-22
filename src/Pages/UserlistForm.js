@@ -216,15 +216,7 @@ const value = e.target.value
         case "Hostel ID":
           setHostelIdError("Hostel ID is Required");
           break;
-          case "Houseno":
-            setHouse_NoError("Please Enter House No/Flat");
-            break;
-          case "Street":
-            setStreetError("Please Enter Street");
-            break;
-          case "Landmark":
-            setLandmarkError("Please Enter Landmark");
-            break;
+       
           case "City":
             setCityError("Please Enter City");
             break;
@@ -719,12 +711,12 @@ const handleBed = (selectedOption) => {
     let hasError = false;
     if (!validateField(firstname, "First Name"));
     if (!validateField(Phone, "Phone Number"));
-
-    if (!validateField(Address, "Address"));
+ 
+    // if (!validateField(Address, "Address"));
     if (!validateField(hostel_Id, "Hostel ID"));
-    if (!validateField(house_no, "Houseno"));
-    if (!validateField(street, "Street"));
-    if (!validateField(landmark, "Landmark"));
+    // if (!validateField(house_no, "Houseno"));
+    // if (!validateField(street, "Street"));
+    // if (!validateField(landmark, "Landmark"));
     if (!validateField(city, "City"));
     if (!validateField(pincode, "Pincode"));
     if (!validateField(state_name, "Statename"));
@@ -1334,7 +1326,6 @@ const handleBed = (selectedOption) => {
                                      }}
                                    >
                                      Flat , House no , Building , Company , Apartment {" "}
-                                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                    </Form.Label>
                                    <FormControl
                                      type="text"
@@ -1373,7 +1364,6 @@ const handleBed = (selectedOption) => {
                                      }}
                                    >
                                      Area , Street , Sector , Village{" "}
-                                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                    </Form.Label>
                                    <FormControl
                                      type="text"
@@ -1412,7 +1402,6 @@ const handleBed = (selectedOption) => {
                                      }}
                                    >
                                      Landmark{" "}
-                                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                    </Form.Label>
                                    <FormControl
                                      type="text"
@@ -1442,7 +1431,7 @@ const handleBed = (selectedOption) => {
                    
                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                                    <Form.Group
-                                                                  className="mb-3"
+                                                                  className=""
                                                             controlId="exampleForm.ControlInput1"
                                                                                                        >
                                                                                                          <Form.Label
@@ -1610,14 +1599,15 @@ const handleBed = (selectedOption) => {
                                 />
                               </Form.Group>
                             
-                              {state_nameError && (
-                                <div style={{ color: "red",marginTop:"-15px" }}>
-                                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                  <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                    {state_nameError}
-                                  </span>
-                                </div>
-                              )}
+                              {!state_name && state_nameError && (
+  <div style={{ color: "red" }}>
+    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
+      {state_nameError}
+    </span>
+  </div>
+)}
+
                             </div>
                    
 
