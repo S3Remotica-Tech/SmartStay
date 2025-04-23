@@ -1014,7 +1014,6 @@ useEffect(() => {
                                                             }}
                                                           >
                                                             Flat , House no , Building , Company , Apartment {" "}
-                                                            <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                           </Form.Label>
                                                           <FormControl
                                                             type="text"
@@ -1053,7 +1052,6 @@ useEffect(() => {
                                                             }}
                                                           >
                                                             Area , Street , Sector , Village{" "}
-                                                            <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                           </Form.Label>
                                                           <FormControl
                                                             type="text"
@@ -1092,7 +1090,6 @@ useEffect(() => {
                                                             }}
                                                           >
                                                             Landmark{" "}
-                                                            <span style={{ color: "red", fontSize: "20px" }}> * </span>
                                                           </Form.Label>
                                                           <FormControl
                                                             type="text"

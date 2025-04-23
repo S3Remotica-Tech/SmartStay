@@ -525,8 +525,8 @@ function UserlistWalkin(props) {
                         }}
                       >
                         {v.total_amount}
-                        {v.comments || "-"}
-                            {v.area ? v.area :''}, {""} {v.city ? v.city :''} {""}<br></br>
+                        {v.comments || ""}
+                            {v.area ? v.area :''} {""} {v.city ? v.city :''} {""}<br></br>
                              {v?.state ? v.state : ''}  {v.pin_code ? -  v.pin_code : ''}
                       </td>
                       <td style={{borderBottom: "1px solid #E8E8E8"}}>

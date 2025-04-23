@@ -397,7 +397,7 @@ if (!pattern.test(value)) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
-      setFormError("");
+      setFormError("");  
     }
   
     // setGeneralError("");
