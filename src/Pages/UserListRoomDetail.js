@@ -1449,7 +1449,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                 <div
                   key={item.ID}
                   className="container mt-2"
-                  style={{ marginLeft: "-20px", height: "100vh", overflowY: "auto" }}
+                  style={{ marginLeft: "-20px", height: "90vh", overflowY: "auto" }}
                 >
                    <div
         className="d-flex align-items-center"

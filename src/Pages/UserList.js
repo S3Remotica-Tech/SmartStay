@@ -2762,7 +2762,7 @@ const handleBack = () => {
           ></div>
         </div>
       )}
-                {customerpermissionError ? (
+                {customerpermissionError && customerpermissionError ? (
                   <>
                     <div
                       style={{
@@ -3478,7 +3478,7 @@ const handleBack = () => {
                   </>
                 )}
 
-                {!loading && userListDetail?.length === 0 && (
+                {!loading && userListDetail && userListDetail?.length === 0 && (
                   <div style={{ marginTop: 30 }}>
                     <div style={{ textAlign: "center" }}>
                       <img src={Emptystate} alt="emptystate" />
