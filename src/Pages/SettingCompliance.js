@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import message from "../Assets/Images/New_images/messages_gray.png";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
-import { Row, Button, Col, Form, FormControl } from "react-bootstrap";
+import {Button,Form, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from 'react-redux';
 import EmptyState from '../Assets/Images/New_images/empty_image.png';

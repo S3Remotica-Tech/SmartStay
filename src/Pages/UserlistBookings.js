@@ -65,7 +65,7 @@ function Booking(props) {
   const [state_name, setStateName] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-  const [Address, setAddress] = useState("");
+  // const [Address, setAddress] = useState("");
   // const [addressError, setAddressError] = useState("");
   const [Email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -228,7 +228,7 @@ function Booking(props) {
       setCountryCode(countryCode);
       setPhone(mobileNumber);
       setEmail(item.email_id || "");
-      setAddress(item.address || "");
+      // setAddress(item.address || "");
       setHouseNo(item.address || '');
       setStreet(item.area || '');
       setLandmark(item.landmark || '')
@@ -662,7 +662,7 @@ if (!pattern.test(value)) {
     setFormError("");
     setPhone("");
     setPhoneError("");
-    setAddress("");
+    // setAddress("");
     // setAddressError("");
     setfirstNameError("");
     setDateError("");

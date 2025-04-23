@@ -39,7 +39,7 @@ function UserlistForm(props) {
   const [AdvanceAmount, setAdvanceAmount] = useState("");
   const [paid_advance, setPaidAdvance] = useState("");
   const [paid_rent, setPaidrent] = useState("");
-  const [Address, setAddress] = useState("");
+  // const [Address, setAddress] = useState("");
   const [Email, setEmail] = useState("");
   const [AadharNo, setAadharNo] = useState("");
   const [PancardNo, setPancardNo] = useState("");
@@ -621,7 +621,7 @@ const handleBed = (selectedOption) => {
   const handleClose = () => {
     setFirstname("");
     setLastname("");
-    setAddress("");
+    // setAddress("");
     setAadharNo("");
     setPancardNo("");
     setLicence("");
