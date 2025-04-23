@@ -408,11 +408,11 @@ useEffect(() => {
           </ul>
           {/* <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(1)}>Change Plan</button> */}
           {planType === "smartstay_monthly" ? (
-  <button className="btn btn-success w-100 mt-3"  onClick={() => handlePlanChange(299)}>
+  <button className="btn btn-changeplan btn-success w-100 mt-3"  onClick={() => handlePlanChange(299)}>
     Current Plan
   </button>
 ) : (
-  <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(299)}>
+  <button className="btn btn-changeplan btn-outline-primary w-100" onClick={() => handlePlanChange(299)}>
     Change Plan
   </button>
 )}
@@ -466,11 +466,11 @@ useEffect(() => {
           </ul>
           {/* <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(599)}>Change Plan</button> */}
           {planType === "smartstay_threemonth" ? (
-  <button className="btn btn-success w-100 mt-3"  onClick={() => handlePlanChange(599)}>
+  <button className="btn btn-changeplan btn-success w-100 mt-3"  onClick={() => handlePlanChange(599)}>
     Current Plan
   </button>
 ) : (
-  <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(599)}>
+  <button className="btn btn-changeplan btn-outline-primary w-100" onClick={() => handlePlanChange(599)}>
    Change Plan
   </button>
 )}
@@ -523,11 +523,11 @@ useEffect(() => {
             </li>
           </ul>
           {planType === "smartstay_oneyear" ? (
-  <button className="btn btn-success w-100 mt-3"  onClick={() => handlePlanChange(999)}>
+  <button className="btn btn-changeplan btn-success w-100 mt-3"  onClick={() => handlePlanChange(999)}>
     Current Plan
   </button>
 ) : (
-  <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(999)}>
+  <button className="btn btn-changeplan btn-outline-primary w-100" onClick={() => handlePlanChange(999)}>
   Change Plan
   </button>
 )}
@@ -672,7 +672,7 @@ useEffect(() => {
           
           
           
-                            <div className="row mb-3">
+                            <div className="row mb-3 change-plan-form">
                               
                   
                             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -797,7 +797,7 @@ useEffect(() => {
                                     )}
                                    
                                   </div>
-                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 cmt">
                                     <Form.Group >
                                       <Form.Label
                                         style={{
@@ -847,7 +847,7 @@ useEffect(() => {
                             
           
                             <Button
-                              className="w-100"
+                              className="w-100 buy-now"
                               style={{
                                 backgroundColor: "#1E45E1",
                                 fontWeight: 600,

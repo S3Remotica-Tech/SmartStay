@@ -2145,7 +2145,7 @@ const indianStates = [
               <span style={{ fontSize: '13px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
             </div>
           )}
-          <Button
+          {/* <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
               backgroundColor: "#1E45E1",
@@ -2159,7 +2159,22 @@ const indianStates = [
             onClick={handleSave}
           >
             {edit ? "Save changes" : "Add General"}
-          </Button>
+          </Button> */}
+          <Button
+  className="col-lg-12 col-md-12 col-sm-12 col-xs-12 w-sm-full"
+  style={{
+    backgroundColor: "#1E45E1",
+    fontWeight: 600,
+    height: 50,
+    borderRadius: 12,
+    fontSize: 14,
+    fontFamily: "Montserrat, sans-serif",
+    marginTop: 5,
+  }}
+  onClick={handleSave}
+>
+  {edit ? "Save changes" : "Add General"}
+</Button>
         </Modal.Footer>
       </Modal>
 

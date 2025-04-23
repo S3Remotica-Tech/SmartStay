@@ -13,3 +13,9 @@
       max-height: 220px;
       overflow-y: auto;
     }} */
+
+    @media (max-width: 576px) {
+      .w-sm-full {
+        width: 100% !important;
+      }
+    }
