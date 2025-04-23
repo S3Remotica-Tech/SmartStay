@@ -12,6 +12,7 @@ import {
 } from "iconsax-react";
 import Edit from '../Assets/Images/Edit-blue.png';
 import Delete from '../Assets/Images/Delete_red.png';
+import Emptystate from "../Assets/Images/Empty-State.jpg";
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
@@ -241,7 +242,7 @@ const handleDeleteBill = (user) => {
                                                 className=" booking-table-userlist  booking-table"
                                                 style={{ paddingBottom: "20px" }}
                                               >
-                                                 {sortedData?.length > 0 && (
+                                                {sortedData?.length > 0 ? (
                                                  <div
                                                   
                                                    className='show-scrolls'
@@ -825,7 +826,36 @@ const handleDeleteBill = (user) => {
           </tbody>
         </Table>
       </div>
-                                                 )}
+                                                 ):<div style={{ marginTop: 30 }}>
+                                                                           <div style={{ textAlign: "center" }}>
+                                                                             <img src={Emptystate} alt="emptystate" />
+                                                                           </div>
+                                                                           <div
+                                                                             className="pb-1"
+                                                                             style={{
+                                                                               textAlign: "center",
+                                                                               fontWeight: 600,
+                                                                               fontFamily: "Gilroy",
+                                                                               fontSize: 20,
+                                                                               color: "rgba(75, 75, 75, 1)",
+                                                                             }}
+                                                                           >
+                                                                             No Bills available
+                                                                           </div>
+                                                                           <div
+                                                                             className="pb-1"
+                                                                             style={{
+                                                                               textAlign: "center",
+                                                                               fontWeight: 500,
+                                                                               fontFamily: "Gilroy",
+                                                                               fontSize: 16,
+                                                                               color: "rgba(75, 75, 75, 1)",
+                                                                             }}
+                                                                           >
+                                                                             There are no Bills added.
+                                                                           </div>
+                                                                         </div>
+                                                }
       </div>
     
 
