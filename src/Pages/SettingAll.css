@@ -50,3 +50,8 @@
       height: 520px !important;
     }
   }
+  /* More specific selector to override global .col-md-3 height */
+.no-height-override {
+  height: auto !important;
+  margin-top: 20px !important;
+}

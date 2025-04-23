@@ -17,4 +17,14 @@
       opacity: 0 !important;
       height: auto !important;
   } 
+  .btn-changeplan{
+    margin-top: 15px !important;
+  }
+  .buy-now{
+    margin-top: 20px !important;
+  }
+  .cmt{
+    margin-top: 3px !important;
+  }
+  
   }

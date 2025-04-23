@@ -1322,7 +1322,7 @@ useEffect(() => {
               return (
                 <div
                   key={index}
-                  className="col-lg-3 col-md-3 col-sm-12 col-xs-12"
+                  className="col-lg-3 col-md-3 col-sm-12 col-xs-12 no-height-override"
                 >
                   <Card
                     style={{
