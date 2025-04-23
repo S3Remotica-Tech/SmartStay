@@ -389,9 +389,9 @@ function CreateAccountPage() {
   return (
     <>
 
-      <div data-testid='create-account' style={{ width: "100%", height: "100vh", fontFamily: "Gilroy", backgroundColor: "" }}>
+      <div data-testid='create-account' style={{ width: "100%", fontFamily: "Gilroy", backgroundColor: "" }}>
 
-        <div className=" ms-5 mb-5">
+        <div className=" ms-5">
 
           <div className="row g-0 coumn-gap-1 row-gap-4 fade-in">
             <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 mt-4">
