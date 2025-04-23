@@ -1449,43 +1449,39 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                 <div
                   key={item.ID}
                   className="container mt-2"
-                  // style={{ marginLeft: "-20px" }}
+                  style={{ marginLeft: "-20px", height: "100vh", overflowY: "auto" }}
                 >
-                  <div
-                    className="container justify-content-start  d-flex align-items-start"
-                    style={{ 
-                      position: "sticky", 
-    top: 0,
-    left: 0,
-    width: "100%",
-    zIndex: 1000,
-    backgroundColor: "#FFFFFF",
-    height: "60px",
-    padding: "10px 20px", 
-                    }}
-                  >
-                    <div style={{position:"fixed"}}>
-                    <img
-                      src={leftarrow}
-                      alt="leftarrow"
-                      width={20}
-                      height={20}
-                      onClick={props.handleBack}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <span
-                      style={{
-                        fontWeight: 600,
-                        fontSize: "18px",
-                        // marginLeft: 15,
-                        fontFamily: "Gilroy",
-                        paddingLeft:"10px"
-                      }}
-                    >
-                      Customer Profile
-                    </span>{" "}
-                    </div>
-                  </div>
+                   <div
+        className="d-flex align-items-center"
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 1000,
+          backgroundColor: "#fff",
+          padding: "12px 20px",
+          height: "60px",
+          // borderBottom: "1px solid #ddd"
+        }}
+      >
+        <img
+          src={leftarrow}
+          alt="leftarrow"
+          width={20}
+          height={20}
+          onClick={props.handleBack}
+          style={{ cursor: "pointer" }}
+        />
+        <span
+          style={{
+            fontWeight: 600,
+            fontSize: "18px",
+            fontFamily: "Gilroy",
+            paddingLeft: "10px"
+          }}
+        >
+          Customer Profile
+        </span>
+      </div>
    
 
                   <div className="card mt-3" style={{ borderRadius: "24px",marginLeft:'20px' }}>

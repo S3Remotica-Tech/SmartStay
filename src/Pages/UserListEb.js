@@ -4,6 +4,7 @@ import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import {  ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import PropTypes from "prop-types";
+import Emptystate from "../Assets/Images/Empty-State.jpg";
 
 function UserEb(props) {
   const state = useSelector(state => state)
@@ -205,7 +206,7 @@ function UserEb(props) {
                                                      className=" booking-table-userlist  booking-table"
                                                      style={{ paddingBottom: "20px" }}
                                                    >
-                                                      {sortedData?.length > 0 && (
+                                                     {sortedData?.length > 0 ? (
                                                       <div
                                                        
                                                         className='show-scrolls'
@@ -444,17 +445,42 @@ function UserEb(props) {
                 )
 
               })}
-              {currentRowsEb?.length === 0 && (
-                <tr style={{width:"100%"}}>
-                <td colSpan="10" style={{ textAlign: "center", color: "red", fontFamily:"Gilroy", fontSize:14 }}>No data found</td>
-              </tr>
-              )}
+           
 
             </tbody>
           </Table>
 
         </div>
-      )}
+      ):
+      <div style={{ marginTop: 30 }}>
+                          <div style={{ textAlign: "center" }}>
+                            <img src={Emptystate} alt="emptystate" />
+                          </div>
+                          <div
+                            className="pb-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              fontSize: 20,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            No Electricity available
+                          </div>
+                          <div
+                            className="pb-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              fontSize: 16,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            There are no Electricity added.
+                          </div>
+                        </div>}
       </div>
         {EbFilterddata?.length >= 6 && (
 
