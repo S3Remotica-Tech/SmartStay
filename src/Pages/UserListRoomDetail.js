@@ -531,7 +531,7 @@ function UserListRoomDetail(props) {
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
     setHouse_NoError("")
-    // setFormError("");
+    setFormError("");
   };
 
   const handleStreetName = (e) => {
@@ -539,13 +539,13 @@ function UserListRoomDetail(props) {
     setStreetError("");
 
     
-    // setFormError("");
+    setFormError("");
   }
 
   const handleLandmark = (e) => {
     setLandmark(e.target.value);
     setLandmarkError("");
-    // setFormError("");
+    setFormError("");
   }
 
   
@@ -570,7 +570,7 @@ function UserListRoomDetail(props) {
   const handleCity = (e) => {
     setCity(e.target.value);
     setCityError("");
-    // setFormError("");
+    setFormError("");
   }
 
  
@@ -899,37 +899,35 @@ function UserListRoomDetail(props) {
 
   const handleSaveUserlist = () => {
 
-    console.log({
-      firstname,
-      lastname,
-      fullPhone: Number(countryCode + Phone),
-      initPhone: Number(initialState.Phone),
-      Email,
-      initEmail: initialState.Email,
-      hostel_Id,
-      initHostel: initialState.hostel_Id,
-      file,
-      initFile: initialState.file,
-      house_no,
-      initHouse: initialState.house_no,
-      street,
-      initStreet: initialState.street,
-      landmark,
-      initLandmark: initialState.landmark,
-      city,
-      initCity: initialState.city,
-      pincode,
-      initPincode: initialState.pincode,
-      state_name,
-      initState: initialState.state,
-    });
+
     
+
+    const normalize = (value) =>
+      value === null || value === undefined || value === "null" || value === "undefined" ? "" : String(value).trim();
+    
+
+    
+    const isChanged =
+  firstname !== initialState.firstname ||
+  lastname !== initialState.lastname ||
+  Number(countryCode + Phone) !== Number(initialState.Phone) ||
+  Email !== initialState.Email ||
+  String(hostel_Id) !== String(initialState.hostel_Id) ||
+  file !== initialState.file ||
+  normalize(house_no) !== normalize(initialState.house_no ?? "") ||
+  normalize(street) !== normalize(initialState.street ?? "") ||
+  normalize(landmark) !== normalize(initialState.landmark ?? "") ||
+  city !== initialState.city ||
+  String(pincode || "").trim() !== String(initialState.pincode || "").trim() ||
+  state_name !== initialState.state;
+
+
 
     let hasError = false;
 
     if (!validateField(firstname, "First Name")) return;
     if (!validateField(Phone, "Phone Number")) return;
-    if (!validateField(Address, "Address")) return;
+    // if (!validateField(Address, "Address")) return;
     if (!validateField(hostel_Id, "Hostel ID")) return;
     if (!validateField(city, "City")) return;
     if (!validateField(pincode, "Pincode")) return;
@@ -968,25 +966,6 @@ function UserListRoomDetail(props) {
     if (hasError) return;
 
 
-    const normalize = (value) => (value === null ? "" : value);
-
-    
-    const isChanged = !(
-      firstname === initialState.firstname &&
-      lastname === initialState.lastname &&
-      Number(countryCode + Phone) === Number(initialState.Phone) &&
-      Email === initialState.Email &&
-      String(hostel_Id) === String(initialState.hostel_Id) &&
-      file === initialState.file &&
-      normalize(house_no) === normalize(initialState.house_no) &&
-      normalize(street) === normalize(initialState.street) &&
-      normalize(landmark) === normalize(initialState.landmark) &&      
-      city === initialState.city &&
-      String(pincode || "").trim() === String(initialState.pincode || "").trim() &&
-      state_name === initialState.state
-    );
-
-    console.log("ischanged", isChanged);
     
     
     

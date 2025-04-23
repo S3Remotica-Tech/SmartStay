@@ -365,19 +365,19 @@ if (!pattern.test(value)) {
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
     setHouse_NoError("")
-    // setFormError("");
+    setFormError("");
   };
 
   const handleStreetName = (e) => {
     setStreet(e.target.value);
     setStreetError("");
-    // setFormError("");
+    setFormError("");
   }
 
   const handleLandmark = (e) => {
     setLandmark(e.target.value);
     setLandmarkError("");
-    // setFormError("");
+    setFormError("");
   }
 
   // const handlePincode = (e) => {
@@ -397,6 +397,7 @@ if (!pattern.test(value)) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
+      setFormError("");
     }
   
     // setGeneralError("");
@@ -406,7 +407,7 @@ if (!pattern.test(value)) {
   const handleCity = (e) => {
     setCity(e.target.value);
     setCityError("");
-    // setFormError("");
+    setFormError("");
   }
 
   // const handleStateChange = (e) => {
