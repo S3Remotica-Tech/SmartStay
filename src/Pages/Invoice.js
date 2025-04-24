@@ -2545,7 +2545,7 @@ const InvoicePage = () => {
 
 
   return (
-    <div>
+    <div style={{height: "90vh", overflowY: "auto"}}>
       {showAllBill && (
         <>
           <div
@@ -6191,38 +6191,21 @@ const InvoicePage = () => {
                 }}>
                   Start Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </p>
-                {/* <div style={{ position: "relative", width: "100%" }}>
-        <DatePicker
-          selected={startdate}
-          onChange={(date) => handlestartDate(date)}
-          dateFormat="dd/MM/yyyy"
-          showMonthDropdown
-          showYearDropdown
-          scrollableYearDropdown
-          yearDropdownItemNumber={100}
-          popperPlacement="bottom-start"
-          popperModifiers={[{ name: "offset", options: { offset: [0, -300] } }]}
-          customInput={
-            <CustomStartDateInput
-              value={startdate ? startdate.toLocaleDateString("en-GB") : ""}
-            />
-          }
-        />
-      </div> */}
+          
                 <div
                   className="datepicker-wrapper"
                   style={{ position: "relative", width: "100%" }}
                 >
-                  <DatePicker
-                    style={{ width: "100%", height: 48, cursor: "pointer" }}
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={startdate ? dayjs(startdate) : null}
-                    onChange={(date) => handlestartDate(date)}
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".datepicker-wrapper")
-                    }
-                  />
+                <DatePicker
+  style={{ width: "100%", height: 48, cursor: "pointer" }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={startdate ? dayjs(startdate) : null}
+  onChange={(date) => handlestartDate(date)}
+  // 👇 This is important
+  getPopupContainer={() => document.body}
+/>
+
                 </div>
                 {startdateerrmsg.trim() !== "" && (
                   <div>
@@ -6266,9 +6249,10 @@ const InvoicePage = () => {
                     placeholder="DD/MM/YYYY"
                     value={enddate ? dayjs(enddate) : null}
                     onChange={(date) => handleEndDate(date)}
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".datepicker-wrapper")
-                    }
+                    // getPopupContainer={(triggerNode) =>
+                    //   triggerNode.closest(".datepicker-wrapper")
+                    // }
+                    getPopupContainer={() => document.body}
                   />
                 </div>
 
@@ -6294,10 +6278,6 @@ const InvoicePage = () => {
               </div>
             </div>
           )}
-
-
-
-
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
 
@@ -6308,25 +6288,7 @@ const InvoicePage = () => {
                 fontWeight: 500,
               }}>Invoice Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
-                {/* <DatePicker
-                  selected={invoicedate}
-                  onChange={(date) => handleInvoiceDate(date)}
-                  dateFormat="dd/MM/yyyy"
-                  showMonthDropdown
-                  showYearDropdown
-                  scrollableYearDropdown
-                  yearDropdownItemNumber={100}
-                  popperPlacement="bottom-start"
-                  popperModifiers={[
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [0, -300],
-                      },
-                    },
-                  ]}
-                  customInput={<CustomInvoiceDateInput value={invoicedate ? invoicedate.toLocaleDateString("en-GB") : ""} />}
-                /> */}
+              
                 <DatePicker
                   style={{ width: "100%", height: 48, cursor: "pointer" }}
                   format="DD/MM/YYYY"
