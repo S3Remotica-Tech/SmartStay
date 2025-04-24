@@ -836,7 +836,7 @@ width: "146px",
 whiteSpace: "nowrap"
   }}
 >
-  + Bank
+  + Add
 </Button>
 
               </div>
