@@ -6181,7 +6181,7 @@ const InvoicePage = () => {
             </Form.Group>
           </div>
           {invoiceDetails?.action !== "advance" && (
-            <div style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ display: "flex", flexDirection: "row" ,height:"100px"}}>
               <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
                 <p className="mt-1 mb-1" style={{
                   fontSize: 14,
@@ -6278,7 +6278,7 @@ const InvoicePage = () => {
               </div>
             </div>
           )}
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div style={{ display: "flex", flexDirection: "row",height:"100px" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
 
               <p className="mt-1 mb-1" style={{
@@ -6627,6 +6627,7 @@ const InvoicePage = () => {
                 fontFamily: "Gilroy",
                 fontStyle: "normal",
                 lineHeight: "normal",
+                marginTop:"20px"
               }}
             >
               {isEditing ? "Save Changes" : "Create Bill"}
