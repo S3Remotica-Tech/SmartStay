@@ -22,7 +22,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [address, setAddress] = useState("");
+  // const [address, setAddress] = useState("");
   const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
@@ -39,7 +39,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const [phoneError, setPhoneError] = useState("");
   const [advanceAmountError, setAdvanceAmountError] = useState("");
   const [roomRentError, setRoomRentError] = useState("");
-  const [addressError, setAddressError] = useState("");
+  // const [addressError, setAddressError] = useState("");
   const [dateError, setDateError] = useState("");
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
@@ -101,7 +101,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       handleClosing();
       setFirstname("");
       setLastname("");
-      setAddress("");
+      // setAddress("");
       setPhone("");
       setEmail("");
       setFile("");
@@ -112,7 +112,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     if (state.UsersList?.statusCodeForAddUser === 200) {
       setFirstname("");
       setLastname("");
-      setAddress("");
+      // setAddress("");
       setPhone("");
       setEmail("");
       setFile(null);
@@ -258,17 +258,17 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   //   setDateError("");
   // };
 
-  const handleAddress = (e) => {
-    const value = e.target.value;
-    setAddressError("");
-    if (value === "") {
-      setAddress(value);
-      return;
-    }
-    if (value.trim() !== "") {
-      setAddress(value);
-    }
-  };
+  // const handleAddress = (e) => {
+  //   const value = e.target.value;
+  //   setAddressError("");
+  //   if (value === "") {
+  //     setAddress(value);
+  //     return;
+  //   }
+  //   if (value.trim() !== "") {
+  //     setAddress(value);
+  //   }
+  // };
 
 
   const handleHouseNo = (e) => {
