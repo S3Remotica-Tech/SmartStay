@@ -25,7 +25,7 @@ function BankingEditTransaction(props) {
   const [accountError, setAccountError] = useState("");
   const [amountError, setAmountError] = useState("");
   const [transError, setTransError] = useState("");
-  const [describtionError, setdescribtionError] = useState("");
+  // const [describtionError, setdescribtionError] = useState("");
   const [id, setId] = useState("");
   const [error, setError] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
@@ -63,7 +63,7 @@ function BankingEditTransaction(props) {
   };
   const handleDescription = (e) => {
     setDescribtion(e.target.value);
-    setdescribtionError("");
+    // setdescribtionError("");
     setError("");
   };
   const [initialStateAssign, setInitialStateAssign] = useState({
@@ -116,9 +116,9 @@ function BankingEditTransaction(props) {
         case "transaction":
           setTransError("Transaction is Required");
           break;
-        case "describtion":
-          setdescribtionError("Description is Required");
-          break;
+        // case "describtion":
+        //   setdescribtionError("Description is Required");
+        //   break;
         default:
           break;
       }
@@ -580,7 +580,7 @@ function BankingEditTransaction(props) {
                   }}
                 />
               </Form.Group>
-              {describtionError && (
+              {/* {describtionError && (
                 <div style={{ color: "red" }}>
                   <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                   <span
@@ -593,7 +593,7 @@ function BankingEditTransaction(props) {
                     {describtionError}
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </Modal.Body>

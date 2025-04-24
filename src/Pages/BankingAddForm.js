@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Modal from "react-bootstrap/Modal";
-import { FormControl } from "react-bootstrap";
+import { FormControl,Nav } from "react-bootstrap";
 import React, { useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
@@ -211,7 +211,16 @@ function BankingAddForm(props) {
       }, 1000);
     }
   }, [state.bankingDetails.statusCodeForAddBanking]);
-
+  const [activeTab, setActiveTab] = useState("bank");
+  const tabStyle = {
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+    fontSize: 14,
+    color: "#1E45E1",
+    borderRadius: "8px",
+    padding: "8px 16px"
+  };
+  
   return (
     <div>
       <Modal
@@ -223,7 +232,7 @@ function BankingAddForm(props) {
 
       >
 
-        <Modal.Header style={{ position: "relative" }}>
+        <Modal.Header style={{ position: "relative",borderBottom:"none" }}>
           <div
             style={{
               fontSize: 20,
@@ -267,7 +276,23 @@ function BankingAddForm(props) {
           <CloseCircle size="24" color="#000" onClick={handleClose} 
             style={{ cursor: 'pointer' }}/>
         </Modal.Header>
+        <Nav variant="tabs" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey)} className="justify-content-start mb-3 ms-1">
+  <Nav.Item>
+    <Nav.Link eventKey="bank" style={tabStyle}>Bank Name</Nav.Link>
+  </Nav.Item>
+  <Nav.Item>
+    <Nav.Link eventKey="upi" style={tabStyle}>UPI</Nav.Link>
+  </Nav.Item>
+  <Nav.Item>
+    <Nav.Link eventKey="card" style={tabStyle}>Card</Nav.Link>
+  </Nav.Item>
+  <Nav.Item>
+    <Nav.Link eventKey="cash" style={tabStyle}>Cash</Nav.Link>
+  </Nav.Item>
+</Nav>
+
         <Modal.Body>
+        {activeTab === "bank" && (
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group >
@@ -457,6 +482,24 @@ function BankingAddForm(props) {
              
             </div>
           </div>
+        )}
+        {activeTab === "upi" && (
+  <div>
+    <p style={{ fontFamily: "Gilroy", fontWeight: 500 }}>UPI Form Coming Soon...</p>
+  </div>
+)}
+
+
+{activeTab === "card" && (
+  <div>
+    <p style={{ fontFamily: "Gilroy", fontWeight: 500 }}>UPI Form Card Soon...</p>
+  </div>
+)}
+     {activeTab === "cash" && (
+  <div>
+    <p style={{ fontFamily: "Gilroy", fontWeight: 500 }}>UPI Form Cash Soon...</p>
+  </div>
+)}
         </Modal.Body>
         {error && (
           <div className=" " style={{ color: "red",textAlign:"center" ,paddingBottom:"8px"}}>
