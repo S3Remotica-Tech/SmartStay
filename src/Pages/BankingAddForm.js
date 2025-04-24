@@ -276,20 +276,68 @@ function BankingAddForm(props) {
           <CloseCircle size="24" color="#000" onClick={handleClose} 
             style={{ cursor: 'pointer' }}/>
         </Modal.Header>
-        <Nav variant="tabs" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey)} className="justify-content-start mb-3 ms-1">
+        <Nav
+  variant="tabs"
+  activeKey={activeTab}
+  onSelect={(selectedKey) => setActiveTab(selectedKey)}
+  className="justify-content-start mb-3 ms-1"
+>
   <Nav.Item>
-    <Nav.Link eventKey="bank" style={tabStyle}>Bank Name</Nav.Link>
+    <Nav.Link
+      eventKey="bank"
+      style={{
+        ...tabStyle,
+        backgroundColor: activeTab === "bank" ? "#007bff" : "",
+        color: activeTab === "bank" ? "#fff" : tabStyle.color,
+        borderRadius: 8,
+      }}
+    >
+      Bank Name
+    </Nav.Link>
   </Nav.Item>
   <Nav.Item>
-    <Nav.Link eventKey="upi" style={tabStyle}>UPI</Nav.Link>
+    <Nav.Link
+      eventKey="upi"
+      style={{
+        ...tabStyle,
+        backgroundColor: activeTab === "upi" ? "#007bff" : "",
+        color: activeTab === "upi" ? "#fff" : tabStyle.color,
+        borderRadius: 8,
+      }}
+    >
+      UPI
+    </Nav.Link>
   </Nav.Item>
   <Nav.Item>
-    <Nav.Link eventKey="card" style={tabStyle}>Card</Nav.Link>
+    <Nav.Link
+      eventKey="card"
+      style={{
+        ...tabStyle,
+        backgroundColor: activeTab === "card" ? "#007bff" : "",
+        color: activeTab === "card" ? "#fff" : tabStyle.color,
+        borderRadius: 8,
+      }}
+    >
+      Card
+    </Nav.Link>
   </Nav.Item>
   <Nav.Item>
-    <Nav.Link eventKey="cash" style={tabStyle}>Cash</Nav.Link>
+    <Nav.Link
+      eventKey="cash"
+      style={{
+        ...tabStyle,
+        backgroundColor: activeTab === "cash" ? "#007bff" : "",
+        color: activeTab === "cash" ? "#fff" : tabStyle.color,
+        borderRadius: 8,
+      }}
+    >
+      Cash
+    </Nav.Link>
   </Nav.Item>
 </Nav>
+
+
+
 
         <Modal.Body>
         {activeTab === "bank" && (
@@ -304,13 +352,13 @@ function BankingAddForm(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Account Name{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                 Benificiary Name{" "}
+                 
                 </Form.Label>
                 <FormControl
                   type="text"
                   id="form-controls"
-                  placeholder="Enter Account Name"
+                  placeholder="Enter Benificiary Name"
                   value={accountName}
                   onChange={(e) => handleAccountName(e)}
                   style={{
@@ -332,45 +380,6 @@ function BankingAddForm(props) {
                 </div>
               )}
             </div>
-
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group >
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Account No{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <FormControl
-                  type="text"
-                  id="form-controls"
-                  placeholder="Enter Account No"
-                  value={accountNo}
-                  onChange={(e) => handleAccountNo(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                />
-              </Form.Group>
-              {accountNumberError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
-                </div>
-              )}
-            </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group >
                 <Form.Label
@@ -382,7 +391,7 @@ function BankingAddForm(props) {
                   }}
                 >
                   Bank Name{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                 
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -417,11 +426,51 @@ function BankingAddForm(props) {
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Account No{" "}
+                  
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="Enter Account No"
+                  value={accountNo}
+                  onChange={(e) => handleAccountNo(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+              {accountNumberError && (
+                <div style={{ color: "red" }}>
+                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNumberError}</span>
+                </div>
+              )}
+            </div>
+          
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group >
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
                     fontWeight: 500,marginTop:5
                   }}
                 >
                   IFSC Code{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                 
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -481,24 +530,414 @@ function BankingAddForm(props) {
               </Form.Group>
              
             </div>
+            <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}> 
+            <Button
+            className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+            style={{
+              backgroundColor: "#1E45E1",
+              height: 50,
+              fontWeight: 600,
+              borderRadius: 12,
+              fontSize: 16,
+              fontFamily: "Gilroy",
+              width:"100%"
+            }}
+            onClick={handleSubmitBank}
+          >
+            {props.edit ? "Save Changes" : "Add Bank"}
+          </Button>
+</Modal.Footer>
           </div>
         )}
         {activeTab === "upi" && (
-  <div>
-    <p style={{ fontFamily: "Gilroy", fontWeight: 500 }}>UPI Form Coming Soon...</p>
+  <div className="row">
+   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group >
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                 Benificiary Name{" "}
+                 
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="Enter Benificiary Name"
+                  // value={accountName}
+                  // onChange={(e) => handleAccountName(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+              {accountNameError && (
+                <div style={{ color: "red" }}>
+                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
+                </div>
+              )}
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group >
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,marginTop:5
+                  }}
+                >
+                  UPI ID{" "}
+                 
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="Enter Bank Name"
+                  // value={bankName}
+                  // onChange={(e) => handleBankName(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+             
+            </div>
+
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <Form.Group >
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,marginTop:5
+                  }}
+                >
+                  Description{" "}
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="Enter Description"
+                  value={description}
+                  onChange={(e) => handleDescription(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+
+                  }}
+                />
+              </Form.Group>
+             
+            </div>
+            <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}> 
+            <Button
+            className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+            style={{
+              backgroundColor: "#1E45E1",
+              height: 50,
+              fontWeight: 600,
+              borderRadius: 12,
+              fontSize: 16,
+              fontFamily: "Gilroy",
+              width:"100%"
+            }}
+            onClick={handleSubmitBank}
+          >
+            {props.edit ? "Save Changes" : "Add Upi"}
+          </Button></Modal.Footer>
+
   </div>
 )}
 
 
 {activeTab === "card" && (
-  <div>
-    <p style={{ fontFamily: "Gilroy", fontWeight: 500 }}>UPI Form Card Soon...</p>
+  <div className="row">
+<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Group
+                  className="mb-1"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                       marginTop:"5px",
+                    }}
+                  >
+                    Card Type
+                  </Form.Label>
+                  <Form.Select
+                    aria-label="Default select example"
+                    // value={modeOfPayment}
+                    // onChange={handleModeOfPaymentChange}
+                    // disabled={currentItem}
+                    className=""
+                    id="vendor-select"
+                    style={{
+                      fontSize: 16,
+                      color: "rgba(75, 75, 75, 1)",
+                      fontFamily: "Gilroy",
+                      fontWeight:500,
+                      cursor:"pointer"
+                    }}
+                  >
+                    <option value="">Select a Card Type</option>
+                    <option value="Credit">Credit</option>
+                    <option value="Debit">Debit</option>
+                  </Form.Select>
+                </Form.Group>
+              
+              </div>
+
+  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <Form.Group >
+      <Form.Label
+        style={{
+          fontSize: 14,
+          color: "#222222",
+          fontFamily: "Gilroy",
+          fontWeight: 500,marginTop:5
+        }}
+      >
+        Card Holder Name
+      </Form.Label>
+      <FormControl
+        type="text"
+        id="form-controls"
+        placeholder="Enter Card Holder Name"
+        // value={bankName}
+        // onChange={(e) => handleBankName(e)}
+        style={{
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 50,
+          borderRadius: 8,
+        }}
+      />
+    </Form.Group>
+    {/* {bankNameError && (
+      <div style={{ color: "red" }}>
+        <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+        <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
+      </div>
+    )} */}
   </div>
+
+  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <Form.Group >
+      <Form.Label
+        style={{
+          fontSize: 14,
+          color: "#222222",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+        }}
+      >
+       Card Number
+      </Form.Label>
+      <FormControl
+        type="text"
+        id="form-controls"
+        placeholder="Enter Card No"
+        // value={accountNo}
+        // onChange={(e) => handleAccountNo(e)}
+        style={{
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 50,
+          borderRadius: 8,
+        }}
+      />
+    </Form.Group>
+   
+  </div>
+
+
+ 
+  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <Form.Group >
+      <Form.Label
+        style={{
+          fontSize: 14,
+          color: "#222222",
+          fontFamily: "Gilroy",
+          fontWeight: 500,marginTop:5
+        }}
+      >
+        Description{" "}
+      </Form.Label>
+      <FormControl
+        type="text"
+        id="form-controls"
+        placeholder="Enter Description"
+        value={description}
+        onChange={(e) => handleDescription(e)}
+        style={{
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 50,
+          borderRadius: 8,
+
+        }}
+      />
+    </Form.Group>
+   
+  </div>
+  <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}> 
+  <Button
+  className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+  style={{
+    backgroundColor: "#1E45E1",
+    height: 50,
+    fontWeight: 600,
+    borderRadius: 12,
+    fontSize: 16,
+    fontFamily: "Gilroy",
+    width:"100%"
+  }}
+  onClick={handleSubmitBank}
+>
+  {props.edit ? "Save Changes" : "Add Card"}
+</Button>
+</Modal.Footer>
+</div>
+
+  
 )}
      {activeTab === "cash" && (
-  <div>
-    <p style={{ fontFamily: "Gilroy", fontWeight: 500 }}>UPI Form Cash Soon...</p>
-  </div>
+  <div className="row">
+  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+             <Form.Group >
+               <Form.Label
+                 style={{
+                   fontSize: 14,
+                   color: "#222222",
+                   fontFamily: "Gilroy",
+                   fontWeight: 500,
+                 }}
+               >
+                Benificiary Name
+               </Form.Label>
+               <FormControl
+                 type="text"
+                 id="form-controls"
+                 placeholder="Enter Benificiary Name"
+                 // value={accountName}
+                 // onChange={(e) => handleAccountName(e)}
+                 style={{
+                   fontSize: 16,
+                   color: "#4B4B4B",
+                   fontFamily: "Gilroy",
+                   fontWeight: 500,
+                   boxShadow: "none",
+                   border: "1px solid #D9D9D9",
+                   height: 50,
+                   borderRadius: 8,
+                 }}
+               />
+             </Form.Group>
+             {accountNameError && (
+               <div style={{ color: "red" }}>
+                 <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
+               </div>
+             )}
+           </div>
+           
+
+           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+             <Form.Group >
+               <Form.Label
+                 style={{
+                   fontSize: 14,
+                   color: "#222222",
+                   fontFamily: "Gilroy",
+                   fontWeight: 500,marginTop:5
+                 }}
+               >
+                 Description{" "}
+               </Form.Label>
+               <FormControl
+                 type="text"
+                 id="form-controls"
+                 placeholder="Enter Description"
+                 value={description}
+                 onChange={(e) => handleDescription(e)}
+                 style={{
+                   fontSize: 16,
+                   color: "#4B4B4B",
+                   fontFamily: "Gilroy",
+                   fontWeight: 500,
+                   boxShadow: "none",
+                   border: "1px solid #D9D9D9",
+                   height: 50,
+                   borderRadius: 8,
+
+                 }}
+               />
+             </Form.Group>
+            
+           </div>
+           <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}> 
+            <Button
+            className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
+            style={{
+              backgroundColor: "#1E45E1",
+              height: 50,
+              fontWeight: 600,
+              borderRadius: 12,
+              fontSize: 16,
+              fontFamily: "Gilroy",
+              width:"100%"
+            }}
+            // onClick={handleSubmitBank}
+          >
+            {props.edit ? "Save Changes" : "Add Cash"}
+          </Button>
+</Modal.Footer>
+
+ </div>
 )}
         </Modal.Body>
         {error && (
@@ -518,7 +957,7 @@ function BankingAddForm(props) {
 
 
 
-        <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
+        {/* <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{
@@ -534,7 +973,7 @@ function BankingAddForm(props) {
           >
             {props.edit ? "Save Changes" : "Add Bank"}
           </Button>
-        </Modal.Footer>
+        </Modal.Footer> */}
       </Modal>
     </div>
   );
