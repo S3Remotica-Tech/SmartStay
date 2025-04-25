@@ -6375,141 +6375,88 @@ const InvoicePage = () => {
 
           {/* Table */}
           {Array.isArray(newRows) && newRows.length > 0 && (
-            <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
-              <Table className="ebtable mt-2" responsive>
-                <thead
-                  style={{
-                    backgroundColor: "#E7F1FF",
-                    position: "sticky",
-                    top: 0,
-                    zIndex: 1,
-                  }}
-                >
-                  <tr>
-                    <th className="text-center"
-                      style={{
-                        color: "rgb(147, 147, 147)",
-                        fontSize: 14,
-                        fontweight: 500,
-                      }}
-                    >
-                      S.No
-                    </th>
-                    <th
-                      style={{
-                        color: "rgb(147, 147, 147)",
-                        fontSize: 14,
-                        fontweight: 500,
-                      }}
-                    >
-                      Description
-                    </th>
-                    {/* <th>EB Unit </th>
-              <th>Unit Price </th>
-              <th>Actual Amount</th> */}
-                    <th
-                      style={{
-                        color: "rgb(147, 147, 147)",
-                        fontSize: 14,
-                        fontweight: 500,
-                      }}
-                    >
-                      Total Amount
-                    </th>
-                    <th
-                      style={{
-                        color: "rgb(147, 147, 147)",
-                        fontSize: 14,
-                        fontweight: 500,
-                      }}
-                    >
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {newRows &&
-                    newRows.length > 0 &&
-                    newRows.map((u, index) => (
-                      <tr key={`new-${index}`}>
-                        <td
-                          className="text-center"
-                          style={{ fontFamily: "Gilroy" }}
-                        >
-                          {serialNumber++}
-                        </td>
-                        <td>
-                          <div
-                            className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
-                            style={{ alignItems: "center" }}
-                          >
-                            <Form.Control
-                              type="text"
-                              style={{ fontFamily: "Gilroy" }}
-                              placeholder="Enter Description"
-                              value={u.am_name}
-                              onChange={(e) =>
-                                handleNewRowChange(
-                                  index,
-                                  "am_name",
-                                  e.target.value
-                                )
-                              }
-                            />
-                          </div>
-                        </td>
+  <div className="row">
+    <div className="col-lg-11 col-md-11 col-12">
+      <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+        <Table className="ebtable mt-2" responsive>
+          <thead
+            style={{
+              backgroundColor: "#E7F1FF",
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+            }}
+          >
+            <tr>
+              <th className="text-center" style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                S.No
+              </th>
+              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                Description
+              </th>
+              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                Total Amount
+              </th>
+              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {newRows.map((u, index) => (
+              <tr key={`new-${index}`}>
+                <td className="text-center" style={{ fontFamily: "Gilroy" }}>
+                  {serialNumber++}
+                </td>
+                <td>
+                  <Form.Control
+                    type="text"
+                    style={{ fontFamily: "Gilroy" }}
+                    placeholder="Enter Description"
+                    value={u.am_name}
+                    onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
+                  />
+                </td>
+                <td>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Total Amount"
+                    value={u.amount}
+                    className={`${u.amount === "" ? "border-danger" : ""}`}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*\.?\d*$/.test(value)) {
+                        handleNewRowChange(index, "amount", value);
+                      }
+                    }}
+                  />
+                </td>
+                <td>
+                  <span
+                    style={{
+                      cursor: "pointer",
+                      color: "red",
+                      marginLeft: "10px",
+                    }}
+                    onClick={() => handleDeleteNewRow(index)}
+                  >
+                    <img
+                      src={Closebtn}
+                      height={15}
+                      width={15}
+                      alt="delete"
+                    />
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </div>
+  </div>
+)}
 
-                        <td
-                          className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
-                          style={{ alignItems: "center" }}
-                        >
-                          {/* <Form.Control
-                          type="text"
-                          style={{ fontFamily: "Gilroy" }}
-                          placeholder="Enter total amount"
-                          value={u.amount}
-                          onChange={(e) =>
-                            handleNewRowChange(index, "amount", e.target.value)
-                          }
-                        /> */}
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter Total Amount"
-                            value={u.amount}
-                            className={`${u.amount === "" ? "border-danger" : ""}`}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              if (/^\d*\.?\d*$/.test(value)) {
-                                handleNewRowChange(index, "amount", value);
-                              }
-                            }}
-                          />
-
-
-                        </td>
-                        <td style={{ alignItems: "center" }}>
-                          <span
-                            style={{
-                              cursor: "pointer",
-                              color: "red",
-                              marginLeft: "10px",
-                            }}
-                            onClick={() => handleDeleteNewRow(index)}
-                          >
-                            <img
-                              src={Closebtn}
-                              height={15}
-                              width={15}
-                              alt="delete"
-                            />
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-            </div>
-          )}
           <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-2">
             <Form.Select
               className="border"

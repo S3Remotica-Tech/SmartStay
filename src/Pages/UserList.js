@@ -2948,7 +2948,7 @@ const handleBack = () => {
                                 </th>
                                 <th
                                   style={{
-                                    textAlign: "center",
+                                    textAlign: "start",
                                     fontFamily: "Gilroy",
                                     color: "rgba(34, 34, 34, 1)",
                                     fontSize: 12,
@@ -3119,7 +3119,7 @@ const handleBack = () => {
                                       <td
                                         style={{
                                           paddingTop: 12,
-                                          border: "none",borderBottom: "1px solid #E8E8E8"
+                                          border: "none",borderBottom: "1px solid #E8E8E8",
                                         }}
                                       >
                                         {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
