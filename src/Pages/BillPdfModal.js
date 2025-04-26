@@ -4,7 +4,14 @@ import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
 import Close from '../Assets/Images/New_images/circlie.png'
-import Logo from '../Assets/Images/Logo-Icon.png'
+import Logo from '../Assets/Images/get.png'
+import Dial from '../Assets/Images/dial.png'
+import Room from '../Assets/Images/Car.png'
+import Locat from '../Assets/Images/location 03.png'
+import Barcode from '../Assets/Images/barcode.png'
+import Gpay from '../Assets/Images/gpay.png'
+import Phonepe from '../Assets/Images/phonepe.png'
+import Paytm from '../Assets/Images/paytm.png'
 import { Call, Location, ArrowLeft } from 'iconsax-react';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -132,304 +139,339 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         </div>
         <hr />
 
-        <div style={{ maxHeight: 400, overflowY: "auto" }} className="bill-invoice">
+        <div style={{ maxHeight: 400, overflowY: "auto" }} className="bill-invoice" >
 
           {isVisible &&
-            <Card ref={cardRef} className="m-2 " style={{ backgroundColor: "", borderRadius: 24, border: "1px solid rgba(225, 225, 225, 1)" }}>
-              <Card.Body className="my-4 p-3"
+
+<div ref={cardRef}>
+                
+<div  class=" text-white  p-4 position-relative" style={{borderBottomRightRadius:"24px",borderBottomLeftRadius:"24px", minHeight: "180px",background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' }}>
+  <div class="d-flex justify-content-between align-items-center">
+  <div className="d-flex gap-2 mb-3 mb-lg-0">
+      <img src={rowData?.hostel_profile || Logo} alt="logo" style={{ height: 40, width: 40 }} />
+      <div>
+        <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+        <div style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Meet All Your Needs</div>
+      </div>
+    </div>
+
+    <div>
+      <div style={{ fontSize: 26, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" }}>
+        Royal Grand Hostel
+      </div>
+      <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
+        9, 8th Avenue Rd, Someshwara Nagar,<br />
+        Chennai, Tamilnadu - 600 056
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container bg-white rounded-bottom border position-relative" style={{marginTop:"-50px",zIndex:1,width:"95%",borderRadius:"24px"}}>
+  <div class="text-center pt-5 pb-3">
+    <h5 style={{ fontSize: '20px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{ rowData.action === "manual" ?   "Payment Invoice" : "Security Deposit Invoice"}</h5>
+  </div>
+
+
+  <div class="row px-4 mt-5">
+    <div class="col-md-6 mb-3">
+      <p class="  mb-1" style={{color:'rgba(48, 80, 210, 1)' ,fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To:</p>
+      <p class="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr.{rowData?.Name}</p>
+      <p class="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img src={Dial}/> {rowData?.phoneNo}</p>
+      <p class="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img src={Room} style={{height:20 , width:20}}/> {rowData.Room_No} - {rowData.Bed}</p>
+      <p style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)',}}><img src={Locat}/>  {rowData.user_address}</p>
+    </div>
+    <div class="col-md-6 mb-3">
+      <div class="row">
+        <div class="col-6 text-muted"  style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice:</div>
+        <div class="col-6 text-end"   style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{rowData?.Invoices === null || rowData?.Invoices === '' ? '0.00' : rowData?.Invoices}</div>
+
+        <div class="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice Date :</div>
+        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(rowData?.Date).format('DD MMM YYYY')}</div>
+
+        <div class="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Due date :</div>
+        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(rowData?.DueDate).format('DD MMM YYYY')}</div>
+
+        <div class="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Joining date :</div>
+        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(rowData?.start_date).format('DD MMM YYYY')}</div>
+
+        <div class="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
+        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>Mar - June 2024</div>
+
+        <div class="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Total Staying Days</div>
+        <div class="col-6 text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>120 Days</div>
+      </div>
+    </div>
+  </div>
+
+ 
+  <div className="px-4 pb-3">
+  <div className="table-responsive">
+    <table className="table text-center">
+      <thead
+        style={{
+          backgroundColor: "rgba(71, 104, 234, 1)",
+          color: "white",
+        }}
+      >
+        <tr>
+          <th
+            style={{
+              borderTopLeftRadius: "12px",
+              borderBottomLeftRadius: "12px",
+              color: "rgba(255, 255, 255, 1)",
+              fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600
+              // border: "1px solid #dee2e6",
+
+            }}
+          >
+            S.NO
+          </th>
+          <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600 }}>Inv No</th>
+          <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600}}>Description</th>
+          <th style={{  color: "rgba(255, 255, 255, 1)",  fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600}}>Duration</th>
+          <th
+            style={{
+              borderTopRightRadius: "12px",
+              borderBottomRightRadius: "12px",
+              color: "rgba(255, 255, 255, 1)",
+              fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600
+              // border: "1px solid #dee2e6",
+            }}
+          >
+            Amount / INR
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+  {rowData?.amenity?.map((item, index) => (
+    <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
+      <td>{index + 1}</td>
+      <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>{item.invoice_id}</td>
+      <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>{item.am_name}</td>
+      <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>{item.am_name}</td>
+      <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>Rs. {item.amount}</td>
+    </tr>
+  ))}
+</tbody>
+
+    </table>
+  </div>
+
+  {/* Total Section */}
+  <div className="d-flex justify-content-end mt-3">
+    <div className="w-100 w-md-50">
+      <div className="d-flex justify-content-between  py-1">
+        <span className="ms-auto">Tax</span>
+        <span className="ms-4">Rs. 0.00</span>
+      </div>
+      <div className="d-flex justify-content-between  py-1">
+        <span className="ms-auto">Sub Total</span>
+        <span className="ms-4">Rs. {rowData?.Amount}</span>
+      </div>
+      <div className="d-flex justify-content-between fw-bold py-2">
+        <span className="ms-auto">Total</span>
+        <span className="ms-4">Rs. {rowData?.Amount}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+ 
+
+</div>
+<div className="px-4" style={{ marginTop: 20 }}>
+  <div className="row">
+    <div className="col-md-5 mb-3">
+      <h6  style={{
+        fontSize: '15px',
+        fontFamily: 'Gilroy',
+        fontWeight: 700,
+        color: 'rgba(30, 69, 225, 1)',
+        letterSpacing:'1px'
+        
+      }} >Account Details</h6>
+      <p className="mb-1" 
+     style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+      Account No : 87542310984</p>
+      <p className="mb-1"   style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+        IFSC Code : SBIN007195</p>
+      <p className="mb-1"   style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+        Bank Name: State Bank of India</p>
+      <p   style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+        UPI Details : Net Banking</p>
+    </div>
+
+    <div className="col-md-3"></div>
+
+    <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
+    <div className="d-flex justify-content-end mt-auto">
+        <img src={Barcode} alt="Barcode" style={{ height: 100, width: 120 }} />
+      </div>
+      <div className="d-flex flex-row justify-content-end">
+        <img src={Paytm} alt="Paytm" style={{ height: 50, width: 70 }} className="m-2" />
+        <img src={Phonepe} alt="PhonePe" style={{ height: 50, width: 70 }} className="m-2" />
+        <img src={Gpay} alt="GPay" style={{ height: 50, width: 70 }} className="m-2" />
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+
+<div className="row justify-content-between mt-4 m-3 p-2">
+  {/* Left Side: Terms and Conditions */}
+  <div className="col-md-8">
+    <h4 style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
+    <p style={{ whiteSpace: "pre-line", fontSize:'13px' , fontFamily:'Gilroy', fontWeight:500 , color:'rgba(61, 61, 61, 1)'}}>
+      Tenants must pay all dues on or before the due date,<br></br>
+      maintain cleanliness, and follow PG rules;failure may lead<br></br>
+       to penalties or termination of stay.
+    </p>
+  </div>
+
+  {/* Right Side: Authorized Signature aligned bottom */}
+  <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
+    <p  
+     style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}
+      >Authorized Signature</p>
+  </div>
+</div>
+
+
+
+<div className="ms-5 me-5">
+  <div
+    className="text-white text-center py-3 rounded-bottom d-flex justify-content-center gap-4"
+    style={{
+      backgroundColor: 'rgba(48, 80, 210, 1)',
+      borderTopRightRadius: '38px',
+      borderTopLeftRadius: '38px',
+    }}
+  >
+    <p
+      className="mb-0"
+      style={{
+        fontSize: '15px',
+        fontFamily: 'Gilroy',
+        fontWeight: 600,
+        color: 'rgba(255, 255, 255, 1)',
+        
+      }}
+    >
+      email: contact@royalgrandhostel.in
+    </p>
+    <p
+      className="mb-0"
+      style={{
+        fontSize: '15px',
+        fontFamily: 'Gilroy',
+        fontWeight: 600,
+        color: 'rgba(255, 255, 255, 1)',
+      }}
+    >
+      Contact: +91 88996 54611
+    </p>
+  </div>
+</div>
+
+
+</div>
+            
+          }
+        </div>
+      </div>
+    </div>
+  );
+};
+
+InvoiceCard.propTypes = {
+  rowData: PropTypes.func.isRequired,
+  handleClosed: PropTypes.func.isRequired
+};
+
+
+export default InvoiceCard;
+
+
+
+{/* <Card ref={cardRef} className="m-2 p-0 " style={{ backgroundColor: "", borderRadius: 24, border: "1px solid rgba(225, 225, 225, 1)", padding:'0px' }}>
+              <Card.Body className="" style={{padding:'0px'}}
               >
-                <div className="d-flex flex-column flex-lg-row justify-content-between ps-4 pe-4" >
-                  <div className="d-flex gap-2 mb-3 mb-lg-0">
-                    <div>
-                      <img src={rowData?.hostel_profile ? rowData?.hostel_profile : Logo} alt="logo" style={{ height: 40, width: 40, }} />
-                    </div>
-                    <div>
+                <div>
 
+                
 
-                      <div>
-                        <label style={{ fontSize: 20, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Hostel_Name}</label>
-                      </div>
+                <div
+   style={{
+    position: "relative",
+    background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))',
+    borderBottomLeftRadius: '30px',
+    borderBottomRightRadius: '30px',
+    color: 'white',
+    minHeight: '450px', 
+    paddingBottom: '180px',
+  }}
+  className="d-flex flex-column justify-content-between p-4"
+>
+  <div className="d-flex flex-column flex-lg-row justify-content-between" style={{ height: '180px' }}>
+    <div className="d-flex gap-2 mb-3 mb-lg-0">
+      <img src={rowData?.hostel_profile || Logo} alt="logo" style={{ height: 40, width: 40 }} />
+      <div>
+        <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
+        <div style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Meet All Your Needs</div>
+      </div>
+    </div>
 
+    <div>
+      <div style={{ fontSize: 26, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" }}>
+        Royal Grand Hostel
+      </div>
+      <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
+        9, 8th Avenue Rd, Someshwara Nagar,<br />
+        Chennai, Tamilnadu - 600 056
+      </div>
+    </div>
+  </div>
 
-                      <div>
-                        <label style={{ fontSize: 14, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Meet All Your Needs</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <div>
-                      <label style={{ fontSize: 26, letterSpacing: 1, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>INVOICE</label>
-                    </div>
-                    <div>
-                      <div className="d-flex justify-content-between gap-2">
-                        <div>
-                          <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Invoice #</label>
-                        </div>
-                        <div>
-                          <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Invoices ? rowData?.Invoices : '0.00'}</label>
-                        </div>
+  <div
+    className="shadow p-2"
+    style={{
+      position: "absolute",
+      bottom: -160, 
+      left: '50%',
+      transform: 'translateX(-50%)',
+      background: "white",
+      color: "#000",
+      borderRadius: 12,
+      width: "95%",
+      height:'auto'
+    }}
+  >
+    <div className="text-center">
+      <h2>Payment Invoice</h2>
+    </div>
 
-                      </div>
-                      <div className="d-flex justify-content-between gap-5">
-                        <div>
-                          <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Date</label>
-                        </div>
-                        <div>
-                          <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD/MM/YYYY')}</label>
-                        </div>
+    <div className="d-flex flex-column flex-lg-row justify-content-between pt-3 px-4">
+      <div>
+        <label style={{ fontSize: 14, fontWeight: 500, color: "#939393" }}>Bill To:</label><br />
+        <label style={{ fontSize: 15, fontWeight: 600 }}>Mr. {rowData?.Name}</label><br />
+        <label style={{ fontSize: 15 }}>{rowData?.phoneNo}</label><br />
+        <label style={{ fontSize: 15 }}>{rowData?.Room_No} - {rowData?.Bed}</label><br />
+        <label style={{ fontSize: 15 }}>{rowData?.user_address}</label>
+      </div>
 
-                      </div>
+      <div>
+        <label style={{ fontSize: 14, color: "#939393" }}>Invoice:</label><br />
+        <label style={{ fontSize: 15 }}>{rowData?.invoiceNo}</label><br />
+        <label style={{ fontSize: 14, color: "#939393" }}>Date:</label><br />
+        <label style={{ fontSize: 15 }}>{rowData?.date}</label>
+      </div>
+    </div>
 
-                    </div>
-                  </div>
-                </div>
-
-
-                <div className="d-flex flex-column flex-lg-row justify-content-between pt-5 ps-4 pe-4">
-                  <div>
-
-                    {/* Bill From */}
-                    <div >
-                      <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy" }}>Bill From:</label>
-                    </div>
-                    <div>
-                      <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Name}</label>
-                    </div>
-                    <div className="" style={{ width: 100 }}>
-                      {/* <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label> */}
-                      <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.admin_address}</label>
-                    </div>
-
-
-                  </div>
-
-                  {/* Bill To*/}
-                  <div>
-
-
-                    <div >
-                      <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy" }}>Bill To:</label>
-                    </div>
-                    <div>
-                      <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.user_address}</label>
-                    </div>
-                    {/* <div className="" style={{ width: 100 }}>
-    <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label>
-</div> */}
-
-
-                  </div>
-
-                </div>
-
-
-                {rowData.action === "recuring" && (
-                  <div className="d-flex flex-column flex-lg-row justify-content-between pt-5 ps-4 pe-4">
-                    <div>
-                      <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-2">
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy",
-                        }}>EB Per Unit Price:</label>
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy", marginLeft: '10px'
-                        }}>
-                          ₹ {rowData?.rec_ebunit ? rowData.rec_ebunit : ''}
-                        </label>
-                      </div>
-
-                      <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-2">
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy",
-                          marginRight: "10px",
-                        }}>EB Start Date:</label>
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy", marginLeft: '10px'
-                        }}>
-                          {rowData?.rec_ebstartdate ? moment(rowData?.rec_ebstartdate).format('DD MMM YYYY') : ''}
-                        </label>
-                      </div>
-
-                      <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-2">
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy",
-                        }}
-                        >EB End Date:</label>
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy", marginLeft: '10px'
-                        }}>
-                          {rowData?.rec_ebenddate ? moment(rowData?.rec_ebenddate).format('DD MMM YYYY') : ''}
-                        </label>
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-2">
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy",
-                        }}
-                        >Rent Start Date:</label>
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy", marginLeft: '10px'
-                        }}>
-                          {rowData?.rec_invstartdate ? moment(rowData?.rec_invstartdate).format('DD MMM YYYY') : ''}
-                        </label>
-                      </div>
-
-                      <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center">
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy",
-                        }}>Rent End Date:</label>
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy", marginLeft: '10px'
-                        }}>
-                          {rowData?.rec_invenddate ? moment(rowData?.rec_invenddate).format('DD MMM YYYY') : ''}
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {rowData.action === "manual" && (
-                  <div className="d-flex flex-column flex-lg-row justify-content-between pt-5 ps-4 pe-4">
-                    <div>
-                      <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-2">
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy",
-                        }}>Start Date : </label>
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy", marginLeft: '10px'
-                        }}>
-                          {/* {rowData?.start_date} */}
-
-                          {rowData?.start_date ? moment(rowData.start_date).format('DD MMM YYYY') : ''}
-
-                        </label>
-                      </div>
-
-                      {/* End Date */}
-                      <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center">
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy",
-                        }}>End Date : </label>
-                        <label style={{
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#000000",
-                          fontFamily: "Gilroy", marginLeft: '10px'
-                        }}>
-                          {rowData?.end_date ? moment(rowData?.end_date).format('DD MMM YYYY') : ''}
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-
-
-
-                {/* <Table className="mt-5 mb-1 ps-3 pe-3">
-  <thead>
-    <tr>
-    <th className="d-sm-block d-md-table-cell" style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>S.No</th>
-      <th className="d-sm-block d-md-table-cell" style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Description</th>
-      <th className="d-sm-block d-md-table-cell" style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Amount</th>
-    </tr>
-  </thead>
-  <tbody>
-   
-    {rowData?.amenity?.map((item, index) => (
-      <React.Fragment key={index}> 
-      <tr key={index}>
-        <td className="d-sm-block d-md-table-cell" style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>{index+1}</td>
-        <td className="d-sm-block d-md-table-cell" style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
-          {item.am_name}
-        </td>
-        <td className="d-sm-block d-md-table-cell" style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
-          ₹{item.amount}
-        </td>
-      </tr>
-      </React.Fragment>
-    ))}
-  
-    <tr>
-      <td colSpan="2">
-        <hr />
-      </td>
-    </tr>
-   
-    <tr>
-      <td className="d-sm-block d-md-table-cell text-sm-right" style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
-        Subtotal:
-      </td>
-      <td className="d-sm-block d-md-table-cell text-sm-center" style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
-        ₹{rowData?.Amount}
-      </td>
-    </tr>
-  
-    <tr>
-      <td className="d-sm-block d-md-table-cell text-sm-right" style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
-        Tax (0%):
-      </td>
-      <td className="d-sm-block d-md-table-cell text-sm-center" style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
-        ₹0.00
-      </td>
-    </tr>
-   
-    <tr>
-      <td colSpan="2">
-        <hr />
-      </td>
-    </tr>
-   
-    <tr>
-      <td className="d-sm-block d-md-table-cell text-sm-right" style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "right" }}>
-        Total:
-      </td>
-      <td className="d-sm-block d-md-table-cell text-sm-center" style={{ fontSize: 18, fontWeight: 600, color: "#000000", fontFamily: "Gilroy", textAlign: "center" }}>
-        ₹{rowData?.Amount}
-      </td>
-    </tr>
-  </tbody>
-</Table> */}
+ 
                 <div className="d-lg-block d-none">
                   <Table className="mt-5 mb-1 ps-3 pe-3">
                     <thead>
@@ -510,6 +552,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   </Table>
                 </div>
 
+  </div>
+</div>
+
+
 
                 <div className="mt-4 ps-4 pe-4">
                   <h6 style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }} >PAYMENT METHOD</h6>
@@ -537,6 +583,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                     <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Authorized Signed</label>
                   </div>
 
+                </div>
                 </div>
 
               </Card.Body>
@@ -570,18 +617,4 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   </div>
                 </div>
               </div>
-            </Card>
-          }
-        </div>
-      </div>
-    </div>
-  );
-};
-
-InvoiceCard.propTypes = {
-  rowData: PropTypes.func.isRequired,
-  handleClosed: PropTypes.func.isRequired
-};
-
-
-export default InvoiceCard;
+            </Card> */}
