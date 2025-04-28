@@ -1788,15 +1788,28 @@ const InvoicePage = () => {
     setDownloadInvoice(isVisible);
     setShowPdfModal(true);
     setRowData(rowData);
+
    dispatch({type :'BILL_PDF_DETAILS', payload:{ bill_id :rowData.id}})
-
   };
 
-  const handleDisplayReceiptDownload = (isVisible, rowData) => {
-    setDownloadReceipt(isVisible);
-    setShowPdfReceiptModal(true);
-    setRowData(rowData);
-  };
+ 
+const handleDisplayReceiptDownload = (isVisible, rowData) => { 
+  setDownloadReceipt(isVisible); 
+  setShowPdfReceiptModal(true);  
+  setRowData(rowData);  
+  dispatch({type:"RECEIPTPDF_NEWCHANGES",id:rowData?.id})
+};
+useEffect(()=>{
+    if(state.InvoiceList.statusCodeNewReceiptStatusCode === 200){
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
+      },500);
+    }
+    
+  },[state.InvoiceList.statusCodeNewReceiptStatusCode])
+
+// Usage in a component
+
 
   const handleClosePdfReceipt = () => {
     setDownloadReceipt(false);
@@ -5700,9 +5713,10 @@ const InvoicePage = () => {
                                               handleReceiptDetail
                                             }
                                             onhandleEdit={handleEditReceipt}
-                                            DisplayInvoice={
-                                              handleDisplayReceiptDownload
-                                            }
+                                            // DisplayInvoice={
+                                            //   handleDisplayReceiptDownload
+                                            // }
+                                            DisplayInvoice={handleDisplayReceiptDownload}
                                           />
                                         ))
                                       }

@@ -11,17 +11,48 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";
 import './BillPdfModal.css';
-
+import received from '../Assets/Images/New_images/received.png'
+import "./Receipt.css";
+import mob from "../Assets/Images/New_images/Rectangle 77.png";
+import substrac from "../Assets/Images/New_images/Subtract.png";
+import frame from "../Assets/Images/New_images/FramePDF.png";
+import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
+import substracBlue from "../Assets/Images/New_images/location 03.png";
+import frameblue from "../Assets/Images/New_images/Frameblue.png";
+import paidfull from '../Assets/Images/New_images/paidfull.png'
+import { useDispatch, useSelector } from "react-redux";
 
 
 
 const ReceiptPdfCard = ({ rowData, handleClosed }) => {
-
+  console.log("{ rowData, handleClosed }", rowData, handleClosed );
+  
+  const state = useSelector((state) => state);
+console.log("ReceiptPdfCard",state)
+ const dispatch = useDispatch();
     const [isVisible, setIsVisible] = useState(true);
+    const [receiptDataNew, setReceiptDataNew] = useState("");
+    useEffect(()=>{
+       if(state.InvoiceList.statusCodeNewReceiptStatusCode === 200){
+        setReceiptDataNew(state.InvoiceList.newReceiptchanges.receipt)
+         setTimeout(() => {
+           dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
+         },500);
+       }
+       
+     },[state.InvoiceList.statusCodeNewReceiptStatusCode])
+
+     console.log("receiptDataNew...........//",receiptDataNew)
+     
     const cardRef = useRef(null);
 
     useEffect(() => {
+      
         setIsVisible(true)
+        if(rowData?.id){
+          dispatch({type:"RECEIPTPDF_NEWCHANGES",id:rowData?.id})
+        }
+       
     }, [rowData])
 
 
@@ -154,304 +185,146 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                 <div style={{ maxHeight: 400, overflowY: "auto" }} className="show-scroll receipt-invoice">
 
                     {isVisible &&
-                        <Card ref={cardRef} className="m-2 "
-                            style={{
-                                // maxWidth: "100%", 
-                                backgroundColor: "", borderRadius: 24, border: "1px solid rgba(225, 225, 225, 1)"
-                            }}>
-                            <Card.Body className="my-4 p-3"
-                                style={{
-                                    // maxHeight: 500, overflowY: "auto",
-                                    // padding: "20px"
+                  <div className="receipt-container" ref={cardRef} >
+                
+                  <div   className=" text-white  p-4 position-relative" style={{borderBottomRightRadius:"24px",borderBottomLeftRadius:"24px", minHeight: "180px",backgroundColor:"#00A32E" }}>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h4 className="fw-bold mb-0">Smartstay</h4>
+                        <small>Meet All Your Needs</small>
+                      </div>
+                      <div className="text-end">
+                        <h5 className="mb-0">{receiptDataNew?.hostel_details?.name}</h5>
+                        <small>{receiptDataNew?.hostel_details?.address},<br/>{receiptDataNew?.hostel_details?.area},{receiptDataNew?.hostel_details?.city} {receiptDataNew?.hostel_details?.landmark}, {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</small>
+                      </div>
+                    </div>
+                  </div>
+                
+                 
+                  <div className="container bg-white rounded-bottom border position-relative" style={{marginTop:"-50px",zIndex:1,width:"95%",borderRadius:"24px"}}>
+                    <div className="text-center pt-5 pb-3">
+                      {/* <h5 className="fw-bold">Payment Receipt</h5> */}
+                      <h5 className="fw-bold">{receiptDataNew?.invoice_type === "advance" ? "Security Deposit Receipt":"Payment Receipt"}</h5> 
+                    </div>
+                
+                  
+                    <div className="row px-4 mt-5">
+                      <div className="col-md-6 mb-3">
+                        <p className="fw-bold text-success mb-1">Bill To:</p>
+                        <p className="mb-1">{receiptDataNew?.user_details?.name}</p>
+                        <p className="mb-1"><img src={mob} alt="mob" width={12} height={12}/> {receiptDataNew?.user_details?.phone}</p>
+                        <p className="mb-1"><img src={frame} alt="frame" width={13} height={13}/>  {receiptDataNew?.user_details?.address}</p>
+                        <p><img src={substrac} alt="subs" width={12} height={12}/> {receiptDataNew?.user_details?.area} {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p>
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <div className="row">
+                          <div className="col-6 text-muted">Receipt No:</div>
+                          <div className="col-6 fw-bold text-end">{receiptDataNew?.reference_id}</div>
+                
+                          <div className="col-6 text-muted">Invoice Ref:</div>
+                          <div className="col-6 fw-bold text-end">{receiptDataNew?.invoice_number}</div>
+                
+                          <div className="col-6 text-muted">Date:</div>
+                          <div className="col-6 fw-bold text-end">{moment(receiptDataNew?.payment_date).format('DD/MM/YYYY')}</div>
+                
+                          <div className="col-6 text-muted">Time:</div>
+                          <div className="col-6 fw-bold text-end">11:56:43 AM</div>
+                
+                          <div className="col-6 text-muted">Payment Mode:</div>
+                          <div className="col-6 fw-bold text-end">{receiptDataNew?.payment_mode}</div>
+                        </div>
+                      </div>
+                    </div>
+                
+                   
+                    <div className="px-4 pb-3">
+                      <div className="table-responsive">
+                        <table className="table  text-center align-middle">
+                          <thead  style={{backgroundColor:"#00A32E",color:"#FFFFFF"}}>
+                            <tr style={{color:"white"}}>
+                              <th style={{ borderTopLeftRadius: "12px",borderBottomLeftRadius:"12px",color:"white" }}>S.NO</th>
+                              <th style={{color:"white"}}>Inv No</th>
+                              <th style={{color:"white"}}>Description</th>
+                              <th style={{color:"white"}}>Duration</th>
+                              <th style={{ borderTopRightRadius: "12px",borderBottomRightRadius:"12px",color:"white" }}>Amount / INR</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {receiptDataNew?.amenities?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{receiptDataNew?.invoice_number}</td>
+                              <td>{item.am_name}</td>
+                              <td>{moment(rowData?.created_at).format("DD/MM/YYYY")}</td>
+                              <td>₹ {item.amount}</td>
+                            </tr>
+                          ))}
+                          </tbody>
+                        </table>
+                      </div>
+                
+                      
+                      <div className="d-flex justify-content-end mt-3"  >
+  <div className="w-100 w-md-50" style={{paddingRight:"50px"}}>
+    {/* <div className="d-flex justify-content-end border-bottom py-1">
+      <div className="w-50 text-end">Tax</div>
+      <div className="w-25 text-end">₹ 150.00</div>
+    </div> */}
+    <div className="d-flex justify-content-end border-bottom py-1">
+      <div className="w-50 text-end">Sub Total</div>
+      <div className="w-25 text-end">₹ {receiptDataNew?.total_amount}</div>
+    </div>
+    <div className="d-flex justify-content-end py-2 fw-bold">
+      <div className="w-50 text-end">Total</div>
+      <div className="w-25 text-end">₹ {receiptDataNew?.total_amount}</div>
+    </div>
+  </div>
+</div>
 
-                                }}
-                            >
-                                {/* <div className="d-flex justify-content-between ps-4 pe-4 " > */}
-                                <div className="d-flex flex-column flex-lg-row justify-content-between ps-4 pe-4" >
-                                    <div className="d-flex gap-2 mb-3 mb-lg-0">
-                                        <div>
-                                            <img src={rowData?.hostel_profile ? rowData?.hostel_profile : Logo} alt="logo" style={{ height: 40, width: 40, }} />
-                                        </div>
-                                        <div>
+                    </div>
+                
+                   
+                  
+                  </div>
+                  <div className="px-4" style={{marginTop:20}}>
+                      <div className="row">
+                        <div className="col-md-6 mb-3">
+                          <h6 className="fw-bold">Payment Details</h6>
+                          <p className="mb-1">Payment Mode: {receiptDataNew?.payment_mode}</p>
+                          <p className="mb-1">Transaction ID: GPay-2134-8482-XYZ</p>
+                          <p>Received By: Admin - Anjali R</p>
+                        </div>
+                        <div className="col-md-6 text-end">
+                        <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block"><img src={received} alt="received" height={91} width={162}/></p>
+                          {/* <p className="mt-4">Authorized Signature</p> */}
+                        </div>
+                        <div className="row">
+  {/* Left side - Acknowledgment */}
+  <div className="col-md-6">
+    <h6 className="text-success fw-bold">Acknowledgment</h6>
+    <p style={{ fontSize: "14px", color: "#555" }}>
+      This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
+    </p>
+  </div>
 
+  {/* Right side - Signature */}
+  <div className="col-md-6 text-end">
+    <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
+      {/* <img src={received} alt="received" height={91} width={162} /> */}
+    </p>
+    <p className="mt-4">Authorized Signature</p>
+  </div>
+</div>
 
-                                            <div>
-                                                <label style={{ fontSize: 20, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Hostel_Name}</label>
-                                            </div>
-
-
-                                            {/* <div>
-                                        <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Meet All Your Needs</label>
-                                    </div> */}
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <div>
-                                            <label style={{ fontSize: 26, letterSpacing: 1, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.Hostel_Name}</label>
-                                        </div>
-                                        <div>
-                                            <div className="d-flex justify-content-between gap-2">
-
-                                                <div className="" style={{ width: 140 }}>
-                                                    {/* <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData.UserAddress}</label> */}
-                                                    <label style={{ wordBreak: "break-word", whiteSpace: "normal", fontSize: 15, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.admin_address}</label>
-                                                </div>
-
-                                            </div>
-
-
-                                            {/* <div className="d-flex justify-content-between gap-5">
-                                        <div>
-                                            <label style={{ fontSize: 12, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Date</label>
-                                        </div>
-                                        <div>
-                                            <label style={{ fontSize: 12, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD/MM/YYYY')}</label>
-                                        </div>
-
-                                    </div> */}
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
-
-                                {/* <div className="d-flex flex-row justify-content-center"> */}
-                                <div className="d-flex flex-column flex-lg-row justify-content-between pt-5 ps-4 pe-4">
-                                    <div>
-                                        <label style={{ fontSize: 19, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Payment Receipt</label>
-                                    </div>
-
-                                </div>
-
-                                <div className="d-flex flex-row justify-content-between pt-5 ps-4 pe-4">
-
-                                    <div className="d-flex flex-column">
-
-
-                                        <div className="d-flex flex-row">
-                                            <div >
-                                                <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy", marginRight: '30px' }}>Payment Date:</label>
-                                            </div>
-                                            <div>
-                                                <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.created_at).format('DD/MM/YYYY')}</label>
-                                            </div>
-                                        </div>
-
-                                        <div className="d-flex flex-row">
-                                            <div >
-                                                <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy", marginRight: '10px' }}>Reference Number:</label>
-                                            </div>
-                                            <div>
-                                                <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.reference_id}</label>
-                                            </div>
-                                        </div>
-
-                                        <div className="d-flex flex-row">
-                                            <div >
-                                                <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy", marginRight: '30px' }}>Payment Mode:</label>
-                                            </div>
-                                            <div>
-                                                <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.payment_mode}</label>
-                                            </div>
-                                        </div>
-
-                                        <div className="d-flex flex-row">
-                                            <div>
-                                                <label style={{ fontSize: 14, fontWeight: 500, color: "#939393", fontFamily: "Gilroy", marginRight: '30px' }}>
-                                                    Amount Received in Words:
-                                                </label>
-                                            </div>
-                                            <div>
-                                                <label style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>
-                                                    {amountInWords}
-                                                </label>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-
-                                    <div style={{ backgroundColor: '#1E45E1', color: "white", padding: '10px' }}>
-
-
-                                        <div >
-                                            <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Amount Received:</label>
-                                        </div>
-                                        <div>
-                                            <label style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>₹ {rowData?.amount_received}</label>
-                                        </div>
-
-
-
-                                    </div>
-
-                                </div>
-
-                                {/* <Table className="table-responsive border mt-5 mb-1 ps-3 pe-3">
-  <thead 
-  style={{ position:"sticky",
-                top:0,
-                zIndex:1,}}>
-    <tr>
-    <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>S.No</th>
-      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Invoice Number</th>
-      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Invoice Date</th>
-      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Invoice Amount</th>
-      <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy"}}>Payment Amount</th>
-    </tr>
-  </thead>
-  <tbody>
-   
-    {rowData?.amenity?.map((item, index) => (
-      <tr key={index}>
-        <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>{index+1}</td>
-        <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
-          {rowData.invoice_number}
-        </td>
-        <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
-        {moment(rowData?.Date).format('DD/MM/YYYY')}
-        </td>
-        <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
-        ₹ {rowData.Amount}
-        </td>
-        <td style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy"}}>
-          ₹ {rowData.amount_received}
-        </td>
-      </tr>
-    ))}
-  
-  </tbody>
-</Table> */}
-
-                                <div className="table-responsive">
-                                    <Table className="custom-table mt-5 mb-1 ps-3 pe-3">
-                                        <thead style={{ position: "sticky", top: 0, zIndex: 1, backgroundColor: "#fff" }}>
-                                            <tr>
-                                                <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>S.No</th>
-                                                <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Invoice Number</th>
-                                                <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Invoice Date</th>
-                                                <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Invoice Amount</th>
-                                                <th style={{ fontSize: 15, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Payment Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {rowData?.amenity?.map((item, index) => (
-                                                <tr key={index} className="table-row">
-                                                    <td
-                                                        className="table-cell"
-                                                        style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy" }}
-                                                    >
-                                                        {index + 1}
-                                                    </td>
-                                                    <td
-                                                        className="table-cell"
-                                                        style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy" }}
-                                                    >
-                                                        {rowData.invoice_number}
-                                                    </td>
-                                                    <td
-                                                        className="table-cell"
-                                                        style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy" }}
-                                                    >
-                                                        {moment(rowData?.Date).format("DD/MM/YYYY")}
-                                                    </td>
-                                                    <td
-                                                        className="table-cell"
-                                                        style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy" }}
-                                                    >
-                                                        ₹ {rowData.Amount}
-                                                    </td>
-                                                    <td
-                                                        className="table-cell"
-                                                        style={{ fontSize: 15, fontWeight: 400, color: "#000000", fontFamily: "Gilroy" }}
-                                                    >
-                                                        ₹ {rowData.amount_received}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table>
-                                </div>
-
-
-
-
-                                {/* <div className="mt-4 ps-4 pe-4">
-                                <h6 style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }} >PAYMENT METHOD</h6>
-                                <div>
-                                    <label style={{ fontSize: 14, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{invoiceData.payment.bank}</label>
-                                </div>
-                                <div>
-                                    <label style={{ fontSize: 14, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Account Name: {invoiceData.payment.accountName}</label>
-                                </div>
-                                <div>
-                                    <label style={{ fontSize: 14, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Account No: {invoiceData.payment.accountNo}</label>
-                                </div>
-                                <div>
-                                    <label style={{ fontSize: 14, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>Pay by: {invoiceData.payment.dueDate}</label>
-                                </div>
-                            </div> */}
-
-
-
-
-                                <div className="d-flex justify-content-around mt-5 text-center ps-4 pe-4">
-                                    <div className="d-flex flex-column">
-                                        <div>
-                                            <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Received From</label>
-                                        </div>
-
-                                        <div>
-                                            <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>{rowData?.user_name}</label>
-                                        </div>
-                                    </div>
-
-
-                                    <div>
-                                        <hr style={{ border: "2px solid #dbaa16", width: 200 }} />
-                                        <label style={{ fontSize: 16, fontWeight: 600, color: "#000000", fontFamily: "Gilroy" }}>Authorized Signature</label>
-                                    </div>
-
-                                </div>
-
-
-
-
-
-
-
-
-
-                            </Card.Body>
-                            <div style={{ backgroundColor: "#dbaa16", borderBottomRightRadius: 24, borderBottomLeftRadius: 24 }} className="d-flex p-3 justify-content-center gap-3" >
-                                <div className="d-flex gap-2">
-                                    <div>
-                                        <Call
-                                            size="20"
-                                            color="#FFF"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label style={{ fontSize: 16, fontWeight: 600, color: "#fff", fontFamily: "Gilroy" }}>1234578589</label>
-                                    </div>
-
-                                </div>
-
-                                <div className="d-flex gap-2">
-                                    <div>
-                                        <Location
-                                            size="20"
-                                            color="#FFF"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label style={{ fontSize: 16, fontWeight: 600, color: "#fff", fontFamily: "Gilroy" }}>123,Any where Street, Any City</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
+                      </div>
+                    </div>
+                
+                    <div className="py-5 px-5">
+                    <div className=" text-white text-center" style={{borderTopLeftRadius:"12px",borderTopRightRadius:"12px",backgroundColor:"#00A32E",padding:7}}>
+                      <small>email: {receiptDataNew?.hostel_details?.email} | Contact: +{receiptDataNew?.hostel_details?.phone}</small>
+                    </div>
+                    </div>
+                </div>
                     }
                 </div>
             </div>

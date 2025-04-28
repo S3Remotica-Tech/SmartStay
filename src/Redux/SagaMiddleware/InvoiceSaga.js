@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings , GetReceiptData , AddReceipt , ReferenceIdGet , DeleteReceipt , EditReceipt , ReceiptPDf , AddRecurrBillsUsers , GetBillsPdfDetails} from "../Action/InvoiceAction";
+import { UnAssignAmenities, GetAssignAmenities,AssignAmenities, DeleteUser, DeleteAmenities, invoicelist, invoiceList,UpdateInvoice ,InvoiceSettings,InvoicePDf,GetAmenities, UpdateAmenities,AmenitiesSettings,ManualInvoice,ManualInvoiceUserData,AddManualInvoiceBill,EditManualInvoiceBill,DeleteManualInvoiceBill, ManualInvoiceNumber,GetManualInvoices,RecurrInvoiceamountData,AddRecurringBill,GetRecurrBills,DeleteRecurrBills , InvoiceRecurringsettings , GetReceiptData , AddReceipt , ReferenceIdGet , DeleteReceipt , EditReceipt , ReceiptPDf , AddRecurrBillsUsers , GetBillsPdfDetails,ReceiptPDFNewChanges} from "../Action/InvoiceAction";
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -1123,6 +1123,7 @@ function* handleFilterRecurrCustomer(action) {
 }
 
 
+
 function* handleGetBillPdfDetails(action) {
    const response = yield call(GetBillsPdfDetails, action.payload)
     
@@ -1137,6 +1138,55 @@ function* handleGetBillPdfDetails(action) {
    }
 }
 
+
+
+// Receipt PDF
+// function* handleReceiptPdfNewChanges(action) {
+//    const response = yield call(ReceiptPDFNewChanges,action.params);
+// console.log("handleReceiptPdfNewChanges",response)
+//    if (response.status === 200 || response.data.statusCode === 200) {
+//       yield put({ type: 'RECEIPT_PDF_CHANGES', payload: response.data, statusCode: response.status || response.statusCode })
+//    }
+//    else {
+//       yield put({ type: 'ERROR', payload: response.data.message })
+//    }
+//    if (response) {
+//       refreshToken(response)
+//    }
+// }
+function* handleReceiptPdfNewChanges(action) {
+   try {
+
+     if (!action || !action.id) {
+       throw new Error("Missing receipt_id in params");
+     }
+     
+     const response = yield call(ReceiptPDFNewChanges, action);
+     console.log("handleReceiptPdfNewChanges", response);
+ 
+     if (response.status === 200 || response.data.statusCode === 200) {
+       yield put({ 
+         type: 'RECEIPT_PDF_CHANGES', 
+         payload: response.data, 
+         statusCode: response.status || response.data.statusCode 
+       });
+     } else {
+       yield put({ 
+         type: 'ERROR', 
+         payload: response.data.message 
+       });
+     }
+ 
+     if (response) {
+       refreshToken(response);
+     }
+   } catch (error) {
+     console.error("handleReceiptPdfNewChanges error", error);
+     yield put({ type: 'ERROR', payload: error.message });
+   }
+ }
+ 
+ 
 
 
 function refreshToken(response){
@@ -1189,5 +1239,7 @@ function* InvoiceSaga() {
           yield takeEvery('RECEIPTPDF',handleReceiptPdf)
           yield takeEvery('FILTERRECURRCUSTOMERS',handleFilterRecurrCustomer)
           yield takeEvery('BILL_PDF_DETAILS',handleGetBillPdfDetails)
+          yield takeEvery('RECEIPTPDF_NEWCHANGES',handleReceiptPdfNewChanges)
+
 }
 export default InvoiceSaga;

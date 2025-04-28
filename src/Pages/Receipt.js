@@ -10,9 +10,11 @@ import Download from '../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types";
 
 const Receipt = (props) => {
+  console.log("propsR",props);
+  
 
       const state = useSelector((state) => state);
-    
+    console.log("Receipt",state)
       const dispatch = useDispatch();
 
       const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
@@ -136,11 +138,20 @@ const Receipt = (props) => {
 
     props.DisplayInvoice(true, item)
 
+    dispatch({type:"RECEIPTPDF_NEWCHANGES",id:item?.id})
+    // dispatch({ type: "RECEIPTPDF_NEWCHANGES", params: { receipt_id: item?.id } });
     // setDownloadInvoiceTable(true)
 
   }
 
-  
+  useEffect(()=>{
+    if(state.InvoiceList.statusCodeNewReceiptStatusCode === 200){
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
+      },500);
+    }
+    
+  },[state.InvoiceList.statusCodeNewReceiptStatusCode])
   
   //   const handleDownload = (item) => {
   // console.log(item);
