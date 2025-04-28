@@ -157,7 +157,7 @@ console.log("ReceiptPdfCard",state)
                                     }}>Unpaid</span>}
                             </div>
                             <div className="mb-2 mt-2">
-                                <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD MMM YYYY')}</label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>#{rowData?.Invoices === null || rowData?.Invoices === '' ? '0.00' : rowData?.Invoices}</label>
+                                <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD MMM YYYY')}</label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>#{receiptDataNew?.invoice_number === null || receiptDataNew?.invoice_number === '' ? '0.00' : receiptDataNew?.invoice_number}</label>
                             </div>
                         </div>
                     </div>

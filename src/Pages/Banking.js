@@ -338,6 +338,15 @@ function Banking() {
     });
   };
   useEffect(() => {
+    if (
+      transactionFilterddata.length > 0 &&
+      currentRowTransaction.length === 0 &&
+      transactioncurrentPage > 1
+    ) {
+      settransactioncurrentPage(transactioncurrentPage - 1);
+    }
+  }, [transactionFilterddata])
+  useEffect(() => {
     if (state.bankingDetails.statusCodeForDeleteTrans === 200) {
       handleCloseTransactionDelete();
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
