@@ -1,12 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
-import { Card, Table } from "react-bootstrap";
-import { toWords } from 'number-to-words';
+// import { toWords } from 'number-to-words';
 import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
 import Close from '../Assets/Images/New_images/circlie.png'
-import Logo from '../Assets/Images/Logo-Icon.png'
-import { Call, Location, ArrowLeft } from 'iconsax-react';
+import {  ArrowLeft } from 'iconsax-react';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";
@@ -16,10 +15,10 @@ import "./Receipt.css";
 import mob from "../Assets/Images/New_images/Rectangle 77.png";
 import substrac from "../Assets/Images/New_images/Subtract.png";
 import frame from "../Assets/Images/New_images/FramePDF.png";
-import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
-import substracBlue from "../Assets/Images/New_images/location 03.png";
-import frameblue from "../Assets/Images/New_images/Frameblue.png";
-import paidfull from '../Assets/Images/New_images/paidfull.png'
+// import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
+// import substracBlue from "../Assets/Images/New_images/location 03.png";
+// import frameblue from "../Assets/Images/New_images/Frameblue.png";
+// import paidfull from '../Assets/Images/New_images/paidfull.png'
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -114,9 +113,9 @@ console.log("ReceiptPdfCard",state)
         handleClosed()
     }
 
-    const amountInWords = rowData?.amount_received
-        ? `${toWords(rowData.amount_received).replace(/\b\w/g, char => char.toUpperCase())} Rupees`
-        : '';
+    // const amountInWords = rowData?.amount_received
+    //     ? `${toWords(rowData.amount_received).replace(/\b\w/g, char => char.toUpperCase())} Rupees`
+    //     : '';
 
 
     console.log("Bill Row Data:", rowData);
