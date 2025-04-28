@@ -1,0 +1,8 @@
+@media print {
+    .receipt-container {
+      width: 50% !important;
+      margin: 0 auto !important;
+      transform: scale(0.9); /* Optional: make it even a little smaller */
+      transform-origin: top center;
+    }
+  }
