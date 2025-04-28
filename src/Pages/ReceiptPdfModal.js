@@ -204,7 +204,7 @@ console.log("ReceiptPdfCard",state)
                   <div className="container bg-white rounded-bottom border position-relative" style={{marginTop:"-50px",zIndex:1,width:"95%",borderRadius:"24px"}}>
                     <div className="text-center pt-5 pb-3">
                       {/* <h5 className="fw-bold">Payment Receipt</h5> */}
-                      <h5 className="fw-bold">{rowData?.action === "advance" ? "Security Deposit Receipt":"Payment Receipt"}</h5> 
+                      <h5 className="fw-bold">{receiptDataNew?.invoice_type === "advance" ? "Security Deposit Receipt":"Payment Receipt"}</h5> 
                     </div>
                 
                   
@@ -272,11 +272,11 @@ console.log("ReceiptPdfCard",state)
     </div> */}
     <div className="d-flex justify-content-end border-bottom py-1">
       <div className="w-50 text-end">Sub Total</div>
-      <div className="w-25 text-end">₹ {rowData?.amount_received}</div>
+      <div className="w-25 text-end">₹ {receiptDataNew?.total_amount}</div>
     </div>
     <div className="d-flex justify-content-end py-2 fw-bold">
       <div className="w-50 text-end">Total</div>
-      <div className="w-25 text-end">₹ {rowData?.amount_received}</div>
+      <div className="w-25 text-end">₹ {receiptDataNew?.total_amount}</div>
     </div>
   </div>
 </div>
@@ -321,7 +321,7 @@ console.log("ReceiptPdfCard",state)
                 
                     <div className="py-5 px-5">
                     <div className=" text-white text-center" style={{borderTopLeftRadius:"12px",borderTopRightRadius:"12px",backgroundColor:"#00A32E",padding:7}}>
-                      <small>email: contact@royalgrandhostel.in | Contact: +91 88996 54611</small>
+                      <small>email: {receiptDataNew?.hostel_details?.email} | Contact: +{receiptDataNew?.hostel_details?.phone}</small>
                     </div>
                     </div>
                 </div>
