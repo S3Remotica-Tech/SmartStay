@@ -231,6 +231,11 @@ export async function GetAssignAmenities(datum) {
   })
 }
 
+
+export async function GetBillsPdfDetails(datum) {
+  return await AxiosConfig.get(`/get_bill_details/${datum.bill_id}`);
+}
+
 // export async function ReceiptPDFNewChanges(params) {
 //   return await AxiosConfig.get('/get_receipt_details/'+params.id, {
 //     params:params
@@ -239,5 +244,6 @@ export async function GetAssignAmenities(datum) {
 export async function ReceiptPDFNewChanges(params) {
   return await AxiosConfig.get('/get_receipt_details/' + params.id);
 }
+
 
 
