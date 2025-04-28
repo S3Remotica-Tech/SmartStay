@@ -231,3 +231,6 @@ export async function GetAssignAmenities(datum) {
   })
 }
 
+export async function GetBillsPdfDetails(datum) {
+  return await AxiosConfig.get(`/get_bill_details/${datum.bill_id}`);
+}

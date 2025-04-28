@@ -1782,10 +1782,14 @@ const InvoicePage = () => {
     setEndDate(null);
   };
 
+   
+
   const handleDisplayInvoiceDownload = (isVisible, rowData) => {
     setDownloadInvoice(isVisible);
     setShowPdfModal(true);
     setRowData(rowData);
+   dispatch({type :'BILL_PDF_DETAILS', payload:{ bill_id :rowData.id}})
+
   };
 
   const handleDisplayReceiptDownload = (isVisible, rowData) => {

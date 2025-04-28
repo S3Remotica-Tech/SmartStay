@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Card, Table } from "react-bootstrap";
 import "../Pages/Invoices.css";
 import moment from 'moment';
@@ -22,6 +23,10 @@ import PropTypes from "prop-types";
 
 
 const InvoiceCard = ({ rowData, handleClosed }) => {
+
+  const state = useSelector((state) => state);
+    const dispatch = useDispatch();
+
   const invoiceData = {
     payment: {
       bank: 'Rimberio Bank',
@@ -32,13 +37,30 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   };
 
 
-
+  const [hosteldetails, setHostelDetails] = useState({})
+  const [userdetails, setUserDetails] = useState({})
+  const [invoice_details, setInvoiceDetails] = useState({})
+  const [tabledetails, setTableDetails] = useState([])
   const [isVisible, setIsVisible] = useState(true);
   const cardRef = useRef(null);
 
   useEffect(() => {
     setIsVisible(true)
   }, [rowData])
+
+
+  
+    useEffect(() => {
+      if (state.InvoiceList.BillsPdfSuccessCode === 200) {
+        setHostelDetails(state.InvoiceList.BillsPdfDetails.hostel_details)
+        setUserDetails(state.InvoiceList.BillsPdfDetails.user_details)
+        setTableDetails(state.InvoiceList.BillsPdfDetails.amenities)
+        setInvoiceDetails(state.InvoiceList.BillsPdfDetails.invoice_details)
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE" });
+        }, 100);
+      }
+    }, [state.InvoiceList.BillsPdfSuccessCode]);
 
 
   //     const handleDownload = async () => {
@@ -76,7 +98,16 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     handleClosed()
   }
 
-  console.log("Bill Row Data:", rowData);
+  const totalStayingDays = userdetails?.joining_date
+  ? moment().diff(moment(userdetails.joining_date), 'days') + 1
+  : 0;
+
+
+
+
+  const isValid = (value) => {
+    return value !== null && value !== undefined && value !== "undefined" && value !== "";
+  };
 
   //action: "recuring"
 
@@ -157,11 +188,18 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
     <div>
       <div style={{ fontSize: 26, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" }}>
-        Royal Grand Hostel
+       {hosteldetails.name}
       </div>
       <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
-        9, 8th Avenue Rd, Someshwara Nagar,<br />
-        Chennai, Tamilnadu - 600 056
+      <>
+  {isValid(hosteldetails?.address) && <>{hosteldetails.address}, </>}
+  {isValid(hosteldetails?.area) && <>{hosteldetails.area}, </>}
+  {isValid(hosteldetails?.city) && <>{hosteldetails.city}, </>}<br />
+  {isValid(hosteldetails?.state) && <>{hosteldetails.state} - </>}
+  
+  {isValid(hosteldetails?.pincode) && <>{hosteldetails.pincode}</>}
+</>
+
       </div>
     </div>
   </div>
@@ -170,37 +208,46 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 <div class="container bg-white rounded-bottom border position-relative" style={{marginTop:"-50px",zIndex:1,width:"95%",borderRadius:"24px"}}>
   <div class="text-center pt-5 pb-3">
-    <h5 style={{ fontSize: '20px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{ rowData.action === "manual" ?   "Payment Invoice" : "Security Deposit Invoice"}</h5>
+    <h5 style={{ fontSize: '20px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{ invoice_details.invoice_type === "manual" ?   "Payment Invoice" : "Security Deposit Invoice"}</h5>
   </div>
 
 
   <div class="row px-4 mt-5">
     <div class="col-md-6 mb-3">
       <p class="  mb-1" style={{color:'rgba(48, 80, 210, 1)' ,fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To:</p>
-      <p class="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr.{rowData?.Name}</p>
-      <p class="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img src={Dial}/> {rowData?.phoneNo}</p>
-      <p class="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img src={Room} style={{height:20 , width:20}}/> {rowData.Room_No} - {rowData.Bed}</p>
-      <p style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)',}}><img src={Locat}/>  {rowData.user_address}</p>
+      <p class="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr.{userdetails?.name}</p>
+      <p class="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img src={Dial}/> {userdetails?.phone}</p>
+      <p class="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img src={Room} style={{height:20 , width:20}}/> {userdetails.room_name} - {userdetails.bed_name}</p>
+      <p style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)',}}><img src={Locat}/> 
+      <>
+  {isValid(userdetails?.address) && <>{userdetails.address}, </>}
+  {isValid(userdetails?.area) && <>{userdetails.area}, </>}
+  {isValid(userdetails?.city) && <>{userdetails.city}, </>}<br />
+  {isValid(userdetails?.state) && <>{userdetails.state} - </>}
+  
+  {isValid(userdetails?.pincode) && <>{userdetails.pincode}</>}
+</>
+       </p>
     </div>
     <div class="col-md-6 mb-3">
       <div class="row">
         <div class="col-6 text-muted"  style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice:</div>
-        <div class="col-6 text-end"   style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{rowData?.Invoices === null || rowData?.Invoices === '' ? '0.00' : rowData?.Invoices}</div>
+        <div class="col-6 text-end"   style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{invoice_details?.invoice_id === null || invoice_details?.invoice_id === '' ? '0.00' : invoice_details?.invoice_id}</div>
 
         <div class="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice Date :</div>
-        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(rowData?.Date).format('DD MMM YYYY')}</div>
+        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(invoice_details?.invioice_date).format('DD MMM YYYY')}</div>
 
         <div class="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Due date :</div>
-        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(rowData?.DueDate).format('DD MMM YYYY')}</div>
+        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(invoice_details?.due_date).format('DD MMM YYYY')}</div>
 
         <div class="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Joining date :</div>
-        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(rowData?.start_date).format('DD MMM YYYY')}</div>
+        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(userdetails?.joining_date).format('DD MMM YYYY')}</div>
 
         <div class="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
-        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>Mar - June 2024</div>
+        <div class="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}></div>
 
         <div class="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Total Staying Days</div>
-        <div class="col-6 text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>120 Days</div>
+        <div class="col-6 text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{totalStayingDays} Days</div>
       </div>
     </div>
   </div>
@@ -230,7 +277,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
           </th>
           <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600 }}>Inv No</th>
           <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600}}>Description</th>
-          <th style={{  color: "rgba(255, 255, 255, 1)",  fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600}}>Duration</th>
+          {/* <th style={{  color: "rgba(255, 255, 255, 1)",  fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600}}>Duration</th> */}
           <th
             style={{
               borderTopRightRadius: "12px",
@@ -245,12 +292,12 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         </tr>
       </thead>
       <tbody>
-  {rowData?.amenity?.map((item, index) => (
+  {tabledetails.length > 0 && tabledetails.map((item, index) => (
     <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
       <td>{index + 1}</td>
       <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>{item.invoice_id}</td>
       <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>{item.am_name}</td>
-      <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>{item.am_name}</td>
+      {/* <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>{item.am_name}</td> */}
       <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>Rs. {item.amount}</td>
     </tr>
   ))}
@@ -268,11 +315,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
       </div>
       <div className="d-flex justify-content-between  py-1">
         <span className="ms-auto">Sub Total</span>
-        <span className="ms-4">Rs. {rowData?.Amount}</span>
+        <span className="ms-4">Rs. {invoice_details?.total_amount}</span>
       </div>
       <div className="d-flex justify-content-between fw-bold py-2">
         <span className="ms-auto">Total</span>
-        <span className="ms-4">Rs. {rowData?.Amount}</span>
+        <span className="ms-4">Rs. {invoice_details?.total_amount}</span>
       </div>
     </div>
   </div>
