@@ -63,7 +63,9 @@ export const initialState = {
     RecurenotEnable: '',
     RecurenotenableStatusCode : 0,
     Errmessage: '',
-    amnitiessAddError:''
+    amnitiessAddError:'',
+    newReceiptchanges:[],
+    statusCodeNewReceiptStatusCode:0
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -279,6 +281,15 @@ const InvoiceReducer = (state = initialState, action) => {
                 return { ...state, ReceiptPDF: action.payload.response, statusCodeForReceiptPDf: action.payload.statusCode, toTriggerPDF: false }
         case 'CLEAR_RECEIPT_PDF_STATUS_CODE':
                 return { ...state, statusCodeForReceiptPDf: 0 }
+
+
+
+
+                // newReceipt
+                case 'RECEIPT_PDF_CHANGES':
+                return { ...state,newReceiptchanges: action.payload, statusCodeNewReceiptStatusCode: action.payload.statusCode }
+        case 'CLEAR_NEE_RECEIPT_PDF_STATUS_CODE':
+                return { ...state, statusCodeNewReceiptStatusCode: 0 }
 
                 default:
         return state;

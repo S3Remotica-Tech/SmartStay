@@ -231,3 +231,13 @@ export async function GetAssignAmenities(datum) {
   })
 }
 
+// export async function ReceiptPDFNewChanges(params) {
+//   return await AxiosConfig.get('/get_receipt_details/'+params.id, {
+//     params:params
+//   })
+// }
+export async function ReceiptPDFNewChanges(params) {
+  return await AxiosConfig.get('/get_receipt_details/' + params.id);
+}
+
+
