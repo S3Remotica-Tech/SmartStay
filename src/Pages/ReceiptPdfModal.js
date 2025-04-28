@@ -20,16 +20,39 @@ import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
 import substracBlue from "../Assets/Images/New_images/location 03.png";
 import frameblue from "../Assets/Images/New_images/Frameblue.png";
 import paidfull from '../Assets/Images/New_images/paidfull.png'
+import { useDispatch, useSelector } from "react-redux";
 
 
 
 const ReceiptPdfCard = ({ rowData, handleClosed }) => {
-console.log("{rowData?.Hostel_Name}",rowData)
+  console.log("{ rowData, handleClosed }", rowData, handleClosed );
+  
+  const state = useSelector((state) => state);
+console.log("ReceiptPdfCard",state)
+ const dispatch = useDispatch();
     const [isVisible, setIsVisible] = useState(true);
+    const [receiptDataNew, setReceiptDataNew] = useState("");
+    useEffect(()=>{
+       if(state.InvoiceList.statusCodeNewReceiptStatusCode === 200){
+        setReceiptDataNew(state.InvoiceList.newReceiptchanges.receipt)
+         setTimeout(() => {
+           dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
+         },500);
+       }
+       
+     },[state.InvoiceList.statusCodeNewReceiptStatusCode])
+
+     console.log("receiptDataNew...........//",receiptDataNew)
+     
     const cardRef = useRef(null);
 
     useEffect(() => {
+      
         setIsVisible(true)
+        if(rowData?.id){
+          dispatch({type:"RECEIPTPDF_NEWCHANGES",id:rowData?.id})
+        }
+       
     }, [rowData])
 
 
@@ -171,8 +194,8 @@ console.log("{rowData?.Hostel_Name}",rowData)
                         <small>Meet All Your Needs</small>
                       </div>
                       <div className="text-end">
-                        <h5 className="mb-0">{rowData?.Hostel_Name}</h5>
-                        <small>{rowData?.admin_address},<br/>Chennai, Tamilnadu - 600 056</small>
+                        <h5 className="mb-0">{receiptDataNew?.hostel_details?.name}</h5>
+                        <small>{receiptDataNew?.hostel_details?.address},<br/>{receiptDataNew?.hostel_details?.area},{receiptDataNew?.hostel_details?.city} {receiptDataNew?.hostel_details?.landmark}, {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</small>
                       </div>
                     </div>
                   </div>
@@ -188,27 +211,27 @@ console.log("{rowData?.Hostel_Name}",rowData)
                     <div className="row px-4 mt-5">
                       <div className="col-md-6 mb-3">
                         <p className="fw-bold text-success mb-1">Bill To:</p>
-                        <p className="mb-1">{rowData?.user_name}</p>
-                        <p className="mb-1"><img src={mob} alt="mob" width={12} height={12}/> {rowData?.phoneNo}</p>
-                        <p className="mb-1"><img src={frame} alt="frame" width={13} height={13}/> {rowData?.user_address}</p>
-                        <p><img src={substrac} alt="subs" width={12} height={12}/> 8th Main Rd, Someshwara Nagar, Bengaluru, Karnataka 560011</p>
+                        <p className="mb-1">{receiptDataNew?.user_details?.name}</p>
+                        <p className="mb-1"><img src={mob} alt="mob" width={12} height={12}/> {receiptDataNew?.user_details?.phone}</p>
+                        <p className="mb-1"><img src={frame} alt="frame" width={13} height={13}/>  {receiptDataNew?.user_details?.address}</p>
+                        <p><img src={substrac} alt="subs" width={12} height={12}/> {receiptDataNew?.user_details?.area} {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p>
                       </div>
                       <div className="col-md-6 mb-3">
                         <div className="row">
                           <div className="col-6 text-muted">Receipt No:</div>
-                          <div className="col-6 fw-bold text-end">#SSR001</div>
+                          <div className="col-6 fw-bold text-end">{receiptDataNew?.reference_id}</div>
                 
                           <div className="col-6 text-muted">Invoice Ref:</div>
-                          <div className="col-6 fw-bold text-end">{rowData?.invoice_number}</div>
+                          <div className="col-6 fw-bold text-end">{receiptDataNew?.invoice_number}</div>
                 
                           <div className="col-6 text-muted">Date:</div>
-                          <div className="col-6 fw-bold text-end">{moment(rowData?.Date).format('DD/MM/YYYY')}</div>
+                          <div className="col-6 fw-bold text-end">{moment(receiptDataNew?.payment_date).format('DD/MM/YYYY')}</div>
                 
                           <div className="col-6 text-muted">Time:</div>
                           <div className="col-6 fw-bold text-end">11:56:43 AM</div>
                 
                           <div className="col-6 text-muted">Payment Mode:</div>
-                          <div className="col-6 fw-bold text-end">{rowData?.payment_mode}</div>
+                          <div className="col-6 fw-bold text-end">{receiptDataNew?.payment_mode}</div>
                         </div>
                       </div>
                     </div>
@@ -227,12 +250,12 @@ console.log("{rowData?.Hostel_Name}",rowData)
                             </tr>
                           </thead>
                           <tbody>
-                          {rowData?.amenity?.map((item, index) => (
+                          {receiptDataNew?.amenities?.map((item, index) => (
                             <tr key={index}>
                               <td>{index + 1}</td>
-                              <td>{rowData.invoice_number}</td>
+                              <td>{receiptDataNew?.invoice_number}</td>
                               <td>{item.am_name}</td>
-                              <td>{moment(rowData?.Date).format("DD/MM/YYYY")}</td>
+                              <td>{moment(rowData?.created_at).format("DD/MM/YYYY")}</td>
                               <td>₹ {item.amount}</td>
                             </tr>
                           ))}
@@ -267,7 +290,7 @@ console.log("{rowData?.Hostel_Name}",rowData)
                       <div className="row">
                         <div className="col-md-6 mb-3">
                           <h6 className="fw-bold">Payment Details</h6>
-                          <p className="mb-1">Payment Mode: G-Pay</p>
+                          <p className="mb-1">Payment Mode: {receiptDataNew?.payment_mode}</p>
                           <p className="mb-1">Transaction ID: GPay-2134-8482-XYZ</p>
                           <p>Received By: Admin - Anjali R</p>
                         </div>
