@@ -15,19 +15,17 @@ import "./Receipt.css";
 import mob from "../Assets/Images/New_images/Rectangle 77.png";
 import substrac from "../Assets/Images/New_images/Subtract.png";
 import frame from "../Assets/Images/New_images/FramePDF.png";
-// import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
-// import substracBlue from "../Assets/Images/New_images/location 03.png";
-// import frameblue from "../Assets/Images/New_images/Frameblue.png";
-// import paidfull from '../Assets/Images/New_images/paidfull.png'
+import mobblue from "../Assets/Images/New_images/Rectangleblue.png";
+import substracBlue from "../Assets/Images/New_images/location 03.png";
+import frameblue from "../Assets/Images/New_images/Frameblue.png";
+import paidfull from '../Assets/Images/New_images/paidfull.png'
 import { useDispatch, useSelector } from "react-redux";
 
 
 
 const ReceiptPdfCard = ({ rowData, handleClosed }) => {
-  console.log("{ rowData, handleClosed }", rowData, handleClosed );
   
   const state = useSelector((state) => state);
-console.log("ReceiptPdfCard",state)
  const dispatch = useDispatch();
     const [isVisible, setIsVisible] = useState(true);
     const [receiptDataNew, setReceiptDataNew] = useState("");
@@ -118,7 +116,6 @@ console.log("ReceiptPdfCard",state)
     //     : '';
 
 
-    console.log("Bill Row Data:", rowData);
 
     //action: "recuring"
 
@@ -184,6 +181,135 @@ console.log("ReceiptPdfCard",state)
                 <div style={{ maxHeight: 400, overflowY: "auto" }} className="show-scroll receipt-invoice">
 
                     {isVisible &&
+
+receiptDataNew.invoice_type === "Checkout" ? (
+  <div className="receipt-container" ref={cardRef} >
+                
+                  <div   className=" text-white  p-4 position-relative" style={{borderBottomRightRadius:"24px",borderBottomLeftRadius:"24px", minHeight: "180px",backgroundColor:"#1E45E1" }}>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h4 className="fw-bold mb-0">Smartstay</h4>
+                        <small>Meet All Your Needs</small>
+                      </div>
+                      <div className="text-end">
+                        <h5 className="mb-0">{rowData?.Hostel_Name}</h5>
+                        <small>{rowData?.admin_address},<br/>Chennai, Tamilnadu - 600 056</small>
+                      </div>
+                    </div>
+                  </div>
+                
+                 
+                  <div className="container bg-white rounded-bottom border position-relative" style={{marginTop:"-50px",zIndex:1,width:"95%",borderRadius:"24px"}}>
+                    <div className="text-center pt-5 pb-3">
+                      {/* <h5 className="fw-bold">Payment Receipt</h5> */}
+                      {/* <h5 className="fw-bold">{rowData?.action === "advance" ? "Security Deposit Receipt":"Payment Receipt"}</h5>  */}
+                      <h5 className="fw-bold">
+  {rowData?.action === "advance" && "Security Deposit Receipt"}
+  {rowData?.action === "Checkout" && "Final Settlement Receipt"}
+  {rowData?.action !== "advance" && rowData?.action !== "Checkout" && "Payment Receipt"}
+</h5>
+
+
+                    </div>
+                
+                  
+                    <div className="row px-4 mt-5">
+                      <div className="col-md-6 mb-3">
+                        <p className="fw-bold text-success mb-1">Bill To:</p>
+                        <p className="mb-1">{rowData?.user_name}</p>
+                        <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12}/> {rowData?.phoneNo}</p>
+                        <p className="mb-1"><img src={frameblue} alt="frame" width={13} height={13}/> {rowData?.user_address}</p>
+                        <p><img src={substracBlue} alt="subs" width={12} height={12}/> 8th Main Rd, Someshwara Nagar, Bengaluru, Karnataka 560011</p>
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <div className="row">
+                          <div className="col-6 text-muted">Receipt No:</div>
+                          <div className="col-6 fw-bold text-end">#SSR001</div>
+                
+                          <div className="col-6 text-muted">Invoice Ref:</div>
+                          <div className="col-6 fw-bold text-end">{rowData?.invoice_number}</div>
+                
+                          <div className="col-6 text-muted">Date:</div>
+                          <div className="col-6 fw-bold text-end">{moment(rowData?.Date).format('DD/MM/YYYY')}</div>
+                
+                          <div className="col-6 text-muted">Time:</div>
+                          <div className="col-6 fw-bold text-end">11:56:43 AM</div>
+                
+                          <div className="col-6 text-muted">Payment Mode:</div>
+                          <div className="col-6 fw-bold text-end">{rowData?.payment_mode}</div>
+                        </div>
+                      </div>
+                    </div>
+                
+                   
+                    <div className="px-4 pb-3">
+                      <div className="table-responsive">
+                        <table className="table  text-center align-middle">
+                          <thead  style={{backgroundColor:"#1E45E1",color:"#FFFFFF"}}>
+                            <tr style={{color:"white"}}>
+                              <th style={{ borderTopLeftRadius: "12px",borderBottomLeftRadius:"12px",color:"white" }}>S.NO</th>
+                              <th style={{color:"white"}}>Inv No</th>
+                              <th style={{color:"white"}}>Description</th>
+                              <th style={{color:"white"}}>Duration</th>
+                              <th style={{ borderTopRightRadius: "12px",borderBottomRightRadius:"12px",color:"white" }}>Amount / INR</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {rowData?.amenity?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{rowData.invoice_number}</td>
+                              <td>{item.am_name}</td>
+                              <td>{moment(rowData?.Date).format("DD/MM/YYYY")}</td>
+                              <td>₹ {item.amount}</td>
+                            </tr>
+                          ))}
+                          </tbody>
+                        </table>
+                      </div>
+                
+                      
+                      <div className="d-flex justify-content-end mt-3"  >
+  <div className="w-100 w-md-50" style={{paddingRight:"50px"}}>
+   
+    <div className="d-flex justify-content-end border-bottom py-1">
+      <div className="w-50 text-end">Sub Total</div>
+      <div className="w-25 text-end">₹ {rowData?.amount_received}</div>
+    </div>
+    <div className="d-flex justify-content-end py-2 fw-bold">
+      <div className="w-50 text-end">Total</div>
+      <div className="w-25 text-end">₹ {rowData?.amount_received}</div>
+    </div>
+  </div>
+</div>
+
+                    </div>
+                
+                   
+                  
+                  </div>
+                  <div className="px-4" style={{marginTop:20}}>
+                      <div className="row">
+                        <div className="col-md-6 mb-3">
+                          <h6 className="fw-bold">Payment Details</h6>
+                          <p className="mb-1">Payment Mode: G-Pay</p>
+                          <p className="mb-1">Transaction ID: GPay-2134-8482-XYZ</p>
+                          <p>Received By: Admin - Anjali R</p>
+                        </div>
+                        <div className="col-md-6 text-end">
+                        <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block"><img src={paidfull} alt="received" height={91} width={162}/></p>
+                          <p className="mt-4">Authorized Signature</p>
+                        </div>
+                      </div>
+                    </div>
+                
+                    <div className="py-5 px-5">
+                    <div className=" text-white text-center" style={{borderTopLeftRadius:"12px",borderTopRightRadius:"12px",backgroundColor:"#1E45E1",padding:7}}>
+                      <small>email: contact@royalgrandhostel.in | Contact: +91 88996 54611</small>
+                    </div>
+                    </div>
+                </div>
+) :
                   <div className="receipt-container" ref={cardRef} >
                 
                   <div   className=" text-white  p-4 position-relative" style={{borderBottomRightRadius:"24px",borderBottomLeftRadius:"24px", minHeight: "180px",backgroundColor:"#00A32E" }}>

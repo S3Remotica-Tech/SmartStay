@@ -106,8 +106,8 @@ const InvoicePage = () => {
   const [newRows, setNewRows] = useState([])
   const [customererrmsg, setCustomerErrmsg] = useState("");
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
-  const [startdateerrmsg, setStartdateErrmsg] = useState("");
-  const [enddateerrmsg, setEnddateErrmsg] = useState("");
+  // const [startdateerrmsg, setStartdateErrmsg] = useState("");
+  // const [enddateerrmsg, setEnddateErrmsg] = useState("");
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
@@ -694,8 +694,8 @@ const InvoicePage = () => {
     // Reset all error messages
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
-    setStartdateErrmsg("");
-    setEnddateErrmsg("");
+    // setStartdateErrmsg("");
+    // setEnddateErrmsg("");
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
@@ -713,16 +713,16 @@ const InvoicePage = () => {
     }
 
     // Validate Start & End Date only if NOT advance invoice
-    if (invoiceDetails?.action !== "advance") {
-      if (!startdate) {
-        setStartdateErrmsg("Start Date is Required");
-        isValid = false;
-      }
-      if (!enddate) {
-        setEnddateErrmsg("End Date is Required");
-        isValid = false;
-      }
-    }
+    // if (invoiceDetails?.action !== "advance") {
+    //   if (!startdate) {
+    //     setStartdateErrmsg("Start Date is Required");
+    //     isValid = false;
+    //   }
+    //   if (!enddate) {
+    //     setEnddateErrmsg("End Date is Required");
+    //     isValid = false;
+    //   }
+    // }
 
     // Validate Invoice Date
     if (!invoicedate) {
@@ -764,8 +764,9 @@ const InvoicePage = () => {
       !customername ||
       !invoicenumber ||
       !invoicedate ||
-      !invoiceduedate ||
-      (invoiceDetails?.action !== "advance" && (!startdate || !enddate))
+      !invoiceduedate 
+    //   (invoiceDetails?.action !== "advance" && (!startdate || !enddate)
+    // )
     ) {
       setAllFieldErrmsg("Please Fill Out All Required Fields");
       isValiding = false;
@@ -781,8 +782,8 @@ const InvoicePage = () => {
     // Check if any value has changed
     const isChanged = (() => {
       const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
-      const startDateChanged = formatDate(invoiceDetails?.start_date) !== formatDate(startdate);
-      const endDateChanged = formatDate(invoiceDetails?.end_date) !== formatDate(enddate);
+      // const startDateChanged = formatDate(invoiceDetails?.start_date) !== formatDate(startdate);
+      // const endDateChanged = formatDate(invoiceDetails?.end_date) !== formatDate(enddate);
       const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
       const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
       const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
@@ -798,7 +799,7 @@ const InvoicePage = () => {
         invoiceChanged ||
         invoiceDateChanged ||
         dueDateChanged ||
-        (invoiceDetails?.action !== "advance" && (startDateChanged || endDateChanged)) ||
+        // (invoiceDetails?.action !== "advance" && (startDateChanged || endDateChanged)) ||
         rowsCountChanged ||
         amenitiesChanged
       );
@@ -814,8 +815,8 @@ const InvoicePage = () => {
     if (isValid && isValiding && isChanged) {
       const formattedInvoiceDate = formatDate(invoicedate);
       const formattedDueDate = formatDate(invoiceduedate);
-      const formattedStartDate = formatDate(startdate);
-      const formattedEndDate = formatDate(enddate);
+      // const formattedStartDate = formatDate(startdate);
+      // const formattedEndDate = formatDate(enddate);
 
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
@@ -825,8 +826,8 @@ const InvoicePage = () => {
           due_date: formattedDueDate,
           id: invoiceDetails.id,
           amenity: amenityArray.length > 0 ? amenityArray : [],
-          start_date: invoiceDetails?.action === "advance" ? null : formattedStartDate,
-          end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
+          // start_date: invoiceDetails?.action === "advance" ? null : formattedStartDate,
+          // end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
         },
       });
 
@@ -844,7 +845,7 @@ const InvoicePage = () => {
       setTotalAmount("");
       setNewRows([]);
       setCustomerErrmsg("");
-      setStartdateErrmsg("");
+      // setStartdateErrmsg("");
       setInvoiceDateErrmsg("");
       setInvoiceDueDateErrmsg("");
       setAllFieldErrmsg("");
@@ -1054,12 +1055,12 @@ const InvoicePage = () => {
     // setBillAmounts("");
     setTotalAmount("");
     setCustomerErrmsg("");
-    setStartdateErrmsg("");
+    // setStartdateErrmsg("");
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
     setTableErrmsg("");
-    setEnddateErrmsg("");
+    // setEnddateErrmsg("");
     setamenityArray([]);
     setNewRows([]);
     setDropdownValue("")
@@ -1071,30 +1072,30 @@ const InvoicePage = () => {
 
 
 
-  const handlestartDate = (selectedDates) => {
-    setAllFieldErrmsg("");
-    const date = selectedDates;
-    setStartDate(date);
+  // const handlestartDate = (selectedDates) => {
+  //   setAllFieldErrmsg("");
+  //   const date = selectedDates;
+  //   setStartDate(date);
 
-    if (!selectedDates) {
-      setStartdateErrmsg("Please Select Date");
-    } else {
-      setStartdateErrmsg("");
-    }
+  //   if (!selectedDates) {
+  //     setStartdateErrmsg("Please Select Date");
+  //   } else {
+  //     setStartdateErrmsg("");
+  //   }
 
-  };
+  // };
 
-  const handleEndDate = (selectedDates) => {
-    setAllFieldErrmsg("");
-    const date = selectedDates;
-    setEndDate(date);
-    if (!selectedDates) {
-      setEnddateErrmsg("Please Select Date");
-    } else {
-      setEnddateErrmsg("");
-    }
+  // const handleEndDate = (selectedDates) => {
+  //   setAllFieldErrmsg("");
+  //   const date = selectedDates;
+  //   setEndDate(date);
+  //   if (!selectedDates) {
+  //     setEnddateErrmsg("Please Select Date");
+  //   } else {
+  //     setEnddateErrmsg("");
+  //   }
 
-  };
+  // };
 
   const handleInvoiceDate = (selectedDate) => {
     setAllFieldErrmsg("");
@@ -1107,8 +1108,8 @@ const InvoicePage = () => {
 
     setInvoiceDate(selectedDate);
     setInvoiceDateErrmsg("");
-    setEnddateErrmsg("");
-    setStartdateErrmsg("");
+    // setEnddateErrmsg("");
+    // setStartdateErrmsg("");
 
     const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
     setFormatInvoiceDate(formattedDate);
@@ -1426,19 +1427,19 @@ const InvoicePage = () => {
       setCustomerErrmsg(""); // Clear error when field is filled
     }
 
-    if (!startdate) {
-      setStartdateErrmsg("Please Select Start Date");
-      hasError = true;
-    } else {
-      setStartdateErrmsg("");
-    }
+    // if (!startdate) {
+    //   setStartdateErrmsg("Please Select Start Date");
+    //   hasError = true;
+    // } else {
+    //   setStartdateErrmsg("");
+    // }
 
-    if (!enddate) {
-      setEnddateErrmsg("Please Select End Date");
-      hasError = true;
-    } else {
-      setEnddateErrmsg("");
-    }
+    // if (!enddate) {
+    //   setEnddateErrmsg("Please Select End Date");
+    //   hasError = true;
+    // } else {
+    //   setEnddateErrmsg("");
+    // }
 
     if (!invoicedate) {
       setInvoiceDateErrmsg("Please Select Invoice Date");
@@ -6198,7 +6199,7 @@ useEffect(()=>{
               )}
             </Form.Group>
           </div>
-          {invoiceDetails?.action !== "advance" && (
+          {/* {invoiceDetails?.action !== "advance" && (
             <div style={{ display: "flex", flexDirection: "row" ,height:"100px"}}>
               <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
                 <p className="mt-1 mb-1" style={{
@@ -6220,7 +6221,7 @@ useEffect(()=>{
   placeholder="DD/MM/YYYY"
   value={startdate ? dayjs(startdate) : null}
   onChange={(date) => handlestartDate(date)}
-  // 👇 This is important
+  
   getPopupContainer={() => document.body}
 />
 
@@ -6267,9 +6268,7 @@ useEffect(()=>{
                     placeholder="DD/MM/YYYY"
                     value={enddate ? dayjs(enddate) : null}
                     onChange={(date) => handleEndDate(date)}
-                    // getPopupContainer={(triggerNode) =>
-                    //   triggerNode.closest(".datepicker-wrapper")
-                    // }
+                   
                     getPopupContainer={() => document.body}
                   />
                 </div>
@@ -6295,7 +6294,7 @@ useEffect(()=>{
                 )}
               </div>
             </div>
-          )}
+          )} */}
           <div style={{ display: "flex", flexDirection: "row",height:"100px" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
 
@@ -6393,10 +6392,10 @@ useEffect(()=>{
 
           {/* Table */}
           {Array.isArray(newRows) && newRows.length > 0 && (
-  <div className="row">
+  <div className="row ">
     <div className="col-lg-11 col-md-11 col-12">
       <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-        <Table className="ebtable mt-2" responsive>
+        <Table className="ebtable mt-3" responsive>
           <thead
             style={{
               backgroundColor: "#E7F1FF",
@@ -6475,7 +6474,7 @@ useEffect(()=>{
   </div>
 )}
 
-          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-2">
+          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-4">
             <Form.Select
               className="border"
               style={{

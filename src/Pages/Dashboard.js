@@ -1463,7 +1463,7 @@ function Dashboard() {
               )}
             </TabPanel>
 
-            <TabPanel value="2">
+            <TabPanel value="2" >
               <DashboardAnnouncement
                 announcePermissionError={announcePermissionError}
               />

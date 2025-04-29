@@ -1600,7 +1600,7 @@ const handleBed = (selectedOption) => {
                               </Form.Group>
                             
                               {!state_name && state_nameError && (
-  <div style={{ color: "red" }}>
+  <div style={{ color: "red",marginTop:"-16px" }}>
     <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
     <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
       {state_nameError}
