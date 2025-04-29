@@ -1023,19 +1023,28 @@ function StaticExample({ show, setShow, currentItem }) {
                <Select
                  placeholder="Select Account"
                  options={
-                  bankking?.length > 0
-                     ? bankking.map((u) => ({
+                  bankking && bankking?.length > 0 ? bankking?.map((u) => ({
                          value: u.id,
                          label: u.bank_name,
                        }))
                      : []
                  }
-                 value={
-                   bankking.map((u) => ({
-                     value: u.id,
-                     label: u.bank_name,
-                   })).find((opt) => opt.value === account) || null
-                 }
+                //  value={
+                //    bankking?.map((u) => ({
+                //      value: u.id,
+                //      label: u.bank_name,
+                //    })).find((opt) => opt.value === account) || null
+                //  }
+                value={
+                  Array.isArray(bankking)
+                    ? bankking
+                        .map((u) => ({
+                          value: u.id,
+                          label: u.bank_name,
+                        }))
+                        .find((opt) => opt.value === account)
+                    : null
+                }
                  onChange={handleAccount}
                  styles={{
                    control: (base) => ({

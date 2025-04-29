@@ -519,7 +519,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       //   </div>
       // ) : (
       <div 
-      //  style={{ maxHeight: "420px", overflowY: "auto", overflowX: "hidden" }}
+       style={{ maxHeight: "400px", overflowY: "auto" }}
       >
         <div className="row announcement-card" >
           {currentItems?.length > 0 ? (

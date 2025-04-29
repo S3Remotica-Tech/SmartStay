@@ -48,6 +48,7 @@ import Filters from "../Assets/Images/Filters.svg";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import leftarrow from "../Assets/Images/arrow-left.png"
 
 function UserList(props) {
   const state = useSelector((state) => state);
@@ -88,8 +89,8 @@ function UserList(props) {
 
   const [customername, setCustomerName] = useState("");
   const [invoicenumber, setInvoiceNumber] = useState("");
-  const [startdate, setStartDate] = useState(null);
-  const [enddate, setEndDate] = useState(null);
+  // const [startdate, setStartDate] = useState(null);
+  // const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
   const [customererrmsg, setCustomerErrmsg] = useState("");
@@ -97,8 +98,8 @@ function UserList(props) {
   const [totalAmount, setTotalAmount] = useState("");
   const [newRows, setNewRows] = useState([]);
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
-  const [startdateerrmsg, setStartdateErrmsg] = useState("");
-  const [enddateerrmsg, setEnddateErrmsg] = useState("");
+  // const [startdateerrmsg, setStartdateErrmsg] = useState("");
+  // const [enddateerrmsg, setEnddateErrmsg] = useState("");
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
@@ -285,7 +286,7 @@ const handleAddItems = () => {
     // Reset error messages
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
-    setStartdateErrmsg("");
+    // setStartdateErrmsg("");
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
@@ -303,14 +304,14 @@ const handleAddItems = () => {
     }
 
     // Validate Start Date
-    if (!startdate) {
-      setStartdateErrmsg("Start Date is Required");
-      isValid = false;
-    }
-    if (!enddate) {
-      setEnddateErrmsg("End Date is Required");
-      isValid = false;
-    }
+    // if (!startdate) {
+    //   setStartdateErrmsg("Start Date is Required");
+    //   isValid = false;
+    // }
+    // if (!enddate) {
+    //   setEnddateErrmsg("End Date is Required");
+    //   isValid = false;
+    // }
 
     // Validate Invoice Date
     if (!invoicedate) {
@@ -351,38 +352,38 @@ const handleAddItems = () => {
     if (
       !customername ||
       !invoicenumber ||
-      !startdate ||
+      // !startdate ||
       !invoicedate ||
-      !invoiceduedate ||
-      !enddate
+      !invoiceduedate 
+      // !enddate
     ) {
       setAllFieldErrmsg("Please Fill Out All Required Fields");
       isValid = false;
     }
 
-    const formatDateToStartdate = (startdate) => {
-      if (!startdate) return "";
-      const d = new Date(startdate);
-      return (
-        d.getFullYear() +
-        "-" +
-        String(d.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(d.getDate()).padStart(2, "0")
-      );
-    };
+    // const formatDateToStartdate = (startdate) => {
+    //   if (!startdate) return "";
+    //   const d = new Date(startdate);
+    //   return (
+    //     d.getFullYear() +
+    //     "-" +
+    //     String(d.getMonth() + 1).padStart(2, "0") +
+    //     "-" +
+    //     String(d.getDate()).padStart(2, "0")
+    //   );
+    // };
 
-    const formatDateTowenddate = (enddate) => {
-      if (!enddate) return "";
-      const d = new Date(enddate);
-      return (
-        d.getFullYear() +
-        "-" +
-        String(d.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(d.getDate()).padStart(2, "0")
-      );
-    };
+    // const formatDateTowenddate = (enddate) => {
+    //   if (!enddate) return "";
+    //   const d = new Date(enddate);
+    //   return (
+    //     d.getFullYear() +
+    //     "-" +
+    //     String(d.getMonth() + 1).padStart(2, "0") +
+    //     "-" +
+    //     String(d.getDate()).padStart(2, "0")
+    //   );
+    // };
 
     const formatDateToInvoicedate = (invoicedate) => {
       if (!invoicedate) return "";
@@ -411,14 +412,14 @@ const handleAddItems = () => {
     const isChanged = (() => {
       const userChanged =
         Number(currentView.hos_user_id) !== Number(customername);
-      const startDateChanged =
-        formatDateToStartdate(currentView.start_date) !==
-        formatDateToStartdate(startdate);
+      // const startDateChanged =
+      //   formatDateToStartdate(currentView.start_date) !==
+      //   formatDateToStartdate(startdate);
       const invoiceChanged =
         String(currentView.Invoices) !== String(invoicenumber);
-      const endDateChanged =
-        formatDateTowenddate(currentView.end_date) !==
-        formatDateTowenddate(enddate);
+      // const endDateChanged =
+      //   formatDateTowenddate(currentView.end_date) !==
+      //   formatDateTowenddate(enddate);
       const invoiceDateChanged =
         formatDateToInvoicedate(currentView.Date) !==
         formatDateToInvoicedate(invoicedate);
@@ -438,9 +439,9 @@ const handleAddItems = () => {
 
       return (
         userChanged ||
-        startDateChanged ||
+        // startDateChanged ||
         invoiceChanged ||
-        endDateChanged ||
+        // endDateChanged ||
         invoiceDateChanged ||
         dueDateChanged ||
         amenitiesChanged
@@ -466,18 +467,18 @@ const handleAddItems = () => {
         day
       ).padStart(2, "0")}`;
 
-      const startDateObject = new Date(startdate);
-      const formattedStartDate = `${startDateObject.getFullYear()}-${String(
-        startDateObject.getMonth() + 1
-      ).padStart(2, "0")}-${String(startDateObject.getDate()).padStart(
-        2,
-        "0"
-      )}`;
+      // const startDateObject = new Date(startdate);
+      // const formattedStartDate = `${startDateObject.getFullYear()}-${String(
+      //   startDateObject.getMonth() + 1
+      // ).padStart(2, "0")}-${String(startDateObject.getDate()).padStart(
+      //   2,
+      //   "0"
+      // )}`;
 
-      const endDateObject = new Date(enddate);
-      const formattedEndDate = `${endDateObject.getFullYear()}-${String(
-        endDateObject.getMonth() + 1
-      ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
+      // const endDateObject = new Date(enddate);
+      // const formattedEndDate = `${endDateObject.getFullYear()}-${String(
+      //   endDateObject.getMonth() + 1
+      // ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
 
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
@@ -487,8 +488,8 @@ const handleAddItems = () => {
           due_date: formatduedate,
           id: currentView.id,
           amenity: newRows,
-          start_date: formattedStartDate,
-          end_date: formattedEndDate,
+          // start_date: formattedStartDate,
+          // end_date: formattedEndDate,
         },
       });
 
@@ -496,8 +497,8 @@ const handleAddItems = () => {
       setRoomDetail(true);
       setCustomerName("");
       setInvoiceNumber("");
-      setStartDate("");
-      setEndDate("");
+      // setStartDate("");
+      // setEndDate("");
       setInvoiceDate("");
       setInvoiceDueDate("");
 
@@ -505,7 +506,7 @@ const handleAddItems = () => {
       setNewRows([]);
 
       setCustomerErrmsg("");
-      setStartdateErrmsg("");
+      // setStartdateErrmsg("");
       setInvoiceDateErrmsg("");
       setInvoiceDueDateErrmsg("");
       setAllFieldErrmsg("");
@@ -537,19 +538,19 @@ const handleAddItems = () => {
         setCustomerErrmsg(""); // Clear error when field is filled
       }
   
-      if (!startdate) {
-        setStartdateErrmsg("Please Select Start Date");
-        hasError = true;
-      } else {
-        setStartdateErrmsg("");
-      }
+      // if (!startdate) {
+      //   setStartdateErrmsg("Please Select Start Date");
+      //   hasError = true;
+      // } else {
+      //   setStartdateErrmsg("");
+      // }
   
-      if (!enddate) {
-        setEnddateErrmsg("Please Select End Date");
-        hasError = true;
-      } else {
-        setEnddateErrmsg("");
-      }
+      // if (!enddate) {
+      //   setEnddateErrmsg("Please Select End Date");
+      //   hasError = true;
+      // } else {
+      //   setEnddateErrmsg("");
+      // }
   
       if (!invoicedate) {
         setInvoiceDateErrmsg("Please Select Invoice Date");
@@ -598,9 +599,9 @@ const handleAddItems = () => {
       }
   
       // Format dates
-      const formattedStartDate = startdate ? dayjs(startdate).format("YYYY-MM-DD") : "";
+      // const formattedStartDate = startdate ? dayjs(startdate).format("YYYY-MM-DD") : "";
   
-      const formattedEndDate = enddate ? dayjs(enddate).format("YYYY-MM-DD") : "";
+      // const formattedEndDate = enddate ? dayjs(enddate).format("YYYY-MM-DD") : "";
       dispatch({
         type: "MANUAL-INVOICE-ADD",
         payload: {
@@ -609,8 +610,8 @@ const handleAddItems = () => {
           due_date: formatduedate,
           // start_date: formattedStartDate,
           // end_date: formattedEndDate,
-          start_date: formattedStartDate,
-      end_date:formattedEndDate,
+      //     start_date: formattedStartDate,
+      // end_date:formattedEndDate,
           invoice_id: invoicenumber,
           total_amount: totalAmount,
           amenity: amenityArray.length > 0 ? amenityArray : [],
@@ -620,8 +621,8 @@ const handleAddItems = () => {
       // Reset form fields
       setCustomerName("");
       setInvoiceNumber("");
-      setStartDate("");
-      setEndDate("");
+      // setStartDate("");
+      // setEndDate("");
       setInvoiceDate("");
       setInvoiceDueDate("");
       setTotalAmount("");
@@ -647,37 +648,37 @@ const handleAddItems = () => {
     } else {
       setCustomerErrmsg("");
     }
-    setStartDate("");
-    setEndDate("");
+    // setStartDate("");
+    // setEndDate("");
     setTotalAmount("");
   };
 
 
-  const handlestartDate = (selectedDates) => {
-    setAllFieldErrmsg("");
-    const date = selectedDates;
-    setStartDate(date);
+  // const handlestartDate = (selectedDates) => {
+  //   setAllFieldErrmsg("");
+  //   const date = selectedDates;
+  //   setStartDate(date);
 
-    if (!selectedDates) {
-      setStartdateErrmsg("Please Select Date");
-    } else {
-      setStartdateErrmsg("");
-      setEnddateErrmsg("");
-    }
-  };
+  //   if (!selectedDates) {
+  //     setStartdateErrmsg("Please Select Date");
+  //   } else {
+  //     setStartdateErrmsg("");
+  //     setEnddateErrmsg("");
+  //   }
+  // };
 
-  const handleEndDate = (selectedDates) => {
-    setAllFieldErrmsg("");
-    const date = selectedDates;
-    setEndDate(date);
-    if (!selectedDates) {
-      setEnddateErrmsg("Please Select Date");
-    } else {
-      setEnddateErrmsg("");
-      setStartdateErrmsg("");
-    }
+  // const handleEndDate = (selectedDates) => {
+  //   setAllFieldErrmsg("");
+  //   const date = selectedDates;
+  //   setEndDate(date);
+  //   if (!selectedDates) {
+  //     setEnddateErrmsg("Please Select Date");
+  //   } else {
+  //     setEnddateErrmsg("");
+  //     setStartdateErrmsg("");
+  //   }
    
-  };
+  // };
    const formatDateForPayloadmanualinvoice = (date) => {
       return dayjs(date).format("YYYY-MM-DD"); // Change format if needed
     };
@@ -690,8 +691,8 @@ const handleAddItems = () => {
       setInvoiceDateErrmsg("Please Select Date");
     } else {
       setInvoiceDateErrmsg("");
-      setEnddateErrmsg("");
-      setStartdateErrmsg("");
+      // setEnddateErrmsg("");
+      // setStartdateErrmsg("");
     }
     const formattedDate = formatDateForPayloadmanualinvoice(date);
     setFormatInvoiceDate(formattedDate);
@@ -773,20 +774,20 @@ setSelectedTypes("")
     setRoomDetail(true);
     setCustomerName("");
     setInvoiceNumber("");
-    setStartDate("");
-    setEndDate("");
+    // setStartDate("");
+    // setEndDate("");
     setInvoiceDate("");
     setInvoiceDueDate("");
 
     setTotalAmount("");
     setCustomerErrmsg("");
-    setStartdateErrmsg("");
+    // setStartdateErrmsg("");
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
     setNewRows("")
     setTableErrmsg("")
-    setEnddateErrmsg("")
+    // setEnddateErrmsg("")
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
     dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
   };
@@ -811,22 +812,22 @@ setSelectedTypes("")
         } 
        
       }
-      if (currentView.start_date) {
-        const parsedDate = new Date(currentView.start_date); // Convert to Date object
-        if (!isNaN(parsedDate.getTime())) {
-          // Check if it's a valid date
-          setStartDate(parsedDate); // Set the date object in state
-        } 
+      // if (currentView.start_date) {
+      //   const parsedDate = new Date(currentView.start_date); // Convert to Date object
+      //   if (!isNaN(parsedDate.getTime())) {
+      //     // Check if it's a valid date
+      //     setStartDate(parsedDate); // Set the date object in state
+      //   } 
        
-      }
-      if (currentView.end_date) {
-        const parsedDate = new Date(currentView.end_date); // Convert to Date object
-        if (!isNaN(parsedDate.getTime())) {
-          // Check if it's a valid date
-          setEndDate(parsedDate); // Set the date object in state
-        } 
+      // }
+      // if (currentView.end_date) {
+      //   const parsedDate = new Date(currentView.end_date); // Convert to Date object
+      //   if (!isNaN(parsedDate.getTime())) {
+      //     // Check if it's a valid date
+      //     setEndDate(parsedDate); // Set the date object in state
+      //   } 
       
-      }
+      // }
 
       setTotalAmount(currentView.Amount);
 
@@ -2051,93 +2052,93 @@ const handleBack = () => {
     }
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
-  const customStartDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+  // const customStartDateInput = (props) => {
+  //   return (
+  //     <div
+  //       className="date-input-container w-100"
+  //       onClick={props.onClick}
+  //       style={{ position: "relative" }}
+  //     >
+  //       <FormControl
+  //         type="text"
+  //         className="date_input"
+  //         value={props.value || "DD/MM/YYYY"}
+  //         readOnly
+  //         style={{
+  //           border: "1px solid #D9D9D9",
+  //           borderRadius: 8,
+  //           padding: 9,
+  //           fontSize: 14,
+  //           fontFamily: "Gilroy",
+  //           fontWeight: props.value ? 600 : 500,
+  //           width: "100%",
+  //           height: 50,
+  //           boxSizing: "border-box",
+  //           boxShadow: "none",
+  //         }}
+  //       />
+  //       <img
+  //         src={Calendars}
+  //         style={{
+  //           height: 24,
+  //           width: 24,
+  //           marginLeft: 10,
+  //           cursor: "pointer",
+  //           position: "absolute",
+  //           right: 10,
+  //           top: "50%",
+  //           transform: "translateY(-50%)",
+  //         }}
+  //         alt="Calendar"
+  //         onClick={props.onClick}
+  //       />
+  //     </div>
+  //   );
+  // };
 
-  const customEndDateInput = (props) => {
-    return (
-      <div
-        className="date-input-container w-100"
-        onClick={props.onClick}
-        style={{ position: "relative" }}
-      >
-        <FormControl
-          type="text"
-          className="date_input"
-          value={props.value || "DD/MM/YYYY"}
-          readOnly
-          style={{
-            border: "1px solid #D9D9D9",
-            borderRadius: 8,
-            padding: 9,
-            fontSize: 14,
-            fontFamily: "Gilroy",
-            fontWeight: props.value ? 600 : 500,
-            width: "100%",
-            height: 50,
-            boxSizing: "border-box",
-            boxShadow: "none",
-          }}
-        />
-        <img
-          src={Calendars}
-          style={{
-            height: 24,
-            width: 24,
-            marginLeft: 10,
-            cursor: "pointer",
-            position: "absolute",
-            right: 10,
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-          alt="Calendar"
-          onClick={props.onClick}
-        />
-      </div>
-    );
-  };
+  // const customEndDateInput = (props) => {
+  //   return (
+  //     <div
+  //       className="date-input-container w-100"
+  //       onClick={props.onClick}
+  //       style={{ position: "relative" }}
+  //     >
+  //       <FormControl
+  //         type="text"
+  //         className="date_input"
+  //         value={props.value || "DD/MM/YYYY"}
+  //         readOnly
+  //         style={{
+  //           border: "1px solid #D9D9D9",
+  //           borderRadius: 8,
+  //           padding: 9,
+  //           fontSize: 14,
+  //           fontFamily: "Gilroy",
+  //           fontWeight: props.value ? 600 : 500,
+  //           width: "100%",
+  //           height: 50,
+  //           boxSizing: "border-box",
+  //           boxShadow: "none",
+  //         }}
+  //       />
+  //       <img
+  //         src={Calendars}
+  //         style={{
+  //           height: 24,
+  //           width: 24,
+  //           marginLeft: 10,
+  //           cursor: "pointer",
+  //           position: "absolute",
+  //           right: 10,
+  //           top: "50%",
+  //           transform: "translateY(-50%)",
+  //         }}
+  //         alt="Calendar"
+  //         onClick={props.onClick}
+  //       />
+  //     </div>
+  //   );
+  // };
 
   const customInvoiceDateInput = (props) => {
     return (
@@ -4681,8 +4682,8 @@ const handleBack = () => {
       )}
 
       {isEditing && (
-        <div className="mt-4" style={{ paddingLeft: 25 }}>
-          <div
+        <div className="mt-4"  style={{paddingLeft:25, height: "90vh", overflowY: "auto" }}>
+          {/* <div
             className="container justify-content-start  d-flex align-items-start"
             style={{
               position: "sticky",
@@ -4722,11 +4723,42 @@ const handleBack = () => {
                   fontFamily: "Gilroy",
                 }}
               >
-               {/* Edit Bill */}
+              
                {isAddMode ? "New Bill" : "Edit Bill"}
               </span>{" "}
             </div>
-          </div>
+          </div> */}
+                     <div
+                  className="d-flex align-items-center"
+                  style={{
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1000,
+                    backgroundColor: "#fff",
+                    padding: "12px 20px",
+                    height: "60px",
+                    // borderBottom: "1px solid #ddd"
+                  }}
+                >
+                  <img
+                    src={leftarrow}
+                    alt="leftarrow"
+                    width={20}
+                    height={20}
+                    onClick={handleBackBill}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <span
+                    style={{
+                      fontWeight: 600,
+                      fontSize: "18px",
+                      fontFamily: "Gilroy",
+                      paddingLeft: "10px"
+                    }}
+                  >
+                   {isAddMode ? "New Bill" : "Edit Bill"}
+                  </span>
+                </div>
 
           <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -4840,7 +4872,7 @@ const handleBack = () => {
             </Form.Group>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          {/* <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
               <Form.Group className="mb-2" controlId="purchaseDate">
                 <Form.Label
@@ -4986,7 +5018,7 @@ const handleBack = () => {
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
 
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
