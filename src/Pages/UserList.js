@@ -5235,7 +5235,9 @@ const handleBack = () => {
           {/* Table */}
     
 {Array.isArray(newRows) && newRows.length > 0 && (
+   <div className="row ">
   <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
+    <div style={{ maxHeight: "400px", overflowY: "auto" }}>
     <Table className="ebtable mt-2" responsive>
       <thead
         style={{
@@ -5245,12 +5247,20 @@ const handleBack = () => {
           zIndex: 1,
         }}
       >
-        <tr>
-          <th>S.NO</th>
-          <th>Description</th>
-          <th>Total Amount</th>
-          <th>Action</th>
-        </tr>
+       <tr>
+              <th className="text-center" style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                S.No
+              </th>
+              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                Description
+              </th>
+              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                Total Amount
+              </th>
+              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                Action
+              </th>
+            </tr>
       </thead>
       <tbody>
         {newRows.map((u, index) => (
@@ -5306,6 +5316,8 @@ const handleBack = () => {
         ))}
       </tbody>
     </Table>
+    </div>
+  </div>
   </div>
 )}
 

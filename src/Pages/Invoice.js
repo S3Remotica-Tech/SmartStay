@@ -6474,7 +6474,7 @@ useEffect(()=>{
   </div>
 )}
 
-          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-4">
+<div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
             <Form.Select
               className="border"
               style={{
