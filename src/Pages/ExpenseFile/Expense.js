@@ -1148,7 +1148,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   // borderRadius: "24px",
                   // border: "1px solid #DCDCDC",
                   // borderBottom:"none"
-                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "500px" : "auto",
+                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "400px" : "auto",
                   overflow: "auto",
                   borderTop: "1px solid #E8E8E8",
                   marginBottom: 20,
