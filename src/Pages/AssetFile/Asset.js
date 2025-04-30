@@ -12,6 +12,9 @@ import excelimg from "../../Assets/Images/New_images/excel_blue.png";
 import { toast } from 'react-toastify';
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+
 
 function Asset() {
 
@@ -226,6 +229,9 @@ function Asset() {
   //   position: 'relative',
   // };
   const [selectedDateRange, setSelectedDateRange] = useState([]);
+  dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
+
   const filterByPriceRange = (data) => {
     switch (selectedPriceRange) {
       case '0-100':
@@ -237,13 +243,21 @@ function Asset() {
       case '1000+':
         return data.filter(item => item.total_price > 1000);
       case 'date':
+        // if (selectedDateRange?.length === 2) {
+        //   const [start, end] = selectedDateRange;
+        //   return data.filter(item =>
+        //     dayjs(item.purchase_date).isAfter(start.subtract(1, 'day')) &&
+        //     dayjs(item.purchase_date).isBefore(end.add(1, 'day'))
+        //   );
+        // }
         if (selectedDateRange?.length === 2) {
           const [start, end] = selectedDateRange;
           return data.filter(item =>
-            dayjs(item.purchase_date).isAfter(start.subtract(1, 'day')) &&
-            dayjs(item.purchase_date).isBefore(end.add(1, 'day'))
+            dayjs(item.purchase_date).isSameOrAfter(start, 'day') &&
+            dayjs(item.purchase_date).isSameOrBefore(end, 'day')
           );
         }
+        
         return data;
       case 'All':
       default:
@@ -272,6 +286,7 @@ function Asset() {
   //   setSelectedPriceRange(event.target.value);
   //   setCurrentPage(1);
   // };
+  
   const handlePriceRangeChange = (event) => {
     const value = event.target.value;
     setSelectedPriceRange(value);
@@ -672,7 +687,7 @@ function Asset() {
           setSelectedDateRange(dates);
         }
       }}
-      format="YYYY-MM-DD"
+      format="DD-MM-YYYY"
       style={{ height: 40,cursor:"pointer" }}
     />
   </div>
@@ -775,7 +790,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   // borderRadius: "24px",
                   // border: "1px solid #DCDCDC",
                   // borderBottom:"none"
-                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "450px" : "auto",
+                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "430px" : "auto",
                   overflow: "auto",
                   borderTop: "1px solid #E8E8E8",
                   marginBottom: 20,

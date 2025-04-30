@@ -943,7 +943,7 @@ const Compliance = () => {
         <RangePicker
           value={selectedDateRange}
           onChange={handleDateChange}
-          format="YYYY-MM-DD"
+          format="DD-MM-YYYY"
           style={{ height: 40,cursor:"pointer" }}
         />
       </div>
