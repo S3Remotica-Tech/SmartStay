@@ -23,6 +23,8 @@ import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import {CloseCircle} from "iconsax-react";
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 
 
@@ -31,6 +33,8 @@ function Banking() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
    const { RangePicker } = DatePicker;
+   dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
   const popupRef = useRef(null);
   const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState(false);
@@ -512,13 +516,12 @@ function Banking() {
       settransactionFilterddata(filtered);
     }
   };
-
   const handleDateRangeChange = (dates) => {
     setDateRange(dates);
   
     if (!dates || dates.length !== 2) {
-      settransactionFilterddata(originalBillsFilter);  // Reset to all data
-      setStatusfilter("All");                          // Reset dropdown to "All"
+      settransactionFilterddata(originalBillsFilter); // Reset to all data
+      setStatusfilter("All");                         // Reset dropdown to "All"
       return;
     }
   
@@ -526,12 +529,32 @@ function Banking() {
   
     const filtered = originalBillsFilter?.filter((item) => {
       const itemDate = dayjs(item.date); // Replace with your actual field
-      return itemDate.isAfter(dayjs(start).subtract(1, "day")) &&
-             itemDate.isBefore(dayjs(end).add(1, "day"));
+      return itemDate.isSameOrAfter(dayjs(start), 'day') &&
+             itemDate.isSameOrBefore(dayjs(end), 'day');
     });
   
     settransactionFilterddata(filtered);
   };
+  
+  // const handleDateRangeChange = (dates) => {
+  //   setDateRange(dates);
+  
+  //   if (!dates || dates.length !== 2) {
+  //     settransactionFilterddata(originalBillsFilter);  // Reset to all data
+  //     setStatusfilter("All");                          // Reset dropdown to "All"
+  //     return;
+  //   }
+  
+  //   const [start, end] = dates;
+  
+  //   const filtered = originalBillsFilter?.filter((item) => {
+  //     const itemDate = dayjs(item.date); // Replace with your actual field
+  //     return itemDate.isAfter(dayjs(start).subtract(1, "day")) &&
+  //            itemDate.isBefore(dayjs(end).add(1, "day"));
+  //   });
+  
+  //   settransactionFilterddata(filtered);
+  // };
   
   // const handleDateRangeChange = (dates) => {
   //   setDateRange(dates);

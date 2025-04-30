@@ -2498,7 +2498,7 @@ const handleBack = () => {
       <div>
         <RangePicker
           value={checkoutDateRange}
-          format="YYYY-MM-DD"
+          format="DD-MM-YYYY"
           onChange={handleDateRangeChangeCheckout}
           style={{ height: "38px", borderRadius: 8,cursor:"pointer" }}
           allowClear

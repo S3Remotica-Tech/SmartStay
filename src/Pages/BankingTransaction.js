@@ -134,7 +134,7 @@ function BankingEditTransaction(props) {
     if (!validateField(selectedDate, "selectedDate")) isValid = false;
     if (!validateField(amount, "amount")) isValid = false;
     if (!validateField(transaction, "transaction")) isValid = false;
-    if (!validateField(describtion, "describtion")) isValid = false;
+    // if (!validateField(describtion, "describtion")) isValid = false;
 
     if (!isValid) return;
 
