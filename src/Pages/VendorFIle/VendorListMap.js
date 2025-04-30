@@ -150,19 +150,19 @@ function VendorListMap(props) {
                       position: "absolute",
                       right: 45,
                       top: '-20px',
-                      width: 120,
-                      height: 92,
+                      width: 100,
+                      height: 72,
                       border: "1px solid #EBEBEB",
                       borderRadius: 10,
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
-                      padding: "15px",
+                      padding: "10px",
                       alignItems: "flex-start",
                     }}
                   >
                     <div
-                      className="gap-1"
+                      className="gap-1 mb-2"
                       style={{
                         display: "flex",
                         alignItems: "center",

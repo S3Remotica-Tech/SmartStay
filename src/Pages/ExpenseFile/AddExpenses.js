@@ -462,7 +462,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     styles={{
       control: (base) => ({
         ...base,
-        marginTop: "5px",
+        // marginTop: "5px",
         fontSize: "16px",
         color: "rgba(75, 75, 75, 1)",
         fontFamily: "Gilroy",

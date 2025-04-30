@@ -735,7 +735,7 @@ function SettingExpenses({ hostelid }) {
       <div key={category.category_Id} 
       // className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2" 
       
-       className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2 card-width-sm  mx-auto"
+       className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2 card-width-sm  "
       style={{ 
         flex: "0 0 48%", 
         position: "relative",
@@ -830,15 +830,15 @@ function SettingExpenses({ hostelid }) {
         <nav 
         // className="pagination-container position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{zIndex:995}}
         // className="position-sticky bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
-        className="container d-flex justify-content-center justify-content-lg-end align-items-center"
+        className="container  bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
         style={{
           position: "fixed",
           bottom: "16px",
           right: "16px",
-          left: "16px", 
+          left: "16px",
           zIndex: 995,
           backgroundColor: "#fff",
-          paddingBottom: '30px',
+          paddingBottom: "30px",
         }}
         >
           {/* Dropdown for Items Per Page */}
