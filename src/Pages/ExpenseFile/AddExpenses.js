@@ -35,10 +35,10 @@ function StaticExample({ show, currentItem,setShowModal }) {
   const [paymentError, setPaymentError] = useState("");
   const [generalError, setGeneralError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
-  const [account, setAccount] = useState("");
-  const [accountError, setAccountError] = useState("");
+  // const [account, setAccount] = useState("");
+  // const [accountError, setAccountError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [netPaymentError,setNetPaymentError] = useState("")
+  // const [netPaymentError,setNetPaymentError] = useState("")
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -68,9 +68,9 @@ function StaticExample({ show, currentItem,setShowModal }) {
     });
   }, []);
   useEffect(()=>{
-if(state.ExpenseList.expenceNetBanking){
-setNetPaymentError(state.ExpenseList.expenceNetBanking)
-}
+// if(state.ExpenseList.expenceNetBanking){
+// setNetPaymentError(state.ExpenseList.expenceNetBanking)
+// }
   },[state.ExpenseList.expenceNetBanking])
 
   useEffect(() => {
@@ -171,7 +171,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setGeneralError("");
     setPaymentError("");
     setIsChangedError("");
-    setNetPaymentError("")
+    // setNetPaymentError("")
     dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
   };
 
@@ -182,7 +182,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setGeneralError("");
     setPriceError("");
     setIsChangedError("");
-    setNetPaymentError("")
+    // setNetPaymentError("")
     // if (/^\d*$/.test(value)) {
     //   setPrice(value);
     // }
@@ -311,7 +311,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
 
   const handleClose = () => {
     setShowModal(false);
-    setNetPaymentError("")
+    // setNetPaymentError("")
     dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
 
   }

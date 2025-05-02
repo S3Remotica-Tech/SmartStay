@@ -311,10 +311,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   {invoice_details.invoice_type === "manual" && (
     <div className="text-start mt-4">
       <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
-        "Your comfort is our priority –
+      &quot;Your comfort is our priority –
       </p>
       <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
-        See you again at Smart Stay!"
+        See you again at Smart Stay! &quot;
       </p>
     </div>
   )}

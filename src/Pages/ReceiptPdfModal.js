@@ -308,10 +308,10 @@ receiptDataNew.invoice_type === "Checkout" ? (
  
     <div className="text-start mt-4">
       <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
-        "Your comfort is our priority –
+      &quot;Your comfort is our priority –
       </p>
       <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
-        See you again at Smart Stay!"
+        See you again at Smart Stay! &quot;
       </p>
     </div>
   
@@ -478,10 +478,10 @@ receiptDataNew.invoice_type === "Checkout" ? (
                         {receiptDataNew?.invoice_type === "advance"  && (
     <div className="text-start mt-4">
       <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(0, 163, 46, 1)'}}>
-      "Thank you for choosing SmartStay. "
+      &quot;Thank you for choosing SmartStay. &quot;
       </p>
       <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(0, 163, 46, 1)'}}>
-      Your transaction is completed"
+      Your transaction is completed &quot;
       </p>
     </div>
   )}

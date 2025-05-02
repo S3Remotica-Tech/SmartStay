@@ -31,8 +31,8 @@ function StaticExample({ show, setShow, currentItem }) {
   const [id, setId] = useState("");
   const [productName, setProductName] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
-  const [account, setAccount] = useState("");
-  const [accountError, setAccountError] = useState("");
+  // const [account, setAccount] = useState("");
+  // const [accountError, setAccountError] = useState("");
   const [productNameError, setProductNameError] = useState("");
   const [serialNumberError, setSerialNumberError] = useState("");
   const [selectedDateError, setSelectedDateError] = useState("");
@@ -117,7 +117,7 @@ function StaticExample({ show, setShow, currentItem }) {
       // setTotalPrice(currentItem.product_count * currentItem.price || "");
       setId(currentItem.id || 0);
       setProductName(currentItem.product_name || 0);
-      setAccount(currentItem.bank_id || "");
+      // setAccount(currentItem.bank_id || "");
       setModeOfPayment(currentItem.payment_mode || "");
 
       setInitialState({
@@ -158,8 +158,8 @@ function StaticExample({ show, setShow, currentItem }) {
 
   const handleModeOfPaymentChange = (e) => {
     setModeOfPayment(e.target.value);
-    setAccountError("");
-    setAccount("");
+    // setAccountError("");
+    // setAccount("");
     setIsChangedError("");
     setPaymentError("");
     setBankingError("")
