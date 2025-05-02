@@ -324,6 +324,17 @@ function SettingAmenities({ hostelid }) {
         amenitiesFilterddata?.length / amenitiesrowsPerPage
     );
 
+
+       useEffect(() => {
+                      if (
+                        amenitiesFilterddata.length > 0 &&
+                        currentRowAmenities.length === 0 &&
+                        amenitiescurrentPage > 1
+                      ) {
+                        setAmenitiescurrentPage(amenitiescurrentPage - 1);
+                      }
+                    }, [amenitiesFilterddata])
+
     console.log("data", amenitiesFilterddata);
     
     console.log("switchStates", switchStates)

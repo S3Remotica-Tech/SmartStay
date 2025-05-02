@@ -860,6 +860,16 @@ if (!pattern.test(value)) {
     (props.search || props.filterStatus ? props.filteredUsers?.length : customerBooking?.length) / itemsPerPage
   );
 
+  useEffect(() => {
+        if (
+          customerBooking.length > 0 &&
+          currentItems.length === 0 &&
+          currentPage > 1
+        ) {
+          setCurrentPage(currentPage - 1);
+        }
+      }, [customerBooking])
+
 
 
   return (

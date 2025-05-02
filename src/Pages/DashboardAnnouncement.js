@@ -406,6 +406,17 @@ useEffect(() => {
   }
 }, [state.PgList?.announcementErrorStatus]);
 
+
+ useEffect(() => {
+            if (
+              filteredData.length > 0 &&
+              currentItems.length === 0 &&
+              currentPage > 1
+            ) {
+              setCurrentPage(currentPage - 1);
+            }
+          }, [filteredData])
+
 console.log("state.PgList?.announcementList?.announcements",state.PgList?.announcementList?.announcements)
 
 

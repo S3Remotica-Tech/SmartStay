@@ -689,6 +689,18 @@ const Compliance = () => {
   });
 
 
+  
+      useEffect(() => {
+            if (
+              filteredUsers.length > 0 &&
+              currentItems.length === 0 &&
+              currentPage > 1
+            ) {
+              setCurrentPage(currentPage - 1);
+            }
+          }, [filteredUsers])
+
+
   return (
     <>
       {
@@ -1023,19 +1035,22 @@ const Compliance = () => {
                   //    padding: "10px",
 
                   //  }}>
-                  <nav className="pagination-container"
+                  <nav className="pagination-container mb-0"
                   style={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "end",
                     padding: "10px",
-                    position: "fixed",
-                    bottom: "10px",
-                    right: "10px",
-                    backgroundColor: "#fff",
+                    // backgroundColor: "#fff",
                     borderRadius: "5px",
-                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    // marginTop: "20px",
+                    position: "fixed", // or just remove this line
                     zIndex: 1000,
+                    width:'83%',
+                    bottom:0,
+                    left:'17%',
+                    right:'16px'
                   }}
                 >
                   

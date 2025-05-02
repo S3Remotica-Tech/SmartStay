@@ -261,6 +261,16 @@ function SettingCompliance({ hostelid }) {
         complianceFilterddata?.length / compliancerowsPerPage
     );
 
+     useEffect(() => {
+                  if (
+                    complianceFilterddata.length > 0 &&
+                    currentRowCompliance.length === 0 &&
+                    compliancecurrentPage > 1
+                  ) {
+                    setCompliancecurrentPage(compliancecurrentPage - 1);
+                  }
+                }, [complianceFilterddata])
+
  console.log("typeloader", loading);
  
 
