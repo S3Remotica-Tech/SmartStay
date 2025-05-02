@@ -43,6 +43,7 @@ function StaticExample({ show, setShow, currentItem }) {
   // const [errors, setErrors] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [bankking,setBanking] = useState("")
+  console.log("bankking",bankking)
   const [bankingError,setBankingError] = useState("")
   const [initialState, setInitialState] = useState({
     assetName: "",
@@ -173,13 +174,13 @@ function StaticExample({ show, setShow, currentItem }) {
   //   setBankingError("")
   //   dispatch({type: "CLEAR_BANK_AMOUNT_ERROR"});
   // };
-  const handleAccount = (selectedOption) => {
-    setAccount(selectedOption?.value || "");
-    setAccountError("");
-    setIsChangedError("");
-    setBankingError("");
-    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
-  };
+  // const handleAccount = (selectedOption) => {
+  //   setAccount(selectedOption?.value || "");
+  //   setAccountError("");
+  //   setIsChangedError("");
+  //   setBankingError("");
+  //   dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+  // };
 
   const handleAssetNameChange = (e) => {
     const value = e.target.value;
@@ -340,10 +341,10 @@ function StaticExample({ show, setShow, currentItem }) {
 
       // return;
     }
-    if (modeOfPayment === "Net Banking" && !account) {
-      setAccountError("Please Choose Bank Account");
-      return;
-    }
+    // if (modeOfPayment === "Net Banking" && !account) {
+    //   setAccountError("Please Choose Bank Account");
+    //   return;
+    // }
     // if (!vendorName) {
     //     Swal.fire({
     //         icon: 'warning',
@@ -420,7 +421,7 @@ function StaticExample({ show, setShow, currentItem }) {
           purchase_date: formattedDate,
           price: price,
           payment_type: modeOfPayment,
-          bank_id: account,
+          // bank_id: account,
           id: id,
         },
       });
@@ -942,26 +943,43 @@ function StaticExample({ show, setShow, currentItem }) {
                       *
                     </span>
                   </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    value={modeOfPayment}
-                    onChange={handleModeOfPaymentChange}
-                    disabled={currentItem}
-                    className=""
-                    id="vendor-select"
-                    style={{
-                      fontSize: 14,
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: modeOfPayment ? 600 : 500,
-                      cursor:"pointer"
-                    }}
-                  >
-                    <option value="">Select Mode Of Payment</option>
-                    <option value="UPI/BHIM">UPI/BHIM</option>
-                    <option value="CASH">CASH</option>
-                    <option value="Net Banking">Net Banking</option>
-                  </Form.Select>
+                 
+  <Form.Select className="border"
+  aria-label="Select Mode Of Payment"
+  value={modeOfPayment}
+  onChange={handleModeOfPaymentChange}
+  disabled={currentItem}
+  style={{
+    fontSize: 14,
+    color: "rgba(75, 75, 75, 1)",
+    fontFamily: "Gilroy",
+    fontWeight: modeOfPayment ? 600 : 500,
+    cursor: "pointer",
+    height: 48,
+    borderRadius: 8,
+  }}
+>
+  <option value="">Select Mode Of Payment</option>
+  {Array.isArray(bankking) &&
+  [...new Map(bankking.map(item => [item.type, item])).values()].map((item) => {
+    let label = "";
+    if (item.type === "bank") label = "Bank";
+    else if (item.type === "upi") label = "UPI";
+    else if (item.type === "card") label = "Card";
+    else if (item.type === "cash") label = "Cash";
+
+    return (
+      <option key={item.id} value={item.id}>
+        {label}
+      </option>
+    );
+  })}
+
+</Form.Select>
+
+
+
+
                 </Form.Group>
                 {paymentError && (
                   <div className="d-flex align-items-center p-1 mb-2">
@@ -998,7 +1016,7 @@ function StaticExample({ show, setShow, currentItem }) {
                 )}
               </div>
 
-              {modeOfPayment === "Net Banking" && (
+              {/* {modeOfPayment === "Net Banking" && (
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Label
                     style={{
@@ -1029,12 +1047,7 @@ function StaticExample({ show, setShow, currentItem }) {
                        }))
                      : []
                  }
-                //  value={
-                //    bankking?.map((u) => ({
-                //      value: u.id,
-                //      label: u.bank_name,
-                //    })).find((opt) => opt.value === account) || null
-                //  }
+               
                 value={
                   Array.isArray(bankking)
                     ? bankking
@@ -1119,7 +1132,7 @@ function StaticExample({ show, setShow, currentItem }) {
                     </div>
                   )}
                 </div>
-              )}
+              )} */}
               {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                                     <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Total Price</Form.Label>

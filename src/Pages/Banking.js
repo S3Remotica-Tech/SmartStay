@@ -362,7 +362,7 @@ dayjs.extend(isSameOrBefore);
 
   const handleShowAddBalance = (item) => {
     setAddBankName(item.bank_name);
-    setAddBankName(item.acc_name);
+    // setAddBankName(item.acc_name);
     setTypeId(item.id);
     setshowAddBalance(true);
     // setdotsshowbank(false);
@@ -910,7 +910,8 @@ whiteSpace: "nowrap"
                               fontWeight: 600,
                             }}
                           >
-                            {item.bank_name}
+                            {/* {item.bank_name} */}
+                            Type: {item.type}
                           </p>
                           <p
                             className="text-muted mb-0"
@@ -921,8 +922,19 @@ whiteSpace: "nowrap"
                               color: "#4B4B4B",
                             }}
                           >
-                            {item.acc_name}-Savings A/C
+                            {item.acc_name || item.benificiary_name}-Savings A/C
                           </p>
+                          {/* <p
+                            className="text-muted mb-0"
+                            style={{
+                              fontSize: 16,
+                              fontFamily: "Gilroy",
+                              fontWeight: 600,
+                              color: "#4B4B4B",
+                            }}
+                          >
+                           Type: {item.type}
+                          </p> */}
                         </div>
                         {/* <img
                           src={more}
@@ -1055,7 +1067,7 @@ whiteSpace: "nowrap"
                           fontWeight: 500,
                         }}
                       >
-                        {item.acc_num}
+                        {item.acc_num || item.upi_id || item.card_no}
                       </p>
 
                       <div className="d-flex justify-content-between align-items-center mb-2">

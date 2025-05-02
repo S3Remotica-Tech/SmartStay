@@ -103,7 +103,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       setDescription((currentItem && currentItem.description) || "");
       setCount((currentItem && currentItem.unit_count) || "");
       setHostelName((currentItem && currentItem.hostel_id) || "");
-      setAccount((currentItem && currentItem.bank_id) || "");
+      // setAccount((currentItem && currentItem.bank_id) || "");
 
       setInitialState({
         assetName: currentItem.asset_id || "",
@@ -158,13 +158,13 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
   //   setNetPaymentError("")
   //   dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
   // };
-  const handleAccount = (selectedOption) => {
-    setAccount(selectedOption?.value || "");
-    setAccountError("");
-    setIsChangedError("");
-    setNetPaymentError("");
-    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
-  };
+  // const handleAccount = (selectedOption) => {
+  //   setAccount(selectedOption?.value || "");
+  //   setAccountError("");
+  //   setIsChangedError("");
+  //   setNetPaymentError("");
+  //   dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+  // };
 
   const handleModeOfPaymentChange = (e) => {
     setModeOfPayment(e.target.value);
@@ -253,10 +253,10 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       hasError = true;
     }
   
-    if (modeOfPayment === "Net Banking" && !account) {
-      setAccountError("Please Choose Bank Account");
-      hasError = true;
-    }
+    // if (modeOfPayment === "Net Banking" && !account) {
+    //   setAccountError("Please Choose Bank Account");
+    //   hasError = true;
+    // }
   
     const isChanged =
       initialState.assetName !== assetName ||
@@ -294,7 +294,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
         payment_mode: modeOfPayment,
         hostel_id: state.login.selectedHostel_Id,
         id: currentItem ? currentItem.id : null,
-        bank_id: account,
+        // bank_id: account,
       },
     });
   };
@@ -756,25 +756,37 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       *
                     </span>
                   </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
+                    <Form.Select className="border"
+                    aria-label="Select Mode Of Payment"
                     value={modeOfPayment}
                     onChange={handleModeOfPaymentChange}
                     disabled={currentItem}
-                    className=""
-                    id="vendor-select"
                     style={{
-                      fontSize: 16,
+                      fontSize: 14,
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       fontWeight: modeOfPayment ? 600 : 500,
-                      cursor:"pointer"
+                      cursor: "pointer",
+                      height: 48,
+                      borderRadius: 8,
                     }}
                   >
-                    <option value="">Select a Mode</option>
-                    <option value="UPI/BHIM">UPI/BHIM</option>
-                    <option value="CASH">CASH</option>
-                    <option value="Net Banking">Net Banking</option>
+                    <option value="">Select Mode Of Payment</option>
+                    {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
+                    [...new Map(state.bankingDetails?.bankingList?.banks.map(item => [item.type, item])).values()].map((item) => {
+                      let label = "";
+                      if (item.type === "bank") label = "Bank";
+                      else if (item.type === "upi") label = "UPI";
+                      else if (item.type === "card") label = "Card";
+                      else if (item.type === "cash") label = "Cash";
+                  
+                      return (
+                        <option key={item.id} value={item.id}>
+                          {label}
+                        </option>
+                      );
+                    })}
+                  
                   </Form.Select>
                 </Form.Group>
                 {paymentError && (
@@ -795,7 +807,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                 )}
               </div>
 
-              {modeOfPayment === "Net Banking" && (
+              {/* {modeOfPayment === "Net Banking" && (
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <Form.Label
                     style={{
@@ -908,7 +920,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                                             </div>
                                           )}
                 </div>
-              )}
+              )} */}
               <div className="col-lg-12 col-md-12  col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-2"
