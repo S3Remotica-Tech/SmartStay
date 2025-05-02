@@ -211,6 +211,17 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   }, [state.Settings.StatusForEditPermission])
 
+
+   useEffect(() => {
+                             if (
+                              roleList.length > 0 &&
+                              currentItems.length === 0 &&
+                               currentPage > 1
+                             ) {
+                               setCurrentPage(currentPage - 1);
+                             }
+                           }, [roleList])
+
   return (
     <div  style={{ position: "relative",paddingRight:10,paddingLeft:10 }}>
       <div 

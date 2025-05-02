@@ -2562,6 +2562,16 @@ useEffect(()=>{
   ]);
 
 
+    useEffect(() => {
+          if (
+            recurringbills.length > 0 &&
+            currentItem.length === 0 &&
+            currentRecurePage > 1
+          ) {
+            setCurrentRecurePage(currentRecurePage - 1);
+          }
+        }, [recurringbills])
+
   return (
     <div style={{height: "90vh", overflowY: "auto"}}>
       {showAllBill && (

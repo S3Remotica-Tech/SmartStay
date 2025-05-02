@@ -209,7 +209,15 @@ function SettingNewUser() {
 
 
 
-
+       useEffect(() => {
+                           if (
+                            usersFilterddata.length > 0 &&
+                             currentItems.length === 0 &&
+                             currentPage > 1
+                           ) {
+                             setCurrentPage(currentPage - 1);
+                           }
+                         }, [usersFilterddata])
 
 
     return (

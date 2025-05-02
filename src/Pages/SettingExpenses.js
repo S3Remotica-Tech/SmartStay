@@ -602,6 +602,16 @@ function SettingExpenses({ hostelid }) {
     expensesFilterddata?.length / expensesrowsPerPage
   );
 
+    useEffect(() => {
+              if (
+                expensesFilterddata.length > 0 &&
+                currentRowExpense.length === 0 &&
+                expensescurrentPage > 1
+              ) {
+                setExpensescurrentPage(expensescurrentPage - 1);
+              }
+            }, [expensesFilterddata])
+
 
 
   return (

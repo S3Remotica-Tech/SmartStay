@@ -472,6 +472,16 @@ dayjs.extend(isSameOrBefore);
   });
 
 
+   useEffect(() => {
+      if (
+        getData.length > 0 &&
+        currentItems.length === 0 &&
+        currentPage > 1
+      ) {
+        setCurrentPage(currentPage - 1);
+      }
+    }, [getData])
+
 
 
   return (
