@@ -243,8 +243,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         <div className="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Joining date :</div>
         <div className="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(userdetails?.joining_date).format('DD MMM YYYY')}</div>
 
-        <div className="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
-        <div className="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}></div>
+        {/* <div className="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
+        <div className="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}></div> */}
 
         <div className="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Total Staying Days</div>
         <div className="col-6 text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{totalStayingDays} Days</div>
@@ -306,6 +306,18 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     </table>
   </div>
 
+  <div className="d-flex justify-content-between mt-4 align-items-start flex-wrap">
+  {/* Left Message Block */}
+  {invoice_details.invoice_type === "manual" && (
+    <div className="text-start mt-4">
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
+        "Your comfort is our priority –
+      </p>
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
+        See you again at Smart Stay!"
+      </p>
+    </div>
+  )}
   {/* Total Section */}
   <div className="d-flex justify-content-end mt-3">
     <div className="w-100 w-md-50">
@@ -322,6 +334,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         <span className="ms-4">Rs. {invoice_details?.total_amount}</span>
       </div>
     </div>
+  </div>
   </div>
 </div>
 

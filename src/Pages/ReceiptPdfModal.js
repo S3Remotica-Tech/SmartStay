@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
-// import { toWords } from 'number-to-words';
+import { toWords } from 'number-to-words';
 import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
@@ -111,9 +111,9 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
         handleClosed()
     }
 
-    // const amountInWords = rowData?.amount_received
-    //     ? `${toWords(rowData.amount_received).replace(/\b\w/g, char => char.toUpperCase())} Rupees`
-    //     : '';
+    const amountInWords = rowData?.amount_received
+        ? `${toWords(rowData.amount_received).replace(/\b\w/g, char => char.toUpperCase())} Rupees`
+        : '';
 
 
 
@@ -290,18 +290,37 @@ receiptDataNew.invoice_type === "Checkout" ? (
                   </div>
                   <div className="px-4" style={{marginTop:20}}>
                       <div className="row">
-                        <div className="col-md-6 mb-3">
-                          <h6 className="fw-bold">Payment Details</h6>
-                          <p className="mb-1">Payment Mode: G-Pay</p>
-                          <p className="mb-1">Transaction ID: GPay-2134-8482-XYZ</p>
-                          <p>Received By: Admin - Anjali R</p>
-                        </div>
+                      <div className="col-md-6">
+    <h6 className="text-success fw-bold">Acknowledgment</h6>
+    <p style={{ fontSize: "14px", color: "#555" }}>
+    This document confirms final settlement for the Tenant on <br></br>
+    {moment(rowData?.Date).format('DD/MM/YYYY')}. All dues are cleared, and room has been vacated.
+    </p>
+  </div>
                         <div className="col-md-6 text-end">
-                        <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block"><img src={paidfull} alt="received" height={91} width={162}/></p>
                           <p className="mt-4">Authorized Signature</p>
                         </div>
                       </div>
                     </div>
+
+                    <div className="d-flex justify-content-between mt-4 align-items-start flex-wrap">
+  {/* Left Message Block */}
+ 
+    <div className="text-start mt-4">
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
+        "Your comfort is our priority –
+      </p>
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
+        See you again at Smart Stay!"
+      </p>
+    </div>
+  
+
+      <div>
+      <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block"><img src={paidfull} alt="received" height={91} width={162}/></p>
+
+     </div>
+    </div>
                 
                     <div className="py-5 px-5">
                     <div className=" text-white text-center" style={{borderTopLeftRadius:"12px",borderTopRightRadius:"12px",backgroundColor:"#1E45E1",padding:7}}>
@@ -361,6 +380,41 @@ receiptDataNew.invoice_type === "Checkout" ? (
                       </div>
                     </div>
                 
+                    {receiptDataNew?.invoice_type === "advance" && (
+  <div className="d-flex justify-content-end text-end mt-3">
+    <div style={{ padding: '20px', border: '1px solid rgba(0, 163, 46, 1)' }}>
+      <div>
+        <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+          Amount received
+        </label>
+      </div>
+      <div>
+        <label style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>
+          ₹ {rowData?.amount_received}
+        </label>
+      </div>
+      <div>
+        <label style={{
+          fontSize: 15,
+          fontWeight: 600,
+          color: "#000000",
+          fontFamily: "Gilroy"
+        }}>
+          {amountInWords}
+        </label>
+      </div>
+    </div>
+  </div>
+)}
+
+{receiptDataNew?.invoice_type === "advance" && 
+(
+<div>
+  <p style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(0, 0, 0, 1)',}}>Payment For</p>
+  </div>
+)
+
+}
                    
                     <div className="px-4 pb-3">
                       <div className="table-responsive">
@@ -421,6 +475,16 @@ receiptDataNew.invoice_type === "Checkout" ? (
                         </div>
                         <div className="col-md-6 text-end">
                         <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block"><img src={received} alt="received" height={91} width={162}/></p>
+                        {receiptDataNew?.invoice_type === "advance"  && (
+    <div className="text-start mt-4">
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(0, 163, 46, 1)'}}>
+      "Thank you for choosing SmartStay. "
+      </p>
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(0, 163, 46, 1)'}}>
+      Your transaction is completed"
+      </p>
+    </div>
+  )}
                           {/* <p className="mt-4">Authorized Signature</p> */}
                         </div>
                         <div className="row">
