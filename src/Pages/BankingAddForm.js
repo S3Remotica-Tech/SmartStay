@@ -76,33 +76,131 @@ function BankingAddForm(props) {
     setError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING'})
   };
+  const [upiId,setUpiId] = useState("")
+  const handleUpiId = (e)=>{
+    setUpiId(e.target.value)
+  }
 
-  useEffect(() => {
-    if (props.editAddBank && props.editAddBank.id) {
+//   useEffect(() => {
+//     if (props.editAddBank && props.editAddBank.id) {
+// console.log("props.editAddBank",props.editAddBank.type === "cash")
+// setAccountName(props.editAddBank.benificiary_name)
+//       props.setEdit(true)
+//       setAccountName(props.editAddBank.acc_name)
+//       setAccountNo(props.editAddBank.acc_num)
+//       setBankName(props.editAddBank.bank_name)
+//       setIfscCode(props.editAddBank.ifsc_code)
+//       setDescription(props.editAddBank.description)
+//       setBankId(props.editAddBank.id)
 
-      props.setEdit(true)
-      setAccountName(props.editAddBank.acc_name)
-      setAccountNo(props.editAddBank.acc_num)
-      setBankName(props.editAddBank.bank_name)
-      setIfscCode(props.editAddBank.ifsc_code)
-      setDescription(props.editAddBank.description)
-      setBankId(props.editAddBank.id)
 
+//       setInitialStateAssign({
+//         accountName: props.editAddBank.acc_name || "",
+//         accountNo: props.editAddBank.acc_num || "",
+//         bankName: props.editAddBank.bank_name || "",
+//         ifscCode: props.editAddBank.ifsc_code || "",
+//         description: props.editAddBank.description || ""
 
-      setInitialStateAssign({
-        accountName: props.editAddBank.acc_name || "",
-        accountNo: props.editAddBank.acc_num || "",
-        bankName: props.editAddBank.bank_name || "",
-        ifscCode: props.editAddBank.ifsc_code || "",
-        description: props.editAddBank.description || ""
+//       });
 
-      });
+//     }
+//     else {
+//       props.setEdit(false);
+//     }
+//   }, [])
 
+// useEffect(() => {
+//   if (props.editAddBank && props.editAddBank.id) {
+//     console.log("props.editAddBank",props.editAddBank)
+//     props.setEdit(true);
+
+//     if (props.editAddBank.type === "cash") {
+//       setAccountName(props.editAddBank.benificiary_name);
+//     } else {
+//       setAccountName(props.editAddBank.acc_name);
+//     }
+
+//     setAccountNo(props.editAddBank.acc_num);
+//     setBankName(props.editAddBank.bank_name);
+//     setIfscCode(props.editAddBank.ifsc_code);
+//     setDescription(props.editAddBank.description);
+//     setBankId(props.editAddBank.id);
+//     setUpiId(props.editAddBank.upi_id)
+
+//     setInitialStateAssign({
+//       accountName: props.editAddBank.type === "cash"
+//         ? props.editAddBank.benificiary_name || ""
+//         : props.editAddBank.acc_name || "",
+//       accountNo: props.editAddBank.acc_num || "",
+//       bankName: props.editAddBank.bank_name || "",
+//       ifscCode: props.editAddBank.ifsc_code || "",
+//       description: props.editAddBank.description || "",
+//     });
+//   } else {
+//     props.setEdit(false);
+//   }
+// }, [props.editAddBank]);
+useEffect(() => {
+  if (props.editAddBank && props.editAddBank.id) {
+    console.log("props.editAddBank",props.editAddBank)
+    props.setEdit(true);
+
+    // Set the active tab to the current type ('bank', 'upi', 'card', 'cash')
+    if (props.editAddBank.type) {
+      setActiveTab(props.editAddBank.type);
+      
     }
-    else {
-      props.setEdit(false);
+
+    // Set account name based on type
+    if (props.editAddBank.type === "cash" || props.editAddBank.type === "upi") {
+      setAccountName(props.editAddBank.benificiary_name);
+    } else if (props.editAddBank.type === "card") {
+      setAccountName(props.editAddBank.card_holder);
+    } else {
+      setAccountName(props.editAddBank.acc_name);
     }
-  }, [])
+    
+
+    setAccountNo(props.editAddBank.acc_num);
+    setBankName(props.editAddBank.bank_name);
+    setIfscCode(props.editAddBank.ifsc_code);
+    setDescription(props.editAddBank.description);
+    setBankId(props.editAddBank.id);
+    setCardType(props.editAddBank.card_type)
+    setCardNo(props.editAddBank.card_no)
+    setUpiId(props.editAddBank.upi_id)
+
+    // setInitialStateAssign({
+    //   accountName: props.editAddBank.type === "cash"
+    //     ? props.editAddBank.benificiary_name || ""
+    //     : props.editAddBank.acc_name || "",
+    //   accountNo: props.editAddBank.acc_num || "",
+    //   bankName: props.editAddBank.bank_name || "",
+    //   ifscCode: props.editAddBank.ifsc_code || "",
+    //   description: props.editAddBank.description || "",
+    //   upiId:props.editAddBank.upi_id
+    // });
+    setInitialStateAssign({
+      accountName:
+        props.editAddBank.type === "cash" || props.editAddBank.type === "upi"
+          ? props.editAddBank.benificiary_name || ""
+          : props.editAddBank.type === "card"
+          ? props.editAddBank.card_holder || ""
+          : props.editAddBank.acc_name || "",
+      accountNo: props.editAddBank.acc_num || "",
+      bankName: props.editAddBank.bank_name || "",
+      ifscCode: props.editAddBank.ifsc_code || "",
+      description: props.editAddBank.description || "",
+      upiId: props.editAddBank.upi_id || "",
+      cardNo : props.editAddBank.card_no || "",
+      cardType : props.editAddBank.card_type || ""
+    });
+    
+  } else {
+    props.setEdit(false);
+  }
+}, [props.editAddBank]);
+
 
   const handleClose = () => {
     dispatch({ type: 'REMOVE_ERROR_BOOKING'})
@@ -130,41 +228,30 @@ function BankingAddForm(props) {
   });
 
 
-  const validateField = (value, fieldName) => {
-    if (!value || (typeof value === "string" && value.trim() === "")) {
-      switch (fieldName) {
-        case "accountName":
-          setaccountnameError("Account Name is Required");
-          break;
-        case "accountNo":
-          setaccountNumberError("Account No is Required");
-          break;
-        case "bankName":
-          setBankNameError("Bank Name is Required");
-          break;
-        case "ifscCode":
-          setIfcsCodeError("IFSC Code is Required");
-          break;
+  // const validateField = (value, fieldName) => {
+  //   if (!value || (typeof value === "string" && value.trim() === "")) {
+  //     switch (fieldName) {
+  //       case "accountName":
+  //         setaccountnameError("Account Name is Required");
+  //         break;
+  //       case "accountNo":
+  //         setaccountNumberError("Account No is Required");
+  //         break;
+  //       case "bankName":
+  //         setBankNameError("Bank Name is Required");
+  //         break;
+  //       case "ifscCode":
+  //         setIfcsCodeError("IFSC Code is Required");
+  //         break;
         
-        default:
-          break;
-      }
-      return false;
-    }
-    return true;
-  };
+  //       default:
+  //         break;
+  //     }
+  //     return false;
+  //   }
+  //   return true;
+  // };
   const handleSubmitBank = () => {
-    let isValid = true;
-
-    if (!validateField(accountName, "accountName")) isValid = false;
-    if (!validateField(accountNo, "accountNo")) isValid = false;
-    if (!validateField(bankName, "bankName")) isValid = false;
-    if (!validateField(ifscCode, "ifscCode")) isValid = false;
-  
-    if (!isValid) {
-      return; 
-    }
-
 
     if (props.edit) {
       const isChanged =
@@ -185,11 +272,16 @@ function BankingAddForm(props) {
 
     }
 
-
+    if (!accountName && !bankName && !ifscCode && !accountNo) {
+      setError("Please Fill At Least One Field");
+      return;
+    }
+  
     setError("");
     dispatch({
       type: "ADD_BANKING",
       payload: {
+        type:"bank",
         acc_name: accountName,
         acc_no: accountNo,
         bank_name: bankName,
@@ -200,6 +292,125 @@ function BankingAddForm(props) {
       },
     });
   };
+
+const handleSubmitUpi = ()=>{
+  if (!accountName && !upiId ) {
+    setError("Please Fill At Least One Field");
+    return;
+  }
+
+  if (props.edit) {
+    const isChanged =
+      accountName !== initialStateAssign.accountName || 
+      upiId !== initialStateAssign.upiId ||
+      description !== initialStateAssign.description;
+
+    if (!isChanged) {
+      setError("No Changes Detected");
+      return;
+    }
+    else {
+      setError("");
+    }
+
+  }
+  
+  dispatch({
+    type: "ADD_BANKING",
+    payload: {
+      type:"upi",
+      benificiary_name : accountName,
+      desc: description,
+      hostel_id: hostel_id,
+      upi_id:upiId,
+      id: props.edit ? bankId : "",
+    },
+  });
+}
+const [cardNo,setCardNo] = useState("")
+
+const handleCardNo=(e)=>{
+  setCardNo(e.target.value)
+  setError("")
+}
+
+const [cardType,setCardType] = useState("")
+// const handleCardType = (e)=>{
+//   setCardType(e.target.value)
+// }
+const handleCardType = (e) => {
+  const selected = e.target.value;
+  console.log("Selected Card Type:", selected);
+  setCardType(selected);
+  setError("")
+};
+
+const handleSubmitCard = ()=>{
+  if (!accountName && !cardType && !cardNo ) {
+    setError("Please Fill At Least One Field");
+    return;
+  }
+
+  if (props.edit) {
+    const isChanged =
+      accountName !== initialStateAssign.accountName || 
+      cardType !== initialStateAssign.cardType ||
+      cardNo !== initialStateAssign.cardNo ||
+      description !== initialStateAssign.description;
+
+    if (!isChanged) {
+      setError("No Changes Detected");
+      return;
+    }
+    else {
+      setError("");
+    }
+
+  }
+  dispatch({
+    type: "ADD_BANKING",
+    payload: {
+      type:"card",
+      card_holder:accountName,
+      desc: description,
+      hostel_id: hostel_id,
+      card_no :cardNo,
+      card_type:cardType,
+      id: props.edit ? bankId : "",
+    },
+  });
+}
+const handleSubmitCash = ()=>{
+  if (!accountName && !description) {
+    setError("Please Fill At Least One Field");
+    return;
+  }
+  if (props.edit) {
+    const isChanged =
+      accountName !== initialStateAssign.accountName || 
+      description !== initialStateAssign.description;
+
+    if (!isChanged) {
+      setError("No Changes Detected");
+      return;
+    }
+    else {
+      setError("");
+    }
+
+  }
+  dispatch({
+    type: "ADD_BANKING",
+    payload: {
+      type:"cash",
+      benificiary_name :accountName,
+      desc: description,
+      hostel_id: hostel_id,
+      id: props.edit ? bankId : "",
+    },
+  });
+}
+
 
  
   useEffect(() => {
@@ -223,6 +434,8 @@ function BankingAddForm(props) {
   
   return (
     <div>
+
+
       <Modal
         show={props.showForm}
         onHide={() => handleClose()}
@@ -279,61 +492,44 @@ function BankingAddForm(props) {
         <Nav
   variant="tabs"
   activeKey={activeTab}
-  onSelect={(selectedKey) => setActiveTab(selectedKey)}
+  // onSelect={(selectedKey) => setActiveTab(selectedKey)
+  //   setError("")
+  // }
+  onSelect={(selectedKey) => {
+    setActiveTab(selectedKey);
+    setError("");
+  }}
+  
   className="justify-content-start mb-3 ms-1"
 >
-  <Nav.Item>
-    <Nav.Link
-      eventKey="bank"
-      style={{
-        ...tabStyle,
-        backgroundColor: activeTab === "bank" ? "#007bff" : "",
-        color: activeTab === "bank" ? "#fff" : tabStyle.color,
-        borderRadius: 8,
-      }}
-    >
-      Bank Name
-    </Nav.Link>
-  </Nav.Item>
-  <Nav.Item>
-    <Nav.Link
-      eventKey="upi"
-      style={{
-        ...tabStyle,
-        backgroundColor: activeTab === "upi" ? "#007bff" : "",
-        color: activeTab === "upi" ? "#fff" : tabStyle.color,
-        borderRadius: 8,
-      }}
-    >
-      UPI
-    </Nav.Link>
-  </Nav.Item>
-  <Nav.Item>
-    <Nav.Link
-      eventKey="card"
-      style={{
-        ...tabStyle,
-        backgroundColor: activeTab === "card" ? "#007bff" : "",
-        color: activeTab === "card" ? "#fff" : tabStyle.color,
-        borderRadius: 8,
-      }}
-    >
-      Card
-    </Nav.Link>
-  </Nav.Item>
-  <Nav.Item>
-    <Nav.Link
-      eventKey="cash"
-      style={{
-        ...tabStyle,
-        backgroundColor: activeTab === "cash" ? "#007bff" : "",
-        color: activeTab === "cash" ? "#fff" : tabStyle.color,
-        borderRadius: 8,
-      }}
-    >
-      Cash
-    </Nav.Link>
-  </Nav.Item>
+  {["bank", "upi", "card", "cash"].map((tab) => (
+    <Nav.Item key={tab}>
+      <Nav.Link
+        eventKey={tab}
+        disabled={
+          props.editAddBank?.id && props.editAddBank.type !== tab
+        }
+        style={{
+          ...tabStyle,
+          backgroundColor: activeTab === tab ? "#007bff" : "",
+          color: activeTab === tab ? "#fff" : tabStyle.color,
+          borderRadius: 8,
+          opacity:
+            props.editAddBank?.id && props.editAddBank.type !== tab
+              ? 0.6
+              : 1,
+          cursor:
+            props.editAddBank?.id && props.editAddBank.type !== tab
+              ? "not-allowed"
+              : "pointer",
+        }}
+      >
+        {tab === "bank"
+          ? "Bank Name"
+          : tab.charAt(0).toUpperCase() + tab.slice(1)}
+      </Nav.Link>
+    </Nav.Item>
+  ))}
 </Nav>
 
 
@@ -530,6 +726,12 @@ function BankingAddForm(props) {
               </Form.Group>
              
             </div>
+            {error && (
+          <div  style={{ color: "red",textAlign:"center" ,paddingBottom:"8px"}}>
+            <MdError  style={{fontSize:"14px",marginRight:"5px"}}/>
+            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
+          </div>
+        )}
             <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}> 
             <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -568,8 +770,8 @@ function BankingAddForm(props) {
                   type="text"
                   id="form-controls"
                   placeholder="Enter Benificiary Name"
-                  // value={accountName}
-                  // onChange={(e) => handleAccountName(e)}
+                  value={accountName}
+                  onChange={(e) => handleAccountName(e)}
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -606,8 +808,8 @@ function BankingAddForm(props) {
                   type="text"
                   id="form-controls"
                   placeholder="Enter Bank Name"
-                  // value={bankName}
-                  // onChange={(e) => handleBankName(e)}
+                  value={upiId}
+                  onChange={(e) => handleUpiId(e)}
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -656,6 +858,12 @@ function BankingAddForm(props) {
               </Form.Group>
              
             </div>
+            {error && (
+          <div className=" " style={{ color: "red",textAlign:"center" ,paddingBottom:"8px"}}>
+            <MdError  style={{fontSize:"14px",marginRight:"5px"}}/>
+            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
+          </div>
+        )}
             <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}> 
             <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -668,7 +876,7 @@ function BankingAddForm(props) {
               fontFamily: "Gilroy",
               width:"100%"
             }}
-            onClick={handleSubmitBank}
+            onClick={handleSubmitUpi}
           >
             {props.edit ? "Save Changes" : "Add Upi"}
           </Button></Modal.Footer>
@@ -697,9 +905,8 @@ function BankingAddForm(props) {
                   </Form.Label>
                   <Form.Select
                     aria-label="Default select example"
-                    // value={modeOfPayment}
-                    // onChange={handleModeOfPaymentChange}
-                    // disabled={currentItem}
+                    value={cardType}
+                    onChange={handleCardType}
                     className=""
                     id="vendor-select"
                     style={{
@@ -711,8 +918,8 @@ function BankingAddForm(props) {
                     }}
                   >
                     <option value="">Select a Card Type</option>
-                    <option value="Credit">Credit</option>
-                    <option value="Debit">Debit</option>
+                    <option value="credit">Credit</option>
+                    <option value="debit">Debit</option>
                   </Form.Select>
                 </Form.Group>
               
@@ -734,8 +941,8 @@ function BankingAddForm(props) {
         type="text"
         id="form-controls"
         placeholder="Enter Card Holder Name"
-        // value={bankName}
-        // onChange={(e) => handleBankName(e)}
+        value={accountName}
+        onChange={(e) => handleAccountName(e)}
         style={{
           fontSize: 16,
           color: "#4B4B4B",
@@ -772,8 +979,8 @@ function BankingAddForm(props) {
         type="text"
         id="form-controls"
         placeholder="Enter Card No"
-        // value={accountNo}
-        // onChange={(e) => handleAccountNo(e)}
+        value={cardNo}
+        onChange={(e) => handleCardNo(e)}
         style={{
           fontSize: 16,
           color: "#4B4B4B",
@@ -824,6 +1031,12 @@ function BankingAddForm(props) {
     </Form.Group>
    
   </div>
+  {error && (
+          <div className=" " style={{ color: "red",textAlign:"center" ,paddingBottom:"8px"}}>
+            <MdError  style={{fontSize:"14px",marginRight:"5px"}}/>
+            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
+          </div>
+        )}
   <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}> 
   <Button
   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -836,7 +1049,7 @@ function BankingAddForm(props) {
     fontFamily: "Gilroy",
     width:"100%"
   }}
-  onClick={handleSubmitBank}
+  onClick={handleSubmitCard}
 >
   {props.edit ? "Save Changes" : "Add Card"}
 </Button>
@@ -863,8 +1076,8 @@ function BankingAddForm(props) {
                  type="text"
                  id="form-controls"
                  placeholder="Enter Benificiary Name"
-                 // value={accountName}
-                 // onChange={(e) => handleAccountName(e)}
+                 value={accountName}
+                 onChange={(e) => handleAccountName(e)}
                  style={{
                    fontSize: 16,
                    color: "#4B4B4B",
@@ -919,6 +1132,12 @@ function BankingAddForm(props) {
              </Form.Group>
             
            </div>
+           {error && (
+          <div className=" " style={{ color: "red",textAlign:"center" ,paddingBottom:"8px"}}>
+            <MdError  style={{fontSize:"14px",marginRight:"5px"}}/>
+            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
+          </div>
+        )}
            <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}> 
             <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -931,7 +1150,7 @@ function BankingAddForm(props) {
               fontFamily: "Gilroy",
               width:"100%"
             }}
-            // onClick={handleSubmitBank}
+            onClick={handleSubmitCash}
           >
             {props.edit ? "Save Changes" : "Add Cash"}
           </Button>
@@ -940,12 +1159,7 @@ function BankingAddForm(props) {
  </div>
 )}
         </Modal.Body>
-        {error && (
-          <div className=" " style={{ color: "red",textAlign:"center" ,paddingBottom:"8px"}}>
-            <MdError  style={{fontSize:"14px",marginRight:"5px"}}/>
-            <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-          </div>
-        )}
+    
 
 
 {/* {state.bankingDetails?.bankingError && (

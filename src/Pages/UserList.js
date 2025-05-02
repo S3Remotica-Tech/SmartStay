@@ -5413,7 +5413,7 @@ const handleBack = () => {
                 lineHeight: "normal",
               }}
             >
-              Save Changes
+            {isAddMode ? "CreateBill" : "SaveChanges"}
             </Button>
 
             <div className="mb-3"></div>
