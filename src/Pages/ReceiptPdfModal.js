@@ -20,6 +20,8 @@ import substracBlue from "../Assets/Images/New_images/location 03.png";
 import frameblue from "../Assets/Images/New_images/Frameblue.png";
 import paidfull from '../Assets/Images/New_images/paidfull.png'
 import { useDispatch, useSelector } from "react-redux";
+import Logo from '../Assets/Images/get.png'
+import receiptLogo from '../Assets/Images/New_images/receiptlogo.png'
 
 
 
@@ -191,12 +193,15 @@ receiptDataNew.invoice_type === "checkout" ? (
                   <div   className=" text-white  p-4 position-relative" style={{borderBottomRightRadius:"24px",borderBottomLeftRadius:"24px", minHeight: "180px",backgroundColor:"#1E45E1" }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <h4 className="fw-bold mb-0">Smartstay</h4>
-                        <small>Meet All Your Needs</small>
+                        <h4 className="fw-bold mb-0"><img src={Logo} alt="logo" style={{ height: 40, width: 40 }} className="me-2"/>Smartstay</h4>
+                        <small className="ms-4">Meet All Your Needs</small>
                       </div>
                       <div className="text-end">
                         <h5 className="mb-0">{receiptDataNew?.hostel_details?.name}</h5>
-                        <small>{receiptDataNew?.hostel_details?.address},<br/>{receiptDataNew?.hostel_details?.area},{receiptDataNew?.hostel_details?.city} {receiptDataNew?.hostel_details?.landmark}, {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</small>
+                        <small>{["", "0", null, undefined, "undefined"].includes(receiptDataNew?.hostel_details?.address)
+  ? ""
+  : receiptDataNew?.hostel_details?.address}
+,<br/>{receiptDataNew?.hostel_details?.area},{receiptDataNew?.hostel_details?.city} {receiptDataNew?.hostel_details?.landmark}, {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</small>
                       </div>
                     </div>
                   </div>
@@ -345,8 +350,8 @@ receiptDataNew.invoice_type === "checkout" ? (
                   <div   className=" text-white  p-4 position-relative" style={{borderBottomRightRadius:"24px",borderBottomLeftRadius:"24px", minHeight: "180px",backgroundColor:"#00A32E" }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <h4 className="fw-bold mb-0">Smartstay</h4>
-                        <small>Meet All Your Needs</small>
+                        <h4 className="fw-bold mb-0"><img src={receiptLogo} alt="logo" style={{ height: 40, width: 40 }} className="me-2"/>Smartstay</h4>
+                        <small className="ms-4">Meet All Your Needs</small>
                       </div>
                       <div className="text-end">
                         <h5 className="mb-0">{receiptDataNew?.hostel_details?.name}</h5>
@@ -434,8 +439,12 @@ receiptDataNew.invoice_type === "checkout" ? (
                             <tr style={{color:"white"}}>
                               <th style={{ borderTopLeftRadius: "12px",borderBottomLeftRadius:"12px",color:"white" }}>S.NO</th>
                               <th style={{color:"white"}}>Inv No</th>
-                              <th style={{color:"white"}}>Description</th>
-                              <th style={{color:"white"}}>Duration</th>
+                              {/* <th style={{color:"white"}}>Description</th> */}
+                              <th style={{color:"white"}}>Discription</th>
+                              {receiptDataNew?.invoice_type !== "advance" && (
+  <th style={{ color: "white" }}>Duration</th>
+)}
+                            
                               <th style={{ borderTopRightRadius: "12px",borderBottomRightRadius:"12px",color:"white" }}>Amount / INR</th>
                             </tr>
                           </thead>
@@ -445,7 +454,13 @@ receiptDataNew.invoice_type === "checkout" ? (
                               <td>{index + 1}</td>
                               <td>{receiptDataNew?.invoice_number}</td>
                               <td>{item.am_name}</td>
-                              <td>{moment(receiptDataNew?.created_at).format("DD/MM/YYYY")}</td>
+                              {/* <td>{moment(item?.created_at).format("DD/MM/YYYY")}</td> */}
+                              {receiptDataNew?.invoice_type !== "advance" && (
+  <td>{moment(item?.created_at).format("DD/MM/YYYY")}</td>
+)}
+
+                            
+
                               <td>₹ {item.amount}</td>
                             </tr>
                           ))}
