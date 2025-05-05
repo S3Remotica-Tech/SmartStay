@@ -370,6 +370,7 @@ dayjs.extend(isSameOrBefore);
   const handleCloseAddBalance = () => {
     setshowAddBalance(false);
     setAddBankAmount("");
+    setAmountError("")
   };
 
 
