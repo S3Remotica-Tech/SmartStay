@@ -34,7 +34,7 @@ function SettingExpenses({ hostelid }) {
   const [subcategory_Id, setSubCategory_ID] = useState(null)
   const [deleteCategoryId, setDeleteCategoryId] = useState('')
   const [loading, setLoading] = useState(true)
-  const [expensesrowsPerPage, setExpensesrowsPerPage] = useState(10);
+  const [expensesrowsPerPage, setExpensesrowsPerPage] = useState(5);
   const [expensesFilterddata, setExpensesFilterddata] = useState([]);
   const [expensescurrentPage, setExpensescurrentPage] = useState(1);
 
@@ -836,7 +836,7 @@ function SettingExpenses({ hostelid }) {
   )}
 
 
-      {expensesFilterddata?.length >= 2 && (
+      {expensesFilterddata?.length >= 5 && (
         <nav 
         // className="pagination-container position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{zIndex:995}}
         // className="position-sticky bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
@@ -867,7 +867,7 @@ function SettingExpenses({ hostelid }) {
                 boxShadow: "none",
               }}
             >
-              <option value={2}>2</option>
+              {/* <option value={2}>2</option> */}
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={50}>50</option>
