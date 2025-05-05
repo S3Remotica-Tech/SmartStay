@@ -338,6 +338,7 @@ const InvoicePage = () => {
       setShowLoader(true);
     }
   };
+  console.log("bills",bills)
 
   const handleReceiptDetail = (item) => {
     if (item.User_Id) {
@@ -1815,7 +1816,7 @@ useEffect(()=>{
   const handleClosePdfReceipt = () => {
     setDownloadReceipt(false);
   };
-
+console.log("DownloadReceipt",receiptdata)
   const handleClosePdfModal = () => {
     setDownloadInvoice(false);
   };
@@ -5465,7 +5466,7 @@ useEffect(()=>{
                                               fontWeight: 600,
                                             }}
                                           >
-                                            {item.Amount}
+                                            {item.amount_received.toLocaleString('en-IN')}
                                           </div>
                                         </div>
 
@@ -5504,8 +5505,7 @@ useEffect(()=>{
                                         </div>
 
                                         <div className="mb-2">
-                                          {item.BalanceDue === 0 ? (
-                                            <span
+                                        <span
                                               style={{
                                                 fontSize: "10px",
                                                 backgroundColor: "#D9FFD9",
@@ -5517,21 +5517,6 @@ useEffect(()=>{
                                             >
                                               Paid
                                             </span>
-                                          ) : (
-                                            <span
-                                              style={{
-                                                cursor: "pointer",
-                                                fontSize: "10px",
-                                                backgroundColor: "#FFD9D9",
-                                                fontFamily: "Gilroy",
-                                                color: "#000",
-                                                borderRadius: "14px",
-                                                padding: "8px 12px",
-                                              }}
-                                            >
-                                              Unpaid
-                                            </span>
-                                          )}
                                         </div>
                                       </div>
                                     </div>
