@@ -956,6 +956,7 @@ if(state.UsersList.conformChekoutError){
                       fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      whiteSpace:"nowrap"
                     }}
                   >
                     {checkoUtDateError}

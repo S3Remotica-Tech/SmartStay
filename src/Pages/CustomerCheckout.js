@@ -183,7 +183,7 @@ function CustomerCheckout(props){
         {checkoUtDateError && (
               <div className="d-flex align-items-center p-1 mb-2">
                 <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500,whiteSpace:"nowrap" }}>
                   {checkoUtDateError}
                 </label>
               </div>
