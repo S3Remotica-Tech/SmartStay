@@ -9,7 +9,7 @@ import Logo from '../Assets/Images/get.png'
 import Dial from '../Assets/Images/dial.png'
 import Room from '../Assets/Images/Car.png'
 import Locat from '../Assets/Images/location 03.png'
-import Barcode from '../Assets/Images/barcode.png'
+import Barcode from '../Assets/Images/invoice_barcode.svg'
 import Gpay from '../Assets/Images/gpay.png'
 import Phonepe from '../Assets/Images/phonepe.png'
 import Paytm from '../Assets/Images/paytm.png'
@@ -182,12 +182,12 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
       <img src={rowData?.hostel_profile || Logo} alt="logo" style={{ height: 40, width: 40 }} />
       <div>
         <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
-        <div style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Meet All Your Needs</div>
+        <div style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-12px' }}>Meet All Your Needs</div>
       </div>
     </div>
 
     <div>
-      <div style={{ fontSize: 26, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" }}>
+      <div style={{ fontSize: 26, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
        {hosteldetails.name}
       </div>
       <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
@@ -306,36 +306,34 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     </table>
   </div>
 
-  <div className="d-flex justify-content-between mt-4 align-items-start flex-wrap">
-  {/* Left Message Block */}
+  <div className="d-flex flex-wrap align-items-start mt-4">
   {invoice_details.invoice_type === "manual" && (
-    <div className="text-start mt-4">
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
-      &quot;Your comfort is our priority –
+    <div className="text-start mt-4" style={{ flex: '1 1 0%' }}>
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
+        &quot;Your comfort is our priority –
       </p>
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
         See you again at Smart Stay! &quot;
       </p>
     </div>
   )}
-  {/* Total Section */}
-  <div className="d-flex justify-content-end mt-3">
-    <div className="w-100 w-md-50">
-      <div className="d-flex justify-content-between  py-1">
-        <span className="ms-auto">Tax</span>
-        <span className="ms-4">Rs. 0.00</span>
-      </div>
-      <div className="d-flex justify-content-between  py-1">
-        <span className="ms-auto">Sub Total</span>
-        <span className="ms-4">Rs. {invoice_details?.total_amount}</span>
-      </div>
-      <div className="d-flex justify-content-between fw-bold py-2">
-        <span className="ms-auto">Total</span>
-        <span className="ms-4">Rs. {invoice_details?.total_amount}</span>
-      </div>
+
+  <div className="mt-3 ms-auto" style={{ minWidth: '250px' }}>
+    <div className="d-flex justify-content-between py-1">
+      <span  style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
+      <span className="me-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. 0.00</span>
+    </div>
+    <div className="d-flex justify-content-between py-1">
+      <span  style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
+      <span  style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
+    </div>
+    <div className="d-flex justify-content-between fw-bold py-2">
+      <span  style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
+      <span  style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
     </div>
   </div>
-  </div>
+</div>
+
 </div>
 
 
@@ -368,12 +366,12 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
     <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
     <div className="d-flex justify-content-end mt-auto">
-        <img src={Barcode} alt="Barcode" style={{ height: 100, width: 120 }} />
+        <img src={Barcode} alt="Barcode" style={{ height: 89, width: 89, borderRadius:'2px' }} />
       </div>
       <div className="d-flex flex-row justify-content-end">
-        <img src={Paytm} alt="Paytm" style={{ height: 50, width: 70 }} className="m-2" />
-        <img src={Phonepe} alt="PhonePe" style={{ height: 50, width: 70 }} className="m-2" />
-        <img src={Gpay} alt="GPay" style={{ height: 50, width: 70 }} className="m-2" />
+        <img src={Paytm} alt="Paytm" style={{ height: 38, width: 38 }} className="m-2" />
+        <img src={Phonepe} alt="PhonePe" style={{ height: 38, width: 38 }} className="m-2" />
+        <img src={Gpay} alt="GPay" style={{ height: 38, width: 38 }} className="m-2" />
       </div>
      
     </div>
@@ -381,7 +379,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 </div>
 
 
-<div className="row justify-content-between mt-4 m-3 p-2">
+<div className="row justify-content-between mt-4 mb-4 px-4">
   {/* Left Side: Terms and Conditions */}
   <div className="col-md-8">
     <h4 style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
@@ -421,7 +419,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         
       }}
     >
-      email: contact@royalgrandhostel.in
+      email: {hosteldetails.email ? hosteldetails.email : ''}
     </p>
     <p
       className="mb-0"
@@ -432,7 +430,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         color: 'rgba(255, 255, 255, 1)',
       }}
     >
-      Contact: +91 88996 54611
+      Contact: {hosteldetails.phone ? hosteldetails.phone : ''}
     </p>
   </div>
 </div>
