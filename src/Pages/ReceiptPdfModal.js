@@ -20,6 +20,8 @@ import substracBlue from "../Assets/Images/New_images/location 03.png";
 import frameblue from "../Assets/Images/New_images/Frameblue.png";
 import paidfull from '../Assets/Images/New_images/paidfull.png'
 import { useDispatch, useSelector } from "react-redux";
+import Logo from '../Assets/Images/get.png'
+import receiptLogo from '../Assets/Images/New_images/receiptlogo.png'
 
 
 
@@ -141,19 +143,22 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
 
                             <div className="mb-3">
-                                {rowData?.BalanceDue === 0 ? <span style={{ fontSize: '10px', backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
-                                    style={{
-                                        fontSize: '10px',
-                                        cursor: 'pointer',
-                                        backgroundColor: '#FFD9D9',
-                                        fontFamily: 'Gilroy',
-                                        color: '#000',
-                                        borderRadius: '14px',
-                                        padding: "8px 12px"
-                                    }}>Unpaid</span>}
+                                <span style={{ fontSize: '10px', backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> 
+                              
                             </div>
                             <div className="mb-2 mt-2">
-                                <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD MMM YYYY')}</label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>#{receiptDataNew?.invoice_number === null || receiptDataNew?.invoice_number === '' ? '0.00' : receiptDataNew?.invoice_number}</label>
+                                {/* <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD MMM YYYY')}</label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>#{receiptDataNew?.reference_id === null || receiptDataNew?.reference_id === '' ? '0.00' : receiptDataNew?.reference_id}</label> */}
+                                <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>
+  {moment(receiptDataNew?.Date).format('DD MMM YYYY')}
+</label>
+ -
+<label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>
+  #{(receiptDataNew?.invoice_number && receiptDataNew?.invoice_number !== '' && receiptDataNew?.invoice_number !== '0')
+    ? receiptDataNew.invoice_number
+    : (receiptDataNew?.reference_id || '0.00')}
+</label>
+
+
                             </div>
                         </div>
                     </div>
@@ -182,18 +187,21 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
                     {isVisible &&
 
-receiptDataNew.invoice_type === "Checkout" ? (
+receiptDataNew.invoice_type === "checkout" ? (
   <div className="receipt-container" ref={cardRef} >
                 
                   <div   className=" text-white  p-4 position-relative" style={{borderBottomRightRadius:"24px",borderBottomLeftRadius:"24px", minHeight: "180px",backgroundColor:"#1E45E1" }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <h4 className="fw-bold mb-0">Smartstay</h4>
-                        <small>Meet All Your Needs</small>
+                        <h4 className="fw-bold mb-0"><img src={Logo} alt="logo" style={{ height: 40, width: 40 }} className="me-2"/>Smartstay</h4>
+                        <small className="ms-4">Meet All Your Needs</small>
                       </div>
                       <div className="text-end">
-                        <h5 className="mb-0">{rowData?.Hostel_Name}</h5>
-                        <small>{rowData?.admin_address},<br/>Chennai, Tamilnadu - 600 056</small>
+                        <h5 className="mb-0">{receiptDataNew?.hostel_details?.name}</h5>
+                        <small>{["", "0", null, undefined, "undefined"].includes(receiptDataNew?.hostel_details?.address)
+  ? ""
+  : receiptDataNew?.hostel_details?.address}
+,<br/>{receiptDataNew?.hostel_details?.area},{receiptDataNew?.hostel_details?.city} {receiptDataNew?.hostel_details?.landmark}, {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</small>
                       </div>
                     </div>
                   </div>
@@ -204,9 +212,9 @@ receiptDataNew.invoice_type === "Checkout" ? (
                       {/* <h5 className="fw-bold">Payment Receipt</h5> */}
                       {/* <h5 className="fw-bold">{rowData?.action === "advance" ? "Security Deposit Receipt":"Payment Receipt"}</h5>  */}
                       <h5 className="fw-bold">
-  {rowData?.action === "advance" && "Security Deposit Receipt"}
-  {rowData?.action === "Checkout" && "Final Settlement Receipt"}
-  {rowData?.action !== "advance" && rowData?.action !== "Checkout" && "Payment Receipt"}
+  {receiptDataNew.invoice_type === "advance" && "Security Deposit Receipt"}
+  {receiptDataNew.invoice_type === "checkout" && "Final Settlement Receipt"}
+  {receiptDataNew.invoice_type !== "advance" && receiptDataNew.invoice_type !== "checkout" && "Payment Receipt"}
 </h5>
 
 
@@ -216,27 +224,28 @@ receiptDataNew.invoice_type === "Checkout" ? (
                     <div className="row px-4 mt-5">
                       <div className="col-md-6 mb-3">
                         <p className="fw-bold text-success mb-1">Bill To:</p>
-                        <p className="mb-1">{rowData?.user_name}</p>
-                        <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12}/> {rowData?.phoneNo}</p>
-                        <p className="mb-1"><img src={frameblue} alt="frame" width={13} height={13}/> {rowData?.user_address}</p>
-                        <p><img src={substracBlue} alt="subs" width={12} height={12}/> 8th Main Rd, Someshwara Nagar, Bengaluru, Karnataka 560011</p>
+                        <p className="mb-1">{receiptDataNew?.user_details?.name}</p>
+                        <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12}/> {receiptDataNew?.user_details?.phone}</p>
+                        <p className="mb-1"><img src={frameblue} alt="frame" width={13} height={13}/> {receiptDataNew?.user_details?.floor_name}-{receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
+                        <p><img src={substracBlue} alt="subs" width={12} height={12}/> {receiptDataNew?.user_details?.address} {receiptDataNew?.user_details?.area} {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p>
                       </div>
                       <div className="col-md-6 mb-3">
                         <div className="row">
+
                           <div className="col-6 text-muted">Receipt No:</div>
                           <div className="col-6 fw-bold text-end">#SSR001</div>
+
                 
-                          <div className="col-6 text-muted">Invoice Ref:</div>
-                          <div className="col-6 fw-bold text-end">{rowData?.invoice_number}</div>
+                        
                 
                           <div className="col-6 text-muted">Date:</div>
-                          <div className="col-6 fw-bold text-end">{moment(rowData?.Date).format('DD/MM/YYYY')}</div>
+                          <div className="col-6 fw-bold text-end">{moment(receiptDataNew?.Date).format('DD/MM/YYYY')}</div>
                 
                           <div className="col-6 text-muted">Time:</div>
                           <div className="col-6 fw-bold text-end">11:56:43 AM</div>
                 
                           <div className="col-6 text-muted">Payment Mode:</div>
-                          <div className="col-6 fw-bold text-end">{rowData?.payment_mode}</div>
+                          <div className="col-6 fw-bold text-end">{receiptDataNew?.payment_mode}</div>
                         </div>
                       </div>
                     </div>
@@ -248,19 +257,19 @@ receiptDataNew.invoice_type === "Checkout" ? (
                           <thead  style={{backgroundColor:"#1E45E1",color:"#FFFFFF"}}>
                             <tr style={{color:"white"}}>
                               <th style={{ borderTopLeftRadius: "12px",borderBottomLeftRadius:"12px",color:"white" }}>S.NO</th>
-                              <th style={{color:"white"}}>Inv No</th>
+                              {/* <th style={{color:"white"}}>Inv No</th> */}
                               <th style={{color:"white"}}>Description</th>
-                              <th style={{color:"white"}}>Duration</th>
+                              {/* <th style={{color:"white"}}>Duration</th> */}
                               <th style={{ borderTopRightRadius: "12px",borderBottomRightRadius:"12px",color:"white" }}>Amount / INR</th>
                             </tr>
                           </thead>
                           <tbody>
-                          {rowData?.amenity?.map((item, index) => (
+                          {receiptDataNew?.amenities?.map((item, index) => (
                             <tr key={index}>
                               <td>{index + 1}</td>
-                              <td>{rowData.invoice_number}</td>
+                              {/* <td>{receiptDataNew.invoice_number}</td> */}
                               <td>{item.am_name}</td>
-                              <td>{moment(rowData?.Date).format("DD/MM/YYYY")}</td>
+                              {/* <td>{moment(receiptDataNew?.Date).format("DD/MM/YYYY")}</td> */}
                               <td>₹ {item.amount}</td>
                             </tr>
                           ))}
@@ -270,15 +279,22 @@ receiptDataNew.invoice_type === "Checkout" ? (
                 
                       
                       <div className="d-flex justify-content-end mt-3"  >
-  <div className="w-100 w-md-50" style={{paddingRight:"50px"}}>
+  <div className="w-100 w-md-50" style={{paddingRight:"80px"}}>
+
+  <div className="d-flex justify-content-end border-bottom py-1">
+      <div className="w-50 text-end">Advance Amount</div>
+      <div className="w-25 text-end">₹ {receiptDataNew?.total_advance_amount}</div>
+    </div>
    
     <div className="d-flex justify-content-end border-bottom py-1">
       <div className="w-50 text-end">Sub Total</div>
-      <div className="w-25 text-end">₹ {rowData?.amount_received}</div>
+      <div className="w-25 text-end">₹ {receiptDataNew?.amount_received}</div>
     </div>
+
+    
     <div className="d-flex justify-content-end py-2 fw-bold">
-      <div className="w-50 text-end">Total</div>
-      <div className="w-25 text-end">₹ {rowData?.amount_received}</div>
+      <div className="w-50 text-end">Refundable Total</div>
+      <div className="w-25 text-end">₹ {receiptDataNew?.advance_return}</div>
     </div>
   </div>
 </div>
@@ -294,7 +310,7 @@ receiptDataNew.invoice_type === "Checkout" ? (
     <h6 className="text-success fw-bold">Acknowledgment</h6>
     <p style={{ fontSize: "14px", color: "#555" }}>
     This document confirms final settlement for the Tenant on <br></br>
-    {moment(rowData?.Date).format('DD/MM/YYYY')}. All dues are cleared, and room has been vacated.
+    {moment(receiptDataNew?.Date).format('DD/MM/YYYY')}. All dues are cleared, and room has been vacated.
     </p>
   </div>
                         <div className="col-md-6 text-end">
@@ -303,7 +319,7 @@ receiptDataNew.invoice_type === "Checkout" ? (
                       </div>
                     </div>
 
-                    <div className="d-flex justify-content-between mt-4 align-items-start flex-wrap">
+                    <div className="d-flex justify-content-between mt-4 align-items-start flex-wrap ms-4">
   {/* Left Message Block */}
  
     <div className="text-start mt-4">
@@ -324,7 +340,7 @@ receiptDataNew.invoice_type === "Checkout" ? (
                 
                     <div className="py-5 px-5">
                     <div className=" text-white text-center" style={{borderTopLeftRadius:"12px",borderTopRightRadius:"12px",backgroundColor:"#1E45E1",padding:7}}>
-                      <small>email: contact@royalgrandhostel.in | Contact: +91 88996 54611</small>
+                      <small>email:{receiptDataNew?.hostel_details?.email} | Contact: +{receiptDataNew?.hostel_details?.phone}</small>
                     </div>
                     </div>
                 </div>
@@ -334,8 +350,8 @@ receiptDataNew.invoice_type === "Checkout" ? (
                   <div   className=" text-white  p-4 position-relative" style={{borderBottomRightRadius:"24px",borderBottomLeftRadius:"24px", minHeight: "180px",backgroundColor:"#00A32E" }}>
                     <div className="d-flex justify-content-between align-items-center">
                       <div>
-                        <h4 className="fw-bold mb-0">Smartstay</h4>
-                        <small>Meet All Your Needs</small>
+                        <h4 className="fw-bold mb-0"><img src={receiptLogo} alt="logo" style={{ height: 40, width: 40 }} className="me-2"/>Smartstay</h4>
+                        <small className="ms-4">Meet All Your Needs</small>
                       </div>
                       <div className="text-end">
                         <h5 className="mb-0">{receiptDataNew?.hostel_details?.name}</h5>
@@ -357,8 +373,8 @@ receiptDataNew.invoice_type === "Checkout" ? (
                         <p className="fw-bold text-success mb-1">Bill To:</p>
                         <p className="mb-1">{receiptDataNew?.user_details?.name}</p>
                         <p className="mb-1"><img src={mob} alt="mob" width={12} height={12}/> {receiptDataNew?.user_details?.phone}</p>
-                        <p className="mb-1"><img src={frame} alt="frame" width={13} height={13}/>  {receiptDataNew?.user_details?.address}</p>
-                        <p><img src={substrac} alt="subs" width={12} height={12}/> {receiptDataNew?.user_details?.area} {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p>
+                        <p className="mb-1"><img src={frame} alt="frame" width={13} height={13}/>  {receiptDataNew?.user_details?.floor_name}-{receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
+                        <p><img src={substrac} alt="subs" width={12} height={12}/>{receiptDataNew?.user_details?.address}, {receiptDataNew?.user_details?.area} {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p>
                       </div>
                       <div className="col-md-6 mb-3">
                         <div className="row">
@@ -423,8 +439,12 @@ receiptDataNew.invoice_type === "Checkout" ? (
                             <tr style={{color:"white"}}>
                               <th style={{ borderTopLeftRadius: "12px",borderBottomLeftRadius:"12px",color:"white" }}>S.NO</th>
                               <th style={{color:"white"}}>Inv No</th>
-                              <th style={{color:"white"}}>Description</th>
-                              <th style={{color:"white"}}>Duration</th>
+                              {/* <th style={{color:"white"}}>Description</th> */}
+                              <th style={{color:"white"}}>Discription</th>
+                              {receiptDataNew?.invoice_type !== "advance" && (
+  <th style={{ color: "white" }}>Duration</th>
+)}
+                            
                               <th style={{ borderTopRightRadius: "12px",borderBottomRightRadius:"12px",color:"white" }}>Amount / INR</th>
                             </tr>
                           </thead>
@@ -434,7 +454,13 @@ receiptDataNew.invoice_type === "Checkout" ? (
                               <td>{index + 1}</td>
                               <td>{receiptDataNew?.invoice_number}</td>
                               <td>{item.am_name}</td>
-                              <td>{moment(rowData?.created_at).format("DD/MM/YYYY")}</td>
+                              {/* <td>{moment(item?.created_at).format("DD/MM/YYYY")}</td> */}
+                              {receiptDataNew?.invoice_type !== "advance" && (
+  <td>{moment(item?.created_at).format("DD/MM/YYYY")}</td>
+)}
+
+                            
+
                               <td>₹ {item.amount}</td>
                             </tr>
                           ))}
@@ -474,13 +500,13 @@ receiptDataNew.invoice_type === "Checkout" ? (
                           <p>Received By: Admin - Anjali R</p>
                         </div>
                         <div className="col-md-6 text-end">
-                        <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block"><img src={received} alt="received" height={91} width={162}/></p>
+                        <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block me-5"><img src={received} alt="received" height={91} width={162}/></p>
                         {receiptDataNew?.invoice_type === "advance"  && (
-    <div className="text-start mt-4">
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(0, 163, 46, 1)'}}>
+    <div className="text-start mt-2 ms-5">
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(0, 163, 46, 1)',fontSize:"14px"}}>
       &quot;Thank you for choosing SmartStay. &quot;
       </p>
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(0, 163, 46, 1)'}}>
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(0, 163, 46, 1)',fontSize:"14px"}}>
       Your transaction is completed &quot;
       </p>
     </div>
