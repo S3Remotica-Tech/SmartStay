@@ -226,7 +226,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                         <p className="fw-bold text-success mb-1">Bill To:</p>
                         <p className="mb-1">{receiptDataNew?.user_details?.name}</p>
                         <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12}/> {receiptDataNew?.user_details?.phone}</p>
-                        <p className="mb-1"><img src={frameblue} alt="frame" width={13} height={13}/> {receiptDataNew?.user_details?.floor_name}-{receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
+                        <p className="mb-1"><img src={frameblue} alt="frame" width={13} height={13}/> {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
                         <p><img src={substracBlue} alt="subs" width={12} height={12}/> {receiptDataNew?.user_details?.address} {receiptDataNew?.user_details?.area} {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p>
                       </div>
                       <div className="col-md-6 mb-3">
@@ -373,7 +373,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                         <p className="fw-bold text-success mb-1">Bill To:</p>
                         <p className="mb-1">{receiptDataNew?.user_details?.name}</p>
                         <p className="mb-1"><img src={mob} alt="mob" width={12} height={12}/> {receiptDataNew?.user_details?.phone}</p>
-                        <p className="mb-1"><img src={frame} alt="frame" width={13} height={13}/>  {receiptDataNew?.user_details?.floor_name}-{receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
+                        <p className="mb-1"><img src={frame} alt="frame" width={13} height={13}/> {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
                         <p><img src={substrac} alt="subs" width={12} height={12}/>{receiptDataNew?.user_details?.address}, {receiptDataNew?.user_details?.area} {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p>
                       </div>
                       <div className="col-md-6 mb-3">
@@ -406,7 +406,7 @@ receiptDataNew.invoice_type === "checkout" ? (
       </div>
       <div>
         <label style={{ fontSize: 15, fontWeight: 600, fontFamily: "Gilroy" }}>
-          ₹ {rowData?.amount_received}
+          ₹ {receiptDataNew?.amount_received}
         </label>
       </div>
       <div>
