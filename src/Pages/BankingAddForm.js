@@ -234,15 +234,15 @@ useEffect(() => {
   //       case "accountName":
   //         setaccountnameError("Account Name is Required");
   //         break;
-  //       case "accountNo":
-  //         setaccountNumberError("Account No is Required");
-  //         break;
-  //       case "bankName":
-  //         setBankNameError("Bank Name is Required");
-  //         break;
-  //       case "ifscCode":
-  //         setIfcsCodeError("IFSC Code is Required");
-  //         break;
+  //       // case "accountNo":
+  //       //   setaccountNumberError("Account No is Required");
+  //       //   break;
+  //       // case "bankName":
+  //       //   setBankNameError("Bank Name is Required");
+  //       //   break;
+  //       // case "ifscCode":
+  //       //   setIfcsCodeError("IFSC Code is Required");
+  //       //   break;
         
   //       default:
   //         break;
@@ -272,8 +272,8 @@ useEffect(() => {
 
     }
 
-    if (!accountName && !bankName && !ifscCode && !accountNo) {
-      setError("Please Fill At Least One Field");
+    if (!accountName) {
+      setError("Please Enter Benificiary Name");
       return;
     }
   
@@ -282,7 +282,7 @@ useEffect(() => {
       type: "ADD_BANKING",
       payload: {
         type:"bank",
-        acc_name: accountName,
+        benificiary_name: accountName,
         acc_no: accountNo,
         bank_name: bankName,
         ifsc_code: ifscCode,
@@ -294,8 +294,8 @@ useEffect(() => {
   };
 
 const handleSubmitUpi = ()=>{
-  if (!accountName && !upiId ) {
-    setError("Please Fill At Least One Field");
+  if (!accountName) {
+    setError("Please Enter Benificiary Name");
     return;
   }
 
@@ -346,8 +346,8 @@ const handleCardType = (e) => {
 };
 
 const handleSubmitCard = ()=>{
-  if (!accountName && !cardType && !cardNo ) {
-    setError("Please Fill At Least One Field");
+  if (!accountName) {
+    setError("Please Enter Benificiary Name");
     return;
   }
 
@@ -371,18 +371,19 @@ const handleSubmitCard = ()=>{
     type: "ADD_BANKING",
     payload: {
       type:"card",
-      card_holder:accountName,
+      benificiary_name:accountName,
       desc: description,
       hostel_id: hostel_id,
       card_no :cardNo,
       card_type:cardType,
+
       id: props.edit ? bankId : "",
     },
   });
 }
 const handleSubmitCash = ()=>{
-  if (!accountName && !description) {
-    setError("Please Fill At Least One Field");
+  if (!accountName) {
+    setError("Please Enter Benificiary Name");
     return;
   }
   if (props.edit) {
@@ -415,7 +416,9 @@ const handleSubmitCash = ()=>{
  
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBanking === 200) {
+      setAccountName("")
       handleClose();
+
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BANKING" });
@@ -549,6 +552,15 @@ const handleSubmitCash = ()=>{
                   }}
                 >
                  Benificiary Name{" "}
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "20px",
+                  }}
+                >
+                  {" "}
+                  *{" "}
+                </span>
                  
                 </Form.Label>
                 <FormControl
@@ -764,6 +776,15 @@ const handleSubmitCash = ()=>{
                   }}
                 >
                  Benificiary Name{" "}
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "20px",
+                  }}
+                >
+                  {" "}
+                  *{" "}
+                </span>
                  
                 </Form.Label>
                 <FormControl
@@ -887,6 +908,53 @@ const handleSubmitCash = ()=>{
 
 {activeTab === "card" && (
   <div className="row">
+
+<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+             <Form.Group >
+               <Form.Label
+                 style={{
+                   fontSize: 14,
+                   color: "#222222",
+                   fontFamily: "Gilroy",
+                   fontWeight: 500,
+                 }}
+               >
+                Benificiary Name{" "}
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "20px",
+                  }}
+                >
+                  {" "}
+                  *{" "}
+                </span>
+               </Form.Label>
+               <FormControl
+                 type="text"
+                 id="form-controls"
+                 placeholder="Enter Benificiary Name"
+                 value={accountName}
+                 onChange={(e) => handleAccountName(e)}
+                 style={{
+                   fontSize: 16,
+                   color: "#4B4B4B",
+                   fontFamily: "Gilroy",
+                   fontWeight: 500,
+                   boxShadow: "none",
+                   border: "1px solid #D9D9D9",
+                   height: 50,
+                   borderRadius: 8,
+                 }}
+               />
+             </Form.Group>
+             {accountNameError && (
+               <div style={{ color: "red" }}>
+                 <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                 <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
+               </div>
+             )}
+           </div>
 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-1"
@@ -925,43 +993,7 @@ const handleSubmitCash = ()=>{
               
               </div>
 
-  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <Form.Group >
-      <Form.Label
-        style={{
-          fontSize: 14,
-          color: "#222222",
-          fontFamily: "Gilroy",
-          fontWeight: 500,marginTop:5
-        }}
-      >
-        Card Holder Name
-      </Form.Label>
-      <FormControl
-        type="text"
-        id="form-controls"
-        placeholder="Enter Card Holder Name"
-        value={accountName}
-        onChange={(e) => handleAccountName(e)}
-        style={{
-          fontSize: 16,
-          color: "#4B4B4B",
-          fontFamily: "Gilroy",
-          fontWeight: 500,
-          boxShadow: "none",
-          border: "1px solid #D9D9D9",
-          height: 50,
-          borderRadius: 8,
-        }}
-      />
-    </Form.Group>
-    {/* {bankNameError && (
-      <div style={{ color: "red" }}>
-        <MdError style={{fontSize:"14",marginRight:"5px"}}/>
-        <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
-      </div>
-    )} */}
-  </div>
+
 
   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     <Form.Group >
@@ -1070,7 +1102,16 @@ const handleSubmitCash = ()=>{
                    fontWeight: 500,
                  }}
                >
-                Benificiary Name
+                Benificiary Name{" "}
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "20px",
+                  }}
+                >
+                  {" "}
+                  *{" "}
+                </span>
                </Form.Label>
                <FormControl
                  type="text"

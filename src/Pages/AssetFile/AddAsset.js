@@ -961,7 +961,7 @@ function StaticExample({ show, setShow, currentItem }) {
 >
   <option value="">Select Mode Of Payment</option>
   {Array.isArray(bankking) &&
-  [...new Map(bankking.map(item => [item.type, item])).values()].map((item) => {
+ bankking?.map((item) => {
     let label = "";
     if (item.type === "bank") label = "Bank";
     else if (item.type === "upi") label = "UPI";
@@ -970,8 +970,8 @@ function StaticExample({ show, setShow, currentItem }) {
 
     return (
       <option key={item.id} value={item.id}>
-        {label}
-      </option>
+      {`${item.benificiary_name} - ${label}`}
+    </option>                      
     );
   })}
 
