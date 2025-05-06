@@ -350,7 +350,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         color: 'rgba(30, 69, 225, 1)',
         letterSpacing:'1px'
         
-      }} >Account Details</h6>
+      }} 
+      >Account Details</h6>
       <p className="mb-1" 
      style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
       Account No : 87542310984</p>
