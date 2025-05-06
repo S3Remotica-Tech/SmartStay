@@ -461,22 +461,22 @@ receiptDataNew.invoice_type === "checkout" ? (
   <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}} >{moment(item?.created_at).format("DD/MM/YYYY")}</td>
 )}
 
-                            
+<td style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500 }}>
+  ₹ {receiptDataNew?.invoice_type === "advance" ? receiptDataNew?.amount_received : item.amount}
+</td>
 
-                              <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>₹ {item.amount}</td>
+
+                              {/* <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>₹ {item.amount}</td> */}
                             </tr>
                           ))}
                           </tbody>
                         </table>
                       </div>
-                
+                      {/* receiptDataNew.invoice_type === "advance"              */}
                       
-                      <div className="d-flex justify-content-end mt-3"  >
+                      {/* <div className="d-flex justify-content-end mt-3"  >
   <div className="w-100 w-md-50" style={{paddingRight:"50px"}}>
-    {/* <div className="d-flex justify-content-end border-bottom py-1">
-      <div className="w-50 text-end">Tax</div>
-      <div className="w-25 text-end">₹ 150.00</div>
-    </div> */}
+   
     <div className="d-flex justify-content-end  py-1">
       <div className="w-50 text-end" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</div>
       <div className="w-25 text-end" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>₹ {receiptDataNew?.total_amount}</div>
@@ -486,7 +486,62 @@ receiptDataNew.invoice_type === "checkout" ? (
       <div className="w-25 text-end" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>₹ {receiptDataNew?.total_amount}</div>
     </div>
   </div>
-</div>
+</div> */}
+{receiptDataNew.invoice_type !== "advance" && (
+  <div className="d-flex justify-content-end mt-3">
+    <div className="w-100 w-md-50" style={{ paddingRight: "50px" }}>
+      <div className="d-flex justify-content-end py-1">
+        <div
+          className="w-50 text-end"
+          style={{
+            fontSize: '15px',
+            fontFamily: 'Gilroy',
+            fontWeight: 500,
+            color: 'rgba(23, 23, 23, 1)',
+          }}
+        >
+          Sub Total
+        </div>
+        <div
+          className="w-25 text-end"
+          style={{
+            fontSize: '15px',
+            fontFamily: 'Gilroy',
+            fontWeight: 500,
+            color: 'rgba(23, 23, 23, 1)',
+          }}
+        >
+          ₹ {receiptDataNew?.total_amount}
+        </div>
+      </div>
+      <div className="d-flex justify-content-end py-2 fw-bold">
+        <div
+          className="w-50 text-end"
+          style={{
+            fontSize: '15px',
+            fontFamily: 'Gilroy',
+            fontWeight: 500,
+            color: 'rgba(23, 23, 23, 1)',
+          }}
+        >
+          Total
+        </div>
+        <div
+          className="w-25 text-end"
+          style={{
+            fontSize: '15px',
+            fontFamily: 'Gilroy',
+            fontWeight: 500,
+            color: 'rgba(23, 23, 23, 1)',
+          }}
+        >
+          ₹ {receiptDataNew?.total_amount}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
 
                     </div>
                 
@@ -500,9 +555,9 @@ receiptDataNew.invoice_type === "checkout" ? (
         fontSize: '15px',
         fontFamily: 'Gilroy',
         fontWeight: 700,
-        color: 'rgba(30, 69, 225, 1)',
+        color: '#00A32E',
         letterSpacing:'1px'}}
-        >Payment Details</h6>
+        >PAYMENT DETAILS</h6>
                           <p className="mb-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode: {receiptDataNew?.payment_mode}</p>
                           <p className="mb-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Transaction ID: GPay-2134-8482-XYZ</p>
                           <p style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: Admin - Anjali R</p>
@@ -524,7 +579,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                         <div className="row">
   {/* Left side - Acknowledgment */}
   <div className="col-md-6">
-    <h6 className="text-success fw-bold">Acknowledgment</h6>
+    <h6  style={{color:"#00A32E",fontSize:"11.73px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
     <p style={{ fontSize: "14px", color: "#555" }}>
       This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
     </p>
