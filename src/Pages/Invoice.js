@@ -286,7 +286,32 @@ const InvoicePage = () => {
     setPaymodeErrmsg("");
     setAccount("");
   };
+  const staticOptions = [
+    { value: "bank", label: "Cash" },
+    { value: "upi", label: "UPI" },
+    { value: "card", label: "Card" },
+    { value: "cash", label: "Cash" },
+    // { value: "Net Banking", label: "Banking" },
+  ];
+  
+  const bankingOptions = Array.isArray(state.bankingDetails?.bankingList?.banks)
+  ? state.bankingDetails.bankingList.banks.map((item) => {
+      let label = "";
+      if (item.type === "bank") label = "bank";
+      else if (item.type === "upi") label = "upi";
+      else if (item.type === "card") label = "Card";
+      else if (item.type === "cash") label = "cash";
 
+      return {
+        value: item.id,
+        label: `${item.benificiary_name} - ${label}`,
+      };
+    })
+  : [];
+
+  
+  const combinedOptions = [...bankingOptions];
+  
 
 
   const handleInvoiceDetail = (item) => {
@@ -3680,74 +3705,65 @@ console.log("DownloadReceipt",receiptdata)
                                       </span>
                                     </Form.Label>
 
-
                                     <Select
-                                      options={[
-                                        { value: "Cash", label: "Cash" },
-                                        { value: "Debit Card", label: "Debit Card" },
-                                        { value: "Credit Card", label: "Credit Card" },
-                                        { value: "UPI", label: "UPI" },
-                                        { value: "Net Banking", label: "Banking" },
-                                      ]}
-                                      onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
-                                      value={
-                                        invoiceList.transaction
-                                          ? {
-                                            value: invoiceList.transaction,
-                                            label: invoiceList.transaction,
-                                          }
-                                          : null
-                                      }
-                                      placeholder="Please Select"
-                                      classNamePrefix="custom"
-                                      menuPlacement="auto"
-                                      noOptionsMessage={() => "No options available"}
-                                      styles={{
-                                        control: (base) => ({
-                                          ...base,
-                                          height: "49px",
-                                          border: "1px solid #D9D9D9",
-                                          borderRadius: "8px",
-                                          fontSize: "14px",
-                                          color: "#4B4B4B",
-                                          fontFamily: "Gilroy, sans-serif",
-                                          fontWeight: 500,
-                                          boxShadow: "none",
-                                          marginTop: "6px",
-                                        }),
-                                        menu: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          border: "1px solid #ced4da",
-                                        }),
-                                        menuList: (base) => ({
-                                          ...base,
-                                          backgroundColor: "#f8f9fa",
-                                          maxHeight: "120px",
-                                          padding: 0,
-                                          scrollbarWidth: "thin",
-                                          overflowY: "auto",
-                                        }),
-                                        placeholder: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                        }),
-                                        option: (base, state) => ({
-                                          ...base,
-                                          cursor: "pointer",
-                                          backgroundColor: state.isFocused ? "lightblue" : "white",
-                                          color: "#000",
-                                        }),
-                                        dropdownIndicator: (base) => ({
-                                          ...base,
-                                          color: "#555",
-                                          cursor: "pointer"
-                                        }),
-                                        indicatorSeparator: () => ({
-                                          display: "none",
-                                        }),
-                                      }}
-                                    />
+  options={combinedOptions}
+  onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
+  value={
+    invoiceList.transaction
+      ? combinedOptions.find(option => option.value === invoiceList.transaction)
+      : null
+  }
+  placeholder="Please Select"
+  classNamePrefix="custom"
+  menuPlacement="auto"
+  noOptionsMessage={() => "No options available"}
+  styles={{
+    control: (base) => ({
+      ...base,
+      height: "49px",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      fontSize: "14px",
+      color: "#4B4B4B",
+      fontFamily: "Gilroy, sans-serif",
+      fontWeight: 500,
+      boxShadow: "none",
+      marginTop: "6px",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      maxHeight: "120px",
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer",
+      backgroundColor: state.isFocused ? "lightblue" : "white",
+      color: "#000",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      cursor: "pointer"
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+  }}
+/>
+
 
 
                                     {paymodeerrormsg.trim() !== "" && (
