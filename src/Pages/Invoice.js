@@ -3943,7 +3943,7 @@ console.log("DownloadReceipt",receiptdata)
                     {/* {currentItems.length > 0 && */}
                     {/* <> */}
 
-                    <Container fluid className="p-0 table-bills">
+                    <Container fluid className="p-0 table-bills mt-2">
                       <Row
                         className={` ${DownloadReceipt
                           ? "m-0 g-2 d-flex justify-content-between"
@@ -4008,8 +4008,11 @@ console.log("DownloadReceipt",receiptdata)
                                         paddingRight: '10px',
                                         }}
                                        > */}
-                                    <div className="" style={{}}>
-                                      <div className="d-flex align-items-start justify-content-between w-100 p-2">
+                                   <div
+  className="mb-3 bg-white shadow-sm rounded"
+  style={{ padding: "12px 16px" }}
+>
+<div className="d-flex align-items-start justify-content-between">
                                         <div>
                                           <span>
                                             <img
@@ -4025,8 +4028,8 @@ console.log("DownloadReceipt",receiptdata)
                                           </span>
                                         </div>
 
-                                          <div className="flex-grow-1 ms-2">
-                                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <div className="flex-grow-1 ms-3">
+                                        <div className="d-flex justify-content-between align-items-center mb-1">
                                               <div
                                                 className="Invoice_Name"
                                                 style={{
@@ -4131,7 +4134,7 @@ console.log("DownloadReceipt",receiptdata)
                                       </div>
                                     </div>
                                     {/* </div> */}
-                                    <hr />
+                                    {/* <hr /> */}
                                   </>
                                 ))}
                             </div>
@@ -5415,114 +5418,90 @@ console.log("DownloadReceipt",receiptdata)
                             {receiptdata &&
                               receiptdata.map((item) => (
                                 <>
-                                  <div className="" style={{}}>
-                                    <div className="d-flex align-items-start justify-content-between w-100 p-2">
-                                      <div>
-                                        <span>
-                                          <img
-                                            src={
-                                              item.user_profile &&
-                                                item.user_profile !== "0"
-                                                ? item.user_profile
-                                                : User
-                                            }
-                                            style={{ height: 40, width: 40 }}
-                                            alt="User"
-                                          />
-                                        </span>
-                                      </div>
+                                <div
+  className="mb-3 bg-white shadow-sm rounded"
+  style={{ padding: "12px 16px" }}
+>
+  <div className="d-flex align-items-start justify-content-between">
+    <div>
+      <img
+        src={
+          item.user_profile && item.user_profile !== "0"
+            ? item.user_profile
+            : User
+        }
+        alt="User"
+        style={{
+          height: 40,
+          width: 40,
+          // borderRadius: "8px",
+          // objectFit: "cover",
+          // boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+        }}
+      />
+    </div>
 
-                                      <div className="flex-grow-1 ms-2">
-                                        <div className="d-flex justify-content-between align-items-center mb-2">
-                                          <div
-                                            className="Invoice_Name"
-                                            style={{
-                                              fontFamily: "Gilroy",
-                                              fontSize: "14px",
-                                              wordWrap: "break-word",
-                                              color: "#222",
-                                              fontStyle: "normal",
-                                              lineHeight: "normal",
-                                              fontWeight: 600,
-                                              cursor: "pointer",
-                                            }}
-                                            onClick={() =>
-                                              handleDisplayInvoiceDownload(
-                                                true,
-                                                item
-                                              )
-                                            }
-                                          >
-                                            {item.Name}
-                                          </div>
-                                          <div
-                                            style={{
-                                              fontFamily: "Gilroy",
-                                              fontSize: "12px",
-                                              wordWrap: "break-word",
-                                              color: "#222",
-                                              fontStyle: "normal",
-                                              lineHeight: "normal",
-                                              fontWeight: 600,
-                                            }}
-                                          >
-                                            {item.amount_received.toLocaleString('en-IN')}
-                                          </div>
-                                        </div>
+    <div className="flex-grow-1 ms-3">
+      <div className="d-flex justify-content-between align-items-center mb-1">
+        <div
+          className="Invoice_Name"
+          style={{
+            fontFamily: "Gilroy",
+            fontSize: "14px",
+            fontWeight: 600,
+            color: "#222",
+            cursor: "pointer",
+          }}
+          onClick={() => handleDisplayInvoiceDownload(true, item)}
+        >
+          {item.Name || "Unnamed"}
+        </div>
+        <div
+          style={{
+            fontFamily: "Gilroy",
+            fontSize: "14px",
+            fontWeight: 600,
+            color: "#222",
+          }}
+        >
+          ₹ {item.amount_received?.toLocaleString("en-IN") || "0"}
+        </div>
+      </div>
 
-                                        <div className="d-flex justify-content-between gap-3 mb-2">
-                                          <div
-                                            style={{
-                                              fontFamily: "Gilroy",
-                                              fontSize: "12px",
-                                              wordWrap: "break-word",
-                                              color: "#222",
-                                              fontStyle: "normal",
-                                              lineHeight: "normal",
-                                              fontWeight: 600,
-                                            }}
-                                          >
-                                            {item.Invoices === null ||
-                                              item.Invoices === ""
-                                              ? "0.00"
-                                              : item.Invoices}
-                                          </div>
-                                          <div
-                                            style={{
-                                              fontFamily: "Gilroy",
-                                              fontSize: "12px",
-                                              wordWrap: "break-word",
-                                              color: "#222",
-                                              fontStyle: "normal",
-                                              lineHeight: "normal",
-                                              fontWeight: 600,
-                                            }}
-                                          >
-                                            {moment(item.Date).format(
-                                              "DD MMM YYYY"
-                                            )}
-                                          </div>
-                                        </div>
+      <div className="d-flex justify-content-between align-items-center">
+        <div
+          style={{
+            fontFamily: "Gilroy",
+            fontSize: "12px",
+            fontWeight: 500,
+            color: "#555",
+          }}
+        >
+          {moment(item.Date).format("DD MMM YYYY")}
+        </div>
+        <span
+          style={{
+            fontSize: "10px",
+            backgroundColor: "#D9FFD9",
+            color: "#000",
+            borderRadius: "14px",
+            fontFamily: "Gilroy",
+            padding: "4px 10px",
+            height: "24px",
+            lineHeight: "16px",
+            display: "inline-flex",
+            alignItems: "center",
+          }}
+        >
+          Paid
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
 
-                                        <div className="mb-2">
-                                        <span
-                                              style={{
-                                                fontSize: "10px",
-                                                backgroundColor: "#D9FFD9",
-                                                color: "#000",
-                                                borderRadius: "14px",
-                                                fontFamily: "Gilroy",
-                                                padding: "8px 12px",
-                                              }}
-                                            >
-                                              Paid
-                                            </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
 
-                                  <hr />
+                                  {/* <hr /> */}
                                 </>
                               ))}
                           </div>
