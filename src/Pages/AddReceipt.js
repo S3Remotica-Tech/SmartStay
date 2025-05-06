@@ -893,12 +893,28 @@ const AddReceiptForm = (props) => {
                       cursor:"pointer"
                     }}
                   >
-                 <option selected>select </option>
+                 {/* <option selected>select </option>
                  <option value="Cash">Cash </option>
                  <option value="Debit Card">Debit Card</option> 
                   <option value="Credit Card">Credit Card </option>
                   <option value="UPI">UPI</option>
-                  <option value="Net Banking"> Banking</option>
+                  <option value="Net Banking"> Banking</option> */}
+                   <option value="">Select Mode Of Payment</option>
+                    {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
+                    state.bankingDetails?.bankingList?.banks.map((item) => {
+                      let label = "";
+                      if (item.type === "bank") label = 'Bank';
+                      else if (item.type === "upi") label = "UPI";
+                      else if (item.type === "card") label = "Card";
+                      else if (item.type === "cash") label = "Cash";
+                  
+                      return (
+                        <option key={item.id} value={item.id}>
+                        {`${item.benificiary_name} - ${label}`}
+                      </option>                      
+                      );
+                    })}
+                  
                   </Form.Select>
                  
   {/* <Select
@@ -978,7 +994,7 @@ const AddReceiptForm = (props) => {
                 )}
               </div>
 
-              {modeOfPayment === "Net Banking" && (
+              {/* {modeOfPayment === "Net Banking" && (
                 <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                   <Form.Label
                     style={{
@@ -1070,7 +1086,7 @@ const AddReceiptForm = (props) => {
                   )}
                
                 </div>
-              )}
+              )} */}
 
 
   {/* <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>

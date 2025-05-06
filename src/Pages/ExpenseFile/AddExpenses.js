@@ -773,17 +773,17 @@ function StaticExample({ show, currentItem,setShowModal }) {
                   >
                     <option value="">Select Mode Of Payment</option>
                     {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
-                    [...new Map(state.bankingDetails?.bankingList?.banks.map(item => [item.type, item])).values()].map((item) => {
+                    state.bankingDetails?.bankingList?.banks.map((item) => {
                       let label = "";
-                      if (item.type === "bank") label = "Bank";
+                      if (item.type === "bank") label = 'Bank';
                       else if (item.type === "upi") label = "UPI";
                       else if (item.type === "card") label = "Card";
                       else if (item.type === "cash") label = "Cash";
                   
                       return (
                         <option key={item.id} value={item.id}>
-                          {label}
-                        </option>
+                        {`${item.benificiary_name} - ${label}`}
+                      </option>                      
                       );
                     })}
                   
