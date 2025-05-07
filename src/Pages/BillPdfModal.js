@@ -231,10 +231,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     </div>
     <div className="col-md-6 mb-3">
       <div className="row">
-        <div className="d-flex row">
-        <div className="text-end text-muted"  style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice:</div>
-        <div className=" text-end"   style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{invoice_details?.invoice_id === null || invoice_details?.invoice_id === '' ? '0.00' : invoice_details?.invoice_id}</div>
-        </div> 
+      
+        <div className="col-6  text-muted"  style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice:</div>
+        <div className="col-6 text-end"   style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{invoice_details?.invoice_id === null || invoice_details?.invoice_id === '' ? '0.00' : invoice_details?.invoice_id}</div>
+      
 
         <div className="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice Date :</div>
         <div className="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(invoice_details?.invioice_date).format('DD MMM YYYY')}</div>
