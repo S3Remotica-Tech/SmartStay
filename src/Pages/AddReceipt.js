@@ -45,7 +45,7 @@ const AddReceiptForm = (props) => {
       // const [paymentmode_errmsg , setPaymentmode_Errmsg] = useState('')
       const [notes_errmsg , setNotes_Errmsg] = useState('')
       // const [bank_errmsg , setBank_Errmsg] = useState('')
-        const [accountError, setAccountError] = useState("");
+        // const [accountError, setAccountError] = useState("");
         const [paymentError, setPaymentError] = useState("");
       
       const [allfielderrmsg , setAllFieldErrmsg] = useState('')
@@ -182,13 +182,13 @@ const AddReceiptForm = (props) => {
             setReceivedAmountErrmsg('');
         }
     };
-    const handleAccount = (selectedOption) => {
-      const selectedValue = selectedOption?.value || "";
+    // const handleAccount = (selectedOption) => {
+    //   const selectedValue = selectedOption?.value || "";
     
-      setAccount(selectedValue);
-      setAccountError("")
-      setAccountError(selectedValue ? "" : "Please Select Bank");
-    };
+    //   setAccount(selectedValue);
+    //   setAccountError("")
+    //   setAccountError(selectedValue ? "" : "Please Select Bank");
+    // };
      
 
     
@@ -321,10 +321,10 @@ const AddReceiptForm = (props) => {
 
           
 
-          if (modeOfPayment === "Net Banking" && !account) {
-            setAccountError("Please Choose Bank Account");
-            return;
-          }
+          // if (modeOfPayment === "Net Banking" && !account) {
+          //   setAccountError("Please Choose Bank Account");
+          //   return;
+          // }
 
           
           if(!customername && !invoicenumber &&  !formatpaymentdate && !reference_id && !modeOfPayment && !received_amount  ){

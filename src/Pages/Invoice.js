@@ -286,13 +286,13 @@ const InvoicePage = () => {
     setPaymodeErrmsg("");
     setAccount("");
   };
-  const staticOptions = [
-    { value: "bank", label: "Cash" },
-    { value: "upi", label: "UPI" },
-    { value: "card", label: "Card" },
-    { value: "cash", label: "Cash" },
-    // { value: "Net Banking", label: "Banking" },
-  ];
+  // const staticOptions = [
+  //   { value: "bank", label: "Cash" },
+  //   { value: "upi", label: "UPI" },
+  //   { value: "card", label: "Card" },
+  //   { value: "cash", label: "Cash" },
+  //   // { value: "Net Banking", label: "Banking" },
+  // ];
   
   const bankingOptions = Array.isArray(state.bankingDetails?.bankingList?.banks)
   ? state.bankingDetails.bankingList.banks.map((item) => {
