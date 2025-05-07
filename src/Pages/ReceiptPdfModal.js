@@ -252,7 +252,9 @@ receiptDataNew.invoice_type === "checkout" ? (
                           <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '14px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Room No:</div>
                           <div className="col-6  text-start mt-1"  style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</div>
                           <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '14px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Payment Mode:</div>
-                          <div className="col-6  text-start"  style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{receiptDataNew?.payment_mode}</div>
+                          <div className="col-6  text-start"  style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginTop:2}}> {receiptDataNew?.bank_type !== "" 
+    ? receiptDataNew.bank_type 
+    : receiptDataNew.payment_mode}</div>
                         </div>
                       </div>
                     </div>
@@ -401,7 +403,9 @@ receiptDataNew.invoice_type === "checkout" ? (
                           <div className="col-6  text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>11:56:43 AM</div>
                 
                           <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '14px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Payment Mode:</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{receiptDataNew?.payment_mode}</div>
+                          <div className="col-6  text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}> {receiptDataNew?.bank_type !== "" 
+    ? receiptDataNew.bank_type 
+    : receiptDataNew.payment_mode}</div>
                         </div>
                       </div>
                     </div>
@@ -567,7 +571,9 @@ receiptDataNew.invoice_type === "checkout" ? (
         color: '#00A32E',
         letterSpacing:'1px'}}
         >PAYMENT DETAILS</h6>
-                          <p className="mb-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode: {receiptDataNew?.payment_mode}</p>
+                          <p className="mb-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode:  {receiptDataNew?.bank_type !== "" 
+    ? receiptDataNew.bank_type 
+    : receiptDataNew.payment_mode}</p>
                           {/* <p className="mb-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Transaction ID: GPay-2134-8482-XYZ</p> */}
                           {receiptDataNew?.invoice_type !== "advance" && (
   <p

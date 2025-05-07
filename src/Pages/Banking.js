@@ -1462,7 +1462,7 @@ whiteSpace: "nowrap"
                               paddingLeft: "20px",
                             }}
                           >
-                            {user.bank_name}
+                            {user.benificiary_name}
                           </td>
                           <td
                             style={{
