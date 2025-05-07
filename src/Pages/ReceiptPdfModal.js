@@ -196,7 +196,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                         <h4 className="fw-bold mb-0"><img src={Logo} alt="logo" style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }} className="me-2"/>Smartstay</h4>
                         <p className="ms-4" style={{ fontSize: 14, fontWeight: 400, fontFamily: "Gilroy-Medium", marginTop:'12px', marginLeft:'-12px',letterSpacing:"0.5px" }}>Meet All Your Needs</p>
                       </div>
-                      <div className="text-end">
+                      <div className="text-start">
                         <h5 className="mb-0" style={{ fontSize: 18, fontWeight: 500, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>{receiptDataNew?.hostel_details?.name}</h5>
                         <small style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>{["", "0", null, undefined, "undefined"].includes(receiptDataNew?.hostel_details?.address)
   ? ""
@@ -361,9 +361,9 @@ receiptDataNew.invoice_type === "checkout" ? (
                         <h4 className="fw-bold mb-0"><img src={receiptLogo} alt="logo" style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }} className="me-2"/>Smartstay</h4>
                         <small className="ms-4" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-12px' }}>Meet All Your Needs</small>
                       </div>
-                      <div className="text-end">
+                      <div className="text-start">
                         <h5 className="mb-0" style={{ fontSize: 26, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>{receiptDataNew?.hostel_details?.name}</h5>
-                        <small style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>{receiptDataNew?.hostel_details?.address} , {receiptDataNew?.hostel_details?.area} , {receiptDataNew?.hostel_details?.city}<br/>
+                        <small style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>{receiptDataNew?.hostel_details?.address}<br/> {receiptDataNew?.hostel_details?.area} , {receiptDataNew?.hostel_details?.city}<br/>
                            {receiptDataNew?.hostel_details?.landmark}, {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</small>
                       </div>
                     </div>
@@ -568,17 +568,33 @@ receiptDataNew.invoice_type === "checkout" ? (
         letterSpacing:'1px'}}
         >PAYMENT DETAILS</h6>
                           <p className="mb-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode: {receiptDataNew?.payment_mode}</p>
-                          <p className="mb-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Transaction ID: GPay-2134-8482-XYZ</p>
+                          {/* <p className="mb-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Transaction ID: GPay-2134-8482-XYZ</p> */}
+                          {receiptDataNew?.invoice_type !== "advance" && (
+  <p
+    className="mb-1"
+    style={{
+      fontSize: '15px',
+      fontFamily: 'Gilroy',
+      fontWeight: 500,
+      color: 'rgba(23, 23, 23, 1)',
+    }}
+  >
+    Transaction ID: GPay-2134-8482-XYZ
+  </p>
+)}
+
                           <p style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: Admin - Anjali R</p>
+                          <p style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)',marginTop:"-14px" }}>Status: Paid</p>
+    
                         </div>
                         <div className="col-md-6 text-end">
-                        <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block me-5"><img src={received} alt="received" height={91} width={162}/></p>
+                        <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block ms-2"><img src={received} alt="received" height={91} width={162}/></p>
                         {receiptDataNew?.invoice_type === "advance"  && (
-    <div className="text-start mt-2 ms-5">
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(0, 163, 46, 1)',fontSize:"14px"}}>
+    <div className="text-start mt-2 ms-5" >
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(0, 163, 46, 1)',fontSize:"14px",marginLeft:"35px"}}>
       &quot;Thank you for choosing SmartStay. &quot;
       </p>
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(0, 163, 46, 1)',fontSize:"14px"}}>
+      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(0, 163, 46, 1)',fontSize:"14px",marginLeft:"35px"}}>
       Your transaction is completed &quot;
       </p>
     </div>
@@ -589,7 +605,7 @@ receiptDataNew.invoice_type === "checkout" ? (
   {/* Left side - Acknowledgment */}
   <div className="col-md-6">
     <h6  style={{color:"#00A32E",fontSize:"11.73px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
-    <p style={{ fontSize: "14px", color: "#555" }}>
+    <p style={{ fontSize: "14px", color: "#555",fontFamily:"Gilroy" }}>
       This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
     </p>
   </div>
@@ -599,7 +615,7 @@ receiptDataNew.invoice_type === "checkout" ? (
     <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
       {/* <img src={received} alt="received" height={91} width={162} /> */}
     </p>
-    <p className="mt-4">Authorized Signature</p>
+    <p className="mt-4" style={{fontSize: "14px",fontFamily:"Gilroy",color:"#2C2C2C",paddingRight:"25px"}}>Authorized Signature</p>
   </div>
 </div>
 
