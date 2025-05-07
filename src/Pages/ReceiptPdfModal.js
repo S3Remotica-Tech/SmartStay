@@ -383,7 +383,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                         <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)',}}>Mr. {receiptDataNew?.user_details?.name}</p>
                         <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img src={mob} alt="mob" width={12} height={12}/> {receiptDataNew?.user_details?.phone}</p>
                         <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img src={frame} alt="frame" width={13} height={13}/> {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
-                        <p style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 400, color: '#222222',}}><img src={substracBlue} alt="subs" width={12} height={12}/> {receiptDataNew?.user_details?.address} {receiptDataNew?.user_details?.area} <br></br>
+                        <p style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 400, color: '#222222',}}><img src={substrac} alt="subs" width={12} height={12}/> {receiptDataNew?.user_details?.address} {receiptDataNew?.user_details?.area} <br></br>
                          {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p>
                       </div>
                       <div className="col-md-4 mb-3">
