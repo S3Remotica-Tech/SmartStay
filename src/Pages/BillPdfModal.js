@@ -215,7 +215,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   <div className="row px-4 mt-5">
     <div className="col-md-6 mb-3">
       <p className="  mb-1" style={{color:'rgba(48, 80, 210, 1)' ,fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To:</p>
-      <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr.{userdetails?.name}</p>
+      <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>Mr.{userdetails?.name}</p>
       <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img src={Dial} alt="dial"/> {userdetails?.phone}</p>
       <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img src={Room} alt="room" style={{height:20 , width:20}}/> {userdetails.room_name} - {userdetails.bed_name}</p>
       <p style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)',}}><img src={Locat} alt="local"/> 
@@ -231,8 +231,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     </div>
     <div className="col-md-6 mb-3">
       <div className="row">
-        <div className="col-6 text-muted"  style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice:</div>
-        <div className="col-6 text-end"   style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{invoice_details?.invoice_id === null || invoice_details?.invoice_id === '' ? '0.00' : invoice_details?.invoice_id}</div>
+        <div className="d-flex row">
+        <div className="text-end text-muted"  style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice:</div>
+        <div className=" text-end"   style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{invoice_details?.invoice_id === null || invoice_details?.invoice_id === '' ? '0.00' : invoice_details?.invoice_id}</div>
+        </div> 
 
         <div className="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice Date :</div>
         <div className="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(invoice_details?.invioice_date).format('DD MMM YYYY')}</div>
@@ -351,7 +353,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         letterSpacing:'1px'
         
       }} 
-      >Account Details</h6>
+      >ACCOUNT DETAILS</h6>
       <p className="mb-1" 
      style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
       Account No : 87542310984</p>
