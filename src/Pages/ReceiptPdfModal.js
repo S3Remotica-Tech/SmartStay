@@ -224,7 +224,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                     <div className="row px-4 mt-5">
                       <div className="col-md-8 mb-3">
                         <p className="mb-1" style={{color:'#1E45E1' ,fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To:</p>
-                        <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',}}>{receiptDataNew?.user_details?.name}</p>
+                        <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',}}><span style={{fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}>Mr.</span>{receiptDataNew?.user_details?.name}</p>
                         <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12}/>
                          {/* {receiptDataNew?.user_details?.phone} */}
                        <span  style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}>  + {receiptDataNew &&
@@ -234,7 +234,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                                           )}{" "}
                                         {receiptDataNew && String(receiptDataNew?.user_details?.phone)?.slice(-10)}</span>
                          </p>
-                        <p className="mb-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}><img src={frameblue} alt="frame" width={13} height={13}/> {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
+                        <p className="mb-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}><img src={frameblue} alt="frame" width={13} height={13}/>Mr. {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
                         <p style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 400, color: '#222222',}}><img src={substracBlue} alt="subs" width={12} height={12}/> {receiptDataNew?.user_details?.address} {receiptDataNew?.user_details?.area} <br></br>
                          {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p>
                       </div>
@@ -252,7 +252,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                           <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '14px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Room No:</div>
                           <div className="col-6  text-start mt-1"  style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</div>
                           <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '14px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Payment Mode:</div>
-                          <div className="col-6  text-start"  style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginTop:2}}> {receiptDataNew?.bank_type !== "" 
+                          <div className="col-6  text-start"  style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginTop:2,paddingLeft:18}}> {receiptDataNew?.bank_type !== "" 
     ? receiptDataNew.bank_type 
     : receiptDataNew.payment_mode}</div>
                         </div>
@@ -382,7 +382,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                     <div className="row px-4 mt-5">
                       <div className="col-md-8 mb-3">
                         <p className=" mb-1" style={{color:'rgba(0, 163, 46, 1)' ,fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To:</p>
-                        <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)',}}>Mr. {receiptDataNew?.user_details?.name}</p>
+                        <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',}}><span style={{fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}>Mr.</span>{receiptDataNew?.user_details?.name}</p>
                         <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img src={mob} alt="mob" width={12} height={12}/> {receiptDataNew?.user_details?.phone}</p>
                         <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img src={frame} alt="frame" width={13} height={13}/> {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
                         <p style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 400, color: '#222222',}}><img src={substrac} alt="subs" width={12} height={12}/> {receiptDataNew?.user_details?.address} {receiptDataNew?.user_details?.area} <br></br>
@@ -390,11 +390,11 @@ receiptDataNew.invoice_type === "checkout" ? (
                       </div>
                       <div className="col-md-4 mb-3">
                         <div className="row">
-                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Receipt No:</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{receiptDataNew?.reference_id}</div>
+                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Receipt No:</div>
+                          <div className="col-6  text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{receiptDataNew?.reference_id}</div>
                 
                           <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice Ref:</div>
-                          <div className="col-6 text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{receiptDataNew?.invoice_number}</div>
+                          <div className="col-6 text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{receiptDataNew?.invoice_number}</div>
                 
                           <div className="col-6 text-muted text-end mt-1"   style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Date:</div>
                           <div className="col-6  text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(receiptDataNew?.payment_date).format('DD/MM/YYYY')}</div>
@@ -403,7 +403,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                           <div className="col-6  text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>11:56:43 AM</div>
                 
                           <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '14px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Payment Mode:</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}> {receiptDataNew?.bank_type !== "" 
+                          <div className="col-6  text-start mt-1" style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',paddingLeft:18}}> {receiptDataNew?.bank_type !== "" 
     ? receiptDataNew.bank_type 
     : receiptDataNew.payment_mode}</div>
                         </div>
