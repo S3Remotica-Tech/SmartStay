@@ -74,6 +74,7 @@ function BankingEditTransaction(props) {
     describtion: "",
   });
   useEffect(() => {
+    console.log("props.updateTransaction",props.updateTransaction)
     setAccount(props.updateTransaction.bank_id);
     setSelectedDate(props.updateTransaction.date || "");
 
@@ -208,7 +209,7 @@ function BankingEditTransaction(props) {
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
-
+console.log("state.bankingDetails?.bankingList?.banks",state.bankingDetails?.bankingList?.banks)
 
   return (
     <>
@@ -310,26 +311,48 @@ function BankingEditTransaction(props) {
               </Form.Select> */}
              
   <Select
+    // options={
+    //   state.bankingDetails?.bankingList?.banks?.length > 0
+    //     ? state.bankingDetails.bankingList.banks.map((u) => ({
+    //         value: u.id,
+    //         label: u.bank_name,
+    //       }))
+    //     : []
+    // }
     options={
       state.bankingDetails?.bankingList?.banks?.length > 0
         ? state.bankingDetails.bankingList.banks.map((u) => ({
             value: u.id,
-            label: u.bank_name,
+            label: `${u.benificiary_name} - ${u.type}`,
           }))
         : []
     }
+    
     onChange={ handleAccount}
+    // value={
+    //   account
+    //     ? {
+    //         value: account,
+    //         label:
+    //           state.bankingDetails?.bankingList?.banks?.find(
+    //             (b) => b.id === account
+    //           )?.bank_name || "Selected Account",
+    //       }
+    //     : null
+    // }
     value={
       account
         ? {
             value: account,
-            label:
-              state.bankingDetails?.bankingList?.banks?.find(
-                (b) => b.id === account
-              )?.bank_name || "Selected Account",
+            label: `${state.bankingDetails?.bankingList?.banks?.find(
+              (b) => b.id === account
+            )?.benificiary_name || "Selected"} - ${state.bankingDetails?.bankingList?.banks?.find(
+              (b) => b.id === account
+            )?.type || "Account"}`
           }
         : null
     }
+    
     placeholder="Selected Account"
     classNamePrefix="custom"
     menuPlacement="auto"

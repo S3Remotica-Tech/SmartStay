@@ -941,7 +941,7 @@ useEffect(() => {
                         display: "block",
                       }}
                     >
-                      {props.complaints && props.complaints.complaint_name}-{" "}
+                      {props.complaints && props.complaints.complaint_name}{" "}
                       <span title={props.complaints.Description} style={{
                         display: "inline-block",
                         maxWidth: "200px",

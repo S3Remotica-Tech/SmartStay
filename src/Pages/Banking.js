@@ -1462,7 +1462,7 @@ whiteSpace: "nowrap"
                               paddingLeft: "20px",
                             }}
                           >
-                            {user.benificiary_name}
+                            {user.benificiary_name} - {user.type}
                           </td>
                           <td
                             style={{
