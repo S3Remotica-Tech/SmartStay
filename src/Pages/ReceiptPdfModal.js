@@ -245,7 +245,7 @@ receiptDataNew.invoice_type === "checkout" ? (
                           <div className="col-6  text-start mt-1"  style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{receiptDataNew?.reference_id}</div>
                 
                           <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '14px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Date:</div>
-                          <div className="col-6  text-start mt-1"  style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(receiptDataNew?.Date).format('DD/MM/YYYY')}</div>
+                          <div className="col-6  text-start mt-1"  style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(receiptDataNew?.payment_date).format('DD/MM/YYYY')}</div>
                 
                           <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '14px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Time:</div>
                           <div className="col-6  text-start mt-1"  style={{ fontSize: '15px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>11:56:43 AM</div>

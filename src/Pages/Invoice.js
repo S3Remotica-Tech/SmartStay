@@ -220,7 +220,7 @@ const InvoicePage = () => {
   }, [state.InvoiceList.NodataRecurringStatusCode]);
 
 
-
+console.log("container",receiptdata)
 
   useEffect(() => {
     if (state.InvoiceList.NodataReceiptStatusCode === 201) {
@@ -5495,7 +5495,7 @@ console.log("DownloadReceipt",receiptdata)
             color: "#555",
           }}
         >
-          {moment(item.Date).format("DD MMM YYYY")}
+          {moment(item.payment_date).format("DD MMM YYYY")}
         </div>
         <span
           style={{
@@ -5628,6 +5628,7 @@ console.log("DownloadReceipt",receiptdata)
                                             fontSize: 12,
                                             fontStyle: "normal",
                                             fontWeight: 500,
+                                            whiteSpace:"nowrap"
                                           }}
                                         >
                                           <div className='d-flex gap-1 align-items-center justify-content-start'>
@@ -5635,7 +5636,7 @@ console.log("DownloadReceipt",receiptdata)
                                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_date", 'asc')} style={{ cursor: "pointer" }} />
                                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_date", 'desc')} style={{ cursor: "pointer" }} />
                                                                                                                     </div>
-                                                                                                                     Date</div>
+                                                                                                                     Payment Date</div>
                                         </th>
 
                                         <th
