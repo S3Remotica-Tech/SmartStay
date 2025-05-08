@@ -366,7 +366,9 @@ const InvoicePage = () => {
   console.log("bills",bills)
 
   const handleReceiptDetail = (item) => {
-    if (item.User_Id) {
+    console.log("item", item);
+    
+    if (item.user_id) {
 
       dispatch({
         type: "RECEIPTPDF",
