@@ -161,8 +161,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
             </div>
           </div>
           <div>
+         
             <div className="gap-5 d-flex">
+              <div className="d-flex  border p-1" style={{height:40 , width: 130 , borderRadius:'8px'}}>
+                <p className="me-2 ms-2">Download</p>
               <img src={DownLoad} alt="Download Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleDownload} />
+              </div>
+
               <img src={Close} alt="Close Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleBackInvoice} />
             </div>
           </div>
@@ -170,24 +175,26 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         </div>
         <hr />
 
-        <div style={{ maxHeight: 400, overflowY: "auto" }} className="bill-invoice" >
+        <div style={{ maxHeight: 400,  overflowY: "auto" , }} className="bill-invoice" >
 
           {isVisible &&
+       <div className="border p-5 " style={{width:'80%', marginLeft:'10%', marginTop:'40px', borderRadius:'8px'}}>
 
-<div ref={cardRef}>
+
+<div ref={cardRef} className="border">
                 
-<div  className=" text-white  p-4 position-relative" style={{borderBottomRightRadius:"24px",borderBottomLeftRadius:"24px", minHeight: "180px",background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' }}>
+<div  className=" text-white  p-4 position-relative" style={{ minHeight: "150px",background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' }}>
   <div className="d-flex justify-content-between align-items-center">
   <div className="d-flex gap-2 mb-3 mb-lg-0">
       <img src={rowData?.hostel_profile || Logo} alt="logo" style={{ height: 40, width: 40 }} />
       <div>
         <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>Smartstay</div>
-        <div style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-12px' }}>Meet All Your Needs</div>
+        <div style={{ fontSize: 14, fontWeight: 300, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</div>
       </div>
     </div>
 
     <div>
-      <div style={{ fontSize: 26, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
+      <div style={{ fontSize: 18, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
        {hosteldetails.name}
       </div>
       <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
@@ -206,19 +213,19 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 </div>
 
 
-<div className="container bg-white rounded-bottom border position-relative" style={{marginTop:"-50px",zIndex:1,width:"95%",borderRadius:"24px"}}>
+<div className="container bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
   <div className="text-center pt-5 pb-3">
-    <h5 style={{ fontSize: '20px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{ invoice_details.invoice_type === "manual" ?   "Payment Invoice" : "Security Deposit Invoice"}</h5>
+    <h5 style={{ fontSize: '17px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{ invoice_details.invoice_type === "manual" ?   "Payment Invoice" : "Security Deposit Invoice"}</h5>
   </div>
 
 
   <div className="row px-4 mt-5">
     <div className="col-md-6 mb-3">
-      <p className="  mb-1" style={{color:'rgba(48, 80, 210, 1)' ,fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To:</p>
-      <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>Mr.{userdetails?.name}</p>
-      <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img src={Dial} alt="dial"/> {userdetails?.phone}</p>
-      <p className="mb-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img src={Room} alt="room" style={{height:20 , width:20}}/> {userdetails.room_name} - {userdetails.bed_name}</p>
-      <p style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)',}}><img src={Locat} alt="local"/> 
+      <p className="  mb-1" style={{color:'rgba(48, 80, 210, 1)' , fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To:</p>
+      <p className="mb-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{userdetails?.name}</span></p>
+      <p className="mb-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img src={Dial} alt="dial"/> {userdetails?.phone}</p>
+      <p className="mb-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img src={Room} alt="room" style={{height:20 , width:20}}/> {userdetails.room_name} - {userdetails.bed_name}</p>
+      <p style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)',}}><img src={Locat} alt="local"/> 
       <>
   {isValid(userdetails?.address) && <>{userdetails.address}, </>}
   {isValid(userdetails?.area) && <>{userdetails.area}, </>}
@@ -232,24 +239,24 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     <div className="col-md-6 mb-3">
       <div className="row">
       
-        <div className="col-6 text-muted  text-end mt-1"  style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice:</div>
-        <div className="col-6 text-start mt-1"   style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{invoice_details?.invoice_id === null || invoice_details?.invoice_id === '' ? '0.00' : invoice_details?.invoice_id}</div>
+        <div className="col-6 text-muted  text-end mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice:</div>
+        <div className="col-6 text-start mt-1"   style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{invoice_details?.invoice_id === null || invoice_details?.invoice_id === '' ? '0.00' : invoice_details?.invoice_id}</div>
       
 
-        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice Date :</div>
-        <div className="col-6  text-start mt-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(invoice_details?.invioice_date).format('DD MMM YYYY')}</div>
+        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice Date :</div>
+        <div className="col-6  text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(invoice_details?.invioice_date).format('DD MMM YYYY')}</div>
 
-        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Due date :</div>
-        <div className="col-6 text-start mt-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(invoice_details?.due_date).format('DD MMM YYYY')}</div>
+        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Due date :</div>
+        <div className="col-6 text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(invoice_details?.due_date).format('DD MMM YYYY')}</div>
 
-        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Joining date :</div>
-        <div className="col-6  text-start mt-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(userdetails?.joining_date).format('DD MMM YYYY')}</div>
+        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Joining date :</div>
+        <div className="col-6  text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(userdetails?.joining_date).format('DD MMM YYYY')}</div>
 
         {/* <div className="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
         <div className="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}></div> */}
 
-        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Total Staying Days</div>
-        <div className="col-6 text-start mt-1" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{totalStayingDays} Days</div>
+        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Total Staying Days</div>
+        <div className="col-6 text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{totalStayingDays} Days</div>
       </div>
     </div>
   </div>
@@ -270,22 +277,22 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
               borderTopLeftRadius: "12px",
               borderBottomLeftRadius: "12px",
               color: "rgba(255, 255, 255, 1)",
-              fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600
+              fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600
               // border: "1px solid #dee2e6",
 
             }}
           >
             S.NO
           </th>
-          <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600 }}>Inv No</th>
-          <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600}}>Description</th>
+          <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600 }}>Inv No</th>
+          <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600}}>Description</th>
           {/* <th style={{  color: "rgba(255, 255, 255, 1)",  fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600}}>Duration</th> */}
           <th
             style={{
               borderTopRightRadius: "12px",
               borderBottomRightRadius: "12px",
               color: "rgba(255, 255, 255, 1)",
-              fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600
+              fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600
               // border: "1px solid #dee2e6",
             }}
           >
@@ -297,10 +304,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   {tabledetails.length > 0 && tabledetails.map((item, index) => (
     <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
       <td>{index + 1}</td>
-      <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>{item.invoice_id}</td>
-      <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>{item.am_name}</td>
+      <td style={{ fontSize:'13px' , fontFamily:'Gilroy', fontWeight:500}}>{item.invoice_id}</td>
+      <td style={{ fontSize:'13px' , fontFamily:'Gilroy', fontWeight:500}}>{item.am_name}</td>
       {/* <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>{item.am_name}</td> */}
-      <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>Rs. {item.amount}</td>
+      <td style={{ fontSize:'13px' , fontFamily:'Gilroy', fontWeight:500}}>Rs. {item.amount}</td>
     </tr>
   ))}
 </tbody>
@@ -310,28 +317,28 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
   <div className="d-flex flex-wrap align-items-start mt-4">
   {invoice_details.invoice_type === "manual" && (
-    <div className="text-start mt-4" style={{ flex: '1 1 0%' }}>
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
+    <div className="text-start mt-5" style={{ flex: '1 1 0%' }}>
+      <p className="mb-0" style={{fontSize:'11px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
         &quot;Your comfort is our priority –
       </p>
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
+      <p className="mb-0" style={{fontSize:'11px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
         See you again at Smart Stay! &quot;
       </p>
     </div>
   )}
 
-  <div className="mt-3 ms-auto" style={{ minWidth: '250px' }}>
+  <div className="mt-3 ms-auto" style={{ minWidth: '200px' }}>
     <div className="d-flex justify-content-between py-1">
-      <span  style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
-      <span className="me-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. 0.00</span>
+      <span  style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Tax</span>
+      <span className="me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. 0.00</span>
     </div>
     <div className="d-flex justify-content-between py-1">
-      <span  style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
-      <span  style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
+      <span  style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</span>
+      <span  style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
     </div>
     <div className="d-flex justify-content-between fw-bold py-2">
-      <span  style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
-      <span  style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
+      <span  style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Total</span>
+      <span  style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>Rs. {invoice_details?.total_amount}</span>
     </div>
   </div>
 </div>
@@ -344,9 +351,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 </div>
 <div className="px-4" style={{ marginTop: 20 }}>
   <div className="row">
-    <div className="col-md-5 mb-3">
+    <div className="col-md-6 mb-3">
       <h6  style={{
-        fontSize: '15px',
+        fontSize: '13px',
         fontFamily: 'Gilroy',
         fontWeight: 700,
         color: 'rgba(30, 69, 225, 1)',
@@ -355,17 +362,17 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
       }} 
       >ACCOUNT DETAILS</h6>
       <p className="mb-1" 
-     style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+     style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
       Account No : 87542310984</p>
-      <p className="mb-1"   style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+      <p className="mb-1"   style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
         IFSC Code : SBIN007195</p>
-      <p className="mb-1"   style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+      <p className="mb-1"   style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
         Bank Name: State Bank of India</p>
-      <p   style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
+      <p   style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>
         UPI Details : Net Banking</p>
     </div>
 
-    <div className="col-md-3"></div>
+    <div className="col-md-2"></div>
 
     <div className="col-md-4 d-flex flex-column justify-content-between" style={{ height: "100%" }}>
     <div className="d-flex justify-content-end mt-auto">
@@ -385,8 +392,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 <div className="row justify-content-between mt-4 mb-4 px-4">
   {/* Left Side: Terms and Conditions */}
   <div className="col-md-8">
-    <h4 style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
-    <p style={{ whiteSpace: "pre-line", fontSize:'13px' , fontFamily:'Gilroy', fontWeight:500 , color:'rgba(61, 61, 61, 1)'}}>
+    <h4 style={{ fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
+    <p style={{ whiteSpace: "pre-line", fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color:'rgba(61, 61, 61, 1)'}}>
       Tenants must pay all dues on or before the due date,<br></br>
       maintain cleanliness, and follow PG rules;failure may lead<br></br>
        to penalties or termination of stay.
@@ -396,7 +403,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   {/* Right Side: Authorized Signature aligned bottom */}
   <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
     <p  
-     style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}
+     style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}
       >Authorized Signature</p>
   </div>
 </div>
@@ -415,7 +422,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     <p
       className="mb-0"
       style={{
-        fontSize: '15px',
+        fontSize: '13px',
         fontFamily: 'Gilroy',
         fontWeight: 600,
         color: 'rgba(255, 255, 255, 1)',
@@ -427,7 +434,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     <p
       className="mb-0"
       style={{
-        fontSize: '15px',
+        fontSize: '13px',
         fontFamily: 'Gilroy',
         fontWeight: 600,
         color: 'rgba(255, 255, 255, 1)',
@@ -438,6 +445,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   </div>
 </div>
 
+
+</div>
 
 </div>
             
