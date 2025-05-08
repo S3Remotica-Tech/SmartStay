@@ -36,7 +36,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
 import CustomerCheckout from "./CustomerCheckout";
-// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import Closebtn from "../Assets/Images/CloseCircle.png";
@@ -62,7 +61,6 @@ function UserList(props) {
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  // const [currentItems, setCurrentItem] = useState([])
   const [value, setValue] = React.useState("1");
   const [customerrolePermission, setCustomerRolePermission] = useState("");
   const [customerpermissionError, setCustomerPermissionError] = useState("");
@@ -89,8 +87,6 @@ function UserList(props) {
 
   const [customername, setCustomerName] = useState("");
   const [invoicenumber, setInvoiceNumber] = useState("");
-  // const [startdate, setStartDate] = useState(null);
-  // const [enddate, setEndDate] = useState(null);
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
   const [customererrmsg, setCustomerErrmsg] = useState("");
@@ -98,8 +94,6 @@ function UserList(props) {
   const [totalAmount, setTotalAmount] = useState("");
   const [newRows, setNewRows] = useState([]);
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
-  // const [startdateerrmsg, setStartdateErrmsg] = useState("");
-  // const [enddateerrmsg, setEnddateErrmsg] = useState("");
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
@@ -228,9 +222,7 @@ const handleAddItems = () => {
       } 
       
 
-      // setRooms(isreader.Room_Id)
-      // setSelectedHostel(isreader.HostelName)
-
+      
       setReading(isreader.unit);
 
       if (isreader.reading_date) {
@@ -251,13 +243,7 @@ const handleAddItems = () => {
   const handleEditHostelReading = (users) => {
     setIsReading(users);
   };
-  // const handleNewRowChange = (index, field, value) => {
-  //   setNewRows((prevRows) =>
-  //     prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
-  //   );
-  //   setAllFieldErrmsg("");
-  //   setTableErrmsg("")
-  // };
+  
 
   const handleNewRowChange = (index, field, value) => {
     setNewRows((prevRows) =>
@@ -283,43 +269,33 @@ const handleAddItems = () => {
     let hasError = false;
   
 
-    // Reset error messages
+    
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
-    // setStartdateErrmsg("");
+   
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
 
-    // Validate Customer
+   
     if (!customername) {
       setCustomerErrmsg("Customer is Required");
       isValid = false;
     }
 
-    // Validate Invoice Number
+    
     if (!invoicenumber) {
       setInvoicenumberErrmsg("Invoice Number is Required");
       isValid = false;
     }
 
-    // Validate Start Date
-    // if (!startdate) {
-    //   setStartdateErrmsg("Start Date is Required");
-    //   isValid = false;
-    // }
-    // if (!enddate) {
-    //   setEnddateErrmsg("End Date is Required");
-    //   isValid = false;
-    // }
-
-    // Validate Invoice Date
+  
     if (!invoicedate) {
       setInvoiceDateErrmsg("Invoice Date is Required");
       isValid = false;
     }
 
-    // Validate Due Date
+   
     if (!invoiceduedate) {
       setInvoiceDueDateErrmsg("Due Date is Required");
       isValid = false;
@@ -348,43 +324,20 @@ const handleAddItems = () => {
       return;
     }
 
-    // Check All Required Fields
+   
     if (
       !customername ||
       !invoicenumber ||
-      // !startdate ||
+     
       !invoicedate ||
       !invoiceduedate 
-      // !enddate
+      
     ) {
       setAllFieldErrmsg("Please Fill Out All Required Fields");
       isValid = false;
     }
 
-    // const formatDateToStartdate = (startdate) => {
-    //   if (!startdate) return "";
-    //   const d = new Date(startdate);
-    //   return (
-    //     d.getFullYear() +
-    //     "-" +
-    //     String(d.getMonth() + 1).padStart(2, "0") +
-    //     "-" +
-    //     String(d.getDate()).padStart(2, "0")
-    //   );
-    // };
-
-    // const formatDateTowenddate = (enddate) => {
-    //   if (!enddate) return "";
-    //   const d = new Date(enddate);
-    //   return (
-    //     d.getFullYear() +
-    //     "-" +
-    //     String(d.getMonth() + 1).padStart(2, "0") +
-    //     "-" +
-    //     String(d.getDate()).padStart(2, "0")
-    //   );
-    // };
-
+  
     const formatDateToInvoicedate = (invoicedate) => {
       if (!invoicedate) return "";
       const d = new Date(invoicedate);
@@ -412,14 +365,10 @@ const handleAddItems = () => {
     const isChanged = (() => {
       const userChanged =
         Number(currentView.hos_user_id) !== Number(customername);
-      // const startDateChanged =
-      //   formatDateToStartdate(currentView.start_date) !==
-      //   formatDateToStartdate(startdate);
+    
       const invoiceChanged =
         String(currentView.Invoices) !== String(invoicenumber);
-      // const endDateChanged =
-      //   formatDateTowenddate(currentView.end_date) !==
-      //   formatDateTowenddate(enddate);
+     
       const invoiceDateChanged =
         formatDateToInvoicedate(currentView.Date) !==
         formatDateToInvoicedate(invoicedate);
@@ -439,9 +388,7 @@ const handleAddItems = () => {
 
       return (
         userChanged ||
-        // startDateChanged ||
         invoiceChanged ||
-        // endDateChanged ||
         invoiceDateChanged ||
         dueDateChanged ||
         amenitiesChanged
@@ -467,18 +414,7 @@ const handleAddItems = () => {
         day
       ).padStart(2, "0")}`;
 
-      // const startDateObject = new Date(startdate);
-      // const formattedStartDate = `${startDateObject.getFullYear()}-${String(
-      //   startDateObject.getMonth() + 1
-      // ).padStart(2, "0")}-${String(startDateObject.getDate()).padStart(
-      //   2,
-      //   "0"
-      // )}`;
-
-      // const endDateObject = new Date(enddate);
-      // const formattedEndDate = `${endDateObject.getFullYear()}-${String(
-      //   endDateObject.getMonth() + 1
-      // ).padStart(2, "0")}-${String(endDateObject.getDate()).padStart(2, "0")}`;
+     
 
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
@@ -497,8 +433,7 @@ const handleAddItems = () => {
       setRoomDetail(true);
       setCustomerName("");
       setInvoiceNumber("");
-      // setStartDate("");
-      // setEndDate("");
+      
       setInvoiceDate("");
       setInvoiceDueDate("");
 
@@ -506,7 +441,7 @@ const handleAddItems = () => {
       setNewRows([]);
 
       setCustomerErrmsg("");
-      // setStartdateErrmsg("");
+      
       setInvoiceDateErrmsg("");
       setInvoiceDueDateErrmsg("");
       setAllFieldErrmsg("");
@@ -514,18 +449,7 @@ const handleAddItems = () => {
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
   };
 
-  // const handleAddColumn = () => {
-  //   const newRow = {
-  //     am_name: "",
-  //     used_unit: "",
-  //     per_unit_amount: "",
-  //     total_amount: "",
-  //     amount: "",
-  //   };
-  //   setNewRows([...newRows, newRow]);
-  //   setAllFieldErrmsg("");
-  // };
-
+ 
   const handleCreateBill = () => {
 
       let hasError = false;
@@ -538,19 +462,7 @@ const handleAddItems = () => {
         setCustomerErrmsg(""); // Clear error when field is filled
       }
   
-      // if (!startdate) {
-      //   setStartdateErrmsg("Please Select Start Date");
-      //   hasError = true;
-      // } else {
-      //   setStartdateErrmsg("");
-      // }
-  
-      // if (!enddate) {
-      //   setEnddateErrmsg("Please Select End Date");
-      //   hasError = true;
-      // } else {
-      //   setEnddateErrmsg("");
-      // }
+     
   
       if (!invoicedate) {
         setInvoiceDateErrmsg("Please Select Invoice Date");
@@ -566,13 +478,7 @@ const handleAddItems = () => {
         setInvoiceDueDateErrmsg("");
       }
   
-      // Check if any row in the table is incomplete
-      // if (newRows.some((row) => !row.am_name || !row.amount)) {
-       
-      //   hasError = true;
-      // } else {
-      //   setTableErrmsg("");
-      // }
+     
 
       if (!Array.isArray(newRows) || newRows.length === 0) {
         setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
@@ -598,35 +504,27 @@ const handleAddItems = () => {
         return;
       }
   
-      // Format dates
-      // const formattedStartDate = startdate ? dayjs(startdate).format("YYYY-MM-DD") : "";
-  
-      // const formattedEndDate = enddate ? dayjs(enddate).format("YYYY-MM-DD") : "";
+    
       dispatch({
         type: "MANUAL-INVOICE-ADD",
         payload: {
           user_id: customername,
           date: formatinvoicedate,
           due_date: formatduedate,
-          // start_date: formattedStartDate,
-          // end_date: formattedEndDate,
-      //     start_date: formattedStartDate,
-      // end_date:formattedEndDate,
+         
           invoice_id: invoicenumber,
           total_amount: totalAmount,
           amenity: amenityArray.length > 0 ? amenityArray : [],
         },
       });
   
-      // Reset form fields
+     
       setCustomerName("");
       setInvoiceNumber("");
-      // setStartDate("");
-      // setEndDate("");
+      
       setInvoiceDate("");
       setInvoiceDueDate("");
       setTotalAmount("");
-      // setBillAmounts([]);
       setNewRows([]);
      
     };
@@ -654,31 +552,6 @@ const handleAddItems = () => {
   };
 
 
-  // const handlestartDate = (selectedDates) => {
-  //   setAllFieldErrmsg("");
-  //   const date = selectedDates;
-  //   setStartDate(date);
-
-  //   if (!selectedDates) {
-  //     setStartdateErrmsg("Please Select Date");
-  //   } else {
-  //     setStartdateErrmsg("");
-  //     setEnddateErrmsg("");
-  //   }
-  // };
-
-  // const handleEndDate = (selectedDates) => {
-  //   setAllFieldErrmsg("");
-  //   const date = selectedDates;
-  //   setEndDate(date);
-  //   if (!selectedDates) {
-  //     setEnddateErrmsg("Please Select Date");
-  //   } else {
-  //     setEnddateErrmsg("");
-  //     setStartdateErrmsg("");
-  //   }
-   
-  // };
    const formatDateForPayloadmanualinvoice = (date) => {
       return dayjs(date).format("YYYY-MM-DD"); // Change format if needed
     };
@@ -691,8 +564,7 @@ const handleAddItems = () => {
       setInvoiceDateErrmsg("Please Select Date");
     } else {
       setInvoiceDateErrmsg("");
-      // setEnddateErrmsg("");
-      // setStartdateErrmsg("");
+      
     }
     const formattedDate = formatDateForPayloadmanualinvoice(date);
     setFormatInvoiceDate(formattedDate);
@@ -711,32 +583,7 @@ const handleAddItems = () => {
     setFormatDueDate(formattedDate);
   };
 
-  // const handleDeleteNewRow = (index) => {
-  //   setNewRows((prevRows) => {
-  //     const updatedRows = prevRows.filter((_, i) => i !== index);
-  //     return updatedRows;
-  //   });
-
-  //   setAllFieldErrmsg("");
-  // };
-  // const handleDeleteNewRow = (index) => {
-  //   setNewRows((prevRows) => {
-  //     const deletedRow = prevRows[index];
-  //     const updatedRows = prevRows.filter((_, i) => i !== index);
   
-  //     // Remove RoomRent or EB from selectedTypes if that row was deleted
-  //     if (deletedRow.am_name === "Room Rent") {
-  //       setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "RoomRent"));
-  //     } else if (deletedRow.am_name === "EB") {
-  //       setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "EB"));
-  //     }
-  
-  //     return updatedRows;
-  //   });
-  
-  //   setAllFieldErrmsg("");
-  //   setTableErrmsg("");
-  // };
 
   const handleDeleteNewRow = (index) => {
     setNewRows((prevRows) => {
@@ -807,27 +654,12 @@ setSelectedTypes("")
       if (currentView.Date) {
         const parsedDate = new Date(currentView.Date); // Convert to Date object
         if (!isNaN(parsedDate.getTime())) {
-          // Check if it's a valid date
+         
           setInvoiceDate(parsedDate); // Set the date object in state
         } 
        
       }
-      // if (currentView.start_date) {
-      //   const parsedDate = new Date(currentView.start_date); // Convert to Date object
-      //   if (!isNaN(parsedDate.getTime())) {
-      //     // Check if it's a valid date
-      //     setStartDate(parsedDate); // Set the date object in state
-      //   } 
-       
-      // }
-      // if (currentView.end_date) {
-      //   const parsedDate = new Date(currentView.end_date); // Convert to Date object
-      //   if (!isNaN(parsedDate.getTime())) {
-      //     // Check if it's a valid date
-      //     setEndDate(parsedDate); // Set the date object in state
-      //   } 
-      
-      // }
+     
 
       setTotalAmount(currentView.Amount);
 
@@ -4275,11 +4107,7 @@ const handleBack = () => {
             backdrop="static"
             centered
           >
-            {/* <Modal.Header closeButton className="text-center">
-            <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
-              Add a Reading
-            </Modal.Title>
-          </Modal.Header> */}
+            
 
             <Modal.Header
               style={{ marginBottom: "10px", position: "relative" }}
@@ -4420,12 +4248,7 @@ const handleBack = () => {
                       </span>
                     </div>
                   )}
-                  {/* {readingError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {readingError}
-                </div>
-              )} */}
+               
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-2" controlId="purchaseDate">
@@ -4687,51 +4510,7 @@ const handleBack = () => {
 
       {isEditing && (
         <div className="mt-4"  style={{paddingLeft:25, height: "90vh", overflowY: "auto" }}>
-          {/* <div
-            className="container justify-content-start  d-flex align-items-start"
-            style={{
-              position: "sticky",
-              top: 0,
-              left: 0,
-              width: "100%",
-              zIndex: 1000,
-              backgroundColor: "#FFFFFF",
-              height: "60px",
-              padding: "10px 20px",
-            }}
-          >
-            <div style={{ position: "fixed", marginLeft: "-20px" }}>
-              <svg
-                onClick={handleBackBill}
-                style={{ fontSize: "22px" }}
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  fill="#000000"
-                  d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"
-                ></path>
-                <path
-                  fill="#000000"
-                  d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"
-                ></path>
-              </svg>
-              <span
-                style={{
-                  fontWeight: 600,
-                  fontSize: "18px",
-                  marginLeft: 5,
-                  fontFamily: "Gilroy",
-                }}
-              >
-              
-               {isAddMode ? "New Bill" : "Edit Bill"}
-              </span>{" "}
-            </div>
-          </div> */}
+        
                      <div
                   className="d-flex align-items-center"
                   style={{
@@ -4782,7 +4561,6 @@ const handleBack = () => {
                 aria-label="Default select example"
                 value={customername}
                 onChange={handleCustomerName}
-                // disabled={billsAddshow}
                 disabled
                 className="border"
                 style={{
@@ -4876,153 +4654,6 @@ const handleBack = () => {
             </Form.Group>
           </div>
 
-          {/* <div style={{ display: "flex", flexDirection: "row" }}>
-            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Start Date{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                   style={{ width: "100%", height: 48,cursor:"pointer" }}
-                   format="DD/MM/YYYY"
-                   placeholder="DD/MM/YYYY"
-                   value={startdate ? dayjs(startdate) : null}
-                   onChange={(date) => handlestartDate(date ? date.toDate() : null)}
-                   getPopupContainer={(triggerNode) =>
-                    triggerNode.closest(".datepicker-wrapper")
-                  }
-                    popperPlacement="top-start"
-                     popperClassName="custom-datepicker"
-                     appendTo= {document.body} 
-                    popperModifiers={[
-                      {
-                        name: "preventOverflow",
-                        options: {
-                          boundary: "window",
-                          
-                        },
-                      },
-                      {
-                        name: "flip",
-                        options: {
-                          fallbackPlacements: [], 
-                        },
-                      },
-                      {
-                        name: "offset",
-                        options: {
-                          offset: [0, -13],
-                        },
-                      },
-                    ]}
-                    dateFormat="dd/MM/yyyy"
-                    // minDate={new Date()}
-
-                    customInput={customStartDateInput({
-                      value: startdate
-                        ? startdate.toLocaleDateString("en-GB")
-                        : "",
-                    })}
-                  />
-                </div>
-              </Form.Group>
-
-              {startdateerrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
-                  >
-                    {startdateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
-                    )}{" "}
-                    {startdateerrmsg}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  End Date{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-                <div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-                  <DatePicker
-                    // selected={enddate}
-                    // onChange={(date) => handleEndDate(date)}
-                    style={{ width: "100%", height: 48,cursor:"pointer" }}
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={enddate ? dayjs(enddate) : null}
-                    onChange={(date) => handleEndDate(date ? date.toDate() : null)}
-                    getPopupContainer={(triggerNode) =>
-                      triggerNode.closest(".datepicker-wrapper")
-                    }
-                    popperPlacement="top-start"
-                     popperClassName="custom-datepicker"
-                     appendTo= {document.body} 
-                    popperModifiers={[
-                      {
-                        name: "preventOverflow",
-                        options: {
-                          boundary: "window",
-                          
-                        },
-                      },
-                      {
-                        name: "flip",
-                        options: {
-                          fallbackPlacements: [], 
-                        },
-                      },
-                      {
-                        name: "offset",
-                        options: {
-                          offset: [0, -13],
-                        },
-                      },
-                    ]}
-                    dateFormat="dd/MM/yyyy"
-                    // minDate={new Date()}
-
-                    customInput={customEndDateInput({
-                      value: enddate ? enddate.toLocaleDateString("en-GB") : "",
-                    })}
-                  />
-                </div>
-              </Form.Group>
-
-              {enddateerrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
-                  >
-                    {enddateerrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
-                    )}{" "}
-                    {enddateerrmsg}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div> */}
 
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
@@ -5513,36 +5144,7 @@ const handleBack = () => {
           </Modal>
         </>
       )}
-{/* {advanceForm === true ?(
-  <UserlistForm  setShowMenu={setShowMenu}
-  advanceForm = {advanceForm}/>
-):""}
-      {showMenu === true ? (
-        <UserlistForm
-          showMenu={showMenu}
-          displayDetail={addBasicDetail}
-         
-          setAdvanceForm = {setAdvanceForm}
-          handleShow={handleShow}
-          edit={edit}
-          setEdit={setEdit}
-          EditObj={EditObj}
-          setEditObj={setEditObj}
-          handleMenuClick={handleMenuClick}
-          setShowForm={setShowForm}
-          showForm={showForm}
-          // handleEdit={handleEdit}
-          handleShowAddBed={handleShowAddBed}
-          roomDetail={roomDetail}
-          setRoomDetail={setRoomDetail}
-          userList={userList}
-          setUserList={setUserList}
-          OnShowTable={OnShowTableForCustomer}
-          uniqueostel_Id={uniqueostel_Id}
-          setUniqostel_Id={setUniqostel_Id}
-         
-        />
-      ) : null} */}
+
       {(advanceForm || showMenu) && (
   <UserlistForm
     setShowMenu={setShowMenu}

@@ -1704,6 +1704,7 @@ console.log("container",receiptdata)
 
     return sorted;
   }, [currentReceiptData, sortConfigReceipt]);
+  console.log("sortedDataReceipt",receiptdata)
   const handleSortReceipt = (key, direction) => {
     setSortConfigReceipt({ key, direction });
   };
