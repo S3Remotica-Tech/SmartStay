@@ -1548,11 +1548,10 @@ whiteSpace: "nowrap"
                                 fontFamily: "Gilroy",
                               }}
                             >
-                              {user.type === 1
-                                ? "Credit"
-                                : user.type === 2
-                                  ? "Debit"
-                                  : "Account"}
+                               {/* {user.desc === ""} */}
+                              {user.desc === "Invoice"
+                                ? "Credit":"Debit"
+                              }
                             </span>
                           </td>
 

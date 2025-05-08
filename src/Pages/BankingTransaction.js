@@ -9,6 +9,7 @@ import "./BankingAddForm.css";
 import moment from "moment";
 import PropTypes from "prop-types";
 import Select from "react-select";
+// import Select, { components } from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import {CloseCircle} from "iconsax-react";
@@ -73,11 +74,19 @@ function BankingEditTransaction(props) {
     transaction: "",
     describtion: "",
   });
+  
+  
   useEffect(() => {
+    // if (props.updateTransaction.dec === "Invoice") {
+    //   setTransaction(1);
+    // } else {
+    //   setTransaction(2);
+    // }
+    const resolvedTransaction = props.updateTransaction.desc === "Invoice" ? 1 : 2;
     console.log("props.updateTransaction",props.updateTransaction)
     setAccount(props.updateTransaction.bank_id);
     setSelectedDate(props.updateTransaction.date || "");
-
+setTransaction(resolvedTransaction)
     setSelectedDate(
       props.updateTransaction.date
         ? moment(props.updateTransaction.date).toDate("")
@@ -85,14 +94,15 @@ function BankingEditTransaction(props) {
     );
     setId(props.updateTransaction.id);
     setAmount(props.updateTransaction.amount);
-    setTransaction(props.updateTransaction.type);
+    
+    // setTransaction(props.updateTransaction.type);
     setDescribtion(props.updateTransaction.description);
 
     setInitialStateAssign({
       account: props.updateTransaction.bank_id || "",
       selectedDate: props.updateTransaction.date || "",
       amount: props.updateTransaction.amount || "",
-      transaction: props.updateTransaction.type || "",
+      transaction:resolvedTransaction || "",
       describtion: props.updateTransaction.description || "",
     });
   }, []);
@@ -153,23 +163,40 @@ function BankingEditTransaction(props) {
     }
 
     const isValidDate = (date) => !isNaN(Date.parse(date));
-
-    const isChanged =
-      (isNaN(account)
-        ? String(account).toLowerCase() !==
-          String(initialStateAssign.account).toLowerCase()
-        : Number(account) !== Number(initialStateAssign.account)) ||
-      (isNaN(transaction)
-        ? String(transaction).toLowerCase() !==
-          String(initialStateAssign.transaction).toLowerCase()
-        : Number(transaction) !== Number(initialStateAssign.transaction)) ||
-      (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
-        ? new Date(selectedDate).toISOString().split("T")[0] !==
-          new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
-        : selectedDate !== initialStateAssign.selectedDate) ||
-      Number(amount) !== Number(initialStateAssign.amount) ||
-      String(describtion) !== String(initialStateAssign.describtion);
-
+    const formatDate = (date) => {
+      const d = new Date(date);
+      return isValidDate(d) ? d.toISOString().split("T")[0] : "";
+    };
+    const accountChanged =
+    isNaN(Number(account))
+      ? String(account).toLowerCase() !== String(initialStateAssign.account).toLowerCase()
+      : Number(account) !== Number(initialStateAssign.account);
+  console.log("initialStateAssign",initialStateAssign.account,account)
+  const transactionChanged =
+    isNaN(Number(transaction))
+      ? String(transaction).toLowerCase() !== String(initialStateAssign.transaction).toLowerCase()
+      : Number(transaction) !== Number(initialStateAssign.transaction);
+      console.log("initialStateAssign",initialStateAssign.transaction,transaction)
+      const dateChanged =
+      formatDate(selectedDate) !== formatDate(initialStateAssign.selectedDate);
+      console.log("initialStateAssign",
+        "initialStateAssign =", formatDate(initialStateAssign.selectedDate),
+        "| selectedDate =", formatDate(selectedDate));
+  const amountChanged =
+    Number(amount) !== Number(initialStateAssign.amount);
+    console.log("initialStateAssign",initialStateAssign.amount,amount)
+    const descriptionChanged =
+    String(describtion || "") !== String(initialStateAssign.describtion || "");
+  
+    console.log("initialStateAssign",initialStateAssign.describtion,describtion)
+  
+  const isChanged =
+    accountChanged ||
+    transactionChanged ||
+    dateChanged ||
+    amountChanged ||
+    descriptionChanged;
+  
     if (!isChanged) {
       setError("No Changes Detected");
       return;
@@ -210,7 +237,7 @@ function BankingEditTransaction(props) {
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
 console.log("state.bankingDetails?.bankingList?.banks",state.bankingDetails?.bankingList?.banks)
-
+const DropdownIndicator = () => null;
   return (
     <>
       <Modal
@@ -284,41 +311,11 @@ console.log("state.bankingDetails?.bankingList?.banks",state.bankingDetails?.ban
                   *{" "}
                 </span>
               </Form.Label>
-              {/* <Form.Select
-                aria-label="Default select example"
-                placeholder="Select no. of floor"
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-                id="form-selects"
-                className="border"
-                value={account}
-                onChange={(e) => handleAccount(e)}
-              >
-                <option value="">Selected Account</option>
-                {state.bankingDetails?.bankingList?.banks?.map((u) => (
-                  <option key={u.id} value={u.id}>
-                    {u.bank_name}
-                  </option>
-                ))}
-              </Form.Select> */}
+             
              
   <Select
-    // options={
-    //   state.bankingDetails?.bankingList?.banks?.length > 0
-    //     ? state.bankingDetails.bankingList.banks.map((u) => ({
-    //         value: u.id,
-    //         label: u.bank_name,
-    //       }))
-    //     : []
-    // }
+   isDisabled={true}
+   components={{DropdownIndicator}}
     options={
       state.bankingDetails?.bankingList?.banks?.length > 0
         ? state.bankingDetails.bankingList.banks.map((u) => ({
@@ -329,17 +326,7 @@ console.log("state.bankingDetails?.bankingList?.banks",state.bankingDetails?.ban
     }
     
     onChange={ handleAccount}
-    // value={
-    //   account
-    //     ? {
-    //         value: account,
-    //         label:
-    //           state.bankingDetails?.bankingList?.banks?.find(
-    //             (b) => b.id === account
-    //           )?.bank_name || "Selected Account",
-    //       }
-    //     : null
-    // }
+  
     value={
       account
         ? {
@@ -365,9 +352,11 @@ console.log("state.bankingDetails?.bankingList?.banks",state.bankingDetails?.ban
         borderRadius: "8px",
         fontSize: "16px",
         color: "#4B4B4B",
+        fontWeight:"500",
         fontFamily: "Gilroy",
-        fontWeight: account ? 600 : 500,
+        // fontWeight: account ? 600 : 500,
         boxShadow: "none",
+        backgroundColor: "rgb(224, 236, 255)",
       }),
       menu: (base) => ({
         ...base,
@@ -535,9 +524,9 @@ console.log("state.bankingDetails?.bankingList?.banks",state.bankingDetails?.ban
                 </span>
               </Form.Label>
               <Form.Select
+                  disabled
                 aria-label="Default select example"
                 className="border"
-                // style={{ backgroundColor: "#f8f9fa", padding: 10, border: "none", boxShadow: "none", width: "100%", fontSize: 12, fontWeight: 700, textTransform: "capitalize" }}
                 style={{
                   fontSize: 16,
                   color: "#4B4B4B",
@@ -547,7 +536,8 @@ console.log("state.bankingDetails?.bankingList?.banks",state.bankingDetails?.ban
                   border: "1px solid #D9D9D9",
                   height: 50,
                   borderRadius: 8,
-                  cursor:"pointer"
+                  cursor:"pointer",
+                  backgroundColor:"rgb(224, 236, 255)"
                 }}
                 value={transaction}
                 onChange={(e) => handleTransaction(e)}
