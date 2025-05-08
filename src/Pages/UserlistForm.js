@@ -2865,6 +2865,8 @@ UserlistForm.propTypes = {
   onClick: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   displayDetail: PropTypes.func.isRequired, 
-  showMenu: PropTypes.func.isRequired, 
+  showMenu: PropTypes.func.isRequired,
+  advanceForm: PropTypes.func.isRequired,
+  setAdvanceForm: PropTypes.func.isRequired,
 };
 export default UserlistForm;
