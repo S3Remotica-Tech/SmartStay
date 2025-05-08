@@ -161,8 +161,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
             </div>
           </div>
           <div>
+         
             <div className="gap-5 d-flex">
+              <div className="d-flex  border p-1" style={{height:40 , width: 130 , borderRadius:'8px'}}>
+                <p className="me-2 ms-2">Download</p>
               <img src={DownLoad} alt="Download Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleDownload} />
+              </div>
+
               <img src={Close} alt="Close Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleBackInvoice} />
             </div>
           </div>
