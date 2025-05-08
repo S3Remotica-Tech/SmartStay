@@ -1505,6 +1505,7 @@ setSelectedTypes("")
         }
     handleMenuClick();
     setShowMenu(true);
+    setAddCheckoutForm(false)
     setAddBasicDetail(true);
     setEditObj(u);
   };
@@ -1538,6 +1539,7 @@ setSelectedTypes("")
   
   const [hostelName, sethosName] = useState("");
   const [customerUser_Id, setcustomerUser_Id] = useState("");
+  const [advanceForm,setAdvanceForm] = useState(false)
   
 
   const handleRoomDetailsPage = (userData) => {
@@ -1555,6 +1557,8 @@ setSelectedTypes("")
     setEdit("Edit");
     handleMenuClick();
     setShowMenu(true);
+    setAdvanceForm(false)
+    setAddCheckoutForm(false)
     setAddBasicDetail(false);
     setEditObj(u);;
   };
@@ -5509,12 +5513,16 @@ const handleBack = () => {
           </Modal>
         </>
       )}
-
+{/* {advanceForm === true ?(
+  <UserlistForm  setShowMenu={setShowMenu}
+  advanceForm = {advanceForm}/>
+):""}
       {showMenu === true ? (
         <UserlistForm
           showMenu={showMenu}
           displayDetail={addBasicDetail}
-          setShowMenu={setShowMenu}
+         
+          setAdvanceForm = {setAdvanceForm}
           handleShow={handleShow}
           edit={edit}
           setEdit={setEdit}
@@ -5532,8 +5540,35 @@ const handleBack = () => {
           OnShowTable={OnShowTableForCustomer}
           uniqueostel_Id={uniqueostel_Id}
           setUniqostel_Id={setUniqostel_Id}
+         
         />
-      ) : null}
+      ) : null} */}
+      {(advanceForm || showMenu) && (
+  <UserlistForm
+    setShowMenu={setShowMenu}
+    advanceForm={advanceForm}
+    showMenu={showMenu}
+    displayDetail={addBasicDetail}
+    setAdvanceForm={setAdvanceForm}
+    handleShow={handleShow}
+    edit={edit}
+    setEdit={setEdit}
+    EditObj={EditObj}
+    setEditObj={setEditObj}
+    handleMenuClick={handleMenuClick}
+    setShowForm={setShowForm}
+    showForm={showForm}
+    handleShowAddBed={handleShowAddBed}
+    roomDetail={roomDetail}
+    setRoomDetail={setRoomDetail}
+    userList={userList}
+    setUserList={setUserList}
+    OnShowTable={OnShowTableForCustomer}
+    uniqueostel_Id={uniqueostel_Id}
+    setUniqostel_Id={setUniqostel_Id}
+  />
+)}
+
     </div>
   );
 }

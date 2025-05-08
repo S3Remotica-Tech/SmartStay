@@ -617,7 +617,10 @@ const handleBed = (selectedOption) => {
   // const handlelicence = (e) => {
   //   setLicence(e.target.value);
   // };
-
+const [advanceDate,setAdvanceDate] = useState(null)
+const [advanceDueDate,setAdvanceDueDate] = useState(null)
+const [advanceDateError,setAdvanceDateError] = useState("")
+const [advanceDueDateError,setAdvanceDueDateError] = useState("")
   const handleClose = () => {
     setFirstname("");
     setLastname("");
@@ -787,6 +790,7 @@ const handleBed = (selectedOption) => {
       city : city,
       pincode : pincode,
       state:state_name,
+      
     };
 
     if (props.edit === "Edit") {
@@ -800,8 +804,172 @@ const handleBed = (selectedOption) => {
 
   
   };
+ 
+ 
 
-  const handleSaveUserlistAddUser = () => {
+const handleAdvaceShowForm = ()=>{
+
+  
+  props.setShowMenu(false);
+  props.setAdvanceForm(true)
+}
+
+
+
+useEffect(() => {
+  console.log("showMenu updated to:", props.showMenu);
+}, [props.showMenu]);
+
+const handleSaveUserlistAddUser =async () => {
+  if (!validateAssignField(Floor, "Floor"));
+  if (!validateAssignField(Rooms, "Rooms"));
+  if (!validateAssignField(Bed, "Bed"));
+  if (!validateAssignField(selectedDate, "selectedDate"));
+  if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) ;
+  if (!validateAssignField(RoomRent, "RoomRent"));
+
+  if (Floor === "Selected Floor" || floorError) {
+    setfloorError("Please Select a Valid PG");
+    return;
+  }
+  if (Rooms === "Selected Room" || roomError) {
+    setRoomError("Please Select a Valid PG");
+    return;
+  }
+  if (Bed === "Selected Bed" || bedError) {
+    setBedError("Please Select a Valid PG");
+    return;
+  }
+
+  if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
+    setRoomRentError("Rental Amount is Required");
+    return;
+  }
+  if (Number(RoomRent) <= 0) {
+    setRoomRentError("Please Enter Valid Rental Amount");
+    return;
+  }
+
+  if (AdvanceAmount === "" || AdvanceAmount === null || AdvanceAmount === undefined) {
+    setAdvanceAmountError("Advance Amount is Required");
+    return;
+  }
+  if (Number(AdvanceAmount) <= 0) {
+    setAdvanceAmountError("Please Enter Valid Advance Amount");
+    return;
+  }
+
+  // ✅ Final condition check
+  if (
+    Floor !== "Selected Floor" &&
+    Rooms !== "Selected Room" &&
+    Bed !== "Selected Bed" &&
+    selectedDate &&
+    Number(AdvanceAmount) > 0 &&
+    Number(RoomRent) > 0
+  ) {
+    console.log('testinform');
+    handleAdvaceShowForm()
+    // props.setAdvanceForm(true);
+
+   console.log("Advance Form Details",props.advanceForm);
+   
+    
+  //   handleAdvaceShowForm();
+
+  // props.setShowMenu(false);
+
+  //   setAdvanceFormtriggered(true)
+    // setAdvanceFormtriggered(true)
+
+    // const incrementDateAndFormat = (date) => {
+    //   const newDate = new Date(date);
+    //   newDate.setDate(newDate.getDate() + 1);
+    //   return newDate.toISOString().split("T")[0];
+    // };
+
+    // const formattedDate = incrementDateAndFormat(selectedDate);
+ 
+    // dispatch({ type: "ADDUSER", payload: {...} });
+    // handleAdvaceShowForm()
+    // setAdvanceForm(true);
+    // props.setShowMenu(false);
+  }
+  // props.setShowMenu(false);
+  dispatch({ type: "INVOICELIST" });
+};
+
+  // const handleSaveUserlistAddUser = () => {
+  //   if (!validateAssignField(Floor, "Floor")) ;
+  //   if (!validateAssignField(Rooms, "Rooms"));
+  //   if (!validateAssignField(Bed, "Bed"));
+  //   if (!validateAssignField(selectedDate, "selectedDate")) ;
+  //   if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) ;
+  //   if (!validateAssignField(RoomRent, "RoomRent")) ;
+  
+  //   if (Floor === "Selected Floor" || floorError) {
+  //     setfloorError("Please Select a Valid PG");
+  //     return;
+  //   }
+  //   if (Rooms === "Selected Room" || roomError) {
+  //     setRoomError("Please Select a Valid PG");
+  //     return;
+  //   }
+  //   if (Bed === "Selected Bed" || bedError) {
+  //     setBedError("Please Select a Valid PG");
+  //     return;
+  //   }
+  
+  //   if (!RoomRent && RoomRent !== 0) {
+  //     setRoomRentError("Rental Amount is Required");
+  //     return;
+  //   }
+  //   if (RoomRent <= 0) {
+  //     setRoomRentError("Please Enter Valid Rental Amount");
+  //     return;
+  //   }
+  
+  //   if (!AdvanceAmount && AdvanceAmount !== 0) {
+  //     setAdvanceAmountError("Advance Amount is Required");
+  //     return;
+  //   }
+  //   if (AdvanceAmount <= 0) {
+  //     setAdvanceAmountError("Please Enter Valid Advance Amount");
+  //     return;
+  //   }
+  
+  //   if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
+  //     const incrementDateAndFormat = (date) => {
+  //       const newDate = new Date(date);
+  //       newDate.setDate(newDate.getDate() + 1);
+  //       return newDate.toISOString().split("T")[0];
+  //     };
+  
+  //     const formattedDate = selectedDate
+  //       ? incrementDateAndFormat(selectedDate)
+  //       : "";
+  
+  //     // Uncomment and use your actual dispatch logic
+  //     // dispatch({
+  //     //   type: "ADDUSER",
+  //     //   payload: { ... }
+  //     // });
+  
+  //     // handleClose();
+  
+  //     // ✅ Set AdvanceForm only after everything is valid
+      
+  //     setAdvanceForm(true);
+      
+      
+  //   }
+  
+  //   dispatch({ type: "INVOICELIST" });
+  // };
+  
+
+
+  const handleSaveUserlistAddUserButon = () => {
     if (!validateAssignField(Floor, "Floor"));
     if (!validateAssignField(Rooms, "Rooms"));
     if (!validateAssignField(Bed, "Bed"));
@@ -883,14 +1051,125 @@ const handleBed = (selectedOption) => {
           paid_advance: paid_advance,
           paid_rent: paid_rent,
           payable_rent: payableamount,
+          isadvance:0,
           ID: props.edit === "Edit" ? id : "",
         },
       });
       
-      handleClose();
+      // handleClose();
     }
     dispatch({ type: "INVOICELIST" });
   };
+
+
+  const handleSaveAdvance = () => {
+   
+    
+   
+
+    let hasError = false;
+
+    if (!advanceDate) {
+      setAdvanceDateError("Invoice Date is required.");
+      hasError = true;
+    } else {
+      setAdvanceDateError(""); // clear if valid
+    }
+  
+    if (!advanceDueDate) {
+      setAdvanceDueDateError("Due Date is required.");
+      hasError = true;
+    } else {
+      setAdvanceDueDateError(""); // clear if valid
+    }
+  
+    if (hasError) {
+      return; // stop dispatching if there's any error
+    }
+  
+    const incrementDateAndFormat = (date) => {
+      const newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate.toISOString().split("T")[0];
+    };
+  
+    const formattedDate = selectedDate ? incrementDateAndFormat(selectedDate) : "";
+    const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
+    const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
+      
+      // const incrementDateAndFormat = (date) => {
+      //   const newDate = new Date(date);
+      //   newDate.setDate(newDate.getDate() + 1);
+
+      //   return newDate.toISOString().split("T")[0];
+      // };
+      // const formattedDate = selectedDate
+      //   ? incrementDateAndFormat(selectedDate)
+      //   : "";
+
+
+      //   const incrementDateAndFormatAdvance = (date) => {
+      //     const newDate = new Date(date);
+      //     newDate.setDate(newDate.getDate() + 1);
+  
+      //     return newDate.toISOString().split("T")[0];
+      //   };
+      //   const formattedAdvanceDate = advanceDate
+      //     ? incrementDateAndFormatAdvance(advanceDate)
+      //     : "";
+      //     const incrementDateAndFormatAdvanceDue = (date) => {
+      //       const newDate = new Date(date);
+      //       newDate.setDate(newDate.getDate() + 1);
+    
+      //       return newDate.toISOString().split("T")[0];
+      //     };
+      //     const formattedAdvanceDateDue = advanceDueDate
+      //       ? incrementDateAndFormatAdvanceDue(advanceDueDate)
+      //       : "";
+
+     
+
+      dispatch({
+        type: "ADDUSER",
+        payload: {
+          profile: file,
+          firstname: firstname,
+          lastname: lastname,
+          Phone: Phone,
+          Email: Email,
+          Address:house_no ,
+          area : street,
+          landmark : landmark,
+          city : city,
+          pincode : pincode,
+          state:state_name,
+          AadharNo: AadharNo,
+          PancardNo: PancardNo,
+          licence: licence,
+          HostelName: HostelName,
+          hostel_Id: hostel_Id,
+          Floor: Floor,
+          Rooms: Rooms,
+          Bed: Bed,
+          joining_date: formattedDate,
+          AdvanceAmount: AdvanceAmount,
+          RoomRent: RoomRent,
+          BalanceDue: BalanceDue,
+          PaymentType: PaymentType,
+          paid_advance: paid_advance,
+          paid_rent: paid_rent,
+          payable_rent: payableamount,
+          isadvance:1,
+          invoice_date:formattedAdvanceDate,
+          due_date:formattedAdvanceDateDue,
+          ID: props.edit === "Edit" ? id : "",
+        },
+      });
+      
+      dispatch({ type: "INVOICELIST" });
+    }
+    
+  
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
@@ -901,6 +1180,7 @@ const handleBed = (selectedOption) => {
         props.setRoomDetail(false);
       }
       handleClose();
+      handleCloseAdvanceForm()
     }
   }, [state.UsersList?.statusCodeForAddUser]);
 
@@ -937,7 +1217,11 @@ const handleBed = (selectedOption) => {
   //     </div>
   //   );
   // };
-
+const handleCloseAdvanceForm =()=>{
+  props.setAdvanceForm(false)
+  setAdvanceDate("")
+  setAdvanceDueDate("")
+}
   return (
     <div>
       <Modal
@@ -2352,6 +2636,215 @@ const handleBed = (selectedOption) => {
           {/* <Modal.Footer style={{ border: "none" }}></Modal.Footer> */}
         </Modal.Dialog>
       </Modal>
+
+
+
+     
+        <Modal
+                    show={props.advanceForm}
+                    onHide={handleCloseAdvanceForm}
+                    backdrop="static"
+                    centered
+                  >
+                    <Modal.Dialog
+                      style={{
+                        maxWidth: 666,
+                        paddingRight: "10px",
+                        borderRadius: "30px",
+                      }}
+                      className="m-0 p-0"
+                    >
+                      <Modal.Body  style={{marginTop:-30}}>
+                        <div className="d-flex align-items-center">
+                          
+                            <div className="container">
+                              <div className="row mb-3"></div>
+            
+                              <Modal.Header
+                                style={{ position: "relative" }}
+                              >
+                                <div
+                                  style={{
+                                    fontSize: 20,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Generate Advance
+                                </div>
+                                
+                                <CloseCircle size="24" color="#000" onClick={handleCloseAdvanceForm} 
+                    style={{ cursor: 'pointer' }}/>
+                              </Modal.Header>
+            
+            
+            
+            
+                              <div className="row mb-3">
+                                
+                    
+                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-2" controlId="checkoutDate">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Invoice Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      </Form.Label>
+            
+                      <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
+                  <DatePicker
+                                                  style={{ width: "100%", height: 48,cursor: "pointer"}}
+                                                  format="DD/MM/YYYY"
+                                                  placeholder="DD/MM/YYYY"
+                                                  value={advanceDate ? dayjs(advanceDate) : null}
+                                                  onChange={(date) => {
+                                                    setAdvanceDateError("")
+                                                    setAdvanceDate(date ? date.toDate() : null);
+                                                  }}
+                                                  getPopupContainer={(triggerNode) =>
+                                                    triggerNode.closest('.datepicker-wrapper')
+                                                  }
+                                                  dropdownClassName="custom-datepicker-popup"
+                                                />
+                                                </div>
+                    </Form.Group>
+                     {advanceDateError && (
+                                                         <div style={{ color: "red",marginTop:"-7px" }}>
+                                                           <MdError style={{fontSize:"13px",marginRight:"5px"}}/>
+                                                           <span
+                                                             style={{
+                                                               fontSize: "12px",
+                                                               color: "red",
+                                                               fontFamily: "Gilroy",
+                                                               fontWeight: 500,
+                                                             }}
+                                                           >
+                                                             {advanceDateError}
+                                                           </span>
+                                                         </div>
+                                                       )}
+                   
+                  </div>
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-2" controlId="checkoutDate">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Due Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      </Form.Label>
+            
+                      <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
+                  <DatePicker
+                                                  style={{ width: "100%", height: 48,cursor: "pointer" }}
+                                                  format="DD/MM/YYYY"
+                                                  placeholder="DD/MM/YYYY"
+                                                  value={advanceDueDate ? dayjs(advanceDueDate) : null}
+                                                  onChange={(date) => {
+                                                    setAdvanceDueDateError("")
+                                                    setAdvanceDueDate(date ? date.toDate() : null);
+                                                  }}
+                                                  getPopupContainer={(triggerNode) =>
+                                                    triggerNode.closest('.datepicker-wrapper')
+                                                  }
+                                                  dropdownClassName="custom-datepicker-popup"
+                                                />
+                                                </div>
+                    </Form.Group>
+                     {advanceDueDateError && (
+                                                         <div style={{ color: "red",marginTop:"-7px" }}>
+                                                           <MdError style={{fontSize:"13px",marginRight:"5px"}}/>
+                                                           <span
+                                                             style={{
+                                                               fontSize: "12px",
+                                                               color: "red",
+                                                               fontFamily: "Gilroy",
+                                                               fontWeight: 500,
+                                                             }}
+                                                           >
+                                                             {advanceDueDateError}
+                                                           </span>
+                                                         </div>
+                                                       )}
+                   
+                  </div>
+        
+                              </div>
+                              
+            
+                              {/* <Button
+                                className="w-100"
+                                style={{
+                                  backgroundColor: "#1E45E1",
+                                  fontWeight: 600,
+                                  height: 50,
+                                  borderRadius: 12,
+                                  fontSize: 16,
+                                  fontFamily: "Montserrat",
+                                }}
+                                // onClick={handleGenerateAdvance}
+                              >
+                              Generate Advance
+                              </Button> */}
+     <div className="row col-md-12 col-lg-12">                    
+  <div className="col-md-6 col-lg-6 mb-2">
+    <Button
+      variant="secondary"
+      className="w-100"
+      style={{
+        height: 45,
+        borderRadius: 12,
+        fontSize: 15,
+        fontWeight: 500,
+        fontFamily: "Montserrat",
+        paddingLeft: 20,
+        paddingRight: 20,
+      }}
+      onClick={handleSaveUserlistAddUserButon}
+    >
+      Cancel
+    </Button>
+  </div>
+
+  <div className="col-md-6 col-lg-6 mb-2">
+    <Button
+      variant="primary"
+      className="w-100"
+      style={{
+        backgroundColor: "#1E45E1",
+        height: 45,
+        borderRadius: 12,
+        fontSize: 15,
+        fontWeight: 600,
+        fontFamily: "Montserrat",
+        paddingLeft: 25,
+        paddingRight: 25,
+      }}
+      onClick={handleSaveAdvance}
+    >
+      Save
+    </Button>
+  </div>
+</div>
+
+                            </div>
+                          {/* )} */}
+                        </div>
+                      </Modal.Body>
+            
+                      <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+                    </Modal.Dialog>
+                  </Modal>
+      
     </div>
   );
 }

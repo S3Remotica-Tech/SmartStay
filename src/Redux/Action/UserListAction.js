@@ -33,6 +33,9 @@ export async function addUser(params) {
   if(params.Bed) formData.append("Bed" ,params.Bed)
   if(params.AdvanceAmount) formData.append("AdvanceAmount" ,params.AdvanceAmount)
   if(params.RoomRent) formData.append("RoomRent" ,params.RoomRent)
+    if(params.isadvance) formData.append("isadvance" ,params.isadvance)
+      if(params.due_date) formData.append("due_date" ,params.due_date)
+        if(params.invoice_date) formData.append("invoice_date" ,params.invoice_date)
   if(params.ID) formData.append("ID", params.ID)
 
 
