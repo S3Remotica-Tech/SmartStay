@@ -87,7 +87,9 @@ export const initialState = {
     NoDashboardStatusCode:0,
     nostatusCodeforEbHostelBased:0,
    UpgradestatusCode: 0,
-
+// 
+dashboardFilterAdvance:[],
+statusCodeForAdvanceFilter:0
 
 }
 
@@ -371,7 +373,14 @@ const PgListReducer = (state = initialState, action) => {
         case "CLEAR_DASHBOARD":
             return { ...state, dashboardFilterCashback: [], dashboardFilter: [], dashboardFilterRevenu: [], dashboardDetails: [] };
 
-
+            case "DASHBOARD_FILTER_ADVANCE":
+                return {
+                    ...state,
+                    dashboardFilterAdvance: action.payload.response,
+                    statusCodeForAdvanceFilter: action.payload.statusCode,
+                };
+            case "CLEAR_DASHBOARD_FILTER_ADVANCE":
+                return { ...state, statusCodeForAdvanceFilter: 0 };
         // HostelBased
 
         case 'NO_DASHBOARD_LIST':
