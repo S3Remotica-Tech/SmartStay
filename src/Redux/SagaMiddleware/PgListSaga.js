@@ -779,7 +779,21 @@ function* handleDropFilterRevenue(action) {
   }
 }
 
+function* handleDropFilterAdvance(action) {
+  const response = yield call (dashboardFilter, action.payload);
 
+  if (response.data.status === 200 || response.data.statusCode === 200){
+     yield put ({type : 'DASHBOARD_FILTER_ADVANCE' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+ 
+  }
+
+  else {
+     yield put ({type:'ERROR', payload:response.data.message})
+  }
+  if(response){
+     refreshToken(response)
+  }
+}
 // hostelBased
 
 function* handleAddHostelElectricity(action) {
@@ -1169,6 +1183,7 @@ function* PgListSaga() {
   yield takeEvery("DASHBOARDFILTER", handleDropFilter);
   yield takeEvery("DASHBOARDFILTERCASHBACK", handleDropFilterCashBack);
   yield takeEvery("DASHBOARDFILTERREVENUE", handleDropFilterRevenue);
+  yield takeEvery("DASHBOARDFILTERADVANCE", handleDropFilterAdvance);
   yield takeEvery("HOSTELBASEDEBLIST", handleHostelBasedEblist);
   yield takeEvery("HOSTELBASEDDELETEEB", handleHostelDeleteElectricity);
   yield takeEvery("HOSTELBASEDEDITEB", handleHostelEditElectricity);

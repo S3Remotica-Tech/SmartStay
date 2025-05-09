@@ -48,14 +48,14 @@ import advancedHand from "../Assets/Images/New_images/AdvancedHand.png";
 import newBooking from "../Assets/Images/New_images/NewBooking.png";
 
 
-const newChart = [
-  { name: "Jan 2024", Advance: 10000, AdvanceReturn: 9000 },
-  { name: "Feb 2024", Advance: 15000, AdvanceReturn: 13000 },
-  { name: "Mar 2024", Advance: 20000, AdvanceReturn: 18000 },
-  { name: "Apr 2024", Advance: 25000, AdvanceReturn: 23000 },
-  { name: "May 2024", Advance: 20000, AdvanceReturn: 18000 },
-  { name: "Jun 2024", Advance: 15000, AdvanceReturn: 14000 },
-];
+// const newChart = [
+//   { name: "Jan 2024", Advance: 10000, AdvanceReturn: 9000 },
+//   { name: "Feb 2024", Advance: 15000, AdvanceReturn: 13000 },
+//   { name: "Mar 2024", Advance: 20000, AdvanceReturn: 18000 },
+//   { name: "Apr 2024", Advance: 25000, AdvanceReturn: 23000 },
+//   { name: "May 2024", Advance: 20000, AdvanceReturn: 18000 },
+//   { name: "Jun 2024", Advance: 15000, AdvanceReturn: 14000 },
+// ];
 
 function Dashboard() {
   const state = useSelector((state) => state);
@@ -80,6 +80,24 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
+  const [selectAdvance, setSelectAdvance] = useState("six_month");
+
+
+
+  const monthNames = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
+const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(item => {
+  const [year, month] = item.month.split("-");
+  const monthIndex = parseInt(month, 10) - 1;
+  return {
+    name: `${monthNames[monthIndex]} ${year}`,
+    Advance: Number(item.advance_amount),
+    AdvanceReturn: Number(item.return_advance),
+  };
+});
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
@@ -131,6 +149,9 @@ function Dashboard() {
   const handleSelectedRevenue = (e) => {
     setSelectRevenu(e.target.value);
   };
+  const handleSelectedAdvance = (e) => {
+    setSelectAdvance(e.target.value);
+  };
 
   useEffect(() => {
     // if(hostel_id){
@@ -157,6 +178,31 @@ function Dashboard() {
       });
     }
   }, [selectRevenu, hostel_id]);
+
+  useEffect(() => {
+    if (hostel_id) {
+      dispatch({
+        type: "DASHBOARDFILTERADVANCE",
+        payload: {
+          type: "advance",
+          range: selectAdvance,
+          hostel_id: hostel_id,
+        },
+      });
+    }
+  }, [selectAdvance, hostel_id]);
+
+
+
+  useEffect(() => {
+    if (state.PgList?.statusCodeForAdvanceFilter === 200) {
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DASHBOARD_FILTER_ADVANCE" });
+      }, 1000);
+    }
+  }, [state.PgList?.statusCodeForAdvanceFilter]);
+  console.log("state.PgList?.statusCodeForAdvanceFilter",state.PgList?.dashboardFilterAdvance)
+
   useEffect(() => {
     const cashBackDataRevenu =
       state.PgList?.dashboardFilterRevenu?.cash_back_data;
@@ -741,7 +787,7 @@ function Dashboard() {
           <div className="me-3  text-primary"><img src={advancedHand} alt="advancedhand" width={32} height={32} /></div>
           <div>
             <h6 className="text-muted ">Advance in Hand</h6>
-            <div className="fw-semibold fs-5">₹ 32,500</div>
+            <div className="fw-semibold fs-5">₹ {dashboardList[0]?.advance_inhand || 0}</div>
           </div>
         </div>
       </div>
@@ -752,7 +798,7 @@ function Dashboard() {
           <div className="me-3  text-primary"><img src={activeImage} alt="activeImage" width={32} height={32} /></div>
           <div>
             <h6 className="text-muted ">Active Complaint</h6>
-            <div className="fw-semibold fs-5">153</div>
+            <div className="fw-semibold fs-5">{dashboardList[0]?.active_complaint || 0}</div>
           </div>
         </div>
       </div>
@@ -784,7 +830,7 @@ function Dashboard() {
           <div className="me-3  text-primary"><img src={pendingimg} alt="coinImage" width={32} height={32} /></div>
           <div>
             <h6 className="text-muted ">Pending invoice count</h6>
-            <div className="fw-semibold fs-5">52</div>
+            <div className="fw-semibold fs-5">{dashboardList[0]?.pending_invoice || 0}</div>
           </div>
         </div>
       </div>
@@ -795,7 +841,7 @@ function Dashboard() {
           <div className="me-3  text-primary"><img src={newBooking} alt="coinImage" width={32} height={32} /></div>
           <div>
             <h6 className="text-muted ">New booking</h6>
-            <div className="fw-semibold fs-5">147</div>
+            <div className="fw-semibold fs-5">{dashboardList[0]?.new_booking || 0}</div>
           </div>
         </div>
       </div>
@@ -1192,8 +1238,8 @@ function Dashboard() {
                                 }}
                               >
                                 <select
-                                  // value={selectRevenu}
-                                  // onChange={(e) => handleSelectedRevenue(e)}
+                                  value={selectAdvance}
+                                  onChange={(e) => handleSelectedAdvance(e)}
                                   style={{
                                     fontSize: 12,
                                     color: "#4B4B4B",
@@ -1225,7 +1271,7 @@ function Dashboard() {
 
 
                           <ResponsiveContainer width="100%" height={300}>
-  <LineChart data={newChart}>
+  <LineChart data={formattedChart}>
     <CartesianGrid stroke="#e0e0e0" strokeDasharray="0" vertical={false} />
     {/* <XAxis dataKey="name" /> */}
     <XAxis
