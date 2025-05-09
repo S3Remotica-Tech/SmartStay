@@ -188,7 +188,7 @@ const Receipt = (props) => {
       }
     }, [ state.InvoiceList.ReceiptDeletesuccessStatuscode,]);
 
-    
+    console.log("props.item",props.item)
 
     
   return (

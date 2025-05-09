@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import TabList from "@mui/lab/TabList";
 import excelimg from "../Assets/Images/New_images/excel_blue.png";
 import CustomerReAssign from "./CustomerReAssign";
-import { ArrowLeft2, ArrowRight2,ArrowUp2, ArrowDown2, } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2 } from "iconsax-react";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import TabPanel from "@mui/lab/TabPanel";
@@ -47,12 +47,12 @@ import Filters from "../Assets/Images/Filters.svg";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import leftarrow from "../Assets/Images/arrow-left.png"
+import leftarrow from "../Assets/Images/arrow-left.png";
 
 function UserList(props) {
   const state = useSelector((state) => state);
- const { RangePicker } = DatePicker;
- dayjs.extend(isBetween);
+  const { RangePicker } = DatePicker;
+  dayjs.extend(isBetween);
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -121,79 +121,76 @@ function UserList(props) {
 
   const [hostelDelete, setHostelDelete] = useState(false);
   const [roomDelete, setRoomDelete] = useState(false);
- const [amenityArray, setamenityArray] = useState([]);
- const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
- const [formatduedate, setFormatDueDate] = useState(null);
- const [id, setId] = useState("");
- const [tableErrmsg, setTableErrmsg] = useState("");
- const [dropdownValue, setDropdownValue] = useState("");
- const [selectedTypes, setSelectedTypes] = useState([]);
-  const [billsAddshow,setBillsAddShow] = useState(false)
+  const [amenityArray, setamenityArray] = useState([]);
+  const [formatinvoicedate, setFormatInvoiceDate] = useState(null);
+  const [formatduedate, setFormatDueDate] = useState(null);
+  const [id, setId] = useState("");
+  const [tableErrmsg, setTableErrmsg] = useState("");
+  const [dropdownValue, setDropdownValue] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [billsAddshow, setBillsAddShow] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
-   const [filterStatus, setFilterStatus] = useState(false);
-
+  const [filterStatus, setFilterStatus] = useState(false);
 
   useEffect(() => {
     if (id && !billsAddshow) {
       dispatch({
         type: "MANUAL-INVOICE-NUMBER-GET",
-        payload: { user_id: id},
+        payload: { user_id: id },
       });
     }
   }, [id, billsAddshow]);
   const handleRowTypeSelect = (type) => {
     let newRow = { am_name: "", amount: "0" };
-  
+
     if (type === "RoomRent") {
       newRow.am_name = "Room Rent";
     } else if (type === "EB") {
       newRow.am_name = "EB";
     }
-  
+
     setNewRows((prev) => [...prev, newRow]);
     if (type !== "Other" && !selectedTypes.includes(type)) {
       setSelectedTypes((prev) => [...prev, type]);
     }
-  
+
     // Clear error messages
     setAllFieldErrmsg("");
     setTableErrmsg("");
-  
+
     setDropdownValue("");
   };
 
-  
-   useEffect(() => {
-      if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
-        setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
-        setTimeout(() => {
-          dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
-        }, 100);
-      }
-    }, [
-      state.InvoiceList.ManualInvoiceNUmber.invoice_number,
-      state.InvoiceList.Manulainvoicenumberstatuscode,
-    ]);
+  useEffect(() => {
+    if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
+      setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
+      }, 100);
+    }
+  }, [
+    state.InvoiceList.ManualInvoiceNUmber.invoice_number,
+    state.InvoiceList.Manulainvoicenumberstatuscode,
+  ]);
 
   const handleEditItem = (details) => {
-    setBillsAddShow(true)
+    setBillsAddShow(true);
     setCurrentView(null);
     setTimeout(() => {
       setCurrentView(details);
-     
     }, 0);
   };
-  
+
   useEffect(() => {
     if (isAddMode && !currentView && !billsAddshow) {
       setCustomerName(id);
     }
   }, [isAddMode, billsAddshow]);
-const handleAddItems = () => {
-  setIsAddMode(true); 
-  setBillsAddShow(true);
-  setCustomerName(id);
-};
+  const handleAddItems = () => {
+    setIsAddMode(true);
+    setBillsAddShow(true);
+    setCustomerName(id);
+  };
   const handleDeleteItem = (detail) => {
     setDeleteId(detail);
   };
@@ -210,8 +207,7 @@ const handleAddItems = () => {
 
       if (matchingFloor) {
         setFloor(matchingFloor.floor_id);
-      } 
-     
+      }
 
       const matchingRoom = state?.UsersList?.roomdetails?.find(
         (item) => String(item.Room_Id) === String(isreader.Room_Id)
@@ -219,20 +215,16 @@ const handleAddItems = () => {
 
       if (matchingRoom) {
         setRooms(matchingRoom.Room_Id);
-      } 
-      
+      }
 
-      
       setReading(isreader.unit);
 
       if (isreader.reading_date) {
         const parsedDate = new Date(isreader.reading_date);
         if (!isNaN(parsedDate.getTime())) {
           setSelectedDate(parsedDate);
-        } 
-       
-      } 
-    
+        }
+      }
     }
   }, [
     isreader,
@@ -243,17 +235,15 @@ const handleAddItems = () => {
   const handleEditHostelReading = (users) => {
     setIsReading(users);
   };
-  
 
   const handleNewRowChange = (index, field, value) => {
     setNewRows((prevRows) =>
       prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
     );
     setAllFieldErrmsg("");
-    setTableErrmsg("")
+    setTableErrmsg("");
   };
 
- 
   const handleDeleteBilling = () => {
     dispatch({
       type: "MANUAL-INVOICE-DELETE",
@@ -267,41 +257,37 @@ const handleAddItems = () => {
   const handleEditBill = () => {
     let isValid = true;
     let hasError = false;
-  
 
-    
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
-   
+
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
 
-   
     if (!customername) {
       setCustomerErrmsg("Customer is Required");
       isValid = false;
     }
 
-    
     if (!invoicenumber) {
       setInvoicenumberErrmsg("Invoice Number is Required");
       isValid = false;
     }
 
-  
     if (!invoicedate) {
       setInvoiceDateErrmsg("Invoice Date is Required");
       isValid = false;
     }
 
-   
     if (!invoiceduedate) {
       setInvoiceDueDateErrmsg("Due Date is Required");
       isValid = false;
     }
     if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
+      setTableErrmsg(
+        "Please Add At Least One Item Row Before Generating The Bill"
+      );
       hasError = true;
     } else if (
       newRows.some(
@@ -314,30 +300,23 @@ const handleAddItems = () => {
           parseFloat(row.amount) <= 0
       )
     ) {
-      setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
+      setTableErrmsg(
+        "Please Fill All Details & Amount > 0 Before Generating The Bill"
+      );
       hasError = true;
     } else {
       setTableErrmsg("");
     }
-  
+
     if (hasError) {
       return;
     }
 
-   
-    if (
-      !customername ||
-      !invoicenumber ||
-     
-      !invoicedate ||
-      !invoiceduedate 
-      
-    ) {
+    if (!customername || !invoicenumber || !invoicedate || !invoiceduedate) {
       setAllFieldErrmsg("Please Fill Out All Required Fields");
       isValid = false;
     }
 
-  
     const formatDateToInvoicedate = (invoicedate) => {
       if (!invoicedate) return "";
       const d = new Date(invoicedate);
@@ -365,10 +344,10 @@ const handleAddItems = () => {
     const isChanged = (() => {
       const userChanged =
         Number(currentView.hos_user_id) !== Number(customername);
-    
+
       const invoiceChanged =
         String(currentView.Invoices) !== String(invoicenumber);
-     
+
       const invoiceDateChanged =
         formatDateToInvoicedate(currentView.Date) !==
         formatDateToInvoicedate(invoicedate);
@@ -414,8 +393,6 @@ const handleAddItems = () => {
         day
       ).padStart(2, "0")}`;
 
-     
-
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
         payload: {
@@ -433,7 +410,7 @@ const handleAddItems = () => {
       setRoomDetail(true);
       setCustomerName("");
       setInvoiceNumber("");
-      
+
       setInvoiceDate("");
       setInvoiceDueDate("");
 
@@ -441,7 +418,7 @@ const handleAddItems = () => {
       setNewRows([]);
 
       setCustomerErrmsg("");
-      
+
       setInvoiceDateErrmsg("");
       setInvoiceDueDateErrmsg("");
       setAllFieldErrmsg("");
@@ -449,95 +426,90 @@ const handleAddItems = () => {
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
   };
 
- 
   const handleCreateBill = () => {
+    let hasError = false;
 
-      let hasError = false;
-  
-      // Check required fields and set error messages only if empty
-      if (!customername) {
-        setCustomerErrmsg("Please Select Customer");
-        hasError = true;
-      } else {
-        setCustomerErrmsg(""); // Clear error when field is filled
-      }
-  
-     
-  
-      if (!invoicedate) {
-        setInvoiceDateErrmsg("Please Select Invoice Date");
-        hasError = true;
-      } else {
-        setInvoiceDateErrmsg("");
-      }
-  
-      if (!invoiceduedate) {
-        setInvoiceDueDateErrmsg("Please Select Due Date");
-        hasError = true;
-      } else {
-        setInvoiceDueDateErrmsg("");
-      }
-  
-     
+    // Check required fields and set error messages only if empty
+    if (!customername) {
+      setCustomerErrmsg("Please Select Customer");
+      hasError = true;
+    } else {
+      setCustomerErrmsg(""); // Clear error when field is filled
+    }
 
-      if (!Array.isArray(newRows) || newRows.length === 0) {
-        setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
-        hasError = true;
-      } else if (
-        newRows.some(
-          (row) =>
-            !row.am_name?.trim() ||
-            row.amount === "" ||
-            row.amount === null ||
-            row.amount === undefined ||
-            isNaN(row.amount) ||
-            parseFloat(row.amount) <= 0
-        )
-      ) {
-        setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
-        hasError = true;
-      } else {
-        setTableErrmsg("");
+    if (!invoicedate) {
+      setInvoiceDateErrmsg("Please Select Invoice Date");
+      hasError = true;
+    } else {
+      setInvoiceDateErrmsg("");
+    }
+
+    if (!invoiceduedate) {
+      setInvoiceDueDateErrmsg("Please Select Due Date");
+      hasError = true;
+    } else {
+      setInvoiceDueDateErrmsg("");
+    }
+
+    if (!Array.isArray(newRows) || newRows.length === 0) {
+      setTableErrmsg(
+        "Please Add At Least One Item Row Before Generating The Bill"
+      );
+      hasError = true;
+    } else if (
+      newRows.some(
+        (row) =>
+          !row.am_name?.trim() ||
+          row.amount === "" ||
+          row.amount === null ||
+          row.amount === undefined ||
+          isNaN(row.amount) ||
+          parseFloat(row.amount) <= 0
+      )
+    ) {
+      setTableErrmsg(
+        "Please Fill All Details & Amount > 0 Before Generating The Bill"
+      );
+      hasError = true;
+    } else {
+      setTableErrmsg("");
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    dispatch({
+      type: "MANUAL-INVOICE-ADD",
+      payload: {
+        user_id: customername,
+        date: formatinvoicedate,
+        due_date: formatduedate,
+
+        invoice_id: invoicenumber,
+        total_amount: totalAmount,
+        amenity: amenityArray.length > 0 ? amenityArray : [],
+      },
+    });
+
+    setCustomerName("");
+    setInvoiceNumber("");
+
+    setInvoiceDate("");
+    setInvoiceDueDate("");
+    setTotalAmount("");
+    setNewRows([]);
+  };
+  useEffect(() => {
+    if (!billsAddshow && id) {
+      const customeraId = state.UsersList?.Users?.find((u) => u.ID === id);
+
+      if (customeraId) {
+        setCustomerName(customeraId.Name);
       }
-    
-      if (hasError) {
-        return;
-      }
-  
-    
-      dispatch({
-        type: "MANUAL-INVOICE-ADD",
-        payload: {
-          user_id: customername,
-          date: formatinvoicedate,
-          due_date: formatduedate,
-         
-          invoice_id: invoicenumber,
-          total_amount: totalAmount,
-          amenity: amenityArray.length > 0 ? amenityArray : [],
-        },
-      });
-  
-     
-      setCustomerName("");
-      setInvoiceNumber("");
-      
-      setInvoiceDate("");
-      setInvoiceDueDate("");
-      setTotalAmount("");
-      setNewRows([]);
-     
-    };
-    useEffect(() => {
-      if (!billsAddshow && id) {
-        const customeraId = state.UsersList?.Users?.find((u) => u.ID === id);
-    
-        if (customeraId) {
-          setCustomerName(customeraId.Name);
-        }
-      }
-    }, [billsAddshow]);
-    
+    }
+  }, [billsAddshow]);
+
   const handleCustomerName = (e) => {
     setCustomerName(e.target.value);
     setAllFieldErrmsg("");
@@ -551,10 +523,9 @@ const handleAddItems = () => {
     setTotalAmount("");
   };
 
-
-   const formatDateForPayloadmanualinvoice = (date) => {
-      return dayjs(date).format("YYYY-MM-DD"); // Change format if needed
-    };
+  const formatDateForPayloadmanualinvoice = (date) => {
+    return dayjs(date).format("YYYY-MM-DD"); // Change format if needed
+  };
 
   const handleInvoiceDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -564,7 +535,6 @@ const handleAddItems = () => {
       setInvoiceDateErrmsg("Please Select Date");
     } else {
       setInvoiceDateErrmsg("");
-      
     }
     const formattedDate = formatDateForPayloadmanualinvoice(date);
     setFormatInvoiceDate(formattedDate);
@@ -583,29 +553,29 @@ const handleAddItems = () => {
     setFormatDueDate(formattedDate);
   };
 
-  
-
   const handleDeleteNewRow = (index) => {
     setNewRows((prevRows) => {
       const deletedRow = prevRows[index];
       const updatedRows = prevRows.filter((_, i) => i !== index);
-  
+
       const name = deletedRow.am_name?.toLowerCase().replace(/\s/g, "");
       if (name === "roomrent") {
-        setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "RoomRent"));
+        setSelectedTypes((prevTypes) =>
+          prevTypes.filter((type) => type !== "RoomRent")
+        );
       } else if (name === "eb") {
-        setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "EB"));
+        setSelectedTypes((prevTypes) =>
+          prevTypes.filter((type) => type !== "EB")
+        );
       }
-  
+
       return updatedRows;
     });
-  
+
     setAllFieldErrmsg("");
     setTableErrmsg("");
   };
-  
 
- 
   const handleCloseDeleteroom = () => {
     setRoomDelete(false);
   };
@@ -616,8 +586,8 @@ const handleAddItems = () => {
   const handleBackBill = () => {
     setIsAddMode(false);
     setIsEditing(false);
-setDropdownValue("")
-setSelectedTypes("")
+    setDropdownValue("");
+    setSelectedTypes("");
     setRoomDetail(true);
     setCustomerName("");
     setInvoiceNumber("");
@@ -632,8 +602,8 @@ setSelectedTypes("")
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
-    setNewRows("")
-    setTableErrmsg("")
+    setNewRows("");
+    setTableErrmsg("");
     // setEnddateErrmsg("")
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
     dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
@@ -644,73 +614,67 @@ setSelectedTypes("")
       setCustomerName(currentView.hos_user_id);
       setInvoiceNumber(currentView.Invoices);
       if (currentView.DueDate) {
-        const parsedDate = new Date(currentView.DueDate); 
+        const parsedDate = new Date(currentView.DueDate);
         if (!isNaN(parsedDate.getTime())) {
-          setInvoiceDueDate(parsedDate); 
+          setInvoiceDueDate(parsedDate);
         }
-        
       }
 
       if (currentView.Date) {
         const parsedDate = new Date(currentView.Date); // Convert to Date object
         if (!isNaN(parsedDate.getTime())) {
-         
           setInvoiceDate(parsedDate); // Set the date object in state
-        } 
-       
+        }
       }
-     
 
       setTotalAmount(currentView.Amount);
 
       // setNewRows(currentView.amenity);
       // if (currentView.amenity && Array.isArray(currentView.amenity)) {
       //   setNewRows(currentView.amenity);
-      
+
       //   const types = [];
       //   currentView.amenity.forEach((item) => {
       //     if (item.am_name === "Room Rent") types.push("RoomRent");
       //     if (item.am_name === "EB") types.push("EB");
       //   });
-      
+
       //   setSelectedTypes(types);
       // }
       if (currentView.amenity && Array.isArray(currentView.amenity)) {
         setNewRows(currentView.amenity);
-      
+
         const types = [];
         currentView.amenity.forEach((item) => {
           const name = item.am_name?.toLowerCase().replace(/\s/g, "");
           if (name === "roomrent") types.push("RoomRent");
           if (name === "eb") types.push("EB");
         });
-      
+
         setSelectedTypes(types);
       }
-     
     }
   }, [currentView]);
 
+  useEffect(() => {
+    if (newRows) {
+      const allRows = newRows
+        .map((detail) => ({
+          am_name: detail.am_name,
+          amount: Number(detail.amount),
+        }))
+        .filter((detail) => detail.am_name && detail.amount);
 
-   useEffect(() => {
-      if (newRows) {
-        const allRows = newRows
-          .map((detail) => ({
-            am_name: detail.am_name,
-            amount: Number(detail.amount),
-          }))
-          .filter((detail) => detail.am_name && detail.amount);
-  
-        setamenityArray(allRows);
-  
-        const Total_amout = allRows.reduce(
-          (sum, item) => sum + parseFloat(item.amount || 0),
-          0
-        );
-  
-        setTotalAmount(Total_amout);
-      }
-    }, [newRows]);
+      setamenityArray(allRows);
+
+      const Total_amout = allRows.reduce(
+        (sum, item) => sum + parseFloat(item.amount || 0),
+        0
+      );
+
+      setTotalAmount(Total_amout);
+    }
+  }, [newRows]);
 
   useEffect(() => {
     if (isReading) {
@@ -744,7 +708,6 @@ setSelectedTypes("")
   //   }, [Floor]);
 
   const [userListDetail, setUserListDetail] = useState("");
- 
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
@@ -821,22 +784,21 @@ setSelectedTypes("")
   }, [state.InvoiceList.manualInvoiceEditStatusCode]);
 
   useEffect(() => {
-      if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
-        handleBackBill()
-        dispatch({
-          type: "CUSTOMERDETAILS",
-          payload: { user_id: id },
-        });
-  
-        setTimeout(() => {
-          dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
-         
-        }, 1000);
-      }
-    }, [
-      state.InvoiceList.manualInvoiceAddStatusCode,
-      state.InvoiceList.ManualInvoices,
-    ]);
+    if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
+      handleBackBill();
+      dispatch({
+        type: "CUSTOMERDETAILS",
+        payload: { user_id: id },
+      });
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
+      }, 1000);
+    }
+  }, [
+    state.InvoiceList.manualInvoiceAddStatusCode,
+    state.InvoiceList.ManualInvoices,
+  ]);
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceDeleteStatusCode === 200) {
@@ -1287,37 +1249,35 @@ setSelectedTypes("")
   const totalPages = Math.ceil(
     (search ? filteredUsers?.length : userListDetail?.length) / itemsPerPage
   );
-   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-    
-      const sortedData = React.useMemo(() => {
-        if (!sortConfig.key) return currentItems;
-    
-        const sorted = [...currentItems].sort((a, b) => {
-          const valueA = a[sortConfig.key];
-          const valueB = b[sortConfig.key];
-    
-    
-          if (!isNaN(valueA) && !isNaN(valueB)) {
-            return sortConfig.direction === 'asc'
-              ? valueA - valueB
-              : valueB - valueA;
-          }
-    
-          if (typeof valueA === 'string' && typeof valueB === 'string') {
-            return sortConfig.direction === 'asc'
-              ? valueA.localeCompare(valueB)
-              : valueB.localeCompare(valueA);
-          }
-    
-          return 0;
-        });
-    
-        return sorted;
-      }, [currentItems, sortConfig]);
-      const handleSort = (key, direction) => {
-        setSortConfig({ key, direction });
-      };
-  
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return currentItems;
+
+    const sorted = [...currentItems].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === "asc"
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      if (typeof valueA === "string" && typeof valueB === "string") {
+        return sortConfig.direction === "asc"
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [currentItems, sortConfig]);
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -1329,19 +1289,24 @@ setSelectedTypes("")
   };
 
   const handleShow = (u) => {
-      if (!state.login.selectedHostel_Id) {
-          toast.error('Please add a hostel before adding customer information.', {
-            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-          });
-          return;
-        }
+    if (!state.login.selectedHostel_Id) {
+      toast.error("Please add a hostel before adding customer information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
+      return;
+    }
     handleMenuClick();
     setShowMenu(true);
-    setAddCheckoutForm(false)
+    setAddCheckoutForm(false);
     setAddBasicDetail(true);
     setEditObj(u);
   };
-
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -1352,7 +1317,7 @@ setSelectedTypes("")
     setExcelDownloadCheckout("");
     setIsDownloadTriggered(false);
     setFilterInput("");
-    setFilterStatus("")
+    setFilterStatus("");
   };
 
   useEffect(() => {
@@ -1368,36 +1333,30 @@ setSelectedTypes("")
 
   const [roomDetail, setRoomDetail] = useState(false);
   const [userList, setUserList] = useState(true);
-  
+
   const [hostelName, sethosName] = useState("");
   const [customerUser_Id, setcustomerUser_Id] = useState("");
-  const [advanceForm,setAdvanceForm] = useState(false)
-  
+  const [advanceForm, setAdvanceForm] = useState(false);
 
   const handleRoomDetailsPage = (userData) => {
-   
     setHostelIds(userData.Hostel_Id);
-   
+
     setId(userData.ID);
     sethosName(userData.HostelName);
     setcustomerUser_Id(userData.User_Id);
     setRoomDetail(true);
     setUserList(false);
-    dispatch({ type: "UPDATE_USERSLIST_FALSE" }); 
+    dispatch({ type: "UPDATE_USERSLIST_FALSE" });
   };
   const handleShowAddBed = (u) => {
     setEdit("Edit");
     handleMenuClick();
     setShowMenu(true);
-    setAdvanceForm(false)
-    setAddCheckoutForm(false)
+    setAdvanceForm(false);
+    setAddCheckoutForm(false);
     setAddBasicDetail(false);
-    setEditObj(u);;
+    setEditObj(u);
   };
-
-  
- 
- 
 
   const [hostelIds, setHostelIds] = useState("");
 
@@ -1411,8 +1370,6 @@ setSelectedTypes("")
     });
 
     setUserDetails(ParticularUserDetails);
-
-   
   }, [customerUser_Id, state.UsersList?.Users, state.InvoiceList?.Invoice]);
 
   useEffect(() => {
@@ -1422,21 +1379,17 @@ setSelectedTypes("")
         payload: { hostel_id: uniqueostel_Id },
       });
 
-    
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
       }, 2000);
     }
-  }, [
-    state.UsersList?.statusCodeForAddUser,
-    
-  ]);
-  
-const handleBack = () => {
+  }, [state.UsersList?.statusCodeForAddUser]);
+
+  const handleBack = () => {
     setUserList(true);
     setRoomDetail(false);
   };
- 
+
   const handleShowSearch = () => {
     setSearch(!search);
   };
@@ -1444,98 +1397,105 @@ const handleBack = () => {
     setFilterStatus(!filterStatus);
   };
   const [bookingDateRange, setBookingDateRange] = useState([]);
-  const [checkoutDateRange,setCheckoutDateRange] = useState([])
-  const [walkinDateRange,setWalkinDateRange] = useState([])
+  const [checkoutDateRange, setCheckoutDateRange] = useState([]);
+  const [walkinDateRange, setWalkinDateRange] = useState([]);
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const [resetPage, setResetPage] = useState(false);
   const handleDateRangeChangeBooking = (dates) => {
     setBookingDateRange(dates);
-  
+
     if (!dates || dates.length !== 2) {
-      setFilterStatus(false);  
-      setFilteredUsers(customerBooking); 
+      setFilterStatus(false);
+      setFilteredUsers(customerBooking);
       return;
     }
-  
+
     const [start, end] = dates;
-  
+
     const filtered = customerBooking?.filter((item) => {
       const itemDate = dayjs(item.createdat);
-      return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+      return (
+        itemDate.isSameOrAfter(start, "day") &&
+        itemDate.isSameOrBefore(end, "day")
+      );
     });
-  
+
     setFilteredUsers(filtered);
     setFilterStatus(true);
-    setResetPage(true)
+    setResetPage(true);
   };
-    const [statusFilterCheckout, setStatusFilterCheckout] = useState("");
- 
-    const handleStatusFilterCheckout = (event) => {
-      const searchTerm = event.target.value;
-      setStatusFilterCheckout(searchTerm);
-    
-      // Clear previously selected date range when switching away from "Date"
-      if (searchTerm !== "date") {
-        setCheckoutDateRange(null);  // This will also hide the picker in UI
-      }
-    
-      if (searchTerm === "All") {
-        setFilteredUsers(checkOutCustomer);
-        setFilterStatus(true);
-      } else if (searchTerm === "0" || searchTerm === "1") {
-        const filtered = checkOutCustomer?.filter(item => item.isActive?.toString() === searchTerm);
-        setFilteredUsers(filtered);
-        setFilterStatus(true);
-      } else if (searchTerm === "date") {
-        setFilterStatus(true); 
-      }
-    };
-    
-  
-  
-    const handleDateRangeChangeCheckout = (dates) => {
-      setCheckoutDateRange(dates);
-    
-      if (!dates || dates.length !== 2) {
-        setStatusFilterCheckout("All");
-        setFilteredUsers(checkOutCustomer);
-        setFilterStatus(false);
-        return;
-      }
-    
-      const [start, end] = dates;
-      const filtered = checkOutCustomer?.filter((item) => {
-        const itemDate = dayjs(item.CheckoutDate);
-        return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
-      });
-    
+  const [statusFilterCheckout, setStatusFilterCheckout] = useState("");
+
+  const handleStatusFilterCheckout = (event) => {
+    const searchTerm = event.target.value;
+    setStatusFilterCheckout(searchTerm);
+
+    // Clear previously selected date range when switching away from "Date"
+    if (searchTerm !== "date") {
+      setCheckoutDateRange(null); // This will also hide the picker in UI
+    }
+
+    if (searchTerm === "All") {
+      setFilteredUsers(checkOutCustomer);
+      setFilterStatus(true);
+    } else if (searchTerm === "0" || searchTerm === "1") {
+      const filtered = checkOutCustomer?.filter(
+        (item) => item.isActive?.toString() === searchTerm
+      );
       setFilteredUsers(filtered);
       setFilterStatus(true);
-      setResetPage(true);
-    };
-    
+    } else if (searchTerm === "date") {
+      setFilterStatus(true);
+    }
+  };
 
+  const handleDateRangeChangeCheckout = (dates) => {
+    setCheckoutDateRange(dates);
+
+    if (!dates || dates.length !== 2) {
+      setStatusFilterCheckout("All");
+      setFilteredUsers(checkOutCustomer);
+      setFilterStatus(false);
+      return;
+    }
+
+    const [start, end] = dates;
+    const filtered = checkOutCustomer?.filter((item) => {
+      const itemDate = dayjs(item.CheckoutDate);
+      return (
+        itemDate.isSameOrAfter(start, "day") &&
+        itemDate.isSameOrBefore(end, "day")
+      );
+    });
+
+    setFilteredUsers(filtered);
+    setFilterStatus(true);
+    setResetPage(true);
+  };
 
   const handleDateRangeChangeWalkin = (dates) => {
     setWalkinDateRange(dates);
-  
+
     if (!dates || dates.length !== 2) {
-      setFilterStatus(false);  
-      setFilteredUsers(walkingCustomer); 
+      setFilterStatus(false);
+      setFilteredUsers(walkingCustomer);
       return;
     }
-  
+
     const [start, end] = dates;
-  
+
     const filtered = walkingCustomer?.filter((item) => {
       const itemDate = dayjs(item.walk_In_Date);
-      return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+      return (
+        itemDate.isSameOrAfter(start, "day") &&
+        itemDate.isSameOrBefore(end, "day")
+      );
     });
-  
+
     setFilteredUsers(filtered);
     setFilterStatus(true);
-    setResetPage(true)
+    setResetPage(true);
   };
 
   useEffect(() => {
@@ -1548,7 +1508,6 @@ const handleBack = () => {
       dispatch({ type: "AMENITESHISTORY", payload: { user_id: id } });
     }
   }, [id]);
-
 
   const handleCloseDelete = () => {
     setDeleteShow(false);
@@ -1584,7 +1543,6 @@ const handleBack = () => {
   const handleDeleteBill = () => {
     setIsDeleting(false);
   };
-
 
   const uniqueAmenities = [];
   const seenNames = new Set();
@@ -1672,12 +1630,18 @@ const handleBack = () => {
   };
   const [showbookingForm, setShowbookingForm] = useState(false);
   const toggleForm = () => {
-      if (!state.login.selectedHostel_Id) {
-          toast.error('Please add a hostel before adding booking information.', {
-            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-          });
-          return;
-        }
+    if (!state.login.selectedHostel_Id) {
+      toast.error("Please add a hostel before adding booking information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
+      return;
+    }
     setShowbookingForm(!showbookingForm);
   };
   const closeModal = () => {
@@ -1685,12 +1649,18 @@ const handleBack = () => {
   };
   const [checkoutForm, setcheckoutForm] = useState(false);
   const checkOutForm = () => {
-      if (!state.login.selectedHostel_Id) {
-          toast.error('Please add a hostel before adding checkout information.', {
-            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-          });
-          return;
-        }
+    if (!state.login.selectedHostel_Id) {
+      toast.error("Please add a hostel before adding checkout information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
+      return;
+    }
     setcheckoutForm(!checkoutForm);
   };
   const checkoutcloseModal = () => {
@@ -1700,12 +1670,18 @@ const handleBack = () => {
 
   const [walkInForm, setWalkinForm] = useState(false);
   const walkinForm = () => {
-      if (!state.login.selectedHostel_Id) {
-          toast.error('Please add a hostel before adding walking information.', {
-            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-          });
-          return;
-        }
+    if (!state.login.selectedHostel_Id) {
+      toast.error("Please add a hostel before adding walking information.", {
+        hideProgressBar: true,
+        autoClose: 1500,
+        style: {
+          color: "#000",
+          borderBottom: "5px solid red",
+          fontFamily: "Gilroy",
+        },
+      });
+      return;
+    }
     setWalkinForm(true);
   };
   const walkinFormcloseModal = () => {
@@ -2118,14 +2094,12 @@ const handleBack = () => {
     marginBottom: "10px",
     maxHeight: 45,
     width: "146px",
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   };
-  
 
   return (
     // <div style={{ padding: 10, marginLeft: 20 }}>
     <div>
-     
       <Addbooking
         show={showbookingForm}
         handleClose={closeModal}
@@ -2154,293 +2128,330 @@ const handleBack = () => {
       {userList && (
         <div className="container p-0">
           <div className="header-container">
-          <div className="d-flex justify-content-between align-items-center flex-wrap" style={{marginTop:14}}> 
-  <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ms-lg-4">
-    <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy", marginTop:-15 }}>
-      Customers
-    </label>
-  </div>
-
-  <div className="d-flex flex-wrap align-items-center gap-2">
-    {/* Search Box */}
-    {search ? (
-        <div style={{ position: "relative", width: isSmallScreen && search ? '150px' : '240px', }} className="search-box">
-          <div className="input-group">
-            <span className="input-group-text bg-white border-end-0">
-              <Image
-                src={searchteam}
-                alt="search"
-                style={{ height: 20, width: 20, cursor: "pointer" }}
-              />
-            </span>
-            <input
-              type="text"
-              className="form-control border-start-0"
-              placeholder="Search"
-              value={filterInput}
-              onChange={(e) => handlefilterInput(e)}
-              style={{ boxShadow: "none", borderRight: "none", }}
-            />
-            <span className="input-group-text bg-white border-start-0">
-              <img
-                src={closecircle}
-                alt="close"
-                style={{ height: 20, width: 20, cursor: "pointer" }}
-                onClick={handleCloseSearch}
-              />
-            </span>
-          </div>
-
-          {/* Dropdown */}
-          {isDropdownVisible && filteredUsers?.length > 0 && (
             <div
-              style={{
-                border: "1px solid #d9d9d9",
-                position: "absolute",
-                top: 48,
-                left: 0,
-                zIndex: 1000,
-                padding: 10,
-                borderRadius: 8,
-                backgroundColor: "#fff",
-                width: "100%",
-              }}
+              className="d-flex justify-content-between align-items-center flex-wrap"
+              style={{ marginTop: 14 }}
             >
-              <ul
-                className="show-scroll p-0"
-                style={{
-                  backgroundColor: "#fff",
-                  maxHeight: "174px",
-                  minHeight: filteredUsers?.length > 1 ? "100px" : "auto",
-                  overflowY: filteredUsers?.length > 3 ? "auto" : "hidden",
-                  margin: 0,
-                  listStyleType: "none",
-                  borderRadius: 8,
-                  boxSizing: "border-box",
-                }}
-              >
-                {filteredUsers?.map((user, index) => {
-                  const imagedrop = user.profile || Profile;
-                  return (
-                    <li
-                    key={index}
-                    className="d-flex align-items-center hover-bg"
+              <div className="d-flex justify-content-lg-start justify-content-center align-items-center flex-wrap ms-lg-4">
+                <label
+                  style={{
+                    fontSize: 18,
+                    color: "#000000",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    marginTop: -15,
+                  }}
+                >
+                  Customers
+                </label>
+              </div>
+
+              <div className="d-flex flex-wrap align-items-center gap-2">
+                {/* Search Box */}
+                {search ? (
+                  <div
                     style={{
-                      cursor: "pointer",
-                      padding: "8px",
-                      borderBottom: index !== filteredUsers.length - 1 ? "1px solid #eee" : "none",
-                      minWidth: 0,
-                      transition: "background-color 0.2s ease",
+                      position: "relative",
+                      width: isSmallScreen && search ? "150px" : "240px",
                     }}
-                    onClick={() => handleUserSelect(user)}
+                    className="search-box"
                   >
-                    <Image
-                      src={imagedrop}
-                      alt={user.Name || "Default Profile"}
-                      roundedCircle
-                      style={{
-                        height: "30px",
-                        width: "30px",
-                        marginRight: "10px",
-                        flexShrink: 0,
-                      }}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = Profile;
-                      }}
-                    />
-                    <div className="text-truncate" style={{ maxWidth: "100%" }}>
-                      <span style={{ fontSize: "14px", wordBreak: "break-word" }}>
-                        {value === "1"
-                          ? user.Name
-                          : value === "2"
-                          ? [user?.first_name, user?.last_name].filter(Boolean).join(" ")
-                          : value === "3"
-                          ? user.Name
-                          : value === "4"
-                          ? user.first_name
-                          : ""}
+                    <div className="input-group">
+                      <span className="input-group-text bg-white border-end-0">
+                        <Image
+                          src={searchteam}
+                          alt="search"
+                          style={{ height: 20, width: 20, cursor: "pointer" }}
+                        />
+                      </span>
+                      <input
+                        type="text"
+                        className="form-control border-start-0"
+                        placeholder="Search"
+                        value={filterInput}
+                        onChange={(e) => handlefilterInput(e)}
+                        style={{ boxShadow: "none", borderRight: "none" }}
+                      />
+                      <span className="input-group-text bg-white border-start-0">
+                        <img
+                          src={closecircle}
+                          alt="close"
+                          style={{ height: 20, width: 20, cursor: "pointer" }}
+                          onClick={handleCloseSearch}
+                        />
                       </span>
                     </div>
-                  </li>
-                  
-                  );
-                })}
-              </ul>
-            </div>
-          )}
-        </div>
-      ) : (
-        <Image
-          src={searchteam}
-          alt="search"
-          className="me-2"
-          style={{ height: "24px", width: "24px", cursor: "pointer" }}
-          onClick={handleShowSearch}
-        />
-      )}
-      {(value === "2" || value === "3" || value === "4") && (
-                  <div >
+
+                    {/* Dropdown */}
+                    {isDropdownVisible && filteredUsers?.length > 0 && (
+                      <div
+                        style={{
+                          border: "1px solid #d9d9d9",
+                          position: "absolute",
+                          top: 48,
+                          left: 0,
+                          zIndex: 1000,
+                          padding: 10,
+                          borderRadius: 8,
+                          backgroundColor: "#fff",
+                          width: "100%",
+                        }}
+                      >
+                        <ul
+                          className="show-scroll p-0"
+                          style={{
+                            backgroundColor: "#fff",
+                            maxHeight: "174px",
+                            minHeight:
+                              filteredUsers?.length > 1 ? "100px" : "auto",
+                            overflowY:
+                              filteredUsers?.length > 3 ? "auto" : "hidden",
+                            margin: 0,
+                            listStyleType: "none",
+                            borderRadius: 8,
+                            boxSizing: "border-box",
+                          }}
+                        >
+                          {filteredUsers?.map((user, index) => {
+                            const imagedrop = user.profile || Profile;
+                            return (
+                              <li
+                                key={index}
+                                className="d-flex align-items-center hover-bg"
+                                style={{
+                                  cursor: "pointer",
+                                  padding: "8px",
+                                  borderBottom:
+                                    index !== filteredUsers.length - 1
+                                      ? "1px solid #eee"
+                                      : "none",
+                                  minWidth: 0,
+                                  transition: "background-color 0.2s ease",
+                                }}
+                                onClick={() => handleUserSelect(user)}
+                              >
+                                <Image
+                                  src={imagedrop}
+                                  alt={user.Name || "Default Profile"}
+                                  roundedCircle
+                                  style={{
+                                    height: "30px",
+                                    width: "30px",
+                                    marginRight: "10px",
+                                    flexShrink: 0,
+                                  }}
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = Profile;
+                                  }}
+                                />
+                                <div
+                                  className="text-truncate"
+                                  style={{ maxWidth: "100%" }}
+                                >
+                                  <span
+                                    style={{
+                                      fontSize: "14px",
+                                      wordBreak: "break-word",
+                                    }}
+                                  >
+                                    {value === "1"
+                                      ? user.Name
+                                      : value === "2"
+                                      ? [user?.first_name, user?.last_name]
+                                          .filter(Boolean)
+                                          .join(" ")
+                                      : value === "3"
+                                      ? user.Name
+                                      : value === "4"
+                                      ? user.first_name
+                                      : ""}
+                                  </span>
+                                </div>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Image
+                    src={searchteam}
+                    alt="search"
+                    className="me-2"
+                    style={{ height: "24px", width: "24px", cursor: "pointer" }}
+                    onClick={handleShowSearch}
+                  />
+                )}
+                {(value === "2" || value === "3" || value === "4") && (
+                  <div>
                     <Image
                       src={Filters}
                       roundedCircle
-                      style={{ height: "50px", width: "50px", cursor: "pointer" }}
+                      style={{
+                        height: "50px",
+                        width: "50px",
+                        cursor: "pointer",
+                      }}
                       onClick={handleFilterd}
                     />
                   </div>
                 )}
 
-    {value === "2" && filterStatus && (
-      <div style={{ width: 240 }}>
-        <RangePicker
-          value={bookingDateRange}
-          onChange={handleDateRangeChangeBooking}
-          format="DD/MM/YYYY"
-          style={{ width: "100%",cursor:"pointer" }}
-        />
-      </div>
-    )}
+                {value === "2" && filterStatus && (
+                  <div style={{ width: 240 }}>
+                    <RangePicker
+                      value={bookingDateRange}
+                      onChange={handleDateRangeChangeBooking}
+                      format="DD/MM/YYYY"
+                      style={{ width: "100%", cursor: "pointer" }}
+                    />
+                  </div>
+                )}
 
-{value === "3" && filterStatus && (
-                        <div
-                          className="me-3"
-                          style={{
-                            border: "1px solid #D4D4D4",
-                            borderRadius: 8,
-                            width: search ? "120px" : "120px",
-                          }}
-                        >
-                          <Form.Select
-                            onChange={(e) => handleStatusFilterCheckout(e)}
-                            value={statusFilterCheckout}
-                            aria-label="Select Price Range"
-                            className=""
-                            id="statusselect"
-                            style={{
-                              color: "rgba(34, 34, 34, 1)",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            <option value="All">All</option>
-                            <option value="1">Pending</option>
-                            <option value="0">Completed</option>
-                            <option value="date">Date</option>
-                          </Form.Select>
-                        </div>
-                      )}
+                {value === "3" && filterStatus && (
+                  <div
+                    className="me-3"
+                    style={{
+                      border: "1px solid #D4D4D4",
+                      borderRadius: 8,
+                      width: search ? "120px" : "120px",
+                    }}
+                  >
+                    <Form.Select
+                      onChange={(e) => handleStatusFilterCheckout(e)}
+                      value={statusFilterCheckout}
+                      aria-label="Select Price Range"
+                      className=""
+                      id="statusselect"
+                      style={{
+                        color: "rgba(34, 34, 34, 1)",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      <option value="All">All</option>
+                      <option value="1">Pending</option>
+                      <option value="0">Completed</option>
+                      <option value="date">Date</option>
+                    </Form.Select>
+                  </div>
+                )}
 
-    {value === "3" && statusFilterCheckout === "date" && (
-      <div>
-        <RangePicker
-          value={checkoutDateRange}
-          format="DD-MM-YYYY"
-          onChange={handleDateRangeChangeCheckout}
-          style={{ height: "38px", borderRadius: 8,cursor:"pointer" }}
-          allowClear
-        />
-      </div>
-    )}
+                {value === "3" && statusFilterCheckout === "date" && (
+                  <div>
+                    <RangePicker
+                      value={checkoutDateRange}
+                      format="DD-MM-YYYY"
+                      onChange={handleDateRangeChangeCheckout}
+                      style={{
+                        height: "38px",
+                        borderRadius: 8,
+                        cursor: "pointer",
+                      }}
+                      allowClear
+                    />
+                  </div>
+                )}
 
-    {value === "4" && filterStatus && (
-      <div style={{ width: 240 }}>
-        <RangePicker
-          value={walkinDateRange}
-          onChange={handleDateRangeChangeWalkin}
-          format="DD/MM/YYYY"
-          style={{ width: "100%",cursor:"pointer" }}
-        />
-      </div>
-    )}
+                {value === "4" && filterStatus && (
+                  <div style={{ width: 240 }}>
+                    <RangePicker
+                      value={walkinDateRange}
+                      onChange={handleDateRangeChangeWalkin}
+                      format="DD/MM/YYYY"
+                      style={{ width: "100%", cursor: "pointer" }}
+                    />
+                  </div>
+                )}
 
-    {/* Excel Buttons */}
-    <div style={{marginTop:1}}>
-        {value === "1" && (
-          <img
-            src={excelimg}
-            alt="excel"
-            width={38}
-            height={38}
+                {/* Excel Buttons */}
+                <div style={{ marginTop: 1 }}>
+                  {value === "1" && (
+                    <img
+                      src={excelimg}
+                      alt="excel"
+                      width={38}
+                      height={38}
+                      style={{ cursor: "pointer" }}
+                      onClick={handleCustomerExcel}
+                    />
+                  )}
+                  {value === "2" && (
+                    <img
+                      src={excelimg}
+                      alt="excel"
+                      width={38}
+                      height={38}
+                      style={{ cursor: "pointer" }}
+                      onClick={handleBookingExcel}
+                    />
+                  )}
+                  {value === "3" && (
+                    <img
+                      src={excelimg}
+                      alt="excel"
+                      width={38}
+                      height={38}
+                      style={{ cursor: "pointer" }}
+                      onClick={handlecheckoutExcel}
+                    />
+                  )}
+                  {value === "4" && (
+                    <img
+                      src={excelimg}
+                      alt="excel"
+                      width={38}
+                      height={38}
+                      style={{ cursor: "pointer" }}
+                      onClick={handlewalkinExcel}
+                    />
+                  )}
+                </div>
 
-            style={{ cursor: "pointer" }}
-            onClick={handleCustomerExcel}
-          />
-        )}
-        {value === "2" && (
-          <img
-            src={excelimg}
-            alt="excel"
-            width={38}
-            height={38}
-            style={{ cursor: "pointer" }}
-            onClick={handleBookingExcel}
-          />
-        )}
-        {value === "3" && (
-          <img
-            src={excelimg}
-            alt="excel"
-            width={38}
-            height={38}
-            style={{ cursor: "pointer" }}
-            onClick={handlecheckoutExcel}
-          />
-        )}
-        {value === "4" && (
-          <img
-            src={excelimg}
-            alt="excel"
-            width={38}
-            height={38}
-            style={{ cursor: "pointer" }}
-            onClick={handlewalkinExcel}
-          />
-        )}
-      </div>
-
-    {/* Action Buttons */}
-    <div className="mt-2 me-lg-4 text-center">
-      {value === "1" && (
-        <Button
-          disabled={customerAddPermission}
-          onClick={handleShow}
-          style={buttonStyle}
-        >
-          + Customer
-        </Button>
-      )}
-      {value === "2" && (
-        <Button
-          disabled={customerBookingAddPermission}
-          onClick={toggleForm}
-          style={buttonStyle}
-        >
-          + Bookings
-        </Button>
-      )}
-      {value === "3" && (
-        <Button
-          disabled={customerCheckoutPermission}
-          onClick={checkOutForm}
-          style={buttonStyle}
-        >
-          + Check-Out
-        </Button>
-      )}
-      {value === "4" && (
-        <Button
-          disabled={customerWalkInAddPermission}
-          onClick={walkinForm}
-          style={buttonStyle}
-        >
-          + Walk-In
-        </Button>
-      )}
-    </div>
-  </div>
-</div>
-</div>
-
+                {/* Action Buttons */}
+                <div className="mt-2 me-lg-4 text-center">
+                  {value === "1" && (
+                    <Button
+                      disabled={customerAddPermission}
+                      onClick={handleShow}
+                      style={buttonStyle}
+                    >
+                      + Customer
+                    </Button>
+                  )}
+                  {value === "2" && (
+                    <Button
+                      disabled={customerBookingAddPermission}
+                      onClick={toggleForm}
+                      style={buttonStyle}
+                    >
+                      + Bookings
+                    </Button>
+                  )}
+                  {value === "3" && (
+                    <Button
+                      disabled={customerCheckoutPermission}
+                      onClick={checkOutForm}
+                      style={buttonStyle}
+                    >
+                      + Check-Out
+                    </Button>
+                  )}
+                  {value === "4" && (
+                    <Button
+                      disabled={customerWalkInAddPermission}
+                      onClick={walkinForm}
+                      style={buttonStyle}
+                    >
+                      + Walk-In
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
 
           {filterInput && (
             <div
@@ -2570,35 +2581,34 @@ const handleBack = () => {
               </Box>
 
               <TabPanel value="1">
-
-              {loading && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: "200px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "transparent",
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: "4px solid #1E45E1",
-              borderRight: "4px solid transparent",
-              borderRadius: "50%",
-              width: "40px",
-              height: "40px",
-              animation: "spin 1s linear infinite",
-            }}
-          ></div>
-        </div>
-      )}
+                {loading && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: "200px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "transparent",
+                      opacity: 0.75,
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: "4px solid #1E45E1",
+                        borderRight: "4px solid transparent",
+                        borderRadius: "50%",
+                        width: "40px",
+                        height: "40px",
+                        animation: "spin 1s linear infinite",
+                      }}
+                    ></div>
+                  </div>
+                )}
                 {customerpermissionError && customerpermissionError ? (
                   <>
                     <div
@@ -2635,25 +2645,25 @@ const handleBack = () => {
                     </div>
                   </>
                 ) : (
-                 
-                    <>
-                     {sortedData && sortedData.length > 0 && (
-                       <div
-                       className=" booking-table-userlist  booking-table"
-                       style={{ paddingBottom: "20px",marginLeft:"-22px" }}
-                     >
+                  <>
+                    {sortedData && sortedData.length > 0 && (
+                      <div
+                        className=" booking-table-userlist  booking-table"
+                        style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+                      >
                         <div
-                         
-                          className='show-scrolls'
+                          className="show-scrolls"
                           style={{
-                           
-                            height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "350px" : "auto",
+                            height:
+                              sortedData?.length >= 5 || sortedData?.length >= 5
+                                ? "350px"
+                                : "auto",
                             overflow: "auto",
                             borderTop: "1px solid #E8E8E8",
                             marginBottom: 20,
                             marginTop: "20px",
-                            paddingRight:0,
-                            paddingLeft:0
+                            paddingRight: 0,
+                            paddingLeft: 0,
                             //  borderBottom:"1px solid #DCDCDC"
                           }}
                         >
@@ -2661,19 +2671,31 @@ const handleBack = () => {
                             responsive="md"
                             // className="Table_Design"
                             style={{
-                              fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                              fontFamily: "Gilroy",
+                              color: "rgba(34, 34, 34, 1)",
+                              fontSize: 14,
+                              fontStyle: "normal",
+                              fontWeight: 500,
+                              position: "sticky",
                               top: 0,
                               zIndex: 1,
-                              borderRadius:0
+                              borderRadius: 0,
                             }}
                           >
-                            <thead style={{
-                                         fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                         top: 0,
-                                         zIndex: 1
-                                       }}>
+                            <thead
+                              style={{
+                                fontFamily: "Gilroy",
+                                backgroundColor: "rgba(231, 241, 255, 1)",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 1,
+                              }}
+                            >
                               <tr>
-                              
                                 <th
                                   style={{
                                     textAlign: "start",
@@ -2684,15 +2706,37 @@ const handleBack = () => {
                                     fontFamily: "Gilroy",
                                     // borderTopLeftRadius: 24,
                                     paddingLeft: "20px",
-                                   
                                   }}
                                 >
-                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
-                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
-                                                                           </div>
-                                                                            Name</div>
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Name", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Name", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Name
+                                  </div>
                                 </th>
                                 <th
                                   style={{
@@ -2702,15 +2746,38 @@ const handleBack = () => {
                                     fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    whiteSpace:"nowrap"
+                                    whiteSpace: "nowrap",
                                   }}
                                 >
-                                  <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                             <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'asc')} style={{ cursor: "pointer" }} />
-                                                                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'desc')} style={{ cursor: "pointer" }} />
-                                                                            </div>
-                                                                             Paying Guest</div>
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("HostelName", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("HostelName", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Paying Guest
+                                  </div>
                                 </th>
                                 <th
                                   style={{
@@ -2720,15 +2787,38 @@ const handleBack = () => {
                                     fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    whiteSpace:"nowrap"
+                                    whiteSpace: "nowrap",
                                   }}
                                 >
-                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Email", 'asc')} style={{ cursor: "pointer" }} />
-                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Email", 'desc')} style={{ cursor: "pointer" }} />
-                                                                           </div>
-                                                                            Email ID</div>
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Email", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Email", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Email ID
+                                  </div>
                                 </th>
                                 <th
                                   style={{
@@ -2738,15 +2828,38 @@ const handleBack = () => {
                                     fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    whiteSpace:"nowrap"
+                                    whiteSpace: "nowrap",
                                   }}
                                 >
-                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'asc')} style={{ cursor: "pointer" }} />
-                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Phone", 'desc')} style={{ cursor: "pointer" }} />
-                                                                           </div>
-                                                                            Mobile No</div>
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Phone", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Phone", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Mobile No
+                                  </div>
                                 </th>
 
                                 <th
@@ -2759,12 +2872,35 @@ const handleBack = () => {
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Rooms", 'asc')} style={{ cursor: "pointer" }} />
-                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Rooms", 'desc')} style={{ cursor: "pointer" }} />
-                                                                           </div>
-                                                                            Room</div>
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Rooms", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Rooms", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Room
+                                  </div>
                                 </th>
                                 <th
                                   style={{
@@ -2776,12 +2912,33 @@ const handleBack = () => {
                                     fontFamily: "Gilroy",
                                   }}
                                 >
-                                 <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Bed", 'asc')} style={{ cursor: "pointer" }} />
-                                                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Bed", 'desc')} style={{ cursor: "pointer" }} />
-                                                                           </div>
-                                                                            Bed</div>
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() => handleSort("Bed", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Bed", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Bed
+                                  </div>
                                 </th>
                                 <th
                                   style={{
@@ -2801,22 +2958,20 @@ const handleBack = () => {
                               </tr>
                             </thead>
                             <tbody style={{ textAlign: "center" }}>
-                            {   sortedData && sortedData.length > 0 && (
-                              <>
-                              {
-                                
-                                sortedData.map((user) => {
-                                  return (
-                                    <tr
-                                      key={user.ID}
-                                      style={{
-                                        fontSize: "16px",
-                                        fontWeight: 600,
-                                        textAlign: "center",
-                                        // marginTop: 10,
-                                      }}
-                                    >
-                                      {/* <td
+                              {sortedData && sortedData.length > 0 && (
+                                <>
+                                  {sortedData.map((user) => {
+                                    return (
+                                      <tr
+                                        key={user.ID}
+                                        style={{
+                                          fontSize: "16px",
+                                          fontWeight: 600,
+                                          textAlign: "center",
+                                          // marginTop: 10,
+                                        }}
+                                      >
+                                        {/* <td
                                           style={{
                                             padding: "10px",
                                             border: "none",
@@ -2829,221 +2984,406 @@ const handleBack = () => {
                                             style={{ marginTop: 10 }}
                                           />
                                         </td> */}
-                                      <td
-                                        style={{
-                                          border: "none",
-                                          padding: "10px",
-                                          textAlign: "start",
-                                          paddingLeft: "20px",
-                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                                        }}
-                                      >
-                                       
-                                        <span
-                                          className="Customer_Name_Hover"
+                                        <td
                                           style={{
+                                            border: "none",
+                                            padding: "10px",
+                                            textAlign: "start",
+                                            paddingLeft: "20px",
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
+                                          }}
+                                        >
+                                          <span
+                                            className="Customer_Name_Hover"
+                                            style={{
+                                              fontSize: "13px",
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              color: "#1E45E1",
+                                              cursor: "pointer",
+                                              marginTop: 10,
+                                            }}
+                                            onClick={() =>
+                                              handleRoomDetailsPage(user)
+                                            }
+                                          >
+                                            {user.Name}
+                                          </span>
+                                        </td>
+
+                                        <td
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "13px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            marginTop: 10,
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
+                                          }}
+                                        >
+                                          <span
+                                            style={{
+                                              paddingTop: "3px",
+                                              paddingLeft: "10px",
+                                              paddingRight: "10px",
+                                              paddingBottom: "3px",
+                                              borderRadius: "60px",
+                                              backgroundColor: "#FFEFCF",
+                                              textAlign: "start",
+                                              fontSize: "11px",
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            {user.HostelName}
+                                          </span>
+                                        </td>
+                                        <td
+                                          style={{
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "13px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            paddingTop: 15,
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
+                                          }}
+                                        >
+                                          {user.Email}
+                                        </td>
+                                        <td
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "13px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            marginTop: 10,
+                                            whiteSpace: "nowrap",
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
+                                          }}
+                                        >
+                                          +
+                                          {user &&
+                                            String(user.Phone)?.slice(
+                                              0,
+                                              String(user.Phone).length - 10
+                                            )}{" "}
+                                          {user &&
+                                            String(user.Phone)?.slice(-10)}
+                                        </td>
+
+                                        <td
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
                                             fontSize: "13px",
                                             fontWeight: 600,
                                             fontFamily: "Gilroy",
-                                            color: "#1E45E1",
-                                            cursor: "pointer",
-                                            marginTop: 10,
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
                                           }}
-                                          onClick={() =>
-                                            handleRoomDetailsPage(user)
-                                          }
                                         >
-                                          {user.Name}
-                                        </span>
-                                      </td>
+                                          {" "}
+                                          {!user.Rooms ? "-" : user.Rooms}
+                                        </td>
 
-                                      <td
-                                        style={{
-                                          paddingTop: 15,
-                                          border: "none",
-                                          textAlign: "start",
-                                          fontSize: "13px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          marginTop: 10,
-                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                                        }}
-                                      >
-                                        <span
+                                        <td
+                                          // className={user.Bed === 0 ? 'assign-bed' : ''}
+                                          // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
                                           style={{
-                                            paddingTop: "3px",
-                                            paddingLeft: "10px",
-                                            paddingRight: "10px",
-                                            paddingBottom: "3px",
-                                            borderRadius: "60px",
-                                            backgroundColor: "#FFEFCF",
+                                            paddingTop: 15,
+                                            border: "none",
+                                            cursor: "pointer",
                                             textAlign: "start",
-                                            fontSize: "11px",
-                                            fontWeight: 500,
+                                            fontSize: "13px",
+                                            fontWeight: 600,
                                             fontFamily: "Gilroy",
+                                            marginTop: 10,
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
                                           }}
                                         >
-                                          {user.HostelName}
-                                        </span>
-                                      </td>
-                                      <td
-                                        style={{
-                                          border: "none",
-                                          textAlign: "start",
-                                          fontSize: "13px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          paddingTop: 15,
-                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                                        }}
-                                      >
-                                        {user.Email}
-                                      </td>
-                                      <td
-                                        style={{
-                                          paddingTop: 15,
-                                          border: "none",
-                                          textAlign: "start",
-                                          fontSize: "13px",
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          marginTop: 10,
-                                          whiteSpace: "nowrap",
-                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                                        }}
-                                      >
-                                        +
-                                        {user &&
-                                          String(user.Phone)?.slice(
-                                            0,
-                                            String(user.Phone).length - 10
-                                          )}{" "}
-                                        {user && String(user.Phone)?.slice(-10)}
-                                      </td>
-
-                                      <td
-                                        style={{
-                                          paddingTop: 15,
-                                          border: "none",
-                                          textAlign: "start",
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                                        }}
-                                      >
-                                        {" "}
-                                        {!user.Rooms ? "-" : user.Rooms}
-                                      </td>
-
-                                      <td
-                                        // className={user.Bed === 0 ? 'assign-bed' : ''}
-                                        // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
-                                        style={{
-                                          paddingTop: 15,
-                                          border: "none",
-                                          cursor: "pointer",
-                                          textAlign: "start",
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          marginTop: 10,
-                                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                                        }}
-                                      >
-                                        {!user.Bed ? "-" : user.Bed}
-                                      </td>
-                                      <td
-                                        style={{
-                                          paddingTop: 12,
-                                          border: "none",borderBottom: "1px solid #E8E8E8",
-                                        }}
-                                      >
-                                        {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
-
-                                        <div
+                                          {!user.Bed ? "-" : user.Bed}
+                                        </td>
+                                        <td
                                           style={{
-                                            cursor: "pointer",
-                                            height: 40,
-                                            width: 40,
-                                            borderRadius: 100,
-                                            border: "1px solid #EFEFEF",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            position: "relative",
-                                            // zIndex:
-                                            //   activeRow === user.ID
-                                            //     ? 1000
-                                            //     : "auto",
-                                            backgroundColor:
-                                              activeRow === user.ID
-                                                ? "#E7F1FF"
-                                                : "white",
+                                            paddingTop: 12,
+                                            border: "none",
+                                            borderBottom: "1px solid #E8E8E8",
                                           }}
-                                          onClick={(e) =>
-                                            handleShowDots(user.ID, e)
-                                          }
                                         >
-                                          <PiDotsThreeOutlineVerticalFill
-                                            style={{ height: 20, width: 20 }}
-                                          />
-                                          {activeRow === user.ID && (
-                                            <div
-                                              ref={popupRef}
-                                              style={{
-                                                position: "fixed",
-                                                top: popupPosition.top -25,
-                                                left: popupPosition.left,
-                                                // right: 70,
+                                          {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
-                                                width: "163px",
-                                                backgroundColor: "#F9F9F9",
-                                                border: "1px solid #EBEBEB",
-                                                borderRadius: "10px",
-                                                zIndex: 1000,
-                                                padding: "10px",
-                                                display: "flex",
-                                                justifyContent: "start",
-                                                alignItems: "center",
-                                              }}
-                                            >
+                                          <div
+                                            style={{
+                                              cursor: "pointer",
+                                              height: 40,
+                                              width: 40,
+                                              borderRadius: 100,
+                                              border: "1px solid #EFEFEF",
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                              position: "relative",
+                                              // zIndex:
+                                              //   activeRow === user.ID
+                                              //     ? 1000
+                                              //     : "auto",
+                                              backgroundColor:
+                                                activeRow === user.ID
+                                                  ? "#E7F1FF"
+                                                  : "white",
+                                            }}
+                                            onClick={(e) =>
+                                              handleShowDots(user.ID, e)
+                                            }
+                                          >
+                                            <PiDotsThreeOutlineVerticalFill
+                                              style={{ height: 20, width: 20 }}
+                                            />
+                                            {activeRow === user.ID && (
                                               <div
+                                                ref={popupRef}
                                                 style={{
-                                                  // backgroundColor: "#fff",
+                                                  position: "fixed",
+                                                  top: popupPosition.top - 25,
+                                                  left: popupPosition.left,
+                                                  // right: 70,
+
+                                                  width: "163px",
+                                                  backgroundColor: "#F9F9F9",
+                                                  border: "1px solid #EBEBEB",
+                                                  borderRadius: "10px",
+                                                  zIndex: 1000,
+                                                  padding: "10px",
+                                                  display: "flex",
+                                                  justifyContent: "start",
+                                                  alignItems: "center",
                                                 }}
-                                                className=""
                                               >
-                                                {!user.Bed && (
+                                                <div
+                                                  style={
+                                                    {
+                                                      // backgroundColor: "#fff",
+                                                    }
+                                                  }
+                                                  className=""
+                                                >
+                                                  {!user.Bed && (
+                                                    <div
+                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                      onClick={() => {
+                                                        if (
+                                                          !customerAddPermission
+                                                        ) {
+                                                          handleShowAddBed(
+                                                            user
+                                                          );
+                                                        }
+                                                      }}
+                                                      style={{
+                                                        // backgroundColor: "#fff",
+                                                        cursor:
+                                                          customerAddPermission
+                                                            ? "not-allowed"
+                                                            : "pointer",
+                                                        opacity:
+                                                          customerAddPermission
+                                                            ? 0.6
+                                                            : 1,
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={addcircle}
+                                                        alt="addcircle"
+                                                        style={{
+                                                          height: 16,
+                                                          width: 16,
+                                                          filter:
+                                                            customerAddPermission
+                                                              ? "grayscale(100%)"
+                                                              : "none",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily:
+                                                            "Gilroy, sans-serif",
+                                                          color:
+                                                            customerAddPermission
+                                                              ? "#888888"
+                                                              : "#222222",
+                                                          cursor:
+                                                            customerAddPermission
+                                                              ? "not-allowed"
+                                                              : "pointer",
+                                                        }}
+                                                      >
+                                                        Assign Bed
+                                                      </label>
+                                                    </div>
+                                                  )}
+
+                                                  {user.Bed && (
+                                                    <div
+                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                      // onClick={() => {
+                                                      //   if (!customerAddPermission) {
+                                                      //     handleShowAddBed(user);
+                                                      //   }
+                                                      // }}
+                                                      onClick={() =>
+                                                        handleCustomerCheckout(
+                                                          user
+                                                        )
+                                                      }
+                                                      style={{
+                                                        backgroundColor:
+                                                          "#F9F9F9",
+                                                        cursor:
+                                                          customerAddPermission
+                                                            ? "not-allowed"
+                                                            : "pointer",
+                                                        opacity:
+                                                          customerAddPermission
+                                                            ? 0.6
+                                                            : 1,
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={addcircle}
+                                                        alt="addcircle"
+                                                        style={{
+                                                          height: 16,
+                                                          width: 16,
+                                                          filter:
+                                                            customerAddPermission
+                                                              ? "grayscale(100%)"
+                                                              : "none",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily:
+                                                            "Gilroy, sans-serif",
+                                                          color:
+                                                            customerAddPermission
+                                                              ? "#888888"
+                                                              : "#222222",
+                                                          cursor:
+                                                            customerAddPermission
+                                                              ? "not-allowed"
+                                                              : "pointer",
+                                                        }}
+                                                      >
+                                                        Check-Out
+                                                      </label>
+                                                    </div>
+                                                  )}
+                                                  {user.Bed && (
+                                                    <div
+                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                      // onClick={() => {
+                                                      //   if (!customerAddPermission) {
+                                                      //     handleShowAddBed(user);
+                                                      //   }
+                                                      // }}
+                                                      onClick={() =>
+                                                        handleCustomerReAssign(
+                                                          user
+                                                        )
+                                                      }
+                                                      style={{
+                                                        backgroundColor:
+                                                          "#F9F9F9",
+                                                        cursor:
+                                                          customerAddPermission
+                                                            ? "not-allowed"
+                                                            : "pointer",
+                                                        opacity:
+                                                          customerAddPermission
+                                                            ? 0.6
+                                                            : 1,
+                                                      }}
+                                                    >
+                                                      <img
+                                                        src={addcircle}
+                                                        alt="addcircle"
+                                                        style={{
+                                                          height: 16,
+                                                          width: 16,
+                                                          filter:
+                                                            customerAddPermission
+                                                              ? "grayscale(100%)"
+                                                              : "none",
+                                                        }}
+                                                      />
+                                                      <label
+                                                        style={{
+                                                          fontSize: 14,
+                                                          fontWeight: 500,
+                                                          fontFamily:
+                                                            "Gilroy, sans-serif",
+                                                          color:
+                                                            customerAddPermission
+                                                              ? "#888888"
+                                                              : "#222222",
+                                                          cursor:
+                                                            customerAddPermission
+                                                              ? "not-allowed"
+                                                              : "pointer",
+                                                        }}
+                                                      >
+                                                        Re Assign
+                                                      </label>
+                                                    </div>
+                                                  )}
+
                                                   <div
                                                     className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                    style={{
+                                                      backgroundColor:
+                                                        "#F9F9F9",
+                                                      cursor:
+                                                        customerEditPermission
+                                                          ? "not-allowed"
+                                                          : "pointer",
+                                                      opacity:
+                                                        customerEditPermission
+                                                          ? 0.6
+                                                          : 1,
+                                                    }}
                                                     onClick={() => {
                                                       if (
-                                                        !customerAddPermission
+                                                        !customerEditPermission
                                                       ) {
-                                                        handleShowAddBed(user);
+                                                        handleRoomDetailsPage(
+                                                          user
+                                                        );
                                                       }
                                                     }}
-                                                    style={{
-                                                      // backgroundColor: "#fff",
-                                                      cursor:
-                                                        customerAddPermission
-                                                          ? "not-allowed"
-                                                          : "pointer",
-                                                      opacity:
-                                                        customerAddPermission
-                                                          ? 0.6
-                                                          : 1,
-                                                    }}
                                                   >
                                                     <img
-                                                      src={addcircle}
-                                                      alt="addcircle"
+                                                      src={Edit}
+                                                      alt="edit"
                                                       style={{
                                                         height: 16,
                                                         width: 16,
                                                         filter:
-                                                          customerAddPermission
+                                                          customerEditPermission
                                                             ? "grayscale(100%)"
                                                             : "none",
                                                       }}
@@ -3055,191 +3395,20 @@ const handleBack = () => {
                                                         fontFamily:
                                                           "Gilroy, sans-serif",
                                                         color:
-                                                          customerAddPermission
+                                                          customerEditPermission
                                                             ? "#888888"
                                                             : "#222222",
                                                         cursor:
-                                                          customerAddPermission
+                                                          customerEditPermission
                                                             ? "not-allowed"
                                                             : "pointer",
                                                       }}
                                                     >
-                                                      Assign Bed
+                                                      Edit
                                                     </label>
                                                   </div>
-                                                )}
 
-                                                {user.Bed && (
-                                                  <div
-                                                    className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                    // onClick={() => {
-                                                    //   if (!customerAddPermission) {
-                                                    //     handleShowAddBed(user);
-                                                    //   }
-                                                    // }}
-                                                    onClick={() =>
-                                                      handleCustomerCheckout(
-                                                        user
-                                                      )
-                                                    }
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor:
-                                                        customerAddPermission
-                                                          ? "not-allowed"
-                                                          : "pointer",
-                                                      opacity:
-                                                        customerAddPermission
-                                                          ? 0.6
-                                                          : 1,
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={addcircle}
-                                                      alt="addcircle"
-                                                      style={{
-                                                        height: 16,
-                                                        width: 16,
-                                                        filter:
-                                                          customerAddPermission
-                                                            ? "grayscale(100%)"
-                                                            : "none",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily:
-                                                          "Gilroy, sans-serif",
-                                                        color:
-                                                          customerAddPermission
-                                                            ? "#888888"
-                                                            : "#222222",
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                      }}
-                                                    >
-                                                      Check-Out
-                                                    </label>
-                                                  </div>
-                                                )}
-                                                {user.Bed && (
-                                                  <div
-                                                    className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                    // onClick={() => {
-                                                    //   if (!customerAddPermission) {
-                                                    //     handleShowAddBed(user);
-                                                    //   }
-                                                    // }}
-                                                    onClick={() =>
-                                                      handleCustomerReAssign(
-                                                        user
-                                                      )
-                                                    }
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor:
-                                                        customerAddPermission
-                                                          ? "not-allowed"
-                                                          : "pointer",
-                                                      opacity:
-                                                        customerAddPermission
-                                                          ? 0.6
-                                                          : 1,
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={addcircle}
-                                                      alt="addcircle"
-                                                      style={{
-                                                        height: 16,
-                                                        width: 16,
-                                                        filter:
-                                                          customerAddPermission
-                                                            ? "grayscale(100%)"
-                                                            : "none",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily:
-                                                          "Gilroy, sans-serif",
-                                                        color:
-                                                          customerAddPermission
-                                                            ? "#888888"
-                                                            : "#222222",
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                      }}
-                                                    >
-                                                      Re Assign
-                                                    </label>
-                                                  </div>
-                                                )}
-
-                                                <div
-                                                  className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                  style={{
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor:
-                                                      customerEditPermission
-                                                        ? "not-allowed"
-                                                        : "pointer",
-                                                    opacity:
-                                                      customerEditPermission
-                                                        ? 0.6
-                                                        : 1,
-                                                  }}
-                                                  onClick={() => {
-                                                    if (
-                                                      !customerEditPermission
-                                                    ) {
-                                                      handleRoomDetailsPage(
-                                                        user
-                                                      );
-                                                    }
-                                                  }}
-                                                >
-                                                  <img
-                                                    src={Edit}
-                                                    alt="edit"
-                                                    style={{
-                                                      height: 16,
-                                                      width: 16,
-                                                      filter:
-                                                        customerEditPermission
-                                                          ? "grayscale(100%)"
-                                                          : "none",
-                                                    }}
-                                                  />
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily:
-                                                        "Gilroy, sans-serif",
-                                                      color:
-                                                        customerEditPermission
-                                                          ? "#888888"
-                                                          : "#222222",
-                                                      cursor:
-                                                        customerEditPermission
-                                                          ? "not-allowed"
-                                                          : "pointer",
-                                                    }}
-                                                  >
-                                                    Edit
-                                                  </label>
-                                                </div>
-
-                                                {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
+                                                  {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
                                 onClick={() => { handleShowform(props) }}
                                 style={{ backgroundColor: "#fff" }}
                             >
@@ -3247,71 +3416,69 @@ const handleBack = () => {
 
                             </div> */}
 
-                                                <div
-                                                  className={
-                                                    "mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                  }
-                                                  style={{
-                                                    backgroundColor: "#F9F9F9",
-                                                    cursor:
-                                                      customerDeletePermission
-                                                        ? "not-allowed"
-                                                        : "pointer",
-                                                    opacity:
-                                                      customerDeletePermission
-                                                        ? 0.6
-                                                        : 1,
-                                                  }}
-                                                  onClick={() =>
-                                                    !customerDeletePermission
-                                                      ? handleDeleteShow(user)
-                                                      : null
-                                                  }
-                                                >
-                                                  <img
-                                                    src={Delete}
+                                                  <div
+                                                    className={
+                                                      "mb-2 d-flex justify-content-start align-items-center gap-2"
+                                                    }
                                                     style={{
-                                                      height: 16,
-                                                      width: 16,
-                                                    }}
-                                                    alt="Delete Icon"
-                                                  />{" "}
-                                                  <label
-                                                    style={{
-                                                      fontSize: 14,
-                                                      fontWeight: 500,
-                                                      fontFamily:
-                                                        "Gilroy, sans-serif",
-                                                      cursor: "pointer",
-                                                      color:
+                                                      backgroundColor:
+                                                        "#F9F9F9",
+                                                      cursor:
                                                         customerDeletePermission
-                                                          ? "#888888"
-                                                          : "#FF0000",
+                                                          ? "not-allowed"
+                                                          : "pointer",
+                                                      opacity:
+                                                        customerDeletePermission
+                                                          ? 0.6
+                                                          : 1,
                                                     }}
+                                                    onClick={() =>
+                                                      !customerDeletePermission
+                                                        ? handleDeleteShow(user)
+                                                        : null
+                                                    }
                                                   >
-                                                    Delete
-                                                  </label>
+                                                    <img
+                                                      src={Delete}
+                                                      style={{
+                                                        height: 16,
+                                                        width: 16,
+                                                      }}
+                                                      alt="Delete Icon"
+                                                    />{" "}
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily:
+                                                          "Gilroy, sans-serif",
+                                                        cursor: "pointer",
+                                                        color:
+                                                          customerDeletePermission
+                                                            ? "#888888"
+                                                            : "#FF0000",
+                                                      }}
+                                                    >
+                                                      Delete
+                                                    </label>
+                                                  </div>
                                                 </div>
                                               </div>
-                                            </div>
-                                          )}
-                                        </div>
+                                            )}
+                                          </div>
 
-                                        {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
-                                      </td>
-                                    </tr>
-                                  );
-                                })
-                              }
-                            
-                              </>
-                            )}
+                                          {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                </>
+                              )}
                             </tbody>
                           </Table>
                         </div>
-                        </div>
-                      )}
-                  
+                      </div>
+                    )}
                   </>
                 )}
 
@@ -3359,11 +3526,11 @@ const handleBack = () => {
                     //     position: "fixed",
                     //     bottom: "10px",
                     //     right: "10px",
-                    //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", 
-                    //     borderRadius: "5px", 
+                    //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    //     borderRadius: "5px",
                     //   }}
                     // >
-                 
+
                     //   {/* Dropdown for Items Per Page */}
                     //   <div>
                     //     <select
@@ -3466,122 +3633,121 @@ const handleBack = () => {
                     //     </li>
                     //   </ul>
                     // </nav>
-                     <nav
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "end",
-                                        padding: "10px",
-                                        position: "fixed",
-                                        bottom: "0",
-                                        right: "0",
-                                        backgroundColor: "white",
-                                        zIndex: "1000",
-                                      }}
-                                      >
-                                        {/* Dropdown for Items Per Page */}
-                                        <div>
-                                          <select
-                                            value={itemsPerPage}
-                                            onChange={handleItemsPerPageChange}
-                                            style={{
-                                              padding: "5px",
-                                              border: "1px solid #1E45E1",
-                                              borderRadius: "5px",
-                                              color: "#1E45E1",
-                                              fontWeight: "bold",
-                                              cursor: "pointer",
-                                              outline: "none",
-                                              boxShadow: "none",
-                        
-                                            }}
-                                          >
-                                            <option value={5}>5</option>
-                                            <option value={10}>10</option>
-                                            <option value={50}>50</option>
-                                            <option value={100}>100</option>
-                                          </select>
-                                        </div>
-                    
-                                        {/* Pagination Controls */}
-                                        <ul
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            listStyleType: "none",
-                                            margin: 0,
-                                            padding: 0,
-                                          }}
-                                        >
-                                          {/* Previous Button */}
-                                          <li style={{ margin: "0 10px" }}>
-                                            <button
-                                              style={{
-                                                padding: "5px",
-                                                textDecoration: "none",
-                                                color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                                                cursor:
-                                                  currentPage === 1 ? "not-allowed" : "pointer",
-                                                borderRadius: "50%",
-                                                display: "inline-block",
-                                                minWidth: "30px",
-                                                textAlign: "center",
-                                                backgroundColor: "transparent",
-                                                border: "none",
-                                              }}
-                                              onClick={() => handlePageChange(currentPage - 1)}
-                                              disabled={currentPage === 1}
-                                            >
-                                              <ArrowLeft2
-                                                size="16"
-                                                color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                                              />
-                                            </button>
-                                          </li>
-                    
-                                          {/* Current Page Indicator */}
-                                          <li
-                                            style={{
-                                              margin: "0 10px",
-                                              fontSize: "14px",
-                                              fontWeight: "bold",
-                                            }}
-                                          >
-                                            {currentPage} of {totalPages}
-                                          </li>
-                    
-                                          {/* Next Button */}
-                                          <li style={{ margin: "0 10px" }}>
-                                            <button
-                                              style={{
-                                                padding: "5px",
-                                                textDecoration: "none",
-                                                color:
-                                                  currentPage === totalPages ? "#ccc" : "#1E45E1",
-                                                cursor:
-                                                  currentPage === totalPages
-                                                    ? "not-allowed"
-                                                    : "pointer",
-                                                borderRadius: "50%",
-                                                display: "inline-block",
-                                                minWidth: "30px",
-                                                textAlign: "center",
-                                                backgroundColor: "transparent",
-                                                border: "none",
-                                              }}
-                                              onClick={() => handlePageChange(currentPage + 1)}
-                                              disabled={currentPage === totalPages}
-                                            >
-                                              <ArrowRight2
-                                                size="16"
-                                                color={
-                                                  currentPage === totalPages ? "#ccc" : "#1E45E1"
-                                                }
-                                              />
-                                            </button>
-                                          </li>
-                                        </ul>
-                                      </nav>
+                    <nav
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "0",
+                        right: "0",
+                        backgroundColor: "white",
+                        zIndex: "1000",
+                      }}
+                    >
+                      {/* Dropdown for Items Per Page */}
+                      <div>
+                        <select
+                          value={itemsPerPage}
+                          onChange={handleItemsPerPageChange}
+                          style={{
+                            padding: "5px",
+                            border: "1px solid #1E45E1",
+                            borderRadius: "5px",
+                            color: "#1E45E1",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            outline: "none",
+                            boxShadow: "none",
+                          }}
+                        >
+                          <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={50}>50</option>
+                          <option value={100}>100</option>
+                        </select>
+                      </div>
+
+                      {/* Pagination Controls */}
+                      <ul
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          listStyleType: "none",
+                          margin: 0,
+                          padding: 0,
+                        }}
+                      >
+                        {/* Previous Button */}
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                              cursor:
+                                currentPage === 1 ? "not-allowed" : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                          >
+                            <ArrowLeft2
+                              size="16"
+                              color={currentPage === 1 ? "#ccc" : "#1E45E1"}
+                            />
+                          </button>
+                        </li>
+
+                        {/* Current Page Indicator */}
+                        <li
+                          style={{
+                            margin: "0 10px",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {currentPage} of {totalPages}
+                        </li>
+
+                        {/* Next Button */}
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color:
+                                currentPage === totalPages ? "#ccc" : "#1E45E1",
+                              cursor:
+                                currentPage === totalPages
+                                  ? "not-allowed"
+                                  : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                          >
+                            <ArrowRight2
+                              size="16"
+                              color={
+                                currentPage === totalPages ? "#ccc" : "#1E45E1"
+                              }
+                            />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
                   )
 
                   // )
@@ -3618,10 +3784,10 @@ const handleBack = () => {
                   setUniqostel_Id={setUniqostel_Id}
                   filterInput={filterInput}
                   search={search}
-                  filterStatus = {filterStatus}
-                  bookingDateRange = {bookingDateRange}
-                  resetPage = {resetPage}
-                  setResetPage ={setResetPage}
+                  filterStatus={filterStatus}
+                  bookingDateRange={bookingDateRange}
+                  resetPage={resetPage}
+                  setResetPage={setResetPage}
                 />
               </TabPanel>
               <TabPanel value="3">
@@ -3638,9 +3804,9 @@ const handleBack = () => {
                   // loader={loading}
                   search={search}
                   checkoutDateRange={checkoutDateRange}
-                  filterStatus = {filterStatus}
-                  resetPage = {resetPage}
-                  setResetPage ={setResetPage}
+                  filterStatus={filterStatus}
+                  resetPage={resetPage}
+                  setResetPage={setResetPage}
                 />
               </TabPanel>
               <TabPanel value="4">
@@ -3653,10 +3819,10 @@ const handleBack = () => {
                   filteredUsers={filteredUsers}
                   filterInput={filterInput}
                   search={search}
-                  walkinDateRange = {walkinDateRange}
-                  filterStatus = {filterStatus}
-                  resetPage = {resetPage}
-                  setResetPage ={setResetPage}
+                  walkinDateRange={walkinDateRange}
+                  filterStatus={filterStatus}
+                  resetPage={resetPage}
+                  setResetPage={setResetPage}
                 />
               </TabPanel>
             </TabContext>
@@ -3664,94 +3830,92 @@ const handleBack = () => {
         </div>
       )}
 
-<Modal
-  show={deleteShow}
-  onHide={handleCloseDelete}
-  backdrop="static"
-  centered
-  dialogClassName="custom-delete-modal"
->
-<Modal.Header
-  style={{
-    borderBottom: "none",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    padding: "12px 16px",
-  }}
->
-  <h5
-    style={{
-      fontSize: "18px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      color: "#222222",
-      margin: 0,
-      textAlign: "center",
-    }}
-  >
-    Delete Customer?
-  </h5>
-</Modal.Header>
+      <Modal
+        show={deleteShow}
+        onHide={handleCloseDelete}
+        backdrop="static"
+        centered
+        dialogClassName="custom-delete-modal"
+      >
+        <Modal.Header
+          style={{
+            borderBottom: "none",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            padding: "12px 16px",
+          }}
+        >
+          <h5
+            style={{
+              fontSize: "18px",
+              fontFamily: "Gilroy",
+              fontWeight: 600,
+              color: "#222222",
+              margin: 0,
+              textAlign: "center",
+            }}
+          >
+            Delete Customer?
+          </h5>
+        </Modal.Header>
 
+        <Modal.Body
+          className="text-center"
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            color: "#646464",
+            marginTop: "-10px",
+          }}
+        >
+          Are you sure you want to delete this Customer?
+        </Modal.Body>
 
-  <Modal.Body
-    className="text-center"
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      color: "#646464",
-      marginTop: "-10px",
-    }}
-  >
-    Are you sure you want to delete this Customer?
-  </Modal.Body>
-
-  <Modal.Footer
-    className="d-flex justify-content-center"
-    style={{ borderTop: "none", marginTop: "-10px" }}
-  >
-    <Button
-      className="me-2"
-      style={{
-        width: "100%",
-        maxWidth: 160,
-        height: 52,
-        borderRadius: 8,
-        padding: "12px 20px",
-        background: "#fff",
-        color: "#1E45E1",
-        border: "1px solid #1E45E1",
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        fontSize: "14px",
-      }}
-      onClick={handleCloseDelete}
-    >
-      Cancel
-    </Button>
-    <Button
-      style={{
-        width: "100%",
-        maxWidth: 160,
-        height: 52,
-        borderRadius: 8,
-        padding: "12px 20px",
-        background: "#1E45E1",
-        color: "#FFFFFF",
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        fontSize: "14px",
-      }}
-      onClick={handleDeleteCustomer}
-    >
-      Delete
-    </Button>
-  </Modal.Footer>
-</Modal>
-
+        <Modal.Footer
+          className="d-flex justify-content-center"
+          style={{ borderTop: "none", marginTop: "-10px" }}
+        >
+          <Button
+            className="me-2"
+            style={{
+              width: "100%",
+              maxWidth: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={handleCloseDelete}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              width: "100%",
+              maxWidth: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#1E45E1",
+              color: "#FFFFFF",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
+            onClick={handleDeleteCustomer}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {roomDetail === true ? (
         <UserListRoomDetail
@@ -4039,7 +4203,7 @@ const handleBack = () => {
                     </Form.Label>
                     <div style={{ position: "relative", width: "100%" }}>
                       <DatePicker
-                      style={{cursor:"pointer"}}
+                        style={{ cursor: "pointer" }}
                         selected={selectedDate}
                         onChange={handleDateChange}
                         dateFormat="dd/MM/yyyy"
@@ -4107,8 +4271,6 @@ const handleBack = () => {
             backdrop="static"
             centered
           >
-            
-
             <Modal.Header
               style={{ marginBottom: "10px", position: "relative" }}
             >
@@ -4248,7 +4410,6 @@ const handleBack = () => {
                       </span>
                     </div>
                   )}
-               
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-2" controlId="purchaseDate">
@@ -4265,7 +4426,7 @@ const handleBack = () => {
                     </Form.Label>
                     <div style={{ position: "relative", width: "100%" }}>
                       <DatePicker
-                      style={{cursor:"pointer"}}
+                        style={{ cursor: "pointer" }}
                         selected={selectedDate}
                         onChange={handleDateChange}
                         dateFormat="dd/MM/yyyy"
@@ -4509,39 +4670,41 @@ const handleBack = () => {
       )}
 
       {isEditing && (
-        <div className="mt-4"  style={{paddingLeft:25, height: "90vh", overflowY: "auto" }}>
-        
-                     <div
-                  className="d-flex align-items-center"
-                  style={{
-                    position: "sticky",
-                    top: 0,
-                    zIndex: 1000,
-                    backgroundColor: "#fff",
-                    padding: "12px 20px",
-                    height: "60px",
-                    // borderBottom: "1px solid #ddd"
-                  }}
-                >
-                  <img
-                    src={leftarrow}
-                    alt="leftarrow"
-                    width={20}
-                    height={20}
-                    onClick={handleBackBill}
-                    style={{ cursor: "pointer" }}
-                  />
-                  <span
-                    style={{
-                      fontWeight: 600,
-                      fontSize: "18px",
-                      fontFamily: "Gilroy",
-                      paddingLeft: "10px"
-                    }}
-                  >
-                   {isAddMode ? "New Bill" : "Edit Bill"}
-                  </span>
-                </div>
+        <div
+          className="mt-4"
+          style={{ paddingLeft: 25, height: "90vh", overflowY: "auto" }}
+        >
+          <div
+            className="d-flex align-items-center"
+            style={{
+              position: "sticky",
+              top: 0,
+              zIndex: 1000,
+              backgroundColor: "#fff",
+              padding: "12px 20px",
+              height: "60px",
+              // borderBottom: "1px solid #ddd"
+            }}
+          >
+            <img
+              src={leftarrow}
+              alt="leftarrow"
+              width={20}
+              height={20}
+              onClick={handleBackBill}
+              style={{ cursor: "pointer" }}
+            />
+            <span
+              style={{
+                fontWeight: 600,
+                fontSize: "18px",
+                fontFamily: "Gilroy",
+                paddingLeft: "10px",
+              }}
+            >
+              {isAddMode ? "New Bill" : "Edit Bill"}
+            </span>
+          </div>
 
           <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -4573,7 +4736,7 @@ const handleBack = () => {
                   border: "1px solid #D9D9D9",
                   height: 38,
                   borderRadius: 8,
-                  backgroundColor: "#E7F1FF", 
+                  backgroundColor: "#E7F1FF",
                 }}
               >
                 <option value="">Select Customer</option>
@@ -4598,7 +4761,13 @@ const handleBack = () => {
               {customererrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
+                    style={{
+                      fontSize: "12px",
+                      color: "red",
+                      marginTop: "3px",
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
                   >
                     {customererrmsg !== " " && (
                       <MdError style={{ fontSize: "15px", color: "red" }} />
@@ -4642,7 +4811,13 @@ const handleBack = () => {
               {invoicenumbererrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
+                    style={{
+                      fontSize: "12px",
+                      color: "red",
+                      marginTop: "3px",
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
                   >
                     {invoicenumbererrmsg !== " " && (
                       <MdError style={{ fontSize: "15px", color: "red" }} />
@@ -4653,7 +4828,6 @@ const handleBack = () => {
               )}
             </Form.Group>
           </div>
-
 
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
@@ -4669,14 +4843,19 @@ const handleBack = () => {
                   Invoice Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div className="datepicker-wrapper"  style={{ position: "relative", width: "100%" }}>
+                <div
+                  className="datepicker-wrapper"
+                  style={{ position: "relative", width: "100%" }}
+                >
                   <DatePicker
-                  style={{ width: "100%", height: 48,cursor:"pointer" }}
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  value={invoicedate ? dayjs(invoicedate) : null}
+                    style={{ width: "100%", height: 48, cursor: "pointer" }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={invoicedate ? dayjs(invoicedate) : null}
                     // onChange={(date) => handleInvoiceDate(date)}
-                    onChange={(date) => handleInvoiceDate(date ? date.toDate() : null)}
+                    onChange={(date) =>
+                      handleInvoiceDate(date ? date.toDate() : null)
+                    }
                     getPopupContainer={(triggerNode) =>
                       triggerNode.closest(".datepicker-wrapper")
                     }
@@ -4684,20 +4863,19 @@ const handleBack = () => {
                     // minDate={new Date()}
 
                     popperPlacement="top-start"
-                     popperClassName="custom-datepicker"
-                     appendTo= {document.body} 
+                    popperClassName="custom-datepicker"
+                    appendTo={document.body}
                     popperModifiers={[
                       {
                         name: "preventOverflow",
                         options: {
                           boundary: "window",
-                          
                         },
                       },
                       {
                         name: "flip",
                         options: {
-                          fallbackPlacements: [], 
+                          fallbackPlacements: [],
                         },
                       },
                       {
@@ -4719,7 +4897,13 @@ const handleBack = () => {
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
+                    style={{
+                      fontSize: "12px",
+                      color: "red",
+                      marginTop: "3px",
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
                   >
                     {invoicedateerrmsg !== " " && (
                       <MdError
@@ -4750,44 +4934,48 @@ const handleBack = () => {
                   Due Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                <div className="datepicker-wrapper"  style={{ position: "relative", width: "100%" }}>
+                <div
+                  className="datepicker-wrapper"
+                  style={{ position: "relative", width: "100%" }}
+                >
                   <DatePicker
                     // selected={invoiceduedate}
                     // onChange={(date) => handleDueDate(date)}
-                    style={{ width: "100%", height: 48,cursor:"pointer"}}
+                    style={{ width: "100%", height: 48, cursor: "pointer" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={invoiceduedate ? dayjs(invoiceduedate) : null}
-                      // onChange={(date) => handleInvoiceDate(date)}
-                      onChange={(date) => handleDueDate(date ? date.toDate() : null)}
-                      getPopupContainer={(triggerNode) =>
-                        triggerNode.closest(".datepicker-wrapper")
-                      }
+                    // onChange={(date) => handleInvoiceDate(date)}
+                    onChange={(date) =>
+                      handleDueDate(date ? date.toDate() : null)
+                    }
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.closest(".datepicker-wrapper")
+                    }
                     dateFormat="dd/MM/yyyy"
                     popperPlacement="top-start"
                     popperClassName="custom-datepicker"
-                    appendTo= {document.body} 
-                   popperModifiers={[
-                     {
-                       name: "preventOverflow",
-                       options: {
-                         boundary: "window",
-                         
-                       },
-                     },
-                     {
-                       name: "flip",
-                       options: {
-                         fallbackPlacements: [], 
-                       },
-                     },
-                     {
-                       name: "offset",
-                       options: {
-                         offset: [0, -13],
-                       },
-                     },
-                   ]}
+                    appendTo={document.body}
+                    popperModifiers={[
+                      {
+                        name: "preventOverflow",
+                        options: {
+                          boundary: "window",
+                        },
+                      },
+                      {
+                        name: "flip",
+                        options: {
+                          fallbackPlacements: [],
+                        },
+                      },
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -13],
+                        },
+                      },
+                    ]}
                     minDate={null}
                     customInput={customInvoiceDueDateInput({
                       value: invoiceduedate
@@ -4820,7 +5008,13 @@ const handleBack = () => {
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
                   <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
+                    style={{
+                      fontSize: "12px",
+                      color: "red",
+                      marginTop: "3px",
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
                   >
                     {invoiceduedateerrmsg !== " " && (
                       <MdError
@@ -4840,122 +5034,155 @@ const handleBack = () => {
           </div>
 
           {allfielderrmsg.trim() !== "" && (
-                      <div>
-                        <p
+            <div>
+              <p
+                style={{
+                  fontSize: "12px",
+                  color: "red",
+                  marginTop: "10px",
+                  fontFamily: "Gilroy",
+                  textAlign: "center",
+                  fontWeight: 500,
+                }}
+              >
+                {allfielderrmsg !== " " && (
+                  <MdError
+                    style={{
+                      fontSize: "15px",
+                      color: "red",
+                      fontFamily: "Gilroy",
+                      marginRight: "5px",
+                      marginBottom: "3px",
+                    }}
+                  />
+                )}{" "}
+                {allfielderrmsg}
+              </p>
+            </div>
+          )}
+
+          {/* Table */}
+
+          {Array.isArray(newRows) && newRows.length > 0 && (
+            <div className="row ">
+              <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
+                <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+                  <Table className="ebtable mt-2" responsive>
+                    <thead
+                      style={{
+                        backgroundColor: "#E7F1FF",
+                        position: "sticky",
+                        top: 0,
+                        zIndex: 1,
+                      }}
+                    >
+                      <tr>
+                        <th
+                          className="text-center"
                           style={{
-                            fontSize: "12px",
-                            color: "red",
-                            marginTop: "10px",
-                            fontFamily: "Gilroy",
-                            textAlign: "center",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: 14,
                             fontWeight: 500,
                           }}
                         >
-                          {allfielderrmsg !== " " && (
-                            <MdError
-                              style={{
-                                fontSize: "15px",
-                                color: "red",
-                                fontFamily: "Gilroy",
-                                marginRight: "5px",
-                                marginBottom: "3px",
+                          S.No
+                        </th>
+                        <th
+                          style={{
+                            color: "rgb(147, 147, 147)",
+                            fontSize: 14,
+                            fontWeight: 500,
+                          }}
+                        >
+                          Description
+                        </th>
+                        <th
+                          style={{
+                            color: "rgb(147, 147, 147)",
+                            fontSize: 14,
+                            fontWeight: 500,
+                          }}
+                        >
+                          Total Amount
+                        </th>
+                        <th
+                          style={{
+                            color: "rgb(147, 147, 147)",
+                            fontSize: 14,
+                            fontWeight: 500,
+                          }}
+                        >
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {newRows.map((u, index) => (
+                        <tr key={`new-${index}`}>
+                          <td>{index + 1}</td>
+                          <td>
+                            <div
+                              className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
+                              style={{ alignItems: "center" }}
+                            >
+                              <Form.Control
+                                type="text"
+                                placeholder="Enter Description"
+                                value={u.am_name}
+                                onChange={(e) =>
+                                  handleNewRowChange(
+                                    index,
+                                    "am_name",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </div>
+                          </td>
+                          <td
+                            className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
+                            style={{ alignItems: "center" }}
+                          >
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter total amount"
+                              value={u.amount}
+                              // onChange={(e) =>
+                              //   handleNewRowChange(index, "amount", e.target.value)
+                              // }
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^\d*\.?\d*$/.test(value)) {
+                                  handleNewRowChange(index, "amount", value);
+                                }
                               }}
                             />
-                          )}{" "}
-                          {allfielderrmsg}
-                        </p>
-                      </div>
-                    )}
-
-          {/* Table */}
-    
-{Array.isArray(newRows) && newRows.length > 0 && (
-   <div className="row ">
-  <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
-    <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-    <Table className="ebtable mt-2" responsive>
-      <thead
-        style={{
-          backgroundColor: "#E7F1FF",
-          position: "sticky",
-          top: 0,
-          zIndex: 1,
-        }}
-      >
-       <tr>
-              <th className="text-center" style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
-                S.No
-              </th>
-              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
-                Description
-              </th>
-              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
-                Total Amount
-              </th>
-              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
-                Action
-              </th>
-            </tr>
-      </thead>
-      <tbody>
-        {newRows.map((u, index) => (
-          <tr key={`new-${index}`}>
-            <td>{index + 1}</td>
-            <td>
-              <div
-                className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
-                style={{ alignItems: "center" }}
-              >
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Description"
-                  value={u.am_name}
-                  onChange={(e) =>
-                    handleNewRowChange(index, "am_name", e.target.value)
-                  }
-                />
+                          </td>
+                          <td style={{ alignItems: "center" }}>
+                            <span
+                              style={{
+                                cursor: "pointer",
+                                color: "red",
+                                marginLeft: "10px",
+                              }}
+                              onClick={() => handleDeleteNewRow(index)}
+                            >
+                              <img
+                                src={Closebtn}
+                                height={15}
+                                width={15}
+                                alt="delete"
+                              />
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
               </div>
-            </td>
-            <td
-              className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
-              style={{ alignItems: "center" }}
-            >
-              <Form.Control
-                type="text"
-                placeholder="Enter total amount"
-                value={u.amount}
-                // onChange={(e) =>
-                //   handleNewRowChange(index, "amount", e.target.value)
-                // }
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (/^\d*\.?\d*$/.test(value)) {
-                    handleNewRowChange(index, "amount", value);
-                  }
-                }}
-              />
-            </td>
-            <td style={{ alignItems: "center" }}>
-              <span
-                style={{
-                  cursor: "pointer",
-                  color: "red",
-                  marginLeft: "10px",
-                }}
-                onClick={() => handleDeleteNewRow(index)}
-              >
-                <img src={Closebtn} height={15} width={15} alt="delete" />
-              </span>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-    </div>
-  </div>
-  </div>
-)}
-
+            </div>
+          )}
 
           {/* <div>
             <p
@@ -4982,60 +5209,69 @@ const handleBack = () => {
     <option value="Other">Other</option>
   </Form.Select>
 </div> */}
-      <div  className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
-        
-        <Form.Select
-       className="border"
-       style={{
-         fontSize: 16,
-         color: "#4B4B4B",
-         fontFamily: "Gilroy",
-         lineHeight: "18.83px",
-         fontWeight: 500,
-         boxShadow: "none",
-         border: "1px solid #D9D9D9",
-         height: 38,
-         borderRadius: 8,
-         cursor:"pointer"
-       }}
-       value={dropdownValue}
-       onChange={(e) => handleRowTypeSelect(e.target.value)}
-     >
-       <option value="" disabled>Select Item Type</option>
-       {!selectedTypes.includes("RoomRent") && <option value="RoomRent">Room Rent</option>}
-       {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
-       <option value="Other">Other</option>
-     </Form.Select>
-     
-      {tableErrmsg.trim() !== "" && (
-                   <div >
-                     <p
-                       style={{ fontSize: "12px", color: "red", marginTop: "5px", textAlign: "center",fontWeight:500,fontFamily:"Gilroy" }}
-                     >
-                       {tableErrmsg !== " " && (
-                         <MdError
-                           style={{
-                             fontSize: "15px",
-                             color: "red",
-                             marginRight: "3px",
-                             marginBottom: "3px",
-                           }}
-                         />
-                       )}{" "}
-                       {tableErrmsg}
-                     </p>
-                   </div>
-                 )}
-     </div>
+          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+            <Form.Select
+              className="border"
+              style={{
+                fontSize: 16,
+                color: "#4B4B4B",
+                fontFamily: "Gilroy",
+                lineHeight: "18.83px",
+                fontWeight: 500,
+                boxShadow: "none",
+                border: "1px solid #D9D9D9",
+                height: 38,
+                borderRadius: 8,
+                cursor: "pointer",
+              }}
+              value={dropdownValue}
+              onChange={(e) => handleRowTypeSelect(e.target.value)}
+            >
+              <option value="" disabled>
+                Select Item Type
+              </option>
+              {!selectedTypes.includes("RoomRent") && (
+                <option value="RoomRent">Room Rent</option>
+              )}
+              {!selectedTypes.includes("EB") && <option value="EB">EB</option>}
+              <option value="Other">Other</option>
+            </Form.Select>
+
+            {tableErrmsg.trim() !== "" && (
+              <div>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "red",
+                    marginTop: "5px",
+                    textAlign: "center",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                  }}
+                >
+                  {tableErrmsg !== " " && (
+                    <MdError
+                      style={{
+                        fontSize: "15px",
+                        color: "red",
+                        marginRight: "3px",
+                        marginBottom: "3px",
+                      }}
+                    />
+                  )}{" "}
+                  {tableErrmsg}
+                </p>
+              </div>
+            )}
+          </div>
 
           <div style={{ float: "right", marginRight: "130px" }}>
-          {Array.isArray(newRows) && newRows.length > 0 && (
-            <h5>Total Amount ₹{totalAmount}</h5>
-          )}
+            {Array.isArray(newRows) && newRows.length > 0 && (
+              <h5>Total Amount ₹{totalAmount}</h5>
+            )}
             <Button
               // onClick={handleEditBill}
               onClick={isAddMode ? handleCreateBill : handleEditBill}
-
               className="w-80 mt-3"
               style={{
                 backgroundColor: "#1E45E1",
@@ -5048,12 +5284,11 @@ const handleBack = () => {
                 lineHeight: "normal",
               }}
             >
-            {isAddMode ? "CreateBill" : "SaveChanges"}
+              {isAddMode ? "CreateBill" : "SaveChanges"}
             </Button>
 
             <div className="mb-3"></div>
           </div>
-
         </div>
       )}
 
@@ -5146,31 +5381,30 @@ const handleBack = () => {
       )}
 
       {(advanceForm || showMenu) && (
-  <UserlistForm
-    setShowMenu={setShowMenu}
-    advanceForm={advanceForm}
-    showMenu={showMenu}
-    displayDetail={addBasicDetail}
-    setAdvanceForm={setAdvanceForm}
-    handleShow={handleShow}
-    edit={edit}
-    setEdit={setEdit}
-    EditObj={EditObj}
-    setEditObj={setEditObj}
-    handleMenuClick={handleMenuClick}
-    setShowForm={setShowForm}
-    showForm={showForm}
-    handleShowAddBed={handleShowAddBed}
-    roomDetail={roomDetail}
-    setRoomDetail={setRoomDetail}
-    userList={userList}
-    setUserList={setUserList}
-    OnShowTable={OnShowTableForCustomer}
-    uniqueostel_Id={uniqueostel_Id}
-    setUniqostel_Id={setUniqostel_Id}
-  />
-)}
-
+        <UserlistForm
+          setShowMenu={setShowMenu}
+          advanceForm={advanceForm}
+          showMenu={showMenu}
+          displayDetail={addBasicDetail}
+          setAdvanceForm={setAdvanceForm}
+          handleShow={handleShow}
+          edit={edit}
+          setEdit={setEdit}
+          EditObj={EditObj}
+          setEditObj={setEditObj}
+          handleMenuClick={handleMenuClick}
+          setShowForm={setShowForm}
+          showForm={showForm}
+          handleShowAddBed={handleShowAddBed}
+          roomDetail={roomDetail}
+          setRoomDetail={setRoomDetail}
+          userList={userList}
+          setUserList={setUserList}
+          OnShowTable={OnShowTableForCustomer}
+          uniqueostel_Id={uniqueostel_Id}
+          setUniqostel_Id={setUniqostel_Id}
+        />
+      )}
     </div>
   );
 }
