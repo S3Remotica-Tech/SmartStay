@@ -146,6 +146,11 @@ function CustomerForm({ show, handleClose, initialData }) {
             setPincode(initialData.pin_code || '');
             setCity(initialData.city || '');
             setStateName(initialData.state || '')
+            if (initialData.profile === 0) {
+              setFile(null);
+            } else {
+              setFile(initialData.profile);
+            }
 
 
 
@@ -305,6 +310,7 @@ function CustomerForm({ show, handleClose, initialData }) {
             dispatch({
                 type: 'ADDWALKINCUSTOMER',
                 payload: {
+                  profile:file,
                     first_name: name,
                     last_name: lastname,
                     email_Id: email,
@@ -493,21 +499,59 @@ function CustomerForm({ show, handleClose, initialData }) {
 
     const [file, setFile] = useState(null);
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const options = {
-                maxSizeMB: 1,
-                maxWidthOrHeight: 1920,
-                useWebWorker: true
-            };
-            imageCompression(file, options).then((compressedFile) => {
-                setFile(compressedFile);
-            }).catch((error) => {
-                console.error('Error compressing image:', error);
-            });
+     const handleImageChange = async (event) => {
+        const fileImage = event.target.files[0];
+        if (fileImage) {
+          const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 800,
+            useWebWorker: true,
+          };
+          try {
+            const compressedFile = await imageCompression(fileImage, options);
+            setFile(compressedFile);
+          } catch (error) {
+            console.error("Image compression error:", error);
+          }
         }
-    };
+      };
+      useEffect(() => {
+          if (
+            state.UsersList.addWalkInCustomerStatusCode === 200 
+          ) {
+            dispatch({
+              type: "WALKINCUSTOMERLIST",
+              payload: { hostel_id: state.login.selectedHostel_Id },
+            });
+      
+            // setShowForm(false);
+      
+            setTimeout(() => {
+              dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
+            }, 1000);
+           
+            // setShowDeleteModal(false);
+          }
+        }, [
+          state.UsersList.addWalkInCustomerStatusCode
+         
+        ]);
+
+    // const handleImageChange = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         const options = {
+    //             maxSizeMB: 1,
+    //             maxWidthOrHeight: 1920,
+    //             useWebWorker: true
+    //         };
+    //         imageCompression(file, options).then((compressedFile) => {
+    //             setFile(compressedFile);
+    //         }).catch((error) => {
+    //             console.error('Error compressing image:', error);
+    //         });
+    //     }
+    // };
     const handleFormClose = () => {
         // setErrors('');
         setEmailError("")

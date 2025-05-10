@@ -181,12 +181,46 @@ export async function getWalkInCustomer(walk) {
 
 
 
-export async function AddWalkInCustomer(walk) {
-  return await AxiosConfig.post('/add_walkin-customer',walk,{
-    data:walk
-  })
-}
+// export async function AddWalkInCustomer(walk) {
+//   return await AxiosConfig.post('/add_walkin-customer',walk,{
+//     data:walk
+//   })
+// }
+export async function AddWalkInCustomer(params) {
 
+  const formData = new FormData();
+  if (params.profile) formData.append("profile", params.profile);
+  if (params.last_name) formData.append("last_name", params.last_name)
+  if (params.first_name) formData.append("first_name", params.first_name)
+  if (params.Address) formData.append("Address", params.Address)
+  if (params.area) formData.append("area", params.area)
+  if (params.landmark) formData.append("landmark", params.landmark)
+  if (params.city) formData.append("city", params.city)
+  if (params.pin_code) formData.append("pincode", params.pincode)
+  if (params.state) formData.append("state", params.state)
+  if (params.hostel_id) formData.append("hostel_id", params.hostel_id)
+  if (params.email_Id) formData.append("email_Id", params.email_Id)
+  if (params.mobile_Number) formData.append("mobile_Number", params.mobile_Number)
+  if (params.walk_In_Date) formData.append("walk_In_Date", params.walk_In_Date)
+  if(params.comments) formData.append("comments" ,params.comments)
+  if(params.id) formData.append("id", params.id)
+
+
+  try {
+    const response = await AxiosConfig.post('/add_walkin-customer', formData, {
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
+      timeout: 100000000,
+      onUploadProgress: (event) => {
+        console.log("event", event)
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Axios Error", error);
+  }
+}
 
 export async function DeleteWalkInCustomer(walk) {
   return await AxiosConfig.post('/delete_walkin-customer',walk,{
