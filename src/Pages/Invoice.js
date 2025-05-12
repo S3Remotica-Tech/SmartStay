@@ -5620,7 +5620,24 @@ console.log("DownloadReceipt",receiptdata)
                                                                                                                     </div>
                                                                                                                      Invoice Number</div>
                                         </th>
-
+                                        <th
+                                          style={{
+                                            textAlign: "start",
+                                            fontFamily: "Gilroy",
+                                            color: "rgb(147, 147, 147)",
+                                            fontSize: 12,
+                                            fontStyle: "normal",
+                                            fontWeight: 500,
+                                            whiteSpace:"nowrap"
+                                          }}
+                                        >
+                                           <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("type", 'asc')} style={{ cursor: "pointer" }} />
+                                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("type", 'desc')} style={{ cursor: "pointer" }} />
+                                                                                                                    </div>
+                                                                                                                     Type</div>
+                                        </th>
                                         <th
                                           style={{
                                             textAlign: "start",
