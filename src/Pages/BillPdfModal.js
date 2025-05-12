@@ -18,7 +18,7 @@ import {ArrowLeft } from 'iconsax-react';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";
-import { WhatsApp } from "@material-ui/icons";
+// import { WhatsApp } from "@material-ui/icons";
 
 
 

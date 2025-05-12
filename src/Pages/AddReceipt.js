@@ -92,9 +92,9 @@ const AddReceiptForm = (props) => {
      
      
      
-    const handleDueAmount = (e)=>{
-      setDueAmount(e.target.value)
-    }
+    // const handleDueAmount = (e)=>{
+    //   setDueAmount(e.target.value)
+    // }
     
       const handleCustomerName = (selectedOption) => {
         if (!selectedOption) {
