@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
+import Whatsapp from '../Assets/Images/whatsapp.png'
 import Close from '../Assets/Images/New_images/circlie.png'
 import Logo from '../Assets/Images/get.png'
 import Dial from '../Assets/Images/dial.png'
@@ -17,6 +18,7 @@ import {ArrowLeft } from 'iconsax-react';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";
+import { WhatsApp } from "@material-ui/icons";
 
 
 
@@ -162,13 +164,19 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
           </div>
           <div>
          
-            <div className="gap-5 d-flex">
-              <div className="d-flex  border p-1" style={{height:40 , width: 130 , borderRadius:'8px'}}>
-                <p className="me-2 ms-2">Download</p>
-              <img src={DownLoad} alt="Download Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleDownload} />
+            <div className="gap-2 d-flex me-3">
+              <div className="d-flex  border p-1" style={{height:38 , width: 120 , borderRadius:'8px'}}>
+              <img src={DownLoad} className="mt-1 ms-1" alt="Download Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleDownload} />
+                <p className="mt-1 ms-2" style={{ fontSize: 13, fontWeight: 400, fontFamily: "Gilroy" }}>Download</p>
+   
+              </div>
+              <div className="d-flex  border p-1" style={{height:38 , width: 100 , borderRadius:'8px'}}>
+              <img src={Whatsapp}  className="mt-1 ms-1" alt="Share" style={{ height: 20, width: 20, cursor: "pointer" }} />
+                <p className=" ms-2 mt-1" style={{ fontSize: 13, fontWeight: 400, fontFamily: "Gilroy" }}>Share</p>
+
               </div>
 
-              <img src={Close} alt="Close Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleBackInvoice} />
+              <img src={Close} className="me-3 mt-1 ms-2" alt="Close Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleBackInvoice} />
             </div>
           </div>
 
@@ -412,7 +420,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 <div className="ms-5 me-5">
   <div
-    className="text-white text-center py-3 rounded-bottom d-flex justify-content-center gap-4"
+    className="text-white text-center py-2 rounded-bottom d-flex justify-content-center gap-4"
     style={{
       backgroundColor: 'rgba(48, 80, 210, 1)',
       borderTopRightRadius: '38px',
