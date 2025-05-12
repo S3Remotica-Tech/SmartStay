@@ -9,7 +9,7 @@ const Startup = () => {
         <Col className="d-flex justify-content-center">
           <img
             src={StartupImage}
-            alt="Background"
+            alt="SmartStay trusted by 100+ startups for hostel management software and PG booking platform"
             className="img-fluid mt-5"
             style={{ maxHeight: "100%", objectFit: "contain" }}
           />

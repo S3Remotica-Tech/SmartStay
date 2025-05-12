@@ -7,10 +7,10 @@ import Hostel from "../Assets/Images/landingpageimages/sm_hostel.png";
 import Lists from "../Assets/Images/landingpageimages/list.svg";
 
 const features = [
-  { id: 1, name: "Room Management", icon: Roommangement, description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel },
-  { id: 2, name: "Customer Management", icon: Custommangement, description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel },
-  { id: 3, name: "Inventory Management", icon: Report, description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel },
-  { id: 4, name: "Vendor Management", icon: Report, description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel },
+  { id: 1, name: "Room Management", icon: Roommangement,alt:"Room management feature of SmartStay hostel booking software with live occupancy tracking" ,description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel ,alts:"SmartStay room layout dashboard for hostel booking, bed occupancy, and PG allocation by floor"},
+  { id: 2, name: "Customer Management", icon: Custommangement,alt:"	Customer management feature in SmartStay hostel and PG management software", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel,alts:"SmartStay customer management dashboard for PGs and hostels showing bed allocation and floor-wise occupancy" },
+  { id: 3, name: "Inventory Management", icon: Report,alt:"Inventory tracking for PG hostels using SmartStay software", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel,alts:"SmartStay inventory management software dashboard to track hostel beds, room status, and PG occupancy" },
+  { id: 4, name: "Vendor Management", icon: Report,alt:"Vendor management system for PG and hostel operations in SmartStay platform", description: "Efficiently manage rooms, customers, inventory, vendors, complaints, expenses, and reports—all in one place.", image: Hostel ,alts:"Vendor management dashboard in SmartStay hostel software showing room layout and PG service tracking"},
 ];
 
 const KeyFeatures = () => {
@@ -113,7 +113,7 @@ const handleScrollToFeature = (id) => {
               backgroundColor: "rgba(232, 236, 252)",
             }}
           >
-            <img src={feature.icon} alt={feature.name} style={{ width: "20px", height: "20px" }} />
+            <img src={feature.icon} alt={feature.alt} style={{ width: "20px", height: "20px" }} />
           </div>
           <span>{feature.name}</span>
         </Button>
@@ -167,7 +167,7 @@ const handleScrollToFeature = (id) => {
               />
             </Col>
             <Col xs={12} md={6} className={index % 2 === 0 ? "order-md-1" : "order-md-2 text-center"}>
-              <img src={feature.image} alt={feature.name} style={{ width: "80%", maxWidth: "500px" }} />
+              <img src={feature.image} alt={feature.alts} style={{ width: "80%", maxWidth: "500px" }} />
             </Col>
           </Row>
         ))}

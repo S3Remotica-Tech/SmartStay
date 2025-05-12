@@ -105,7 +105,7 @@ useEffect(() => {
       <Navbar collapseOnSelect expand="lg" fixed="top" style={{ backgroundColor: "#FFFFFF" }}>
         <Container fluid className="px-lg-5 px-md-4 px-sm-3">
           <Navbar.Brand onClick={handleBrandClick}>
-            <img src={Logo} alt="logo" style={{ width: 176.45, height: 33, cursor: "pointer" }} />
+            <img src={Logo} alt="SmartStay hostel management software logo for PG and hostel booking platform" style={{ width: 176.45, height: 33, cursor: "pointer" }} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
