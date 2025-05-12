@@ -5,7 +5,7 @@ import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../Assets/Images/whatsapp.png'
-import Whatsapp_greenicon from '../Assets/Images/whatsapp_green_icon.png'
+// import Whatsapp_greenicon from '../Assets/Images/whatsapp_green_icon.png'
 import Close from '../Assets/Images/New_images/circlie.png'
 import Logo from '../Assets/Images/get.png'
 import Dial from '../Assets/Images/dial.png'
