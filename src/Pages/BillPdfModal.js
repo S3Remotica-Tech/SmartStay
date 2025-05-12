@@ -5,6 +5,7 @@ import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../Assets/Images/whatsapp.png'
+import Whatsapp_greenicon from '../Assets/Images/whatsapp_green_icon.png'
 import Close from '../Assets/Images/New_images/circlie.png'
 import Logo from '../Assets/Images/get.png'
 import Dial from '../Assets/Images/dial.png'
@@ -111,6 +112,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     return value !== null && value !== undefined && value !== "undefined" && value !== "";
   };
 
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleShareClick = () => {
+    setIsOpen(!isOpen);
+  };
+
   //action: "recuring"
 
 
@@ -170,16 +178,78 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                 <p className="mt-1 ms-2" style={{ fontSize: 13, fontWeight: 400, fontFamily: "Gilroy" }}>Download</p>
    
               </div>
-              <div className="d-flex  border p-1" style={{height:38 , width: 100 , borderRadius:'8px'}}>
-              <img src={Whatsapp}  className="mt-1 ms-1" alt="Share" style={{ height: 20, width: 20, cursor: "pointer" }} />
-                <p className=" ms-2 mt-1" style={{ fontSize: 13, fontWeight: 400, fontFamily: "Gilroy" }}>Share</p>
+              <div className="position-relative d-inline-block">
+  {/* Share Button */}
+  <div
+    className="d-flex align-items-center border p-1"
+    onClick={handleShareClick}
+    style={{
+      height: 38,
+      width: 100,
+      borderRadius: "8px",
+      // backgroundColor: isOpen ? "#e0f7fa" : "#fff",
+      cursor: "pointer",
+      borderColor: isOpen ? "#2196f3" : "#ccc",
+    }}
+  >
+    <img
+      src={Whatsapp}
+      alt="Share"
+      style={{
+        height: 20,
+        width: 20,
+        filter: isOpen
+          ? "invert(36%) sepia(82%) saturate(5000%) hue-rotate(200deg)"
+          : "none",
+      }}
+      className="ms-1"
+    />
+    <p
+      className="ms-2 mt-3"
+      style={{
+        fontSize: 13,
+        fontWeight: 400,
+        fontFamily: "Gilroy",
+        color: isOpen ? "rgba(30, 69, 225, 1)" : "#000",
+      }}
+    >
+      Share
+    </p>
+  </div>
 
-              </div>
+  {/* Popup Menu */}
+  {isOpen && (
+    <div
+      className="position-absolute start-0 mt-2 p-2 shadow"
+      style={{
+        borderRadius: "8px",
+        backgroundColor: "#fff",
+        width: 160,
+        zIndex: 10,
+      }}
+    >
+      <div className="d-flex align-items-center mb-2">
+        <i className="bi bi-envelope-fill me-2 text-primary"></i>
+        <span>Send Mail</span>
+      </div>
+      <div className="d-flex align-items-center mb-2">
+        <i className="bi bi-chat-left-text-fill me-2 text-primary"></i>
+        <span>Send SMS</span>
+      </div>
+      <div className="d-flex align-items-center">
+        <i className="bi bi-whatsapp me-2 text-success"></i>
+        <span>Send Whatsapp</span>
+      </div>
+    </div>
+  )}
+</div>
+
 
               <img src={Close} className="me-3 mt-1 ms-2" alt="Close Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleBackInvoice} />
             </div>
           </div>
 
+       
         </div>
         <hr />
 
@@ -191,7 +261,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
 <div ref={cardRef} className="border">
                 
-<div  className=" text-white  p-4 position-relative" style={{ minHeight: "150px",background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' }}>
+<div  className=" text-white  p-4 position-relative" style={{ minHeight: "120px",background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' }}>
   <div className="d-flex justify-content-between align-items-center">
   <div className="d-flex gap-2 mb-3 mb-lg-0">
       <img src={rowData?.hostel_profile || Logo} alt="logo" style={{ height: 40, width: 40 }} />
@@ -459,6 +529,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 </div>
             
           }
+
+         
         </div>
       </div>
     </div>
