@@ -61,8 +61,8 @@ const AddReceiptForm = (props) => {
         if (props.editvalue && props.receiptedit) {
           setEdit(true)
           console.log("receiptedit",props.editvalue);
-          setEdit_Id(props.editvalue.hos_user_id)
-          setCustomerName(props.editvalue.hos_user_id);
+          setEdit_Id(props.editvalue.user_id)
+          setCustomerName(props.editvalue.user_id);
           setInvoiceNumber(props.editvalue.invoice_number || '');
     
           if (props.editvalue.payment_date) {
@@ -92,7 +92,9 @@ const AddReceiptForm = (props) => {
      
      
      
-    
+    const handleDueAmount = (e)=>{
+      setDueAmount(e.target.value)
+    }
     
       const handleCustomerName = (selectedOption) => {
         if (!selectedOption) {
@@ -158,30 +160,128 @@ const AddReceiptForm = (props) => {
           setInvoicenumberErrmsg("");
         }
       };
-      
+
 
       const handleReceivedAmount = (e) => {
-        const receivedValue = parseFloat(e.target.value) || 0; // Convert to number, handle empty input
-      let updatedDueAmount;
-        if (receivedValue !== '' && initial_due_amount >= receivedValue) {
-        updatedDueAmount = initial_due_amount - receivedValue; 
-        console.log("updatedDueAmount",updatedDueAmount);
-        setDueAmount(updatedDueAmount >= 0 ? updatedDueAmount : 0);
-        setReceivedAmount(receivedValue);
-       }
+        const value = e.target.value;
+        const receivedValue = parseFloat(value);
+      
+        setReceivedAmount(value);
+      
+        // Use fixed original base for subtraction
+        const baseAmount = props.editvalue ? props.editvalue.amount_received : initial_due_amount;
+      
+        if (value === '') {
+          setDueAmount(baseAmount);
+        } else if (!isNaN(receivedValue)) {
+          if (receivedValue <= baseAmount) {
+            setDueAmount(baseAmount - receivedValue);
+          } else {
+            setDueAmount(0);
+          }
+        } else {
+          setDueAmount(baseAmount);
+        }
+        setAllFieldErrmsg("")
+      };
+      
+
+      // const handleReceivedAmount = (e) => {
+      //   const value = e.target.value;
+      //   const receivedValue = parseFloat(value);
+      
+      //   // Always update receivedAmount for controlled input
+      //   setReceivedAmount(value);
+      
+      //   // Determine base amount for calculation
+      //   const baseAmount = props.editvalue ? props.editvalue.amount_received : due_amount;
+      
+      //   console.log("baseAmount",baseAmount);
+        
+
+      //   if (value == '') {
+      //     // Input cleared — reset dueAmount to full
+      //     setDueAmount(baseAmount);
+      //   } else if (!isNaN(receivedValue)) {
+      //     if (receivedValue <= baseAmount) {
+      //       setDueAmount(baseAmount - receivedValue);
+      //     } else {
+      //       // Optional: cap or show alert
+      //       // alert("Received amount cannot be more than the total amount.");
+      //       setDueAmount(0);
+      //     }
+      //   } else {
+      //     // Invalid input (not a number), reset to base
+      //     setDueAmount(baseAmount);
+      //   }
+      // };
+      
+      
+
+      // const handleReceivedAmount = (e) => {
+      //   const value = e.target.value;
+      //   const receivedValue = parseFloat(value);
+      //   setReceivedAmount(value);
+      
+      //   const baseAmount = props.editvalue ? props.editvalue.amount_received : due_amount; 
+      
+      //   if (!isNaN(receivedValue)) {
+      //     if (receivedValue <= baseAmount) {
+      //       const updatedDueAmount = baseAmount - receivedValue;
+      //       setDueAmount(updatedDueAmount);
+      //     // } else {
+      //     //   alert("Received amount cannot be more than the total amount.");
+      //     //   setReceivedAmount('');
+      //     //   setDueAmount(baseAmount);
+      //     }
+      //   } else {
+      //     // If input is invalid, reset dueAmount
+      //     setDueAmount(baseAmount);
+      //   }
+      // };
+      
+      
+      // const handleReceivedAmount = (e) => {
+      //   const value = e.target.value;
+      //   const receivedValue = parseFloat(value);
+      
+      //   // Always update receivedAmount for controlled input
+      //   setReceivedAmount(value);
+      
+      //   if (!isNaN(receivedValue)) {
+      //     if (receivedValue <= props.editvalue.amount_received) {
+      //       const updatedDueAmount = props.editvalue.amount_received - receivedValue;
+      //       setDueAmount(updatedDueAmount);
+      //     }
+      //   } else {
+      //     // If input is invalid, set due amount to full
+      //     setDueAmount(props.editvalue.amount_received);
+      //   }
+      // };
+      
+      
+    //   const handleReceivedAmount = (e) => {
+    //     const receivedValue = parseFloat(e.target.value) || 0; // Convert to number, handle empty input
+    //   let updatedDueAmount;
+    //     if (receivedValue !== '' && initial_due_amount >= receivedValue) {
+    //     updatedDueAmount = initial_due_amount - receivedValue; 
+    //     console.log("updatedDueAmount",updatedDueAmount);
+    //     setDueAmount(updatedDueAmount >= 0 ? updatedDueAmount : 0);
+    //     setReceivedAmount(receivedValue);
+    //    }
         
     
-        // Prevent negative due amount
-        // setReceivedAmount(receivedValue);
-        setAllFieldErrmsg('');
+    //     // Prevent negative due amount
+    //     // setReceivedAmount(receivedValue);
+    //     setAllFieldErrmsg('');
     
-        if (!e.target.value) {
-          setDueAmount(initial_due_amount);
-            setReceivedAmountErrmsg("Please Enter Amount");
-        } else {
-            setReceivedAmountErrmsg('');
-        }
-    };
+    //     if (!e.target.value) {
+    //       setDueAmount(initial_due_amount);
+    //         setReceivedAmountErrmsg("Please Enter Amount");
+    //     } else {
+    //         setReceivedAmountErrmsg('');
+    //     }
+    // };
     // const handleAccount = (selectedOption) => {
     //   const selectedValue = selectedOption?.value || "";
     
@@ -494,7 +594,7 @@ const AddReceiptForm = (props) => {
          
 
          
-    
+    console.log("state?.InvoiceList?.ManualInvoices",state?.InvoiceList?.ManualInvoices)
    
 
         
@@ -755,7 +855,8 @@ const AddReceiptForm = (props) => {
           style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 ,   backgroundColor: "#E7F1FF",}}
           type="text"
           placeholder="Enter Due Amount"
-          value={due_amount || 0} 
+          value={due_amount} 
+          // onChange={(e)=>handleDueAmount(e)}
           readOnly
         />
 
@@ -767,12 +868,12 @@ const AddReceiptForm = (props) => {
       <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
         <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received</Form.Label>
         <Form.Control
-          style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, backgroundColor:edit ? "#E7F1FF" : "white" }}
+          style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500}}
           type="text"
           placeholder="Enter Received Amount"
-          value={received_amount || 0} 
-          onChange={handleReceivedAmount} 
-          disabled={edit}
+          value={received_amount} 
+          onChange={(e)=>handleReceivedAmount(e)} 
+          // disabled={edit}
         />
  {receivedamounterrmsg && (
                   <div className="d-flex align-items-center  mb-2">

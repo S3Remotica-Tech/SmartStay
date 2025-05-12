@@ -151,44 +151,7 @@ function CustomerCheckout(props){
                   <div className="row mb-3">
                     
         
-                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <Form.Group className="mb-2" controlId="checkoutDate">
-          <Form.Label
-            style={{
-              fontSize: 14,
-              color: "#222222",
-              fontFamily: "Gilroy",
-              fontWeight: 500,
-            }}
-          >
-            Check-Out Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-          </Form.Label>
-
-<div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
-  <DatePicker
-  style={{ width: "100%", height: 48,cursor:"pointer" }}
-  format="DD/MM/YYYY"
-  placeholder="DD/MM/YYYY" 
-  value={selectedDate ? dayjs(selectedDate) : null}
-    onChange={(date) => {
-      setSelectedDate(date);
-      calculateDateDifference(date, requestDate);
-      setCheckOutDateError('');
-    }}
-    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-  />
-</div>
-
-        </Form.Group>
-        {checkoUtDateError && (
-              <div className="d-flex align-items-center p-1 mb-2">
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500,whiteSpace:"nowrap" }}>
-                  {checkoUtDateError}
-                </label>
-              </div>
-            )}
-      </div>
+       
 
       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <Form.Group className="mb-2" controlId="requestDate">
@@ -229,7 +192,44 @@ function CustomerCheckout(props){
       </div>
 
      
-   
+      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <Form.Group className="mb-2" controlId="checkoutDate">
+          <Form.Label
+            style={{
+              fontSize: 14,
+              color: "#222222",
+              fontFamily: "Gilroy",
+              fontWeight: 500,
+            }}
+          >
+            Check-Out Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+          </Form.Label>
+
+<div className="datepicker-wrapper" style={{ position: "relative", width: "100%" }}>
+  <DatePicker
+  style={{ width: "100%", height: 48,cursor:"pointer" }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY" 
+  value={selectedDate ? dayjs(selectedDate) : null}
+    onChange={(date) => {
+      setSelectedDate(date);
+      calculateDateDifference(date, requestDate);
+      setCheckOutDateError('');
+    }}
+    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+  />
+</div>
+
+        </Form.Group>
+        {checkoUtDateError && (
+              <div className="d-flex align-items-center p-1 mb-2">
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500,whiteSpace:"nowrap" }}>
+                  {checkoUtDateError}
+                </label>
+              </div>
+            )}
+      </div>
 
                     
       <div className='col-lg-12 col-md-12 col-sm-12 colxs-12'>

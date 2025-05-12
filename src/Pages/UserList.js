@@ -2762,7 +2762,7 @@ function UserList(props) {
                                         variant="Bold"
                                         color="#1E45E1"
                                         onClick={() =>
-                                          handleSort("HostelName", "asc")
+                                          handleSort("user_join_date", "asc")
                                         }
                                         style={{ cursor: "pointer" }}
                                       />
@@ -2771,12 +2771,12 @@ function UserList(props) {
                                         variant="Bold"
                                         color="#1E45E1"
                                         onClick={() =>
-                                          handleSort("HostelName", "desc")
+                                          handleSort("user_join_date", "desc")
                                         }
                                         style={{ cursor: "pointer" }}
                                       />
                                     </div>
-                                    Paying Guest
+                                    Joining Date
                                   </div>
                                 </th>
                                 <th
@@ -3039,7 +3039,7 @@ function UserList(props) {
                                               fontFamily: "Gilroy",
                                             }}
                                           >
-                                            {user.HostelName}
+                                            {user.user_join_date}
                                           </span>
                                         </td>
                                         <td

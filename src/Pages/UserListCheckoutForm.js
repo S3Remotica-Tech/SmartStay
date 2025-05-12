@@ -906,65 +906,7 @@ if(state.UsersList.conformChekoutError){
               </Form.Group>
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="mb-2" controlId="purchaseDate">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Check-Out Date{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
-               
-
-
-               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                <DatePicker
-                  style={{ width: "100%", height: 48,cursor:"pointer" }}
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  value={checkOutDate ? dayjs(checkOutDate) : null}
-                  onChange={(date) => {
-                    setCheckOutDateError('');
-                    setIsChangedError("");
-                    setCheckOutDate(date ? date.toDate() : null);
-                  }}
-                  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                />
-              </div>
-              </Form.Group>
-              {checkoUtDateError && (
-                <div
-                  className="d-flex align-items-center p-1"
-                  style={{ marginTop: "-6px" }}
-                >
-                  <MdError
-                    style={{
-                      color: "red",
-                      marginRight: "5px",
-                      fontSize: "12px",
-                    }}
-                  />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      whiteSpace:"nowrap"
-                    }}
-                  >
-                    {checkoUtDateError}
-                  </label>
-                </div>
-              )}
-            </div>
-
+           
           
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group className="mb-2" controlId="purchaseDate">
@@ -1023,6 +965,64 @@ if(state.UsersList.conformChekoutError){
                 )}
               </div>
            
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Check-Out Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
+               
+
+
+               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                <DatePicker
+                  style={{ width: "100%", height: 48,cursor:"pointer" }}
+                  format="DD/MM/YYYY"
+                  placeholder="DD/MM/YYYY"
+                  value={checkOutDate ? dayjs(checkOutDate) : null}
+                  onChange={(date) => {
+                    setCheckOutDateError('');
+                    setIsChangedError("");
+                    setCheckOutDate(date ? date.toDate() : null);
+                  }}
+                  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                />
+              </div>
+              </Form.Group>
+              {checkoUtDateError && (
+                <div
+                  className="d-flex align-items-center p-1"
+                  style={{ marginTop: "-6px" }}
+                >
+                  <MdError
+                    style={{
+                      color: "red",
+                      marginRight: "5px",
+                      fontSize: "12px",
+                    }}
+                  />
+                  <label
+                    className="mb-0"
+                    style={{
+                      color: "red",
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      whiteSpace:"nowrap"
+                    }}
+                  >
+                    {checkoUtDateError}
+                  </label>
+                </div>
+              )}
+            </div>
 
             
 
@@ -1596,17 +1596,7 @@ if(state.UsersList.conformChekoutError){
               width: "100%",
               backgroundColor: "#1E45E1",
             }}
-            // disabled={
-            //   !checkouteditaction &&
-            //   !checkoutaddform &&
-            //   dueamount > 0 }
-              // onClick={() => {
-              //    if (checkouteditaction) {
-              //     handleCheckOutCustomer();
-              //   } else {
-              //     handleCheckOutCustomer();
-              //   }
-              // }}
+           
 
               onClick={handleConfirmCheckout}
               
