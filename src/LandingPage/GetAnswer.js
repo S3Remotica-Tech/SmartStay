@@ -119,7 +119,7 @@ function GetAnswer() {
                 </div>
                
                 <div className="d-flex justify-content-center align-items-center gap-2 mb-2">
-                  <img src={Smart} alt="smartstay" style={{ width: "40px" }} />
+                  <img src={Smart} alt="SmartStay hostel management software logo for PG and hostel booking platform" style={{ width: "40px" }} />
                   <h5 className="text-white fw-bold m-0">Smartstay</h5>
                 </div>
 
