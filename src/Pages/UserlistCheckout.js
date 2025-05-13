@@ -28,9 +28,6 @@ import './UserlistCheckout.css';
 
 function CheckOut(props) {
 
-
-
-
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -47,6 +44,7 @@ function CheckOut(props) {
   const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
   const [checkoutLoader,setCheckOutLoader] = useState(true)
   const [cofirmForm,setConfirmForm] = useState(false)
+  const [datatrue,setDataTrue] = useState(false)
 
 console.log("checkOutCustomer",checkOutCustomer)
   
@@ -241,7 +239,27 @@ console.log("checkOutCustomer",checkOutCustomer)
   const [deleteCheckOutCustomer, setDeleteCheckOutCustomer] = useState("");
   const [checkoutaction, setCheckoutAction] = useState(false)
 
+
+  const [confirmcheckoutEdit,setConfirmCheckoutEdit] = useState(false)
+  const [confirmData,setConfirmData] =useState("")
+
+  const handleCofirmEdit = (checkout)=>{
+   console.log("handleConfirmCheckout",checkout)
+    
+     setCheckOutConfirm(checkout)
+    setActiveDotsId(null);
+    setConfirmForm(true);
+    // setCheckOutConfirm(checkout)
+    setCheckoutAction(true)
+    setCheckoutEditAction(false)
+    setConfirmCheckoutEdit(false)
+    setConfirmCheckoutEdit("")
+    setDataTrue(true)
+  }
+
   const handleEdit = (checkout) => {
+    console.log("handleEdit",checkout)
+    setConfirmCheckoutEdit(false)
     setActiveDotsId(null);
     setcheckoutForm(true);
     setCheckOutEdit(checkout);
@@ -249,12 +267,18 @@ console.log("checkOutCustomer",checkOutCustomer)
     setCheckoutAction(false)
   };
 
-  const handleConfirmCheckout = () => {
+  const handleConfirmCheckout = (checkout) => {
+    console.log("handleConfirmCheckout",checkout)
+    
+     setCheckOutConfirm(checkout)
     setActiveDotsId(null);
     setConfirmForm(true);
     // setCheckOutConfirm(checkout)
     setCheckoutAction(true)
     setCheckoutEditAction(false)
+    setConfirmCheckoutEdit(false)
+    setConfirmCheckoutEdit("")
+    setDataTrue(true)
   }
   const handleCloseConformForm=()=>{
     setConfirmForm(false); 
@@ -284,7 +308,7 @@ console.log("checkOutCustomer",checkOutCustomer)
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
    
   const toggleMoreOptions = (id, checkout, event) => {
-    setCheckOutConfirm(checkout)
+   
     if (activeDotsId === id) {
       setActiveDotsId(null);
     } else {
@@ -342,7 +366,7 @@ console.log("checkOutCustomer",checkOutCustomer)
 
 
  
-  
+  console.log("sortedData",sortedData)
 
 
 
@@ -452,7 +476,7 @@ console.log("checkOutCustomer",checkOutCustomer)
                          className='show-scrolls'
                          style={{
                           
-                           height: sortedData?.length >= 8 || sortedData?.length >= 8 ? "350px" : "auto",
+                           height: sortedData?.length >= 6 || sortedData?.length >= 6 ? "330px" : "auto",
                            overflow: "auto",
                            borderTop: "1px solid #E8E8E8",
                            marginBottom: 20,
@@ -1020,8 +1044,8 @@ console.log("checkOutCustomer",checkOutCustomer)
   
 )}
 
-{
-  checkout.isActive !== 0 && (
+{/* {
+  checkout.isActive === 1 && (
     <div
     className="mb-2 mt-2 d-flex align-items-center"
     onClick={() => {
@@ -1062,8 +1086,79 @@ console.log("checkOutCustomer",checkOutCustomer)
       Edit
     </label>
   </div>
-  )
-}
+   )
+} */}
+
+{checkout.isActive === 1 ? (
+  <div
+    className="mb-2 mt-2 d-flex align-items-center"
+    onClick={() => {
+      if (!checkOutEditPermissionError) {
+        handleEdit(checkout);
+      }
+    }}
+    style={{
+      cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
+      pointerEvents: checkOutEditPermissionError ? "none" : "auto",
+      opacity: checkOutEditPermissionError ? 0.5 : 1,
+    }}
+  >
+    <img
+      src={Edit}
+      style={{
+        height: 16,
+        width: 16,
+        marginRight: "8px",
+      }}
+      alt="Edit icon"
+    />
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        color: "#222222",
+        cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
+      }}
+    >
+      Edit
+    </label>
+  </div>
+) :  <div
+    className="mb-2 mt-2 d-flex align-items-center"
+    onClick={() => {
+      if (!checkOutEditPermissionError) {
+        handleCofirmEdit(checkout);
+      }
+    }}
+    style={{
+      cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
+      pointerEvents: checkOutEditPermissionError ? "none" : "auto",
+      opacity: checkOutEditPermissionError ? 0.5 : 1,
+    }}
+  >
+    <img
+      src={Edit}
+      style={{
+        height: 16,
+        width: 16,
+        marginRight: "8px",
+      }}
+      alt="Edit icon"
+    />
+    <label
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        color: "#222222",
+        cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
+      }}
+    >
+      Edit
+    </label>
+  </div>}
+
                                    
 
                                     <div
@@ -1278,6 +1373,10 @@ console.log("checkOutCustomer",checkOutCustomer)
     cofirmForm={cofirmForm}
     setConfirmForm={setConfirmForm}
     handleCloseConformForm={handleCloseConformForm}
+    setConfirmCheckoutEdit = {setConfirmCheckoutEdit}
+    confirmcheckoutEdit = {confirmcheckoutEdit}
+    confirmData = {confirmData}
+    setConfirmData = {setConfirmData}
   />
 )}
 
