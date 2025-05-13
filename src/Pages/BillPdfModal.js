@@ -265,7 +265,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                 <label style={{
                   fontSize: 15, fontWeight: 500, color: "#000000",
                   fontFamily: "Gilroy"
-                }}>{moment(rowData?.Date).format('DD MMM YYYY')}
+                }}>{moment(rowData?.Date).format('DD-MM-YYYY')}
                 </label> - <label style={{
                   fontSize: 15, fontWeight: 500, color: "#000000",
                   fontFamily: "Gilroy"
