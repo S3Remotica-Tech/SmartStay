@@ -437,33 +437,34 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
       <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{userdetails?.name}</span></p>
       <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img className="me-1"   src={Dial} alt="dial"/> {userdetails?.phone}</p>
       <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img className="me-1" src={Room} alt="room" style={{height:20 , width:20}}/> {userdetails.room_name} - {userdetails.bed_name}</p>
-      <p
-  style={{
-    fontSize: '13px',
-    fontFamily: 'Gilroy',
-    fontWeight: 400,
-    color: 'rgba(34, 34, 34, 1)',
-  }}
->
-  <img className="me-2" src={Locat} alt="local" />
+      <div className="d-flex" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)' }}>
+  
+  {/* Icon Div */}
+  <div className="me-2">
+    <img src={Locat} alt="local" />
+  </div>
 
-  <span>
-    {isValid(userdetails?.address) && <>{userdetails.address}, </>}
-    {isValid(userdetails?.area) && <>{userdetails.area}, </>}
-    {isValid(userdetails?.city) && <>{userdetails.city}</>}
-  </span>
-  <br />
-  <span className="ms-4">
-    {isValid(userdetails?.state) && <>{userdetails.state} </>}
-    {isValid(userdetails?.pincode) && <>- {userdetails.pincode}</>}
-  </span>
-</p>
+  {/* Address Div */}
+  <div>
+    <div>
+      {isValid(userdetails?.address) && <>{userdetails.address}, </>}
+      {isValid(userdetails?.area) && <>{userdetails.area}, </>}
+      {isValid(userdetails?.city) && <>{userdetails.city}</>}
+    </div>
+    <div>
+      {isValid(userdetails?.state) && <>{userdetails.state} </>}
+      {isValid(userdetails?.pincode) && <>- {userdetails.pincode}</>}
+    </div>
+  </div>
+
+</div>
+
 
     </div>
     <div className="col-md-6 mb-3 ps-5">
       <div className="row">
       
-        <div className="col-6 text-muted  text-end mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Invoice:</div>
+        <div className="col-6 text-muted  text-end mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Invoice :</div>
         <div className="col-6 text-start mt-1"   style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',   whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>#{invoice_details?.invoice_id === null || invoice_details?.invoice_id === '' ? '0.00' : invoice_details?.invoice_id}</div>
       
 
@@ -479,7 +480,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         {/* <div className="col-6 text-muted" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
         <div className="col-6  text-end" style={{ fontSize: '16px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}></div> */}
 
-        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   whiteSpace: 'nowrap' , overflow: "hidden", textOverflow: "ellipsis"}}>Total Staying Days</div>
+        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   }}>Total Staying Days</div>
         <div className="col-6 text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>{totalStayingDays} Days</div>
       </div>
     </div>
