@@ -4,6 +4,13 @@ import { toWords } from 'number-to-words';
 import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
+import Whatsapp from '../Assets/Images/whatsapp.png'
+import Whatsapp_blue from '../Assets/Images/whatsapp_blue.png'
+import Whatsapp_white from '../Assets/Images/whatsapp_white.png'
+import Mail from '../Assets/Images/gmail.png'
+import Mail_white from '../Assets/Images/gmail_white.png'
+import Message_text from '../Assets/Images/message-text.png'
+import Message_text_white from '../Assets/Images/message-white.png'
 import Close from '../Assets/Images/New_images/circlie.png'
 import {  ArrowLeft } from 'iconsax-react';
 import html2canvas from "html2canvas";
@@ -67,6 +74,35 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
     //   pdf.addImage(imageData, "PNG", 0, 0);
     //   pdf.save("invoice.pdf");
     // };
+
+    const [isOpen, setIsOpen] = useState(false);
+    
+      const handleShareClick = () => {
+        setIsOpen(!isOpen);
+      };
+
+     const [hoveredItem, setHoveredItem] = useState(null);
+    
+      const menuItems = [
+        {
+          label: "Send Mail",
+          icon: Mail,
+          iconWhite: Mail_white,
+          key: "mail",
+        },
+        {
+          label: "Send SMS",
+          icon: Message_text,
+          iconWhite: Message_text_white,
+          key: "sms",
+        },
+        {
+          label: "Send Whatsapp",
+          icon: Whatsapp_blue,
+          iconWhite: Whatsapp_white,
+          key: "whatsapp",
+        },
+      ];
 
 
     const handleDownload = async () => {
@@ -163,21 +199,104 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                         </div>
                     </div>
                     <div>
-                        <div className="gap-5 d-flex">
-                            {/* <ImportCurve
- size="32"
- color="#FF8A65"
-/>
 
-
-<CloseCircle
- size="32"
- color="#FF8A65"
-/> */}
+                               <div className="gap-2 d-flex me-3">
+                                    <div className="d-flex  border p-1" style={{height:38 , width: 120 , borderRadius:'8px', cursor: "pointer" }}  onClick={handleDownload}>
+                                    <img src={DownLoad} className="mt-1 ms-1" alt="Download Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} />
+                                      <p className="mt-1 ms-2" style={{ fontSize: 13, fontWeight: 400, fontFamily: "Gilroy" }}>Download</p>
+                         
+                                    </div>
+                                    <div className="position-relative d-inline-block">
+                                    <div
+                        className="d-flex align-items-center border p-1"
+                        onClick={handleShareClick}
+                        style={{
+                          height: 38,
+                          width: 100,
+                          borderRadius: "8px",
+                          cursor: "pointer",
+                          borderColor: isOpen ? "#2196f3" : "#ccc",
+                        }}
+                      >
+                        <img
+                          src={isOpen ? Whatsapp_blue : Whatsapp}
+                          alt="Share"
+                          style={{
+                            height: 20,
+                            width: 20,
+                          }}
+                          className="ms-1"
+                        />
+                        <p
+                          className="ms-2 mt-3"
+                          style={{
+                            fontSize: 13,
+                            fontWeight: 400,
+                            fontFamily: "Gilroy",
+                            color: isOpen ? "rgba(30, 69, 225, 1)" : "#000",
+                          }}
+                        >
+                          Share
+                        </p>
+                      </div>
+                      
+                      
+                        {/* Popup Menu */}
+                       {  isOpen && (
+                            <div
+                              className="position-absolute  start-0 mt-2 p-2 shadow"
+                              style={{
+                                borderRadius: "8px",
+                                backgroundColor: "#fff",
+                                width: 160,
+                                zIndex: 10,
+                              }}
+                            >
+                              {menuItems.map((item) => (
+                                <div
+                                  key={item.key}
+                                  className="d-flex align-items-center mb-2 hover-item p-1 rounded"
+                                  style={{
+                                    backgroundColor:
+                                      hoveredItem === item.key ? "rgba(30, 69, 225, 1)" : "#fff",
+                                  }}
+                                  onMouseEnter={() => setHoveredItem(item.key)}
+                                  onMouseLeave={() => setHoveredItem(null)}
+                                >
+                                  <img
+                                    src={hoveredItem === item.key ? item.iconWhite : item.icon}
+                                    className="me-2"
+                                    alt={item.label}
+                                  />
+                                  <span
+                                    style={{
+                                      fontSize: 13,
+                                      fontWeight: 400,
+                                      fontFamily: "Gilroy",
+                                      color:
+                                        hoveredItem === item.key
+                                          ? "rgba(255, 255, 255, 1)"
+                                          : "rgba(33, 37, 41, 1)",
+                                    }}
+                                  >
+                                    {item.label}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          )
+                        }
+                      
+                      </div>
+                      
+                      
+                                    <img src={Close} className="me-3 mt-1 ms-2" alt="Close Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleBackInvoice} />
+                                  </div>
+                        {/* <div className="gap-5 d-flex">
+ 
                             <img src={DownLoad} alt="Download Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleDownload} />
-                            {/* <img src={Share} alt="Share Invoice" style={{ height: 20, width: 20 }} onClick={handleShare} /> */}
                             <img src={Close} alt="Close Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleBackInvoice} />
-                        </div>
+                        </div> */}
                     </div>
 
                 </div>

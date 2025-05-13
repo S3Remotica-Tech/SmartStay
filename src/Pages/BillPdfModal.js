@@ -381,8 +381,8 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         <div style={{ maxHeight: 500,  overflowY: "auto" , }} className="bill-invoice" >
 
           {isVisible &&
-       <div ref={cardRef}     className="border ps-5 pe-5 pb-5 pt-0 " 
-       style={{width:'80%', marginLeft:'10%', marginTop:'30px', borderRadius:'8px' , 
+       <div ref={cardRef}     className="border ps-4 pe-4 pb-4 pt-4 " 
+       style={{width:'80%', marginLeft:'10%', marginTop:'20px', borderRadius:'8px' , 
         }}>
 
 
