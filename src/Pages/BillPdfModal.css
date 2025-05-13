@@ -1,4 +1,8 @@
-  @media (min-width: 501px) and (max-width: 735px) {
+ 
+ 
+  
+ 
+ @media (min-width: 501px) and (max-width: 735px) {
       .table-bills {
           max-height: 300px;
           overflow-y: auto;
@@ -19,3 +23,11 @@
           overflow-y: hidden;
       }
   }
+/* 
+  @media print {
+    .bill-invoice {
+      overflow: visible !important;
+      max-height: none !important;
+    }
+  } */
+  

@@ -2602,7 +2602,7 @@ console.log("DownloadReceipt",receiptdata)
         }, [recurringbills])
 
   return (
-    <div style={{height: "90vh", overflowY: "auto"}}>
+    <div style={{height: "100vh", overflowY: "auto"}}>
       {showAllBill && (
         <>
           <div
@@ -3970,8 +3970,8 @@ console.log("DownloadReceipt",receiptdata)
                           }`}
                       >
                         <Col
-                          lg={DownloadInvoice ? 4 : 12}
-                          md={DownloadInvoice ? 4 : 12}
+                          lg={DownloadInvoice ? 3 : 12}
+                          md={DownloadInvoice ? 3 : 12}
                           sm={DownloadInvoice ? 12 : 12}
                           xs={DownloadInvoice ? 12 : 12}
                         >
@@ -4567,8 +4567,8 @@ console.log("DownloadReceipt",receiptdata)
                           <>
 
                             <Col
-                              lg={8}
-                              md={8}
+                              lg={9}
+                              md={9}
                               sm={12}
                               xs={12}
                               style={{
