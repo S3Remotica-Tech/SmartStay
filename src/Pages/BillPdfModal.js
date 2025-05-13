@@ -22,7 +22,7 @@ import Barcode from '../Assets/Images/invoice_barcode.svg'
 import Gpay from '../Assets/Images/gpay.png'
 import Phonepe from '../Assets/Images/phonepe.png'
 import Paytm from '../Assets/Images/paytm.png'
-import {ArrowLeft } from 'iconsax-react';
+// import {ArrowLeft } from 'iconsax-react';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";
@@ -109,7 +109,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   //   pdf.save("invoice.pdf");
   // };
 
-  const [generatingPdf, setGeneratingPdf] = useState(false);
+  // const [generatingPdf, setGeneratingPdf] = useState(false);
   const innerScrollRef = useRef(null);
 
   const handleDownload = async () => {
