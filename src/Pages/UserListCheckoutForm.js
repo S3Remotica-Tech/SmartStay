@@ -31,6 +31,7 @@ const CheckOutForm = ({
   checkouteditaction,
   checkoutaddform,
   cofirmForm,
+  conformEdit,
   // setConfirmForm,
   handleCloseConformForm
 }) => {
@@ -51,6 +52,11 @@ console.log("CheckOutForm",state)
   const [invoicenumber, SetInvoiceNumber] = useState([]);
   const [bedname, setBedname] = useState("");
   const [floorname, setFloorname] = useState("");
+const [paymentDate,setPaymentDate] = useState("")
+const [fields, setFields] = useState([{ reason: "", amount: "" }]);
+const [noChangeMessage, setNoChangeMessage] = useState("");
+
+console.log("reason", fields);
 
 
   const handlecloseform = () => {
@@ -71,6 +77,7 @@ console.log("CheckOutForm",state)
     setDateDifference(null);
     // setReinburse(0)
     SetDueAmount('')
+    
   };
 
   const handleCloseConfirmFormPage = ()=>{
@@ -79,7 +86,9 @@ console.log("CheckOutForm",state)
       handleCloseConformForm(); 
     }
     dispatch({type:'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR'})
+     dispatch({type:'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR'})
     setConformCheckErr("")
+    setNoChangeMessage("")
     // setFields("")
     setFields([{ reason: "", amount: "" }]); 
   }
@@ -99,6 +108,7 @@ console.log("CheckOutForm",state)
   const handleCommentsChange = (event) => {
     // setGeneralError("");
     setComments(event.target.value);
+    setNoChangeMessage("")
   };
 
  
@@ -148,7 +158,9 @@ console.log("CheckOutForm",state)
 
   useEffect(() => {
     if (data) {
+      console.log("data.,.sdi",data)
       setCheckOutDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null);
+      setPaymentDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null)
       setCheckOutRequestDate(data.req_date ? new Date(data.req_date) : null);
       setSelectedCustomer(data.ID);
       // setCurrentBed(data.Bed);
@@ -157,6 +169,7 @@ console.log("CheckOutForm",state)
       setComments(data.checkout_comment);
       setBedname(data.bed_name);
       setFloorname(data.floor_name);
+     
     } else {
       setCheckOutDate("");
       setCheckOutRequestDate("");
@@ -167,12 +180,70 @@ console.log("CheckOutForm",state)
       setComments("");
       setBedname("");
       setFloorname("");
+    //     if (data?.amenities && data?.amenities.length > 0) {
+    //   const mappedFields = data?.amenities.map(item => ({
+    //     reason: item.reason || "",
+    //     amount: item.amount || ""
+    //   }));
+    //   console.log("mappeditems",mappedFields);
+    //   console.log("data?.amenities",data?.amenities)
+      
+    //   setFields(mappedFields);
+    // } else {
+    //   setFields([{ reason: "", amount: "" }]);
+    // }
       // SetDueAmount(0);
       dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
     }
   }, [data, show]);
 
- 
+
+useEffect(() => {
+  // Always ensure DueAmount is the first field
+  setFields(prevFields => {
+    const otherFields = prevFields.filter((_, i) => i !== 0); // Remove index 0
+    return [
+      { reason: "DueAmount", amount: String(dueamount || "") },
+      ...otherFields,
+    ];
+  });
+}, [dueamount]);
+
+// useEffect(() => {
+//   if (data?.amenities?.length > 0) {
+//     const amenityFields = data.amenities.map(item => ({
+//       reason: item.reason || "",
+//       amount: String(item.amount || ""),
+//     }));
+
+//     setFields(prevFields => {
+//       // Keep DueAmount at index 0, replace others with amenities
+//       const dueField = prevFields.find(f => f.reason === "DueAmount") || {
+//         reason: "DueAmount",
+//         amount: String(dueamount || ""),
+//       };
+//       return [dueField, ...amenityFields];
+//     });
+//   }
+// }, [data?.amenities]);
+
+ useEffect(() => {
+  if (data?.amenities?.length > 0) {
+    const amenityFields = data.amenities.map(item => ({
+      reason: item.reason || "",
+      amount: String(item.amount || ""),
+    }));
+
+    setFields(prevFields => {
+      const dueField = prevFields.find(f => f.reason === "DueAmount") || {
+        reason: "DueAmount",
+        amount: String(dueamount || ""),
+      };
+      return [dueField, ...amenityFields];
+    });
+  }
+}, [data?.amenities]);
+
 
   useEffect(() => {
 
@@ -598,7 +669,9 @@ const [returnAmount,setReturnAmount] = useState("")
   // }, [isChecked]);
 
   const handleConfirmCheckout = () => {
-    if (!selectedCustomer || !data.Hostel_Id || !checkOutDate) {
+
+    
+    if (!selectedCustomer || !data.Hostel_Id || !checkOutDate ) {
       return;
     }
     if (!selectedCustomer) {
@@ -613,9 +686,6 @@ const [returnAmount,setReturnAmount] = useState("")
       // return;
     }
 
-    // const formattedCheckOutDate = checkOutDate
-    // ? checkOutDate.toISOString().split('T')[0]
-    // : '';
 
     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
       "YYYY-MM-DD"
@@ -624,22 +694,6 @@ const [returnAmount,setReturnAmount] = useState("")
    
 
     if (selectedCustomer && data.Hostel_Id && formattedDate && advanceamount) {
-      // dispatch({
-      //   type: "ADDCONFIRMCHECKOUTCUSTOMER",
-      //   payload: {
-      //     checkout_date: formattedDate,
-      //     id: selectedCustomer,
-      //     hostel_id: data.Hostel_Id,
-      //     comments: comments,
-      //     advance_return: returnAmount,
-      //     reinburse: 1,
-      //     reasons:fields
-
-      //   },
-      // });
-      // const nonEmptyFields = fields.filter(
-      //   (field) => field.reason.trim() !== "" || field.amount.trim() !== ""
-      // );
       const nonEmptyFields = fields.filter(
         (field) =>
           field.reason !== "DueAmount" &&
@@ -661,8 +715,166 @@ const [returnAmount,setReturnAmount] = useState("")
       });
     }
 
+
+
+
   
   };
+
+const [initialData, setInitialData] = useState({});
+// useEffect(() => {
+//   if (data) {
+//     setInitialData({
+//       comments: data.checkout_comment || "",
+//       returnAmount: String(data.advance_return || ""),
+//       amenities: data.amenities || [],
+//     });
+//   }
+// }, [data]);
+// useEffect(() => {
+//   if (data) {
+//     setInitialData({
+//       comments: data.checkout_comment || "",
+//       returnAmount: String(data.advance_return || ""),
+//       reason: data.amenities || [],
+//       paymentDate: data.CheckoutDate ? moment(data.CheckoutDate).format("YYYY-MM-DD") : "",
+//     });
+//   }
+// }, [data]);
+useEffect(() => {
+  if (data) {
+    const initialReasons = (data.amenities || []).map((item) => ({
+      reason: item.reason || "",
+      amount: String(item.amount || ""),
+    }));
+
+    setInitialData({
+      comments: data.checkout_comment || "",
+      // returnAmount: String(data.advance_return || ""),
+      reason: initialReasons, // ✅ only reason & amount
+      paymentDate: data.CheckoutDate ? moment(data.CheckoutDate).format("YYYY-MM-DD") : "",
+    });
+  }
+}, [data]);
+
+
+
+
+const handleConfirmEditCheckout = () => {
+  if (!conformEdit) return;
+
+  if (!selectedCustomer || !data.Hostel_Id || !checkOutDate) {
+    setNoChangeMessage("Please fill all required fields.");
+    return;
+  }
+
+  const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
+ const currentReasonFields = fields.filter(
+  (field) =>
+    field.reason !== "DueAmount" &&
+    (field.reason.trim() !== "" || field.amount.trim() !== "")
+);
+
+// Format current payment date
+const formattedPaymentDate = paymentDate
+  ? moment(paymentDate).format("YYYY-MM-DD")
+  : "";
+
+  const formattedIniatialDate = initialData.paymentDate
+  ? moment(initialData.paymentDate).format("YYYY-MM-DD")
+  : "";
+
+// Compare with initial
+const hasCommentsChanged = comments !== initialData.comments;
+// const hasReturnAmountChanged = Number(returnAmount) !== Number(initialData.returnAmount);
+const haveFieldsChanged = JSON.stringify(currentReasonFields) !== JSON.stringify(initialData.reason);
+const hasPaymentDateChanged = formattedPaymentDate !== formattedIniatialDate;
+
+
+if (
+  !hasCommentsChanged &&
+  // !hasReturnAmountChanged &&
+  !haveFieldsChanged &&
+  !hasPaymentDateChanged
+) {
+  setNoChangeMessage("No Changes Detected.");
+  return;
+}
+
+
+
+  dispatch({
+    type: "EDITCONFIRMCHECKOUTCUSTOMER",
+    payload: {
+      checkout_date: formattedDate,
+      id: selectedCustomer,
+      hostel_id: data.Hostel_Id,
+      comments: comments,
+      advance_return: returnAmount,
+      reinburse: 1,
+      reasons: currentReasonFields,
+      payment_date: formattedPaymentDate,
+      user_id: selectedCustomer || currentItem?.ID,
+    },
+  });
+};
+
+
+
+// const handleConfirmEditCheckout = () => {
+//   if (!conformEdit) return;
+//     if (!selectedCustomer || !data.Hostel_Id || !checkOutDate) {
+//       return;
+//     }
+//     if (!selectedCustomer) {
+//       setCustomerError("Please Select a Customer");
+//       // return;
+//     }
+
+    
+
+//     if (!checkOutDate) {
+//       setCheckOutDateError("Please select a checkout Date");
+//       // return;
+//     }
+
+
+//     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
+//       "YYYY-MM-DD"
+//     );
+
+   
+
+//     if (selectedCustomer && data.Hostel_Id && formattedDate && advanceamount) {
+//       const nonEmptyFields = fields.filter(
+//         (field) =>
+//           field.reason !== "DueAmount" &&
+//           (field.reason.trim() !== "" || field.amount.trim() !== "")
+//       );
+      
+      
+//       dispatch({
+//         type: "EDITCONFIRMCHECKOUTCUSTOMER",
+//         payload: {
+//           checkout_date: formattedDate,
+//           id: selectedCustomer,
+//           hostel_id: data.Hostel_Id,
+//           comments: comments,
+//           advance_return: returnAmount,
+//           reinburse: 1,
+//           reasons: nonEmptyFields,
+//           payment_date:paymentDate,
+//           user_id:selectedCustomer || currentItem?.ID,
+//         },
+//       });
+//     }
+
+
+
+
+  
+//   };
+
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
       handleCloseConfirmFormPage()
@@ -671,9 +883,21 @@ const [returnAmount,setReturnAmount] = useState("")
       }, 500);
     }
   }, [state.UsersList.statusCodeAddConfirmCheckout]);
+
+
+
+   useEffect(() => {
+    if (state.UsersList.statusCodeConformEdit === 200) {
+      handleCloseConfirmFormPage()
+      dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER" });
+      }, 500);
+    }
+  }, [state.UsersList.statusCodeConformEdit]);
   console.log("state.UserList.conformChekoutError",state.UsersList.conformChekoutError)
 
-  const [fields, setFields] = useState([{ reason: "", amount: "" }]);
+  
   const [conformcheckErr,setConformCheckErr] = useState("")
   useEffect(()=>{
 if(state.UsersList.conformChekoutError){
@@ -682,6 +906,13 @@ if(state.UsersList.conformChekoutError){
 }
   },[state.UsersList.conformChekoutError])
 
+  
+  useEffect(()=>{
+if(state.UsersList.conformChekoutEditError){
+  setConformCheckErr(state.UsersList.conformChekoutEditError)
+
+}
+  },[state.UsersList.conformChekoutEditError])
   useEffect(() => {
     const advance = parseFloat(advanceamount) || 0;
     const due = parseFloat(dueamount) || 0;
@@ -697,20 +928,20 @@ if(state.UsersList.conformChekoutError){
   }, [advanceamount, dueamount, fields]);
   
   
-  useEffect(() => {
-    if (fields.length === 0) {
-      setFields([{ reason: "DueAmount", amount: String(dueamount || "") }]);
-    } else {
-      // Always update first field's amount with current dueamount
-      const updatedFields = [...fields];
-      updatedFields[0] = {
-        ...updatedFields[0],
-        reason: "DueAmount",
-        amount: String(dueamount || ""),
-      };
-      setFields(updatedFields);
-    }
-  }, [dueamount]);
+  // useEffect(() => {
+  //   if (fields.length === 0) {
+  //     setFields([{ reason: "DueAmount", amount: String(dueamount || "") }]);
+  //   } else {
+  //     // Always update first field's amount with current dueamount
+  //     const updatedFields = [...fields];
+  //     updatedFields[0] = {
+  //       ...updatedFields[0],
+  //       reason: "DueAmount",
+  //       amount: String(dueamount || ""),
+  //     };
+  //     setFields(updatedFields);
+  //   }
+  // }, [dueamount]);
   
   
   console.log("Advance:", advanceamount, "Due:", dueamount, "Fields:", fields);
@@ -724,6 +955,7 @@ if(state.UsersList.conformChekoutError){
   const handleInputChange = (index, field, value) => {
     const updatedFields = [...fields];
     updatedFields[index][field] = value;
+    setNoChangeMessage("")
   
     // Optional: If editing first amount field, you could sync with dueamount logic here if needed
     setFields(updatedFields);
@@ -1114,6 +1346,9 @@ if(state.UsersList.conformChekoutError){
             </div>
           )}
 
+
+
+
           {/* {data && checkoutaction && !checkoutaddform && dueamount > 0 && (
             <div className="d-flex align-items-center p-1  mt-2" style={{paddingTop:"6px"}}>
               <MdError style={{ color: "red", marginRight: "5px" }} />
@@ -1143,10 +1378,10 @@ if(state.UsersList.conformChekoutError){
               width: "100%",
               backgroundColor: "#1E45E1",
             }}
-            disabled={
-              !checkouteditaction &&
-              !checkoutaddform &&
-              dueamount > 0 }
+            // disabled={
+            //   !checkouteditaction &&
+            //   !checkoutaddform &&
+            //   dueamount > 0 }
               onClick={() => {
                if (checkouteditaction) {
                   handleCheckOutCustomer();
@@ -1277,9 +1512,11 @@ if(state.UsersList.conformChekoutError){
                
 
 
-               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", }}>
                 <DatePicker
-                  style={{ width: "100%", height: 48,cursor:"pointer" }}
+                  style={{ width: "100%", height: 48,cursor:"pointer" ,
+      backgroundColor: conformEdit ? "#E7F1FF" : "#fff",
+      color: conformEdit ? "#000" : "#000"}}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={checkOutDate ? dayjs(checkOutDate) : null}
@@ -1289,6 +1526,7 @@ if(state.UsersList.conformChekoutError){
                     setCheckOutDate(date ? date.toDate() : null);
                   }}
                   getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                  disabled={conformEdit}
                 />
               </div>
               </Form.Group>
@@ -1425,7 +1663,64 @@ if(state.UsersList.conformChekoutError){
   ))}
 </div>
 
+{(conformEdit) && (
+  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <Form.Group className="mb-2" controlId="purchaseDate">
+      <Form.Label
+        style={{
+          fontSize: 14,
+          color: "#222222",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+        }}
+      >
+        Payment Date{" "}
+        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+      </Form.Label>
 
+      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+        <DatePicker
+          style={{ width: "100%", height: 48, cursor: "pointer" }}
+          format="DD/MM/YYYY"
+          placeholder="DD/MM/YYYY"
+          value={paymentDate ? dayjs(paymentDate) : null}
+          onChange={(date) => {
+            setIsChangedError("");
+            setNoChangeMessage("")
+            setPaymentDate(date ? date.toDate() : null);
+          }}
+          getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+        />
+      </div>
+    </Form.Group>
+
+    {/* {checkoUtDateError && (
+      <div
+        className="d-flex align-items-center p-1"
+        style={{ marginTop: "-6px" }}
+      >
+        <MdError
+          style={{
+            color: "red",
+            marginRight: "5px",
+            fontSize: "12px",
+          }}
+        />
+        <label
+          className="mb-0"
+          style={{
+            color: "red",
+            fontSize: "12px",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+          }}
+        >
+          {checkoUtDateError}
+        </label>
+      </div>
+    )} */}
+  </div>
+)}
 
            
 <div className="col-lg-6 col-md-6 col-sm-12">
@@ -1584,6 +1879,23 @@ if(state.UsersList.conformChekoutError){
            </span>
          </div>
           )}
+           {noChangeMessage && (
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ color: "red",marginTop:15 }}
+            >
+              <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {noChangeMessage}
+              </span>
+            </div>
+          )}
 
           <Button
             className="mt-3"
@@ -1598,16 +1910,17 @@ if(state.UsersList.conformChekoutError){
             }}
            
 
-              onClick={handleConfirmCheckout}
+              // onClick={handleConfirmCheckout}
+               onClick={conformEdit ? handleConfirmEditCheckout : handleConfirmCheckout}
               
               
                
           >
-            {data && checkoutaction
-              ? "Confirm Check-Out"
-              : currentItem && checkouteditaction
+            {conformEdit
               ? "Save Changes"
-              : "Add Check-Out"}
+              
+              : "Confirm Check-Out"}
+
           </Button>
         </Modal.Body>
       </Modal>
