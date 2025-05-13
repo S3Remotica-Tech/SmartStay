@@ -265,6 +265,13 @@ export async function AddConfirmCheckOut(checkout) {
 }
 
 
+export async function EditConfirmCheckOut(checkout) {
+  return await AxiosConfig.post('/edit/confirm_checkout',checkout,{
+    data:checkout
+  })
+}
+
+
 export async function DeleteCheckOutCustomer(checkout) {
   return await AxiosConfig.post('/delete_check_out',checkout,{
     data:checkout

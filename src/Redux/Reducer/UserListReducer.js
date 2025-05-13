@@ -109,6 +109,8 @@ export const initialState = {
     contactError: '',
     checkoutcustomeEmpty: 0,
     conformChekoutError:'',
+    statusCodeConformEdit:0,
+    conformChekoutEditError:''
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -424,6 +426,21 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, statusCodeAddConfirmCheckout: action.payload.statusCode };
         case "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER":
             return { ...state, statusCodeAddConfirmCheckout: 0 };
+
+// edit
+
+             case "EDIT_CONFIRM_CHECK_OUT_CUSTOMER":
+            return { ...state, statusCodeConformEdit: action.payload.statusCode };
+        case "CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER":
+            return { ...state, statusCodeConformEdit: 0 };
+
+
+            case 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
+                return { ...state, conformChekoutEditError: action.payload }
+    
+            case 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR':
+                return { ...state, conformChekoutEditError: '' }
+
 
 
         case "REASSIGN_BED":

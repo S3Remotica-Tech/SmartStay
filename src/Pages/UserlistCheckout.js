@@ -47,6 +47,7 @@ function CheckOut(props) {
   const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
   const [checkoutLoader,setCheckOutLoader] = useState(true)
   const [cofirmForm,setConfirmForm] = useState(false)
+  
 
 console.log("checkOutCustomer",checkOutCustomer)
   
@@ -174,19 +175,12 @@ console.log("checkOutCustomer",checkOutCustomer)
   ]);
   const popupRef = useRef(null);
 
-  // Pagination logic
   const indexOfLastCustomer = currentPage * itemsPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - itemsPerPage;
-  // const currentCustomers = props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  // const currentCustomers = props.filterInput.length > 0 ? props.filteredUsers :checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
   const currentCustomers =
   props.search || props.filterStatus || props.checkoutDateRange?.length === 2
     ? props.filteredUsers?.slice(indexOfFirstCustomer, indexOfLastCustomer)
     : checkOutCustomer?.slice(indexOfFirstCustomer, indexOfLastCustomer);
-  // const totalPages = Math.ceil(props.filteredUsers?.length / itemsPerPage);
-  // const totalPages = Math.ceil(
-  //   (props.search ? props.filteredUsers?.length : checkOutCustomer?.length) / itemsPerPage
-  // );
   const totalPages = Math.ceil(
     (props.search || props.filterStatus ? props.filteredUsers?.length : checkOutCustomer?.length) / itemsPerPage
   );
@@ -240,21 +234,28 @@ console.log("checkOutCustomer",checkOutCustomer)
   const [checkOutconfirm, setCheckOutConfirm] = useState("");
   const [deleteCheckOutCustomer, setDeleteCheckOutCustomer] = useState("");
   const [checkoutaction, setCheckoutAction] = useState(false)
+  const [conformEdit,setConformEdit] = useState(false)
 
   const handleEdit = (checkout) => {
+    console.log("handleEdit",checkout)
     setActiveDotsId(null);
     setcheckoutForm(true);
     setCheckOutEdit(checkout);
     setCheckoutEditAction(true)
     setCheckoutAction(false)
   };
+  const handleConformEdit = ()=>{
+     setConfirmForm(true);
+setConformEdit(true)
+  }
 
   const handleConfirmCheckout = () => {
+
     setActiveDotsId(null);
     setConfirmForm(true);
-    // setCheckOutConfirm(checkout)
     setCheckoutAction(true)
     setCheckoutEditAction(false)
+    setConformEdit(false)
   }
   const handleCloseConformForm=()=>{
     setConfirmForm(false); 
@@ -315,31 +316,7 @@ console.log("checkOutCustomer",checkOutCustomer)
 
   };
 
-  // const handleDotsClick = (id, checkout) => {
-  //   setActiveDotsId((prevId) => (prevId === id ? null : id));
-  //   setCheckOutConfirm(checkout)
-  // };
-
-  // const handleCalendarClick = () => {
-  //   if (datePickerRef.current) {
-  //     datePickerRef.current.setFocus();
-  //   }
-  // };
-
-  // const handleCustomerChange = (event) => {
-  //   setSelectedCustomer(event.target.getAttribute("data-value"));
-  // };
-
-
-  //edit form
-  // const initialDate = new Date();
-  // const formatDate = (date) => {
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   const month = String(date.getMonth() + 1).padStart(2, "0");
-  //   const year = date.getFullYear();
-  //   return `${day}-${month}-${year}`;
-  // };
-
+ 
 
  
   
@@ -347,27 +324,13 @@ console.log("checkOutCustomer",checkOutCustomer)
 
 
   const [checkoutForm, setcheckoutForm] = useState(false);
-  // const [checkoutconfirmForm, setcheckoutConfirmForm] = useState(false);
-
-  // const checkOutForm = () => {
-  //   setcheckoutForm(!checkoutForm);
-  // };
+  
 
   const checkoutcloseModal = () => {
     setcheckoutForm(false);
   };
 
-  // const checkOutConfirmForm = () => {
-  //   setcheckoutConfirmForm(!checkoutconfirmForm);
-  // };
-
-  // const checkoutConfirmcloseModal = () => {
-  //   setcheckoutConfirmForm(false);
-  // };
-
-  // const paginate = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
+  
 
   
   return (
@@ -421,7 +384,7 @@ console.log("checkOutCustomer",checkOutCustomer)
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-            {/* Permission Error */}
+           
             {checkOutPermissionError && (
               <div
                 style={{
@@ -1020,7 +983,7 @@ console.log("checkOutCustomer",checkOutCustomer)
   
 )}
 
-{
+{/* {
   checkout.isActive !== 0 && (
     <div
     className="mb-2 mt-2 d-flex align-items-center"
@@ -1064,7 +1027,41 @@ console.log("checkOutCustomer",checkOutCustomer)
   </div>
   )
 }
-                                   
+  
+                                    */}
+                                    <div
+  className="mb-2 mt-2 d-flex align-items-center"
+  onClick={() => {
+    if (!checkOutEditPermissionError) {
+      checkout.isActive === 1
+        ? handleEdit(checkout)
+        : handleConformEdit(checkout);
+    }
+  }}
+  style={{
+    cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
+    pointerEvents: checkOutEditPermissionError ? "none" : "auto",
+    opacity: checkOutEditPermissionError ? 0.5 : 1,
+  }}
+>
+  <img
+    src={Edit}
+    style={{ height: 16, width: 16, marginRight: "8px" }}
+    alt="Edit icon"
+  />
+  <label
+    style={{
+      fontSize: 14,
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      color: "#222222",
+      cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
+    }}
+  >
+    Edit
+  </label>
+</div>
+
 
                                     <div
                                       className="d-flex align-items-center"
@@ -1278,6 +1275,7 @@ console.log("checkOutCustomer",checkOutCustomer)
     cofirmForm={cofirmForm}
     setConfirmForm={setConfirmForm}
     handleCloseConformForm={handleCloseConformForm}
+    conformEdit = {conformEdit}
   />
 )}
 
