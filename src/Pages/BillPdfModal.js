@@ -5,6 +5,13 @@ import "../Pages/Invoices.css";
 import moment from 'moment';
 import DownLoad from '../Assets/Images/New_images/searchss.png'
 import Whatsapp from '../Assets/Images/whatsapp.png'
+
+import Whatsapp_blue from '../Assets/Images/whatsapp_blue.png'
+import Whatsapp_white from '../Assets/Images/whatsapp_white.png'
+import Mail from '../Assets/Images/gmail.png'
+import Mail_white from '../Assets/Images/gmail_white.png'
+import Message_text from '../Assets/Images/message-text.png'
+import Message_text_white from '../Assets/Images/message-white.png'
 // import Whatsapp_greenicon from '../Assets/Images/whatsapp_green_icon.png'
 import Close from '../Assets/Images/New_images/circlie.png'
 import Logo from '../Assets/Images/get.png'
@@ -29,6 +36,29 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
   const state = useSelector((state) => state);
     const dispatch = useDispatch();
+
+    const [hoveredItem, setHoveredItem] = useState(null);
+
+  const menuItems = [
+    {
+      label: "Send Mail",
+      icon: Mail,
+      iconWhite: Mail_white,
+      key: "mail",
+    },
+    {
+      label: "Send SMS",
+      icon: Message_text,
+      iconWhite: Message_text_white,
+      key: "sms",
+    },
+    {
+      label: "Send Whatsapp",
+      icon: Whatsapp_blue,
+      iconWhite: Whatsapp_white,
+      key: "whatsapp",
+    },
+  ];
 
   // const invoiceData = {
   //   payment: {
@@ -79,21 +109,96 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   //   pdf.save("invoice.pdf");
   // };
 
+  const [generatingPdf, setGeneratingPdf] = useState(false);
+  const innerScrollRef = useRef(null);
 
   const handleDownload = async () => {
     const element = cardRef.current;
-    const canvas = await html2canvas(element, { scale: 2 });
-    const imageData = canvas.toDataURL("image/png");
-
-    const pdf = new jsPDF({
-      orientation: "portrait",
-      unit: "px",
-      format: [canvas.width / 2, canvas.height / 2]
+    const innerElement = innerScrollRef.current;
+  
+    if (!element || !innerElement) return;
+  
+    // Save original styles
+    const outerOriginal = {
+      height: element.style.height,
+      maxHeight: element.style.maxHeight,
+      overflow: element.style.overflow,
+      overflowY: element.style.overflowY,
+    };
+  
+    const innerOriginal = {
+      height: innerElement.style.height,
+      maxHeight: innerElement.style.maxHeight,
+      overflow: innerElement.style.overflow,
+      overflowY: innerElement.style.overflowY,
+    };
+  
+    // Expand both elements
+    element.style.height = "auto";
+    element.style.maxHeight = "none";
+    element.style.overflow = "visible";
+    element.style.overflowY = "visible";
+  
+    innerElement.style.height = "auto";
+    innerElement.style.maxHeight = "none";
+    innerElement.style.overflow = "visible";
+    innerElement.style.overflowY = "visible";
+  
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      logging: true,
+      allowTaint: false,
     });
-
-    pdf.addImage(imageData, "PNG", 0, 0, canvas.width / 2, canvas.height / 2);
+  
+    const imgData = canvas.toDataURL("image/png");
+    const imgWidth = 595.28;
+    const pageHeight = 841.89;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  
+    let heightLeft = imgHeight;
+    let position = 0;
+  
+    const pdf = new jsPDF("p", "pt", "a4");
+    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+  
+    while (heightLeft > 0) {
+      pdf.addPage();
+      position = -(imgHeight - heightLeft);
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+  
     pdf.save("invoice.pdf");
+  
+    // Restore styles
+    Object.assign(element.style, outerOriginal);
+    Object.assign(innerElement.style, innerOriginal);
   };
+  
+  
+
+  
+
+
+  // const handleDownload = async () => {
+  //   const element = cardRef.current;
+  //   const canvas = await html2canvas(element, { scale: 2 });
+  //   const imageData = canvas.toDataURL("image/png");
+
+  //   const pdf = new jsPDF({
+  //     orientation: "portrait",
+  //     unit: "px",
+  //     format: [canvas.width / 2, canvas.height / 2]
+  //   });
+
+  //   pdf.addImage(imageData, "PNG", 0, 0, canvas.width / 2, canvas.height / 2);
+  //   pdf.save("invoice.pdf");
+  // };
+
 
 
 
@@ -130,17 +235,17 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
         <div className="d-flex justify-content-between align-items-center ps-3">
 
 
-          <div className="d-flex align-items-center justify-content-between gap-3 ">
-            <div onClick={handleBackInvoice} style={{ cursor: 'pointer' }}>
+          <div className="d-flex align-items-center justify-content-between gap-3 mx-3">
+            {/* <div onClick={handleBackInvoice} style={{ cursor: 'pointer' }}>
               <ArrowLeft
                 size="25"
                 color="#545454"
               />
-            </div>
+            </div> */}
             <div>
 
 
-              <div className="mb-3">
+              <div className="mb-2">
                 {rowData?.BalanceDue === 0 ? <span
                   style={{
                     fontSize: '10px',
@@ -158,11 +263,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
               </div>
               <div className="mb-2 mt-2">
                 <label style={{
-                  fontSize: 16, fontWeight: 500, color: "#000000",
+                  fontSize: 15, fontWeight: 500, color: "#000000",
                   fontFamily: "Gilroy"
                 }}>{moment(rowData?.Date).format('DD MMM YYYY')}
                 </label> - <label style={{
-                  fontSize: 16, fontWeight: 500, color: "#000000",
+                  fontSize: 15, fontWeight: 500, color: "#000000",
                   fontFamily: "Gilroy"
                 }}
                 >#{rowData?.Invoices === null || rowData?.Invoices === '' ? '0.00' : rowData?.Invoices}
@@ -173,75 +278,92 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
           <div>
          
             <div className="gap-2 d-flex me-3">
-              <div className="d-flex  border p-1" style={{height:38 , width: 120 , borderRadius:'8px'}}>
-              <img src={DownLoad} className="mt-1 ms-1" alt="Download Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleDownload} />
+              <div className="d-flex  border p-1" style={{height:38 , width: 120 , borderRadius:'8px', cursor: "pointer" }}  onClick={handleDownload}>
+              <img src={DownLoad} className="mt-1 ms-1" alt="Download Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} />
                 <p className="mt-1 ms-2" style={{ fontSize: 13, fontWeight: 400, fontFamily: "Gilroy" }}>Download</p>
    
               </div>
               <div className="position-relative d-inline-block">
-  {/* Share Button */}
-  <div
-    className="d-flex align-items-center border p-1"
-    onClick={handleShareClick}
+              <div
+  className="d-flex align-items-center border p-1"
+  onClick={handleShareClick}
+  style={{
+    height: 38,
+    width: 100,
+    borderRadius: "8px",
+    cursor: "pointer",
+    borderColor: isOpen ? "#2196f3" : "#ccc",
+  }}
+>
+  <img
+    src={isOpen ? Whatsapp_blue : Whatsapp}
+    alt="Share"
     style={{
-      height: 38,
-      width: 100,
-      borderRadius: "8px",
-      // backgroundColor: isOpen ? "#e0f7fa" : "#fff",
-      cursor: "pointer",
-      borderColor: isOpen ? "#2196f3" : "#ccc",
+      height: 20,
+      width: 20,
+    }}
+    className="ms-1"
+  />
+  <p
+    className="ms-2 mt-3"
+    style={{
+      fontSize: 13,
+      fontWeight: 400,
+      fontFamily: "Gilroy",
+      color: isOpen ? "rgba(30, 69, 225, 1)" : "#000",
     }}
   >
-    <img
-      src={Whatsapp}
-      alt="Share"
-      style={{
-        height: 20,
-        width: 20,
-        filter: isOpen
-          ? "invert(36%) sepia(82%) saturate(5000%) hue-rotate(200deg)"
-          : "none",
-      }}
-      className="ms-1"
-    />
-    <p
-      className="ms-2 mt-3"
-      style={{
-        fontSize: 13,
-        fontWeight: 400,
-        fontFamily: "Gilroy",
-        color: isOpen ? "rgba(30, 69, 225, 1)" : "#000",
-      }}
-    >
-      Share
-    </p>
-  </div>
+    Share
+  </p>
+</div>
+
 
   {/* Popup Menu */}
-  {isOpen && (
-    <div
-      className="position-absolute start-0 mt-2 p-2 shadow"
-      style={{
-        borderRadius: "8px",
-        backgroundColor: "#fff",
-        width: 160,
-        zIndex: 10,
-      }}
-    >
-      <div className="d-flex align-items-center mb-2">
-        <i className="bi bi-envelope-fill me-2 text-primary"></i>
-        <span>Send Mail</span>
+ {  isOpen && (
+      <div
+        className="position-absolute  start-0 mt-2 p-2 shadow"
+        style={{
+          borderRadius: "8px",
+          backgroundColor: "#fff",
+          width: 160,
+          zIndex: 10,
+        }}
+      >
+        {menuItems.map((item) => (
+          <div
+            key={item.key}
+            className="d-flex align-items-center mb-2 hover-item p-1 rounded"
+            style={{
+              backgroundColor:
+                hoveredItem === item.key ? "rgba(30, 69, 225, 1)" : "#fff",
+            }}
+            onMouseEnter={() => setHoveredItem(item.key)}
+            onMouseLeave={() => setHoveredItem(null)}
+          >
+            <img
+              src={hoveredItem === item.key ? item.iconWhite : item.icon}
+              className="me-2"
+              alt={item.label}
+            />
+            <span
+              style={{
+                fontSize: 13,
+                fontWeight: 400,
+                fontFamily: "Gilroy",
+                color:
+                  hoveredItem === item.key
+                    ? "rgba(255, 255, 255, 1)"
+                    : "rgba(33, 37, 41, 1)",
+              }}
+            >
+              {item.label}
+            </span>
+          </div>
+        ))}
       </div>
-      <div className="d-flex align-items-center mb-2">
-        <i className="bi bi-chat-left-text-fill me-2 text-primary"></i>
-        <span>Send SMS</span>
-      </div>
-      <div className="d-flex align-items-center">
-        <i className="bi bi-whatsapp me-2 text-success"></i>
-        <span>Send Whatsapp</span>
-      </div>
-    </div>
-  )}
+    )
+  }
+
 </div>
 
 
@@ -251,17 +373,29 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
        
         </div>
+        <div style={{height:"2px",}} className="mx-5 mt-0">
         <hr />
+        </div>
+       
 
-        <div style={{ maxHeight: 400,  overflowY: "auto" , }} className="bill-invoice" >
+        <div style={{ maxHeight: 500,  overflowY: "auto" , }} className="bill-invoice" >
 
           {isVisible &&
-       <div className="border p-5 " style={{width:'80%', marginLeft:'10%', marginTop:'40px', borderRadius:'8px'}}>
+       <div ref={cardRef}     className="border ps-5 pe-5 pb-5 pt-0 " 
+       style={{width:'80%', marginLeft:'10%', marginTop:'30px', borderRadius:'8px' , 
+        }}>
 
 
-<div ref={cardRef} className="border">
+<div   ref={innerScrollRef}
+  className="border shadow show-scroll"
+  style={{
+    maxHeight: 390,
+    overflowY: "auto",
+    borderBottomLeftRadius: "13px",
+    borderBottomRightRadius: "13px",
+  }}>
                 
-<div  className=" text-white  p-4 position-relative" style={{ minHeight: "120px",background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' }}>
+<div  className=" text-white  p-4 position-relative" style={{ height:100,background: 'linear-gradient(to right, rgba(18, 50, 180, 1), rgba(72, 104, 234, 1))' ,}}>
   <div className="d-flex justify-content-between align-items-center">
   <div className="d-flex gap-2 mb-3 mb-lg-0">
       <img src={rowData?.hostel_profile || Logo} alt="logo" style={{ height: 40, width: 40 }} />
@@ -291,30 +425,42 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 </div>
 
 
-<div className="container bg-white rounded-bottom  position-relative" style={{width:"100%",}}>
-  <div className="text-center pt-5 pb-3">
+<div className="container bg-white rounded-bottom  position-relative" style={{width:"100%",borderTopLeftRadius:'20px'}}>
+  <div className="text-center pt-2 pb-1">
     <h5 style={{ fontSize: '17px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{ invoice_details.invoice_type === "manual" ?   "Payment Invoice" : "Security Deposit Invoice"}</h5>
   </div>
 
 
-  <div className="row px-4 mt-5">
+  <div className="row px-4 mt-3">
     <div className="col-md-6 mb-3">
-      <p className="  mb-1" style={{color:'rgba(48, 80, 210, 1)' , fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To:</p>
-      <p className="mb-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{userdetails?.name}</span></p>
-      <p className="mb-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img src={Dial} alt="dial"/> {userdetails?.phone}</p>
-      <p className="mb-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img src={Room} alt="room" style={{height:20 , width:20}}/> {userdetails.room_name} - {userdetails.bed_name}</p>
-      <p style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)',}}><img src={Locat} alt="local"/> 
-      <>
-  {isValid(userdetails?.address) && <>{userdetails.address}, </>}
-  {isValid(userdetails?.area) && <>{userdetails.area}, </>}
-  {isValid(userdetails?.city) && <>{userdetails.city}, </>}<br />
-  {isValid(userdetails?.state) && <>{userdetails.state} - </>}
-  
-  {isValid(userdetails?.pincode) && <>{userdetails.pincode}</>}
-</>
-       </p>
+      <p className="  mb-1" style={{color:'rgba(48, 80, 210, 1)' , fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill to:</p>
+      <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{userdetails?.name}</span></p>
+      <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(8, 8, 8, 0.81)',}}><img className="me-1"   src={Dial} alt="dial"/> {userdetails?.phone}</p>
+      <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(14, 14, 14, 1)',}}><img className="me-1" src={Room} alt="room" style={{height:20 , width:20}}/> {userdetails.room_name} - {userdetails.bed_name}</p>
+      <p
+  style={{
+    fontSize: '13px',
+    fontFamily: 'Gilroy',
+    fontWeight: 400,
+    color: 'rgba(34, 34, 34, 1)',
+  }}
+>
+  <img className="me-2" src={Locat} alt="local" />
+
+  <span>
+    {isValid(userdetails?.address) && <>{userdetails.address}, </>}
+    {isValid(userdetails?.area) && <>{userdetails.area}, </>}
+    {isValid(userdetails?.city) && <>{userdetails.city}</>}
+  </span>
+  <br />
+  <span className="ms-4">
+    {isValid(userdetails?.state) && <>{userdetails.state} </>}
+    {isValid(userdetails?.pincode) && <>- {userdetails.pincode}</>}
+  </span>
+</p>
+
     </div>
-    <div className="col-md-6 mb-3">
+    <div className="col-md-6 mb-3 ps-5">
       <div className="row">
       
         <div className="col-6 text-muted  text-end mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice:</div>
@@ -393,7 +539,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     </table>
   </div>
 
-  <div className="d-flex flex-wrap align-items-start mt-4">
+  <div className="d-flex flex-wrap align-items-start mt-1">
   {invoice_details.invoice_type === "manual" && (
     <div className="text-start mt-5" style={{ flex: '1 1 0%' }}>
       <p className="mb-0" style={{fontSize:'11px' , fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
