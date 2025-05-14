@@ -227,23 +227,47 @@ useEffect(() => {
 //   }
 // }, [data?.amenities]);
 
- useEffect(() => {
+//  useEffect(() => {
+//   if (data?.amenities?.length > 0) {
+//     const amenityFields = data.amenities.map(item => ({
+//       reason: item.reason || "",
+//       amount: String(item.amount || ""),
+//     }));
+
+//     setFields(prevFields => {
+//       const dueField = prevFields.find(f => f.reason === "DueAmount") || {
+//         reason: "DueAmount",
+//         amount: String(dueamount || ""),
+//       };
+//       return [dueField, ...amenityFields];
+//     });
+//   }
+// }, [data?.amenities]);
+
+useEffect(() => {
   if (data?.amenities?.length > 0) {
-    const amenityFields = data.amenities.map(item => ({
-      reason: item.reason || "",
-      amount: String(item.amount || ""),
-    }));
+    let outstandingDueAmount = "";
+    const amenityFields = data.amenities
+      .filter(item => {
+        if (item.reason === "Outstanding Due") {
+          outstandingDueAmount = String(item.amount || "");
+          return false; // Skip this item
+        }
+        return true;
+      })
+      .map(item => ({
+        reason: item.reason || "",
+        amount: String(item.amount || ""),
+      }));
 
-    setFields(prevFields => {
-      const dueField = prevFields.find(f => f.reason === "DueAmount") || {
-        reason: "DueAmount",
-        amount: String(dueamount || ""),
-      };
-      return [dueField, ...amenityFields];
-    });
+    const dueAmountValue = outstandingDueAmount || String(dueamount || "");
+
+    setFields([
+      { reason: "DueAmount", amount: dueAmountValue },
+      ...amenityFields,
+    ]);
   }
-}, [data?.amenities]);
-
+}, [data?.amenities, dueamount]);
 
   useEffect(() => {
 
@@ -285,67 +309,7 @@ useEffect(() => {
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
 
-  // const handleCheckOutCustomer = () => {
-
-  //   const formattedDate = moment(checkOutDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
-  //   const formattedrequestDate = moment(checkOutrequestDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
-
-  //   if (!selectedCustomer && !uniqueostel_Id && !checkOutDate && !checkOutrequestDate) {
-  //     setGeneralError('Please select all mandatory fields');
-  //     return;
-  //   }
-  //   if (!selectedCustomer) {
-  //     setCustomerError('Please select a customer.');
-  //     // return;
-  //   }
-
-  //   if (!uniqueostel_Id) {
-  //     setHostelError('Please select a hostel.');
-  //     // return;
-  //   }
-
-  //   if (!checkOutDate) {
-  //     setCheckOutDateError('Please select a checkout date.');
-  //     // return;
-  //   }
-
-  //   if (!checkOutrequestDate) {
-  //     setCheckOutRequestDateError('Please select a request date.');
-  //     // return;
-  //   }
-
-  //   const formattedCheckOutDate = checkOutDate
-  //     ? checkOutDate.toISOString().split('T')[0]
-  //     : '';
-
-  //   const formattedCheckOutRequestDate = checkOutrequestDate
-  //     ? checkOutrequestDate.toISOString().split('T')[0]
-  //     : '';
-
-  //   const hasChanges = formattedCheckOutDate !== currentItem?.CheckoutDate ||
-  //     // selectedHostel !== currentItem?.Hostel_Id ||
-  //     selectedCustomer !== currentItem?.ID ||
-  //     noticeDays !== currentItem?.notice_period ||
-  //     comments !== currentItem?.checkout_comment || formattedCheckOutRequestDate !== currentItem?.checkOutrequestDate
-
-  //   if (!hasChanges) {
-  //     setIsChangedError('No Changes detected');
-  //     return;
-  //   }
-  //   if (selectedCustomer || currentItem.ID && uniqueostel_Id || currentItem.Hostel_Id && checkOutDate && checkOutrequestDate) {
-  //     dispatch({
-  //       type: 'ADDCHECKOUTCUSTOMER', payload: {
-  //         checkout_date: formattedDate,
-  //         user_id: selectedCustomer || currentItem.ID,
-  //         hostel_id: uniqueostel_Id || currentItem.Hostel_Id,
-  //         comments: comments,
-  //         action: currentItem ? 2 : 1,
-  //         req_date: formattedrequestDate
-  //       }
-  //     })
-  //   }
-
-  // }
+  
 
   const handleCheckOutCustomer = () => {
     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
