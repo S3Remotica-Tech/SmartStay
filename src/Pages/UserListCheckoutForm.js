@@ -26,10 +26,10 @@ const CheckOutForm = ({
   show,
   handleClose,
   currentItem,
-  checkoutaction,
+  // checkoutaction,
   data,
   checkouteditaction,
-  checkoutaddform,
+  // checkoutaddform,
   cofirmForm,
   conformEdit,
   // setConfirmForm,
@@ -1906,6 +1906,7 @@ CheckOutForm.propTypes = {
   onClick: PropTypes.func.isRequired,
   cofirmForm: PropTypes.func.isRequired,
   handleCloseConformForm: PropTypes.func.isRequired,
+   conformEdit: PropTypes.func.isRequired,
 };
 
 export default CheckOutForm;

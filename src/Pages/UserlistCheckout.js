@@ -1031,13 +1031,23 @@ setConformEdit(true)
                                     */}
                                     <div
   className="mb-2 mt-2 d-flex align-items-center"
+  // onClick={() => {
+  //   if (!checkOutEditPermissionError) {
+  //     checkout.isActive === 1
+  //       ? handleEdit(checkout)
+  //       : handleConformEdit(checkout);
+  //   }
+  // }}
   onClick={() => {
-    if (!checkOutEditPermissionError) {
-      checkout.isActive === 1
-        ? handleEdit(checkout)
-        : handleConformEdit(checkout);
+  if (!checkOutEditPermissionError) {
+    if (checkout.isActive === 1) {
+      handleEdit(checkout);
+    } else {
+      handleConformEdit(checkout);
     }
-  }}
+  }
+}}
+
   style={{
     cursor: checkOutEditPermissionError ? "not-allowed" : "pointer",
     pointerEvents: checkOutEditPermissionError ? "none" : "auto",
