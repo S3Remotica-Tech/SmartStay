@@ -5424,8 +5424,8 @@ console.log("DownloadReceipt",receiptdata)
                         }`}
                     >
                       <Col
-                        lg={DownloadReceipt ? 4 : 12}
-                        md={DownloadReceipt ? 4 : 12}
+                        lg={DownloadReceipt ? 3 : 12}
+                        md={DownloadReceipt ? 3 : 12}
                         sm={DownloadReceipt ? 12 : 12}
                         xs={DownloadReceipt ? 12 : 12}
                       >
@@ -5929,8 +5929,8 @@ console.log("DownloadReceipt",receiptdata)
                 </Col> */}
 
                           <Col
-                            lg={8}
-                            md={8}
+                            lg={9}
+                            md={9}
                             sm={12}
                             xs={12}
                             style={{
