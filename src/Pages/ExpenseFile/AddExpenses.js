@@ -38,7 +38,7 @@ function StaticExample({ show, currentItem,setShowModal }) {
   // const [account, setAccount] = useState("");
   // const [accountError, setAccountError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  // const [netPaymentError,setNetPaymentError] = useState("")
+  const [netPaymentError,setNetPaymentError] = useState("")
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -68,9 +68,9 @@ function StaticExample({ show, currentItem,setShowModal }) {
     });
   }, []);
   useEffect(()=>{
-// if(state.ExpenseList.expenceNetBanking){
-// setNetPaymentError(state.ExpenseList.expenceNetBanking)
-// }
+if(state.ExpenseList.expenceNetBanking){
+setNetPaymentError(state.ExpenseList.expenceNetBanking)
+}
   },[state.ExpenseList.expenceNetBanking])
 
   useEffect(() => {
@@ -972,6 +972,16 @@ function StaticExample({ show, currentItem,setShowModal }) {
               </label>
             </div>
           )}
+
+
+             {netPaymentError && (
+                                            <div style={{ color: "red" }}>
+                                              <MdError />
+                                             <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {netPaymentError}</span>
+                                            </div>
+                                          )}
+               
+              
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
             <Button
               onClick={handleAddExpenses}
