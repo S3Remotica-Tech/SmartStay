@@ -25,6 +25,8 @@ import dayjs from "dayjs";
 import {CloseCircle} from "iconsax-react";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import transArrow from "../Assets/Images/New_images/arrow-transfer.png";
+import banklogo from "../Assets/Images/New_images/bank_loga.png";
 
 
 
@@ -70,10 +72,15 @@ dayjs.extend(isSameOrBefore);
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
   const [bankking, setBanking] = useState("")
+  const [selfTranfer,setSelfTransfer] = useState(false)
+  const [amount, setAmount] = useState("");
+  
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
+
+
 
   useEffect(() => {
     setBankingRolePermission(state.createAccount.accountList);
@@ -244,6 +251,15 @@ dayjs.extend(isSameOrBefore);
       }, 1000);
     }
   }, [state.bankingDetails.statusCodeForAddBankingAmount]);
+
+const handleOpenSelfTransfer = ()=>{
+  setOpenMenuId(null)
+  setSelfTransfer(true)
+}
+const handleCloseSElfTransfer=()=>{
+  setSelfTransfer(false)
+}
+
   const handleEditAddBank = (item) => {
     setEdit(true);
     setShowForm(true);
@@ -326,6 +342,8 @@ dayjs.extend(isSameOrBefore);
     setDeleteTransactionForm(false);
     setOpenMenuId(null);
   };
+
+
   const handleCloseTransactionDelete = () => {
     setDeleteTransactionForm(false);
   };
@@ -917,13 +935,13 @@ whiteSpace: "nowrap"
                           <p
                             className="text-muted mb-0"
                             style={{
-                              fontSize: 12,
+                              fontSize: 13,
                               fontFamily: "Gilroy",
-                              fontWeight: 500,
+                              fontWeight: 600,
                               color: "#4B4B4B",
                             }}
                           >
-                            {item.acc_name || item.benificiary_name}-Savings A/C
+                            {item.acc_name || item.benificiary_name}
                           </p>
                           {/* <p
                             className="text-muted mb-0"
@@ -970,10 +988,10 @@ whiteSpace: "nowrap"
                               cursor: "pointer",
                               backgroundColor: "#F9F9F9",
                               position: "absolute",
-                              right: 10,
-                              top: 60,
-                              width: 120,
-                              height: 70,
+                              right: 30,
+                              top: 50,
+                              width: 140,
+                              height:"auto",
                               border: "1px solid #EBEBEB",
                               borderRadius: 10,
                               display: "flex",
@@ -983,6 +1001,45 @@ whiteSpace: "nowrap"
                               zIndex: 9999,
                             }}
                           >
+
+ <div
+                              className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                              style={{
+                                cursor: bankingEditPermission
+                                  ? "not-allowed"
+                                  : "pointer",
+                                pointerEvents: bankingEditPermission
+                                  ? "none"
+                                  : "auto",
+                                opacity: bankingEditPermission ? 0.5 : 1,
+                              }}
+                              onClick={() => {
+                                if (!bankingEditPermission) {
+                                  handleOpenSelfTransfer(item);
+                                }
+                              }}
+                            >
+                              <img
+                                src={transArrow}
+                                style={{ height: 16, width: 16 }}
+                                alt="transArrow"
+                              />
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy, sans-serif",
+                                  color: "#000000",
+                                  cursor: bankingEditPermission
+                                    ? "not-allowed"
+                                    : "pointer",
+                                    whiteSpace:"nowrap"
+                                }}
+                              >
+                               Self Transfer
+                              </label>
+                            </div>
+
                             <div
                               className="mb-2 d-flex justify-content-start align-items-center gap-2"
                               style={{
@@ -2206,6 +2263,168 @@ whiteSpace: "nowrap"
               </Button>
             </Modal.Footer>
           </Modal>
+
+
+{/* selfTranfer */}
+
+<Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
+      
+       <Modal.Header 
+              style={{ position: "relative" }}
+            >
+              <div
+                style={{
+                  fontSize: "1.25rem",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  color:"#1E45E1"
+                }}
+              >
+                Self Transfer
+              </div>
+              <CloseCircle size="24" color="#000" onClick={handleCloseSElfTransfer} 
+            style={{ cursor: 'pointer' }}/>
+             
+            </Modal.Header>
+
+      <Modal.Body>
+        {/* From Account */}
+       <div>
+  <h6 style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>From</h6>
+
+  <div className="d-flex align-items-center p-3" style={{ borderBottom: "1px solid #ccc" }}>
+    {/* Bank Logo */}
+    <img
+      src={banklogo}
+      style={{marginTop:"-10px"}}
+      width="50"
+      height="50"
+      className="me-3"
+      alt="bank"
+    />
+
+    {/* Main Content Row */}
+    <div className="w-100 d-flex justify-content-between align-items-start">
+      {/* Left Side: Bank Name & Type */}
+      <div>
+        <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy",fontSize:14 }}>Canara Bank</div>
+        <div className="small text-muted" style={{ fontFamily: "Gilroy",fontSize:12 }}>Savings A/C</div>
+      </div>
+
+      {/* Right Side: User Info */}
+      <div className="text-end" style={{ fontFamily: "Gilroy" }}>
+        <div style={{ fontWeight: 500, color: "#1A1A1A" ,fontSize:14}}>Immanuel</div>
+        <div className="small" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:400}}>4561 2013 6210 6540</div>
+        <div className="small fw-semibold" style={{ color:"#1E45E1" }}>
+          Avl Bal : ₹10,000.00
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        {/* To Accounts */}
+        <div className="mb-3">
+          <h6 className="mt-1" style={{color:"#4B4B4B",fontSize:16,fontWeight:500,fontFamily:"Gilroy"}}>To</h6>
+
+         <div className="d-flex align-items-center p-3" >
+    {/* Bank Logo */}
+    <img
+      src={banklogo}
+      style={{marginTop:"-10px"}}
+      width="50"
+      height="50"
+      className="me-3"
+      alt="bank"
+    />
+
+    {/* Main Content Row */}
+   <div className="w-100 d-flex justify-content-between align-items-start">
+      {/* Left Side: Bank Name & Type */}
+      <div>
+        <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy",fontSize:14 }}> State Bank of India</div>
+        <div className="small text-muted" style={{ fontFamily: "Gilroy",fontSize:12 }}>Savings A/C</div>
+      </div>
+
+      {/* Right Side: User Info */}
+      <div className="text-end" style={{ fontFamily: "Gilroy" }}>
+        <div style={{ fontWeight: 500, color: "#1A1A1A" ,fontSize:14}}>Immanuel</div>
+        <div className="small" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:400}}>4561 2013 6210 6540</div>
+        <div className="small fw-semibold" style={{ color:"#1E45E1" }}>
+          Avl Bal : ₹10,000.00
+        </div>
+      </div>
+    </div>
+  </div>
+
+         <div className="d-flex align-items-center p-3" style={{marginTop:"-10px"}}>
+    {/* Bank Logo */}
+    <img
+      src={banklogo}
+      style={{marginTop:"-10px"}}
+      width="50"
+      height="50"
+      className="me-3"
+      alt="bank"
+    />
+
+    {/* Main Content Row */}
+    <div className="w-100 d-flex justify-content-between align-items-start">
+      {/* Left Side: Bank Name & Type */}
+      <div>
+        <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy",fontSize:14 }}> ICICI</div>
+        <div className="small text-muted" style={{ fontFamily: "Gilroy",fontSize:12 }}>Savings A/C</div>
+      </div>
+
+      {/* Right Side: User Info */}
+      <div className="text-end" style={{ fontFamily: "Gilroy" }}>
+        <div style={{ fontWeight: 500, color: "#1A1A1A" ,fontSize:14}}>Immanuel</div>
+        <div className="small" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:400}}>4561 2013 6210 6540</div>
+        <div className="small fw-semibold" style={{ color:"#1E45E1" }}>
+          Avl Bal : ₹10,000.00
+        </div>
+      </div>
+    </div>
+  </div>
+        </div>
+
+        {/* Amount Input */}
+        {/* <Form.Group className="mb-3">
+          <Form.Label style={{fontFamily:"Gilroy",fontSize:18,fontWeight:400}}>Enter Amount to transfer</Form.Label>
+          <div className="input-group">
+            <span className="input-group-text">₹</span>
+            <Form.Control
+              type="text"
+              placeholder="Enter amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </div>
+        </Form.Group> */}
+        <div className="input-group"s>
+  <span className="input-group-text bg-white border-end-0 rounded-start">₹</span>
+  <input
+    type="text"
+    className="form-control border-start-0 rounded-end"
+    placeholder="Enter amount"
+    style={{ boxShadow: 'none',outline:"none"}}
+  />
+</div>
+
+
+      <div className="text-end mt-3">
+          <Button variant="primary" >
+          Transfer
+        </Button>
+      </div>
+      </Modal.Body>
+    </Modal>
+
+
+
+
+
 
           {EditTransactionForm === true ? (
             <BankingEditTransaction
