@@ -171,7 +171,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setGeneralError("");
     setPaymentError("");
     setIsChangedError("");
-    // setNetPaymentError("")
+    setNetPaymentError("")
     dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
   };
 
@@ -182,7 +182,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setGeneralError("");
     setPriceError("");
     setIsChangedError("");
-    // setNetPaymentError("")
+    setNetPaymentError("")
     // if (/^\d*$/.test(value)) {
     //   setPrice(value);
     // }
@@ -311,7 +311,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
 
   const handleClose = () => {
     setShowModal(false);
-    // setNetPaymentError("")
+    setNetPaymentError("")
     dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
 
   }
@@ -807,120 +807,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                 )}
               </div>
 
-              {/* {modeOfPayment === "Net Banking" && (
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    Account{" "}
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "20px",
-                      }}
-                    >
-                      {" "}
-                      *{" "}
-                    </span>
-                  </Form.Label>
-               
-<Select
-  placeholder="Select Account"
-  options={
-    state.bankingDetails?.bankingList?.banks?.length > 0
-      ? state.bankingDetails.bankingList.banks.map((u) => ({
-          value: u.id,
-          label: u.bank_name,
-        }))
-      : []
-  }
-  value={
-    state.bankingDetails?.bankingList?.banks?.map((u) => ({
-      value: u.id,
-      label: u.bank_name,
-    })).find((opt) => opt.value === account) || null
-  }
-  onChange={handleAccount}
-  styles={{
-    control: (base) => ({
-      ...base,
-      height: "48px",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer", 
-      backgroundColor: state.isFocused ? "#f0f0f0" : "white", 
-      color: "#000",
-    }),
-  }}
-  isDisabled={currentItem}
-  noOptionsMessage={() =>
-    state.bankingDetails?.bankingList?.banks?.length === 0
-      ? "No accounts available"
-      : "No match found"
-  }
-/>
-
-                  {accountError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {accountError}
-                      </label>
-                    </div>
-                  )}
-                   {netPaymentError && (
-                                            <div style={{ color: "red" }}>
-                                              <MdError />
-                                             <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {netPaymentError}</span>
-                                            </div>
-                                          )}
-                </div>
-              )} */}
+             
               <div className="col-lg-12 col-md-12  col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-2"
@@ -975,10 +862,20 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
 
 
              {netPaymentError && (
-                                            <div style={{ color: "red" }}>
-                                              <MdError />
-                                             <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {netPaymentError}</span>
-                                            </div>
+                                          <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
+              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <label
+                className="mb-0"
+                style={{
+                  color: "red",
+                  fontSize: "13px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {netPaymentError}
+              </label>
+            </div>
                                           )}
                
               
