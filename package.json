@@ -141,5 +141,5 @@
       "\\.(css|less|scss|sass)$": "identity-obj-proxy"
     }
   },
-  "proxy": "https://smartstayapi.qbatz.com"
+  "proxy": "http://localhost:2001"
 }
