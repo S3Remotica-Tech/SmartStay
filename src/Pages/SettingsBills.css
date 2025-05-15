@@ -1,0 +1,136 @@
+.date-picker-container {
+    font-family: Arial, sans-serif;
+    width: 350px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .date-picker-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 18px;
+  }
+  
+  .date-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .day-header {
+    text-align: center;
+    font-weight: bold;
+    color: #666;
+    padding: 5px 0;
+    font-size: 14px;
+  }
+  
+  .date-cell {
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    /* transition: all 0.2s; */
+  }
+  
+  .date-cell:hover:not(.empty) {
+    background-color: #f0f0f0;
+  }
+  
+  .date-cell.selected {
+    background-color: rgba(30, 69, 225, 1);
+    color: white;
+  }
+  
+  .date-cell.empty {
+    cursor: default;
+    opacity: 0;
+  }
+  
+  .date-picker-footer {
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    color: #666;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+  }
+
+  .startmonth{
+    background-color: rgba(30, 69, 225, 1);
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    margin-right: 50px;
+  }
+
+  .Endmonth{
+    /* background-color: rgba(30, 69, 225, 1); */
+    /* color: white;
+     */
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 8px;
+  }
+
+
+  /* ........................ */
+
+  .toggle-wrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-family: 'Gilroy', sans-serif;
+  }
+  
+  .toggle-label {
+    margin-right: 10px;
+    font-size: 14px;
+    color: #1e45e1;
+  }
+  
+  .toggle-label.active {
+    font-weight: 600;
+  }
+  
+  .toggle-switch {
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 20px;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+    position: relative;
+  }
+  
+  .toggle-switch.on {
+    background-color: #1e45e1;
+    justify-content: flex-end;
+  }
+  
+  .toggle-switch.off {
+    background-color: #ccc;
+    justify-content: flex-start;
+  }
+  
+  .toggle-thumb {
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
