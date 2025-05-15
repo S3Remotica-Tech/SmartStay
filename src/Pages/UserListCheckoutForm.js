@@ -90,21 +90,31 @@ console.log("reason", fields);
      dispatch({type:'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR'})
     setConformCheckErr("")
     setNoChangeMessage("")
+    setModeOfPaymentError("")
     // setFields("")
     setFields([{ reason: "", amount: "" }]); 
   }
 
   // const [isChecked, setIsChecked] = useState(false);
+  useEffect(() => {
+    dispatch({ type: "BANKINGLIST",payload:{ hostel_id: state.login.selectedHostel_Id} });
+  }, []);
 
-  // const handleModeOfPaymentChange = (e) => {
-  //       setModeOfPayment(e.target.value);
+  const handleModeOfPaymentChange = (e) => {
+        setModeOfPayment(e.target.value);
+        setModeOfPaymentError("")
+        console.log("handleModeOfPaymentChange",modeOfPayment)
       
-  //     };
-  const handleModeOfPaymentChange = (selectedOption) => {
-  setModeOfPayment(selectedOption?.value || "");
-};
+      };
 
+  
+//   const handleModeOfPaymentChange = (selectedOption) => {
+//   setModeOfPayment(selectedOption?.value || "");
+//   setModeOfPaymentError("")
+//   console.log("handleModeOfPaymentChange",modeOfPayment)
+// };
 
+ 
 
   const handleCustomerChange = (selectedOption) => {
     setSelectedCustomer(selectedOption ? selectedOption.value : "");
@@ -640,82 +650,125 @@ const [returnAmount,setReturnAmount] = useState("")
   //     // );
   //   }
   // }, [isChecked]);
+  const [modeOfPaymentError,setModeOfPaymentError] = useState("")
 
-  const handleConfirmCheckout = () => {
+const handleConfirmCheckout = () => {
+  let hasError = false;
 
-    
-    if (!selectedCustomer || !data.Hostel_Id || !checkOutDate ) {
-      return;
-    }
-    if (!selectedCustomer) {
-      setCustomerError("Please Select a Customer");
-      // return;
-    }
+  if (!selectedCustomer) {
+    setCustomerError("Please Select a Customer");
+    hasError = true;
+  }
 
-    
+  if (!checkOutDate) {
+    setCheckOutDateError("Please select a checkout Date");
+    hasError = true;
+  }
 
-    if (!checkOutDate) {
-      setCheckOutDateError("Please select a checkout Date");
-      // return;
-    }
+  if (!modeOfPayment) {
+    setModeOfPaymentError("Please Select Mode Of Payment");
+    hasError = true;
+  }
 
+  if (!data.Hostel_Id) {
+    hasError = true;
+  }
 
-    const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
-      "YYYY-MM-DD"
+  if (hasError) {
+    return; // Stop if there's any error
+  }
+
+  const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
+
+  if (advanceamount) {
+    const nonEmptyFields = fields.filter(
+      (field) =>
+        field.reason !== "DueAmount" &&
+        (field.reason.trim() !== "" || field.amount.trim() !== "")
     );
+
+    dispatch({
+      type: "ADDCONFIRMCHECKOUTCUSTOMER",
+      payload: {
+        checkout_date: formattedDate,
+        id: selectedCustomer,
+        hostel_id: data.Hostel_Id,
+        comments: comments,
+        advance_return: returnAmount,
+        reinburse: 1,
+        reasons: nonEmptyFields,
+        payment_id: modeOfPayment,
+      },
+    });
+  }
+};
+
+
+  // const handleConfirmCheckout = () => {
+
+    
+  //   if (!selectedCustomer || !data.Hostel_Id || !checkOutDate || !modeOfPayment ) {
+  //     return;
+  //   }
+  //   if (!selectedCustomer) {
+  //     setCustomerError("Please Select a Customer");
+  //     // return;
+  //   }
+  //    if(!modeOfPayment){
+  //   setModeOfPaymentError("Please Select Mode Of Payment")
+  // }
+
+    
+
+  //   if (!checkOutDate) {
+  //     setCheckOutDateError("Please select a checkout Date");
+  //     // return;
+  //   }
+  //     if(!modeOfPayment){
+  //   setModeOfPaymentError("Please Select Mode Of Payment")
+  // }
+
+
+  //   const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
+  //     "YYYY-MM-DD"
+  //   );
 
    
 
-    if (selectedCustomer && data.Hostel_Id && formattedDate && advanceamount) {
-      const nonEmptyFields = fields.filter(
-        (field) =>
-          field.reason !== "DueAmount" &&
-          (field.reason.trim() !== "" || field.amount.trim() !== "")
-      );
+  //   if (selectedCustomer && data.Hostel_Id && formattedDate && advanceamount) {
+  //     const nonEmptyFields = fields.filter(
+  //       (field) =>
+  //         field.reason !== "DueAmount" &&
+  //         (field.reason.trim() !== "" || field.amount.trim() !== "")
+  //     );
       
       
-      dispatch({
-        type: "ADDCONFIRMCHECKOUTCUSTOMER",
-        payload: {
-          checkout_date: formattedDate,
-          id: selectedCustomer,
-          hostel_id: data.Hostel_Id,
-          comments: comments,
-          advance_return: returnAmount,
-          reinburse: 1,
-          reasons: nonEmptyFields,
-        },
-      });
-    }
+  //     dispatch({
+  //       type: "ADDCONFIRMCHECKOUTCUSTOMER",
+  //       payload: {
+  //         checkout_date: formattedDate,
+  //         id: selectedCustomer,
+  //         hostel_id: data.Hostel_Id,
+  //         comments: comments,
+  //         advance_return: returnAmount,
+  //         reinburse: 1,
+  //         reasons: nonEmptyFields,
+  //         payment_id:modeOfPayment
+  //       },
+  //     });
+  //   }
 
 
 
 
   
-  };
+  // };
 
 const [initialData, setInitialData] = useState({});
-// useEffect(() => {
-//   if (data) {
-//     setInitialData({
-//       comments: data.checkout_comment || "",
-//       returnAmount: String(data.advance_return || ""),
-//       amenities: data.amenities || [],
-//     });
-//   }
-// }, [data]);
-// useEffect(() => {
-//   if (data) {
-//     setInitialData({
-//       comments: data.checkout_comment || "",
-//       returnAmount: String(data.advance_return || ""),
-//       reason: data.amenities || [],
-//       paymentDate: data.CheckoutDate ? moment(data.CheckoutDate).format("YYYY-MM-DD") : "",
-//     });
-//   }
-// }, [data]);
+
 useEffect(() => {
   if (data) {
+    console.log("data???????????????",data)
     const initialReasons = (data.amenities || []).map((item) => ({
       reason: item.reason || "",
       amount: String(item.amount || ""),
@@ -730,51 +783,65 @@ useEffect(() => {
   }
 }, [data]);
 
-
-
-
 const handleConfirmEditCheckout = () => {
   if (!conformEdit) return;
 
-  if (!selectedCustomer || !data.Hostel_Id || !checkOutDate) {
-    setNoChangeMessage("Please fill all required fields.");
-    return;
+  let hasError = false;
+  setNoChangeMessage(""); 
+  setModeOfPaymentError(""); // clear specific error
+
+  if (!selectedCustomer) {
+    setNoChangeMessage("Please select a customer.");
+    hasError = true;
   }
 
-  const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
- const currentReasonFields = fields.filter(
-  (field) =>
-    field.reason !== "DueAmount" &&
-    (field.reason.trim() !== "" || field.amount.trim() !== "")
-);
+  if (!data.Hostel_Id) {
+    setNoChangeMessage("Hostel ID is missing.");
+    hasError = true;
+  }
 
-// Format current payment date
-const formattedPaymentDate = paymentDate
-  ? moment(paymentDate).format("YYYY-MM-DD")
-  : "";
+  if (!checkOutDate) {
+    setNoChangeMessage("Please select a checkout date.");
+    hasError = true;
+  }
+
+  if (!modeOfPayment) {
+    setModeOfPaymentError("Please select mode of payment.");
+    hasError = true;
+  }
+
+  if (hasError) return;
+
+  const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
+
+  const currentReasonFields = fields.filter(
+    (field) =>
+      field.reason !== "DueAmount" &&
+      (field.reason.trim() !== "" || field.amount.trim() !== "")
+  );
+
+  const formattedPaymentDate = paymentDate
+    ? moment(paymentDate).format("YYYY-MM-DD")
+    : "";
 
   const formattedIniatialDate = initialData.paymentDate
-  ? moment(initialData.paymentDate).format("YYYY-MM-DD")
-  : "";
+    ? moment(initialData.paymentDate).format("YYYY-MM-DD")
+    : "";
 
-// Compare with initial
-const hasCommentsChanged = comments !== initialData.comments;
-// const hasReturnAmountChanged = Number(returnAmount) !== Number(initialData.returnAmount);
-const haveFieldsChanged = JSON.stringify(currentReasonFields) !== JSON.stringify(initialData.reason);
-const hasPaymentDateChanged = formattedPaymentDate !== formattedIniatialDate;
+  const hasCommentsChanged = comments !== initialData.comments;
+  const haveFieldsChanged =
+    JSON.stringify(currentReasonFields) !== JSON.stringify(initialData.reason);
+  const hasPaymentDateChanged =
+    formattedPaymentDate !== formattedIniatialDate;
 
-
-if (
-  !hasCommentsChanged &&
-  // !hasReturnAmountChanged &&
-  !haveFieldsChanged &&
-  !hasPaymentDateChanged
-) {
-  setNoChangeMessage("No Changes Detected.");
-  return;
-}
-
-
+  if (
+    !hasCommentsChanged &&
+    !haveFieldsChanged &&
+    !hasPaymentDateChanged
+  ) {
+    setNoChangeMessage("No Changes Detected.");
+    return;
+  }
 
   dispatch({
     type: "EDITCONFIRMCHECKOUTCUSTOMER",
@@ -787,10 +854,77 @@ if (
       reinburse: 1,
       reasons: currentReasonFields,
       payment_date: formattedPaymentDate,
+      payment_id: modeOfPayment,
       user_id: selectedCustomer || currentItem?.ID,
     },
   });
 };
+
+
+
+// const handleConfirmEditCheckout = () => {
+//   if (!conformEdit) return;
+
+//   if (!selectedCustomer || !data.Hostel_Id || !checkOutDate || !modeOfPayment) {
+//     setNoChangeMessage("Please fill all required fields");
+//     return;
+//   }
+
+//   // if(!modeOfPayment){
+//   //   setModeOfPaymentError("Please Select Mode Of Payment")
+//   // }
+
+//   const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
+//  const currentReasonFields = fields.filter(
+//   (field) =>
+//     field.reason !== "DueAmount" &&
+//     (field.reason.trim() !== "" || field.amount.trim() !== "")
+// );
+
+// // Format current payment date
+// const formattedPaymentDate = paymentDate
+//   ? moment(paymentDate).format("YYYY-MM-DD")
+//   : "";
+
+//   const formattedIniatialDate = initialData.paymentDate
+//   ? moment(initialData.paymentDate).format("YYYY-MM-DD")
+//   : "";
+
+// // Compare with initial
+// const hasCommentsChanged = comments !== initialData.comments;
+// // const hasReturnAmountChanged = Number(returnAmount) !== Number(initialData.returnAmount);
+// const haveFieldsChanged = JSON.stringify(currentReasonFields) !== JSON.stringify(initialData.reason);
+// const hasPaymentDateChanged = formattedPaymentDate !== formattedIniatialDate;
+
+
+// if (
+//   !hasCommentsChanged &&
+//   // !hasReturnAmountChanged &&
+//   !haveFieldsChanged &&
+//   !hasPaymentDateChanged
+// ) {
+//   setNoChangeMessage("No Changes Detected.");
+//   return;
+// }
+
+
+
+//   dispatch({
+//     type: "EDITCONFIRMCHECKOUTCUSTOMER",
+//     payload: {
+//       checkout_date: formattedDate,
+//       id: selectedCustomer,
+//       hostel_id: data.Hostel_Id,
+//       comments: comments,
+//       advance_return: returnAmount,
+//       reinburse: 1,
+//       reasons: currentReasonFields,
+//       payment_date: formattedPaymentDate,
+//       payment_id:modeOfPayment,
+//       user_id: selectedCustomer || currentItem?.ID,
+//     },
+//   });
+// };
 
 
 
@@ -1770,7 +1904,7 @@ if(state.UsersList.conformChekoutEditError){
                       *
                     </span>
                   </Form.Label>
-                  {/* <Form.Select
+                  <Form.Select
                     aria-label="Default select example"
                     value={modeOfPayment}
                     onChange={handleModeOfPaymentChange}
@@ -1802,9 +1936,28 @@ if(state.UsersList.conformChekoutEditError){
                       );
                     })}
                   
-                  </Form.Select> */}
+                  </Form.Select>
+
+
+                    {modeOfPaymentError && (
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ color: "red",marginTop:15 }}
+            >
+              <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {modeOfPaymentError}
+              </span>
+            </div>
+          )}
                  
-  <Select
+  {/* <Select
     options={options}
     value={options.find((opt) => opt?.value === modeOfPayment)}
     onChange={(selectedOption) =>
@@ -1827,7 +1980,7 @@ if(state.UsersList.conformChekoutEditError){
     //   }),
     // }}
     styles={customStyles}
-  />
+  /> */}
 
 
                 </Form.Group>
@@ -1987,6 +2140,7 @@ if(state.UsersList.conformChekoutEditError){
               </span>
             </div>
           )}
+          
 
           <Button
             className="mt-3"
