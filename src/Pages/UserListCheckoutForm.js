@@ -55,6 +55,7 @@ console.log("CheckOutForm",state)
 const [paymentDate,setPaymentDate] = useState("")
 const [fields, setFields] = useState([{ reason: "", amount: "" }]);
 const [noChangeMessage, setNoChangeMessage] = useState("");
+const [modeOfPayment, setModeOfPayment] = useState("");
 
 console.log("reason", fields);
 
@@ -95,7 +96,15 @@ console.log("reason", fields);
 
   // const [isChecked, setIsChecked] = useState(false);
 
-  
+  // const handleModeOfPaymentChange = (e) => {
+  //       setModeOfPayment(e.target.value);
+      
+  //     };
+  const handleModeOfPaymentChange = (selectedOption) => {
+  setModeOfPayment(selectedOption?.value || "");
+};
+
+
 
   const handleCustomerChange = (selectedOption) => {
     setSelectedCustomer(selectedOption ? selectedOption.value : "");
@@ -955,6 +964,22 @@ if(state.UsersList.conformChekoutEditError){
     border: "1px solid #D9D9D9",
   };
 
+  const options = Array.isArray(state.bankingDetails?.bankingList?.banks)
+  ? state.bankingDetails.bankingList.banks.map((item) => {
+      let label = "";
+      if (item.type === "bank") label = "Bank";
+      else if (item.type === "upi") label = "UPI";
+      else if (item.type === "card") label = "Card";
+      else if (item.type === "cash") label = "Cash";
+
+      return {
+        value: item.id,
+        label: `${item.benificiary_name} - ${label}`,
+      };
+    })
+  : [];
+
+
   return (
     <>
       <Modal show={show} onHide={handlecloseform} centered backdrop="static">
@@ -1721,6 +1746,108 @@ if(state.UsersList.conformChekoutEditError){
       }}
     />
   </div>
+
+  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <Form.Group
+                  className="mb-1"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Mode of Transaction{" "}
+                    <span
+                      style={{
+                        color: "#FF0000",
+                        display: modeOfPayment ? "none" : "inline-block",
+                      }}
+                    >
+                      *
+                    </span>
+                  </Form.Label>
+                  {/* <Form.Select
+                    aria-label="Default select example"
+                    value={modeOfPayment}
+                    onChange={handleModeOfPaymentChange}
+                    // disabled={currentItem}
+                    className=""
+                    id="vendor-select"
+                    style={{
+                      fontSize: 16,
+                      color: "rgba(75, 75, 75, 1)",
+                      fontFamily: "Gilroy",
+                      fontWeight: modeOfPayment ? 600 : 500,
+                      cursor:"pointer"
+                    }}
+                  >
+              
+                   <option value="">Select Mode Of Payment</option>
+                    {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
+                    state.bankingDetails?.bankingList?.banks.map((item) => {
+                      let label = "";
+                      if (item.type === "bank") label = 'Bank';
+                      else if (item.type === "upi") label = "UPI";
+                      else if (item.type === "card") label = "Card";
+                      else if (item.type === "cash") label = "Cash";
+                  
+                      return (
+                        <option key={item.id} value={item.id}>
+                        {`${item.benificiary_name} - ${label}`}
+                      </option>                      
+                      );
+                    })}
+                  
+                  </Form.Select> */}
+                 
+  <Select
+    options={options}
+    value={options.find((opt) => opt?.value === modeOfPayment)}
+    onChange={(selectedOption) =>
+      handleModeOfPaymentChange(selectedOption?.value)
+    }
+    placeholder="Select Mode Of Payment"
+    // styles={{
+    //   menu: (provided) => ({
+    //     ...provided,
+    //     maxHeight: 200, // Set max height for scroll
+    //     overflowY: "auto",
+    //   }),
+    //   control: (provided, state) => ({
+    //     ...provided,
+    //     fontSize: 16,
+    //     color: "rgba(75, 75, 75, 1)",
+    //     fontFamily: "Gilroy",
+    //     fontWeight: modeOfPayment ? 600 : 500,
+    //     cursor: "pointer",
+    //   }),
+    // }}
+    styles={customStyles}
+  />
+
+
+                </Form.Group>
+                {/* {paymentError && (
+                  <div className="d-flex align-items-center  mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {paymentError}
+                    </label>
+                  </div>
+                )} */}
+              </div>
             
 
             <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
