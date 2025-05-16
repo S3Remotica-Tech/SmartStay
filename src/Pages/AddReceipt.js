@@ -90,7 +90,7 @@ const AddReceiptForm = (props) => {
    
     
      
-     
+     console.log("invoicenumber",invoicenumber)
      
     // const handleDueAmount = (e)=>{
     //   setDueAmount(e.target.value)
@@ -161,7 +161,7 @@ const AddReceiptForm = (props) => {
         }
       };
 
-
+console.log("customerinvoicefilter",customerinvoicefilter)
       const handleReceivedAmount = (e) => {
         const value = e.target.value;
         const receivedValue = parseFloat(value);
@@ -296,6 +296,7 @@ const AddReceiptForm = (props) => {
 
       const handleModeOfPaymentChange = (e) => {
         setModeOfPayment(e.target.value);
+         setAllFieldErrmsg("")
         // setGeneralError("");
         // setPaymentError("");
         if(!e.target.value){
@@ -303,6 +304,7 @@ const AddReceiptForm = (props) => {
         }
         else{
           setPaymentError('')
+         
         }
         // setIsChangedError("");
       };
@@ -406,9 +408,14 @@ const AddReceiptForm = (props) => {
             setPaymentDateErrmsg('Please Select  Date')
           }
 
-          if(!invoicenumber){
-            setInvoicenumberErrmsg("Please Select Invoice")
-          }
+          // if(!invoicenumber){
+          //   setInvoicenumberErrmsg("Please Select Invoice")
+          // }
+          if (!invoicenumber && props.editvalue.type !== "checkout") {
+  setInvoicenumberErrmsg("Please Select Invoice");
+  return;
+}
+          
 
           if(!received_amount){
             setReceivedAmountErrmsg("Please Enter Amount")
@@ -714,8 +721,112 @@ const AddReceiptForm = (props) => {
       </Form.Group>
     </div>
 
-   
-    <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+   {!(edit && (!invoicenumber || invoicenumber === "0" || invoicenumber === 0)) && (
+  <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+    <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+      <Form.Label
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: 14,
+          fontWeight: 500,
+          color: "#222",
+          fontStyle: "normal",
+          lineHeight: "normal",
+        }}
+      >
+        Invoice Number
+      </Form.Label>
+
+      {edit ? (
+        <Form.Control
+          type="text"
+          value={invoicenumber}
+          readOnly
+          className="border"
+          style={{
+            fontSize: 16,
+            color: "#4B4B4B",
+            fontFamily: "Gilroy",
+            lineHeight: "18.83px",
+            fontWeight: 500,
+            boxShadow: "none",
+            border: "1px solid #D9D9D9",
+            height: 38,
+            borderRadius: 8,
+            backgroundColor: "#E7F1FF",
+          }}
+        />
+      ) : (
+        <Select
+          className="custom-dropdown"
+          options={customerinvoicefilter.map((u) => ({
+            value: u.Invoices,
+            label: u.Invoices,
+          }))}
+          onChange={(selectedOption) =>
+            handleInvoiceNumber({ target: { value: selectedOption?.value } })
+          }
+          value={
+            customerinvoicefilter.find((u) => u.Invoices === invoicenumber)
+              ? { value: invoicenumber, label: invoicenumber }
+              : null
+          }
+          isDisabled={edit}
+          styles={{
+            menu: (base) => ({
+              ...base,
+              maxHeight: "150px",
+              overflowY: "auto",
+            }),
+            menuList: (base) => ({
+              ...base,
+              maxHeight: "150px",
+              overflowY: "auto",
+              scrollbarWidth: "thin",
+              msOverflowStyle: "none",
+            }),
+            dropdownIndicator: (base) => ({
+              ...base,
+              color: "#555",
+              cursor: "pointer",
+            }),
+            option: (base, state) => ({
+              ...base,
+              cursor: "pointer",
+              backgroundColor: state.isFocused ? "lightblue" : "white",
+              color: "#000",
+            }),
+            control: (base) => ({
+              ...base,
+              fontSize: 16,
+              borderRadius: 8,
+              border: "1px solid #D9D9D9",
+            }),
+          }}
+        />
+      )}
+
+      {invoicenumbererrmsg && (
+        <div className="d-flex align-items-center mb-2">
+          <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+          <label
+            className="mb-0"
+            style={{
+              color: "red",
+              fontSize: "12px",
+              fontFamily: "Gilroy",
+              fontWeight: 500,
+            }}
+          >
+            {invoicenumbererrmsg}
+          </label>
+        </div>
+      )}
+    </Form.Group>
+  </div>
+)}
+
+    {/* <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
     <Form.Label
       style={{
@@ -825,7 +936,7 @@ const AddReceiptForm = (props) => {
 
 
   </Form.Group>
-</div>
+</div> */}
 
 
 
@@ -833,7 +944,7 @@ const AddReceiptForm = (props) => {
 
 <div className="row mb-1">
 
-<div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+{/* <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
       <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
         <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Due Amount</Form.Label>
         <Form.Control
@@ -847,7 +958,42 @@ const AddReceiptForm = (props) => {
 
   
       </Form.Group>
-    </div>
+    </div> */}
+
+    {!(edit && (!invoicenumber || invoicenumber === "0" || invoicenumber === 0)) && (
+  <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+    <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+      <Form.Label
+        style={{
+          fontFamily: 'Gilroy',
+          fontSize: 14,
+          fontWeight: 500,
+          color: "#222",
+          fontStyle: 'normal',
+          lineHeight: 'normal',
+        }}
+      >
+        Due Amount
+      </Form.Label>
+      <Form.Control
+        style={{
+          padding: '10px',
+          fontSize: 16,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          lineHeight: '18.83px',
+          fontWeight: 500,
+          backgroundColor: "#E7F1FF",
+        }}
+        type="text"
+        placeholder="Enter Due Amount"
+        value={due_amount}
+        readOnly
+      />
+    </Form.Group>
+  </div>
+)}
+
 
     <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
       <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">

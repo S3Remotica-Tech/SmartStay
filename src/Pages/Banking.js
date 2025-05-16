@@ -73,7 +73,7 @@ dayjs.extend(isSameOrBefore);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
   const [bankking, setBanking] = useState("")
   const [selfTranfer,setSelfTransfer] = useState(false)
-  const [amount, setAmount] = useState("");
+  // const [amount, setAmount] = useState("");
   
 
   useEffect(() => {

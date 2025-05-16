@@ -188,6 +188,7 @@ console.log("reason", fields);
       setComments(data.checkout_comment);
       setBedname(data.bed_name);
       setFloorname(data.floor_name);
+      setModeOfPayment(data.bank_id)
      
     } else {
       setCheckOutDate("");
@@ -199,6 +200,7 @@ console.log("reason", fields);
       setComments("");
       setBedname("");
       setFloorname("");
+      setModeOfPayment("")
     //     if (data?.amenities && data?.amenities.length > 0) {
     //   const mappedFields = data?.amenities.map(item => ({
     //     reason: item.reason || "",
@@ -776,6 +778,7 @@ useEffect(() => {
 
     setInitialData({
       comments: data.checkout_comment || "",
+      modeOfPayment:data.bank_id || "",
       // returnAmount: String(data.advance_return || ""),
       reason: initialReasons, // ✅ only reason & amount
       paymentDate: data.CheckoutDate ? moment(data.CheckoutDate).format("YYYY-MM-DD") : "",
@@ -829,6 +832,7 @@ const handleConfirmEditCheckout = () => {
     : "";
 
   const hasCommentsChanged = comments !== initialData.comments;
+  const hasBankIdChanged = modeOfPayment !== initialData.modeOfPayment;
   const haveFieldsChanged =
     JSON.stringify(currentReasonFields) !== JSON.stringify(initialData.reason);
   const hasPaymentDateChanged =
@@ -837,9 +841,10 @@ const handleConfirmEditCheckout = () => {
   if (
     !hasCommentsChanged &&
     !haveFieldsChanged &&
-    !hasPaymentDateChanged
+    !hasPaymentDateChanged &&
+    !hasBankIdChanged
   ) {
-    setNoChangeMessage("No Changes Detected.");
+    setNoChangeMessage("No Changes Detected");
     return;
   }
 
@@ -1098,20 +1103,20 @@ if(state.UsersList.conformChekoutEditError){
     border: "1px solid #D9D9D9",
   };
 
-  const options = Array.isArray(state.bankingDetails?.bankingList?.banks)
-  ? state.bankingDetails.bankingList.banks.map((item) => {
-      let label = "";
-      if (item.type === "bank") label = "Bank";
-      else if (item.type === "upi") label = "UPI";
-      else if (item.type === "card") label = "Card";
-      else if (item.type === "cash") label = "Cash";
+  // const options = Array.isArray(state.bankingDetails?.bankingList?.banks)
+  // ? state.bankingDetails.bankingList.banks.map((item) => {
+  //     let label = "";
+  //     if (item.type === "bank") label = "Bank";
+  //     else if (item.type === "upi") label = "UPI";
+  //     else if (item.type === "card") label = "Card";
+  //     else if (item.type === "cash") label = "Cash";
 
-      return {
-        value: item.id,
-        label: `${item.benificiary_name} - ${label}`,
-      };
-    })
-  : [];
+  //     return {
+  //       value: item.id,
+  //       label: `${item.benificiary_name} - ${label}`,
+  //     };
+  //   })
+  // : [];
 
 
   return (
