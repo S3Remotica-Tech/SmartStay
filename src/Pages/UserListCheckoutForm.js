@@ -108,11 +108,7 @@ console.log("reason", fields);
       };
 
   
-//   const handleModeOfPaymentChange = (selectedOption) => {
-//   setModeOfPayment(selectedOption?.value || "");
-//   setModeOfPaymentError("")
-//   console.log("handleModeOfPaymentChange",modeOfPayment)
-// };
+
 
  
 
@@ -134,17 +130,7 @@ console.log("reason", fields);
 
   const [dateDifference, setDateDifference] = useState(null);
 
-  // const calculateDateDifference = (checkOutDate, checkOutrequestDate) => {
-  //   if (checkOutDate && checkOutrequestDate) {
-  //     const diffInMs = checkOutDate - checkOutrequestDate;
-  //     const diffInDays =
-  //       Math.ceil(Math.abs(diffInMs) / (1000 * 60 * 60 * 24)) + 1;
-  //     setDateDifference(diffInDays);
-  //   } else {
-  //     setDateDifference(null);
-  //   }
-  // };
-
+ 
 
   useEffect(() => {
     if (currentItem) {
@@ -230,40 +216,7 @@ useEffect(() => {
   });
 }, [dueamount]);
 
-// useEffect(() => {
-//   if (data?.amenities?.length > 0) {
-//     const amenityFields = data.amenities.map(item => ({
-//       reason: item.reason || "",
-//       amount: String(item.amount || ""),
-//     }));
 
-//     setFields(prevFields => {
-//       // Keep DueAmount at index 0, replace others with amenities
-//       const dueField = prevFields.find(f => f.reason === "DueAmount") || {
-//         reason: "DueAmount",
-//         amount: String(dueamount || ""),
-//       };
-//       return [dueField, ...amenityFields];
-//     });
-//   }
-// }, [data?.amenities]);
-
-//  useEffect(() => {
-//   if (data?.amenities?.length > 0) {
-//     const amenityFields = data.amenities.map(item => ({
-//       reason: item.reason || "",
-//       amount: String(item.amount || ""),
-//     }));
-
-//     setFields(prevFields => {
-//       const dueField = prevFields.find(f => f.reason === "DueAmount") || {
-//         reason: "DueAmount",
-//         amount: String(dueamount || ""),
-//       };
-//       return [dueField, ...amenityFields];
-//     });
-//   }
-// }, [data?.amenities]);
 
 useEffect(() => {
   if (data?.amenities?.length > 0) {
@@ -272,7 +225,7 @@ useEffect(() => {
       .filter(item => {
         if (item.reason === "Outstanding Due") {
           outstandingDueAmount = String(item.amount || "");
-          return false; // Skip this item
+          return false; 
         }
         return true;
       })
@@ -536,9 +489,7 @@ useEffect(() => {
       setAdvanceAmount(
         state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
       );
-      // SetDueAmount(
-      //   state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0
-      // );
+      
       SetInvoiceNumber(state?.UsersList?.GetconfirmcheckoutBillDetails);
       setTimeout(() => {
         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
@@ -554,9 +505,7 @@ useEffect(() => {
 
   const validInvoices = invoicenumber.filter((invoice) => invoice.balance > 0);
 
-  // const invoiceDisplay = validInvoices
-  //   .map((invoice) => `${invoice.invoiceid} - ${invoice.balance}`)
-  //   .join(", ");
+  
   const hasBalance =
     Array.isArray(validInvoices) &&
     validInvoices.some((invoice) => invoice.balance > 0);
@@ -573,85 +522,10 @@ useEffect(() => {
   }, [validInvoices]);
 
 
-// const handleAddAmount = (e)=>{
-//   setAddAmount(e.target.value)
-// }
-// const handleAddAmount = (e) => {
-//   const value = e.target.value;
-//   setAddAmount(value);
 
-//   const numericValue = parseFloat(value);
-//   if (!isNaN(numericValue)) {
-//     const result = advanceamount - numericValue;
-//     setReturnAmount(result);
-//   } else {
-//     setReturnAmount("");
-//   }
-// };
-// const [advanceamount, setAdvanceAmount] = useState(0);
-// const [addAmount, setAddAmount] = useState("");
-// const [returnAmount, setReturnAmount] = useState("");
-
-// Optional: dynamic fields (if you add more in future)
-// const [extraAmounts, setExtraAmounts] = useState([]);
-// const [addAmount,setAddAmount] = useState("")
 const [returnAmount,setReturnAmount] = useState("")
 
-// This function will calculate returnAmount on change
-// const handleAddAmount = (e) => {
-//   const value = e.target.value;
-//   setAddAmount(value);
 
-//   const numericAdd = parseFloat(value);
-//   const numericDue = parseFloat(dueamount);
-//   const numericAdvance = parseFloat(advanceamount);
-
-//   // Optional: total of extra/dynamic fields
-//   const extraTotal = extraAmounts.reduce((sum, a) => sum + parseFloat(a.amount || 0), 0);
-
-//   if (!isNaN(numericAdd)) {
-//     const result = numericAdvance - (numericDue + numericAdd + extraTotal);
-//     setReturnAmount(result.toFixed(2));
-//   } else {
-//     setReturnAmount("");
-//   }
-// };
-
-  // const handleCheckboxChange = (e) => {
-  //   const checked = e.target.checked;
-    
-
-  //   setIsChecked(checked);
-
-  //   if (checked && dueamount > 0) {
-  //     const updatedAdvanceAmount = advanceamount - dueamount;
-  //     setAdvanceAmount(updatedAdvanceAmount);
-      
-      
-  //   SetDueAmount(0);
-            
-  //   }
-  // };
-//  const [reinburse, setReinburse] = useState(0)
-  // useEffect(()=> {
-  //   if(isChecked){
-  //     SetDueAmount(0);
-  //     // const Reinburse = isChecked ? 1 : 0;
-  //     setReinburse(1)
-  //   }
-  // },[isChecked])
-
-  // useEffect(() => {
-  //   if (!isChecked) {
-  //     setAdvanceAmount(
-  //       state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
-  //     );
-      
-  //     // SetDueAmount(
-  //     //   state?.UsersList?.GetconfirmcheckoutBillDetails[0]?.balance || 0
-  //     // );
-  //   }
-  // }, [isChecked]);
   const [modeOfPaymentError,setModeOfPaymentError] = useState("")
 
 const handleConfirmCheckout = () => {
@@ -706,65 +580,6 @@ const handleConfirmCheckout = () => {
 };
 
 
-  // const handleConfirmCheckout = () => {
-
-    
-  //   if (!selectedCustomer || !data.Hostel_Id || !checkOutDate || !modeOfPayment ) {
-  //     return;
-  //   }
-  //   if (!selectedCustomer) {
-  //     setCustomerError("Please Select a Customer");
-  //     // return;
-  //   }
-  //    if(!modeOfPayment){
-  //   setModeOfPaymentError("Please Select Mode Of Payment")
-  // }
-
-    
-
-  //   if (!checkOutDate) {
-  //     setCheckOutDateError("Please select a checkout Date");
-  //     // return;
-  //   }
-  //     if(!modeOfPayment){
-  //   setModeOfPaymentError("Please Select Mode Of Payment")
-  // }
-
-
-  //   const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
-  //     "YYYY-MM-DD"
-  //   );
-
-   
-
-  //   if (selectedCustomer && data.Hostel_Id && formattedDate && advanceamount) {
-  //     const nonEmptyFields = fields.filter(
-  //       (field) =>
-  //         field.reason !== "DueAmount" &&
-  //         (field.reason.trim() !== "" || field.amount.trim() !== "")
-  //     );
-      
-      
-  //     dispatch({
-  //       type: "ADDCONFIRMCHECKOUTCUSTOMER",
-  //       payload: {
-  //         checkout_date: formattedDate,
-  //         id: selectedCustomer,
-  //         hostel_id: data.Hostel_Id,
-  //         comments: comments,
-  //         advance_return: returnAmount,
-  //         reinburse: 1,
-  //         reasons: nonEmptyFields,
-  //         payment_id:modeOfPayment
-  //       },
-  //     });
-  //   }
-
-
-
-
-  
-  // };
 
 const [initialData, setInitialData] = useState({});
 
@@ -786,11 +601,13 @@ useEffect(() => {
   }
 }, [data]);
 
+
+
 const handleConfirmEditCheckout = () => {
   if (!conformEdit) return;
 
   let hasError = false;
-  setNoChangeMessage(""); 
+  setNoChangeMessage("");
   setModeOfPaymentError(""); // clear specific error
 
   if (!selectedCustomer) {
@@ -820,6 +637,7 @@ const handleConfirmEditCheckout = () => {
   const currentReasonFields = fields.filter(
     (field) =>
       field.reason !== "DueAmount" &&
+      field.reason !== "Outstanding Due" &&
       (field.reason.trim() !== "" || field.amount.trim() !== "")
   );
 
@@ -833,10 +651,43 @@ const handleConfirmEditCheckout = () => {
 
   const hasCommentsChanged = comments !== initialData.comments;
   const hasBankIdChanged = modeOfPayment !== initialData.modeOfPayment;
-  const haveFieldsChanged =
-    JSON.stringify(currentReasonFields) !== JSON.stringify(initialData.reason);
-  const hasPaymentDateChanged =
-    formattedPaymentDate !== formattedIniatialDate;
+  const hasPaymentDateChanged = formattedPaymentDate !== formattedIniatialDate;
+
+  const areFieldsEqual = (a = [], b = []) => {
+    const filterFields = (fields) =>
+      fields
+        .filter(
+          (item) =>
+            item.reason?.trim() !== "DueAmount" &&
+            item.reason?.trim() !== "Outstanding Due"
+        )
+        .map((item) => ({
+          reason: (item.reason || "").trim(),
+          amount: (item.amount || "").trim(),
+        }));
+
+    const aFiltered = filterFields(a);
+    const bFiltered = filterFields(b);
+
+    if (aFiltered.length !== bFiltered.length) return false;
+
+    for (let i = 0; i < aFiltered.length; i++) {
+      if (
+        aFiltered[i].reason !== bFiltered[i].reason ||
+        aFiltered[i].amount !== bFiltered[i].amount
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const haveFieldsChanged = !areFieldsEqual(currentReasonFields, initialData.reason);
+
+  console.log("comments", initialData.comments);
+  console.log("currentReasonFields", initialData.reason);
+  console.log("modeOfPayment", modeOfPayment, initialData.modeOfPayment);
 
   if (
     !hasCommentsChanged &&
@@ -864,6 +715,90 @@ const handleConfirmEditCheckout = () => {
     },
   });
 };
+
+
+// const handleConfirmEditCheckout = () => {
+//   if (!conformEdit) return;
+
+//   let hasError = false;
+//   setNoChangeMessage(""); 
+//   setModeOfPaymentError(""); // clear specific error
+
+//   if (!selectedCustomer) {
+//     setNoChangeMessage("Please select a customer.");
+//     hasError = true;
+//   }
+
+//   if (!data.Hostel_Id) {
+//     setNoChangeMessage("Hostel ID is missing.");
+//     hasError = true;
+//   }
+
+//   if (!checkOutDate) {
+//     setNoChangeMessage("Please select a checkout date.");
+//     hasError = true;
+//   }
+
+//   if (!modeOfPayment) {
+//     setModeOfPaymentError("Please select mode of payment.");
+//     hasError = true;
+//   }
+
+//   if (hasError) return;
+
+//   const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
+
+//   const currentReasonFields = fields.filter(
+//     (field) =>
+//       field.reason !== "DueAmount" &&
+//       (field.reason.trim() !== "" || field.amount.trim() !== "")
+//   );
+
+//   const formattedPaymentDate = paymentDate
+//     ? moment(paymentDate).format("YYYY-MM-DD")
+//     : "";
+
+//   const formattedIniatialDate = initialData.paymentDate
+//     ? moment(initialData.paymentDate).format("YYYY-MM-DD")
+//     : "";
+
+//   const hasCommentsChanged = comments !== initialData.comments;
+//   const hasBankIdChanged = modeOfPayment !== initialData.modeOfPayment;
+//   const haveFieldsChanged =
+//     JSON.stringify(currentReasonFields) !== JSON.stringify(initialData.reason);
+//   const hasPaymentDateChanged =
+//     formattedPaymentDate !== formattedIniatialDate;
+
+//     console.log("comments",initialData.comments)
+//     console.log("currentReasonFields",initialData.reason)
+//     console.log("modeOfPayment",modeOfPayment,initialData.modeOfPayment)
+
+//   if (
+//     !hasCommentsChanged &&
+//     !haveFieldsChanged &&
+//     !hasPaymentDateChanged &&
+//     !hasBankIdChanged
+//   ) {
+//     setNoChangeMessage("No Changes Detected");
+//     return;
+//   }
+
+//   dispatch({
+//     type: "EDITCONFIRMCHECKOUTCUSTOMER",
+//     payload: {
+//       checkout_date: formattedDate,
+//       id: selectedCustomer,
+//       hostel_id: data.Hostel_Id,
+//       comments: comments,
+//       advance_return: returnAmount,
+//       reinburse: 1,
+//       reasons: currentReasonFields,
+//       payment_date: formattedPaymentDate,
+//       payment_id: modeOfPayment,
+//       user_id: selectedCustomer || currentItem?.ID,
+//     },
+//   });
+// };
 
 
 
@@ -1040,40 +975,21 @@ if(state.UsersList.conformChekoutEditError){
   }, [advanceamount, dueamount, fields]);
   
   
-  // useEffect(() => {
-  //   if (fields.length === 0) {
-  //     setFields([{ reason: "DueAmount", amount: String(dueamount || "") }]);
-  //   } else {
-  //     // Always update first field's amount with current dueamount
-  //     const updatedFields = [...fields];
-  //     updatedFields[0] = {
-  //       ...updatedFields[0],
-  //       reason: "DueAmount",
-  //       amount: String(dueamount || ""),
-  //     };
-  //     setFields(updatedFields);
-  //   }
-  // }, [dueamount]);
-  
+
   
   console.log("Advance:", advanceamount, "Due:", dueamount, "Fields:", fields);
   
-  // Input field change handlers
-  // const handleInputChange = (index, field, value) => {
-  //   const updatedFields = [...fields];
-  //   updatedFields[index][field] = value;
-  //   setFields(updatedFields);
-  // };
+ 
   const handleInputChange = (index, field, value) => {
     const updatedFields = [...fields];
     updatedFields[index][field] = value;
     setNoChangeMessage("")
   
-    // Optional: If editing first amount field, you could sync with dueamount logic here if needed
+    
     setFields(updatedFields);
   };
   
-//  const ReturnAmount = advanceamount - (dueamount + fields);
+
   
   const handleAddField = () => {
     setFields([...fields, { reason: "", amount: "" }]);
@@ -1103,20 +1019,7 @@ if(state.UsersList.conformChekoutEditError){
     border: "1px solid #D9D9D9",
   };
 
-  // const options = Array.isArray(state.bankingDetails?.bankingList?.banks)
-  // ? state.bankingDetails.bankingList.banks.map((item) => {
-  //     let label = "";
-  //     if (item.type === "bank") label = "Bank";
-  //     else if (item.type === "upi") label = "UPI";
-  //     else if (item.type === "card") label = "Card";
-  //     else if (item.type === "cash") label = "Cash";
-
-  //     return {
-  //       value: item.id,
-  //       label: `${item.benificiary_name} - ${label}`,
-  //     };
-  //   })
-  // : [];
+  
 
 
   return (
