@@ -19,6 +19,7 @@ import "./Settings.css";
 import './SettingAll.css';
 import { useSelector } from 'react-redux';
 import {  ArrowRight2, ArrowLeft2 } from 'iconsax-react'
+import SettingsBills from "./SettingsBills";
 
 
 function SettingAllPages() {
@@ -371,6 +372,34 @@ function SettingAllPages() {
                   />
                 </p>
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+
+                <p
+                  // onClick={() => {
+                  //   setActiveItem("Invoice");
+                  //   handleShowInvoicePage();
+                  // }}
+                  onClick={() => handleTabClick('Bills')}
+                  style={{
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginTop: "-8px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activePage === "Bills" ? "#4a90e2" : "#000000",
+                    cursor: "pointer",
+                  }}
+                >
+                  Bills
+                  <img
+                    src={activePage === "Bills" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
+                </p>
+                <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                 <p
                   // onClick={() => {
                   //   setActiveItem("Invoice");
@@ -574,11 +603,13 @@ function SettingAllPages() {
             {userPageShow && <SettingNewUser hostelid={hostel_Id} />}
             {rolePageShow && <SettingNewRole hostelid={hostel_Id} />} */}
              {activePage === 'General' && <SettingGeneral />}
+             
           {activePage === 'Manage PG' && <SettingManage />}
           {activePage === 'Security' && <SettingSecurity />}
           {activePage === 'Subscription' && <SettingSubscription />}
           {activePage === 'Integration' && <SettingIntergration />}
           {activePage === 'Electricity' && <SettingElectricity hostelid={hostel_Id} />}
+          {activePage === 'Bills' && <SettingsBills  hostelid={hostel_Id}/>}
           {activePage === 'Invoice' && <SettingInvoice hostelid={hostel_Id} />}
           {activePage === 'Expenses' && <SettingExpenses hostelid={hostel_Id} />}
           {activePage === 'Complaints' && <SettingCompliance hostelid={hostel_Id} />}
