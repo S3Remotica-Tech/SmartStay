@@ -3,10 +3,13 @@ import React, { useRef, useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
+import DeleteIcon from '../Assets/Images/Delete_red.png';
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaCheck } from 'react-icons/fa';
 import Calendar from "react-calendar";
+import DatepickerIcon from "../Assets/Images/calendar-2.png"
 import 'react-calendar/dist/Calendar.css';
+import { MdDelete } from "react-icons/md";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import InvoiceSettingsList from "./InvoicesettingsList";
@@ -34,13 +37,21 @@ function SettingsBills({ hostelid }) {
   const [invoicedueDate, setInvoiceDueDate] = useState('');
 
   const [selectedDate, setSelectedDate] = useState(null);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isFromOpen, setIsFromOpen] = useState(false);
+  const [isToOpen, setIsToOpen] = useState(false);
+  const [selectedFrom, setSelectedFrom] = useState(null);
+  const [selectedTo, setSelectedTo] = useState(null);
 
-  const dates = Array.from({ length: 30 }, (_, i) => i + 1);
+  const dates = Array.from({ length: 31 }, (_, i) => i + 1); // Sample dates 1-31
 
-  const handleDateClick = (date) => {
-    setSelectedDate(date);
-    setIsCalendarOpen(false); // close after selection
+  const handleFromClick = (date) => {
+    setSelectedFrom(date);
+    setIsFromOpen(false);
+  };
+
+  const handleToClick = (date) => {
+    setSelectedTo(date);
+    setIsToOpen(false);
   };
 
   const [prefix, setPrefix] = useState("");
@@ -71,6 +82,60 @@ function SettingsBills({ hostelid }) {
 
   const handleToggle = () => setIsOn(!isOn);
 
+
+  const [notifications, setNotifications] = useState({
+    email: true,
+    sms: true,
+    whatsapp: true,
+    call: false,
+  });
+
+  const handleChange = (key) => {
+    setNotifications((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const Checkboxoptions = [
+    { key: "email", label: "Notify Email" },
+    { key: "sms", label: "Notify SMS" },
+    { key: "whatsapp", label: "Whatsapp" },
+    { key: "call", label: "Call Alert" },
+  ];
+
+
+  const initialOptions = [
+    { label: "01st ", value: 1 },
+    { label: "02nd", value: 2 },
+    { label: "03rd", value: 3 },
+    { label: "04th", value: 4 },
+    { label: "05th", value: 5 },
+  ];
+
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [availableOptions, setAvailableOptions] = useState(initialOptions);
+
+  const handleSelect = (selected) => {
+    if (!selected) return;
+
+    // Add to selected
+    setSelectedDays((prev) => [...prev, selected]);
+
+    // Remove from available options
+    setAvailableOptions((prev) =>
+      prev.filter((opt) => opt.value !== selected.value)
+    );
+  };
+
+  const handleDelete = (value) => {
+    // Remove from selected
+    const removed = selectedDays.find((item) => item.value === value);
+    setSelectedDays((prev) => prev.filter((item) => item.value !== value));
+
+    // Add back to dropdown
+    setAvailableOptions((prev) => [...prev, removed].sort((a, b) => a.value - b.value));
+  };
 
  
   useEffect(() => {
@@ -132,19 +197,28 @@ function SettingsBills({ hostelid }) {
   };
   
 
-  const handleSuffix = (e) => {
-    setTotalErrmsg("");
-    setSuffixfixErrmsg("");
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setStartNumber(value);
-    }
-    if (!e.target.value) {
-      setSuffixfixErrmsg("Please Enter suffix");
-    } else {
-      setSuffixfixErrmsg("");
-    }
+  const billingFrequencyOptions = [
+    { value: "yes", label: "Yes" },
+    { value: "no", label: "No" },
+  ];
+
+  const handleSuffix = (selected) => {
+    setStartNumber(selected.value); // assuming startNumber is useState
   };
+
+//   const handleSuffix = (e) => {
+//     setTotalErrmsg("");
+//     setSuffixfixErrmsg("");
+//     const value = e.target.value;
+//     if (/^\d*$/.test(value)) {
+//       setStartNumber(value);
+//     }
+//     if (!e.target.value) {
+//       setSuffixfixErrmsg("Please Enter suffix");
+//     } else {
+//       setSuffixfixErrmsg("");
+//     }
+//   };
 
   const handleEdit = (item) => {
     console.log("item", item);
@@ -504,7 +578,7 @@ function SettingsBills({ hostelid }) {
 
 
   return (
-    <div className="mt-4" style={{ position: "relative",paddingRight:11,paddingLeft:10 }}>
+    <div className="mt-2" style={{ position: "relative",paddingRight:11,paddingLeft:10 }}>
 
 
       {loading &&
@@ -535,31 +609,38 @@ function SettingsBills({ hostelid }) {
         ></div>
       </div>
       }
-
-<div 
-  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-        style={{
-        // display: "flex", flexDirection: "row", justifyContent: "space-between", 
-        position: "sticky",
-        top: 0,
-        right: 0,
-        left: 0,
-        zIndex: 1000,
-        backgroundColor: "#FFFFFF",
-        // height: 83,
-        whiteSpace: "nowrap",
-        marginTop:-2
-      }}>
-          <div 
-    className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
-        <h3 style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600,
+  <div
+    className="d-flex justify-content-start align-items-center"
+    style={{
+      position: "sticky",
+          top: 0,
+          right: 0,
+          left: 0,
+          zIndex: 1000,
+          backgroundColor: "#FFFFFF",
+           minHeight: 73,
           whiteSpace: "nowrap",
-         }}>Bills</h3>
+          paddingRight:10,
+          // paddingLeft:10,
+    }}
+  >
 
-        </div>
- 
+    <div style={{ position: "fixed" , backgroundColor:'white'}}>
+  <h3
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 20,
+        color: "#222",
+        fontWeight: 600,
+        whiteSpace: "nowrap",
+      }}
+    >
+      Bills
+    </h3>
+    </div>
+  
+  </div>
 
-      </div>
 
       {showPopup && (
         <div className="d-flex flex-wrap">
@@ -567,8 +648,9 @@ function SettingsBills({ hostelid }) {
             Please add a hostel before adding Invoice information.
           </p>
         </div>)}
+
         {showform ? (
-            <div>
+            <div >
                  <div className="row mt-1 col-lg-10 ">
                   <div className="d-flex row ">
                       <div
@@ -607,7 +689,7 @@ function SettingsBills({ hostelid }) {
                                   </div>
                                 </div>
 
-                                <div className="border p-3" style={{borderRadius:'10px'}}>
+                                <div className="border p-3" style={{borderRadius:'10px' , overflowY:'auto', maxHeight:450}}>
 
                                     <p style={{ fontFamily: "Gilroy", fontSize: 18, color: "#222", fontWeight: 500,whiteSpace: "nowrap",}}>Add Recurring Event</p>
                                     <hr></hr>
@@ -618,10 +700,10 @@ function SettingsBills({ hostelid }) {
                         <Form.Label
                           style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal" }}>
                           Name
-                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                          {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
                         </Form.Label>
                         <Form.Control
-                          style={{ padding: "10px", marginTop: "10px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
+                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
                           type="text"
                           placeholder="prefix"
                           value={prefix}
@@ -655,99 +737,275 @@ function SettingsBills({ hostelid }) {
 
 
                     <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                      <Form.Group
-                        className="mb-1"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal", }}
-                        >
-                          Billing Frequency
-                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                        </Form.Label>
-                        <Form.Control
-                          style={{
-                            padding: "10px",
-                            marginTop: "10px",
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            lineHeight: "18.83px",
-                            fontWeight: 500,
-                          }}
-                          type="text"
-                          placeholder="suffix"
-                          value={startNumber}
-                          onChange={(e) => handleSuffix(e)}
-                        // readOnly
-                        />
+                    <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+  <Form.Label
+    style={{
+      fontFamily: "Gilroy",
+      fontSize: 14,
+      fontWeight: 500,
+      color: "#000",
+      fontStyle: "normal",
+      lineHeight: "normal",
+    }}
+  >
+    Billing Frequency
+  </Form.Label>
 
+  <Select
+    options={billingFrequencyOptions}
+    placeholder="Select"
+    value={billingFrequencyOptions.find(opt => opt.value === startNumber)}
+    onChange={(selected) => handleSuffix(selected)}
+    styles={{
+      control: (base) => ({
+        ...base,
+        padding: "2px",
+        marginTop: "5px",
+        fontSize: "14px",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        color: "#4B4B4B",
+        borderColor: "#ced4da",
+      }),
+    }}
+  />
 
+  {suffixerrormsg.trim() !== "" && (
+    <div>
+      <p
+        style={{
+          fontSize: "12px",
+          color: "red",
+          marginTop: "3px",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+        }}
+      >
+        {suffixerrormsg !== " " && (
+          <MdError
+            style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
+          />
+        )}{" "}
+        {suffixerrormsg}
+      </p>
+    </div>
+  )}
+</Form.Group>
 
-                        {suffixerrormsg.trim() !== "" && (
-                          <div>
-                            <p
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                marginTop: "3px",
-                                fontFamily:"Gilroy",
-                                fontWeight:500
-                              }}
-                            >
-                              {suffixerrormsg !== " " && (
-                                <MdError
-                                  style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
-                                />
-                              )}{" "}
-                              {suffixerrormsg}
-                            </p>
-                          </div>
-                        )}
-                      </Form.Group>
                     </div>
                  
-                    <div>
+                    <div className="mt-3 mb-1">
                         <p style={{  fontFamily: "Gilroy",  fontSize: 14,  fontWeight: 500,  color: "#000",  fontStyle: "normal", lineHeight: "normal",}}>
                             Calculation Date</p>
                     </div>   
+                    <div className="row">
+      {/* FROM Datepicker */}
+      <div className="col-6 position-relative mb-4">
+        <label style={{  fontFamily: "Gilroy",  fontSize: 14,  fontWeight: 500,  color: "#000",  fontStyle: "normal", lineHeight: "normal",}}>From</label>
+        <button
+          onClick={() => setIsFromOpen(!isFromOpen)}
+          className="btn btn-white border w-100 d-flex justify-content-between align-items-center"
+        >
+          {selectedFrom ? `${selectedFrom}` : "Select a date"}
+          <img src={DatepickerIcon} alt="datepicker" />
+        </button>
 
-                    <div style={{ position: "relative" }}>
-      {/* Trigger Button */}
-      <button
-        onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-        className="btn btn-light"
-        style={{ display: "flex", alignItems: "center", gap: "8px" }}
-      >
-        <FaCalendarAlt />
-        {selectedDate ? `Selected: ${selectedDate}` : "Select a date"}
-      </button>
-
-      {/* Calendar Popup */}
-      {isCalendarOpen && (
-        <div className="date-picker-container" style={{ position: "absolute", zIndex: 10, top: "100%", marginTop: "8px" }}>
-          <h3>Select date</h3>
-
-          <div className="date-grid">
-            {dates.map((date, index) => (
-              <div
-                key={index}
-                className={`date-cell ${date === selectedDate ? "selected" : ""}`}
-                onClick={() => handleDateClick(date)}
-              >
-                {date}
-              </div>
-            ))}
+        {isFromOpen && (
+          <div className="date-picker-container">
+            <h3>Select date</h3>
+            <div className="date-grid">
+              {dates.map((date, index) => (
+                <div
+                  key={index}
+                  className={`date-cell ${date === selectedFrom ? "selected" : ""}`}
+                  onClick={() => handleFromClick(date)}
+                >
+                  {date}
+                </div>
+              ))}
+            </div>
+            <div className="date-picker-footer">
+              <span className="startmonth">Start of the month</span>
+              <span className="Endmonth">End of the month</span>
+            </div>
           </div>
+        )}
+      </div>
 
-          <div className="date-picker-footer">
-            <span className="startmonth">Start of the month</span>
-            <span className="Endmonth">Date of joining</span>
+      {/* TO Datepicker */}
+      <div className="col-6 position-relative">
+        <label style={{  fontFamily: "Gilroy",  fontSize: 14,  fontWeight: 500,  color: "#000",  fontStyle: "normal", lineHeight: "normal",}}>To</label>
+        <button
+          onClick={() => setIsToOpen(!isToOpen)}
+          className="btn btn-white border w-100 d-flex justify-content-between align-items-center"
+        >
+          {selectedTo ? `${selectedTo}` : "Select a date"}
+          <img src={DatepickerIcon} alt="datepicker" />
+        </button>
+
+        {isToOpen && (
+          <div className="date-picker-container">
+            <h3>Select date</h3>
+            <div className="date-grid">
+              {dates.map((date, index) => (
+                <div
+                  key={index}
+                  className={`date-cell ${date === selectedTo ? "selected" : ""}`}
+                  onClick={() => handleToClick(date)}
+                >
+                  {date}
+                </div>
+              ))}
+            </div>
+            <div className="date-picker-footer">
+              <span className="startmonth">Start of the month</span>
+              <span className="Endmonth">End of the month</span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
 
+
+    <div className="row">
+  {/* FROM DATE */}
+  <div className="col-lg-6 mb-3">
+    <label htmlFor="startDayDropdown" className="form-label">
+    Billing Date of Month
+      {/* <span style={{ color: "red", fontSize: "20px" }}> *</span> */}
+    </label>
+    <Select
+      options={options}
+      onChange={handleInvoiceStartDateChange}
+      value={options.find((option) => option.value === invoiceDate)}
+      placeholder="Select"
+      classNamePrefix="custom"
+      menuPlacement="auto"
+      styles={{
+        control: (base) => ({
+          ...base,
+          height: "40px",
+          border: "1px solid #ced4da",
+        }),
+        menu: (base) => ({
+          ...base,
+          backgroundColor: "#fff",
+          border: "1px solid #ced4da",
+        }),
+        menuList: (base) => ({
+          ...base,
+          backgroundColor: "#fff",
+          maxHeight: "120px",
+          padding: 0,
+          scrollbarWidth: "thin",
+          overflowY: "auto",
+        }),
+        placeholder: (base) => ({
+          ...base,
+          color: "#555",
+        }),
+        dropdownIndicator: (base) => ({
+          ...base,
+          color: "#555",
+          cursor: "pointer",
+        }),
+        indicatorSeparator: () => ({
+          display: "none",
+        }),
+      }}
+    />
+    {invoicedateerrmsg.trim() !== "" && (
+      <div className="d-flex align-items-center p-1">
+        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+        <label
+          className="mb-0"
+          style={{
+            color: "red",
+            fontSize: "12px",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+          }}
+        >
+          {invoicedateerrmsg}
+        </label>
+      </div>
+    )}
+  </div>
+
+  {/* TO DATE */}
+  <div className="col-lg-6 mb-3">
+    <label htmlFor="endDayDropdown" className="form-label">
+    Due Date of Month
+      {/* <span style={{ color: "red", fontSize: "20px" }}> *</span> */}
+    </label>
+    <Select
+      options={options}
+      onChange={handleInvoiceEndDateChange}
+      value={options.find((option) => option.value === invoicedueDate)}
+      placeholder="Select"
+      classNamePrefix="custom"
+      menuPlacement="auto"
+      styles={{
+        control: (base) => ({
+          ...base,
+          height: "40px",
+          border: "1px solid #ced4da",
+        }),
+        menu: (base) => ({
+          ...base,
+          backgroundColor: "#fff",
+          border: "1px solid #ced4da",
+        }),
+        menuList: (base) => ({
+          ...base,
+          backgroundColor: "#fff",
+          maxHeight: "120px",
+          padding: 0,
+          scrollbarWidth: "thin",
+          overflowY: "auto",
+        }),
+        placeholder: (base) => ({
+          ...base,
+          color: "#555",
+        }),
+        dropdownIndicator: (base) => ({
+          ...base,
+          color: "#555",
+          cursor: "pointer",
+        }),
+        indicatorSeparator: () => ({
+          display: "none",
+        }),
+      }}
+    />
+    {duedateerrmsg.trim() !== "" && (
+      <div className="d-flex align-items-center p-1">
+        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+        <label
+          className="mb-0"
+          style={{
+            color: "red",
+            fontSize: "12px",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+          }}
+        >
+          {duedateerrmsg}
+        </label>
+      </div>
+    )}
+  </div>
+</div>
+
+   <div className="d-flex  justify-content-between mt-3 mb-3">
+
+    <div>
+        <p   style={{
+             fontSize: "15px",
+             fontFamily: "Gilroy",
+             fontWeight: 500,
+        }}>Auto Send Bills</p>
+    </div>    
 
     <div className="toggle-wrapper" onClick={handleToggle}>
       <span className={`toggle-label ${isOn ? 'active' : ''}`}>
@@ -759,211 +1017,107 @@ function SettingsBills({ hostelid }) {
         </div>
       </div>
     </div>
+    </div>
+
+
+    <div className="col-lg-12 col-md-12 col-sm-12 mb-3">
+      <label htmlFor="endDayDropdown" className="form-label">
+        Remainder days before Due
+      </label>
+      <Select
+        options={availableOptions}
+        onChange={handleSelect}
+        placeholder="Select a Reminder date"
+        classNamePrefix="custom"
+        menuPlacement="auto"
+        styles={{
+          control: (base) => ({
+            ...base,
+            height: "40px",
+            border: "1px solid #ced4da",
+          }),
+        }}
+      />
+
+      {/* Show selected values below */}
+      {selectedDays.length > 0 && (
+        <div className="mt-3 d-flex flex-wrap gap-2">
+          {selectedDays.map((item) => (
+            <div
+              key={item.value}
+              className="d-flex align-items-center px-3 py-1  rounded bg-white"
+              style={{ fontWeight: 400 , borderRadius:'8px' , border:'1px solid rgba(30, 69, 225, 1)'}}
+            >
+              {item.label} 
+
+              <img className="ms-2"  src={DeleteIcon} alt="deleterecurr" height={14} width={14} onClick={() => handleDelete(item.value)}/>
+              {/* <MdDelete
+                
+                style={{
+                  color: "red",
+                  marginLeft: "10px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+              /> */}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
                  
 
-                  <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                    <Form.Group
-                      className="mb-3"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          fontWeight: 500,
-                          color: "#000",
-                          fontStyle: "normal",
-                          lineHeight: "normal",
-                        }}
-                      >
-                        Preview
-                      </Form.Label>
-                      <Form.Control
-                        style={{
-                          padding: "10px",
-                          marginTop: "10px",
-                          backgroundColor: "#E7F1FF",
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          lineHeight: "18.83px",
-                          fontWeight: 500,
-                        }}
-                        type="text"
-                        placeholder="preview"
-                        readOnly
-                        value={prefix + startNumber}
-                      // readOnly
-                      />
-                    </Form.Group>
-                  </div>
+
+     <div className="col-lg-12 col-md-12 col-sm-12">
+        <div className="d-flex flex-column">
+        <p style={{
+             fontSize: "15px",
+             fontFamily: "Gilroy",
+             fontWeight: 500,
+        }}
+        >Bill Delivery Channels</p>
+        <div>
+        <div className="d-flex gap-4 flex-wrap">
+      {Checkboxoptions.map(({ key, label }) => (
+        <div className="form-check" key={key}>
+          <input
+            className="form-check-input"
+            type="checkbox"
+            id={key}
+            checked={notifications[key]}
+            onChange={() => handleChange(key)}
+            style={{
+              backgroundColor: notifications[key] ? "#1e40af" : "#fff",
+              borderColor: "#1e40af",
+              cursor: "pointer",
+            }}
+          />
+          <label
+            className="form-check-label"
+            htmlFor={key}
+            style={{
+              color: notifications[key] ? "#000" : "#aaa",
+              fontSize: "14px",
+              fontFamily: "Gilroy",
+              fontWeight: 400,
+
+            }}
+          >
+            {label}
+          </label>
+        </div>
+      ))}
+    </div>
+
+        </div> 
+        </div>  
+
+     </div>                
 
                
 
 
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation Start Date Will Be
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Select
-                        options={options}
-                        onChange={handleInvoiceStartDateChange}
-                        value={options.find((option) => option.value === invoiceDate)}
-                        placeholder="Select"
-                        classNamePrefix="custom" 
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "40px",
-                            border: "1px solid #ced4da",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor:"pointer"
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-                    </div>
-                    {invoicedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1 ">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {invoicedateerrmsg}
-                        </label>
-                      </div>
-                    )}
-                     
-                  </div>
-
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation End Date Will Be 
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Select
-                        options={options}
-                        onChange={handleInvoiceEndDateChange}
-                        value={options.find((option) => option.value === invoicedueDate)}
-                        placeholder="Select"
-                        classNamePrefix="custom" // Prefix for custom styles
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "40px",
-                            border: "1px solid #ced4da",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            overflowY: "auto",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                             cursor:"pointer"
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-                    </div>
-                    {/* {duedateerrmsg.trim() !== "" && (
-                      <div>
-                        <p style={{ fontSize: "15px", color: "red", marginTop: "-9px" }}
-                        >
-                          {duedateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "13px", color: "red", marginBottom: "3px" }} />
-                          )}{" "}
-                          {duedateerrmsg}
-                        </p>
-                      </div>
-                    )} */}
-
-{duedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {duedateerrmsg}
-                        </label>
-                      </div>
-                    )}
-
-                  </div>
+                 
 
 
 
@@ -987,13 +1141,50 @@ function SettingsBills({ hostelid }) {
                       </p>
                     </div>
                   )}
+
+<div className="d-flex justify-content-end flex-wrap mt-3 ">
+    <button
+     onClick={handleCloseForm}
+    className="me-3 "
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: "14px",
+        // backgroundColor: "rgba(247, 52, 52, 1)",
+        color: "rgba(75, 75, 75, 1)",
+        fontWeight: 600,
+        borderRadius: "12px",
+        width: 146,
+        height: 45,
+        border: "1px solid grey",
+      
+      }}
+    >
+      Cancel
+    </button>
+  
+    <button
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: "14px",
+        backgroundColor: "#1E45E1",
+        color: "white",
+        fontWeight: 600,
+        borderRadius: "12px",
+        width: 146,
+        height: 45,
+        border: "1px solid #1E45E1",
+      }}
+    >
+      Update
+    </button>
+  </div>
                 </div>
                 </div>
                 </div>
                 </div>
         )
 : (
-    <div className="col-12 mt-3">
+    <div className="col-12 mt-2">
     <Card
       className="h-100 fade-in mb-4 p-3"
       style={{
@@ -1005,7 +1196,6 @@ function SettingsBills({ hostelid }) {
       <Card.Body style={{ padding: 20 }}>
         {/* Header Section */}
         <div className="d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap mb-3">
-    {/* Left side: Image + Label + Description */}
     <div className="d-flex align-items-center gap-3">
       <img src={Billsimage} height={20} width={20} alt="billsimage" />
       <div className="d-flex flex-column">
@@ -1032,9 +1222,30 @@ function SettingsBills({ hostelid }) {
         </p>
       </div>
     </div>
-  
-    {/* Right side: Button or Switch */}
+
+
     <div className="mt-3 mt-md-0">
+           <button
+              // key={`add-invoice-${list.id}`}
+              onClick={handleShow}
+              style={{
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+                backgroundColor: "#1E45E1",
+                color: "white",
+                fontWeight: 600,
+                borderRadius: "8px",
+                width: 146,
+                height: 45,
+                border: "2px solid #1E45E1",
+              }}
+              disabled={showPopup}
+            >
+              + Recurring
+            </button>
+    </div>
+  
+    {/* <div className="mt-3 mt-md-0">
       {InvoiceList && InvoiceList.length > 0 &&
         InvoiceList.map((list) => {
           const isDefaultPrefixSuffix =
@@ -1081,9 +1292,12 @@ function SettingsBills({ hostelid }) {
                 onChange={() => setIsChecked(!isChecked)}
               />
             </div>
-          );
+          )
         })}
-    </div>
+    </div> */}
+
+
+
   
     <style>
       {`
@@ -1097,7 +1311,7 @@ function SettingsBills({ hostelid }) {
   
   
         {/* Render details only if hotelDetailsinPg is not empty */}
-        {state.UsersList.hotelDetailsinPg.length > 0 && (
+        {state.UsersList.hotelDetailsinPg.length === 0 && (
           <>
             {state.UsersList.hotelDetailsinPg.map((item) => (
               <div key={item.id}>
