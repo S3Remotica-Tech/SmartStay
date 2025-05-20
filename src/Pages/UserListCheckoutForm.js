@@ -960,19 +960,35 @@ if(state.UsersList.conformChekoutEditError){
 
 }
   },[state.UsersList.conformChekoutEditError])
-  useEffect(() => {
-    const advance = parseFloat(advanceamount) || 0;
-    const due = parseFloat(dueamount) || 0;
-    const totalExtra = fields
-      .slice(1)
-      .reduce((acc, curr) => {
-        const amt = parseFloat(curr.amount);
-        return acc + (isNaN(amt) ? 0 : amt);
-      }, 0);
+  // useEffect(() => {
+  //   const advance = parseFloat(advanceamount) || 0;
+  //   const due = parseFloat(dueamount) || 0;
+  //   const totalExtra = fields
+  //     .slice(1)
+  //     .reduce((acc, curr) => {
+  //       const amt = parseFloat(curr.amount);
+  //       return acc + (isNaN(amt) ? 0 : amt);
+  //     }, 0);
   
-    const result = advance - (due + totalExtra);
-    setReturnAmount(result);
-  }, [advanceamount, dueamount, fields]);
+  //   const result = advance - (due + totalExtra);
+  //   setReturnAmount(result);
+  // }, [advanceamount, dueamount, fields,conformEdit]);
+
+  useEffect(() => {
+  const advance = parseFloat(advanceamount) || 0;
+  const due = parseFloat(dueamount) || 0;
+
+  const relevantFields = conformEdit ? fields : fields.slice(1);
+
+  const totalExtra = relevantFields.reduce((acc, curr) => {
+    const amt = parseFloat(curr.amount);
+    return acc + (isNaN(amt) ? 0 : amt);
+  }, 0);
+
+  const result = advance - (due + totalExtra);
+  setReturnAmount(result);
+}, [advanceamount, dueamount, fields, conformEdit]);
+
   
   
 
@@ -1600,7 +1616,7 @@ if(state.UsersList.conformChekoutEditError){
                         fontWeight: 500,
                       }}
                     >
-                     Advance Collected 
+                     Total Advance 
                     </label>
 
                   
