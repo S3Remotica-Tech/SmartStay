@@ -2402,7 +2402,7 @@ whiteSpace: "nowrap"
             />
           </div>
         </Form.Group> */}
-        <div className="input-group"s>
+        <div className="input-group">
   <span className="input-group-text bg-white border-end-0 rounded-start">₹</span>
   <input
     type="text"

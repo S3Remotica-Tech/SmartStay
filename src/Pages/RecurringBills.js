@@ -647,7 +647,11 @@ const RecurringBills = (props) => {
      onClick={handleAddColumn}
      > + Add new column</p> */}
      </div>
-
+{recurdisable === 0 && (
+  <div style={{ color: "red", marginBottom: "10px",fontFamily:"Gilroy",fontSize:13 }}>
+    Please Configure Them In The Settings Page
+  </div>
+)}
     <div className="totalamount" >
       <h5> As on Date ₹ {totalAmount} </h5>
       <Button 
