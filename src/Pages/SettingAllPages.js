@@ -20,6 +20,7 @@ import './SettingAll.css';
 import { useSelector } from 'react-redux';
 import {  ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 import SettingsBills from "./SettingsBills";
+import SettingAgreement from "./SettingAgreement";
 
 
 function SettingAllPages() {
@@ -573,6 +574,38 @@ function SettingAllPages() {
                   />
 
                 </p>
+
+
+
+                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+                <p
+                  // onClick={() => setActiveItem("Integration")}
+                  // onClick={() => {
+                  //   setActiveItem("Role");
+                  //   handleShowRolePage();
+                  // }}
+                  onClick={() => handleTabClick('acrement')}
+                  style={{
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginTop: "-8px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activePage === "acrement" ? "#4a90e2" : "#000000",
+                    cursor: "pointer",
+                  }}
+                >
+                  Agreement & Policy
+                  <img
+                    src={activePage === "acrement" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
+
+                </p>
               </div>
               {/* </div> */}
               {/* } */}
@@ -616,6 +649,7 @@ function SettingAllPages() {
           {activePage === 'Amenities' && <SettingAmenities hostelid={hostel_Id} />}
           {activePage === 'User' && <SettingNewUser hostelid={hostel_Id} />}
           {activePage === 'Role' && <SettingNewRole hostelid={hostel_Id} />}
+           {activePage === 'acrement' && <SettingAgreement hostelid={hostel_Id} />}
           </div>
         </div>
       </div>
