@@ -276,10 +276,7 @@ useEffect(()=>{
 
 
   useEffect(() => {
-    if (
-      state.PgList.deletePgSuccessStatusCode === 200 ||
-      state.PgList.dleteHostelImagesStatusCode === 200
-    ) {
+    if ( state.PgList.deletePgSuccessStatusCode === 200 ) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
       // dispatch({ type: "HOSTELIDDETAILS" });
@@ -294,8 +291,22 @@ useEffect(()=>{
     }
   }, [
     state.PgList.deletePgSuccessStatusCode,
-    state.PgList.dleteHostelImagesStatusCode,
   ]);
+
+    useEffect(() => {
+    if ( state.PgList.dleteHostelImagesStatusCode === 200) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({ type: "HOSTELLIST" })
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
+      }, 1000);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [ state.PgList.dleteHostelImagesStatusCode,]);
 
   useEffect(() => {
     if (state.PgList.createPgStatusCode === 200) {

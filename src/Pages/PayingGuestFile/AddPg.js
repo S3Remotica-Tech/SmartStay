@@ -624,17 +624,38 @@ useEffect(() => {
     setDisplayLayer(null);
   };
 
-  const handleDeleteImages = (ImageName) => {
-    if (currentItem.id) {
-      dispatch({
-        type: "DELETEHOSTELIMAGES",
-        payload: {
-          hostel_id: currentItem.id,
-          image_name: ImageName,
-        },
-      });
-    }
-  };
+  const handleDeleteImages = (ImageName, index) => {
+  const imageObj = images[index];
+
+  if (currentItem.id && imageObj?.isChanged !== true && ImageName) {
+    dispatch({
+      type: "DELETEHOSTELIMAGES",
+      payload: {
+        hostel_id: currentItem.id,
+        image_name: ImageName,
+      },
+    });
+  }
+
+  setImages((prevImages) => {
+    const updatedImages = [...prevImages];
+    updatedImages[index] = { image: null }; 
+    return updatedImages;
+  });
+};
+
+
+  // const handleDeleteImages = (ImageName) => {
+  //   if (currentItem.id) {
+  //     dispatch({
+  //       type: "DELETEHOSTELIMAGES",
+  //       payload: {
+  //         hostel_id: currentItem.id,
+  //         image_name: ImageName,
+  //       },
+  //     });
+  //   }
+  // };
 
   return (
     <div
@@ -1426,7 +1447,7 @@ useEffect(() => {
                                 color="#FFF"
                                 style={{ cursor: "pointer" }}
                                 onClick={() => {
-                                  handleDeleteImages(img.name);
+                                  handleDeleteImages(img.name , index);
                                 }}
                               />
                             </div>
