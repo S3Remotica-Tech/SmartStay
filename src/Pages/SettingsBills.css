@@ -8,7 +8,7 @@
     background-color: white; /* ⬅️ White background */
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 15px;
+    padding: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
   
@@ -54,21 +54,41 @@
     border-top: 1px solid #eee;
   }
   
-  .startmonth {
+  .startmonthone {
     background-color: rgba(30, 69, 225, 1);
     color: white;
     cursor: pointer;
-    padding: 10px;
+    padding: 14px;
+    border-radius: 8px;
+  }
+  .startmonthtwo {
+    background-color: rgba(30, 69, 225, 0.42);
+     border: 1px solid rgba(30, 69, 225, 0.42);
+    color: white;
+    cursor: pointer;
+    padding: 14px;
     border-radius: 8px;
   }
   
 
-  
-  .Endmonth {
+
+  .Endmonthone {
     cursor: pointer;
-    padding: 10px;
-    border: 1px solid grey;
+    padding: 14px;
+    border: 1px solid rgba(30, 69, 225, 0.42);
     border-radius: 8px;
+    background-color: rgba(30, 69, 225, 0.42);
+    color: white;
+  }
+
+  .Endmonthtwo {
+    
+    background-color: rgba(30, 69, 225, 1);
+    cursor: pointer;
+    padding: 14px;
+    border: 1px solid rgba(30, 69, 225, 1);
+    border-radius: 8px;
+    color: white;
   }
   
 
