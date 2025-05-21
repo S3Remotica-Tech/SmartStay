@@ -705,7 +705,7 @@ function SettingsBills({ hostelid }) {
                         <Form.Control
                           style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
                           type="text"
-                          placeholder="prefix"
+                          placeholder="name"
                           value={prefix}
                           onChange={(e) => handlePrefix(e)}
                         // readOnly
@@ -812,7 +812,10 @@ function SettingsBills({ hostelid }) {
 
         {isFromOpen && (
           <div className="date-picker-container">
-            <h3>Select date</h3>
+             <div className="d-flex justify-content-center">
+               <h3>Select date</h3>
+              </div>
+           
             <div className="date-grid">
               {dates.map((date, index) => (
                 <div
@@ -825,8 +828,8 @@ function SettingsBills({ hostelid }) {
               ))}
             </div>
             <div className="date-picker-footer">
-              <span className="startmonth">Start of the month</span>
-              <span className="Endmonth">End of the month</span>
+              <span className="startmonthone">Start of the month</span>
+              <span className="Endmonthone">End of the month</span>
             </div>
           </div>
         )}
@@ -845,7 +848,9 @@ function SettingsBills({ hostelid }) {
 
         {isToOpen && (
           <div className="date-picker-container">
-            <h3>Select date</h3>
+           <div className="d-flex justify-content-center">
+               <h3>Select date</h3>
+              </div>
             <div className="date-grid">
               {dates.map((date, index) => (
                 <div
@@ -858,8 +863,8 @@ function SettingsBills({ hostelid }) {
               ))}
             </div>
             <div className="date-picker-footer">
-              <span className="startmonth">Start of the month</span>
-              <span className="Endmonth">End of the month</span>
+              <button className="startmonthtwo">Start of the month</button>
+              <button disabled className="Endmonthtwo">End of the month</button>
             </div>
           </div>
         )}
