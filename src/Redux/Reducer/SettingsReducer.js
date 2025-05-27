@@ -1,6 +1,3 @@
-
-
-
 export const initialState = {
   Expences: [],
   message: "",
@@ -49,54 +46,54 @@ export const initialState = {
   addRecurringRole: 0,
   checkPassword: [],
   statusCodeForCheckPassword: 0,
-  notmatchpass:"",
-  conformPassNotmatch:"",
-  editComplaintSuccessStatusCode:0,
-  deleteElectricityStatuscode:0,
+  notmatchpass: "",
+  conformPassNotmatch: "",
+  editComplaintSuccessStatusCode: 0,
+  deleteElectricityStatuscode: 0,
   assignedUserRoleStatusCode: 0,
-  categoryError:0,
-  errorEbUnitStatusCode:0,
-  errorCompliants:0,
-  errorUser:0,
-  errorRole:0,
+  categoryError: 0,
+  errorEbUnitStatusCode: 0,
+  errorCompliants: 0,
+  errorUser: 0,
+  errorRole: 0,
   AddCategoryType: 0,
-  roleError:'',
-  roleEditError:'',
-  generalDeleteError:'',
-  subscriptionNew:[],
-  statusCodeNewSubscription:0,
-  subcripitionAllDetails:[],
-  statusCodeForSubcripitionAllDetails:0,
+  roleError: "",
+  roleEditError: "",
+  generalDeleteError: "",
+  subscriptionNew: [],
+  statusCodeNewSubscription: 0,
+  subcripitionAllDetails: [],
+  statusCodeForSubcripitionAllDetails: 0,
   toTriggerPDF: false,
-  SubscriptionPDF:'',
-  SubscriptionPdfSuccess : 0,
+  SubscriptionPDF: "",
+  SubscriptionPdfSuccess: 0,
 };
 
 const SettingsReducer = (state = initialState, action) => {
-  console.log("action",action)
   switch (action.type) {
-    //Expenses category for settings ==>
+    case "ERROR_USER":
+      return { ...state, errorUser: action.payload.statusCode };
+    case "REMOVE_ERROR_USER":
+      return { ...state, errorUser: 0 };
 
-case 'ERROR_USER':
-  return {...state, errorUser:action.payload.statusCode}
-  case 'REMOVE_ERROR_USER':
-    return {...state, errorUser:0}
+    case "ERROR_ROLE":
+      return { ...state, errorRole: action.payload.statusCode };
+    case "REMOVE_ERROR_ROLE":
+      return { ...state, errorRole: 0 };
 
-case 'ERROR_ROLE':
-  return {...state, errorRole:action.payload.statusCode}
-  case 'REMOVE_ERROR_ROLE':
-    return {...state, errorRole:0}
+    case "ASSIGNED_ERROR":
+      return {
+        ...state,
+        assignedUserRoleStatusCode: action.payload.statusCode,
+      };
 
-case 'ASSIGNED_ERROR':
-  return { ...state, assignedUserRoleStatusCode: action.payload.statusCode}
+    case "REMOVE_ASSIGNED_ERROR":
+      return { ...state, assignedUserRoleStatusCode: 0 };
 
-  case 'REMOVE_ASSIGNED_ERROR':
-  return { ...state, assignedUserRoleStatusCode: 0}
-
-  case 'ERROR_CATEGORY':
-    return {...state, categoryError:action.payload.statusCode}
-    case 'REMOVE_ERROR_CATEGORY':
-      return {...state, categoryError:0}
+    case "ERROR_CATEGORY":
+      return { ...state, categoryError: action.payload.statusCode };
+    case "REMOVE_ERROR_CATEGORY":
+      return { ...state, categoryError: 0 };
 
     case "EXPENCES_CATEGORY_LIST":
       return {
@@ -111,11 +108,11 @@ case 'ASSIGNED_ERROR':
         ...state,
         message: action.payload.message,
         addexpencesStatuscode: action.payload.statusCode,
-        AddCategoryType: action.payload.Type
+        AddCategoryType: action.payload.Type,
       };
 
-case 'CLEAR_TYPE':
- return { ...state, AddCategoryType: 0 };
+    case "CLEAR_TYPE":
+      return { ...state, AddCategoryType: 0 };
 
     case "CLEAR_ADD_EXPENCES_STATUS_CODE":
       return { ...state, addexpencesStatuscode: 0 };
@@ -139,7 +136,6 @@ case 'CLEAR_TYPE':
     case "CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR":
       return { ...state, alreadycategoryerror: "" };
 
-    //Complaint Type for settings ==>
     case "COMPLAINT_TYPE_LIST":
       return {
         ...state,
@@ -157,15 +153,14 @@ case 'CLEAR_TYPE':
     case "CLEAR_ADD_COMPLAINT_STATUS_CODE":
       return { ...state, addComplaintSuccessStatusCode: 0 };
 
-//edit complaintsettings
-case "COMPLAINT_TYPE_EDIT":
-  return {
-    ...state,
-    message: action.payload.response,
-    editComplaintSuccessStatusCode: action.payload.statusCode,
-  };
-case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
-  return { ...state, editComplaintSuccessStatusCode: 0 };
+    case "COMPLAINT_TYPE_EDIT":
+      return {
+        ...state,
+        message: action.payload.response,
+        editComplaintSuccessStatusCode: action.payload.statusCode,
+      };
+    case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
+      return { ...state, editComplaintSuccessStatusCode: 0 };
 
     case "DELETE_COMPLAINT_TYPE":
       return { ...state, deletecomplaintStatuscode: action.payload.statusCode };
@@ -177,7 +172,6 @@ case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
 
     case "CLEAR_ALREADY_COMPLAINTTYPE_ERROR":
       return { ...state, alreadytypeerror: "" };
-    //EbBillings for settings ==>
     case "EB_BILLING_UNIT_ADD":
       return {
         ...state,
@@ -187,21 +181,16 @@ case "CLEAR_EDIT_COMPLAINT_STATUS_CODE":
     case "CLEAR_ADD_EB_BILLING_STATUS_CODE":
       return { ...state, addEbbillingUnitStatuscode: 0 };
 
-case 'ERROR_EB_BILLING_UNIT_LIST':
-  return {...state, errorEbUnitStatusCode:action.payload.statusCode}
+    case "ERROR_EB_BILLING_UNIT_LIST":
+      return { ...state, errorEbUnitStatusCode: action.payload.statusCode };
 
-  case 'REMOVE_ERROR_EB_BILLING_UNIT_LIST':
-    return {...state, errorEbUnitStatusCode:0}
+    case "REMOVE_ERROR_EB_BILLING_UNIT_LIST":
+      return { ...state, errorEbUnitStatusCode: 0 };
 
-case 'ERROR_COMPLIANTS':
-  return {...state, errorCompliants:action.payload.statusCode}
-  case 'REMOVE_ERROR_COMPLIANTS':
-    return {...state, errorCompliants:0}
-
-
-
-
-
+    case "ERROR_COMPLIANTS":
+      return { ...state, errorCompliants: action.payload.statusCode };
+    case "REMOVE_ERROR_COMPLIANTS":
+      return { ...state, errorCompliants: 0 };
 
     case "EB_BILLING_UNIT_LIST":
       return {
@@ -212,12 +201,13 @@ case 'ERROR_COMPLIANTS':
     case "CLEAR_GET_EBBILLINGS_STATUS_CODE":
       return { ...state, getebStatuscode: 0 };
 
-
-      case "DELETE_ELECTRICITY":
-        return { ...state, deleteElectricityStatuscode: action.payload.statusCode };
-      case "CLEAR_DELETE_ELECTRICITY_STATUS_CODE":
-        return { ...state, deleteElectricityStatuscode: 0 };
-    //settingRole
+    case "DELETE_ELECTRICITY":
+      return {
+        ...state,
+        deleteElectricityStatuscode: action.payload.statusCode,
+      };
+    case "CLEAR_DELETE_ELECTRICITY_STATUS_CODE":
+      return { ...state, deleteElectricityStatuscode: 0 };
 
     case "ROLE_LIST":
       return {
@@ -264,7 +254,6 @@ case 'ERROR_COMPLIANTS':
     case "CLEAR_DELETE_SETTING_ROLE":
       return { ...state, StatusForDeletePermission: 0 };
 
-    //settingUser
     case "ADD_STAFF_USER":
       return {
         ...state,
@@ -274,7 +263,6 @@ case 'ERROR_COMPLIANTS':
     case "CLEAR_ADD_STAFF_USER":
       return { ...state, StatusForaddSettingUser: 0 };
 
-    //Validate
     case "PHONE_NUM_ERROR":
       return { ...state, phoneNumError: action.payload };
 
@@ -297,7 +285,6 @@ case 'ERROR_COMPLIANTS':
     case "CLEAR_USER_STAFF_LIST":
       return { ...state, StatusForaddSettingStaffList: 0 };
 
-    // ebUniterror
     case "EB_UNIT_ERROR":
       return { ...state, ebUnitError: action.payload };
 
@@ -312,8 +299,6 @@ case 'ERROR_COMPLIANTS':
       };
     case "CLEAR_REPORT_LIST":
       return { ...state, StatusForReport: 0 };
-
-    // general
 
     case "SETTING_GENERAL_ADD":
       return {
@@ -363,28 +348,23 @@ case 'ERROR_COMPLIANTS':
     case "CLEAR_GENERAL_PASSWORD_CHECK":
       return { ...state, statusCodeForCheckPassword: 0 };
 
+    case "DELETE_GENERAL_ERROR":
+      return { ...state, generalDeleteError: action.payload };
 
-      case "DELETE_GENERAL_ERROR":
-        return { ...state, generalDeleteError: action.payload };
-  
-      case "CLEAR_DELETE_GENERAL_ERROR":
-        return { ...state, generalDeleteError: "" };
+    case "CLEAR_DELETE_GENERAL_ERROR":
+      return { ...state, generalDeleteError: "" };
 
-
-      case "PASSWORD_ERROR":
+    case "PASSWORD_ERROR":
       return { ...state, notmatchpass: action.payload };
 
     case "CLEAR_PASSWORD_ERROR":
       return { ...state, notmatchpass: "" };
 
+    case "CONFORM_PASSWORD_MATCHES":
+      return { ...state, conformPassNotmatch: action.payload };
 
-
-      case "CONFORM_PASSWORD_MATCHES":
-        return { ...state, conformPassNotmatch: action.payload };
-  
-      case "CLEAR_CONFORM_PASSWORD_MATCHES":
-        return { ...state, conformPassNotmatch: "" };
-  
+    case "CLEAR_CONFORM_PASSWORD_MATCHES":
+      return { ...state, conformPassNotmatch: "" };
 
     case "DELETE_GENERAL":
       return {
@@ -400,51 +380,47 @@ case 'ERROR_COMPLIANTS':
     case "REMOVE_RECURRING_ROLE":
       return { ...state, addRecurringRole: 0 };
 
+    case "ROLE_ERROR":
+      return { ...state, roleError: action.payload };
 
+    case "CLEAR_ROLE_ERROR":
+      return { ...state, roleError: "" };
 
+    case "ROLE_EDIT_ERROR":
+      return { ...state, roleEditError: action.payload };
 
-      case "ROLE_ERROR":
-        return { ...state, roleError: action.payload };
-  
-      case "CLEAR_ROLE_ERROR":
-        return { ...state, roleError: "" };
+    case "CLEAR_ROLE_EDIT_ERROR":
+      return { ...state, roleEditError: "" };
 
+    case "NEW_SUBSCRIPTION":
+      return {
+        ...state,
+        subscriptionNew: action.payload.response,
+        statusCodeNewSubscription: action.payload.statusCode,
+      };
+    case "CLEAR_NEW_SUBSCRIPTION":
+      return { ...state, statusCodeNewSubscription: 0 };
 
-        case "ROLE_EDIT_ERROR":
-          return { ...state, roleEditError: action.payload };
-    
-        case "CLEAR_ROLE_EDIT_ERROR":
-          return { ...state, roleEditError: "" };
+    case "NEW_SUBSCRIPTION_LIST":
+      return {
+        ...state,
+        subcripitionAllDetails: action.payload.response,
+        statusCodeForSubcripitionAllDetails: action.payload.statusCode,
+      };
+    case "CLEAR_NEW_SUBSCRIPTION_LIST":
+      return { ...state, statusCodeForSubcripitionAllDetails: 0 };
 
-
-
-
-          // Subscription
-          case "NEW_SUBSCRIPTION":
-            return {
-              ...state,
-              subscriptionNew: action.payload.response,
-              statusCodeNewSubscription: action.payload.statusCode,
-            };
-          case "CLEAR_NEW_SUBSCRIPTION":
-            return { ...state, statusCodeNewSubscription: 0 };
-      
-            case 'NEW_SUBSCRIPTION_LIST':
-              return { ...state, subcripitionAllDetails: action.payload.response, statusCodeForSubcripitionAllDetails: action.payload.statusCode }
-          case 'CLEAR_NEW_SUBSCRIPTION_LIST':
-              return { ...state, statusCodeForSubcripitionAllDetails: 0 }
-
-          case 'SUBSCRIPTION_PDF':
-                return { ...state, SubscriptionPDF: action.payload.response, SubscriptionPdfSuccess: action.payload.statusCode, toTriggerPDF: false }
-          case 'CLEAR_SUBSCRIPTION_PDF_STATUS_CODE':
-                return { ...state, SubscriptionPdfSuccess: 0 }
-          default:
-        return state;
+    case "SUBSCRIPTION_PDF":
+      return {
+        ...state,
+        SubscriptionPDF: action.payload.response,
+        SubscriptionPdfSuccess: action.payload.statusCode,
+        toTriggerPDF: false,
+      };
+    case "CLEAR_SUBSCRIPTION_PDF_STATUS_CODE":
+      return { ...state, SubscriptionPdfSuccess: 0 };
+    default:
+      return state;
   }
-
-
-
-  
-  
 };
 export default SettingsReducer;

@@ -18,33 +18,7 @@ export async function ExpencesCategorylist(Expences) {
   });
 }
 
-// export async function DeleteExpencesCategoryList(expences) {
-//   return await AxiosConfig.post('/delete/delete-category', expences, {
-//     data: expences
-//   })
-// }
 
-// export async function Addcomplainttype(type) {
-//   console.log("Expences",type);
-//   return await AxiosConfig.post('/complaint_types',type,{
-//     data:type
-//   })
-// }
-
-// export async function Complainttypelist() {
-//   return await AxiosConfig.get('/all_complaint_types',{
-//   })
-// }
-
-// export async function DeletecomplaintType(types) {
-//   return await AxiosConfig.post('/remove_complaint_type', types, {
-//     data: types
-//   })
-// }
-
-// export async function ExpencesCategorylist() {
-//   return await AxiosConfig.post("/get/expense-category", {});
-// }
 
 export async function DeleteExpencesCategoryList(expences) {
   return await AxiosConfig.post("/delete/delete-category", expences, {
@@ -172,7 +146,6 @@ export async function AddGeneral(params) {
 export async function GetAllGeneral() {
   return await AxiosConfig.get("/settings/all_general_users", {});
 }
-// passwordchange
 export async function passwordChangesinstaff(datum) {
   return await AxiosConfig.post("/settings/change_staff_password", datum, {
     data: datum,
@@ -181,7 +154,6 @@ export async function passwordChangesinstaff(datum) {
 
 
 export async function passwordCheck(datum) {
-  console.log("passwordCheck",datum)
   return await AxiosConfig.post("/settings/check_password", datum, {
     data: datum,
   });
@@ -206,7 +178,6 @@ export async function DeleteElectricity(types) {
 }
 
 
-// subscription
 export async function newSubscription(types) {
   return await AxiosConfig.post("/new_subscription", types, {
     data: types,
