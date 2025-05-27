@@ -66,7 +66,10 @@ export const initialState = {
   subscriptionNew:[],
   statusCodeNewSubscription:0,
   subcripitionAllDetails:[],
-  statusCodeForSubcripitionAllDetails:0
+  statusCodeForSubcripitionAllDetails:0,
+  toTriggerPDF: false,
+  SubscriptionPDF:'',
+  SubscriptionPdfSuccess : 0,
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -430,6 +433,11 @@ case 'ERROR_COMPLIANTS':
               return { ...state, subcripitionAllDetails: action.payload.response, statusCodeForSubcripitionAllDetails: action.payload.statusCode }
           case 'CLEAR_NEW_SUBSCRIPTION_LIST':
               return { ...state, statusCodeForSubcripitionAllDetails: 0 }
+
+          case 'SUBSCRIPTION_PDF':
+                return { ...state, SubscriptionPDF: action.payload.response, SubscriptionPdfSuccess: action.payload.statusCode, toTriggerPDF: false }
+          case 'CLEAR_SUBSCRIPTION_PDF_STATUS_CODE':
+                return { ...state, SubscriptionPdfSuccess: 0 }
           default:
         return state;
   }

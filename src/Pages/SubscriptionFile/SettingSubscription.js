@@ -4,11 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import crown from "../../Assets/Images/New_images/crown.png";
 import {Button,Form,FormControl} from "react-bootstrap";
 import { Modal} from "react-bootstrap";
+import Select from "react-select";
+// import DeleteIcon from '../Assets/Images/Delete_red.png';
+import DeleteIcon from '../../Assets/Images/Delete_red.png';
 // import phinfo from "../../Assets/Images/New_images/ph_info-fill.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { MdError } from "react-icons/md";
 import {CloseCircle} from "iconsax-react";
+import {
+  ArrowLeft2,
+  ArrowRight2, ArrowUp2, ArrowDown2
+} from "iconsax-react";
+import { Table } from "react-bootstrap"
 import "./SettingSubscription.css";
 
 
@@ -25,8 +33,154 @@ function SettingSubscription() {
   const [hostelCount, setHostelCount] = useState(1);
   const [selectedPlanError,setSelectedPlanError] = useState("")
   const [hostelCountError,setHostelCountError] = useState("")
+  const [hostelError,setHostelError] = useState("")
   const [planType,setPlanType] = useState("")
   const [getPlanActive,setGetPlanActive] = useState("")
+const [selectedHostels, setSelectedHostels] = useState([]);
+
+
+
+
+useEffect(()=>{
+  dispatch({ type: "ACCOUNTDETAILS"});
+},[])
+
+const [customerDetails,setCustomerDetails] = useState("")
+const [Subscription_hostelIds, setSubscription_HostelIds] = useState([])
+useEffect(()=>{
+  if(state?.createAccount?.accountList[0]?.user_details){
+    const customerDetailsPage = state?.createAccount?.accountList[0]?.user_details;
+    setCustomerDetails(customerDetailsPage)
+    setUserId(customerDetails.id)
+    setCustomerId(customerDetails.customer_id)
+    setPlanType(customerDetails.plan_code)
+    setSubscription_HostelIds(customerDetails.hostel_ids)
+
+
+  }
+},[state?.createAccount?.accountList[0]?.user_details])
+useEffect(()=>{
+  if(state?.createAccount?.accountList[0]?.plan_data){
+   setGetPlanActive(state?.createAccount?.accountList[0]?.plan_data)
+
+  }
+},[state?.createAccount?.accountList[0]?.plan_data])
+
+useEffect(()=>{
+  if(customerId){
+dispatch({type:'NEWSUBSCRIPTIONDETAILS' , payload:{ customerId }})
+  }
+
+},[customerId])
+
+
+console.log("selectedid",getPlanActive);
+
+useEffect(() => {
+  if (state.Settings.statusCodeNewSubscription === 200) {
+      // const Redirect_Url = state.Settings.subscriptionNew.url;
+      // if (Redirect_Url) {
+      //     window.location.href = Redirect_Url; 
+      // }
+      const Redirect_Url = state.Settings.subscriptionNew.url;
+if (Redirect_Url) {
+    window.open(Redirect_Url, "_blank");
+}
+
+
+      setTimeout(() => {
+          dispatch({ type: 'CLEAR_NEW_SUBSCRIPTION' });
+      }, 1000);
+  }
+}, [state.Settings.statusCodeNewSubscription]);
+
+const [subscription_details, setSubscriptionDetails] = useState([])
+
+useEffect(()=> {
+ if (state.Settings.statusCodeForSubcripitionAllDetails === 200) {
+     setSubscriptionDetails(state.Settings.subcripitionAllDetails.invoices)
+
+      setTimeout(() => {
+          dispatch({ type: 'CLEAR_NEW_SUBSCRIPTION_LIST' });
+      }, 1000);
+ }
+
+},[state.Settings.statusCodeForSubcripitionAllDetails])
+
+
+console.log("subscript",subscription_details);
+
+const handleDownloadPdf = (item) => {
+  console.log("item", item);
+
+  const id = item.invoice_id
+  
+
+   if(id){
+   dispatch({type:'SUBSCRIPTIONPDF' , payload: id})
+  }
+}
+
+
+
+
+const handleHostelSelect = (selectedOption) => {
+  if (!selectedOption) {
+    setHostelError("please select hostel")
+     return;
+  }
+    
+    
+  setHostelError("")
+  setSelectedHostels((prev) => [...prev, selectedOption]);
+ 
+};
+
+const handleRemoveHostel = (valueToRemove) => {
+  const updatedList = selectedHostels.filter((item) => item.value !== valueToRemove);
+  setSelectedHostels(updatedList);
+};
+
+const hostelOptions = state.UsersList.hostelListNewDetails.data?.map((item) => ({
+  label: item.Name,
+  value: item.id, 
+}));
+
+
+
+// Remove selected hostels from options
+// const filteredOptions = hostelOptions.filter(
+//   (option) => !selectedHostels.some((selected) => selected.value === option.value)
+// );
+
+
+
+const filteredOptions = (hostelOptions || []).filter(
+  (option) =>
+    !selectedHostels.some((selected) => selected.value === option.value) &&
+    !(Subscription_hostelIds || []).includes(option.value)
+);
+
+
+
+    useEffect(()=>{
+      if(selectedHostels){
+         setHostelCount(selectedHostels.length)
+      }
+     },[selectedHostels])
+
+console.log("selectedHostels",selectedHostels);
+
+
+const [hostelIds, setHostelIds] = useState([]);
+
+useEffect(() => {
+  const ids = selectedHostels.map((item) => item.value);
+  setHostelIds(ids);
+}, [selectedHostels]);
+
+
+
 
   // const handlePlanChange = (price)=>{
   //   setPlan(true)
@@ -39,21 +193,28 @@ function SettingSubscription() {
   //   setAmount(hostelCount * price);
   //   handleCloseCurrentPlan()
   // };
+
+
+
+
+
   useEffect(() => {
     setHostelCount("1");
     setAmount(Number(selectedPlan) || 0);
   }, [selectedPlan]);
+
   const handlePlanChange = (price) => {
     setSelectedPlan(price);
     setPlan(true);
     setAmount(hostelCount * price);
     handleCloseCurrentPlan();
 
-    if (price === 299) {
-        setPlanCode("smartstay_monthly");
-    } else if (price === 599) {
-        setPlanCode("smartstay_threemonth");
-    } else if (price === 999) {
+    if (price === 1) {
+        setPlanCode("basic_smart");
+    } else if (price === 2) {
+        setPlanCode("advance_prod");
+    } 
+    else if (price === 999) {
         setPlanCode("smartstay_oneyear");
     }
 }
@@ -105,13 +266,24 @@ const handleHostelCount = (e) => {
   const handleClosePlanChange = ()=>{
     setPlan(false)
     setHostelCountError("")
+    setSelectedHostels([])
   }
 
 
-  const handleCurrentPlan = ()=>{
-    setChangePlan(true)
-    handleClosePlanChange()
+const handleCurrentPlan = () => {
+  setChangePlan(true);
+  // No need to call handleClosePlanChange() here
+};
+
+
+
+useEffect(() => {
+  if (changePlan) {
+    handleClosePlanChange(); // Now called only after `changePlan` is true
   }
+}, [changePlan]);
+
+
 
 
 const handleSubmit = () => {
@@ -124,21 +296,29 @@ const handleSubmit = () => {
       setSelectedPlanError("");
   }
 
-  if (hostelCount === "" || isNaN(hostelCount) || parseInt(hostelCount, 10) <= 0) {
-      setHostelCountError("Please Enter a Valid Hostel Count");
-      isValid = false;
-  } else {
-      setHostelCountError("");
+  // if (hostelCount === "" || isNaN(hostelCount) || parseInt(hostelCount, 10) <= 0) {
+  //     setHostelCountError("Please Enter a Valid Hostel Count");
+  //     isValid = false;
+  // } else {
+  //     setHostelCountError("");
+  // }
+
+  if(selectedHostels.length === 0){
+    setHostelError("please select hostel")
+     isValid = false;
+     return
   }
 
-  if (isValid) {
+  if (isValid && selectedHostels.length > 0) {
       dispatch({
           type: "NEWSUBSCRIPTION",
           payload: {
               user_id: userId,
               customer_id: customerId,
               plan_code: planCode,
-              amount: amount
+              amount: amount,
+              hostel_ids: hostelIds,
+              hostel_count : Number(hostelCount)
           },
       });
   }
@@ -149,6 +329,8 @@ const handleSubmit = () => {
 
   const handleCloseCurrentPlan = ()=>{
     setChangePlan(false)
+    // setPlan(false)
+    setHostelCountError("")
     const modalElement = document.getElementById("changePlanModal");
     if (modalElement) {
       modalElement.classList.remove("show");
@@ -158,83 +340,63 @@ const handleSubmit = () => {
   
     document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
   }
-  useEffect(() => {
-    if (changePlan) {
-      const modal = new window.bootstrap.Modal(document.getElementById("changePlanModal"));
-      modal.show();
-    }
-  }, [changePlan]);
+
+
+  // useEffect(() => {
+  //   if (changePlan) {
+  //     const modal = new window.bootstrap.Modal(document.getElementById("changePlanModal"));
+  //     modal.show();
+  //   }
+  // }, [changePlan]);
+
+
+//   useEffect(() => {
+//   if (changePlan) {
+//     setPlan(true); 
+//   }
+// }, [changePlan]);
+
+
+  
+
+//   useEffect(() => {
+//   if (changePlan) {
+//     const modalElement = document.getElementById("changePlanModal");
+//     if (modalElement && window.bootstrap?.Modal) {
+//       const modal = new window.bootstrap.Modal(modalElement);
+//       modal.show();
+//     }
+//   }
+// }, [changePlan]);
+
  
-useEffect(()=>{
-dispatch({type:'NEWSUBSCRIPTIONDETAILS'})
-},[])
 
-useEffect(()=>{
-  dispatch({ type: "ACCOUNTDETAILS"});
-},[])
-const [customerDetails,setCustomerDetails] = useState("")
-useEffect(()=>{
-  if(state?.createAccount?.accountList[0]?.user_details){
-    const customerDetailsPage = state?.createAccount?.accountList[0]?.user_details;
-    setCustomerDetails(customerDetailsPage)
-    setUserId(customerDetails.id)
-    setCustomerId(customerDetails.customer_id)
-    setPlanType(customerDetails.plan_code)
-
-
-  }
-},[state?.createAccount?.accountList[0]?.user_details])
-useEffect(()=>{
-  if(state?.createAccount?.accountList[0]?.plan_data){
-   setGetPlanActive(state?.createAccount?.accountList[0]?.plan_data)
-
-  }
-},[state?.createAccount?.accountList[0]?.plan_data])
-
-useEffect(() => {
-  if (state.Settings.statusCodeNewSubscription === 200) {
-      // const Redirect_Url = state.Settings.subscriptionNew.url;
-      // if (Redirect_Url) {
-      //     window.location.href = Redirect_Url; 
-      // }
-      const Redirect_Url = state.Settings.subscriptionNew.url;
-if (Redirect_Url) {
-    window.open(Redirect_Url, "_blank");
-}
-
-
-      setTimeout(() => {
-          dispatch({ type: 'CLEAR_NEW_SUBSCRIPTION' });
-      }, 1000);
-  }
-}, [state.Settings.statusCodeNewSubscription]);
 
 // const handleFirstPlaneSave = ()=>{
 //   // dispatch({type:'NEWSUBSCRIPTION'})
  
 // }
 
-useEffect(() => {
-  // Initialize all tooltips with 'tooltip' and 'tooltipmanage' separately
-  const tooltipTriggerList1 = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-  tooltipTriggerList1.forEach((tooltipTriggerEl) => {
-    new window.bootstrap.Tooltip(tooltipTriggerEl);
-  });
+// useEffect(() => {
+//   const tooltipTriggerList1 = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+//   tooltipTriggerList1.forEach((tooltipTriggerEl) => {
+//     new window.bootstrap.Tooltip(tooltipTriggerEl);
+//   });
 
-  const tooltipTriggerList2 = document.querySelectorAll('[data-bs-toggle="tooltipmanage"]');
-  tooltipTriggerList2.forEach((tooltipTriggerEl) => {
-    new window.bootstrap.Tooltip(tooltipTriggerEl);
-  });
+//   const tooltipTriggerList2 = document.querySelectorAll('[data-bs-toggle="tooltipmanage"]');
+//   tooltipTriggerList2.forEach((tooltipTriggerEl) => {
+//     new window.bootstrap.Tooltip(tooltipTriggerEl);
+//   });
 
-  const tooltipTriggerList3 = document.querySelectorAll('[data-bs-toggle="tooltipvendor"]');
-  tooltipTriggerList3.forEach((tooltipTriggerEl) => {
-    new window.bootstrap.Tooltip(tooltipTriggerEl);
-  });
-  const tooltipTriggerList4 = document.querySelectorAll('[data-bs-toggle="tooltipassets"]');
-  tooltipTriggerList4.forEach((tooltipTriggerEl) => {
-    new window.bootstrap.Tooltip(tooltipTriggerEl);
-  });
-}, []);
+//   const tooltipTriggerList3 = document.querySelectorAll('[data-bs-toggle="tooltipvendor"]');
+//   tooltipTriggerList3.forEach((tooltipTriggerEl) => {
+//     new window.bootstrap.Tooltip(tooltipTriggerEl);
+//   });
+//   const tooltipTriggerList4 = document.querySelectorAll('[data-bs-toggle="tooltipassets"]');
+//   tooltipTriggerList4.forEach((tooltipTriggerEl) => {
+//     new window.bootstrap.Tooltip(tooltipTriggerEl);
+//   });
+// }, []);
 
 
 
@@ -297,7 +459,7 @@ useEffect(() => {
   )}
 </div> */}
 <div className="card p-3 cardnewsubs">
-  {getPlanActive?.length > 0 && getPlanActive[0]?.total_amount > 0 ? ( 
+  {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 ? ( 
     <>
       <div className="d-flex align-items-center justify-content-center rounded-circle bg-light" 
            style={{ width: 40, height: 40 }}>
@@ -310,13 +472,13 @@ useEffect(() => {
 
       <div className="d-flex justify-content-between align-items-center">
         <p className="text-secondary mb-0 fs-6">Amount</p>
-        <p className="fw-semibold mb-0 fs-6">₹{getPlanActive[0]?.total_amount}</p>
+        <p className="fw-semibold mb-0 fs-6">₹{getPlanActive[0]?.amount}</p>
       </div>
 
       <div className="d-flex justify-content-between align-items-center mt-2">
         <p className="text-secondary mb-0 fs-6">Next payment</p>
         <p className="fw-semibold mb-0 fs-6">
-          {new Date(getPlanActive[0]?.plan_end_date || getPlanActive[0]?.end_date).toLocaleDateString("en-GB", {
+          {new Date(getPlanActive[0]?.plan_end ).toLocaleDateString("en-GB", {
             day: "2-digit",
             month: "long",
             year: "numeric",
@@ -330,7 +492,10 @@ useEffect(() => {
       </div>
 
       <div className="d-flex mt-3 w-100">
-        <button className="btn btn-primary w-100 fw-semibold fs-6" onClick={handleCurrentPlan}>
+        <button className="btn btn-primary w-100 fw-semibold fs-6" onClick={handleCurrentPlan}
+          data-bs-toggle="modal"
+  data-bs-target="#changePlanModal"
+        >
           Manage Plan
         </button>
       </div>
@@ -338,14 +503,434 @@ useEffect(() => {
   ) : (
     <div className="mt-2 text-center">
       <p className="text-dark fw-semibold fs-6 mb-3">Your plan is a trial plan</p>
-      <button className="btn btn-primary fw-semibold fs-6" onClick={handleCurrentPlan}>
+      <button className="btn btn-primary fw-semibold fs-6" onClick={handleCurrentPlan}
+        data-bs-toggle="modal"
+  data-bs-target="#changePlanModal"
+      >
         Upgrade Plan
       </button>
     </div>
   )}
 </div>
 
+
+
         </div>
+
+        {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 && (
+  <div className="col-lg-12 col-md-12 col-sm-10 mt-3">
+    {/* Replace below with your actual table component */}
+   <div
+                                                className=" booking-table-userlist  booking-table"
+                                                style={{ paddingBottom: "20px" }}
+                                              >
+                                                {getPlanActive?.length > 0 && (
+                                                 <div
+                                                  
+                                                   className='show-scrolls'
+                                                   style={{
+                                                    
+                                                     height:"250px",
+                                                      // sortedData?.length >= 4 || sortedData?.length >= 4 ? "250px" : "auto",
+                                                     overflow: "auto",
+                                                     borderTop: "1px solid #E8E8E8",
+                                                     marginBottom: 20,
+                                                     marginTop: "20px",
+                                                     paddingRight:0,
+                                                     paddingLeft:0
+                                                     //  borderBottom:"1px solid #DCDCDC"
+                                                   }}
+                                                 >
+                                                   <Table
+                                                     responsive="md"
+                                                     // className="Table_Design"
+                                                     style={{
+                                                       fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                       top: 0,
+                                                       zIndex: 1,
+                                                       borderRadius:0
+                                                     }}
+                                                   >
+                                                     <thead style={{
+                                                                  fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 12, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                                                  top: 0,
+                                                                  zIndex: 1
+                                                                }}>
+            <tr className="" style={{ height: "30px" }}>
+              <th
+                style={{
+                  textAlign: "start",
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  paddingLeft:"20px",
+                  whiteSpace:"nowrap"
+                }}
+              >
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        // onClick={() => handleSort("Invoices", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        // onClick={() => handleSort("Invoices", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    S.No
+                                  </div>
+              </th>
+              <th
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                  whiteSpace:"nowrap"
+                }}
+              >
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        // onClick={() => handleSort("action", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        // onClick={() => handleSort("action", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Hostel Name
+                                  </div>
+              </th>
+              <th
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                  whiteSpace:"nowrap"
+                }}
+              >
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        // onClick={() => handleSort("Date", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        // onClick={() => handleSort("Date", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Plan startDate
+                                  </div>
+              </th>
+              <th
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                  whiteSpace:"nowrap"
+                }}
+              >
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        // onClick={() => handleSort("DueDate", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        // onClick={() => handleSort("DueDate", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Plan EndDate
+                                  </div>
+              </th>
+
+              
+             
+
+              <th
+                style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                }}
+              >
+                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        // onClick={() => handleSort("status", "asc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        // onClick={() => handleSort("status", "desc")}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Status
+                                  </div>
+              </th>
+              <th  style={{
+                  color: "#939393",
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                  textAlign: "start",
+                }}> Action</th>
+            </tr>
+          </thead>
+          <tbody
+            style={{
+              height: "50px",
+              fontSize: "11px",
+              verticalAlign: "middle",
+            }}
+          >
+            {getPlanActive.length > 0 && getPlanActive[0]?.hostel_details.length > 0 && getPlanActive[0]?.hostel_details.map((view, index ) => {
+              let Dated = new Date(view.plan_start);
+
+              let day = Dated.getDate();
+              let month = Dated.getMonth() + 1; 
+              let year = Dated.getFullYear();
+
+              let formattedDate = `${day}/${month}/${year}`;
+
+              let dueDated = new Date(view.plan_end);
+
+              let daydue = dueDated.getDate();
+              let monthdue = dueDated.getMonth() + 1; 
+              let yeardue = dueDated.getFullYear();
+
+              let DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
+
+              return (
+                <tr
+                 key={index} 
+                style={{ marginTop: "20px" }}>
+                  <td
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 500,
+                      fontSize: "13px",
+                      fontFamily: "Gilroy",
+                      // paddingLeft:"25px", 
+                      borderBottom: "1px solid #E8E8E8"
+                    }}
+                  >
+                    {index + 1}
+                  </td>
+                  <td
+                    style={{
+                      textAlign: "start",
+                      fontWeight: 500,
+                      fontSize: "13px",
+                      fontFamily: "Gilroy",
+                      paddingLeft:"20px", borderBottom: "1px solid #E8E8E8"
+                    }}
+                  >
+                    {view.name}
+                  </td>
+                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}>
+                    <span
+                      style={{
+                        backgroundColor: "#EBEBEB",
+                        paddingTop: "3px",
+                        paddingLeft: "10px",
+                        paddingRight: "10px",
+                        paddingBottom: "3px",
+                        borderRadius: "10px",
+                        lineHeight: "1.5em",
+                        margin: "0",
+                        fontSize: "11px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        textAlign:"start"
+                      }}
+                    >
+                      {formattedDate}
+                    </span>
+                  </td>
+                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}>
+                    <span
+                      style={{
+                        backgroundColor: "#EBEBEB",
+                        paddingTop: "3px",
+                        paddingLeft: "10px",
+                        paddingRight: "10px",
+                        paddingBottom: "3px",
+                        borderRadius: "10px",
+                        lineHeight: "1.5em",
+                        margin: "0",
+                        fontSize: "11px",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        textAlign:"start"
+                      }}
+                    >
+                      {DueformattedDate}
+                    </span>
+                  </td>
+                
+               
+                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}>
+                    <span
+                      style={{
+                        color: "black",
+                        backgroundColor: "#D9FFD9" , 
+                        paddingLeft: "10px",
+                        paddingRight: "10px",
+                        fontSize: "11px",
+                        fontWeight: 500,
+                        borderRadius: "10px",
+                      }}
+                    >
+                      {view.plan_status === 1 ?  'Active' : 'Not Active'}
+             {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}
+
+                    </span>
+                  </td>
+
+                     <td
+
+                     onClick={()=>handleDownloadPdf(view)}
+                    style={{
+                      fontWeight: 500,
+                      fontSize: "13px",
+                      fontFamily: "Gilroy",
+                      textAlign:"start",
+                      borderBottom: "1px solid #E8E8E8"
+                    }}
+                  >
+                    Download
+                  </td>
+                  {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}
+               
+                </tr>
+               );
+            })} 
+          
+          </tbody>
+        </Table>
+      </div>
+                                                  )}
+                                                 
+                                                 
+                                                 {/* <div style={{ marginTop: 30 }}>
+                                                                           <div style={{ textAlign: "center" }}>
+                                                                             <img src={Emptystate} alt="emptystate" />
+                                                                           </div>
+                                                                           <div
+                                                                             className="pb-1"
+                                                                             style={{
+                                                                               textAlign: "center",
+                                                                               fontWeight: 600,
+                                                                               fontFamily: "Gilroy",
+                                                                               fontSize: 20,
+                                                                               color: "rgba(75, 75, 75, 1)",
+                                                                             }}
+                                                                           >
+                                                                             No Bills available
+                                                                           </div>
+                                                                           <div
+                                                                             className="pb-1"
+                                                                             style={{
+                                                                               textAlign: "center",
+                                                                               fontWeight: 500,
+                                                                               fontFamily: "Gilroy",
+                                                                               fontSize: 16,
+                                                                               color: "rgba(75, 75, 75, 1)",
+                                                                             }}
+                                                                           >
+                                                                             There are no Bills added.
+                                                                           </div>
+                                                                         </div>
+                                                } */}
+      </div>
+  </div>
+)}
 
       </div>
 
@@ -365,10 +950,10 @@ useEffect(() => {
     {/* Suite Team Plan */}
     <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
       <div className={`card border position-relative ${
-    planType === "smartstay_monthly" ? "border-success" : "border-secondary"
+    planType === "basic_smart" ? "border-success" : "border-secondary"
   }`} style={{ borderRadius: "14px", backgroundColor: "#F8FAFC", padding: "15px" }}>
         <div className="card-body text-center">
-        {planType === "smartstay_monthly" && (
+        {planType === "basic_smart" && (
  <div className="position-relative text-center">
  <span
    className="badge bg-success position-absolute start-50 translate-middle"
@@ -379,10 +964,10 @@ useEffect(() => {
 </div>
 
 )}
-          <h4 className="card-title">1 Month Plan</h4>
+          <h4 className="card-title">Basic Plan</h4>
           {/* <p className="mb-1">1 Month</p> */}
            <p>per agent/month billed annually</p>
-          <p className="fs-4 fw-bold pb-2 border-bottom">₹299</p>
+          <p className="fs-4 fw-bold pb-2 border-bottom">₹1</p>
           <p className="fw-semibold text-start mt-3">Team Plan Features:</p>
           <ul className="list-unstyled text-start px-3">
             <li className="d-flex align-items-center gap-2 mb-2">
@@ -407,12 +992,15 @@ useEffect(() => {
             </li>
           </ul>
           {/* <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(1)}>Change Plan</button> */}
-          {planType === "smartstay_monthly" ? (
-  <button className="btn btn-changeplan btn-success w-100 mt-3"  onClick={() => handlePlanChange(299)}>
+          {planType === "basic_smart" ? (
+  <button className="btn btn-changeplan btn-success w-100 mt-3"  onClick={() => handlePlanChange(1)}
+  >
     Current Plan
   </button>
 ) : (
-  <button className="btn btn-changeplan btn-outline-primary w-100" onClick={() => handlePlanChange(299)}>
+  <button className="btn btn-changeplan btn-outline-primary w-100 mt-3" onClick={() => handlePlanChange(1)}
+
+  >
     Change Plan
   </button>
 )}
@@ -423,13 +1011,13 @@ useEffect(() => {
     {/* Suite Professional Plan */}
     <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
       <div className={`card border position-relative ${
-    planType === "smartstay_threemonth" ? "border-success" : "border-secondary"
+    planType === "advance_prod" ? "border-success" : "border-secondary"
   }`} style={{ borderRadius: "14px", backgroundColor: "#F8FAFC", padding: "15px" }}>
         <div className="card-body text-center">
         {/* <span className="badge bg-success position-absolute top-0 start-50 translate-middle-x" style={{ padding: "5px 10px", fontSize: "12px" }}>
             Current Plan
           </span> */}
-                  {planType === "smartstay_threemonth" && (
+                  {planType === "advance_prod" && (
   <span
   className="badge bg-success position-absolute start-50 translate-middle"
   style={{ top: "-30px", padding: "5px 10px", fontSize: "12px" }}
@@ -437,10 +1025,10 @@ useEffect(() => {
   Current Plan
 </span>
 )}
-          <h4 className="card-title">3 Month Plan</h4>
+          <h4 className="card-title">Advance Plan</h4>
           {/* <p className="mb-1">1 Month</p> */}
            <p>per agent/month billed annually</p>
-          <p className="fs-4 fw-bold pb-2 border-bottom">₹599</p>
+          <p className="fs-4 fw-bold pb-2 border-bottom">₹2</p>
           <p className="fw-semibold text-start mt-3" style={{whiteSpace:"nowrap"}}>Professional Plan Features:</p>
           <ul className="list-unstyled text-start px-3">
             <li className="d-flex align-items-center gap-2 mb-2">
@@ -465,28 +1053,32 @@ useEffect(() => {
             </li>
           </ul>
           {/* <button className="btn btn-outline-primary w-100" onClick={() => handlePlanChange(599)}>Change Plan</button> */}
-          {planType === "smartstay_threemonth" ? (
-  <button className="btn btn-changeplan btn-success w-100 mt-3"  onClick={() => handlePlanChange(599)}>
+          <div >
+          {planType === "advance_prod" ? (
+  <button className="btn btn-changeplan btn-success w-100 mt-3"  onClick={() => handlePlanChange(2)}
+   
+    
+  >
     Current Plan
+    
   </button>
 ) : (
-  <button className="btn btn-changeplan btn-outline-primary w-100" onClick={() => handlePlanChange(599)}>
+  <button className="btn btn-changeplan btn-outline-primary w-100 mt-3" onClick={() => handlePlanChange(2)}
+  >
    Change Plan
   </button>
 )}
+</div>
         </div>
       </div>
     </div>
 
-    {/* Suite Growth Plan (Current Plan) */}
     <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
       <div className={`card border position-relative ${
     planType === "smartstay_oneyear" ? "border-success" : "border-secondary"
   }`} style={{ borderRadius: "14px", backgroundColor: "#F8FAFC", padding: "15px" }}>
         <div className="card-body text-center">
-          {/* <span className="badge bg-success position-absolute top-0 start-50 translate-middle-x" style={{ padding: "5px 10px", fontSize: "12px" }}>
-            Current Plan
-          </span> */}
+        
                            {planType === "smartstay_oneyear" && (
  <span
  className="badge bg-success position-absolute start-50 translate-middle"
@@ -527,7 +1119,7 @@ useEffect(() => {
     Current Plan
   </button>
 ) : (
-  <button className="btn btn-changeplan btn-outline-primary w-100" onClick={() => handlePlanChange(999)}>
+  <button className="btn btn-changeplan btn-outline-primary w-100 mt-3" onClick={() => handlePlanChange(999)}>
   Change Plan
   </button>
 )}
@@ -567,11 +1159,16 @@ useEffect(() => {
       <tbody>
         <tr>
           <td  style={{ textAlign: "center" }}> {getPlanActive[0]?.hostel_count}</td>
-          <td>{getPlanActive[0]?.plan_code}</td>
-          <td style={{ textAlign: "center" }}>₹ {getPlanActive[0]?.total_amount}</td>
-          <td style={{ textAlign: "center" }}>₹ {getPlanActive[0]?.total_amount}</td>
-          <td style={{ textAlign: "center" }}> {new Date(getPlanActive[0]?.plan_start_date || getPlanActive[0]?.start_date ).toLocaleDateString("en-GB", {day: "2-digit",month: "long",year: "numeric",})}</td>
-          <td style={{ textAlign: "center" }}>  {new Date(getPlanActive[0]?.plan_end_date || getPlanActive[0]?.end_date).toLocaleDateString("en-GB", {day: "2-digit",month: "long",year: "numeric",})}</td>
+          <td>
+            
+            {getPlanActive[0]?.plan_code === "one_day" &&  "Free Trail"}
+            {getPlanActive[0]?.plan_code === "basic_smart" && "Basic Plan"}
+            {getPlanActive[0]?.plan_code === "advance_prod" && "Advance PLan"}
+            </td>
+          <td style={{ textAlign: "center" }}>₹ {getPlanActive[0]?.amount}</td>
+          <td style={{ textAlign: "center" }}>₹ {getPlanActive[0]?.amount}</td>
+          <td style={{ textAlign: "center" }}> {new Date(getPlanActive[0]?.plan_start).toLocaleDateString("en-GB", {day: "2-digit",month: "long",year: "numeric",})}</td>
+          <td style={{ textAlign: "center" }}>  {new Date(getPlanActive[0]?.plan_end).toLocaleDateString("en-GB", {day: "2-digit",month: "long",year: "numeric",})}</td>
         
         </tr>
       </tbody>
@@ -625,13 +1222,13 @@ useEffect(() => {
                               {/* <div style={{paddingRight:40}}>({planCode}-{selectedPlan})</div> */}
                           <div style={{ paddingRight: 40 }}>
   
-  ({planCode?.trim() === "smartstay_monthly"
+  ({planCode?.trim() === "basic_smart"
     ? "1 Month Plan"
-    : planCode?.trim() === "smartstay_threemonth"
+    : planCode?.trim() === "advance_prod"
     ? "3 Month Plan"
-    : planCode?.trim() === "smartstay_oneyear"
-    ? "One Year Plan"
-    : planCode} - {selectedPlan})
+    // : planCode?.trim() === "smartstay_oneyear"
+    // ? "One Year Plan"
+    : planCode} -  Rs.{selectedPlan})
 </div>
 
                               {/* <button
@@ -673,6 +1270,103 @@ useEffect(() => {
           
           
                             <div className="row mb-3 change-plan-form">
+
+
+<div className="col-lg-12 col-md-12 col-sm-11 col-xs-11 mb-3">
+  <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+    <Form.Label
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: 14,
+        fontWeight: 400,
+        color: "rgba(34, 34, 34, 1)",
+        fontStyle: "normal",
+        lineHeight: "normal",
+      }}
+    >
+      Select PG  {" "}
+
+        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+    </Form.Label>
+    
+
+    <Select
+      options={filteredOptions}
+      placeholder="Select Hostel"
+      value={null} // Always reset to placeholder
+      onChange={handleHostelSelect}
+      classNamePrefix="custom"
+      menuPlacement="auto"
+      styles={{
+        control: (base) => ({
+          ...base,
+          padding: "2px",
+          marginTop: "5px",
+          fontSize: "16px",
+          fontFamily: "Gilroy",
+          fontWeight: 400,
+          color: "rgba(34, 34, 34, 1)",
+          borderColor: "#ced4da",
+          minHeight: "40px",
+        }),
+      }}
+    />
+
+    {/* Tag Chips below */}
+    {selectedHostels.length > 0 && (
+      <div className="mt-3 d-flex flex-wrap gap-2">
+        {selectedHostels.map((hostel) => (
+          <div
+            key={hostel.value}
+            className="d-flex align-items-center px-3 py-1 rounded bg-white"
+            style={{
+              fontWeight: 400,
+              borderRadius: "8px",
+              border: "1px solid rgba(30, 69, 225, 1)",
+            }}
+          >
+            {hostel.label}
+            <img
+              className="ms-2"
+              src={DeleteIcon}
+              alt="delete"
+              height={14}
+              width={14}
+              onClick={() => handleRemoveHostel(hostel.value)}
+              style={{ cursor: "pointer" }}
+            />
+          </div>
+        ))}
+      </div>
+    )}
+  </Form.Group>
+
+       {hostelError && (
+                                      <div style={{ color: "red" }}>
+                                        {" "}
+                                        <MdError style={{ fontSize: '11px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }} />
+                                        <span
+                                          style={{
+                                            fontSize: "13px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {hostelError}
+                                        </span>
+                                      </div>
+                                    )}
+</div>
+
+
                               
                   
                             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -701,15 +1395,16 @@ useEffect(() => {
                                         placeholder="Enter Hostel Count"
                                         type="text"
                                         value={hostelCount}
+                                        readOnly
                                         // onChange={(e) => handleHostelCount(e)}
                                         //  value={hostelCount === "" ? "" : hostelCount}  
-      onChange={(e)=>handleHostelCount(e)} 
-      onBlur={() => {
-        if (!String(hostelCount).trim()) {
-            setHostelCount(1);  // Set default to 1
-            setAmount(Number(selectedPlan) || 0);
-        }
-    }}
+      // onChange={(e)=>handleHostelCount(e)} 
+    //   onBlur={() => {
+    //     if (!String(hostelCount).trim()) {
+    //         setHostelCount(1);  
+    //         setAmount(Number(selectedPlan) || 0);
+    //     }
+    // }}
                                         style={{
                                           fontSize: 16,
                                           color: "#4B4B4B",

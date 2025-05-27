@@ -162,6 +162,7 @@ text-decoration: underline;
   border-collapse: separate;
   border-spacing: 0;
   overflow: hidden;
+  margin-left: 20px;
  }
  
  .ebtable td{

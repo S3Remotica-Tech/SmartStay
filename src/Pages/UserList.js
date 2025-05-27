@@ -2509,16 +2509,16 @@ function UserList(props) {
             </div>
           )}
           <div
-            className="pl-4"
+            className=""
             style={{
-              paddingLeft: "7px",
+              paddingLeft: "27px",
               fontFamily: "Gilroy",
               fontSize: 16,
               fontWeight: 500,
               textAlign: "left",
             }}
           >
-            <TabContext value={value}>
+            <TabContext value={value} style={{marginLeft:"-10px"}}>
               <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
                 <TabList
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
@@ -2995,7 +2995,8 @@ function UserList(props) {
                                           }}
                                         >
                                           <span
-                                            className="Customer_Name_Hover"
+                                            className="Customer_Name_Hover ps-0 ps-sm-0 ps-md-3 ps-lg-2"
+                                            //  className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                                             style={{
                                               fontSize: "13px",
                                               fontWeight: 600,
@@ -3003,6 +3004,7 @@ function UserList(props) {
                                               color: "#1E45E1",
                                               cursor: "pointer",
                                               marginTop: 10,
+                                              paddingLeft:10
                                             }}
                                             onClick={() =>
                                               handleRoomDetailsPage(user)
@@ -3013,6 +3015,7 @@ function UserList(props) {
                                         </td>
 
                                         <td
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                           style={{
                                             paddingTop: 15,
                                             border: "none",
@@ -3021,6 +3024,7 @@ function UserList(props) {
                                             fontWeight: 500,
                                             fontFamily: "Gilroy",
                                             marginTop: 10,
+                                              // paddingLeft:10,
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
@@ -3033,10 +3037,11 @@ function UserList(props) {
                                               paddingBottom: "3px",
                                               borderRadius: "60px",
                                               backgroundColor: "#FFEFCF",
-                                              textAlign: "start",
+                                              textAlign: "center",
                                               fontSize: "11px",
                                               fontWeight: 500,
                                               fontFamily: "Gilroy",
+                                              marginLeft:10
                                             }}
                                           >
                                             {user.user_join_date}
@@ -3050,6 +3055,7 @@ function UserList(props) {
                                             fontWeight: 500,
                                             fontFamily: "Gilroy",
                                             paddingTop: 15,
+                                            paddingLeft:20,
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
@@ -3059,6 +3065,7 @@ function UserList(props) {
                                         <td
                                           style={{
                                             paddingTop: 15,
+                                            paddingLeft:15,
                                             border: "none",
                                             textAlign: "start",
                                             fontSize: "13px",
@@ -3083,6 +3090,7 @@ function UserList(props) {
                                         <td
                                           style={{
                                             paddingTop: 15,
+                                            paddingLeft:20,
                                             border: "none",
                                             textAlign: "start",
                                             fontSize: "13px",
@@ -3099,8 +3107,10 @@ function UserList(props) {
                                         <td
                                           // className={user.Bed === 0 ? 'assign-bed' : ''}
                                           // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
+                                          className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                                           style={{
                                             paddingTop: 15,
+                                            // paddingLeft:20,
                                             border: "none",
                                             cursor: "pointer",
                                             textAlign: "start",

@@ -174,17 +174,17 @@ function Sidebar() {
           Is_Enable.toString(),
           "abcd"
         ).toString();
-        const encryptPassword = CryptoJS.AES.encrypt(
-          Pass_word.toString(),
-          "abcd"
-        ).toString();
+        // const encryptPassword = CryptoJS.AES.encrypt(
+        //   Pass_word.toString(),
+        //   "abcd"
+        // ).toString();
 
         localStorage.setItem("loginId", encryptedLoginId);
         // localStorage.setItem("NameId", encryptedname);
         localStorage.setItem("phoneId", encryptedphone);
         localStorage.setItem("emilidd", encryptedemail);
         localStorage.setItem("IsEnable", encryptIsEnable);
-        localStorage.setItem("Password", encryptPassword);
+        // localStorage.setItem("Password", encryptPassword);
 
         if (Is_Enable === 0) {
           const encryptData = CryptoJS.AES.encrypt(

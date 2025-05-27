@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList} from "../Action/SettingsAction"
+import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList , SubscriptionPdfDownload} from "../Action/SettingsAction"
 
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
@@ -1042,8 +1042,11 @@ function* handleNewSubscriptionpage(action) {
  }
 
 
-function* handleNewSubscriptionList() {
-   const response = yield call(SubscriptionList);
+function* handleNewSubscriptionList(action) {
+    const { customerId } = action.payload;
+
+   // Correctly pass the ID to the API
+   const response = yield call(SubscriptionList, customerId);
    console.log("handleNewSubscriptionList",response)
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'NEW_SUBSCRIPTION_LIST', payload: {response:response.data, statusCode: response.status || response.data.statusCode} })
@@ -1055,6 +1058,26 @@ function* handleNewSubscriptionList() {
       refreshToken(response)
    }
 }
+
+function* handleSubscriptionPdf(action) {
+   const response = yield call(SubscriptionPdfDownload, action.payload)
+
+   console.log("response", response);
+   
+   
+     if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'SUBSCRIPTION_PDF', payload: {response:response.data.pdf_url , statusCode:response.status || response.statusCode
+      }})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
 // refreshtocken
 function refreshToken(response) {
 
@@ -1104,6 +1127,6 @@ function* SettingsSaga() {
    yield takeEvery('CHECKPASSWORD',handleCheckPassword)
    yield takeEvery('NEWSUBSCRIPTION',handleNewSubscriptionpage)
    yield takeEvery('NEWSUBSCRIPTIONDETAILS',handleNewSubscriptionList)
-
+   yield takeEvery('SUBSCRIPTIONPDF',handleSubscriptionPdf)
 }
 export default SettingsSaga;
