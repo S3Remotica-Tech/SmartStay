@@ -117,8 +117,8 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
   }, [state?.createAccount?.accountList[0]?.plan_data]);
 
   useEffect(() => {
-    if (accountList?.length > 0 && accountList[0]?.plan_end_date) {
-      const planEndDate = new Date(accountList[0].plan_end_date);
+    if (accountList?.length > 0 && accountList[0]?.plan_end) {
+      const planEndDate = new Date(accountList[0].plan_end);
       const currentDate = new Date();
       const diffInDays = Math.floor(
         (planEndDate - currentDate) / (1000 * 60 * 60 * 24)

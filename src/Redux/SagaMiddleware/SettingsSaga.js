@@ -1,5 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
-import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList} from "../Action/SettingsAction"
+import { RecurringRole, AddExpencesCategory,EditExpencesCategory, ExpencesCategorylist, DeleteExpencesCategoryList, Addcomplainttype, Complainttypelist, DeletecomplaintType, AddEBBillingUnit, GetEBBillingUnit,GetAllRoles,AddSettingRole,AddSettingPermission,editRolePermission,deleteRolePermission,addStaffUser,GetAllStaff,GetAllReport,AddGeneral,GetAllGeneral,passwordChangesinstaff,generalDelete,passwordCheck, Editcomplainttype , DeleteElectricity,newSubscription,SubscriptionList , SubscriptionPdfDownload} from "../Action/SettingsAction"
 
 import Cookies from 'universal-cookie';
 import Swal from 'sweetalert2';
@@ -105,7 +105,6 @@ function* handleCategoryAdd(params) {
         
        };
  
-       // Use the toast with the defined style
        toast.success(response.data.message, {
          position: "bottom-center",
          autoClose: 2000,
@@ -204,7 +203,6 @@ function* handleDeleteExpencescategory(action) {
 
 function* handleComplainttypelist(action) {
    const response = yield call(Complainttypelist, action.payload);
-   console.log("response",response);
    
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'COMPLAINT_TYPE_LIST', payload: { response: response.data.complaint_types, statusCode: response.status || response.data.statusCode, message: response.data.message } })
@@ -223,7 +221,6 @@ function* handleComplainttypelist(action) {
    }
 }
 
-//add complaint
 function* handleComplaintTypeAdd(params) {
    const response = yield call(Addcomplainttype, params.payload);
 
@@ -281,10 +278,8 @@ function* handleComplaintTypeAdd(params) {
    }
 }
 
-//edit complaint
 function* handleComplaintTypeEdit(action) {
    const response = yield call(Editcomplainttype, action.payload);
-console.log("handleComplaintTypeEdit",response)
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'COMPLAINT_TYPE_EDIT', payload: { response: response.data, statusCode: response.status || response.data.statusCode , message: response.data.message } })
      
@@ -361,7 +356,6 @@ function* handleDeleteComplainttype(action) {
         
        };
  
-       // Use the toast with the defined style
        toast.success('ComplaintType has been successfully deleted!', {
          position: "bottom-center",
          autoClose: 2000,
@@ -400,7 +394,6 @@ function* handleEBBillingUnitAdd(params) {
    
    const response = yield call(AddEBBillingUnit, params.payload);
 
-   console.log("handleEBBillingUnitAdd",response)
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'EB_BILLING_UNIT_ADD', payload: { response: response.data, statusCode: response.status || response.data.statusCode , message: response.data.message } })
     
@@ -421,7 +414,6 @@ function* handleEBBillingUnitAdd(params) {
         
        };
  
-       // Use the toast with the defined style
        toast.success(response.data.message, {
          position: "bottom-center",
          autoClose: 2000,
@@ -482,7 +474,6 @@ function* handleDeleteElectricity(action) {
         
        };
  
-       // Use the toast with the defined style
        toast.success(response.data.message, {
          position: "bottom-center",
          autoClose: 2000,
@@ -642,7 +633,6 @@ function* handleEditRolePermission(detail) {
 function* handleDeleteRolePermission(detail) {
    const response = yield call (deleteRolePermission, detail.payload);
 
-console.log("response",response)
 
 
    var toastStyle = {
@@ -678,7 +668,6 @@ console.log("response",response)
 
   else if (response.data.status === 202 || response.data.statusCode === 202 || response.status === 202){
       yield put ({type : 'ASSIGNED_ERROR' , payload:{statusCode:response.data.status || response.data.statusCode }});
-      // toast.error(`${response.data.message}`, {
       toast.error("This role is assigned to user", {
         position: "bottom-center",
         autoClose: 2000,
@@ -755,7 +744,6 @@ function* handleAddStaffUserPage(detail) {
 
 function* handleGetAllStaffs(action) {
    const response = yield call(GetAllStaff,action.payload)
-   console.log("handleGetAllStaffs",response)
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'USER_STAFF_LIST', payload:{response: response.data.user_details, statusCode:response.status || response.data.statusCode}})
    }
@@ -850,7 +838,6 @@ function* handleGetAllGeneral() {
 
 function* handleChangePasswordinStaff(action) {
    const response = yield call (passwordChangesinstaff, action.payload);
-   console.log("handleChangePasswordinStaff",response)
 
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -896,7 +883,6 @@ function* handleChangePasswordinStaff(action) {
 
 function* handleCheckPassword(action) {
    const response = yield call (passwordCheck, action.payload);
-   console.log("handleCheckPassword",response)
 
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -990,11 +976,9 @@ function* handleDeleteGenerlPage(action) {
    }
  }
 
-// subscription
 
 function* handleNewSubscriptionpage(action) {
    const response = yield call(newSubscription, action.payload);
- console.log("handleNewSubscriptionpage",response)
    var toastStyle = {
      backgroundColor: "#E6F6E6",
      color: "black",
@@ -1042,9 +1026,10 @@ function* handleNewSubscriptionpage(action) {
  }
 
 
-function* handleNewSubscriptionList() {
-   const response = yield call(SubscriptionList);
-   console.log("handleNewSubscriptionList",response)
+function* handleNewSubscriptionList(action) {
+    const { customerId } = action.payload;
+
+   const response = yield call(SubscriptionList, customerId);
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'NEW_SUBSCRIPTION_LIST', payload: {response:response.data, statusCode: response.status || response.data.statusCode} })
    }
@@ -1055,7 +1040,25 @@ function* handleNewSubscriptionList() {
       refreshToken(response)
    }
 }
-// refreshtocken
+
+function* handleSubscriptionPdf(action) {
+   const response = yield call(SubscriptionPdfDownload, action.payload)
+
+   
+   
+     if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'SUBSCRIPTION_PDF', payload: {response:response.data.pdf_url , statusCode:response.status || response.statusCode
+      }})
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+   if(response){
+      refreshToken(response)
+   }
+}
+
+
 function refreshToken(response) {
 
    if (response.data && response.data.refresh_token) {
@@ -1104,6 +1107,6 @@ function* SettingsSaga() {
    yield takeEvery('CHECKPASSWORD',handleCheckPassword)
    yield takeEvery('NEWSUBSCRIPTION',handleNewSubscriptionpage)
    yield takeEvery('NEWSUBSCRIPTIONDETAILS',handleNewSubscriptionList)
-
+   yield takeEvery('SUBSCRIPTIONPDF',handleSubscriptionPdf)
 }
 export default SettingsSaga;
