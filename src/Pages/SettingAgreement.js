@@ -12,7 +12,6 @@ import searchteam from "../Assets/Images/New_images/Search Team.png";
 
 function SettingAgreement() {
   const [isEditable, setIsEditable] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
 
 //   const variables = [
 //     "[Date]", "[Smartstay / Hostel Name]", "[Tenant Full Name]", "[Room No]",
@@ -403,7 +402,7 @@ function SettingAgreement() {
     placeholder="Search Variables"
   />
    <span className="input-group-text bg-white border-start-0">
-    <img src={searchteam} width={15} height={15}/> {/* Bootstrap icon class */}
+    <img src={searchteam} width={15} height={15} alt="search_variable"/> {/* Bootstrap icon class */}
   </span>
 </div>
 

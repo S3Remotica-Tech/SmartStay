@@ -4,34 +4,28 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import DeleteIcon from '../Assets/Images/Delete_red.png';
-import { FaCalendarAlt } from "react-icons/fa";
 import { FaCheck } from 'react-icons/fa';
-import Calendar from "react-calendar";
 import DatepickerIcon from "../Assets/Images/calendar-2.png"
 import 'react-calendar/dist/Calendar.css';
-import { MdDelete } from "react-icons/md";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-import InvoiceSettingsList from "./InvoicesettingsList";
 import leftarrow from "../Assets/Images/arrow-left.png"
 import Modal from "react-bootstrap/Modal";
 import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import Billsimage from '../Assets/Images/bill_settings.png';
-import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import Select from "react-select";
 import PropTypes from "prop-types";
 import {CloseCircle} from "iconsax-react";
 import './SettingInvoice.css';
 import   "./SettingsBills.css";
 
-function SettingsBills({ hostelid }) {
+function SettingsBills() {
 
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-//   const [selectedDate, setSelectedDate] = useState(null);
 
   const [invoiceDate, setInvoiceDate] = useState('');
   const [invoicedueDate, setInvoiceDueDate] = useState('');
@@ -42,7 +36,7 @@ function SettingsBills({ hostelid }) {
   const [selectedFrom, setSelectedFrom] = useState(null);
   const [selectedTo, setSelectedTo] = useState(null);
 
-  const dates = Array.from({ length: 31 }, (_, i) => i + 1); // Sample dates 1-31
+  const dates = Array.from({ length: 31 }, (_, i) => i + 1);
 
   const handleFromClick = (date) => {
     setSelectedFrom(date);
@@ -65,7 +59,6 @@ function SettingsBills({ hostelid }) {
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [duedateerrmsg, setDueDateErrmsg] = useState("");
   const [recurringform, setRecurringForm] = useState(false);
-  const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(false)
   const initialValuesRef = useRef({});
 
@@ -75,8 +68,6 @@ function SettingsBills({ hostelid }) {
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
   const [every_recurr, setEvery_Recurr] = useState("");
   const [InvoiceList, setInvoiceList] = useState([]);
-  const [formFilled, setFormFilled] = useState(false);
-  const [isChecked, setIsChecked] = useState(false); 
 
   const [isOn, setIsOn] = useState(true);
 
@@ -119,21 +110,17 @@ function SettingsBills({ hostelid }) {
   const handleSelect = (selected) => {
     if (!selected) return;
 
-    // Add to selected
     setSelectedDays((prev) => [...prev, selected]);
 
-    // Remove from available options
     setAvailableOptions((prev) =>
       prev.filter((opt) => opt.value !== selected.value)
     );
   };
 
   const handleDelete = (value) => {
-    // Remove from selected
     const removed = selectedDays.find((item) => item.value === value);
     setSelectedDays((prev) => prev.filter((item) => item.value !== value));
 
-    // Add back to dropdown
     setAvailableOptions((prev) => [...prev, removed].sort((a, b) => a.value - b.value));
   };
 
@@ -171,16 +158,7 @@ function SettingsBills({ hostelid }) {
 
 
 
-  // const handlePrefix = (e) => {
-  //   setTotalErrmsg("");
-  //   setPrefix(e.target.value);
-  //   setSuffixfixErrmsg("");
-  //   if (!e.target.value) {
-  //     setPrefixErrmsg("Please Enter Prefix");
-  //   } else {
-  //     setPrefixErrmsg("");
-  //   }
-  // };
+ 
   const handlePrefix = (e) => {
     const inputValue = e.target.value;
     if (/^[a-zA-Z]*$/.test(inputValue)) {
@@ -203,22 +181,10 @@ function SettingsBills({ hostelid }) {
   ];
 
   const handleSuffix = (selected) => {
-    setStartNumber(selected.value); // assuming startNumber is useState
+    setStartNumber(selected.value); 
   };
 
-//   const handleSuffix = (e) => {
-//     setTotalErrmsg("");
-//     setSuffixfixErrmsg("");
-//     const value = e.target.value;
-//     if (/^\d*$/.test(value)) {
-//       setStartNumber(value);
-//     }
-//     if (!e.target.value) {
-//       setSuffixfixErrmsg("Please Enter suffix");
-//     } else {
-//       setSuffixfixErrmsg("");
-//     }
-//   };
+
 
   const handleEdit = (item) => {
     console.log("item", item);
@@ -228,10 +194,8 @@ function SettingsBills({ hostelid }) {
     setInvoiceDate(item.inv_date)
     setInvoiceDueDate(item.due_date)
 
-    setEdit(true);
     setShowForm(true);
 
-    // Save initial values for editing
     initialValuesRef.current = {
       editprefix: item.prefix,
       editstartnumber: item.suffix,
@@ -244,66 +208,7 @@ function SettingsBills({ hostelid }) {
 
  
 
-  const handleInvoiceSettings = () => {
-    const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== "";
-    const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== "";
-    // const isSelectedImageValid = selectedImage !== null;
   
-    if (!isPrefixValid || !isStartNumberValid || !invoiceDate || !invoicedueDate) {
-      if (!isPrefixValid) {
-        setPrefixErrmsg("Please enter Prefix");
-      }
-      if (!isStartNumberValid) {
-        setSuffixfixErrmsg("Please Enter Suffix");
-      }
-      if (!invoiceDate) {
-        setInvoiceDateErrmsg("Please Select Date");
-        
-      }
-      if (!invoicedueDate) {
-        setDueDateErrmsg("Please Select Date");
-      }
-      return;
-    }
-  
-    // Check if any changes were made
-    if (
-      edit && 
-      prefix === initialValuesRef.current.editprefix &&
-      startNumber === initialValuesRef.current.editstartnumber &&
-      invoiceDate === initialValuesRef.current.editinvoicedate &&
-      invoicedueDate === initialValuesRef.current.editduedate 
-    ) {
-      setTotalErrmsg("No Changes Detected");
-      return;
-    }
-  
-    if (isPrefixValid && isStartNumberValid && state.login.selectedHostel_Id && invoiceDate && invoicedueDate) {
-  
-      dispatch({
-        type: "INVOICESETTINGS",
-        payload: {
-          hostel_Id: state.login.selectedHostel_Id,
-          prefix: prefix,
-          suffix: startNumber,
-          inv_date: invoiceDate,
-          due_date: invoicedueDate
-        }
-      });
-  
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-  
-      setShowForm(false);
-      setPrefix("");
-      setStartNumber("");
-      setSelectedDate("");
-      setInvoiceDueDate("");
-      setTotalErrmsg("");
-    } else {
-      setSelectedDate("");
-      setInvoiceDueDate("");
-    }
-  };
   
 
 
@@ -324,47 +229,12 @@ function SettingsBills({ hostelid }) {
 
 
 
-  useEffect(() => {
-    if (!state.UsersList?.hotelDetailsinPg) return; 
-  
-    const filteredHostels = state.UsersList.hotelDetailsinPg.filter(
-      (item) => item.id === Number(hostelid)
-    );
-  
-    if (filteredHostels.length > 0) {
-      const recureEnable = filteredHostels[0]?.recure === 1;
-      setIsChecked(recureEnable);
-      console.log("recure", filteredHostels[0]?.recure);
-  
-      // const profileURL = filteredHostels[0]?.profile;
-      // setLogo(profileURL);
-    } 
-    // else {
-    //   setLogo(Logo);
-    // }
-  }, [state.UsersList?.hotelDetailsinPg, hostelid]); 
+ 
 
   
   
 
 
-  useEffect(() => {
-  if (state.UsersList?.hotelDetailsinPg) {
-    setTimeout(() => {
-      const filteredHostels = state.UsersList.hotelDetailsinPg.filter(
-        (item) => item.id === Number(hostelid)
-      );
-
-      if (filteredHostels.length > 0) {
-        setIsChecked(filteredHostels[0]?.recure === 1);
-        // setLogo(filteredHostels[0]?.profile);
-      } 
-      // else {
-      //   setLogo(Logo);
-      // }
-    }, 500); 
-  }
-}, [state.UsersList?.hotelDetailsinPg, hostelid]);
 
   
 
@@ -418,7 +288,6 @@ function SettingsBills({ hostelid }) {
       return;
     }
     setShowForm(true);
-    setEdit(false);
     console.log("Form is now showing...");
   };
 
@@ -436,34 +305,21 @@ function SettingsBills({ hostelid }) {
     setInvoiceDueDate('')
   };
 
-  const handleRecurringFormShow = () => {
-    setRecurringForm(true);
+  
 
-  };
-
-  // const handleCloseRecurringForm = () => {
-  //   setRecurringForm(false);
-  //   setCalculatedstartdateErrmsg('')
-  //   setCalculatedEnddateErrMsg('')
-  //   setCalculatedstartdate('')
-  //   setCalculatedEnddate('')
-  // };
+ 
 
   
 
   const handleCloseRecurringForm = () => {
-    // Close form WITHOUT calling API
     setRecurringForm(false);
     setCalculatedstartdateErrmsg('')
     setCalculatedEnddateErrMsg('')
     setCalculatedstartdate('')
     setCalculatedEnddate('')
 
-    if (!formFilled) {
-        setIsChecked(false); // Reset switch only if no data entered
-    }
+   
 
-    setFormFilled(false);
 };
 
 
@@ -508,17 +364,8 @@ function SettingsBills({ hostelid }) {
   console.log("UsersListSTATUSCODE", state.UsersList.noAllHosteListStatusCode);
 
 
-  // useEffect(() => {
-  //   if (InvoiceList.length === 0) {
-  //   }
-  //   else if (InvoiceList && InvoiceList?.every(
-  //     (item) =>
-  //       (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
-  //       (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
-  //   )) {
-  //     setLoading(false)
-  //   }
-  // }, [InvoiceList])
+ 
+
   useEffect(() => {
     if (!InvoiceList || InvoiceList.length === 0) return;
   
@@ -536,7 +383,6 @@ function SettingsBills({ hostelid }) {
 
   console.log("InvoiceList:", InvoiceList);
 
-  // start date change
   const options = Array.from({ length: 31 }, (_, index) => ({
     value: index + 1,
     label: index + 1,
@@ -621,7 +467,6 @@ function SettingsBills({ hostelid }) {
            minHeight: 73,
           whiteSpace: "nowrap",
           paddingRight:10,
-          // paddingLeft:10,
     }}
   >
 
@@ -679,7 +524,6 @@ function SettingsBills({ hostelid }) {
                                       style={{
                                         fontWeight: 500,
                                         fontSize: "18px",
-                                        // marginLeft: 15,
                                         fontFamily: "Gilroy",
                                         paddingLeft: "10px"
                                       }}
@@ -700,7 +544,6 @@ function SettingsBills({ hostelid }) {
                         <Form.Label
                           style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal" }}>
                           Name
-                          {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
                         </Form.Label>
                         <Form.Control
                           style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
@@ -708,8 +551,7 @@ function SettingsBills({ hostelid }) {
                           placeholder="name"
                           value={prefix}
                           onChange={(e) => handlePrefix(e)}
-                        // readOnly
-                        // style={inputStyle}
+                        
                         />
                       </Form.Group>
 
@@ -799,7 +641,6 @@ function SettingsBills({ hostelid }) {
                             Calculation Date</p>
                     </div>   
                     <div className="row">
-      {/* FROM Datepicker */}
       <div className="col-6 position-relative mb-4">
         <label style={{  fontFamily: "Gilroy",  fontSize: 14,  fontWeight: 500,  color: "#000",  fontStyle: "normal", lineHeight: "normal",}}>From</label>
         <button
@@ -835,7 +676,6 @@ function SettingsBills({ hostelid }) {
         )}
       </div>
 
-      {/* TO Datepicker */}
       <div className="col-6 position-relative">
         <label style={{  fontFamily: "Gilroy",  fontSize: 14,  fontWeight: 500,  color: "#000",  fontStyle: "normal", lineHeight: "normal",}}>To</label>
         <button
@@ -873,11 +713,9 @@ function SettingsBills({ hostelid }) {
 
 
     <div className="row">
-  {/* FROM DATE */}
   <div className="col-lg-6 mb-3">
     <label htmlFor="startDayDropdown" className="form-label">
     Billing Date of Month
-      {/* <span style={{ color: "red", fontSize: "20px" }}> *</span> */}
     </label>
     <Select
       options={options}
@@ -937,11 +775,9 @@ function SettingsBills({ hostelid }) {
     )}
   </div>
 
-  {/* TO DATE */}
   <div className="col-lg-6 mb-3">
     <label htmlFor="endDayDropdown" className="form-label">
     Due Date of Month
-      {/* <span style={{ color: "red", fontSize: "20px" }}> *</span> */}
     </label>
     <Select
       options={options}
@@ -1044,7 +880,6 @@ function SettingsBills({ hostelid }) {
         }}
       />
 
-      {/* Show selected values below */}
       {selectedDays.length > 0 && (
         <div className="mt-3 d-flex flex-wrap gap-2">
           {selectedDays.map((item) => (
@@ -1056,15 +891,7 @@ function SettingsBills({ hostelid }) {
               {item.label} 
 
               <img className="ms-2"  src={DeleteIcon} alt="deleterecurr" height={14} width={14} onClick={() => handleDelete(item.value)}/>
-              {/* <MdDelete
-                
-                style={{
-                  color: "red",
-                  marginLeft: "10px",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                }}
-              /> */}
+            
             </div>
           ))}
         </div>
@@ -1154,7 +981,6 @@ function SettingsBills({ hostelid }) {
       style={{
         fontFamily: "Gilroy",
         fontSize: "14px",
-        // backgroundColor: "rgba(247, 52, 52, 1)",
         color: "rgba(75, 75, 75, 1)",
         fontWeight: 600,
         borderRadius: "12px",
@@ -1199,7 +1025,6 @@ function SettingsBills({ hostelid }) {
       }}
     >
       <Card.Body style={{ padding: 20 }}>
-        {/* Header Section */}
         <div className="d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap mb-3">
     <div className="d-flex align-items-center gap-3">
       <img src={Billsimage} height={20} width={20} alt="billsimage" />
@@ -1231,7 +1056,6 @@ function SettingsBills({ hostelid }) {
 
     <div className="mt-3 mt-md-0">
            <button
-              // key={`add-invoice-${list.id}`}
               onClick={handleShow}
               style={{
                 fontFamily: "Gilroy",
@@ -1250,56 +1074,7 @@ function SettingsBills({ hostelid }) {
             </button>
     </div>
   
-    {/* <div className="mt-3 mt-md-0">
-      {InvoiceList && InvoiceList.length > 0 &&
-        InvoiceList.map((list) => {
-          const isDefaultPrefixSuffix =
-            (!list.prefix || list.prefix === 'null' || list.prefix === null || list.prefix === 0) &&
-            (!list.suffix || list.suffix === 'null' || list.suffix === null || list.suffix === 0);
-  
-          return isDefaultPrefixSuffix ? (
-            <button
-              key={`add-invoice-${list.id}`}
-              onClick={handleShow}
-              style={{
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-                backgroundColor: "#1E45E1",
-                color: "white",
-                fontWeight: 600,
-                borderRadius: "8px",
-                width: 146,
-                height: 45,
-                border: "2px solid #1E45E1",
-              }}
-              disabled={showPopup}
-            >
-              + Recurring
-            </button>
-          ) : (
-            <div className="d-flex align-items-center gap-2">
-              <label
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 12,
-                  color: "#222",
-                  fontWeight: 400,
-                  marginBottom: 0,
-                }}
-              >
-                Automation Status
-              </label>
-              <Form.Check
-                type="switch"
-                id={`custom-switch-${list.id}`}
-                className="custom-switch-pointer"
-                checked={isChecked}
-                onChange={() => setIsChecked(!isChecked)}
-              />
-            </div>
-          )
-        })}
-    </div> */}
+   
 
 
 
@@ -1315,7 +1090,6 @@ function SettingsBills({ hostelid }) {
   </div>
   
   
-        {/* Render details only if hotelDetailsinPg is not empty */}
         {state.UsersList.hotelDetailsinPg.length === 0 && (
           <>
             {state.UsersList.hotelDetailsinPg.map((item) => (
@@ -1421,376 +1195,7 @@ function SettingsBills({ hostelid }) {
 
 
 
-      {/* {showform ? (
-        <div
-          className="modal show"
-          style={{ display: "block", position: "initial", fontFamily: "Gilroy,sans-serif" }}
-        >
-          <Modal show={showform} onHide={handleCloseForm} centered backdrop="static">
-            <Modal.Dialog
-              style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
-              className="m-0 p-0"
-            >
-              <Modal.Body>
-                <div>
-                  <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
-                  >
-                    <div
-                      style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
-                    >
-                      {edit ? "Edit Invoice" : "Add Invoice "}
-                    </div>
-                  
-                    <CloseCircle size="24" color="#000" onClick={handleCloseForm} 
-            style={{ cursor: 'pointer' }}/>
-                  </Modal.Header>
-                </div>
-
-                <div className="row mt-1">
-                  <div className="d-flex row ">
-                    <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal" }}>
-                          Prefix
-                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                        </Form.Label>
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "10px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
-                          type="text"
-                          placeholder="prefix"
-                          value={prefix}
-                          onChange={(e) => handlePrefix(e)}
-                       
-                        />
-                      </Form.Group>
-
-                      {prefixerrormsg.trim() !== "" && (
-                        <div>
-                          <p
-                            style={{
-                              fontSize: "12px",
-                              color: "red",
-                              fontFamily:"Gilroy",
-                              fontWeight:500
-                              
-                            }}
-                          >
-                            {prefixerrormsg !== " " && (
-                              <MdError
-                                style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
-                              />
-                            )}{" "}
-                            {prefixerrormsg}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-
-
-                    <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group
-                        className="mb-1"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal", }}
-                        >
-                          Suffix
-                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                        </Form.Label>
-                        <Form.Control
-                          style={{
-                            padding: "10px",
-                            marginTop: "10px",
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            lineHeight: "18.83px",
-                            fontWeight: 500,
-                          }}
-                          type="text"
-                          placeholder="suffix"
-                          value={startNumber}
-                          onChange={(e) => handleSuffix(e)}
-                       
-                        />
-
-
-
-                        {suffixerrormsg.trim() !== "" && (
-                          <div>
-                            <p
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                marginTop: "3px",
-                                fontFamily:"Gilroy",
-                                fontWeight:500
-                              }}
-                            >
-                              {suffixerrormsg !== " " && (
-                                <MdError
-                                  style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
-                                />
-                              )}{" "}
-                              {suffixerrormsg}
-                            </p>
-                          </div>
-                        )}
-                      </Form.Group>
-                    </div>
-                  </div>
-                 
-
-
-
-                  <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                    <Form.Group
-                      className="mb-3"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          fontWeight: 500,
-                          color: "#000",
-                          fontStyle: "normal",
-                          lineHeight: "normal",
-                        }}
-                      >
-                        Preview
-                      </Form.Label>
-                      <Form.Control
-                        style={{
-                          padding: "10px",
-                          marginTop: "10px",
-                          backgroundColor: "#E7F1FF",
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          lineHeight: "18.83px",
-                          fontWeight: 500,
-                        }}
-                        type="text"
-                        placeholder="preview"
-                        readOnly
-                        value={prefix + startNumber}
-                     
-                      />
-                    </Form.Group>
-                  </div>
-
-               
-
-
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation Start Date Will Be
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Select
-                        options={options}
-                        onChange={handleInvoiceStartDateChange}
-                        value={options.find((option) => option.value === invoiceDate)}
-                        placeholder="Select"
-                        classNamePrefix="custom" 
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "40px",
-                            border: "1px solid #ced4da",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor:"pointer"
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-                    </div>
-                    {invoicedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1 ">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {invoicedateerrmsg}
-                        </label>
-                      </div>
-                    )}
-                     
-                  </div>
-
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation End Date Will Be 
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Select
-                        options={options}
-                        onChange={handleInvoiceEndDateChange}
-                        value={options.find((option) => option.value === invoicedueDate)}
-                        placeholder="Select"
-                        classNamePrefix="custom" 
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "40px",
-                            border: "1px solid #ced4da",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            overflowY: "auto",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                             cursor:"pointer"
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-                    </div>
-                  
-
-{duedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {duedateerrmsg}
-                        </label>
-                      </div>
-                    )}
-
-                  </div>
-
-
-
-
-
-                  {totalErrormsg.trim() !== "" && (
-                    <div className="text-center">
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          marginTop: "13px",
-                          fontFamily:"Gilroy",
-                          fontWeight:500
-                        }}
-                      >
-                        {totalErrormsg !== " " && (
-                          <MdError style={{ fontSize: "14px", color: "red",marginBottom:"2px" }} />
-                        )}{" "}
-                        {totalErrormsg}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </Modal.Body>
-
-              <Modal.Footer style={{ border: "none" }}>
-                <Button
-                  className="w-100 mt-2"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 500,
-                    height: 50,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                    marginTop:"-23px"
-                  }}
-                  onClick={handleInvoiceSettings}
-                >
-                   {edit ? "Update Invoice" : "Add Invoice "}
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
-
-
-      ) : null} */}
+    
 
 
 
@@ -1832,37 +1237,7 @@ function SettingsBills({ hostelid }) {
                     >
                       Recurring Enable
                     </div>
-                    {/* <button
-                      type="button"
-                      className="close"
-                      aria-label="Close"
-                      onClick={handleCloseRecurringForm}
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "16px",
-                        border: "1px solid black",
-                        background: "transparent",
-                        cursor: "pointer",
-                        padding: "0",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "25px",
-                        height: "25px",
-                        borderRadius: "50%",
-                      }}
-                    >
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          fontSize: "30px",
-                          paddingBottom: "6px",
-                        }}
-                      >
-                        &times;
-                      </span>
-                    </button> */}
+                  
                     <CloseCircle size="24" color="#000" onClick={handleCloseRecurringForm} 
             style={{ cursor: 'pointer' }}/>
 
@@ -1886,7 +1261,7 @@ function SettingsBills({ hostelid }) {
                         onChange={handleStartDateChange}
                         value={options.find((option) => option.value === calculatedstartdate)}
                         placeholder="Select"
-                        classNamePrefix="custom" // Prefix for custom styles
+                        classNamePrefix="custom" 
                         menuPlacement="auto"
                         styles={{
                           control: (base) => ({
@@ -1962,7 +1337,7 @@ function SettingsBills({ hostelid }) {
                         onChange={handleEndDateChange}
                         value={options.find((option) => option.value === calculatedenddate)}
                         placeholder="Select"
-                        classNamePrefix="custom" // Prefix for custom styles
+                        classNamePrefix="custom" 
                         menuPlacement="auto"
                         styles={{
                           control: (base) => ({
@@ -2072,6 +1447,5 @@ function SettingsBills({ hostelid }) {
 SettingsBills.propTypes = {
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
-  hostelid: PropTypes.func.isRequired,
 }
 export default SettingsBills;
