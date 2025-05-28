@@ -126,20 +126,26 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.1.0",
     "globals": "^16.0.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
     "typescript-eslint": "^8.24.1",
     "webpack": "^5.89.0"
   },
   "jest": {
     "transformIgnorePatterns": [
-      "node_modules/(?!(axios|@canvasjs/react-charts|react-to-pdf|react-owl-carousel2))"
+      "node_modules/(?!(axios|@canvasjs/react-charts|react-to-pdf|react-owl-carousel2|swiper))"
     ],
     "transform": {
       "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
     },
     "moduleNameMapper": {
       "\\.module\\.css$": "identity-obj-proxy",
-      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+      "^swiper/css$": "identity-obj-proxy",
+      "^swiper/css/navigation$": "identity-obj-proxy",
+      "^swiper/css/pagination$": "identity-obj-proxy",
+      "^swiper/react$": "<rootDir>/__mocks__/swiperReactMock.js",
+      "^swiper/modules$": "<rootDir>/__mocks__/swiperModulesMock.js"
     }
   },
   "proxy": "http://localhost:2001"

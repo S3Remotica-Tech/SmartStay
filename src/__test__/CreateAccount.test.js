@@ -6,24 +6,28 @@ import { Provider, useSelector } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from '@testing-library/user-event'
 
-
-jest.mock('react-redux', () => ({
-    ...jest.requireActual('react-redux'),
+jest.mock('react-redux', () => {
+  const ActualRedux = jest.requireActual('react-redux');
+  return {
+    ...ActualRedux,
     useSelector: jest.fn(),
-}));
+  };
+});
+
 describe('checking for create account', () => {
     const event = userEvent.setup()
     const mockStore = configureStore()
     const store = mockStore({
     })
 
-    beforeEach(() => {
-        jest.mocked(useSelector).mockImplementation(() => ({
-            createAccount: {
-                statusCodeCreateAccount: 100
-            }
-        }))
-    })
+   beforeEach(() => {
+  useSelector.mockImplementation(() => ({
+    createAccount: {
+      statusCodeCreateAccount: 100,
+    },
+  }));
+});
+
     
 
     it('it should checks for UI renders and register', async () => {

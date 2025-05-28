@@ -6,6 +6,10 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 
+
+
+
+
 describe('test for forget password', () => {
 
     const event = userEvent.setup()

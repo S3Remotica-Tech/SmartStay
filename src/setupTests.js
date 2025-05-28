@@ -14,6 +14,9 @@ jest.mock('react-owl-carousel2', () => {
   };
 });
 
+
+
+
 global.scrollTo = jest.fn();
 
 global.IntersectionObserver = class {
