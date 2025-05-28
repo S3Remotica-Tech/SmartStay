@@ -862,13 +862,13 @@ describe('it should check invoice reducers', () => {
                 statusCode: 200
             }
         };
-    
+
         expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             deleterecurringbillsStatuscode: 200
         });
     });
-    
+
     it('it should check CLEAR_DELETE_RECURRINGBILLS_STATUS_CODE', () => {
         const action = {
             type: 'CLEAR_DELETE_RECURRINGBILLS_STATUS_CODE',
@@ -876,13 +876,13 @@ describe('it should check invoice reducers', () => {
                 statusCode: 0
             }
         };
-    
+
         expect(InvoiceReducer({ ...initialState, deleterecurringbillsStatuscode: 200 }, action)).toStrictEqual({
             ...initialState,
             deleterecurringbillsStatuscode: 0
         });
     });
-    
+
 
 
     it('it should check SETTINGS_ADD_RECURRING', () => {
@@ -892,13 +892,13 @@ describe('it should check invoice reducers', () => {
                 statusCode: 200
             }
         };
-    
+
         expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             settingsaddRecurringStatusCode: 200
         });
     });
-    
+
     it('it should check REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING', () => {
         const action = {
             type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING',
@@ -906,13 +906,13 @@ describe('it should check invoice reducers', () => {
                 statusCode: 0
             }
         };
-    
+
         expect(InvoiceReducer({ ...initialState, settingsaddRecurringStatusCode: 201 }, action)).toStrictEqual({
             ...initialState,
             settingsaddRecurringStatusCode: 0
         });
     });
-    
+
 
     it('it should check RECEIPTS_LIST', () => {
         const action = {
@@ -922,30 +922,30 @@ describe('it should check invoice reducers', () => {
                 statusCode: 200
             }
         };
-    
+
         expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             ReceiptList: [],
             ReceiptlistgetStatuscode: 200
         });
     });
-    
+
     it('it should  check RECEIPTS_LIST', () => {
         const action = {
             type: 'RECEIPTS_LIST',
             payload: {
-                response: null, 
+                response: null,
                 statusCode: 200
             }
         };
-    
+
         expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
             ReceiptList: [],
             ReceiptlistgetStatuscode: 200
         });
     });
-    
+
     it('it should check REMOVE_STATUS_CODE_RECEIPTS_LIST', () => {
         const action = {
             type: 'REMOVE_STATUS_CODE_RECEIPTS_LIST',
@@ -953,13 +953,13 @@ describe('it should check invoice reducers', () => {
                 statusCode: 0
             }
         };
-    
+
         expect(InvoiceReducer({ ...initialState, ReceiptlistgetStatuscode: 200 }, action)).toStrictEqual({
             ...initialState,
             ReceiptlistgetStatuscode: 0
         });
     });
-    
+
 
 
 
@@ -1000,12 +1000,12 @@ describe('it should check invoice reducers', () => {
                 statusCode: 200,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
             ...initialState, ReceiptEditsuccessStatuscode: 200,
         });
     });
-    
+
     it('it should check REMOVE_STATUS_CODE_RECEIPTS_EDIT', () => {
         const action = {
             type: 'REMOVE_STATUS_CODE_RECEIPTS_EDIT',
@@ -1013,12 +1013,12 @@ describe('it should check invoice reducers', () => {
                 statusCode: 0,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
-            ...initialState,ReceiptEditsuccessStatuscode: 0,
+            ...initialState, ReceiptEditsuccessStatuscode: 0,
         });
     });
-    
+
     it('it should check DELETERECEIPT', () => {
         const action = {
             type: 'DELETERECEIPT',
@@ -1026,12 +1026,12 @@ describe('it should check invoice reducers', () => {
                 statusCode: 200,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
             ...initialState, ReceiptDeletesuccessStatuscode: 200,
         });
     });
-    
+
     it('it should check CLEAR_DELETE_RECEIPT_STATUS_CODE', () => {
         const action = {
             type: 'CLEAR_DELETE_RECEIPT_STATUS_CODE',
@@ -1039,12 +1039,12 @@ describe('it should check invoice reducers', () => {
                 statusCode: 0,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
             ...initialState, ReceiptDeletesuccessStatuscode: 0,
         });
     });
-    
+
 
     it('it should check REFERENCEID_GET', () => {
         const action = {
@@ -1054,12 +1054,12 @@ describe('it should check invoice reducers', () => {
                 statusCode: 200,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
             ...initialState, Reference_Id: '', ReferenceIdgetsuccessStatuscode: 200,
         });
     });
-    
+
     it('it should check REMOVE_STATUS_CODE_REFERENCEID_GET', () => {
         const action = {
             type: 'REMOVE_STATUS_CODE_REFERENCEID_GET',
@@ -1067,12 +1067,12 @@ describe('it should check invoice reducers', () => {
                 statusCode: 0,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
             ...initialState, ReferenceIdgetsuccessStatuscode: 0,
         });
     });
-    
+
 
     it('it should check RECEIPT_PDF', () => {
         const action = {
@@ -1082,12 +1082,12 @@ describe('it should check invoice reducers', () => {
                 statusCode: 200,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
             ...initialState, ReceiptPDF: '', statusCodeForReceiptPDf: 200, toTriggerPDF: false,
         });
     });
-    
+
     it('it should check CLEAR_RECEIPT_PDF_STATUS_CODE', () => {
         const action = {
             type: 'CLEAR_RECEIPT_PDF_STATUS_CODE',
@@ -1095,22 +1095,22 @@ describe('it should check invoice reducers', () => {
                 statusCode: 0,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
             ...initialState, statusCodeForReceiptPDf: 0,
         });
     });
-    
+
 
     it('It should be clear  Unknown action', () => {
         const action = {
             type: 'UNKNOWN',
-           
+
 
         }
         expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-                   })
+        })
 
     })
 
@@ -1120,12 +1120,12 @@ describe('it should check invoice reducers', () => {
         const action = {
             type: 'NODATA_BILL_LIST',
             payload: {
-            statusCode: 200,
+                statusCode: 200,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
-            
+
             Invoice: [],
             message: '',
             invoiceSettings: [],
@@ -1159,7 +1159,7 @@ describe('it should check invoice reducers', () => {
             RecurringBillAddStatusCode: 0,
             RecurringBills: [],
             RecurringbillsgetStatuscode: 0,
-            NodataRecurringStatusCode:0,
+            NodataRecurringStatusCode: 0,
             deleterecurringbillsStatuscode: 0,
             settingsaddRecurringStatusCode: 0,
             deleteUserSuccessStatusCode: 0,
@@ -1172,7 +1172,7 @@ describe('it should check invoice reducers', () => {
             deletemanualError: '',
             ReceiptList: [],
             ReceiptlistgetStatuscode: 0,
-            NodataReceiptStatusCode:0,
+            NodataReceiptStatusCode: 0,
             ReceiptAddsuccessStatuscode: 0,
             ReceiptEditsuccessStatuscode: 0,
             ReceiptDeletesuccessStatuscode: 0,
@@ -1184,11 +1184,15 @@ describe('it should check invoice reducers', () => {
             ReceiptPDF: '',
             getstatusCodeForfilterrecurrcustomers: 0,
             FilterRecurrCustomers: [],
-            errorRecuireFile:'',
+            errorRecuireFile: '',
             RecurenotEnable: '',
-            RecurenotenableStatusCode : 0,
+            RecurenotenableStatusCode: 0,
             Errmessage: '',
-            amnitiessAddError:''
+            amnitiessAddError: '',
+            BillsPdfDetails: [],
+            BillsPdfSuccessCode: 0,
+            newReceiptchanges: [],
+            statusCodeNewReceiptStatusCode: 0
 
         });
     });
@@ -1197,11 +1201,11 @@ describe('it should check invoice reducers', () => {
     it('it should check REMOVE_NODATA_BILL_LIST', () => {
         const action = {
             type: 'REMOVE_NODATA_BILL_LIST',
-            
+
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
-            
+
             Invoice: [],
             message: '',
             invoiceSettings: [],
@@ -1235,7 +1239,7 @@ describe('it should check invoice reducers', () => {
             RecurringBillAddStatusCode: 0,
             RecurringBills: [],
             RecurringbillsgetStatuscode: 0,
-            NodataRecurringStatusCode:0,
+            NodataRecurringStatusCode: 0,
             deleterecurringbillsStatuscode: 0,
             settingsaddRecurringStatusCode: 0,
             deleteUserSuccessStatusCode: 0,
@@ -1248,7 +1252,7 @@ describe('it should check invoice reducers', () => {
             deletemanualError: '',
             ReceiptList: [],
             ReceiptlistgetStatuscode: 0,
-            NodataReceiptStatusCode:0,
+            NodataReceiptStatusCode: 0,
             ReceiptAddsuccessStatuscode: 0,
             ReceiptEditsuccessStatuscode: 0,
             ReceiptDeletesuccessStatuscode: 0,
@@ -1260,11 +1264,15 @@ describe('it should check invoice reducers', () => {
             ReceiptPDF: '',
             getstatusCodeForfilterrecurrcustomers: 0,
             FilterRecurrCustomers: [],
-            errorRecuireFile:'',
+            errorRecuireFile: '',
             RecurenotEnable: '',
-            RecurenotenableStatusCode : 0,
+            RecurenotenableStatusCode: 0,
             Errmessage: '',
-            amnitiessAddError:''
+            amnitiessAddError: '',
+            BillsPdfDetails: [],
+            BillsPdfSuccessCode: 0,
+            newReceiptchanges: [],
+            statusCodeNewReceiptStatusCode: 0
 
         });
     });
@@ -1272,16 +1280,16 @@ describe('it should check invoice reducers', () => {
 
 
 
- it('it should check NODATA_RECURRINGBILLS_LIST', () => {
+    it('it should check NODATA_RECURRINGBILLS_LIST', () => {
         const action = {
             type: 'NODATA_RECURRINGBILLS_LIST',
             payload: {
-            statusCode: 200,
+                statusCode: 200,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
-            
+
             Invoice: [],
             message: '',
             invoiceSettings: [],
@@ -1315,7 +1323,7 @@ describe('it should check invoice reducers', () => {
             RecurringBillAddStatusCode: 0,
             RecurringBills: [],
             RecurringbillsgetStatuscode: 0,
-            NodataRecurringStatusCode:200,
+            NodataRecurringStatusCode: 200,
             deleterecurringbillsStatuscode: 0,
             settingsaddRecurringStatusCode: 0,
             deleteUserSuccessStatusCode: 0,
@@ -1328,7 +1336,7 @@ describe('it should check invoice reducers', () => {
             deletemanualError: '',
             ReceiptList: [],
             ReceiptlistgetStatuscode: 0,
-            NodataReceiptStatusCode:0,
+            NodataReceiptStatusCode: 0,
             ReceiptAddsuccessStatuscode: 0,
             ReceiptEditsuccessStatuscode: 0,
             ReceiptDeletesuccessStatuscode: 0,
@@ -1340,11 +1348,15 @@ describe('it should check invoice reducers', () => {
             ReceiptPDF: '',
             getstatusCodeForfilterrecurrcustomers: 0,
             FilterRecurrCustomers: [],
-            errorRecuireFile:'',
+            errorRecuireFile: '',
             RecurenotEnable: '',
-            RecurenotenableStatusCode : 0,
+            RecurenotenableStatusCode: 0,
             Errmessage: '',
-            amnitiessAddError:''
+            amnitiessAddError: '',
+            BillsPdfDetails: [],
+            BillsPdfSuccessCode: 0,
+            newReceiptchanges: [],
+            statusCodeNewReceiptStatusCode: 0
 
         });
     });
@@ -1355,12 +1367,12 @@ describe('it should check invoice reducers', () => {
         const action = {
             type: 'CLEAR_NODATA_RECURRINGBILLS_LIST',
             payload: {
-            statusCode: 0,
+                statusCode: 0,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
-            
+
             Invoice: [],
             message: '',
             invoiceSettings: [],
@@ -1394,7 +1406,7 @@ describe('it should check invoice reducers', () => {
             RecurringBillAddStatusCode: 0,
             RecurringBills: [],
             RecurringbillsgetStatuscode: 0,
-            NodataRecurringStatusCode:0,
+            NodataRecurringStatusCode: 0,
             deleterecurringbillsStatuscode: 0,
             settingsaddRecurringStatusCode: 0,
             deleteUserSuccessStatusCode: 0,
@@ -1407,7 +1419,7 @@ describe('it should check invoice reducers', () => {
             deletemanualError: '',
             ReceiptList: [],
             ReceiptlistgetStatuscode: 0,
-            NodataReceiptStatusCode:0,
+            NodataReceiptStatusCode: 0,
             ReceiptAddsuccessStatuscode: 0,
             ReceiptEditsuccessStatuscode: 0,
             ReceiptDeletesuccessStatuscode: 0,
@@ -1419,11 +1431,15 @@ describe('it should check invoice reducers', () => {
             ReceiptPDF: '',
             getstatusCodeForfilterrecurrcustomers: 0,
             FilterRecurrCustomers: [],
-            errorRecuireFile:'',
+            errorRecuireFile: '',
             RecurenotEnable: '',
-            RecurenotenableStatusCode : 0,
+            RecurenotenableStatusCode: 0,
             Errmessage: '',
-            amnitiessAddError:''
+            amnitiessAddError: '',
+            BillsPdfDetails: [],
+            BillsPdfSuccessCode: 0,
+            newReceiptchanges: [],
+            statusCodeNewReceiptStatusCode: 0
 
         });
     });
@@ -1434,12 +1450,12 @@ describe('it should check invoice reducers', () => {
         const action = {
             type: 'NODATA_RECEIPTS_LIST',
             payload: {
-            statusCode: 200,
+                statusCode: 200,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
-            
+
             Invoice: [],
             message: '',
             invoiceSettings: [],
@@ -1473,7 +1489,7 @@ describe('it should check invoice reducers', () => {
             RecurringBillAddStatusCode: 0,
             RecurringBills: [],
             RecurringbillsgetStatuscode: 0,
-            NodataRecurringStatusCode:0,
+            NodataRecurringStatusCode: 0,
             deleterecurringbillsStatuscode: 0,
             settingsaddRecurringStatusCode: 0,
             deleteUserSuccessStatusCode: 0,
@@ -1486,7 +1502,7 @@ describe('it should check invoice reducers', () => {
             deletemanualError: '',
             ReceiptList: [],
             ReceiptlistgetStatuscode: 0,
-            NodataReceiptStatusCode:200,
+            NodataReceiptStatusCode: 200,
             ReceiptAddsuccessStatuscode: 0,
             ReceiptEditsuccessStatuscode: 0,
             ReceiptDeletesuccessStatuscode: 0,
@@ -1498,11 +1514,15 @@ describe('it should check invoice reducers', () => {
             ReceiptPDF: '',
             getstatusCodeForfilterrecurrcustomers: 0,
             FilterRecurrCustomers: [],
-            errorRecuireFile:'',
+            errorRecuireFile: '',
             RecurenotEnable: '',
-            RecurenotenableStatusCode : 0,
+            RecurenotenableStatusCode: 0,
             Errmessage: '',
-            amnitiessAddError:''
+            amnitiessAddError: '',
+            BillsPdfDetails: [],
+            BillsPdfSuccessCode: 0,
+            newReceiptchanges: [],
+            statusCodeNewReceiptStatusCode: 0
 
         });
     });
@@ -1514,12 +1534,12 @@ describe('it should check invoice reducers', () => {
         const action = {
             type: 'CLEAR_NODATA_RECEIPTS_LIST',
             payload: {
-            statusCode: 0,
+                statusCode: 0,
             },
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
-            
+
             Invoice: [],
             message: '',
             invoiceSettings: [],
@@ -1553,7 +1573,7 @@ describe('it should check invoice reducers', () => {
             RecurringBillAddStatusCode: 0,
             RecurringBills: [],
             RecurringbillsgetStatuscode: 0,
-            NodataRecurringStatusCode:0,
+            NodataRecurringStatusCode: 0,
             deleterecurringbillsStatuscode: 0,
             settingsaddRecurringStatusCode: 0,
             deleteUserSuccessStatusCode: 0,
@@ -1566,7 +1586,7 @@ describe('it should check invoice reducers', () => {
             deletemanualError: '',
             ReceiptList: [],
             ReceiptlistgetStatuscode: 0,
-            NodataReceiptStatusCode:0,
+            NodataReceiptStatusCode: 0,
             ReceiptAddsuccessStatuscode: 0,
             ReceiptEditsuccessStatuscode: 0,
             ReceiptDeletesuccessStatuscode: 0,
@@ -1578,11 +1598,15 @@ describe('it should check invoice reducers', () => {
             ReceiptPDF: '',
             getstatusCodeForfilterrecurrcustomers: 0,
             FilterRecurrCustomers: [],
-            errorRecuireFile:'',
+            errorRecuireFile: '',
             RecurenotEnable: '',
-            RecurenotenableStatusCode : 0,
+            RecurenotenableStatusCode: 0,
             Errmessage: '',
-            amnitiessAddError:''
+            amnitiessAddError: '',
+            BillsPdfDetails: [],
+            BillsPdfSuccessCode: 0,
+            newReceiptchanges: [],
+            statusCodeNewReceiptStatusCode: 0
 
         });
     });
@@ -1594,9 +1618,9 @@ describe('it should check invoice reducers', () => {
                 response: 'Some error occurred'
             }
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
-            
+
             Invoice: [],
             message: '',
             invoiceSettings: [],
@@ -1630,7 +1654,7 @@ describe('it should check invoice reducers', () => {
             RecurringBillAddStatusCode: 0,
             RecurringBills: [],
             RecurringbillsgetStatuscode: 0,
-            NodataRecurringStatusCode:0,
+            NodataRecurringStatusCode: 0,
             deleterecurringbillsStatuscode: 0,
             settingsaddRecurringStatusCode: 0,
             deleteUserSuccessStatusCode: 0,
@@ -1643,7 +1667,7 @@ describe('it should check invoice reducers', () => {
             deletemanualError: '',
             ReceiptList: [],
             ReceiptlistgetStatuscode: 0,
-            NodataReceiptStatusCode:0,
+            NodataReceiptStatusCode: 0,
             ReceiptAddsuccessStatuscode: 0,
             ReceiptEditsuccessStatuscode: 0,
             ReceiptDeletesuccessStatuscode: 0,
@@ -1655,11 +1679,15 @@ describe('it should check invoice reducers', () => {
             ReceiptPDF: '',
             getstatusCodeForfilterrecurrcustomers: 0,
             FilterRecurrCustomers: [],
-            errorRecuireFile:'',
+            errorRecuireFile: '',
             RecurenotEnable: '',
-            RecurenotenableStatusCode : 0,
+            RecurenotenableStatusCode: 0,
             Errmessage: '',
-            amnitiessAddError:'Some error occurred'
+            amnitiessAddError: 'Some error occurred',
+            BillsPdfDetails: [],
+            BillsPdfSuccessCode: 0,
+            newReceiptchanges: [],
+            statusCodeNewReceiptStatusCode: 0
 
         });
     });
@@ -1671,9 +1699,9 @@ describe('it should check invoice reducers', () => {
                 response: ''
             }
         };
-    
+
         expect(InvoiceReducer(initialState, action)).toStrictEqual({
-            
+
             Invoice: [],
             message: '',
             invoiceSettings: [],
@@ -1707,7 +1735,7 @@ describe('it should check invoice reducers', () => {
             RecurringBillAddStatusCode: 0,
             RecurringBills: [],
             RecurringbillsgetStatuscode: 0,
-            NodataRecurringStatusCode:0,
+            NodataRecurringStatusCode: 0,
             deleterecurringbillsStatuscode: 0,
             settingsaddRecurringStatusCode: 0,
             deleteUserSuccessStatusCode: 0,
@@ -1720,7 +1748,7 @@ describe('it should check invoice reducers', () => {
             deletemanualError: '',
             ReceiptList: [],
             ReceiptlistgetStatuscode: 0,
-            NodataReceiptStatusCode:0,
+            NodataReceiptStatusCode: 0,
             ReceiptAddsuccessStatuscode: 0,
             ReceiptEditsuccessStatuscode: 0,
             ReceiptDeletesuccessStatuscode: 0,
@@ -1732,11 +1760,15 @@ describe('it should check invoice reducers', () => {
             ReceiptPDF: '',
             getstatusCodeForfilterrecurrcustomers: 0,
             FilterRecurrCustomers: [],
-            errorRecuireFile:'',
+            errorRecuireFile: '',
             RecurenotEnable: '',
-            RecurenotenableStatusCode : 0,
+            RecurenotenableStatusCode: 0,
             Errmessage: '',
-            amnitiessAddError:''
+            amnitiessAddError: '',
+            BillsPdfDetails: [],
+            BillsPdfSuccessCode: 0,
+            newReceiptchanges: [],
+            statusCodeNewReceiptStatusCode: 0
 
         });
     });

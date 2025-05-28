@@ -3,6 +3,16 @@ import App from './App';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store'; 
 
+jest.mock('swiper/react', () => ({
+  Swiper: ({ children }) => <div>{children}</div>,
+  SwiperSlide: ({ children }) => <div>{children}</div>,
+}));
+
+jest.mock('swiper/modules', () => ({
+  Navigation: {},
+  Pagination: {},
+}));
+
 
 beforeAll(() => {
   // Mock the scrollTo function to prevent the error
