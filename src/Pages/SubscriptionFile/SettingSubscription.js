@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
 import  { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import crown from "../../Assets/Images/New_images/crown.png";

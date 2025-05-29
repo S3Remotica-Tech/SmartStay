@@ -10,11 +10,18 @@ import CreateAccountPage from '../Components/CreateAccount';
 
 
 // jest.mock('global')
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useSelector: jest.fn(),
-}));
+// jest.mock('react-redux', () => ({
+//   ...jest.requireActual('react-redux'),
+//   useSelector: jest.fn(),
+// }));
 
+jest.mock('react-redux', () => {
+  const ActualRedux = jest.requireActual('react-redux');
+  return {
+    ...ActualRedux,
+    useSelector: jest.fn(),
+  };
+});
 describe('Checks for Front page', () => {
 
   const event = userEvent.setup()

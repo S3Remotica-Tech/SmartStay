@@ -1,12 +1,11 @@
 import { render} from '@testing-library/react';
-import App from './App';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store'; 
+import App from './App';
 
 
 beforeAll(() => {
-  // Mock the scrollTo function to prevent the error
-  global.scrollTo = jest.fn();
+   global.scrollTo = jest.fn();
 
 });
 
@@ -25,7 +24,5 @@ describe('checks for app.js', () => {
         <App />
     </Provider>
   );
-  // const linkElement = screen.getByText(/learn react/i);
-  // expect(linkElement).toBeInTheDocument();
-})
+  })
 })

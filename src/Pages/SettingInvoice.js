@@ -1,15 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-import InvoiceSettingsList from "./InvoicesettingsList";
-import Modal from "react-bootstrap/Modal";
 import DeleteIcon from '../Assets/Images/Delete_red.png';
-import { FaPen } from "react-icons/fa";
-import { FaTrashAlt, FaUpload } from "react-icons/fa";
-import { MdError } from "react-icons/md";
 import leftarrow from "../Assets/Images/arrow-left.png"
 import UploadFileIcon from "../Assets/Images/upload_black.png"
 import Logo from '../Assets/Images/get.png'
@@ -39,13 +33,11 @@ import frameblue from "../Assets/Images/New_images/Frameblue.png";
 import paidfull from '../Assets/Images/New_images/paidfull.png'
 import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
 import received from '../Assets/Images/New_images/received.png'
-import EmptyState from '../Assets/Images/New_images/empty_image.png';
 import Select from "react-select";
 import PropTypes from "prop-types";
-import {CloseCircle} from "iconsax-react";
 import './SettingInvoice.css';
 
-function SettingInvoice({ hostelid }) {
+function SettingInvoice() {
 
 
   const dispatch = useDispatch();
@@ -53,34 +45,21 @@ function SettingInvoice({ hostelid }) {
 
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const [invoiceDate, setInvoiceDate] = useState('');
   const [invoicedueDate, setInvoiceDueDate] = useState('');
 
 
   const [prefix, setPrefix] = useState("");
   const [startNumber, setStartNumber] = useState("");
 
-  const [prefixerrormsg, setPrefixErrmsg] = useState("");
-  const [suffixerrormsg, setSuffixfixErrmsg] = useState("");
-  const [totalErrormsg, setTotalErrmsg] = useState("");
+ 
 
   const [showform, setShowForm] = useState(false);
-  const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
-  const [duedateerrmsg, setDueDateErrmsg] = useState("");
-  const [recurringform, setRecurringForm] = useState(false);
+
   const [edit, setEdit] = useState(false);
   const [cardshow, setCardShow] = useState(true)
   const [loading, setLoading] = useState(false)
-  const initialValuesRef = useRef({});
 
-  const [calculatedstartdate, setCalculatedstartdate] = useState("");
-  const [calculatedenddate, setCalculatedEnddate] = useState("");
-  const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] = useState("");
-  const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
-  const [every_recurr, setEvery_Recurr] = useState("");
   const [InvoiceList, setInvoiceList] = useState([]);
-  const [formFilled, setFormFilled] = useState(false);
-  const [isChecked, setIsChecked] = useState(false); 
 
   const [isVisible, setIsVisible] = useState(true);
   const cardRef = useRef(null);
@@ -151,7 +130,7 @@ function SettingInvoice({ hostelid }) {
     const trimmed = inputValue.trim();
     if (trimmed && !paymentTypes.includes(trimmed)) {
       setPaymentTypes([...paymentTypes, trimmed]);
-      setInputValue(""); // clear input after add
+      setInputValue("");   
     }
   };
 
@@ -160,7 +139,6 @@ function SettingInvoice({ hostelid }) {
   };
 
 
-   const [selectedFiles, setSelectedFiles] = useState([]);
 
  const [selectedImages, setSelectedImages] = useState([]);
 
@@ -178,7 +156,7 @@ function SettingInvoice({ hostelid }) {
     }));
 
     setSelectedImages((prev) => [...prev, ...previews]);
-    e.target.value = ""; // reset file input
+    e.target.value = ""; 
   };
 
   const handleDeleteImage = (url) => {
@@ -221,7 +199,6 @@ function SettingInvoice({ hostelid }) {
     }
   }, [state.login.selectedHostel_Id]);
 
-  console.log("state.UsersList.hotelDetailsinPg", state.UsersList.hotelDetailsinPg)
   useEffect(() => {
     const appearOptions = {
       threshold: 0.5,
@@ -248,35 +225,10 @@ function SettingInvoice({ hostelid }) {
 
 
 
-  const handlePrefix = (e) => {
-    const inputValue = e.target.value;
-    if (/^[a-zA-Z]*$/.test(inputValue)) {
-      setTotalErrmsg("");
-      setPrefix(inputValue);
-      setSuffixfixErrmsg("");
   
-      if (!inputValue) {
-        setPrefixErrmsg("Please Enter Prefix");
-      } else {
-        setPrefixErrmsg("");
-      }
-    }
-  };
   
 
-  const handleSuffix = (e) => {
-    setTotalErrmsg("");
-    setSuffixfixErrmsg("");
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setStartNumber(value);
-    }
-    if (!e.target.value) {
-      setSuffixfixErrmsg("Please Enter suffix");
-    } else {
-      setSuffixfixErrmsg("");
-    }
-  };
+ 
 
   const handleEdit = () => {
     setShowForm(false);
@@ -294,67 +246,7 @@ function SettingInvoice({ hostelid }) {
 
  
 
-  const handleInvoiceSettings = () => {
-    const isPrefixValid = prefix !== undefined && prefix !== null && prefix !== "";
-    const isStartNumberValid = startNumber !== undefined && startNumber !== null && startNumber !== "";
-    // const isSelectedImageValid = selectedImage !== null;
-  
-    if (!isPrefixValid || !isStartNumberValid || !invoiceDate || !invoicedueDate) {
-      if (!isPrefixValid) {
-        setPrefixErrmsg("Please enter Prefix");
-      }
-      if (!isStartNumberValid) {
-        setSuffixfixErrmsg("Please Enter Suffix");
-      }
-      if (!invoiceDate) {
-        setInvoiceDateErrmsg("Please Select Date");
-        
-      }
-      if (!invoicedueDate) {
-        setDueDateErrmsg("Please Select Date");
-      }
-      return;
-    }
-  
-    // Check if any changes were made
-    if (
-      edit && 
-      prefix === initialValuesRef.current.editprefix &&
-      startNumber === initialValuesRef.current.editstartnumber &&
-      invoiceDate === initialValuesRef.current.editinvoicedate &&
-      invoicedueDate === initialValuesRef.current.editduedate 
-    ) {
-      setTotalErrmsg("No Changes Detected");
-      return;
-    }
-  
-    if (isPrefixValid && isStartNumberValid && state.login.selectedHostel_Id && invoiceDate && invoicedueDate) {
-  
-      dispatch({
-        type: "INVOICESETTINGS",
-        payload: {
-          hostel_Id: state.login.selectedHostel_Id,
-          prefix: prefix,
-          suffix: startNumber,
-          inv_date: invoiceDate,
-          due_date: invoicedueDate
-        }
-      });
-  
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-  
-      setShowForm(false);
-      setPrefix("");
-      setStartNumber("");
-      setSelectedDate("");
-      setInvoiceDueDate("");
-      setTotalErrmsg("");
-    } else {
-      setSelectedDate("");
-      setInvoiceDueDate("");
-    }
-  };
-  
+ 
 
 
 
@@ -374,109 +266,20 @@ function SettingInvoice({ hostelid }) {
 
 
 
-  useEffect(() => {
-    if (!state.UsersList?.hotelDetailsinPg) return; 
-  
-    const filteredHostels = state.UsersList.hotelDetailsinPg.filter(
-      (item) => item.id === Number(hostelid)
-    );
-  
-    if (filteredHostels.length > 0) {
-      const recureEnable = filteredHostels[0]?.recure === 1;
-      setIsChecked(recureEnable);
-      console.log("recure", filteredHostels[0]?.recure);
-  
-      // const profileURL = filteredHostels[0]?.profile;
-      // setLogo(profileURL);
-    } 
-    // else {
-    //   setLogo(Logo);
-    // }
-  }, [state.UsersList?.hotelDetailsinPg, hostelid]); 
-
-  
-  
-
-
-  useEffect(() => {
-  if (state.UsersList?.hotelDetailsinPg) {
-    setTimeout(() => {
-      const filteredHostels = state.UsersList.hotelDetailsinPg.filter(
-        (item) => item.id === Number(hostelid)
-      );
-
-      if (filteredHostels.length > 0) {
-        setIsChecked(filteredHostels[0]?.recure === 1);
-        // setLogo(filteredHostels[0]?.profile);
-      } 
-      // else {
-      //   setLogo(Logo);
-      // }
-    }, 500); 
-  }
-}, [state.UsersList?.hotelDetailsinPg, hostelid]);
-
-  
-
-  
-
-
-
- 
-  const handlechangeEvery = (e) => {
-    setEvery_Recurr(e.target.value)
-  }
-
-  const handleSaveRecurring = () => {
-
-    if (!calculatedstartdate || !calculatedenddate) {
-
-      if (!calculatedstartdate) {
-        setCalculatedstartdateErrmsg('Please Select Date')
-      }
-      if (!calculatedenddate) {
-        setCalculatedEnddateErrMsg('Please Select Date')
-      }
-      return;
-    }
-
-    dispatch({
-      type: "SETTINGSADDRECURRING",
-      payload: { hostel_id: Number(state.login.selectedHostel_Id), type: 'invoice', recure: 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate) }
-    });
-    setRecurringForm(false);
-  }
-
-
-  useEffect(() => {
-    if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
-      setCalculatedstartdate("")
-      setCalculatedEnddate("")
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
-      }, 100)
-    }
-  }, [state.InvoiceList.settingsaddRecurringStatusCode])
-
-
-  const [showPopup, setShowPopup] = useState(false);
   const [selectedcard, setSelectedard] = useState('')
 
   const handleShow = (type) => {
 
     if (!state.login.selectedHostel_Id) {
-      setShowPopup(true);
       return;
     }
-    
+    setIsVisible(true)
     setSelectedard(type)
     setShowForm(true);
     setEdit(false);
     setCardShow(false)
   };
 
-  console.log("selected", selectedcard);
   
 
 
@@ -485,46 +288,19 @@ function SettingInvoice({ hostelid }) {
     setEdit(false);
     setCardShow(true)
     setSelectedard('')
-    setPrefixErrmsg('');
-    setSuffixfixErrmsg('')
-    setInvoiceDateErrmsg('')
-    setDueDateErrmsg('')
-    setTotalErrmsg("");
     setPrefix('')
     setStartNumber('')
     setSelectedDate('')
     setInvoiceDueDate('')
   };
 
-  const handleRecurringFormShow = () => {
-    setRecurringForm(true);
+  
 
-  };
-
-  // const handleCloseRecurringForm = () => {
-  //   setRecurringForm(false);
-  //   setCalculatedstartdateErrmsg('')
-  //   setCalculatedEnddateErrMsg('')
-  //   setCalculatedstartdate('')
-  //   setCalculatedEnddate('')
-  // };
+ 
 
   
 
-  const handleCloseRecurringForm = () => {
-    // Close form WITHOUT calling API
-    setRecurringForm(false);
-    setCalculatedstartdateErrmsg('')
-    setCalculatedEnddateErrMsg('')
-    setCalculatedstartdate('')
-    setCalculatedEnddate('')
-
-    if (!formFilled) {
-        setIsChecked(false); // Reset switch only if no data entered
-    }
-
-    setFormFilled(false);
-};
+ 
 
 
 
@@ -565,20 +341,9 @@ function SettingInvoice({ hostelid }) {
     }
 
   },[state.UsersList.noAllHosteListStatusCode])
-  console.log("UsersListSTATUSCODE", state.UsersList.noAllHosteListStatusCode);
 
 
-  // useEffect(() => {
-  //   if (InvoiceList.length === 0) {
-  //   }
-  //   else if (InvoiceList && InvoiceList?.every(
-  //     (item) =>
-  //       (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
-  //       (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
-  //   )) {
-  //     setLoading(false)
-  //   }
-  // }, [InvoiceList])
+
   useEffect(() => {
     if (!InvoiceList || InvoiceList.length === 0) return;
   
@@ -594,32 +359,12 @@ function SettingInvoice({ hostelid }) {
   
 
 
-  console.log("InvoiceList:", InvoiceList);
 
-  // start date change
-  const options = Array.from({ length: 31 }, (_, index) => ({
-    value: index + 1,
-    label: index + 1,
-  }));
+  
 
-  const handleInvoiceStartDateChange = (selectedOption) => {
-    setTotalErrmsg("");
-    setInvoiceDate(selectedOption?.value);
-    setInvoiceDateErrmsg("")
-  };
-  const handleInvoiceEndDateChange = (selectedOption) => {
-    setTotalErrmsg("");
-    setInvoiceDueDate(selectedOption?.value);
-  };
+ 
 
-  const handleStartDateChange = (selectedOption) => {
-    setCalculatedstartdate(selectedOption?.value);
-    setCalculatedstartdateErrmsg("")
-  };
-  const handleEndDateChange = (selectedOption) => {
-    setCalculatedEnddate(selectedOption?.value);
-    setCalculatedEnddateErrMsg("")
-  };
+ 
 
 
   return (
@@ -665,7 +410,6 @@ function SettingInvoice({ hostelid }) {
 >
   <div className="row align-items-center mt-3">
     
-    {/* Left Column */}
     <div className="col-12 col-md-6 d-flex justify-content-center justify-content-md-start">
       <h3
         style={{
@@ -720,7 +464,7 @@ function SettingInvoice({ hostelid }) {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: "6px", // adds space between icon and text
+    gap: "6px", 
   }}
 >
   <img src={EditICon} alt="edit" style={{ height: 18 }}  className="me-2"/>
@@ -799,7 +543,6 @@ function SettingInvoice({ hostelid }) {
        <div className="container bg-white rounded-bottom  position-relative" style={{width:"100%",borderTopLeftRadius:'20px'}}>
          <div className="text-center pt-2 pb-1">
            <h5 style={{ fontSize: '17px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
-            {/* Payment Invoice */}
             { selectedcard === "paymentinvoice" ?   "Payment Invoice" : "Security Deposit Invoice"}
             </h5>
          </div>
@@ -826,15 +569,7 @@ function SettingInvoice({ hostelid }) {
             9, 8th Main Rd, Someshwara Nagar, <br></br>
              Bengaluru, Karnataka 560011
           </p>
-           {/* <div>
-             {isValid(userdetails?.address) && <>{userdetails.address}, </>}
-             {isValid(userdetails?.area) && <>{userdetails.area}, </>}
-             {isValid(userdetails?.city) && <>{userdetails.city}</>}
-           </div>
-           <div>
-             {isValid(userdetails?.state) && <>{userdetails.state} </>}
-             {isValid(userdetails?.pincode) && <>- {userdetails.pincode}</>}
-           </div> */}
+     
          </div>
        
        </div>
@@ -882,7 +617,6 @@ function SettingInvoice({ hostelid }) {
                      borderBottomLeftRadius: "12px",
                      color: "rgba(255, 255, 255, 1)",
                      fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600
-                     // border: "1px solid #dee2e6",
        
                    }}
                  >
@@ -890,14 +624,12 @@ function SettingInvoice({ hostelid }) {
                  </th>
                  <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600 }}>Inv No</th>
                  <th style={{  color: "rgba(255, 255, 255, 1)", fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600}}>Description</th>
-                 {/* <th style={{  color: "rgba(255, 255, 255, 1)",  fontSize:'15px' , fontFamily:'Gilroy', fontWeight:600}}>Duration</th> */}
                  <th
                    style={{
                      borderTopRightRadius: "12px",
                      borderBottomRightRadius: "12px",
                      color: "rgba(255, 255, 255, 1)",
                      fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600
-                     // border: "1px solid #dee2e6",
                    }}
                  >
                    Amount / INR
@@ -999,7 +731,6 @@ function SettingInvoice({ hostelid }) {
        
        
        <div className="row justify-content-between mt-4 mb-4 px-4">
-         {/* Left Side: Terms and Conditions */}
          <div className="col-md-8">
            <h4 style={{ fontSize:'13px' , fontFamily:'Gilroy', fontWeight:600 , color:'rgba(30, 69, 225, 1)'}}>Terms and Conditions</h4>
            <p style={{ whiteSpace: "pre-line", fontSize:'11px' , fontFamily:'Gilroy', fontWeight:500 , color:'rgba(61, 61, 61, 1)'}}>
@@ -1009,7 +740,6 @@ function SettingInvoice({ hostelid }) {
            </p>
          </div>
        
-         {/* Right Side: Authorized Signature aligned bottom */}
          <div className="col-md-4 d-flex flex-column justify-content-end align-items-end">
            <p  
             style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}
@@ -1108,7 +838,6 @@ function SettingInvoice({ hostelid }) {
                  
                   <div className="container bg-white rounded-bottom border position-relative" style={{}}>
                     <div className="text-center pt-2 pb-1">
-                      {/* <h5 className="fw-bold">Payment Receipt</h5> */}
                       <h5 className="" style={{ fontSize: '17px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{selectedcard === "payementreceipt" ? "Payment Receipt" :  "Security Deposit Receipt"}</h5> 
                     </div>
                 
@@ -1118,7 +847,6 @@ function SettingInvoice({ hostelid }) {
                         <p className=" mb-1" style={{color:'rgba(0, 163, 46, 1)' ,  fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To :</p>
                         <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',}}>Muthuraja M</span></p>
                         <p className="mb-1"><img src={mob} alt="mob" width={12} height={12}/>
-                         {/* {receiptDataNew?.user_details?.phone} */}
                        <span className="ms-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}>
                           +91 85647 85332
                                         </span>
@@ -1205,7 +933,6 @@ function SettingInvoice({ hostelid }) {
                             <tr style={{color:"white"}}>
                               <th style={{ borderTopLeftRadius: "12px",borderBottomLeftRadius:"12px",color:"white" , fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600 }}>S.NO</th>
                               <th style={{color:"white" , fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600}}>Inv No</th>
-                              {/* <th style={{color:"white"}}>Description</th> */}
                               <th style={{color:"white" ,  fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600 }}>Description</th>
                               { selectedcard !== "payementreceipt" && (
   <th style={{ color: "white"  ,  fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600 }}>Duration</th>
@@ -1230,7 +957,6 @@ function SettingInvoice({ hostelid }) {
 </td>
 
 
-                              {/* <td style={{ fontSize:'15px' , fontFamily:'Gilroy', fontWeight:500}}>₹ {item.amount}</td> */}
                             </tr>
                           </tbody>
                         </table>
@@ -1310,7 +1036,6 @@ function SettingInvoice({ hostelid }) {
         >PAYMENT DETAILS</h6>
                           <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode: 
     G-Pay</p>
-                          {/* <p className="mb-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Transaction ID: GPay-2134-8482-XYZ</p> */}
                           {selectedcard === "payementreceipt" && (
   <p
     className="mb-1"
@@ -1474,517 +1199,6 @@ function SettingInvoice({ hostelid }) {
                        </div>
                      
                      </div>
-                        {/* <p style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: '#222222',}}><img src={substracBlue} alt="subs" width={15} height={15}/> {receiptDataNew?.user_details?.address} {receiptDataNew?.user_details?.area} <br></br>
-                         {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p> */}
-                      </div>
-                      <div className="col-md-5 mb-3">
-                        <div className="row">
-
-                          <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Receipt No :</div>
-                          <div className="col-6  text-start mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#REC-FS324515</div>
-                
-                          <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Date :</div>
-                          <div className="col-6  text-start mt-1"  style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>31 March 2024</div>
-                
-                          <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Time :</div>
-                          <div className="col-6  text-start mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>11:56:43 AM</div>
-                          <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Room No :</div>
-                          <div className="col-6  text-start mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>103–02</div>
-                          <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Payment Mode :</div>
-                          <div className="col-6  text-start"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginTop:2,paddingLeft:18}}>
-         Cash</div>
-                        </div>
-                      </div>
-                    </div>
-                
-                   
-                    <div className="px-4 pb-3">
-                      <div className="table-responsive">
-                        <table className="table  text-center align-middle">
-                          <thead  style={{backgroundColor:"#1E45E1",color:"#FFFFFF"}}>
-                            <tr style={{color:"white"}}>
-                              <th style={{ borderTopLeftRadius: "12px",borderBottomLeftRadius:"12px",color:"white", fontSize:'12px' , fontFamily:'Gilroy', fontWeight:400 }}>S.NO</th>
-                              <th style={{color:"white" , fontSize:'12px' , fontFamily:'Gilroy', fontWeight:400}}>Description</th>
-                              <th style={{ borderTopRightRadius: "12px",borderBottomRightRadius:"12px",color:"white",  fontSize:'12px' , fontFamily:'Gilroy', fontWeight:400 }}>Amount / INR</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr style={{ borderBottom: "1px solid #dee2e6" }}>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>1</td>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>Outstanding Dues (if any)</td>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}> Rs: - 8,000.00</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                
-                      
-                      <div className="d-flex justify-content-end mt-3"  >
-  <div className="w-100 w-md-50" style={{paddingRight:"80px"}}>
-
-  <div className="d-flex justify-content-end py-1">
-      <div className="w-50 text-end" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Advance Amount</div>
-      <div className="w-25 text-end" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}> Rs: 10,000.00</div>
-    </div>
-   
-    
-
-    
-    <div className="d-flex justify-content-end py-2 fw-bold">
-      <div className="w-50 text-end" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500, color: '#1E1E1E', }}>Refundable Total</div>
-      <div className="w-25 text-end" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: '#1E1E1E', }}>Rs: 2,000.00</div>
-    </div>
-  </div>
-</div>
-
-                    </div>
-                
-                   
-                  
-                  </div>
-                  <div className="px-4" style={{marginTop:20}}>
-                      <div className="row">
-                      <div className="col-md-8">
-    <h6 className="" style={{color:'#1E45E1' ,fontSize:'13px' ,fontFamily: 'Gilroy', fontWeight: 500}}>Acknowledgment</h6>
-    <p style={{ fontSize: "12px", color: "#555" ,fontFamily: 'Gilroy', fontWeight:400}}>
-    This document confirms final settlement for the Tenant on <br></br>
-    . All dues are cleared, and room has been vacated.
-    </p>
-  </div>
-                        <div className="col-md-4 text-end">
-                          <p className="mt-4"   style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(44, 44, 44, 1)', }}>
-                            Authorized Signature</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="d-flex justify-content-between mt-4 align-items-start flex-wrap ms-4">
-  {/* Left Message Block */}
- 
-    <div className="text-start mt-4">
-      <p className="mb-0" style={{fontSize: "12px", fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
-      &quot;Your comfort is our priority –
-      </p>
-      <p className="mb-0" style={{fontSize: "12px", fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
-        See you again at Smart Stay! &quot;
-      </p>
-    </div>
-  
-
-      <div>
-      <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block"><img src={paidfull} alt="received" height={81} width={152}/></p>
-
-     </div>
-    </div>
-                
-                    <div className=" px-5">
-                    <div className=" text-white text-center" style={{borderTopLeftRadius:"12px",borderTopRightRadius:"12px",backgroundColor:"#1E45E1",padding:7}}>
-                      <small style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(255, 255, 255, 1)',}}>Email : contact@royalgrandhostel.in | Contact : +91 88994 56611</small>
-                    </div>
-                    </div>
-                    </div>
-                </div>
-
-
-                
-                    }
-                </div>
-                </div>
-  )
-}
-
-
-{/* {
-  (selectedcard === "payementreceipt" || selectedcard === "depositreceipt") ? 
-  (
-  <div>
-  <div onClick={handleCloseForm} style={{cursor:'pointer'}}>
-          Back
-        </div>
-  
-  <div className="receipt-container border ps-4 pe-4 pb-4 pt-4 " ref={cardRef} style={{width:"80%",marginLeft:'10%', marginTop:'20px', borderRadius:'8px' ,}} >
-
-<div   ref={innerScrollRef}
-  className="border shadow show-scroll"
-  style={{
-    maxHeight: 450,
-    overflowY: "auto",
-    borderBottomLeftRadius: "13px",
-    borderBottomRightRadius: "13px",
-  }}>
-                  <div   className=" text-white  p-3 position-relative" style={{ minHeight: "100px",backgroundColor:"#00A32E" }}>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div>
-                        <h4 className=" mb-0"><img src={receiptLogo} alt="logo" style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }} className="me-2"/>Smartstay</h4>
-                        <small className="ms-4" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px' }}>Meet All Your Needs</small>
-                      </div>
-                      <div className="text-start">
-                        <h5 className="mb-0" style={{ fontSize: 18, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}> Royal Grand Hostel</h5>
-      <div>
- 9, 8th Avenue Rd, Someshwara Nagar, <br />
-             Chennai, Tamilnadu - 600 056
-             </div>
-                      </div>
-                    </div>
-                  </div>
-                
-                 
-                  <div className="container bg-white rounded-bottom border position-relative" style={{}}>
-                    <div className="text-center pt-2 pb-1">
-                      <h5 className="" style={{ fontSize: '17px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{selectedcard === "payementreceipt" ? "Payment Receipt" :  "Security Deposit Receipt"}</h5> 
-                    </div>
-                
-                  
-                    <div className="row px-4 mt-3">
-                      <div className="col-md-7 mb-3">
-                        <p className=" mb-1" style={{color:'rgba(0, 163, 46, 1)' ,  fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To :</p>
-                        <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',}}>Muthuraja M</span></p>
-                        <p className="mb-1"><img src={mob} alt="mob" width={12} height={12}/>
-                       <span className="ms-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}>
-                          +91 85647 85332
-                                        </span>
-                         </p>
-                         <p className="mb-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}><img src={frame} alt="frame" width={15} height={15} className="me-1"/> 
-                         No 103 -02 </p>
-                        <div className="d-flex" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)' }}>
-                       
-                       <div className="me-2">
-                         <img src={substrac} alt="subs" />
-                       </div>
-                     
-                       <div>
-                                   <p>
-            9, 8th Main Rd, Someshwara Nagar, <br></br>
-             Bengaluru, Karnataka 560011
-          </p>
-                       </div>
-                     
-                     </div>
-
-                      </div>
-                      <div className="col-md-5 mb-3">
-                        <div className="row">
-                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Receipt No :</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#SSR001</div>
-                
-                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice Ref :</div>
-                          <div className="col-6 text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#324515</div>
-                
-                          <div className="col-6 text-muted text-end mt-1"   style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Date :</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>31 March 2024</div>
-                
-                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Time :</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>11:56:43 AM</div>
-                
-                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Payment Mode :</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',paddingLeft:18}}>UPI / Net Banking </div>
-                        </div>
-                      </div>
-                    </div>
-                
-                    {selectedcard === "depositreceipt" && (
-  <div className="d-flex justify-content-end text-end mt-3 me-5">
-      <div>
-        <label style={{ fontSize: 13, fontWeight: 500, fontFamily: "Gilroy" , marginRight:'15px', marginTop:'60px'}}>
-          Amount received
-        </label>
-      </div>
-    <div style={{ padding: '20px', border: '1px solid rgba(0, 163, 46, 1)', borderRadius:'5px' }}>
-    
-      <div>
-        <label style={{ fontSize: 17, fontWeight: 700, fontFamily: "Gilroy" , color:'rgba(0, 163, 46, 1)' }}>
-           ₹ 8,073.00
-        </label>
-      </div>
-      <div>
-        <label style={{
-          fontSize: 13,
-          fontWeight: 600,
-          color: "#000000",
-          fontFamily: "Gilroy"
-        }}>
-          Eight Thousand and Seventy Three Rupees Only
-        </label>
-      </div>
-    </div>
-  </div>
-)}
-
-{selectedcard === "depositreceipt" && 
-(
-<div>
-  <p style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(0, 0, 0, 1)',marginLeft:'20px'}}>Payment For</p>
-  </div>
-)
-
-}
-                   
-                    <div className="px-4 pb-3">
-                      <div className="table-responsive">
-                        <table className="table  text-center align-middle">
-                          <thead  style={{backgroundColor:"#00A32E",color:"#FFFFFF"}}>
-                            <tr style={{color:"white"}}>
-                              <th style={{ borderTopLeftRadius: "12px",borderBottomLeftRadius:"12px",color:"white" , fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600 }}>S.NO</th>
-                              <th style={{color:"white" , fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600}}>Inv No</th>
-                              <th style={{color:"white" ,  fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600 }}>Description</th>
-                              { selectedcard !== "payementreceipt" && (
-  <th style={{ color: "white"  ,  fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600 }}>Duration</th>
-)}
-                            
-                              <th style={{ borderTopRightRadius: "12px",borderBottomRightRadius:"12px",color:"white",  fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600  }}>Amount / INR</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr  style={{ borderBottom: "1px solid #dee2e6" }}>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>1</td>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>INV-004</td>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}> 
-                                {selectedcard === "payementreceipt" ? "Room Rental" : "Security Deposit (Advance)"}
-                                </td>
-                              {selectedcard === "payementreceipt" && (
-  <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}} >May 2025</td>
-)}
-
-<td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>
-  ₹ {selectedcard === "payementreceipt" ? "Rs: 8,000.00" : "Rs: 8,073.00"}
-</td>
-
-
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      
-  
-{selectedcard === "payementreceipt"  && (
-  <div className="d-flex justify-content-end mt-3">
-    <div className="w-100 w-md-50" style={{ paddingRight: "50px" }}>
-      <div className="d-flex justify-content-end py-1">
-        <div
-          className="w-50 text-end"
-          style={{
-            fontSize: '13px',
-            fontFamily: 'Gilroy',
-            fontWeight: 500,
-            color: 'rgba(23, 23, 23, 1)',
-          }}
-        >
-          Sub Total
-        </div>
-        <div
-          className="w-25 text-end"
-          style={{
-            fontSize: '13px',
-            fontFamily: 'Gilroy',
-            fontWeight: 500,
-            color: 'rgba(23, 23, 23, 1)',
-          }}
-        >
-           Rs: 1150.00
-        </div>
-      </div>
-      <div className="d-flex justify-content-end py-2 fw-bold">
-        <div
-          className="w-50 text-end"
-          style={{
-            fontSize: '13px',
-            fontFamily: 'Gilroy',
-            fontWeight: 500,
-            color: 'rgba(23, 23, 23, 1)',
-          }}
-        >
-          Total
-        </div>
-        <div
-          className="w-25 text-end"
-          style={{
-            fontSize: '15px',
-            fontFamily: 'Gilroy',
-            fontWeight: 500,
-            color: 'rgba(23, 23, 23, 1)',
-          }}
-        >
-       Rs: 9,150.00
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
-
-                    </div>
-                
-                   
-                  
-                  </div>
-                  <div className="px-4" style={{marginTop:20}}>
-                      <div className="row">
-                        <div className="col-md-6 mb-3">
-                          <h6  style={{
-        fontSize: '13px',
-        fontFamily: 'Gilroy',
-        fontWeight: 700,
-        color: '#00A32E',
-        letterSpacing:'1px'}}
-        >PAYMENT DETAILS</h6>
-                          <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode: 
-    G-Pay</p>
-                          {selectedcard === "payementreceipt" && (
-  <p
-    className="mb-1"
-    style={{
-      fontSize: '13px',
-      fontFamily: 'Gilroy',
-      fontWeight: 500,
-      color: 'rgba(23, 23, 23, 1)',
-    }}
-  >
-    Transaction ID: GPay-2134-8482-XYZ
-  </p>
-)}
-
-                          <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: Admin - Anjali R</p>
-                          <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)',marginTop:"-14px" }}>Status: Paid</p>
-    
-                        </div>
-                        <div className="col-md-6 text-end">
-                        <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block ms-2"><img src={received} alt="received" height={91} width={162}/></p>
-                        {selectedcard !== "payementreceipt" && (
-    <div className="text-start mt-2 ms-5" >
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(0, 163, 46, 1)',fontSize:"13px",marginLeft:"35px"}}>
-      &quot;Thank you for choosing SmartStay. &quot;
-      </p>
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(0, 163, 46, 1)',fontSize:"13px",marginLeft:"35px"}}>
-      Your transaction is completed &quot;
-      </p>
-    </div>
-  )}
-                        </div>
-                        <div className="row">
-  <div className="col-md-6">
-    <h6  style={{color:"#00A32E",fontSize:"13px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
-    <p style={{ fontSize: "12px", color: "#555",fontFamily:"Gilroy" }}>
-      This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
-    </p>
-  </div>
-
-  <div className="col-md-6 text-end">
-    <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
-    </p>
-    <p className="mt-4" style={{fontSize: "13px",fontFamily:"Gilroy",color:"#2C2C2C",paddingRight:"25px"}}>Authorized Signature</p>
-  </div>
-</div>
-
-                      </div>
-                    </div>
-                
-                    <div className="py-2 px-5">
-                    <div className=" text-white text-center" style={{borderTopLeftRadius:"12px",borderTopRightRadius:"12px",backgroundColor:"#00A32E",padding:7}}>
-                      <small style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(255, 255, 255, 1)',}}>Email : contact@royalgrandhostel.in| Contact : +91 88994 56611</small>
-                    </div>
-                    </div>
-                    </div>
-                </div>
-
-                </div>
-
-
-
-  )
-  : 
-  (
-
-
-    <div>
-      <div onClick={handleCloseForm} style={{cursor:'pointer'}}>
-          Back
-        </div>
-    
-<div style={{minHeight:'500px' }} className=" receipt-invoice">
-  
-
-
-                    {isVisible &&
-
- 
-  <div className="receipt-container border ps-4 pe-4 pb-4 pt-4"  
-  ref={cardRef}  style={{width:'80%', marginLeft:'10%', marginTop:'20px', borderRadius:'8px' , }}>
-
-<div   ref={innerScrollRef}
-  className="border shadow show-scroll"
-  style={{
-    maxHeight: 450,
-    overflowY: "auto",
-    borderBottomLeftRadius: "13px",
-    borderBottomRightRadius: "13px",
-  }}>
-                
-                  <div   className=" text-white  p-3 position-relative" style={{height:100,backgroundColor:"#1E45E1" }}>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div>
-                        <h4 className="fw-bold mb-0"><img src={Logo} alt="logo" style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }} className="me-2"/>Smartstay</h4>
-                        <p className="ms-4" style={{ fontSize: 14, fontWeight: 400, fontFamily: "Gilroy", marginTop:'15px', marginLeft:'-15px',letterSpacing:"0.5px" }}>Meet All Your Needs</p>
-                      </div>
-
-                      <div>
-      <div style={{ fontSize: 18, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>
-        Royal Grand Hostel
-      </div>
-      <div style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>
-      <>
-      <div>
- 9, 8th Avenue Rd, Someshwara Nagar, <br />
-             Chennai, Tamilnadu - 600 056
-             </div>
-</>
-
-      </div>
-    </div>
-
-    
-                    </div>
-                  </div>
-                
-                 
-                  <div className="container bg-white rounded-bottom border position-relative" style={{width:"100%",}}>
-                    <div className="text-center pt-2 pb-1">
-
-                      <p className="" style={{ fontSize: '17px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
-
- { selectedcard === "finalreceipt" && "Final Settlement Receipt"}
-        </p>
-
-
-                    </div>
-                
-                  
-                    <div className="row px-4 mt-2">
-                      <div className="col-md-7 mb-3">
-                        <p className="mb-1" style={{fontSize: '13px', color:'#1E45E1' ,fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To:</p>
-                        <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',}}>Muthuraja M</span></p>
-                        <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12}/>
-                         <span className="ms-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}> 
-                                      +91 85647 85332
-                                                     </span>
-        
-                         </p>
-                        <p className="mb-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}><img src={frameblue} alt="frame" width={15} height={15} className="me-1"/>
-                                 No 103 -02  </p>
-
-                         <div className="d-flex" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)' }}>
-                       
-                       <div className="me-2">
-                         <img src={substracBlue} alt="local" />
-                       </div>
-                     
-                       <div>
-                       <p>
-            9, 8th Main Rd, Someshwara Nagar, <br></br>
-             Bengaluru, Karnataka 560011
-          </p>
-                       </div>
-                     
-                     </div>
 
                       </div>
                       <div className="col-md-5 mb-3">
@@ -2100,7 +1314,10 @@ function SettingInvoice({ hostelid }) {
                 </div>
                 </div>
   )
-} */}
+}
+
+
+
       </>
     )
   }
@@ -2121,22 +1338,19 @@ function SettingInvoice({ hostelid }) {
           }}
         >
           <div className="d-flex align-items-center">
-            {/* Icon box */}
          
          <div className="me-3">
 
-              <img src={icon}/>
+              <img src={icon} alt="pdficon"/>
             </div>
 
-            {/* Title and Description */}
             <div>
               <div style={{ fontWeight: 600, fontSize: 16 }}>{title}</div>
               <div style={{ fontSize: 12, color: "#888" }}>{description}</div>
             </div>
           </div>
 
-          {/* Right Arrow */}
-          <img  src={LeftArrow} height={12} width={12}/> 
+          <img  src={LeftArrow} height={12} width={12} alt="left_arrow"/> 
         </div>
       ))}
     </div>
@@ -2176,7 +1390,6 @@ function SettingInvoice({ hostelid }) {
                                       style={{
                                         fontWeight: 500,
                                         fontSize: "18px",
-                                        // marginLeft: 15,
                                         fontFamily: "Gilroy",
                                         paddingLeft: "10px"
                                       }}
@@ -2204,39 +1417,17 @@ function SettingInvoice({ hostelid }) {
                         <Form.Label
                           style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
                           Account No
-                          {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
                         </Form.Label>
                         <Form.Control
                           style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
                           type="text"
                           placeholder="Account No"
                           value={prefix}
-                          onChange={(e) => handlePrefix(e)}
-                        // readOnly
-                        // style={inputStyle}
+                   
                         />
                       </Form.Group>
 
-                      {/* {prefixerrormsg.trim() !== "" && (
-                        <div>
-                          <p
-                            style={{
-                              fontSize: "12px",
-                              color: "red",
-                              fontFamily:"Gilroy",
-                              fontWeight:500
-                              
-                            }}
-                          >
-                            {prefixerrormsg !== " " && (
-                              <MdError
-                                style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
-                              />
-                            )}{" "}
-                            {prefixerrormsg}
-                          </p>
-                        </div>
-                      )} */}
+                   
                     </div>
 
 
@@ -2259,7 +1450,6 @@ function SettingInvoice({ hostelid }) {
     options={billingFrequencyOptions}
     placeholder="Select"
     value={billingFrequencyOptions.find(opt => opt.value === startNumber)}
-    onChange={(selected) => handleSuffix(selected)}
     styles={{
       control: (base) => ({
         ...base,
@@ -2274,26 +1464,7 @@ function SettingInvoice({ hostelid }) {
     }}
   />
 
-  {/* {suffixerrormsg.trim() !== "" && (
-    <div>
-      <p
-        style={{
-          fontSize: "12px",
-          color: "red",
-          marginTop: "3px",
-          fontFamily: "Gilroy",
-          fontWeight: 500,
-        }}
-      >
-        {suffixerrormsg !== " " && (
-          <MdError
-            style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
-          />
-        )}{" "}
-        {suffixerrormsg}
-      </p>
-    </div>
-  )} */}
+ 
 </Form.Group>
 
                     </div>
@@ -2305,16 +1476,13 @@ function SettingInvoice({ hostelid }) {
                         <Form.Label
                           style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
                           Bank Name
-                          {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
                         </Form.Label>
                         <Form.Control
                           style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
                           type="text"
                           placeholder="Enter Bank Name"
                           value={prefix}
-                          onChange={(e) => handlePrefix(e)}
-                        // readOnly
-                        // style={inputStyle}
+                       
                         />
                       </Form.Group>
 
@@ -2347,7 +1515,7 @@ function SettingInvoice({ hostelid }) {
       className="form-control"
       style={{
         height: "40px",
-        paddingRight: "40px", // Add space for the icon
+        paddingRight: "40px", 
         fontFamily: "Gilroy",
         fontSize: 16,
         fontWeight: 400,
@@ -2371,7 +1539,6 @@ function SettingInvoice({ hostelid }) {
     />
   </div>
 
-  {/* Show Added Payment Types */}
   {paymentTypes.length > 0 && (
     <div className="mt-3 d-flex flex-wrap gap-2">
       {paymentTypes.map((item, index) => (
@@ -2384,7 +1551,6 @@ function SettingInvoice({ hostelid }) {
             border: "1px solid rgba(30, 69, 225, 1)",
             fontFamily: "Gilroy",
             fontSize: 14,
-            fontWeight: 400,
             color: "rgba(34, 34, 34, 1)",
           }}
         >
@@ -2413,7 +1579,6 @@ function SettingInvoice({ hostelid }) {
       <label className="form-label" style={{  fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", }}
       >Payment Types (Reference Images)</label>
 
-      {/* Upload Box */}
       <div
         className="d-flex align-items-center justify-content-between p-2"
         style={{
@@ -2450,7 +1615,6 @@ function SettingInvoice({ hostelid }) {
         />
       </div>
 
-      {/* Image Previews */}
       <div className="mt-3 d-flex gap-2 flex-wrap">
         {selectedImages.map((img) => (
           <div
@@ -2466,12 +1630,13 @@ function SettingInvoice({ hostelid }) {
           >
             <img
               src={img.url}
-              alt="preview"
+              alt="preview_image"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
             <img
               src= {DeleteIcon}
               onClick={() => handleDeleteImage(img.url)}
+              alt="deleteicon"
               className="position-absolute"
               style={{
                 top: "5px",
@@ -2515,7 +1680,7 @@ function SettingInvoice({ hostelid }) {
                         <div className='col-lg-6 col-md-6 col-sm-11 col-xs-11'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label
-                                    style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color: "#000", fontStyle: 'normal', lineHeight: 'normal', color:'rgba(34, 34, 34, 1)' }}
+                                    style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal', color:'rgba(34, 34, 34, 1)' }}
                                 >
                                     Prefix
                                 </Form.Label>
@@ -2523,10 +1688,7 @@ function SettingInvoice({ hostelid }) {
                                     style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
                                     type="text"
                                     placeholder="prefix"
-                                    // value={prefix}
-                                    // onChange={(e) => handlePrefix(e)}
-                                // readOnly
-                                // style={inputStyle}
+                               
                                 />
         
 
@@ -2543,28 +1705,17 @@ function SettingInvoice({ hostelid }) {
                                     style={{ padding: '10px', marginTop: '10px', fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
                                     type="text"
                                     placeholder="suffix"
-                                    // value={startNumber}
-                                    // onChange={(e) => handleSuffix(e)}
-                                // readOnly
+                                
                                 />
 
-{/* {suffixerrormsg.trim() !== "" && (
-              <div>
-         <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-      {suffixerrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {suffixerrormsg}
-    </p>
-  </div>
-)} */}
-        
+ 
                             </Form.Group>
                         </div>
                     </div>
-                    {/* </div> */}
 
                     <div className='col-lg-12 col-md-12 col-sm-11 col-xs-11'>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,  color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-                            // style={labelStyle}
                             >
                                 Preview
                             </Form.Label>
@@ -2573,8 +1724,7 @@ function SettingInvoice({ hostelid }) {
                                 type="text"
                                 placeholder="preview"
                                 readOnly
-                                // value={prefix + startNumber}
-                            // readOnly
+                           
                             />
                         </Form.Group>
                     </div>
@@ -2583,7 +1733,7 @@ function SettingInvoice({ hostelid }) {
                   <div className="border p-3 mb-3" style={{borderRadius:'10px' , overflowY:'auto', }}>
 
       <div>
-        <p    style={{ fontFamily: 'Gilroy' , color:'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400, color: "#000", fontStyle: 'normal', lineHeight: 'normal' }}>
+        <p    style={{ fontFamily: 'Gilroy' , color:'rgba(34, 34, 34, 1)', fontSize: 14, fontWeight: 400,  fontStyle: 'normal', lineHeight: 'normal' }}>
           PG Tax Payable</p>
         <hr></hr>
       </div>
@@ -2600,10 +1750,7 @@ function SettingInvoice({ hostelid }) {
                                     style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
                                     type="text"
                                     placeholder="12%"
-                                    // value={prefix}
-                                    // onChange={(e) => handlePrefix(e)}
-                                // readOnly
-                                // style={inputStyle}
+                               
                                 />
         
 
@@ -2612,7 +1759,7 @@ function SettingInvoice({ hostelid }) {
 
                       
                     </div>
-                    {/* </div> */}
+                   
 
                     
                   </div>
@@ -2628,7 +1775,7 @@ function SettingInvoice({ hostelid }) {
       <div className="position-relative">
         <textarea
           style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-          className="form-control pe-5" // Add padding-end for icon space
+          className="form-control pe-5" 
           rows="4"
           placeholder='Add any message...'
           value={notes}
@@ -2636,6 +1783,7 @@ function SettingInvoice({ hostelid }) {
         />
         <img
           src={TextAreaICon}
+          alt="textarea_icon"
           style={{
             position: "absolute",
             right: "12px",
@@ -2656,15 +1804,16 @@ function SettingInvoice({ hostelid }) {
 
       <div className="position-relative">
         <textarea
-          className="form-control pe-5" // Add padding-end for icon space
+          className="form-control pe-5" 
           rows="4"
           placeholder='Add any message...'
           value={terms}
-          onChange={(e) => setNotes(e.target.value)}
+          onChange={(e) => setTerms(e.target.value)}
                             style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
         />
          <img
           src={TextAreaICon}
+           alt="textarea-icon"
           style={{
             position: "absolute",
             right: "12px",
@@ -2679,8 +1828,8 @@ function SettingInvoice({ hostelid }) {
     <div className="p-3 mb-3 border " style={{borderRadius:'10px'}}>
       <h6                   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)',fontStyle: 'normal', lineHeight: 'normal' }}>
         Authorized Signature</h6>
-      <small className="text-muted"                   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
-      >Add a respected person's Signature</small>
+      <small className="text-muted"  style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+      >Add a respected Persons Signature</small>
 
       <div
         className="border border-dashed rounded mt-2 d-flex justify-content-center align-items-center"
@@ -2772,655 +1921,15 @@ function SettingInvoice({ hostelid }) {
       
 
 
-{/* 
-      {showform ? (
-        <div
-          className="modal show"
-          style={{ display: "block", position: "initial", fontFamily: "Gilroy,sans-serif" }}
-        >
-          <Modal show={showform} onHide={handleCloseForm} centered backdrop="static">
-            <Modal.Dialog
-              style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
-              className="m-0 p-0"
-            >
-              <Modal.Body>
-                <div>
-                  <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
-                  >
-                    <div
-                      style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
-                    >
-                      {edit ? "Edit Invoice" : "Add Invoice "}
-                    </div>
-                  
-                    <CloseCircle size="24" color="#000" onClick={handleCloseForm} 
-            style={{ cursor: 'pointer' }}/>
-                  </Modal.Header>
-                </div>
-
-                <div className="row mt-1">
-                  <div className="d-flex row ">
-                    <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal" }}>
-                          Prefix
-                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                        </Form.Label>
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "10px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
-                          type="text"
-                          placeholder="prefix"
-                          value={prefix}
-                          onChange={(e) => handlePrefix(e)}
-                 
-                        />
-                      </Form.Group>
-
-                      {prefixerrormsg.trim() !== "" && (
-                        <div>
-                          <p
-                            style={{
-                              fontSize: "12px",
-                              color: "red",
-                              fontFamily:"Gilroy",
-                              fontWeight:500
-                              
-                            }}
-                          >
-                            {prefixerrormsg !== " " && (
-                              <MdError
-                                style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
-                              />
-                            )}{" "}
-                            {prefixerrormsg}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-
-
-                    <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
-                      <Form.Group
-                        className="mb-1"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 500, color: "#000", fontStyle: "normal", lineHeight: "normal", }}
-                        >
-                          Suffix
-                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                        </Form.Label>
-                        <Form.Control
-                          style={{
-                            padding: "10px",
-                            marginTop: "10px",
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            lineHeight: "18.83px",
-                            fontWeight: 500,
-                          }}
-                          type="text"
-                          placeholder="suffix"
-                          value={startNumber}
-                          onChange={(e) => handleSuffix(e)}
-                        />
 
 
 
-                        {suffixerrormsg.trim() !== "" && (
-                          <div>
-                            <p
-                              style={{
-                                fontSize: "12px",
-                                color: "red",
-                                marginTop: "3px",
-                                fontFamily:"Gilroy",
-                                fontWeight:500
-                              }}
-                            >
-                              {suffixerrormsg !== " " && (
-                                <MdError
-                                  style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
-                                />
-                              )}{" "}
-                              {suffixerrormsg}
-                            </p>
-                          </div>
-                        )}
-                      </Form.Group>
-                    </div>
-                  </div>
-
-
-
-                  <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                    <Form.Group
-                      className="mb-3"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Label
-                        style={{
-                          fontFamily: "Gilroy",
-                          fontSize: 14,
-                          fontWeight: 500,
-                          color: "#000",
-                          fontStyle: "normal",
-                          lineHeight: "normal",
-                        }}
-                      >
-                        Preview
-                      </Form.Label>
-                      <Form.Control
-                        style={{
-                          padding: "10px",
-                          marginTop: "10px",
-                          backgroundColor: "#E7F1FF",
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          lineHeight: "18.83px",
-                          fontWeight: 500,
-                        }}
-                        type="text"
-                        placeholder="preview"
-                        readOnly
-                        value={prefix + startNumber}
-                      />
-                    </Form.Group>
-                  </div>
-
-               
-
-
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation Start Date Will Be
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Select
-                        options={options}
-                        onChange={handleInvoiceStartDateChange}
-                        value={options.find((option) => option.value === invoiceDate)}
-                        placeholder="Select"
-                        classNamePrefix="custom" 
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "40px",
-                            border: "1px solid #ced4da",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor:"pointer"
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-                    </div>
-                    {invoicedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1 ">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {invoicedateerrmsg}
-                        </label>
-                      </div>
-                    )}
-                     
-                  </div>
-
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation End Date Will Be 
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Select
-                        options={options}
-                        onChange={handleInvoiceEndDateChange}
-                        value={options.find((option) => option.value === invoicedueDate)}
-                        placeholder="Select"
-                        classNamePrefix="custom" 
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "40px",
-                            border: "1px solid #ced4da",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            overflowY: "auto",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                             cursor:"pointer"
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-                    </div>
-                 
-
-{duedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {duedateerrmsg}
-                        </label>
-                      </div>
-                    )}
-
-                  </div>
-
-
-
-
-
-                  {totalErrormsg.trim() !== "" && (
-                    <div className="text-center">
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          marginTop: "13px",
-                          fontFamily:"Gilroy",
-                          fontWeight:500
-                        }}
-                      >
-                        {totalErrormsg !== " " && (
-                          <MdError style={{ fontSize: "14px", color: "red",marginBottom:"2px" }} />
-                        )}{" "}
-                        {totalErrormsg}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </Modal.Body>
-
-              <Modal.Footer style={{ border: "none" }}>
-                <Button
-                  className="w-100 mt-2"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 500,
-                    height: 50,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                    marginTop:"-23px"
-                  }}
-                  onClick={handleInvoiceSettings}
-                >
-                   {edit ? "Update Invoice" : "Add Invoice "}
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
-
-
-      ) : null} */}
-
-
-
-      {recurringform && (
-        <div
-          className="modal show"
-          style={{
-            display: "block",
-            position: "initial",
-            fontFamily: "Gilroy,sans-serif",
-          }}
-        >
-          <Modal
-            show={recurringform}
-            onHide={handleCloseRecurringForm}
-            centered
-            className="custom-modal"
-            backdrop="static"
-          >
-            <Modal.Dialog
-              style={{
-                maxWidth: 950,
-                paddingRight: "10px",
-                borderRadius: "30px",
-              }}
-              className="m-0 p-0"
-            >
-              <Modal.Body>
-                <div>
-                  <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
-                  >
-                    <div
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Recurring Enable
-                    </div>
-                    {/* <button
-                      type="button"
-                      className="close"
-                      aria-label="Close"
-                      onClick={handleCloseRecurringForm}
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "16px",
-                        border: "1px solid black",
-                        background: "transparent",
-                        cursor: "pointer",
-                        padding: "0",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "25px",
-                        height: "25px",
-                        borderRadius: "50%",
-                      }}
-                    >
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          fontSize: "30px",
-                          paddingBottom: "6px",
-                        }}
-                      >
-                        &times;
-                      </span>
-                    </button> */}
-                    <CloseCircle size="24" color="#000" onClick={handleCloseRecurringForm} 
-            style={{ cursor: 'pointer' }}/>
-
-                  </Modal.Header>
-                </div>
-
-                <div className="row mt-1">
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation Start Date Will Be
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Select
-                        options={options}
-                        onChange={handleStartDateChange}
-                        value={options.find((option) => option.value === calculatedstartdate)}
-                        placeholder="Select"
-                        classNamePrefix="custom" // Prefix for custom styles
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "40px",
-                            border: "1px solid #ced4da",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor:"pointer"
-                          }),
-                          option: (base, state) => ({
-                            ...base,
-                            cursor: "pointer", 
-                            backgroundColor: state.isFocused ? "lightblue" : "white", 
-                            color: "#000",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-                    </div>
-                    {calculatedstartdateerrmsg.trim() !== "" && (
-                      <div className="mt-3">
-                        <p style={{ fontSize: "12px", color: "red", marginTop: "-9px", fontFamily:"Gilroy",fontWeight:500 }}
-                        >
-                          {calculatedstartdateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "14px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
-                          )}{" "}
-                          {calculatedstartdateerrmsg}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation End Date Will Be
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Select
-                        options={options}
-                        onChange={handleEndDateChange}
-                        value={options.find((option) => option.value === calculatedenddate)}
-                        placeholder="Select"
-                        classNamePrefix="custom" // Prefix for custom styles
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "40px",
-                            border: "1px solid #ced4da",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            overflowY: "auto",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor:"pointer"
-                          }),
-                          option: (base, state) => ({
-                            ...base,
-                            cursor: "pointer", 
-                            backgroundColor: state.isFocused ? "lightblue" : "white", 
-                            color: "#000",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-                    </div>
-                    {calculatedenddateerrmsg.trim() !== "" && (
-                      <div className="mt-3">
-                        <p style={{ fontSize: "12px", color: "red", marginTop: "-9px" , fontFamily:"Gilroy",fontWeight:500}}
-                        >
-                          {calculatedenddateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "14px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
-                          )}{" "}
-                          {calculatedenddateerrmsg}
-                        </p>
-                      </div>
-                    )}
-
-                  </div>
-
-
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">On Every</label>
-                    </div>
-                    <div className="col-lg-4">
-                      <select className="form-select border" id="startDayDropdown"
-                        value={every_recurr}
-                        onChange={handlechangeEvery}
-                      >
-                        <option value="monthly">Monthly</option>
-
-                      </select>
-                    </div>
-
-                  </div>
-
-
-                </div>
-              </Modal.Body>
-
-              <Modal.Footer style={{ border: "none" }}>
-                <Button
-                  className="w-100"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 500,
-                    height: 50,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                  }}
-                  onClick={handleSaveRecurring}
-                >
-                  Add Invoice
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
-      )}
+     
     </div>
   );
 }
 SettingInvoice.propTypes = {
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
-  hostelid: PropTypes.func.isRequired,
 }
 export default SettingInvoice;

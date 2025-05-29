@@ -919,18 +919,18 @@ describe('it should check settings reducers', () => {
         const action = {
             type: 'SETTING_GENERAL_ADD',
             payload: {
-                response: [], 
+                response: [],
                 statusCode: 200,
             },
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
-            settingGeneralPage: [], 
+            settingGeneralPage: [],
             StatusCodeForSettingGeneral: 200,
         });
     });
-    
+
     it('it should check CLEAR_SETTING_GENERAL_ADD', () => {
         const action = {
             type: 'CLEAR_SETTING_GENERAL_ADD',
@@ -938,41 +938,41 @@ describe('it should check settings reducers', () => {
                 statusCode: 0,
             },
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             StatusCodeForSettingGeneral: 0,
         });
     });
-    
-    
+
+
 
     it('it should check GENERAL_EMAIL_ERROR', () => {
         const action = {
             type: 'GENERAL_EMAIL_ERROR',
-            payload: 'Invalid email', 
+            payload: 'Invalid email',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             generalEmailError: 'Invalid email',
         });
     });
-    
+
     it('it should check CLEAR_GENERAL_EMAIL_ERROR', () => {
         const action = {
             type: 'CLEAR_GENERAL_EMAIL_ERROR',
             payload: {
-                statusCode: 0, 
+                statusCode: 0,
             },
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             generalEmailError: '',
         });
     });
-    
+
 
 
     it('it should check MOBILE_ERROR', () => {
@@ -980,24 +980,24 @@ describe('it should check settings reducers', () => {
             type: 'MOBILE_ERROR',
             payload: 'invalid mobile number',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             generalMobileError: 'invalid mobile number',
         });
     });
-    
+
     it('it should check CLEAR_MOBILE_ERROR', () => {
         const action = {
             type: 'CLEAR_MOBILE_ERROR',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             generalMobileError: '',
         });
     });
-    
+
 
 
 
@@ -1005,59 +1005,59 @@ describe('it should check settings reducers', () => {
         const action = {
             type: 'GET_ALL_GENERAL',
             payload: {
-                response: [], 
+                response: [],
                 statusCode: 200,
             },
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             settingGetGeneralData: [],
             StatusCodeforGetGeneral: 200,
         });
     });
-    
+
     it('it should check CLEAR_GET_ALL_GENERAL', () => {
         const action = {
             type: 'CLEAR_GET_ALL_GENERAL',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             StatusCodeforGetGeneral: 0,
         });
     });
-    
+
 
 
     it('it should check GENERAL_PASSWORD_CHANGES', () => {
         const action = {
             type: 'GENERAL_PASSWORD_CHANGES',
             payload: {
-                response: [], 
+                response: [],
                 statusCode: 200,
             },
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             settingGeneraLPasswordChanges: [],
             StatusCodeforGeneralPassword: 200,
         });
     });
-    
+
     it('it should check CLEAR_GENERAL_PASSWORD_CHANGES', () => {
         const action = {
             type: 'CLEAR_GENERAL_PASSWORD_CHANGES',
-           
+
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             StatusCodeforGeneralPassword: 0,
         });
     });
-    
+
 
 
 
@@ -1065,29 +1065,29 @@ describe('it should check settings reducers', () => {
         const action = {
             type: 'GENERAL_PASSWORD_CHECK',
             payload: {
-                response: [], 
+                response: [],
                 statusCode: 200,
             },
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             checkPassword: [],
             statusCodeForCheckPassword: 200,
         });
     });
-    
+
     it('it should check CLEAR_GENERAL_PASSWORD_CHECK', () => {
         const action = {
             type: 'CLEAR_GENERAL_PASSWORD_CHECK',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             statusCodeForCheckPassword: 0,
         });
     });
-    
+
 
 
     it('it should check PASSWORD_ERROR', () => {
@@ -1095,24 +1095,24 @@ describe('it should check settings reducers', () => {
             type: 'PASSWORD_ERROR',
             payload: "password error",
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             notmatchpass: "password error",
         });
     });
-    
+
     it('it should check CLEAR_PASSWORD_ERROR', () => {
         const action = {
             type: 'CLEAR_PASSWORD_ERROR',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             notmatchpass: "",
         });
     });
-    
+
 
 
     it('it should check CONFORM_PASSWORD_MATCHES', () => {
@@ -1120,52 +1120,52 @@ describe('it should check settings reducers', () => {
             type: 'CONFORM_PASSWORD_MATCHES',
             payload: "confirm password error",
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             conformPassNotmatch: "confirm password error",
         });
     });
-    
+
     it('it should check CLEAR_CONFORM_PASSWORD_MATCHES', () => {
         const action = {
             type: 'CLEAR_CONFORM_PASSWORD_MATCHES',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             conformPassNotmatch: "",
         });
     });
-    
+
 
 
     it('it should check DELETE_GENERAL', () => {
         const action = {
             type: 'DELETE_GENERAL',
             payload: {
-                               statusCode: 200,
+                statusCode: 200,
             },
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             generalDelete: action.payload,
             statusCodeForGeneralDelete: 200,
         });
     });
-    
+
     it('it should check CLEAR_DELETE_GENERAL', () => {
         const action = {
             type: 'CLEAR_DELETE_GENERAL',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             statusCodeForGeneralDelete: 0,
         });
     });
-    
+
 
 
     it('it should check RECURRING_ROLE', () => {
@@ -1175,24 +1175,24 @@ describe('it should check settings reducers', () => {
                 statusCode: 200,
             },
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             addRecurringRole: 200,
         });
     });
-    
+
     it('it should check REMOVE_RECURRING_ROLE', () => {
         const action = {
             type: 'REMOVE_RECURRING_ROLE',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             addRecurringRole: 0,
         });
     });
-    
+
 
 
     it('it should check ROLE_ERROR', () => {
@@ -1200,41 +1200,41 @@ describe('it should check settings reducers', () => {
             type: 'ROLE_ERROR',
             payload: "Role error message",
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             roleError: "Role error message",
         });
     });
-    
+
     it('it should check CLEAR_ROLE_ERROR', () => {
         const action = {
             type: 'CLEAR_ROLE_ERROR',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             roleError: "",
         });
     });
-    
+
     it('it should check ROLE_EDIT_ERROR', () => {
         const action = {
             type: 'ROLE_EDIT_ERROR',
             payload: "Role edit error message",
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             roleEditError: "Role edit error message",
         });
     });
-    
+
     it('it should check CLEAR_ROLE_EDIT_ERROR', () => {
         const action = {
             type: 'CLEAR_ROLE_EDIT_ERROR',
         };
-    
+
         expect(SettingsReducer(initialState, action)).toStrictEqual({
             ...initialState,
             roleEditError: "",
@@ -1247,336 +1247,348 @@ describe('it should check settings reducers', () => {
     it('It should be clear  Unknown action', () => {
         const action = {
             type: 'UNKNOWN',
-           
+
 
         }
         expect(SettingsReducer({ ...initialState }, action)).toStrictEqual({
             ...initialState,
-                   })
+        })
 
     })
-    
 
 
 
-     it('it should check NEW_SUBSCRIPTION', () => {
-            const action = {
-                type: 'NEW_SUBSCRIPTION',
-                payload: {
-                    response: [],
-                    statusCode: 200
-                }
-            };
-        
-            expect(SettingsReducer(initialState, action)).toStrictEqual({
-                
-                Expences: [],
-                message: "",
-                getExpensesStatuscode: 0,
-                addexpencesStatuscode: 0,
-                editexpencesStatuscode: 0,
-                alreadycategoryerror: "",
-                deleteexpencesStatusCode: 0,
-                Complainttypelist: [],
-                getcomplainttypeStatuscode: 0,
-                addComplaintSuccessStatusCode: 0,
-                alreadytypeerror: "",
-                deletecomplaintStatuscode: 0,
-                addEbbillingUnitStatuscode: 0,
-                EBBillingUnitlist: [],
-                getebStatuscode: 0,
-                getsettingRoleList: [],
-                statusCodeForRoleList: 0,
-                addRoleSetting: [],
-                statusCodeForAddRole: 0,
-                editRolePermission: [],
-                editStatusCosePermission: 0,
-                editSettingRole: [],
-                StatusForEditPermission: 0,
-                deleteSettingRole: [],
-                StatusForDeletePermission: 0,
-                StatusForaddSettingUser: 0,
-                addSettingUser: [],
-                addSettingStaffList: [],
-                StatusForaddSettingStaffList: 0,
-                emailIdError: "",
-                phoneNumError: "",
-                ebUnitError: "",
-                reportList: [],
-                StatusForReport: 0,
-                settingGeneralPage: [],
-                StatusCodeForSettingGeneral: 0,
-                settingGetGeneralData: [],
-                StatusCodeforGetGeneral: 0,
-                settingGeneraLPasswordChanges: [],
-                StatusCodeforGeneralPassword: 0,
-                generalDelete: [],
-                statusCodeForGeneralDelete: 0,
-                generalEmailError: "",
-                generalMobileError: "",
-                addRecurringRole: 0,
-                checkPassword: [],
-                statusCodeForCheckPassword: 0,
-                notmatchpass:"",
-                conformPassNotmatch:"",
-                editComplaintSuccessStatusCode:0,
-                deleteElectricityStatuscode:0,
-                assignedUserRoleStatusCode: 0,
-                categoryError:0,
-                errorEbUnitStatusCode:0,
-                errorCompliants:0,
-                errorUser:0,
-                errorRole:0,
-                AddCategoryType: 0,
-                roleError:'',
-                roleEditError:'',
-                generalDeleteError:'',
-                subscriptionNew:[],
-                statusCodeNewSubscription:200,
-                subcripitionAllDetails:[],
-                statusCodeForSubcripitionAllDetails:0
-    
-            });
+
+    it('it should check NEW_SUBSCRIPTION', () => {
+        const action = {
+            type: 'NEW_SUBSCRIPTION',
+            payload: {
+                response: [],
+                statusCode: 200
+            }
+        };
+
+        expect(SettingsReducer(initialState, action)).toStrictEqual({
+
+            Expences: [],
+            message: "",
+            getExpensesStatuscode: 0,
+            addexpencesStatuscode: 0,
+            editexpencesStatuscode: 0,
+            alreadycategoryerror: "",
+            deleteexpencesStatusCode: 0,
+            Complainttypelist: [],
+            getcomplainttypeStatuscode: 0,
+            addComplaintSuccessStatusCode: 0,
+            alreadytypeerror: "",
+            deletecomplaintStatuscode: 0,
+            addEbbillingUnitStatuscode: 0,
+            EBBillingUnitlist: [],
+            getebStatuscode: 0,
+            getsettingRoleList: [],
+            statusCodeForRoleList: 0,
+            addRoleSetting: [],
+            statusCodeForAddRole: 0,
+            editRolePermission: [],
+            editStatusCosePermission: 0,
+            editSettingRole: [],
+            StatusForEditPermission: 0,
+            deleteSettingRole: [],
+            StatusForDeletePermission: 0,
+            StatusForaddSettingUser: 0,
+            addSettingUser: [],
+            addSettingStaffList: [],
+            StatusForaddSettingStaffList: 0,
+            emailIdError: "",
+            phoneNumError: "",
+            ebUnitError: "",
+            reportList: [],
+            StatusForReport: 0,
+            settingGeneralPage: [],
+            StatusCodeForSettingGeneral: 0,
+            settingGetGeneralData: [],
+            StatusCodeforGetGeneral: 0,
+            settingGeneraLPasswordChanges: [],
+            StatusCodeforGeneralPassword: 0,
+            generalDelete: [],
+            statusCodeForGeneralDelete: 0,
+            generalEmailError: "",
+            generalMobileError: "",
+            addRecurringRole: 0,
+            checkPassword: [],
+            statusCodeForCheckPassword: 0,
+            notmatchpass: "",
+            conformPassNotmatch: "",
+            editComplaintSuccessStatusCode: 0,
+            deleteElectricityStatuscode: 0,
+            assignedUserRoleStatusCode: 0,
+            categoryError: 0,
+            errorEbUnitStatusCode: 0,
+            errorCompliants: 0,
+            errorUser: 0,
+            errorRole: 0,
+            AddCategoryType: 0,
+            roleError: '',
+            roleEditError: '',
+            generalDeleteError: '',
+            subscriptionNew: [],
+            statusCodeNewSubscription: 200,
+            subcripitionAllDetails: [],
+            statusCodeForSubcripitionAllDetails: 0,
+            toTriggerPDF: false,
+            SubscriptionPDF: "",
+            SubscriptionPdfSuccess: 0,
+
         });
-        it('it should check CLEAR_NEW_SUBSCRIPTION', () => {
-            const action = {
-                type: 'CLEAR_NEW_SUBSCRIPTION',
-                payload: {
+    });
+    it('it should check CLEAR_NEW_SUBSCRIPTION', () => {
+        const action = {
+            type: 'CLEAR_NEW_SUBSCRIPTION',
+            payload: {
                 statusCode: 0,
-                },
-            };
-        
-            expect(SettingsReducer(initialState, action)).toStrictEqual({
-                
-                Expences: [],
-                message: "",
-                getExpensesStatuscode: 0,
-                addexpencesStatuscode: 0,
-                editexpencesStatuscode: 0,
-                alreadycategoryerror: "",
-                deleteexpencesStatusCode: 0,
-                Complainttypelist: [],
-                getcomplainttypeStatuscode: 0,
-                addComplaintSuccessStatusCode: 0,
-                alreadytypeerror: "",
-                deletecomplaintStatuscode: 0,
-                addEbbillingUnitStatuscode: 0,
-                EBBillingUnitlist: [],
-                getebStatuscode: 0,
-                getsettingRoleList: [],
-                statusCodeForRoleList: 0,
-                addRoleSetting: [],
-                statusCodeForAddRole: 0,
-                editRolePermission: [],
-                editStatusCosePermission: 0,
-                editSettingRole: [],
-                StatusForEditPermission: 0,
-                deleteSettingRole: [],
-                StatusForDeletePermission: 0,
-                StatusForaddSettingUser: 0,
-                addSettingUser: [],
-                addSettingStaffList: [],
-                StatusForaddSettingStaffList: 0,
-                emailIdError: "",
-                phoneNumError: "",
-                ebUnitError: "",
-                reportList: [],
-                StatusForReport: 0,
-                settingGeneralPage: [],
-                StatusCodeForSettingGeneral: 0,
-                settingGetGeneralData: [],
-                StatusCodeforGetGeneral: 0,
-                settingGeneraLPasswordChanges: [],
-                StatusCodeforGeneralPassword: 0,
-                generalDelete: [],
-                statusCodeForGeneralDelete: 0,
-                generalEmailError: "",
-                generalMobileError: "",
-                addRecurringRole: 0,
-                checkPassword: [],
-                statusCodeForCheckPassword: 0,
-                notmatchpass:"",
-                conformPassNotmatch:"",
-                editComplaintSuccessStatusCode:0,
-                deleteElectricityStatuscode:0,
-                assignedUserRoleStatusCode: 0,
-                categoryError:0,
-                errorEbUnitStatusCode:0,
-                errorCompliants:0,
-                errorUser:0,
-                errorRole:0,
-                AddCategoryType: 0,
-                roleError:'',
-                roleEditError:'',
-                generalDeleteError:'',
-                subscriptionNew:[],
-                statusCodeNewSubscription:0,
-                subcripitionAllDetails:[],
-                statusCodeForSubcripitionAllDetails:0
-    
-            });
+            },
+        };
+
+        expect(SettingsReducer(initialState, action)).toStrictEqual({
+
+            Expences: [],
+            message: "",
+            getExpensesStatuscode: 0,
+            addexpencesStatuscode: 0,
+            editexpencesStatuscode: 0,
+            alreadycategoryerror: "",
+            deleteexpencesStatusCode: 0,
+            Complainttypelist: [],
+            getcomplainttypeStatuscode: 0,
+            addComplaintSuccessStatusCode: 0,
+            alreadytypeerror: "",
+            deletecomplaintStatuscode: 0,
+            addEbbillingUnitStatuscode: 0,
+            EBBillingUnitlist: [],
+            getebStatuscode: 0,
+            getsettingRoleList: [],
+            statusCodeForRoleList: 0,
+            addRoleSetting: [],
+            statusCodeForAddRole: 0,
+            editRolePermission: [],
+            editStatusCosePermission: 0,
+            editSettingRole: [],
+            StatusForEditPermission: 0,
+            deleteSettingRole: [],
+            StatusForDeletePermission: 0,
+            StatusForaddSettingUser: 0,
+            addSettingUser: [],
+            addSettingStaffList: [],
+            StatusForaddSettingStaffList: 0,
+            emailIdError: "",
+            phoneNumError: "",
+            ebUnitError: "",
+            reportList: [],
+            StatusForReport: 0,
+            settingGeneralPage: [],
+            StatusCodeForSettingGeneral: 0,
+            settingGetGeneralData: [],
+            StatusCodeforGetGeneral: 0,
+            settingGeneraLPasswordChanges: [],
+            StatusCodeforGeneralPassword: 0,
+            generalDelete: [],
+            statusCodeForGeneralDelete: 0,
+            generalEmailError: "",
+            generalMobileError: "",
+            addRecurringRole: 0,
+            checkPassword: [],
+            statusCodeForCheckPassword: 0,
+            notmatchpass: "",
+            conformPassNotmatch: "",
+            editComplaintSuccessStatusCode: 0,
+            deleteElectricityStatuscode: 0,
+            assignedUserRoleStatusCode: 0,
+            categoryError: 0,
+            errorEbUnitStatusCode: 0,
+            errorCompliants: 0,
+            errorUser: 0,
+            errorRole: 0,
+            AddCategoryType: 0,
+            roleError: '',
+            roleEditError: '',
+            generalDeleteError: '',
+            subscriptionNew: [],
+            statusCodeNewSubscription: 0,
+            subcripitionAllDetails: [],
+            statusCodeForSubcripitionAllDetails: 0,
+            toTriggerPDF: false,
+            SubscriptionPDF: "",
+            SubscriptionPdfSuccess: 0,
+
         });
+    });
 
 
 
 
-        it('it should check NEW_SUBSCRIPTION_LIST', () => {
-            const action = {
-                type: 'NEW_SUBSCRIPTION_LIST',
-                payload: {
-                    response: [],
-                    statusCode: 200
-                }
-            };
-        
-            expect(SettingsReducer(initialState, action)).toStrictEqual({
-                
-                Expences: [],
-                message: "",
-                getExpensesStatuscode: 0,
-                addexpencesStatuscode: 0,
-                editexpencesStatuscode: 0,
-                alreadycategoryerror: "",
-                deleteexpencesStatusCode: 0,
-                Complainttypelist: [],
-                getcomplainttypeStatuscode: 0,
-                addComplaintSuccessStatusCode: 0,
-                alreadytypeerror: "",
-                deletecomplaintStatuscode: 0,
-                addEbbillingUnitStatuscode: 0,
-                EBBillingUnitlist: [],
-                getebStatuscode: 0,
-                getsettingRoleList: [],
-                statusCodeForRoleList: 0,
-                addRoleSetting: [],
-                statusCodeForAddRole: 0,
-                editRolePermission: [],
-                editStatusCosePermission: 0,
-                editSettingRole: [],
-                StatusForEditPermission: 0,
-                deleteSettingRole: [],
-                StatusForDeletePermission: 0,
-                StatusForaddSettingUser: 0,
-                addSettingUser: [],
-                addSettingStaffList: [],
-                StatusForaddSettingStaffList: 0,
-                emailIdError: "",
-                phoneNumError: "",
-                ebUnitError: "",
-                reportList: [],
-                StatusForReport: 0,
-                settingGeneralPage: [],
-                StatusCodeForSettingGeneral: 0,
-                settingGetGeneralData: [],
-                StatusCodeforGetGeneral: 0,
-                settingGeneraLPasswordChanges: [],
-                StatusCodeforGeneralPassword: 0,
-                generalDelete: [],
-                statusCodeForGeneralDelete: 0,
-                generalEmailError: "",
-                generalMobileError: "",
-                addRecurringRole: 0,
-                checkPassword: [],
-                statusCodeForCheckPassword: 0,
-                notmatchpass:"",
-                conformPassNotmatch:"",
-                editComplaintSuccessStatusCode:0,
-                deleteElectricityStatuscode:0,
-                assignedUserRoleStatusCode: 0,
-                categoryError:0,
-                errorEbUnitStatusCode:0,
-                errorCompliants:0,
-                errorUser:0,
-                errorRole:0,
-                AddCategoryType: 0,
-                roleError:'',
-                roleEditError:'',
-                generalDeleteError:'',
-                subscriptionNew:[],
-                statusCodeNewSubscription:0,
-                subcripitionAllDetails:[],
-                statusCodeForSubcripitionAllDetails:200
-    
-            });
+    it('it should check NEW_SUBSCRIPTION_LIST', () => {
+        const action = {
+            type: 'NEW_SUBSCRIPTION_LIST',
+            payload: {
+                response: [],
+                statusCode: 200
+            }
+        };
+
+        expect(SettingsReducer(initialState, action)).toStrictEqual({
+
+            Expences: [],
+            message: "",
+            getExpensesStatuscode: 0,
+            addexpencesStatuscode: 0,
+            editexpencesStatuscode: 0,
+            alreadycategoryerror: "",
+            deleteexpencesStatusCode: 0,
+            Complainttypelist: [],
+            getcomplainttypeStatuscode: 0,
+            addComplaintSuccessStatusCode: 0,
+            alreadytypeerror: "",
+            deletecomplaintStatuscode: 0,
+            addEbbillingUnitStatuscode: 0,
+            EBBillingUnitlist: [],
+            getebStatuscode: 0,
+            getsettingRoleList: [],
+            statusCodeForRoleList: 0,
+            addRoleSetting: [],
+            statusCodeForAddRole: 0,
+            editRolePermission: [],
+            editStatusCosePermission: 0,
+            editSettingRole: [],
+            StatusForEditPermission: 0,
+            deleteSettingRole: [],
+            StatusForDeletePermission: 0,
+            StatusForaddSettingUser: 0,
+            addSettingUser: [],
+            addSettingStaffList: [],
+            StatusForaddSettingStaffList: 0,
+            emailIdError: "",
+            phoneNumError: "",
+            ebUnitError: "",
+            reportList: [],
+            StatusForReport: 0,
+            settingGeneralPage: [],
+            StatusCodeForSettingGeneral: 0,
+            settingGetGeneralData: [],
+            StatusCodeforGetGeneral: 0,
+            settingGeneraLPasswordChanges: [],
+            StatusCodeforGeneralPassword: 0,
+            generalDelete: [],
+            statusCodeForGeneralDelete: 0,
+            generalEmailError: "",
+            generalMobileError: "",
+            addRecurringRole: 0,
+            checkPassword: [],
+            statusCodeForCheckPassword: 0,
+            notmatchpass: "",
+            conformPassNotmatch: "",
+            editComplaintSuccessStatusCode: 0,
+            deleteElectricityStatuscode: 0,
+            assignedUserRoleStatusCode: 0,
+            categoryError: 0,
+            errorEbUnitStatusCode: 0,
+            errorCompliants: 0,
+            errorUser: 0,
+            errorRole: 0,
+            AddCategoryType: 0,
+            roleError: '',
+            roleEditError: '',
+            generalDeleteError: '',
+            subscriptionNew: [],
+            statusCodeNewSubscription: 0,
+            subcripitionAllDetails: [],
+            statusCodeForSubcripitionAllDetails: 200,
+            toTriggerPDF: false,
+            SubscriptionPDF: "",
+            SubscriptionPdfSuccess: 0,
+
         });
+    });
 
 
-        it('it should check CLEAR_NEW_SUBSCRIPTION_LIST', () => {
-            const action = {
-                type: 'CLEAR_NEW_SUBSCRIPTION_LIST',
-                payload: {
+    it('it should check CLEAR_NEW_SUBSCRIPTION_LIST', () => {
+        const action = {
+            type: 'CLEAR_NEW_SUBSCRIPTION_LIST',
+            payload: {
                 statusCode: 0,
-                },
-            };
-        
-            expect(SettingsReducer(initialState, action)).toStrictEqual({
-                
-                Expences: [],
-                message: "",
-                getExpensesStatuscode: 0,
-                addexpencesStatuscode: 0,
-                editexpencesStatuscode: 0,
-                alreadycategoryerror: "",
-                deleteexpencesStatusCode: 0,
-                Complainttypelist: [],
-                getcomplainttypeStatuscode: 0,
-                addComplaintSuccessStatusCode: 0,
-                alreadytypeerror: "",
-                deletecomplaintStatuscode: 0,
-                addEbbillingUnitStatuscode: 0,
-                EBBillingUnitlist: [],
-                getebStatuscode: 0,
-                getsettingRoleList: [],
-                statusCodeForRoleList: 0,
-                addRoleSetting: [],
-                statusCodeForAddRole: 0,
-                editRolePermission: [],
-                editStatusCosePermission: 0,
-                editSettingRole: [],
-                StatusForEditPermission: 0,
-                deleteSettingRole: [],
-                StatusForDeletePermission: 0,
-                StatusForaddSettingUser: 0,
-                addSettingUser: [],
-                addSettingStaffList: [],
-                StatusForaddSettingStaffList: 0,
-                emailIdError: "",
-                phoneNumError: "",
-                ebUnitError: "",
-                reportList: [],
-                StatusForReport: 0,
-                settingGeneralPage: [],
-                StatusCodeForSettingGeneral: 0,
-                settingGetGeneralData: [],
-                StatusCodeforGetGeneral: 0,
-                settingGeneraLPasswordChanges: [],
-                StatusCodeforGeneralPassword: 0,
-                generalDelete: [],
-                statusCodeForGeneralDelete: 0,
-                generalEmailError: "",
-                generalMobileError: "",
-                addRecurringRole: 0,
-                checkPassword: [],
-                statusCodeForCheckPassword: 0,
-                notmatchpass:"",
-                conformPassNotmatch:"",
-                editComplaintSuccessStatusCode:0,
-                deleteElectricityStatuscode:0,
-                assignedUserRoleStatusCode: 0,
-                categoryError:0,
-                errorEbUnitStatusCode:0,
-                errorCompliants:0,
-                errorUser:0,
-                errorRole:0,
-                AddCategoryType: 0,
-                roleError:'',
-                roleEditError:'',
-                generalDeleteError:'',
-                subscriptionNew:[],
-                statusCodeNewSubscription:0,
-                subcripitionAllDetails:[],
-                statusCodeForSubcripitionAllDetails:0
-    
-            });
+            },
+        };
+
+        expect(SettingsReducer(initialState, action)).toStrictEqual({
+
+            Expences: [],
+            message: "",
+            getExpensesStatuscode: 0,
+            addexpencesStatuscode: 0,
+            editexpencesStatuscode: 0,
+            alreadycategoryerror: "",
+            deleteexpencesStatusCode: 0,
+            Complainttypelist: [],
+            getcomplainttypeStatuscode: 0,
+            addComplaintSuccessStatusCode: 0,
+            alreadytypeerror: "",
+            deletecomplaintStatuscode: 0,
+            addEbbillingUnitStatuscode: 0,
+            EBBillingUnitlist: [],
+            getebStatuscode: 0,
+            getsettingRoleList: [],
+            statusCodeForRoleList: 0,
+            addRoleSetting: [],
+            statusCodeForAddRole: 0,
+            editRolePermission: [],
+            editStatusCosePermission: 0,
+            editSettingRole: [],
+            StatusForEditPermission: 0,
+            deleteSettingRole: [],
+            StatusForDeletePermission: 0,
+            StatusForaddSettingUser: 0,
+            addSettingUser: [],
+            addSettingStaffList: [],
+            StatusForaddSettingStaffList: 0,
+            emailIdError: "",
+            phoneNumError: "",
+            ebUnitError: "",
+            reportList: [],
+            StatusForReport: 0,
+            settingGeneralPage: [],
+            StatusCodeForSettingGeneral: 0,
+            settingGetGeneralData: [],
+            StatusCodeforGetGeneral: 0,
+            settingGeneraLPasswordChanges: [],
+            StatusCodeforGeneralPassword: 0,
+            generalDelete: [],
+            statusCodeForGeneralDelete: 0,
+            generalEmailError: "",
+            generalMobileError: "",
+            addRecurringRole: 0,
+            checkPassword: [],
+            statusCodeForCheckPassword: 0,
+            notmatchpass: "",
+            conformPassNotmatch: "",
+            editComplaintSuccessStatusCode: 0,
+            deleteElectricityStatuscode: 0,
+            assignedUserRoleStatusCode: 0,
+            categoryError: 0,
+            errorEbUnitStatusCode: 0,
+            errorCompliants: 0,
+            errorUser: 0,
+            errorRole: 0,
+            AddCategoryType: 0,
+            roleError: '',
+            roleEditError: '',
+            generalDeleteError: '',
+            subscriptionNew: [],
+            statusCodeNewSubscription: 0,
+            subcripitionAllDetails: [],
+            statusCodeForSubcripitionAllDetails: 0,
+            toTriggerPDF: false,
+            SubscriptionPDF: "",
+            SubscriptionPdfSuccess: 0,
+
         });
+    });
 })
