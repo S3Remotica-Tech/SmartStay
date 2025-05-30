@@ -1776,14 +1776,6 @@ describe('it should check invoice reducers', () => {
 
 
 
-
-
-
-// last
-
-
-
-
 it('it should check GET-BILLS-PDF-DETAILS', () => {
         const action = {
             type: 'GET-BILLS-PDF-DETAILS',
