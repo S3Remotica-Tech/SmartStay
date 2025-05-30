@@ -1779,15 +1779,84 @@ describe('it should check invoice reducers', () => {
 
 
 
+// last
 
 
 
 
+it('it should check GET-BILLS-PDF-DETAILS', () => {
+        const action = {
+            type: 'GET-BILLS-PDF-DETAILS',
+            payload: {
+                response: [],
+                statusCode: 200
+            }
+        };
+
+        expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            BillsPdfDetails: [],
+            BillsPdfSuccessCode: 200
+        });
+    });
 
 
 
 
+ it('it should check  CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE', () => {
+        const action = {
+            type: 'CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE',
+            payload: {
+                statusCode: 0
+            }
+        };
 
-
+        expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            BillsPdfSuccessCode: 0
+        });
+    });
 
 })
+
+
+
+
+
+
+ it('it should check  CLEAR_NEE_RECEIPT_PDF_STATUS_CODE', () => {
+        const action = {
+            type: 'CLEAR_NEE_RECEIPT_PDF_STATUS_CODE',
+            payload: {
+                statusCode: 0
+            }
+        };
+
+        expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+            ...initialState,
+            statusCodeNewReceiptStatusCode: 0
+        });
+    });
+
+
+it('should handle RECEIPT_PDF_CHANGES', () => {
+    const payload = {
+        response: [],
+        statusCode: 200
+    };
+
+    const action = {
+        type: 'RECEIPT_PDF_CHANGES',
+        payload
+    };
+
+    expect(InvoiceReducer({ ...initialState }, action)).toStrictEqual({
+        ...initialState,
+        newReceiptchanges: payload,
+        statusCodeNewReceiptStatusCode: payload.statusCode
+    });
+});
+
+
+
+
