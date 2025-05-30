@@ -1801,4 +1801,67 @@ describe('it should check userList reducers', () => {
     })
 
 
+
+
+    it('should check CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR', () => {
+    const action = {
+        type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR'
+    };
+
+    expect(UserListReducer(initialState, action)).toStrictEqual({
+        ...initialState,
+        conformChekoutError: ''
+    });
+});
+
+
+it('should handle EDIT_CONFIRM_CHECK_OUT_CUSTOMER', () => {
+    const action = {
+        type: 'EDIT_CONFIRM_CHECK_OUT_CUSTOMER',
+        payload: { statusCode: 200 }
+    };
+    expect(UserListReducer(initialState, action)).toStrictEqual({
+        ...initialState,
+        statusCodeConformEdit: 200
+    });
+});
+
+it('should handle CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER', () => {
+    const action = {
+        type: 'CLEAR_EDIT_CONFIRM_CHECK_OUT_CUSTOMER'
+    };
+    expect(UserListReducer(initialState, action)).toStrictEqual({
+        ...initialState,
+        statusCodeConformEdit: 0
+    });
+});
+
+
+it('should handle EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', () => {
+    const action = {
+        type: 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR',
+        payload: 'some error occurred'
+    };
+
+    expect(UserListReducer(initialState, action)).toStrictEqual({
+        ...initialState,
+        conformChekoutEditError: 'some error occurred'
+    });
+});
+
+it('should handle CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', () => {
+    const action = {
+        type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR'
+    };
+
+    expect(UserListReducer(initialState, action)).toStrictEqual({
+        ...initialState,
+        conformChekoutEditError: ''
+    });
+});
+
+
+
+
+
 })
