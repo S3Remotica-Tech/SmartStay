@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useState, useEffect } from "react";
-import Button from "react-bootstrap/Button";
+import React, {  useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import DeleteIcon from '../Assets/Images/Delete_red.png';
@@ -10,13 +9,11 @@ import 'react-calendar/dist/Calendar.css';
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import leftarrow from "../Assets/Images/arrow-left.png"
-import Modal from "react-bootstrap/Modal";
 import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import Billsimage from '../Assets/Images/bill_settings.png';
 import Select from "react-select";
 import PropTypes from "prop-types";
-import {CloseCircle} from "iconsax-react";
 import './SettingInvoice.css';
 import   "./SettingsBills.css";
 
@@ -29,71 +26,37 @@ function SettingsBills() {
 
   const [invoiceDate, setInvoiceDate] = useState('');
   const [invoicedueDate, setInvoiceDueDate] = useState('');
-
   const [selectedDate, setSelectedDate] = useState(null);
   const [isFromOpen, setIsFromOpen] = useState(false);
   const [isToOpen, setIsToOpen] = useState(false);
   const [selectedFrom, setSelectedFrom] = useState(null);
   const [selectedTo, setSelectedTo] = useState(null);
-
-  const dates = Array.from({ length: 31 }, (_, i) => i + 1);
-
-  const handleFromClick = (date) => {
-    setSelectedFrom(date);
-    setIsFromOpen(false);
-  };
-
-  const handleToClick = (date) => {
-    setSelectedTo(date);
-    setIsToOpen(false);
-  };
-
-  const [prefix, setPrefix] = useState("");
-  const [startNumber, setStartNumber] = useState("");
-
-  const [prefixerrormsg, setPrefixErrmsg] = useState("");
-  const [suffixerrormsg, setSuffixfixErrmsg] = useState("");
-  const [totalErrormsg, setTotalErrmsg] = useState("");
-
+  const [recurring_name, setRecurringName] = useState("");
+  const [billing_frequency, setBilling_Frequency] = useState("");
+  const [billing_types, setBilling_FrequencyTypes] = useState(null);
+  const [recurr_nameerrormsg, setRecurr_NameErrmsg] = useState("");
+  const [billingfreuencyerrormsg, setBillingFrequencyErrmsg] = useState("");
+  const [selectedFromerrmsg, setSelectedFromErrmsg] = useState("");
+  const [selectedToerrmsg, setSelectedToErrMsg] = useState("");
+  const [selectedremainderdayserrmsg, setSelectedRemainderDaysErrMsg] = useState("");
   const [showform, setShowForm] = useState(false);
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [duedateerrmsg, setDueDateErrmsg] = useState("");
-  const [recurringform, setRecurringForm] = useState(false);
   const [loading, setLoading] = useState(false)
-  const initialValuesRef = useRef({});
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [checkboxOptions, setCheckboxOptions] = useState([]);
+  const [notifications, setNotifications] = useState({});
+  const [isOn, setIsOn] = useState(false);
 
-  const [calculatedstartdate, setCalculatedstartdate] = useState("");
-  const [calculatedenddate, setCalculatedEnddate] = useState("");
-  const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] = useState("");
-  const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
-  const [every_recurr, setEvery_Recurr] = useState("");
-  const [InvoiceList, setInvoiceList] = useState([]);
-
-  const [isOn, setIsOn] = useState(true);
-
-  const handleToggle = () => setIsOn(!isOn);
+  
 
 
-  const [notifications, setNotifications] = useState({
-    email: true,
-    sms: true,
-    whatsapp: true,
-    call: false,
-  });
 
-  const handleChange = (key) => {
-    setNotifications((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
 
-  const Checkboxoptions = [
-    { key: "email", label: "Notify Email" },
-    { key: "sms", label: "Notify SMS" },
-    { key: "whatsapp", label: "Whatsapp" },
-    { key: "call", label: "Call Alert" },
-  ];
+
+
+
+ 
 
 
   const initialOptions = [
@@ -104,35 +67,105 @@ function SettingsBills() {
     { label: "05th", value: 5 },
   ];
 
-  const [selectedDays, setSelectedDays] = useState([]);
-  const [availableOptions, setAvailableOptions] = useState(initialOptions);
+
+
+  const filteredOptions = initialOptions.filter(
+    (option) => !selectedDays.some((day) => day.value === option.value)
+  );
 
   const handleSelect = (selected) => {
-    if (!selected) return;
+    if (!selected) {
+      setSelectedRemainderDaysErrMsg("Please select a reminder day");
+      return;
+    }
 
+    setSelectedRemainderDaysErrMsg("");
     setSelectedDays((prev) => [...prev, selected]);
+  };
 
-    setAvailableOptions((prev) =>
-      prev.filter((opt) => opt.value !== selected.value)
+  const handleDelete = (valueToRemove) => {
+    setSelectedDays((prev) =>
+      prev.filter((day) => day.value !== valueToRemove)
     );
   };
 
-  const handleDelete = (value) => {
-    const removed = selectedDays.find((item) => item.value === value);
-    setSelectedDays((prev) => prev.filter((item) => item.value !== value));
+  const dates = Array.from({ length: 31 }, (_, i) => i + 1);
 
-    setAvailableOptions((prev) => [...prev, removed].sort((a, b) => a.value - b.value));
+  const handleFromClick = (date) => {
+    setSelectedFrom(date);
+    setIsFromOpen(false);
   };
 
+
+  const handleToClick = (date) => {
+    setSelectedTo(date);
+    setIsToOpen(false);
+  };
+
+  const handleToggle = () => setIsOn(!isOn);
+  
  
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
-    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+    dispatch({ type: "FREQUENCY_TYPES_LIST" });
+    dispatch({ type: "NOTIFICATION_TYPES_LIST" });
     setLoading(true)
     }
   }, [state.login.selectedHostel_Id]);
 
-  console.log("state.UsersList.hotelDetailsinPg", state.UsersList.hotelDetailsinPg)
+
+useEffect(() => {
+  if (state?.Settings?.FrequncyTypegetSuccessCode === 200) {
+    setLoading(false)
+    const transformed = state?.Settings?.FrequencyTypeList?.map(item => ({
+      label: item.frequency_type,
+      value: item.frequency_type,
+      fullData: item, 
+    }));
+    setBilling_FrequencyTypes(transformed);
+
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_FREQUENCYTYPESLIST_STATUS_CODE' });
+    }, 1000);
+  }
+}, [state?.Settings?.FrequncyTypegetSuccessCode]);
+
+
+  useEffect(() => {
+  if (state?.Settings?.NotificationypegetSuccessCode === 200) {
+    const apiData = state?.Settings?.NotificationTypeList;
+
+    const options = apiData.map(item => ({
+      key: item.id, 
+      label: item.name,
+    }));
+
+    const defaultState = {};
+    options.forEach(opt => {
+      defaultState[opt.key] = false;
+    });
+
+    setCheckboxOptions(options);
+    setNotifications(defaultState);
+
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_NOTIFICATIONTYPESLIST_STATUS_CODE' });
+    }, 1000);
+  }
+}, [state?.Settings?.NotificationypegetSuccessCode]);
+
+
+
+ const handleChange = (key) => {
+  setNotifications((prev) => ({
+    ...prev,
+    [key]: !prev[key],
+  }));
+};
+
+  
+
+
   useEffect(() => {
     const appearOptions = {
       threshold: 0.5,
@@ -159,125 +192,94 @@ function SettingsBills() {
 
 
  
-  const handlePrefix = (e) => {
+  const handleRecurrName = (e) => {
     const inputValue = e.target.value;
     if (/^[a-zA-Z]*$/.test(inputValue)) {
-      setTotalErrmsg("");
-      setPrefix(inputValue);
-      setSuffixfixErrmsg("");
+      setRecurringName(inputValue);
   
       if (!inputValue) {
-        setPrefixErrmsg("Please Enter Prefix");
+        setRecurr_NameErrmsg("Please Enter Recurr Name");
       } else {
-        setPrefixErrmsg("");
+        setRecurr_NameErrmsg("");
       }
     }
   };
   
 
-  const billingFrequencyOptions = [
-    { value: "yes", label: "Yes" },
-    { value: "no", label: "No" },
-  ];
 
-  const handleSuffix = (selected) => {
-    setStartNumber(selected.value); 
-  };
-
-
-
-  const handleEdit = (item) => {
-    console.log("item", item);
-    setTotalErrmsg("");
-    setPrefix(item.prefix);
-    setStartNumber(item.suffix);
-    setInvoiceDate(item.inv_date)
-    setInvoiceDueDate(item.due_date)
-
-    setShowForm(true);
-
-    initialValuesRef.current = {
-      editprefix: item.prefix,
-      editstartnumber: item.suffix,
-      editinvoicedate: item.inv_date,
-      editduedate : item.due_date
-    };
-  };
-
-
-
- 
-
-  
-  
-
-
-
-  useEffect(() => {
-    if (state.InvoiceList?.invoiceSettingsStatusCode === 200) {
-
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-      setSelectedDate('')
-      setInvoiceDueDate('')
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_INVOICE_SETTINS_STATUSCODE" });
-      }, 1000);
-    }
-  }, [state.InvoiceList]);
-
-
-
-
- 
-
-  
-  
-
-
-
-  
-
-  
-
-
-
- 
-  const handlechangeEvery = (e) => {
-    setEvery_Recurr(e.target.value)
-  }
 
   const handleSaveRecurring = () => {
 
-    if (!calculatedstartdate || !calculatedenddate) {
+    if (!recurring_name || !billing_frequency || !selectedFrom || !selectedTo || !invoiceDate || !invoicedueDate || selectedDays.length === 0 ) {
 
-      if (!calculatedstartdate) {
-        setCalculatedstartdateErrmsg('Please Select Date')
+      if (!recurring_name) {
+        setRecurr_NameErrmsg("Please Enter Recurr Name");
       }
-      if (!calculatedenddate) {
-        setCalculatedEnddateErrMsg('Please Select Date')
+      if (!billing_frequency) {
+        setBillingFrequencyErrmsg('Please Select Frequncy')
+      }
+      if (!selectedFrom) {
+        setSelectedFromErrmsg('Please Select Date')
+      }
+      if (!selectedTo) {
+        setSelectedToErrMsg('Please Select Date')
+      }
+      if (!invoiceDate) {
+        setInvoiceDateErrmsg('Please Select Date')
+      }
+      if (!invoicedueDate) {
+        setDueDateErrmsg('Please Select Date')
+      }
+      if (selectedDays.length === 0) {
+        setSelectedRemainderDaysErrMsg('Please Select Remainder Days')
       }
       return;
     }
 
+     const reminderDays = selectedDays.length > 0 && selectedDays.map((item) => item.value);
+
+    const selectedNotificationIds = Object.keys(notifications)
+  .filter((key) => notifications[key])
+  .map(Number);
+
+
     dispatch({
-      type: "SETTINGSADDRECURRING",
-      payload: { hostel_id: Number(state.login.selectedHostel_Id), type: 'invoice', recure: 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate) }
+      type: "SETTINGSADD_RECURRING",
+      payload: { hostel_id: Number(state.login.selectedHostel_Id), recurringName : recurring_name, billFrequency : billing_frequency,
+     calculationFromDate: selectedFrom, calculationToDate : selectedTo,
+     billingDateOfMonth : invoiceDate, dueDateOfMonth: invoicedueDate, isAutoSend : isOn === true ? 1 : 0 , remainderDates : reminderDays,
+     billDeliveryChannels: selectedNotificationIds
+    
+    }
     });
-    setRecurringForm(false);
   }
 
 
   useEffect(() => {
-    if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
-      setCalculatedstartdate("")
-      setCalculatedEnddate("")
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+    if (state.Settings.SettingsRecurringAddSuccess === 200) {
+      setShowForm(false);
+      setRecurr_NameErrmsg("")
+      setBillingFrequencyErrmsg("")
+      setSelectedFromErrmsg("")
+      setSelectedToErrMsg("")
+      setInvoiceDateErrmsg('')
+      setDueDateErrmsg('')
+      setSelectedRemainderDaysErrMsg("")
+    setRecurringName('')
+    setBilling_Frequency('')
+    setSelectedFrom(null)
+    setSelectedTo(null)
+    setInvoiceDate("")
+    setInvoiceDueDate("")
+    setIsOn(false)
+    setSelectedDays([])
+    setNotifications({})
+
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
+        dispatch({ type: 'CLEAR_SETTINGSADDRECURRING_STATUS_CODE' })
       }, 100)
     }
-  }, [state.InvoiceList.settingsaddRecurringStatusCode])
+  }, [state.Settings.SettingsRecurringAddSuccess])
 
 
   const [showPopup, setShowPopup] = useState(false);
@@ -288,21 +290,27 @@ function SettingsBills() {
       return;
     }
     setShowForm(true);
-    console.log("Form is now showing...");
   };
 
 
   const handleCloseForm = () => {
     setShowForm(false);
-    setPrefixErrmsg('');
-    setSuffixfixErrmsg('')
+    setRecurr_NameErrmsg("")
+    setBillingFrequencyErrmsg("")
+    setSelectedFromErrmsg("")
+    setSelectedToErrMsg("")
     setInvoiceDateErrmsg('')
     setDueDateErrmsg('')
-    setTotalErrmsg("");
-    setPrefix('')
-    setStartNumber('')
-    setSelectedDate('')
-    setInvoiceDueDate('')
+    setSelectedRemainderDaysErrMsg("")
+    setRecurringName('')
+    setBilling_Frequency('')
+    setSelectedFrom(null)
+    setSelectedTo(null)
+    setInvoiceDate("")
+    setInvoiceDueDate("")
+    setIsOn(false)
+    setSelectedDays([])
+    setNotifications({})
   };
 
   
@@ -311,16 +319,6 @@ function SettingsBills() {
 
   
 
-  const handleCloseRecurringForm = () => {
-    setRecurringForm(false);
-    setCalculatedstartdateErrmsg('')
-    setCalculatedEnddateErrMsg('')
-    setCalculatedstartdate('')
-    setCalculatedEnddate('')
-
-   
-
-};
 
 
 
@@ -340,48 +338,14 @@ function SettingsBills() {
 
 
 
-  useEffect(() => {
-    if (state?.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-      setInvoiceList(state?.UsersList?.hotelDetailsinPg)
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE' })
-      }, 1000)
-    }
 
-  }, [state?.UsersList?.statuscodeForhotelDetailsinPg])
-
-
-  useState(()=>{
-    if(state.UsersList.noAllHosteListStatusCode === 201){
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
-      }, 1000);
-    }
-
-  },[state.UsersList.noAllHosteListStatusCode])
-  console.log("UsersListSTATUSCODE", state.UsersList.noAllHosteListStatusCode);
 
 
  
 
-  useEffect(() => {
-    if (!InvoiceList || InvoiceList.length === 0) return;
-  
-    const allPrefixSuffixEmpty = InvoiceList.every(item =>
-      (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
-      (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
-    );
-  
-    if (allPrefixSuffixEmpty) {
-      setLoading(false);
-    }
-  }, [InvoiceList]);
   
 
 
-  console.log("InvoiceList:", InvoiceList);
 
   const options = Array.from({ length: 31 }, (_, index) => ({
     value: index + 1,
@@ -389,23 +353,14 @@ function SettingsBills() {
   }));
 
   const handleInvoiceStartDateChange = (selectedOption) => {
-    setTotalErrmsg("");
     setInvoiceDate(selectedOption?.value);
     setInvoiceDateErrmsg("")
   };
   const handleInvoiceEndDateChange = (selectedOption) => {
-    setTotalErrmsg("");
     setInvoiceDueDate(selectedOption?.value);
   };
 
-  const handleStartDateChange = (selectedOption) => {
-    setCalculatedstartdate(selectedOption?.value);
-    setCalculatedstartdateErrmsg("")
-  };
-  const handleEndDateChange = (selectedOption) => {
-    setCalculatedEnddate(selectedOption?.value);
-    setCalculatedEnddateErrMsg("")
-  };
+
 
 
   const labelStyle = {
@@ -471,6 +426,7 @@ function SettingsBills() {
   >
 
     <div style={{ position: "fixed" , backgroundColor:'white'}}>
+
   <h3
       style={{
         fontFamily: "Gilroy",
@@ -548,14 +504,13 @@ function SettingsBills() {
                         <Form.Control
                           style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 500 }}
                           type="text"
-                          placeholder="name"
-                          value={prefix}
-                          onChange={(e) => handlePrefix(e)}
-                        
+                          placeholder="recurring_name"
+                          value={recurring_name}
+                          onChange={(e)=> handleRecurrName(e)}
                         />
                       </Form.Group>
 
-                      {prefixerrormsg.trim() !== "" && (
+                      {recurr_nameerrormsg.trim() !== "" && (
                         <div>
                           <p
                             style={{
@@ -566,12 +521,12 @@ function SettingsBills() {
                               
                             }}
                           >
-                            {prefixerrormsg !== " " && (
+                            {recurr_nameerrormsg !== " " && (
                               <MdError
                                 style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
                               />
                             )}{" "}
-                            {prefixerrormsg}
+                            {recurr_nameerrormsg}
                           </p>
                         </div>
                       )}
@@ -580,8 +535,8 @@ function SettingsBills() {
 
                     <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
                     <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-  <Form.Label
-    style={{
+      <Form.Label
+      style={{
       fontFamily: "Gilroy",
       fontSize: 14,
       fontWeight: 500,
@@ -594,25 +549,29 @@ function SettingsBills() {
   </Form.Label>
 
   <Select
-    options={billingFrequencyOptions}
-    placeholder="Select"
-    value={billingFrequencyOptions.find(opt => opt.value === startNumber)}
-    onChange={(selected) => handleSuffix(selected)}
-    styles={{
-      control: (base) => ({
-        ...base,
-        padding: "2px",
-        marginTop: "5px",
-        fontSize: "14px",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        color: "#4B4B4B",
-        borderColor: "#ced4da",
-      }),
-    }}
-  />
+  options={billing_types}
+  placeholder="Select"
+  value={billing_types.find(opt => opt.value === billing_frequency)}
+  onChange={(selected) => {
+    setBilling_Frequency(selected.value); // store only ID
+    setBillingFrequencyErrmsg("");
+  }}
+  styles={{
+    control: (base) => ({
+      ...base,
+      padding: "2px",
+      marginTop: "5px",
+      fontSize: "14px",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      color: "#4B4B4B",
+      borderColor: "#ced4da",
+    }),
+  }}
+/>
 
-  {suffixerrormsg.trim() !== "" && (
+
+  {billingfreuencyerrormsg.trim() !== "" && (
     <div>
       <p
         style={{
@@ -623,12 +582,12 @@ function SettingsBills() {
           fontWeight: 500,
         }}
       >
-        {suffixerrormsg !== " " && (
+        {billingfreuencyerrormsg !== " " && (
           <MdError
             style={{ fontSize: "14px", color: "red", marginBottom: "3px" }}
           />
         )}{" "}
-        {suffixerrormsg}
+        {billingfreuencyerrormsg}
       </p>
     </div>
   )}
@@ -674,6 +633,23 @@ function SettingsBills() {
             </div>
           </div>
         )}
+{selectedFromerrmsg.trim() !== "" && (
+      <div className="d-flex align-items-center p-1">
+        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+        <label
+          className="mb-0"
+          style={{
+            color: "red",
+            fontSize: "12px",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+          }}
+        >
+          {selectedFromerrmsg}
+        </label>
+      </div>
+    )}
+
       </div>
 
       <div className="col-6 position-relative">
@@ -708,6 +684,24 @@ function SettingsBills() {
             </div>
           </div>
         )}
+
+
+        {selectedToerrmsg.trim() !== "" && (
+      <div className="d-flex align-items-center p-1">
+        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+        <label
+          className="mb-0"
+          style={{
+            color: "red",
+            fontSize: "12px",
+            fontFamily: "Gilroy",
+            fontWeight: 500,
+          }}
+        >
+          {selectedToerrmsg}
+        </label>
+      </div>
+    )}
       </div>
     </div>
 
@@ -865,37 +859,66 @@ function SettingsBills() {
       <label htmlFor="endDayDropdown" className="form-label">
         Remainder days before Due
       </label>
-      <Select
-        options={availableOptions}
-        onChange={handleSelect}
-        placeholder="Select a Reminder date"
-        classNamePrefix="custom"
-        menuPlacement="auto"
-        styles={{
-          control: (base) => ({
-            ...base,
-            height: "40px",
-            border: "1px solid #ced4da",
-          }),
-        }}
-      />
+   <Select
+  options={filteredOptions}
+  placeholder="Select a Reminder date"
+  onChange={handleSelect}
+  value={null} 
+  classNamePrefix="custom"
+  menuPlacement="auto"
+  styles={{
+    control: (base) => ({
+      ...base,
+      height: "40px",
+      border: "1px solid #ced4da",
+    }),
+  }}
+/>
 
-      {selectedDays.length > 0 && (
-        <div className="mt-3 d-flex flex-wrap gap-2">
-          {selectedDays.map((item) => (
-            <div
-              key={item.value}
-              className="d-flex align-items-center px-3 py-1  rounded bg-white"
-              style={{ fontWeight: 400 , borderRadius:'8px' , border:'1px solid rgba(30, 69, 225, 1)'}}
-            >
-              {item.label} 
+ {selectedDays.length > 0 && (
+          <div className="mt-3 d-flex flex-wrap gap-2">
+            {selectedDays.map((item) => (
+              <div
+                key={item.value}
+                className="d-flex align-items-center px-3 py-1 rounded bg-white"
+                style={{
+                  fontWeight: 400,
+                  borderRadius: "8px",
+                  border: "1px solid rgba(30, 69, 225, 1)",
+                }}
+              >
+                {item.label}
+                <img
+                  className="ms-2"
+                  src={DeleteIcon}
+                  alt="delete"
+                  height={14}
+                  width={14}
+                  onClick={() => handleDelete(item.value)}
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
-              <img className="ms-2"  src={DeleteIcon} alt="deleterecurr" height={14} width={14} onClick={() => handleDelete(item.value)}/>
-            
-            </div>
-          ))}
-        </div>
-      )}
+{selectedremainderdayserrmsg.trim() !== "" && (
+  <div className="text-left">
+    <p
+      style={{
+        fontSize: "12px",
+        color: "red",
+        marginTop: "13px",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+      <MdError style={{ fontSize: "14px", color: "red", marginBottom: "2px" }} />
+      {selectedremainderdayserrmsg}
+    </p>
+  </div>
+)}
+
     </div>
                  
 
@@ -909,37 +932,37 @@ function SettingsBills() {
         }}
         >Bill Delivery Channels</p>
         <div>
-        <div className="d-flex gap-4 flex-wrap">
-      {Checkboxoptions.map(({ key, label }) => (
-        <div className="form-check" key={key}>
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id={key}
-            checked={notifications[key]}
-            onChange={() => handleChange(key)}
-            style={{
-              backgroundColor: notifications[key] ? "#1e40af" : "#fff",
-              borderColor: "#1e40af",
-              cursor: "pointer",
-            }}
-          />
-          <label
-            className="form-check-label"
-            htmlFor={key}
-            style={{
-              color: notifications[key] ? "#000" : "#aaa",
-              fontSize: "14px",
-              fontFamily: "Gilroy",
-              fontWeight: 400,
-
-            }}
-          >
-            {label}
-          </label>
-        </div>
-      ))}
+     <div className="d-flex gap-4 flex-wrap">
+  {checkboxOptions.map(({ key, label }) => (
+    <div className="form-check" key={key}>
+      <input
+        className="form-check-input"
+        type="checkbox"
+        id={`notification-${key}`}
+        checked={notifications[key] || false}
+        onChange={() => handleChange(key)}
+        style={{
+          backgroundColor: notifications[key] ? "#1e40af" : "#fff",
+          borderColor: "#1e40af",
+          cursor: "pointer",
+        }}
+      />
+      <label
+        className="form-check-label"
+        htmlFor={`notification-${key}`}
+        style={{
+          color: notifications[key] ? "#000" : "#aaa",
+          fontSize: "14px",
+          fontFamily: "Gilroy",
+          fontWeight: 400,
+        }}
+      >
+        {label}
+      </label>
     </div>
+  ))}
+</div>
+
 
         </div> 
         </div>  
@@ -955,24 +978,6 @@ function SettingsBills() {
 
 
 
-                  {totalErrormsg.trim() !== "" && (
-                    <div className="text-center">
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          color: "red",
-                          marginTop: "13px",
-                          fontFamily:"Gilroy",
-                          fontWeight:500
-                        }}
-                      >
-                        {totalErrormsg !== " " && (
-                          <MdError style={{ fontSize: "14px", color: "red",marginBottom:"2px" }} />
-                        )}{" "}
-                        {totalErrormsg}
-                      </p>
-                    </div>
-                  )}
 
 <div className="d-flex justify-content-end flex-wrap mt-3 ">
     <button
@@ -994,6 +999,7 @@ function SettingsBills() {
     </button>
   
     <button
+    onClick={handleSaveRecurring}
       style={{
         fontFamily: "Gilroy",
         fontSize: "14px",
@@ -1159,8 +1165,6 @@ function SettingsBills() {
     </button>
   
     <button
-      key={`edit-invoice-${item.id}`}
-      onClick={() => handleEdit(item)}
       style={{
         fontFamily: "Gilroy",
         fontSize: "14px",
@@ -1189,258 +1193,7 @@ function SettingsBills() {
 )
 }
 
-  
-
-
-
-
-
-    
-
-
-
-      {recurringform && (
-        <div
-          className="modal show"
-          style={{
-            display: "block",
-            position: "initial",
-            fontFamily: "Gilroy,sans-serif",
-          }}
-        >
-          <Modal
-            show={recurringform}
-            onHide={handleCloseRecurringForm}
-            centered
-            className="custom-modal"
-            backdrop="static"
-          >
-            <Modal.Dialog
-              style={{
-                maxWidth: 950,
-                paddingRight: "10px",
-                borderRadius: "30px",
-              }}
-              className="m-0 p-0"
-            >
-              <Modal.Body>
-                <div>
-                  <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
-                  >
-                    <div
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Recurring Enable
-                    </div>
-                  
-                    <CloseCircle size="24" color="#000" onClick={handleCloseRecurringForm} 
-            style={{ cursor: 'pointer' }}/>
-
-                  </Modal.Header>
-                </div>
-
-                <div className="row mt-1">
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation Start Date Will Be
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Select
-                        options={options}
-                        onChange={handleStartDateChange}
-                        value={options.find((option) => option.value === calculatedstartdate)}
-                        placeholder="Select"
-                        classNamePrefix="custom" 
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "40px",
-                            border: "1px solid #ced4da",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor:"pointer"
-                          }),
-                          option: (base, state) => ({
-                            ...base,
-                            cursor: "pointer", 
-                            backgroundColor: state.isFocused ? "lightblue" : "white", 
-                            color: "#000",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-                    </div>
-                    {calculatedstartdateerrmsg.trim() !== "" && (
-                      <div className="mt-3">
-                        <p style={{ fontSize: "12px", color: "red", marginTop: "-9px", fontFamily:"Gilroy",fontWeight:500 }}
-                        >
-                          {calculatedstartdateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "14px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
-                          )}{" "}
-                          {calculatedstartdateerrmsg}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">Invoice Calculation End Date Will Be
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </label>
-                    </div>
-
-                    <div className="col-lg-4">
-                      <Select
-                        options={options}
-                        onChange={handleEndDateChange}
-                        value={options.find((option) => option.value === calculatedenddate)}
-                        placeholder="Select"
-                        classNamePrefix="custom" 
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "40px",
-                            border: "1px solid #ced4da",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            overflowY: "auto",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor:"pointer"
-                          }),
-                          option: (base, state) => ({
-                            ...base,
-                            cursor: "pointer", 
-                            backgroundColor: state.isFocused ? "lightblue" : "white", 
-                            color: "#000",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-                    </div>
-                    {calculatedenddateerrmsg.trim() !== "" && (
-                      <div className="mt-3">
-                        <p style={{ fontSize: "12px", color: "red", marginTop: "-9px" , fontFamily:"Gilroy",fontWeight:500}}
-                        >
-                          {calculatedenddateerrmsg !== " " && (
-                            <MdError style={{ fontSize: "14px", color: "red", marginBottom: "3px", fontFamily:"Gilroy" }} />
-                          )}{" "}
-                          {calculatedenddateerrmsg}
-                        </p>
-                      </div>
-                    )}
-
-                  </div>
-
-
-                  <div className="mb-3 d-flex row">
-                    <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">On Every</label>
-                    </div>
-                    <div className="col-lg-4">
-                      <select className="form-select border" id="startDayDropdown"
-                        value={every_recurr}
-                        onChange={handlechangeEvery}
-                      >
-                        <option value="monthly">Monthly</option>
-
-                      </select>
-                    </div>
-
-                  </div>
-
-
-                </div>
-              </Modal.Body>
-
-              <Modal.Footer style={{ border: "none" }}>
-                <Button
-                  className="w-100"
-                  style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 500,
-                    height: 50,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                  }}
-                  onClick={handleSaveRecurring}
-                >
-                  Add Invoice
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
-      )}
+     
     </div>
   );
 }

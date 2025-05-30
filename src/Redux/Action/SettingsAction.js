@@ -191,6 +191,19 @@ export async function SubscriptionPdfDownload(id) {
   return await AxiosConfig.get(`/invoice_redirect/${id}`);
 }
 
+export async function SettingsAddRecurring(reccurring) {
+  return await AxiosConfig.post("/add-recuringBill", reccurring, {
+    data: reccurring,
+  });
+}
 
+export async function GetBillsFrequncyTypes() {
+  return await AxiosConfig.get("/frequency-types",);
+}
 
+export async function GetBillsNotificationTypes() {
+  return await AxiosConfig.get("/master-types", {
+    params: { content_type: "notification_type" }
+  });
+}
 
