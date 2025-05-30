@@ -65,8 +65,13 @@ export const initialState = {
   subcripitionAllDetails: [],
   statusCodeForSubcripitionAllDetails: 0,
   toTriggerPDF: false,
-  SubscriptionPDF: "",
+  SubscriptionPDF: [],
   SubscriptionPdfSuccess: 0,
+  SettingsRecurringAddSuccess:0,
+  FrequencyTypeList : [],
+  NotificationTypeList: [],
+  FrequncyTypegetSuccessCode: 0 ,
+  NotificationypegetSuccessCode: 0,
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -411,14 +416,26 @@ const SettingsReducer = (state = initialState, action) => {
       return { ...state, statusCodeForSubcripitionAllDetails: 0 };
 
     case "SUBSCRIPTION_PDF":
-      return {
-        ...state,
-        SubscriptionPDF: action.payload.response,
-        SubscriptionPdfSuccess: action.payload.statusCode,
-        toTriggerPDF: false,
-      };
+      return {...state, SubscriptionPDF: action.payload.response, SubscriptionPdfSuccess: action.payload.statusCode,toTriggerPDF: false,};
     case "CLEAR_SUBSCRIPTION_PDF_STATUS_CODE":
       return { ...state, SubscriptionPdfSuccess: 0 };
+
+    case "SETTINGSADDRECURRING":
+      return {...state,  SettingsRecurringAddSuccess: action.payload.statusCode,};
+    case "CLEAR_SETTINGSADDRECURRING_STATUS_CODE":
+      return { ...state, SettingsRecurringAddSuccess: 0 };
+
+    case "FREQUENCYTYPESLIST":
+      return {...state,  FrequencyTypeList : action.payload.response, FrequncyTypegetSuccessCode: action.payload.statusCode,};
+    case "CLEAR_FREQUENCYTYPESLIST_STATUS_CODE":
+      return { ...state, FrequncyTypegetSuccessCode: 0 };  
+
+    case "NOTIFICATIONTYPESLIST":
+      return {...state, NotificationTypeList : action.payload.response, NotificationypegetSuccessCode: action.payload.statusCode,};
+    case "CLEAR_NOTIFICATIONTYPESLIST_STATUS_CODE":
+      return { ...state, NotificationypegetSuccessCode: 0 };  
+
+
     default:
       return state;
   }
