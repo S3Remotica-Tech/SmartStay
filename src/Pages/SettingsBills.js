@@ -223,6 +223,7 @@ function SettingsBills() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
+      dispatch({ type: "SETTINGS_GET_RECURRING" , payload:{hostel_id: state.login.selectedHostel_Id} });
       dispatch({ type: "FREQUENCY_TYPES_LIST" });
       dispatch({ type: "NOTIFICATION_TYPES_LIST" });
     }

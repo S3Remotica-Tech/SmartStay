@@ -208,8 +208,10 @@ export async function GetBillsNotificationTypes() {
 }
 
 export async function SettingsGetRecurring(reccurring) {
- AxiosConfig.get("/getRecurringBills", { data: reccurring });
+  return await AxiosConfig.get(`/getRecurringBills/${reccurring.hostel_id}`);
 }
+
+
 
 
 

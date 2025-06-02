@@ -248,29 +248,8 @@ const handleTermsChange = (e) => {
 
 
 
- const [selectedImages, setSelectedImages] = useState([]);
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
 
-    if (selectedImages.length + files.length > 3) {
-      alert("Maximum 3 images allowed");
-      return;
-    }
-
-    const previews = files.map((file) => ({
-      file,
-      url: URL.createObjectURL(file),
-    }));
-
-    setSelectedImages((prev) => [...prev, ...previews]);
-    e.target.value = ""; 
-  };
-
-  const handleDeleteImage = (url) => {
-    const filtered = selectedImages.filter((img) => img.url !== url);
-    setSelectedImages(filtered);
-  };
 
 
    const [notes, setNotes] = useState(
