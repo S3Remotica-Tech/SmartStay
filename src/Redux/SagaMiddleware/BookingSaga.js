@@ -142,7 +142,6 @@ function* handleDeleteBooking(action) {
     
    };
 
-   console.log("response", response);
    
 
    if (response.status === 200 || response.data.statusCode === 200 || response.data.status === 200 ){
