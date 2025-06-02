@@ -175,9 +175,14 @@ function AssignBooking(props) {
     });
   };
 
+
+ 
+  
+
   useEffect(() => {
     if (state.Booking.statusCodeForAssignBooking === 200) {
       handleAssignClose();
+
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -186,8 +191,14 @@ function AssignBooking(props) {
         type: "GET_BOOKING_LIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
+
+      setTimeout(() => {
+        dispatch({type:"CLEAR_ASSIGN_USER_BOOKING"})
+      }, 300);
     }
   }, [state.Booking.statusCodeForAssignBooking]);
+
+   console.log("statuscode", state.Booking.statusCodeForAssignBooking);
 
   const handleFloor = (floorId) => {
     if (!floorId) {
