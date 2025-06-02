@@ -5,7 +5,7 @@ import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from '../Assets/Images/Delete_red.png';
 import leftarrow from "../Assets/Images/arrow-left.png"
-import UploadFileIcon from "../Assets/Images/upload_black.png"
+import { MdError } from "react-icons/md";
 import Logo from '../Assets/Images/get.png'
 import Dial from '../Assets/Images/dial.png'
 import Room from '../Assets/Images/Car.png'
@@ -44,12 +44,13 @@ function SettingInvoice() {
   const state = useSelector((state) => state);
 
   const [selectedDate, setSelectedDate] = useState(null);
-
   const [invoicedueDate, setInvoiceDueDate] = useState('');
-
-
+  const [account_number, setAccount_Number] = useState(""); 
+  const [ifsccode, setIfscCode] = useState(""); 
+  const [bank_name, setBankName] = useState(""); 
   const [prefix, setPrefix] = useState("");
-  const [startNumber, setStartNumber] = useState("");
+  const [suffix, setSuffix] = useState("");
+  const [tax, setTax] = useState("");
 
  
 
@@ -64,6 +65,18 @@ function SettingInvoice() {
   const [isVisible, setIsVisible] = useState(true);
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
+
+
+  const [accno_errmsg , setAccNumberErrMsg] = useState('')
+  const [ifsccode_errmsg , setIfscCodeErrMsg] = useState('')
+  const [bank_name_errmsg , setBankErrMsg] = useState('')
+  const [prefix_errmsg , setPrefixErrMsg] = useState('')
+  const [suffix_errmsg , setSuffixErrMsg] = useState('')
+  const [tax_errmsg , setTaxErrMsg] = useState('')
+  const [notes_errmsg , setNotesErrMsg] = useState('')
+  const [terms_errmsg , setTermsErrMsg] = useState('')
+  const [signature_errmsg , setSignatureErrMsg] = useState('')
+  const [paymenttype_errmsg , setPaymentTypeErrMsg] = useState('')
 
   const CardItems = [
     {
@@ -118,21 +131,116 @@ function SettingInvoice() {
   };
 
 
-  const billingFrequencyOptions = [
-    { value: "yes", label: "Yes" },
-    { value: "no", label: "No" },
-  ];
+ 
 
  const [inputValue, setInputValue] = useState("");
-  const [paymentTypes, setPaymentTypes] = useState([]);
+ const [paymentTypes, setPaymentTypes] = useState([]);
+  
+ const paymentTypeOptions = [
+  { id: 1, name: "credit card" },
+  { id: 2, name: "debit card" },
+  { id: 3, name: "upi" },
+  { id: 4, name: "cash" },
+];
+
+
+const paymentTypeIds = paymentTypes.map(
+  (type) => paymentTypeOptions.find((opt) => opt.name === type)?.id
+).filter(Boolean); 
+
+
+
+
+const handleAccountNumberChange = (e) => {
+  const numericValue = e.target.value.replace(/[^0-9]/g, ""); 
+  setAccount_Number(numericValue);
+
+  if (numericValue.trim() !== "") {
+    setAccNumberErrMsg("");
+  }
+};
+
+
+const handleIfscCodeChange = (e) => {
+    const Value = e.target.value  
+    setIfscCode(Value)
+
+    if (Value.trim() !== "") {
+    setIfscCodeErrMsg("");
+  }
+}
+
+const handleBankNameChange = (e) => {
+    const Value = e.target.value  
+    setBankName(Value)
+
+    if (Value.trim() !== "") {
+    setBankErrMsg("");
+  }
+}
+
+
+const hanldePrefix = (e) => {
+     const Value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+    setPrefix(Value)
+
+    if (Value.trim() !== "") {
+    setPrefixErrMsg("");
+  }
+}
+
+const hanldeSuffix = (e) => {
+     const numericValue =  e.target.value.replace(/[^0-9]/g, ""); 
+    setSuffix(numericValue)
+
+    if (numericValue.trim() !== "") {
+    setSuffixErrMsg("");
+  }
+}
+
+
+const handleTaxChange = (e) => {
+     const Value =  e.target.value.replace(/[^0-9]/g, ""); 
+    setTax(Value)
+
+    if (Value.trim() !== "") {
+    setTaxErrMsg("");
+  }
+}
+
+const handleNotesChange = (e) => {
+    const Value = e.target.value  
+    setNotes(Value)
+
+    if (Value.trim() !== "") {
+    setNotesErrMsg("");
+  }
+}
+
+const handleTermsChange = (e) => {
+    const Value = e.target.value  
+    setTerms(Value)
+
+    if (Value.trim() !== "") {
+    setTermsErrMsg("");
+  }
+}
+
+
 
   const handleAdd = () => {
-    const trimmed = inputValue.trim();
-    if (trimmed && !paymentTypes.includes(trimmed)) {
-      setPaymentTypes([...paymentTypes, trimmed]);
-      setInputValue("");   
-    }
-  };
+  const trimmed = inputValue.trim().toLowerCase();
+  const match = paymentTypeOptions.find((opt) => opt.name === trimmed);
+
+  if (match && !paymentTypes.includes(match.name)) {
+    setPaymentTypes([...paymentTypes, match.name]);
+    setInputValue("");
+    setPaymentTypeErrMsg("");
+  } else if (!match) {
+    setPaymentTypeErrMsg("Invalid payment type");
+  }
+};
+
 
   const handleDelete = (type) => {
     setPaymentTypes(paymentTypes.filter((item) => item !== type));
@@ -140,29 +248,8 @@ function SettingInvoice() {
 
 
 
- const [selectedImages, setSelectedImages] = useState([]);
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
 
-    if (selectedImages.length + files.length > 3) {
-      alert("Maximum 3 images allowed");
-      return;
-    }
-
-    const previews = files.map((file) => ({
-      file,
-      url: URL.createObjectURL(file),
-    }));
-
-    setSelectedImages((prev) => [...prev, ...previews]);
-    e.target.value = ""; 
-  };
-
-  const handleDeleteImage = (url) => {
-    const filtered = selectedImages.filter((img) => img.url !== url);
-    setSelectedImages(filtered);
-  };
 
 
    const [notes, setNotes] = useState(
@@ -175,27 +262,125 @@ function SettingInvoice() {
 
 
     const fileInputRef = useRef(null);
-  const [signature, setSignature] = useState(null);
+   const [signature, setSignature] = useState(null); 
+   const [signaturePreview, setSignaturePreview] = useState(null); 
 
-  const handleFileSignatureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSignature(URL.createObjectURL(file));
-    }
-  };
+
+ const handleFileSignatureChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    setSignature(file);
+    setSignaturePreview(URL.createObjectURL(file)); 
+    setSignatureErrMsg("");
+  }
+};
+
 
   const handleClear = () => {
     setSignature(null);
+    setSignaturePreview(null)
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+  };
+
+  
+  const handleEdit = () => {
+    setShowForm(false);
+    setCardShow(false)
+    setEdit(true); 
+  };
+
+  const handleEditClose = () => {
+    setShowForm(true);
+    setCardShow(false)
+    setEdit(false);
+    setAccNumberErrMsg("");
+    setIfscCodeErrMsg("");
+    setBankErrMsg("");
+    setPrefixErrMsg("");
+    setSuffixErrMsg("");
+    setTaxErrMsg("");
+    setNotesErrMsg("");
+    setTermsErrMsg("");
+    setPaymentTypeErrMsg('') 
+    setAccount_Number("")
+    setIfscCode("")
+    setBankName("")
+    setPrefix("")
+    setSuffix("")
+    setTax("")
+    setPaymentTypes([])
+
+  }
+
+
+   const handleSaveInvoice = () => {
+    if (
+      !account_number || !ifsccode || !bank_name ||  !prefix ||  !suffix || !tax ||
+      !notes ||
+      !terms ||
+      !signature ||
+      paymentTypes.length === 0 
+    ) {
+      if (!account_number) {
+       setAccNumberErrMsg("Please Enter Account No");
+      }
+      if (!ifsccode) {
+        setIfscCodeErrMsg("Please Enter IfscCode");
+      }
+      if (!bank_name) {
+        setBankErrMsg("Please Select Date");
+      }
+       if (paymentTypes.length === 0) {
+        setPaymentTypeErrMsg("Please Enter Payment");
+      }
+      if (!prefix) {
+        setPrefixErrMsg("Please Enter Prefix");
+      }
+      if (!suffix) {
+        setSuffixErrMsg("Please Enter Suffix");
+      }
+      if (!tax) {
+        setTaxErrMsg("Please Enter Tax");
+      }
+      if (!notes) {
+        setNotesErrMsg("Please Enter Notes");
+      }
+      if (!terms) {
+        setTermsErrMsg("Please Enter Terms");
+      }
+       if (!signature) {
+        setSignatureErrMsg("Please Select Signature");
+      }
+     
+      return;
+    }
+
+
+    dispatch({
+      type: "ADD_INVOICE_SETTINGS",
+      payload: {
+        hostelId: Number(state.login.selectedHostel_Id),
+        bankName: bank_name,
+        accountNo: account_number,
+        ifscCode: ifsccode,
+        paymentMethods: paymentTypeIds,
+        bankingId: '',
+        prefix: prefix,
+        suffix: suffix,
+        tax: tax ,
+        notes: notes,
+        privacyPolicy: terms,
+        signature:signature
+      },
+    });
   };
 
  
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-    setLoading(true)
     }
   }, [state.login.selectedHostel_Id]);
 
@@ -230,17 +415,6 @@ function SettingInvoice() {
 
  
 
-  const handleEdit = () => {
-    setShowForm(false);
-    setCardShow(false)
-    setEdit(true); 
-  };
-
-  const handleEditClose = () => {
-      setShowForm(true);
-    setCardShow(false)
-    setEdit(false);
-  }
 
 
 
@@ -289,12 +463,13 @@ function SettingInvoice() {
     setCardShow(true)
     setSelectedard('')
     setPrefix('')
-    setStartNumber('')
     setSelectedDate('')
     setInvoiceDueDate('')
   };
 
-  
+
+
+ 
 
  
 
@@ -339,7 +514,6 @@ function SettingInvoice() {
         dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
       }, 1000);
     }
-
   },[state.UsersList.noAllHosteListStatusCode])
 
 
@@ -1422,55 +1596,86 @@ function SettingInvoice() {
                           style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
                           type="text"
                           placeholder="Account No"
-                          value={prefix}
-                   
+                          value={account_number}
+                          onChange={handleAccountNumberChange}
+ 
                         />
+
+                        {accno_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {accno_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
                       </Form.Group>
 
                    
                     </div>
 
 
-                    <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                    <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-  <Form.Label
-    style={{
-      fontFamily: "Gilroy",
-      fontSize: 14,
-      fontWeight: 400,
-      color: "rgba(34, 34, 34, 1)",
-      fontStyle: "normal",
-      lineHeight: "normal",
-    }}
-  >
-  IFSC Code
-  </Form.Label>
+                       <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
+                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                        <Form.Label
+                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                          IFSC Code
+                        </Form.Label> 
+                        <Form.Control
+                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                          type="text"
+                          placeholder="Enter IFSC Code"
+                          value={ifsccode}
+                         onChange={handleIfscCodeChange}
+                          
+                        />
 
-  <Select
-    options={billingFrequencyOptions}
-    placeholder="Select"
-    value={billingFrequencyOptions.find(opt => opt.value === startNumber)}
-    styles={{
-      control: (base) => ({
-        ...base,
-        padding: "2px",
-        marginTop: "5px",
-        fontSize: "16px",
-        fontFamily: "Gilroy",
-        fontWeight: 400,
-        color: "rgba(34, 34, 34, 1)",
-        borderColor: "#ced4da",
-      }),
-    }}
-  />
+                            {ifsccode_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {ifsccode_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
+                      </Form.Group>
 
- 
-</Form.Group>
-
+                      
                     </div>
+
+
+                  
                  
     
-  <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
+                 <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
                       <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
                       >
                         <Form.Label
@@ -1481,9 +1686,32 @@ function SettingInvoice() {
                           style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
                           type="text"
                           placeholder="Enter Bank Name"
-                          value={prefix}
-                       
+                          value={bank_name}
+                          onChange={handleBankNameChange}
                         />
+
+                          {bank_name_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {bank_name_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
                       </Form.Group>
 
                    
@@ -1539,6 +1767,8 @@ function SettingInvoice() {
     />
   </div>
 
+                                            
+
   {paymentTypes.length > 0 && (
     <div className="mt-3 d-flex flex-wrap gap-2">
       {paymentTypes.map((item, index) => (
@@ -1568,101 +1798,32 @@ function SettingInvoice() {
       ))}
     </div>
   )}
+
+    {paymenttype_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {paymenttype_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
+
+  
 </div>
-
-
-                 
-
-
-                    
-   <div className="mb-3">
-      <label className="form-label" style={{  fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", }}
-      >Payment Types (Reference Images)</label>
-
-      <div
-        className="d-flex align-items-center justify-content-between p-2"
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          background: "#fff",
-           fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)",
-        }}
-      >
-        <span style={{ color: "#999" }}>Select</span>
-
-        <label
-          htmlFor="imageUpload"
-          className="btn btn-outline-secondary d-flex align-items-center gap-2 mb-0"
-          style={{
-            borderRadius: "8px",
-            fontSize: "14px",
-            fontWeight: "400",
-            color: "rgba(34, 34, 34, 1)"
-          }}
-        >
-          
-          Upload File
-
-          <img src={UploadFileIcon} height={15} width={15} alt="upload file"   />
-        </label>
-
-        <input
-          id="imageUpload"
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          style={{ display: "none" }}
-        />
-      </div>
-
-      <div className="mt-3 d-flex gap-2 flex-wrap">
-        {selectedImages.map((img) => (
-          <div
-            key={img.url}
-            className="position-relative"
-            style={{
-              border: "1px solid #1E45E1",
-              borderRadius: "8px",
-              overflow: "hidden",
-              width: "100px",
-              height: "100px",
-            }}
-          >
-            <img
-              src={img.url}
-              alt="preview_image"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-            <img
-              src= {DeleteIcon}
-              onClick={() => handleDeleteImage(img.url)}
-              alt="deleteicon"
-              className="position-absolute"
-              style={{
-                top: "5px",
-                right: "5px",
-                color: "red",
-                width:'22px',
-                height:'22px',
-                backgroundColor: "white",
-                borderRadius: "50%",
-                padding: "3px",
-                fontSize: "12px",
-                cursor: "pointer",
-              }}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-               
-
-
-                 
-
-
-
-
 
               
 
@@ -1688,9 +1849,31 @@ function SettingInvoice() {
                                     style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
                                     type="text"
                                     placeholder="prefix"
-                               
+                                    value={prefix}
+                                    onChange={hanldePrefix}
                                 />
-        
+        {prefix_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {prefix_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
 
                           </Form.Group>
                         </div>
@@ -1705,10 +1888,32 @@ function SettingInvoice() {
                                     style={{ padding: '10px', marginTop: '10px', fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
                                     type="text"
                                     placeholder="suffix"
-                                
+                                    value={suffix}
+                                    onChange={hanldeSuffix}
                                 />
 
- 
+  {suffix_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {suffix_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
                             </Form.Group>
                         </div>
                     </div>
@@ -1726,6 +1931,8 @@ function SettingInvoice() {
                                 readOnly
                            
                             />
+
+                            
                         </Form.Group>
                     </div>
                   </div>
@@ -1750,10 +1957,32 @@ function SettingInvoice() {
                                     style={{ padding: '10px', marginTop: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
                                     type="text"
                                     placeholder="12%"
-                               
+                                    value={tax}
+                                    onChange={handleTaxChange}
                                 />
-        
 
+                                {tax_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {tax_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
                           </Form.Group>
                         </div>
 
@@ -1765,21 +1994,20 @@ function SettingInvoice() {
                   </div>
 
                   
-                     <div className="p-3 mb-3 border " style={{borderRadius:'10px'}}>
-      <h6                   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
-        Notes</h6>
-      <hr />
-      <label className="form-label"                   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)',fontStyle: 'normal', lineHeight: 'normal' }}
-      >Add Notes</label>
-
+                <div className="p-3 mb-3 border " style={{borderRadius:'10px'}}>
+          <h6   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}>
+           Notes
+           </h6>
+           <hr />
+      <label className="form-label"  style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)',fontStyle: 'normal', lineHeight: 'normal' }}>Add Notes</label>
       <div className="position-relative">
         <textarea
           style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
           className="form-control pe-5" 
-          rows="4"
+          rows="4"    
           placeholder='Add any message...'
           value={notes}
-          onChange={(e) => setNotes(e.target.value)}
+          onChange={handleNotesChange}
         />
         <img
           src={TextAreaICon}
@@ -1793,6 +2021,28 @@ function SettingInvoice() {
           }}
         />
       </div>
+       {notes_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {notes_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
     </div>
 
                      <div className="p-3 mb-3 border " style={{borderRadius:'10px'}}>
@@ -1808,8 +2058,8 @@ function SettingInvoice() {
           rows="4"
           placeholder='Add any message...'
           value={terms}
-          onChange={(e) => setTerms(e.target.value)}
-                            style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+          onChange={handleTermsChange}
+          style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400,color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
         />
          <img
           src={TextAreaICon}
@@ -1823,6 +2073,29 @@ function SettingInvoice() {
           }}
         />
       </div>
+       {terms_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {terms_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
+      
     </div>
 
     <div className="p-3 mb-3 border " style={{borderRadius:'10px'}}>
@@ -1835,10 +2108,10 @@ function SettingInvoice() {
         className="border border-dashed rounded mt-2 d-flex justify-content-center align-items-center"
         style={{ height: '120px', borderStyle: 'dashed' }}
       >
-        {signature ? (
-          <img src={signature} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
+        {signaturePreview ? (
+          <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />
         ) : (
-          <span className="text-muted"                   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
+          <span className="text-muted"   style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 400, color:'rgba(34, 34, 34, 1)', fontStyle: 'normal', lineHeight: 'normal' }}
           >No signature uploaded</span>
         )}
       </div>
@@ -1861,20 +2134,44 @@ function SettingInvoice() {
           <button
             className="btn btn-link text-decoration-none "
             onClick={handleClear}
-            disabled={!signature}
+            disabled={!signaturePreview}
             style={{color:'rgba(75, 75, 75, 1)' ,  fontFamily: 'Gilroy', fontSize: 16, fontWeight: 400}}
           >
             Clear
           </button>
           <button
             className="btn btn-link text-decoration-none "
-            disabled={!signature}
+            disabled={!signaturePreview}
             style={{color:'rgba(30, 69, 225, 1)',   fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600}}
           >
             Done
           </button>
         </div>
+
+        
       </div>
+        {signature_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {signature_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
     </div>
 
     <div className="d-flex justify-content-end flex-wrap mt-3 ">
@@ -1899,6 +2196,7 @@ function SettingInvoice() {
     </button>
   
     <button
+    onClick={handleSaveInvoice}
       style={{
         fontFamily: "Gilroy",
         fontSize: "14px",

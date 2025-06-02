@@ -49,7 +49,6 @@ function AssignBooking(props) {
     setBed("");
     setJoiningDate("");
     setDateError("");
-    // setAdvanceamount('')
     setRentAmount("");
     setfloorError("");
     setRoomError("");
@@ -125,7 +124,7 @@ function AssignBooking(props) {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault(); 
 
     const isFloorvalid = validateAssignField(floor, "floor");
     const isRoomValid = validateAssignField(room, "room");
@@ -175,9 +174,14 @@ function AssignBooking(props) {
     });
   };
 
+
+ 
+  
+
   useEffect(() => {
     if (state.Booking.statusCodeForAssignBooking === 200) {
       handleAssignClose();
+
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -186,8 +190,13 @@ function AssignBooking(props) {
         type: "GET_BOOKING_LIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
+
+      setTimeout(() => {
+        dispatch({type:"CLEAR_ASSIGN_USER_BOOKING"})
+      }, 300);
     }
   }, [state.Booking.statusCodeForAssignBooking]);
+
 
   const handleFloor = (floorId) => {
     if (!floorId) {
@@ -201,12 +210,7 @@ function AssignBooking(props) {
       payload: { floor_Id: floorId, hostel_Id: hostalId },
     });
   };
-  // const handleFloor = (e) => {
-  //   setFloor(e.target.value);
-  //   setRoom("");
-  //   setBed("");
-  //   setfloorError("");
-  // };
+
   useEffect(() => {
       if (state.login.selectedHostel_Id && floor) {
         dispatch({
@@ -226,7 +230,6 @@ function AssignBooking(props) {
         hostel_id: hostalId,
         floor_id: floor,
         room_id: selectedRoomId,
-        // joining_date: joiningDate,
       };
 
       dispatch({
@@ -656,7 +659,7 @@ function AssignBooking(props) {
     placeholder="Selected Bed"
     classNamePrefix="custom"
     menuPlacement="auto"
-    noOptionsMessage={() => "No beds available"} // Handles empty state
+    noOptionsMessage={() => "No beds available"} 
     styles={{
       control: (base) => ({
         ...base,
@@ -855,7 +858,7 @@ function AssignBooking(props) {
   value={rentamount}
   onChange={(e) => handleRentAmount(e)}
   onKeyDown={(e) => {
-    // Allow only numbers and essential keys
+   
     const allowedKeys = [
       "Backspace",
       "Tab",

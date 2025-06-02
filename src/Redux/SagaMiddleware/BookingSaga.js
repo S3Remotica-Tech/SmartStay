@@ -142,8 +142,10 @@ function* handleDeleteBooking(action) {
     
    };
 
-   if (response.data.status === 200 || response.data.statusCode === 200){
-      yield put ({type : 'ASSIGN_USER_BOOKING' , payload:{response:response.data, statusCode:response.data.status || response.data.statusCode}})
+   
+
+   if (response.status === 200 || response.data.statusCode === 200 || response.data.status === 200 ){
+      yield put ({type : 'ASSIGN_USER_BOOKING' , payload:{response:response.data, statusCode: response.data.statusCode || response.status === 200  ||  response.data.status  }})
       toast.success(`${response.data.message}`, {
         position: "bottom-center",
         autoClose: 2000,

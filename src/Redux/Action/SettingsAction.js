@@ -207,3 +207,44 @@ export async function GetBillsNotificationTypes() {
   });
 }
 
+export async function SettingsGetRecurring(reccurring) {
+  return await AxiosConfig.get(`/getRecurringBills/${reccurring.hostel_id}`);
+}
+
+
+
+
+
+export async function AddInvoiceSettings(params) {
+  const formData = new FormData();
+
+  if (params.hostelId) formData.append("hostel_id", params.hostelId);
+  if (params.bankName) formData.append("bank_name", params.bankName);
+  if (params.accountNo) formData.append("account_no", params.accountNo);
+  if (params.ifscCode) formData.append("ifsc_code", params.ifscCode);
+  if (params.paymentMethods) formData.append("payment_methods", JSON.stringify(params.paymentMethods));
+  if (params.prefix) formData.append("prefix", params.prefix);
+  if (params.suffix) formData.append("suffix", params.suffix);
+  if (params.tax) formData.append("tax", params.tax);
+  if (params.notes) formData.append("notes", params.notes);
+  if (params.privacyPolicy) formData.append("privacy_policy", params.privacyPolicy);
+  if (params.signature) formData.append("signature", params.signature);
+  if (params.bankingId) formData.append("banking_id", params.bankingId);
+
+  try {
+    const response = await AxiosConfig.post(
+      "/invoice-settings",
+      formData,
+      {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+        timeout: 100000,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Axios Error", error);
+    throw error;
+  }
+}

@@ -72,6 +72,9 @@ export const initialState = {
   NotificationTypeList: [],
   FrequncyTypegetSuccessCode: 0 ,
   NotificationypegetSuccessCode: 0,
+  SettingsBillsGetRecurring:[],
+  settingsBillsggetRecurrSucesscode: 0,
+  settingsBillsAddInvoiceSucesscode: 0,
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -435,9 +438,18 @@ const SettingsReducer = (state = initialState, action) => {
     case "CLEAR_NOTIFICATIONTYPESLIST_STATUS_CODE":
       return { ...state, NotificationypegetSuccessCode: 0 };  
 
+    case "SETTINGSGETRECURRING":
+      return {...state, SettingsBillsGetRecurring : action.payload.response, settingsBillsggetRecurrSucesscode: action.payload.statusCode,};
+    case "CLEAR_SETTINGSGETRECURRING_STATUS_CODE":
+      return { ...state, settingsBillsggetRecurrSucesscode: 0 };    
+ 
+    case "ADDINVOICE_SETTINGS":
+      return {...state,  settingsBillsAddInvoiceSucesscode: action.payload.statusCode,};
+    case "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE":
+      return { ...state, settingsBillsAddInvoiceSucesscode: 0 }; 
 
     default:
-      return state;
+      return state; 
   }
 };
 export default SettingsReducer;
