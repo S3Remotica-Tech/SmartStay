@@ -58,26 +58,29 @@ function UserListKyc(props) {
     setAadhaarNo(value);
     setaadhaarErr("");
   };
-  
 
-
-
-  const handleSubmit = () => {
-    const otpString = otp.join("");
-    const otpRegex = /^\d{6}$/;
-    if (otp) {
-      if (otpRegex.test(otpString)) {
-        dispatch({ type: 'KYCVALIDATEOTPVERIFY', payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID, otp: otpString, ref_id: refId } })
-      } else {
-        setOtpErr('Enter valid OTP')
-      }
-    }
-    else {
-      setOtpErr('Enter OTP')
-    }
-
+const handleSubmit = () => {
+   
+ dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id:props.kycuserDetails.ID } })
 
   }
+  console.log("props.kycuserDetails.ID",props.kycuserDetails.ID)
+  // const handleSubmit = () => {
+  //   const otpString = otp.join("");
+  //   const otpRegex = /^\d{6}$/;
+  //   if (otp) {
+  //     if (otpRegex.test(otpString)) {
+  //       dispatch({ type: 'KYCVALIDATEOTPVERIFY', payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID, otp: otpString, ref_id: refId } })
+  //     } else {
+  //       setOtpErr('Enter valid OTP')
+  //     }
+  //   }
+  //   else {
+  //     setOtpErr('Enter OTP')
+  //   }
+
+
+  // }
   // state.UsersList.kycValidateSendOtpSuccess
   useEffect(() => {
     if (state.UsersList.kycValidateSendOtpSuccess === 200) {
@@ -306,10 +309,10 @@ function UserListKyc(props) {
                     fontSize: 14,
                     fontFamily: "Montserrat",
                   }}
-                  // onClick={handleSubmit}
-                  onClick={refId ? handleSubmit : handleValidate}
+                  onClick={handleSubmit}
+                  // onClick={refId ? handleSubmit : handleValidate}
                 >
-                  {refId ? 'Submit' : 'Validate'}
+                  submit
                 </Button>
               </div>
               {/* )} */}
