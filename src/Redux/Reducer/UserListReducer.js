@@ -1,4 +1,3 @@
-// import { generateAdvance } from "../Action/UserListAction";
 
 export const initialState = {
     Users: [],
@@ -110,7 +109,9 @@ export const initialState = {
     checkoutcustomeEmpty: 0,
     conformChekoutError:'',
     statusCodeConformEdit:0,
-    conformChekoutEditError:''
+    conformChekoutEditError:'',
+    kycverifynew:{},
+    statusCodeforverifyKYC:0
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -178,8 +179,7 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, createFloorSuccessStatusCode: action.payload.statusCode }
         case 'CLEAR_FLOOR_STATUS_CODE':
             return { ...state, createFloorSuccessStatusCode: 0 }
-        // createFloorMessage: action.payload.message,
-        // number_of_floor: action.payload.number_of_floors
+    
 
         case 'UPDATE_MESSAGE_FLOOR':
             return { ...state, createFloorMessage: action.message }
@@ -328,12 +328,7 @@ const UserListReducer = (state = initialState, action) => {
 
 
 
-        // case 'ROOM_FULL':
-        //     if (state.roomFullCheck?.length > 0 && action.payload.length > 0) {
-        //         return { ...state, roomFullCheck: [...state.roomFullCheck, action.payload] };
-        //     } else {
-        //         return { ...state, roomFullCheck: action.payload };
-        //     }
+     
 
 
         case "EXPORT_DETAILS":
@@ -344,7 +339,7 @@ const UserListReducer = (state = initialState, action) => {
             };
         case "CLEAR_EXPORT_DETAILS":
             return { ...state, statusCodeForExportDetails: 0 };
-        //   export
+       
         case "EXPORT_ASSETS_DETAILS":
             return {
                 ...state,
@@ -427,7 +422,7 @@ const UserListReducer = (state = initialState, action) => {
         case "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER":
             return { ...state, statusCodeAddConfirmCheckout: 0 };
 
-// edit
+
 
              case "EDIT_CONFIRM_CHECK_OUT_CUSTOMER":
             return { ...state, statusCodeConformEdit: action.payload.statusCode };
@@ -555,6 +550,12 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, statusCodeForhostelListNewDetails: 0 }
         case 'CLEAR_HOSTEL_LIST':
             return { ...state, hostelList: [], hostelListNewDetails: [] }
+
+
+                case 'KYC_VERIFY_NEW':
+            return { ...state, kycverifynew: action.payload.response, statusCodeforverifyKYC: action.payload.statusCode }
+        case 'REMOVE_KYC_VERIFY_NEW':
+            return { ...state, statusCodeforverifyKYC: 0 }
             default:
                 return state;
     }

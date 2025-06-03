@@ -1864,4 +1864,36 @@ it('should handle CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', () => {
 
 
 
+
+
+it('should handle KYC_VERIFY_NEW', () => {
+    const action = {
+        type: 'KYC_VERIFY_NEW',
+        payload: {
+            response: null, 
+            statusCode: 200
+        }
+    };
+    expect(UserListReducer(initialState, action)).toStrictEqual({
+        ...initialState,
+        kycverifynew: null,
+        statusCodeforverifyKYC: 200
+    });
+});
+
+
+it('should handle REMOVE_KYC_VERIFY_NEW', () => {
+    const currentState = {
+        ...initialState,
+        statusCodeforverifyKYC: 200
+    };
+    const action = { type: 'REMOVE_KYC_VERIFY_NEW' };
+    expect(UserListReducer(currentState, action)).toStrictEqual({
+        ...initialState,
+        statusCodeforverifyKYC: 0
+    });
+});
+
+
+
 })

@@ -367,3 +367,9 @@ export async function hostelDetailsId() {
   return await AxiosConfig.get('/list/hosteldetails',{
   })
 }
+
+export async function handleKycVerify(datum){
+  return await AxiosConfig.post('/verify-kyc',datum,{
+    data:datum
+  })
+}
