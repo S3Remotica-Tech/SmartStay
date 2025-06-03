@@ -153,7 +153,6 @@ function SettingsBills() {
     }
   };
 
-  console.log("days", selectedDays);
   
 
   const handleSaveRecurring = () => {
@@ -253,7 +252,6 @@ function SettingsBills() {
     }
   }, [state.login.selectedHostel_Id]);
 
-   console.log("recurring_bills", recurring_bills);
    
 
   useEffect(() => {
