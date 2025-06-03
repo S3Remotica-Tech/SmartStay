@@ -15,35 +15,13 @@ function UserListKyc(props) {
   const [otp, setOtp] = useState(Array(6).fill(""));
   const [refId, setRefId] = useState('');
   const [aadhaarErr, setaadhaarErr] = useState('')
-  const [otpErr, setOtpErr] = useState('')
   const handleCloseyc = () => {
     props.setKycDetailForm(false);
     setAadhaarNo('')
     setOtp('')
   }
 
-  const handleValidate = () => {
-    if (aadhaarNo) {
-      if (validateAadharNumber(aadhaarNo)) {
-        dispatch({
-          type: 'KYCVALIDATE',
-          payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID }
-        });
-        setaadhaarErr('');
-      } else {
-        setaadhaarErr('Invalid Aadhaar Number');
-      }
-    } else {
-      setaadhaarErr('Please Enter Aadhar Number');
-    }
-  };
-  
-  function validateAadharNumber(aadhar) {
-    const aadharStr = aadhar.toString(); // always convert to string
-    const regex = /^[2-9]{1}[0-9]{11}$/; // Aadhaar must start with 2-9 and be 12 digits
-    return regex.test(aadharStr);
-  }
-  
+
   
   const handleAadharNumber = (e) => {
     const value = e.target.value;
@@ -64,31 +42,14 @@ const handleSubmit = () => {
  dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id:props.kycuserDetails.ID } })
 
   }
-  console.log("props.kycuserDetails.ID",props.kycuserDetails.ID)
-  // const handleSubmit = () => {
-  //   const otpString = otp.join("");
-  //   const otpRegex = /^\d{6}$/;
-  //   if (otp) {
-  //     if (otpRegex.test(otpString)) {
-  //       dispatch({ type: 'KYCVALIDATEOTPVERIFY', payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID, otp: otpString, ref_id: refId } })
-  //     } else {
-  //       setOtpErr('Enter valid OTP')
-  //     }
-  //   }
-  //   else {
-  //     setOtpErr('Enter OTP')
-  //   }
-
-
-  // }
-  // state.UsersList.kycValidateSendOtpSuccess
+ 
+ 
+  
   useEffect(() => {
     if (state.UsersList.kycValidateSendOtpSuccess === 200) {
 
       setRefId(state.UsersList.Kyc_Ref_Id)
-      // setTimeout(() => {
-      //   dispatch({type:'CLEAR_KYC_VALIDATE_SATUS_CODE'})
-      // }, 500);
+      
     }
   }, [state.UsersList.kycValidateSendOtpSuccess])
 
@@ -121,7 +82,6 @@ const handleSubmit = () => {
 
                 <Modal.Header
                   style={{  position: "relative",
-                    // marginBottom: "10px",
                     paddingTop: "2px",paddingBottom:6 }}
                 >
                   
@@ -182,7 +142,7 @@ const handleSubmit = () => {
                           fontFamily: "Gilroy",
                           display: "flex",
                           alignItems: "center",
-                          gap: "5px", // Add gap between icon and text
+                          gap: "5px", 
                         }}
                       >
                         Aadhar Number
@@ -289,8 +249,7 @@ const handleSubmit = () => {
                             />
                           ))}
                         </div>
-                        {/* otpErr */}
-                        {otpErr && <p style={{ color: 'red' }}>{otpErr}</p>}
+                     
                       </Form.Group>
 
                     </div>
@@ -310,7 +269,6 @@ const handleSubmit = () => {
                     fontFamily: "Montserrat",
                   }}
                   onClick={handleSubmit}
-                  // onClick={refId ? handleSubmit : handleValidate}
                 >
                   submit
                 </Button>

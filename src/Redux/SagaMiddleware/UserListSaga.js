@@ -72,10 +72,9 @@ function* handleDeleteCustomer(customer) {
          draggable: true,
          progress: undefined,
                });
-      // yield put({ type: 'DELETE_CUSTOMER_ERROR', payload: { response: response.data.message, statusCode: response.status || response.statusCode } })
    }
    else {
-      // yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response.data.message })
    }
    if (response) {
       refreshToken(response)
@@ -195,12 +194,7 @@ function* handleCreateFloor(data) {
       });
    }
    else if (response.status === 202 || response.statusCode === 202) {
-      // Swal.fire({
-      //    icon: 'warning',
-      //   title: 'Error',
-      //   html: `<span style="color: red">${response.data.message }</span> `,
-
-      // });
+   
       yield put({ type: 'ALREADY_FLOOR_ERROR', payload: response.data.message })
 
    }
@@ -235,7 +229,7 @@ function* handleAddUser(datum) {
          payload: { response: response.message, statusCode: response.statusCode || response.status },
       });
 
-      // Define the style
+     
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
@@ -303,8 +297,7 @@ function* handleCheckOut(action) {
       Swal.fire({
          icon: 'success',
          text: 'User Check Out Successfully',
-         //   timer: 2000,
-         //   showConfirmButton: false,
+        
       });
 
    }
@@ -353,12 +346,7 @@ function* handleDeleteFloor(hosteID) {
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'DELETE_FLOOR_ERROR', payload: response.data.message })
-      //    Swal.fire({
-      //       icon: 'warning',
-      //    text: 'Please delete rooms before deleting the floor',
-      // //   timer: 2000,
-      // //   showConfirmButton: false,
-      // });
+    
    }
    if (response) {
       refreshToken(response)
@@ -404,10 +392,7 @@ function* handleDeleteRoom(roomDetails) {
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'DELETE_ROOM_ERROR', payload: response.data.message })
-      //    Swal.fire({
-      //       icon: 'warning',
-      //    text: `Please delete the bed before deleting the room`,
-      //   });
+   
    }
    if (response) {
       refreshToken(response)
@@ -948,7 +933,7 @@ function* handleAddConfirmCheckout(action) {
 
 }
 
-// edit
+
 function* handleEditConfirmCheckout(action) {
    const response = yield call(EditConfirmCheckOut, action.payload);
 console.log("handleEditConfirmCheckout",response)
@@ -985,9 +970,7 @@ console.log("handleEditConfirmCheckout",response)
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', payload: response.data.message })
    }
-   //  else {
-   //    yield put({ type: 'ERROR', payload: response.data.message })
-   // }
+ 
    if (response) {
       refreshToken(response)
    }
@@ -1492,7 +1475,6 @@ function* UserListSaga() {
    yield takeEvery('CHECKOUTUSER', handleCheckOut)
    yield takeEvery('DELETEFLOOR', handleDeleteFloor)
    yield takeEvery('DELETEROOM', handleDeleteRoom)
-   // yield takeEvery('DELETEBED',handleDeleteBed) 
    yield takeEvery('CUSTOMERDETAILS', handlecustomerdetails)
    yield takeEvery('AMENITESHISTORY', handleamenityhistory)
    yield takeEvery('AMENITESNAMES', handleAmnitiesName)
