@@ -35,9 +35,9 @@ function SettingsBills() {
   const [billingfreuencyerrormsg, setBillingFrequencyErrmsg] = useState("");
   const [selectedFromerrmsg, setSelectedFromErrmsg] = useState("");
   const [selectedToerrmsg, setSelectedToErrMsg] = useState("");
-  const [selectedremainderdayserrmsg, setSelectedRemainderDaysErrMsg] =
-    useState("");
+  const [selectedremainderdayserrmsg, setSelectedRemainderDaysErrMsg] = useState("");
   const [showform, setShowForm] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [duedateerrmsg, setDueDateErrmsg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,9 +46,11 @@ function SettingsBills() {
   const [notifications, setNotifications] = useState({});
   const [isOn, setIsOn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [recurring_bills, setRecuringBills] = useState({});
+  const [isChecked, setIsChecked] = useState(false); 
 
   const initialOptions = [
-    { label: "01st ", value: 1 },
+    { label: "01st", value: 1 },
     { label: "02nd", value: 2 },
     { label: "03rd", value: 3 },
     { label: "04th", value: 4 },
@@ -104,8 +106,22 @@ function SettingsBills() {
     setShowForm(true);
   };
 
+    const handleEdit = () => {
+    if (!state.login.selectedHostel_Id) {
+      setShowPopup(true);
+      return;
+    }
+
+    setEdit(true)
+    setShowForm(true);
+
+  };
+
+
+
   const handleCloseForm = () => {
     setShowForm(false);
+    setEdit(false)
     setRecurr_NameErrmsg("");
     setBillingFrequencyErrmsg("");
     setSelectedFromErrmsg("");
@@ -136,6 +152,9 @@ function SettingsBills() {
       }
     }
   };
+
+  console.log("days", selectedDays);
+  
 
   const handleSaveRecurring = () => {
     if (
@@ -174,6 +193,8 @@ function SettingsBills() {
     const reminderDays =
       selectedDays.length > 0 && selectedDays.map((item) => item.value);
 
+      
+
     const selectedNotificationIds = Object.keys(notifications)
       .filter((key) => notifications[key])
       .map(Number);
@@ -191,13 +212,16 @@ function SettingsBills() {
         isAutoSend: isOn === true ? 1 : 0,
         remainderDates: reminderDays,
         billDeliveryChannels: selectedNotificationIds,
+        recure_id: recurring_bills ? recurring_bills.recure_id : ''
       },
     });
   };
 
   useEffect(() => {
     if (state.Settings.SettingsRecurringAddSuccess === 200) {
+      dispatch({ type: "SETTINGS_GET_RECURRING" , payload:{hostel_id: state.login.selectedHostel_Id} });
       setShowForm(false);
+      setEdit(false)
       setRecurr_NameErrmsg("");
       setBillingFrequencyErrmsg("");
       setSelectedFromErrmsg("");
@@ -229,6 +253,19 @@ function SettingsBills() {
     }
   }, [state.login.selectedHostel_Id]);
 
+   console.log("recurring_bills", recurring_bills);
+   
+
+  useEffect(() => {
+    if(state?.Settings?.settingsBillsggetRecurrSucesscode === 200){
+
+      setRecuringBills(state?.Settings?.SettingsBillsGetRecurring)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_SETTINGSGETRECURRING_STATUS_CODE" });
+      }, 1000);
+    }
+  },[state?.Settings?.settingsBillsggetRecurrSucesscode])
+
   useEffect(() => {
     if (state?.Settings?.FrequncyTypegetSuccessCode === 200) {
       setLoading(false);
@@ -247,20 +284,21 @@ function SettingsBills() {
 
   useEffect(() => {
     if (state?.Settings?.NotificationypegetSuccessCode === 200) {
-      const apiData = state?.Settings?.NotificationTypeList;
+     const apiData = state?.Settings?.NotificationTypeList; 
 
-      const options = apiData.map((item) => ({
-        key: item.id,
-        label: item.name,
-      }));
+    const options = apiData.map((item) => ({
+      key: String(item.id), 
+      label: item.name,
+    }));
 
-      const defaultState = {};
-      options.forEach((opt) => {
-        defaultState[opt.key] = false;
-      });
+    setCheckboxOptions(options);
 
-      setCheckboxOptions(options);
-      setNotifications(defaultState);
+    const defaultState = {};
+    options.forEach((opt) => {
+      defaultState[opt.key] = false;
+    });
+
+    setNotifications(defaultState);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_NOTIFICATIONTYPESLIST_STATUS_CODE" });
@@ -326,6 +364,39 @@ function SettingsBills() {
     fontWeight: 600,
     fontFamily: "Gilroy",
   };
+
+ useEffect(() => {
+
+  if (edit && recurring_bills) {
+    setRecurringName(recurring_bills.recurringName || '');
+    setBilling_Frequency(recurring_bills.billFrequency || '');
+    setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? recurring_bills.calculationFromDate : '');
+    setSelectedTo(recurring_bills.calculationToDate !== "0000-00-00" ? recurring_bills.calculationToDate : '');
+    setInvoiceDate(recurring_bills.billingDateOfMonth || '');
+    setInvoiceDueDate(recurring_bills.dueDateOfMonth || '');
+    setIsOn(recurring_bills.isAutoSend === 1); 
+
+     const selected = recurring_bills.billDeliveryChannels || []; 
+
+    const updatedState = {};
+    checkboxOptions.forEach((opt) => {
+      updatedState[opt.key] = selected.includes(opt.key);
+    });
+
+    setNotifications(updatedState);
+    
+    const selectedRemainderDays = recurring_bills.remainderDates.map(Number);
+
+    const matchedOptions = initialOptions.filter(option =>
+      selectedRemainderDays.includes(option.value)
+    );
+
+    setSelectedDays(matchedOptions);
+  }
+}, [edit, recurring_bills , checkboxOptions]);
+
+
+
 
   return (
     <div
@@ -456,7 +527,7 @@ function SettingsBills() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Add Recurring Event
+                  {edit ? " Edit Recurring Event" : " Add Recurring Event"}
                 </p>
                 <hr></hr>
 
@@ -1002,35 +1073,37 @@ function SettingsBills() {
                     <div>
                       <div className="d-flex gap-4 flex-wrap">
                         {checkboxOptions.map(({ key, label }) => (
-                          <div className="form-check" key={key}>
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id={`notification-${key}`}
-                              checked={notifications[key] || false}
-                              onChange={() => handleChange(key)}
-                              style={{
-                                backgroundColor: notifications[key]
-                                  ? "#1e40af"
-                                  : "#fff",
-                                borderColor: "#1e40af",
-                                cursor: "pointer",
-                              }}
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor={`notification-${key}`}
-                              style={{
-                                color: notifications[key] ? "#000" : "#aaa",
-                                fontSize: "14px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 400,
-                              }}
-                            >
-                              {label}
-                            </label>
-                          </div>
-                        ))}
+              <label
+    className="form-check d-flex align-items-center gap-2"
+    htmlFor={`notification-${key}`}
+    key={key}
+  >
+    <input
+      className="form-check-input"
+      type="checkbox"
+      id={`notification-${key}`}
+      checked={notifications[key] || false}
+      onChange={() => handleChange(key)}
+      aria-checked={notifications[key]}
+      style={{
+        accentColor: "#1e40af", 
+        cursor: "pointer",
+      }}
+    />
+    <span
+      className="form-check-label"
+      style={{
+        color: notifications[key] ? "#000" : "#aaa",
+        fontSize: "14px",
+        fontFamily: "Gilroy",
+        fontWeight: 400,
+      }}
+    >
+      {label}
+    </span>
+  </label>
+))}
+
                       </div>
                     </div>
                   </div>
@@ -1121,24 +1194,53 @@ function SettingsBills() {
                 </div>
 
                 <div className="mt-3 mt-md-0">
-                  <button
-                    onClick={handleShow}
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: "8px",
-                      width: 146,
-                      height: 45,
-                      border: "2px solid #1E45E1",
-                    }}
-                    disabled={showPopup}
-                  >
-                    + Recurring
-                  </button>
+              
                 </div>
+<div className="mt-3 mt-md-0">
+  {recurring_bills && Object.keys(recurring_bills).length > 0 ? (
+    <div className="d-flex align-items-center gap-2">
+      <label
+        style={{
+          fontFamily: "Gilroy",
+          fontSize: 12,
+          color: "#222",
+          fontWeight: 400,
+          marginBottom: 0,
+        }}
+      >
+        Automation Status
+      </label>
+      <Form.Check
+        type="switch"
+        className="custom-switch-pointer"
+        checked={isChecked}
+        onChange={() => setIsChecked(!isChecked)}
+      />
+    </div>
+  ) : (
+    <button
+      onClick={handleShow}
+      style={{
+        fontFamily: "Gilroy",
+        fontSize: "14px",
+        backgroundColor: "#1E45E1",
+        color: "white",
+        fontWeight: 600,
+        borderRadius: "8px",
+        width: 146,
+        height: 45,
+        border: "2px solid #1E45E1",
+      }}
+      disabled={showPopup}
+    >
+      + Recurring
+    </button>
+  )}
+</div>
+
+
+
+
 
                 <style>
                   {`
@@ -1150,17 +1252,17 @@ function SettingsBills() {
                 </style>
               </div>
 
-              {state.UsersList.hotelDetailsinPg.length === 0 && (
+             {   recurring_bills && Object.keys(recurring_bills).length > 0 && (
                 <>
-                  {state.UsersList.hotelDetailsinPg.map((item) => (
-                    <div key={item.id}>
+               
+                    <div >
                       <div className="d-flex justify-content-between flex-wrap mb-3 mt-4">
                         <div className="row col-12">
                           <div className="col-lg-9 col-md-6 mb-3">
                             <label style={labelStyle}>Recurring Name</label>
                             <div>
                               <label style={valueStyle}>
-                                Monthly Recurring
+                              {recurring_bills.recurringName}
                               </label>
                             </div>
                           </div>
@@ -1169,7 +1271,9 @@ function SettingsBills() {
                             <div className="d-flex flex-column me-3">
                               <label style={labelStyle}>Frequency</label>
                               <div>
-                                <label style={valueStyle}>Monthly</label>
+                                <label style={valueStyle}>
+                                  {recurring_bills.billFrequency}
+                                  </label>
                               </div>
                             </div>
                           </div>
@@ -1180,7 +1284,7 @@ function SettingsBills() {
                         <div className="col-6 col-md-4 mb-3">
                           <label style={labelStyle}>Billing Period</label>
                           <div>
-                            <label style={valueStyle}>Monthly</label>
+                            <label style={valueStyle}>{recurring_bills.calculationFromDate} to {recurring_bills.calculationToDate} </label>
                           </div>
                         </div>
 
@@ -1189,7 +1293,7 @@ function SettingsBills() {
                             <label style={labelStyle}>Bill Generate</label>
                             <div>
                               <label style={valueStyle}>
-                                {item.inv_startdate}
+                                {recurring_bills.billingDateOfMonth}st of every month
                               </label>
                             </div>
                           </div>
@@ -1200,7 +1304,7 @@ function SettingsBills() {
                             <label style={labelStyle}>Due date of Month</label>
                             <div>
                               <label style={valueStyle}>
-                                {item.inv_enddate}
+                                {recurring_bills.dueDateOfMonth}
                               </label>
                             </div>
                           </div>
@@ -1237,12 +1341,13 @@ function SettingsBills() {
                             height: 45,
                             border: "2px solid #1E45E1",
                           }}
+                          onClick={handleEdit}
                         >
                           Edit Recurring
                         </button>
                       </div>
                     </div>
-                  ))}
+                 
                 </>
               )}
             </Card.Body>
