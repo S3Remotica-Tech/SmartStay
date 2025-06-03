@@ -104,7 +104,7 @@ function* handleHostelList(hostel) {
 
 function* handleAllHostelList(action) {
    const response = yield call(hostelList, action.payload)
-console.log("handleAllHostelList",response)
+
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST_All', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
    }
@@ -936,7 +936,6 @@ function* handleAddConfirmCheckout(action) {
 
 function* handleEditConfirmCheckout(action) {
    const response = yield call(EditConfirmCheckOut, action.payload);
-console.log("handleEditConfirmCheckout",response)
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",

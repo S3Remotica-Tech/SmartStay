@@ -96,37 +96,7 @@ const handleSubmit = () => {
                   >
                     KYC Verify
                   </div>
-                  {/* <button
-                    type="button"
-                    className="close"
-                    aria-label="Close"
-                    onClick={handleCloseyc}
-                    style={{
-                      position: "absolute",
-                      right: "10px",
-                      marginTop: "-15px",
-                      border: "1px solid black",
-                      background: "transparent",
-                      cursor: "pointer",
-                      padding: "0",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "25px",
-                      height: "25px",
-                      borderRadius: "50%",
-                    }}
-                  >
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        fontSize: "30px",
-                        paddingBottom: "6px",
-                      }}
-                    >
-                      &times;
-                    </span>
-                  </button> */}
+                 
                   <CloseCircle size="24" color="#000" onClick={handleCloseyc} 
             style={{ cursor: 'pointer' }}/>
                 </Modal.Header>
@@ -169,7 +139,7 @@ const handleSubmit = () => {
                         onChange={(e) =>{handleAadharNumber(e)}}
                       />
                     </Form.Group>
-                    {/* {aadhaarErr && <p style={{ color: 'red',fontSize:12,fontFamily:"Gilroy",fontWeight:500 }}>{aadhaarErr}</p>} */}
+                   
                      {aadhaarErr && (
                                 <div className="d-flex align-items-center p-1 mt-6">
                                   <MdError style={{ color: "red", marginRight: "5px", }} />
@@ -273,7 +243,7 @@ const handleSubmit = () => {
                   submit
                 </Button>
               </div>
-              {/* )} */}
+             
             </div>
           </Modal.Body>
 
