@@ -458,16 +458,11 @@ function SettingExpenses({ hostelid }) {
   }
 
   
-  const [expandedCategoryId, setExpandedCategoryId] = useState(null);
-  
-  const handleToggleDropdown = (categoryId, event) => {
+  const [expandedCategoryId, setExpandedCategoryId] = useState(null); 
+  const handleToggleDropdown = (categoryId) => {
     if (expandedCategoryId === categoryId) {
       setExpandedCategoryId(null);
-    } else {
-      const rect = event.target.getBoundingClientRect();
-      
-      
-     
+    } else { 
       setExpandedCategoryId(categoryId);
     }
   };
