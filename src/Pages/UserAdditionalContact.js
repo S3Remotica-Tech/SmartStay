@@ -1008,9 +1008,8 @@ const isChanged = (
                                                                        }),
                                                                      }}
                                                                    />
-                                                                 </Form.Group>
-                                                               
-                                                                 {state_nameError && (
+                                                                   
+                                                                 {!state_name && state_nameError && (
                                                                    <div style={{ color: "red" }}>
                                                                      <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
                                                                      <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
@@ -1018,70 +1017,12 @@ const isChanged = (
                                                                      </span>
                                                                    </div>
                                                                  )}
+                                                                 </Form.Group>
+                                                               
                                                                </div>
 
 
-                  {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        Address{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </Form.Label>
-                      <FormControl
-                        type="text"
-                        id="form-controls"
-                        placeholder="Enter Address"
-                        onChange={(e) => handleAddress(e)}
-                        value={address}
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
-                          marginTop: 8,
-                        }}
-                      />
-                    </Form.Group>
-                  
-
-                    {addressError && (
-                      <div style={{ marginTop: "-15px", color: "red" }}>
-                        <MdError
-                          style={{
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            marginRight: "5px",
-                          }}
-                        />
-                        <span
-                          style={{
-                            fontSize: "13px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {addressError}
-                        </span>
-                      </div>
-                    )}
-                  </div> */}
+              
 
 
                 </div>
@@ -1113,7 +1054,6 @@ const isChanged = (
                   Add Contact
                 </Button>
               </div>
-              {/* )} */}
             </div>
           </Modal.Body>
 

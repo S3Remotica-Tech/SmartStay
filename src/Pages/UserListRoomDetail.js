@@ -6,19 +6,13 @@ import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import verify from "../Assets/Images/verify.png";
 import "./UserList.css";
-import {Call,Sms,House,Buildings,} from "iconsax-react";
+import { Call, Sms, House, Buildings } from "iconsax-react";
 import Group from "../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import Money from "../Assets/Images/New_images/Money.png";
 import Carousel from "react-bootstrap/Carousel";
-import {
-  Button,
-  Form,
-  FormControl,
-  InputGroup,
-} from "react-bootstrap";
+import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-// import Modal from 'react-bootstrap/Modal';
 import Plus from "../Assets/Images/New_images/add-circle.png";
 import imageCompression from "browser-image-compression";
 import Tab from "@mui/material/Tab";
@@ -32,7 +26,6 @@ import Box from "@mui/material/Box";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { MdError } from "react-icons/md";
-// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import editliner from "../Assets/Images/Edit-blue.png";
 import upload from "../Assets/Images/New_images/upload.png";
@@ -42,15 +35,12 @@ import trash from "../Assets/Images/New_images/trash.png";
 import docDown from "../Assets/Images/New_images/doc_download.png";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
-import {CloseCircle} from "iconsax-react";
-
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import { CloseCircle } from "iconsax-react";
 
 function UserListRoomDetail(props) {
-  
   const state = useSelector((state) => state);
-  console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [id, setId] = useState("");
@@ -75,7 +65,7 @@ function UserListRoomDetail(props) {
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
   const [pincode, setPincode] = useState("");
-  const [city, setCity] = useState("")
+  const [city, setCity] = useState("");
   const [state_name, setStateName] = useState("");
   const [Email, setEmail] = useState("");
   const [AadharNo, setAadharNo] = useState("");
@@ -111,50 +101,55 @@ function UserListRoomDetail(props) {
   const [contactEdit, setContactEdit] = useState("");
   const [editAdditional, setEditAdditional] = useState(false);
   const [deleteAdditional, setDeleteAdditional] = useState(false);
-  const [advanceDate,setAdvanceDate] = useState("")
-  const [advanceDueDate,setAdvanceDueDate] = useState("")
-  const [advanceDateError, setAdvanceDateError] = useState('')
-      const [advanceDueDateError, setAdvanceDueDateError] = useState('')
+  const [advanceDate, setAdvanceDate] = useState("");
+  const [advanceDueDate, setAdvanceDueDate] = useState("");
+  const [advanceDateError, setAdvanceDateError] = useState("");
+  const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
-
-      const indianStates = [
-        { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-        { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-        { value: "Assam", label: "Assam" },
-        { value: "Bihar", label: "Bihar" },
-        { value: "Chhattisgarh", label: "Chhattisgarh" },
-        { value: "Goa", label: "Goa" },
-        { value: "Gujarat", label: "Gujarat" },
-        { value: "Haryana", label: "Haryana" },
-        { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-        { value: "Jharkhand", label: "Jharkhand" },
-        { value: "Karnataka", label: "Karnataka" },
-        { value: "Kerala", label: "Kerala" },
-        { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-        { value: "Maharashtra", label: "Maharashtra" },
-        { value: "Manipur", label: "Manipur" },
-        { value: "Meghalaya", label: "Meghalaya" },
-        { value: "Mizoram", label: "Mizoram" },
-        { value: "Nagaland", label: "Nagaland" },
-        { value: "Odisha", label: "Odisha" },
-        { value: "Punjab", label: "Punjab" },
-        { value: "Rajasthan", label: "Rajasthan" },
-        { value: "Sikkim", label: "Sikkim" },
-        { value: "Tamil Nadu", label: "Tamil Nadu" },
-        { value: "Telangana", label: "Telangana" },
-        { value: "Tripura", label: "Tripura" },
-        { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-        { value: "Uttarakhand", label: "Uttarakhand" },
-        { value: "West Bengal", label: "West Bengal" },
-        { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
-        { value: "Chandigarh", label: "Chandigarh" },
-        { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
-        { value: "Delhi", label: "Delhi" },
-        { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-        { value: "Ladakh", label: "Ladakh" },
-        { value: "Lakshadweep", label: "Lakshadweep" },
-        { value: "Puducherry", label: "Puducherry" },
-      ];
+  const indianStates = [
+    { value: "Andhra Pradesh", label: "Andhra Pradesh" },
+    { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
+    { value: "Assam", label: "Assam" },
+    { value: "Bihar", label: "Bihar" },
+    { value: "Chhattisgarh", label: "Chhattisgarh" },
+    { value: "Goa", label: "Goa" },
+    { value: "Gujarat", label: "Gujarat" },
+    { value: "Haryana", label: "Haryana" },
+    { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+    { value: "Jharkhand", label: "Jharkhand" },
+    { value: "Karnataka", label: "Karnataka" },
+    { value: "Kerala", label: "Kerala" },
+    { value: "Madhya Pradesh", label: "Madhya Pradesh" },
+    { value: "Maharashtra", label: "Maharashtra" },
+    { value: "Manipur", label: "Manipur" },
+    { value: "Meghalaya", label: "Meghalaya" },
+    { value: "Mizoram", label: "Mizoram" },
+    { value: "Nagaland", label: "Nagaland" },
+    { value: "Odisha", label: "Odisha" },
+    { value: "Punjab", label: "Punjab" },
+    { value: "Rajasthan", label: "Rajasthan" },
+    { value: "Sikkim", label: "Sikkim" },
+    { value: "Tamil Nadu", label: "Tamil Nadu" },
+    { value: "Telangana", label: "Telangana" },
+    { value: "Tripura", label: "Tripura" },
+    { value: "Uttar Pradesh", label: "Uttar Pradesh" },
+    { value: "Uttarakhand", label: "Uttarakhand" },
+    { value: "West Bengal", label: "West Bengal" },
+    {
+      value: "Andaman and Nicobar Islands",
+      label: "Andaman and Nicobar Islands",
+    },
+    { value: "Chandigarh", label: "Chandigarh" },
+    {
+      value: "Dadra and Nagar Haveli and Daman and Diu",
+      label: "Dadra and Nagar Haveli and Daman and Diu",
+    },
+    { value: "Delhi", label: "Delhi" },
+    { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
+    { value: "Ladakh", label: "Ladakh" },
+    { value: "Lakshadweep", label: "Lakshadweep" },
+    { value: "Puducherry", label: "Puducherry" },
+  ];
 
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
@@ -169,42 +164,36 @@ function UserListRoomDetail(props) {
   }, [state.UsersList.statusCodeForCustomerAllDetails]);
 
   useEffect(() => {
-    
     if (state.UsersList.isUsersListTrue === 3 && value !== "3") {
       setValue("3");
     } else if (state.UsersList.isUsersListTrue !== 3 && value !== "1") {
       setValue("1");
     }
   }, [state.UsersList.isUsersListTrue]);
-  
 
-
-  const handleEditItem = (item) =>{
-    
-    props.onEditItem(item)
-  }
-  const handleAddItem = (item) =>{
-    
-    props.onAddItem(item)
-  }
-  const handleDeleteItem = (items) =>{
-    props.onDeleteItem(items)
-  }
+  const handleEditItem = (item) => {
+    props.onEditItem(item);
+  };
+  const handleAddItem = (item) => {
+    props.onAddItem(item);
+  };
+  const handleDeleteItem = (items) => {
+    props.onDeleteItem(items);
+  };
   const handleEditRoomItem = (item) => {
-    props.onEditRoomItem(item)
-  }
+    props.onEditRoomItem(item);
+  };
   const handleEditHostelItem = (item) => {
-    props.onEditHostelItem (item)
-  }
+    props.onEditHostelItem(item);
+  };
 
- const handleDeleteHostelItem = (user) => {
-  
-  props.onDeleteHostelItem(user)
- }
+  const handleDeleteHostelItem = (user) => {
+    props.onDeleteHostelItem(user);
+  };
 
- const handleDeleteRoomItem = (user) => {
-  props.onDeleteRoomItem(user)
- }
+  const handleDeleteRoomItem = (user) => {
+    props.onDeleteRoomItem(user);
+  };
 
   const handleContactEdit = (u) => {
     setEditAdditional(true);
@@ -219,7 +208,10 @@ function UserListRoomDetail(props) {
     setEditAdditional(false);
     setAdditionalForm(true);
   };
-  console.log("state.UsersList.customerAllDetails?.contact_details",state.UsersList.customerAllDetails?.contact_details)
+  console.log(
+    "state.UsersList.customerAllDetails?.contact_details",
+    state.UsersList.customerAllDetails?.contact_details
+  );
 
   // const handleCountryCodeChange = (e) => {
   //   setCountryCode(e.target.value);
@@ -228,15 +220,9 @@ function UserListRoomDetail(props) {
   const handleChanges = (event, newValue) => {
     setValue(newValue);
     setFormShow(false);
-    setKycDetailForm(false)
-  
+    setKycDetailForm(false);
   };
-  // useEffect(() => {
-  //   if (value === "1") {
-  //     dispatch({ type: 'UPDATE_USERSLIST_FALSE' });
-  //   }
-  // }, [value]);
-  
+
   const options = {
     dateFormat: "Y/m/d",
     maxDate: null,
@@ -248,11 +234,9 @@ function UserListRoomDetail(props) {
     }
   }, [selectedDate]);
 
-   const [activeRow, setActiveRow] = useState(null);
+  const [activeRow, setActiveRow] = useState(null);
 
- 
   const handleShowEditBed = (item) => {
-    console.log("handleShowEditBed",item)
     if (item[0].ID) {
       if (activeRow === item[0].ID) {
         setActiveRow(null);
@@ -293,12 +277,11 @@ function UserListRoomDetail(props) {
       setRooms(item[0].Rooms || "");
       setRoomId(item[0].room_id || "");
       setBedId(item[0].hstl_Bed || "");
-      setPincode(item[0].pincode );
-      setStreet(item[0].area)
-      setLandmark(item[0].landmark)
-      setCity(item[0].city)
-      setStateName(item[0].state)
-
+      setPincode(item[0].pincode);
+      setStreet(item[0].area);
+      setLandmark(item[0].landmark);
+      setCity(item[0].city);
+      setStateName(item[0].state);
 
       const isValidDate =
         item[0].user_join_date && item[0].user_join_date !== "0000-00-00";
@@ -309,7 +292,6 @@ function UserListRoomDetail(props) {
       } else {
         setSelectedDate("");
       }
-      // setSelectedDate(item[0].user_join_date ? new Date(item[0].user_join_date) : "");
       setAdvanceAmount(item[0].AdvanceAmount || "");
       setRoomRent(item[0].RoomRent || "");
       setPaymentType(item[0].PaymentType || "");
@@ -333,14 +315,15 @@ function UserListRoomDetail(props) {
 
   const handleEditUser = (item) => {
     if (item[0].ID) {
-
       const sanitize = (value) => {
-        return value === null || value === undefined || value === "null" || value === "undefined"
+        return value === null ||
+          value === undefined ||
+          value === "null" ||
+          value === "undefined"
           ? ""
           : value;
       };
 
-      
       const phoneNumber = String(item[0].Phone || "");
       const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
       const mobileNumber = phoneNumber.slice(-10);
@@ -378,18 +361,11 @@ function UserListRoomDetail(props) {
       setPaidAdvance(item[0].paid_advance || "");
       setPaidrent(item[0].paid_rent || "");
 
-    
-      // setHouseNo(item[0].Address || "")
-      // setStreet(item[0].area)
-      // setLandmark(item[0].landmark)
-      // setCity(item[0].city)
-      // setStateName(item[0].state)
-
       setHouseNo(sanitize(item[0].Address));
       setStreet(sanitize(item[0].area));
       setLandmark(sanitize(item[0].landmark));
       setCity(sanitize(item[0].city));
-      setPincode(sanitize (item[0].pincode) );
+      setPincode(sanitize(item[0].pincode));
       setStateName(sanitize(item[0].state));
 
       setInitialState({
@@ -399,12 +375,12 @@ function UserListRoomDetail(props) {
         Email: item[0].Email || "",
         Address: item[0].Address || "",
         hostel_Id: item[0].Hostel_Id || "",
-        house_no: sanitize(item[0].Address) || '',
-        street: sanitize(item[0].area)|| '',
-        city: sanitize(item[0].city) || '',
-        pincode:sanitize (item[0].pincode) || '',
-        landmark:sanitize(item[0].landmark) || '',
-        state: sanitize(item[0].state) || '',
+        house_no: sanitize(item[0].Address) || "",
+        street: sanitize(item[0].area) || "",
+        city: sanitize(item[0].city) || "",
+        pincode: sanitize(item[0].pincode) || "",
+        landmark: sanitize(item[0].landmark) || "",
+        state: sanitize(item[0].state) || "",
 
         file: item[0].profile === "0" ? null : item[0].profile || null,
       });
@@ -440,73 +416,39 @@ function UserListRoomDetail(props) {
     setFormError("");
   };
 
-  // useEffect(() => {
-  //   const currentDate = moment().format("YYYY-MM-DD");
-  //   const joinDate = moment(currentDate).format("YYYY-MM-DD");
-  //   const currentMonth = moment(currentDate).month() + 1;
-  //   const currentYear = moment(currentDate).year();
-  //   const createdAtMonth = moment(joinDate).month() + 1;
-  //   const createdAtYear = moment(joinDate).year();
-
-  //   if (currentMonth === createdAtMonth && currentYear === createdAtYear) {
-  //     var dueDate = moment(joinDate).endOf("month").format("YYYY-MM-DD");
-  //     var invoiceDate = moment(joinDate).format("YYYY-MM-DD");
-  //   } else {
-  //     var dueDate = moment(currentDate).endOf("month").format("YYYY-MM-DD");
-  //     var invoiceDate = moment(currentDate)
-  //       .startOf("month")
-  //       .format("YYYY-MM-DD");
-  //   }
-
-  //   const formattedJoinDate = moment(invoiceDate).format("YYYY-MM-DD");
-  //   const formattedDueDate = moment(dueDate).format("YYYY-MM-DD");
-  //   const numberOfDays =
-  //     moment(formattedDueDate).diff(moment(formattedJoinDate), "days") + 1;
-
-  //   const totalDaysInCurrentMonth = moment(currentDate).daysInMonth();
-
-  //   const oneday_amount = RoomRent / totalDaysInCurrentMonth;
-
-  //   const payableamount = oneday_amount * numberOfDays;
-  //   const This_month_payableamount = Math.round(payableamount);
-  //   setPayableamount(This_month_payableamount);
-  // }, [RoomRent]);
-
- 
   const handlePhone = (e) => {
-    const input = e.target.value.replace(/\D/g, ""); 
+    const input = e.target.value.replace(/\D/g, "");
     setPhone(input);
-  
+
     if (input.length === 0) {
-      setPhoneError(""); 
+      setPhoneError("");
     } else if (input.length < 10) {
       setPhoneError("Invalid mobile number *");
     } else if (input.length === 10) {
-      setPhoneError(""); 
+      setPhoneError("");
     }
-  
+
     setPhoneErrorMessage("");
-    setFormError("")
+    setFormError("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
 
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-   useEffect(() => {
+  useEffect(() => {
     setEmailErrorMessage(state.UsersList.emailError);
-    }, [state.UsersList.emailError]);
+  }, [state.UsersList.emailError]);
   const handleEmail = (e) => {
     const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
 
-    
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     const isValidEmail = emailRegex.test(emailValue);
 
     if (!emailValue) {
       setEmailError("");
       setEmailErrorMessage("");
-    }  else if (!isValidEmail) {
+    } else if (!isValidEmail) {
       setEmailErrorMessage("");
       setEmailError("Invalid Email Id *");
     } else {
@@ -516,21 +458,12 @@ function UserListRoomDetail(props) {
       setFormError("");
     }
 
-    // Clear email error on input change
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
-  // const handleAddress = (e) => {
-  //   // handleInputChange()
-  //   setAddress(e.target.value);
-  //   setAddressError("");
-  //   setFormError("");
-  // };
-
-
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
-    setHouse_NoError("")
+    setHouse_NoError("");
     setFormError("");
   };
 
@@ -538,47 +471,38 @@ function UserListRoomDetail(props) {
     setStreet(e.target.value);
     setStreetError("");
 
-    
     setFormError("");
-  }
+  };
 
   const handleLandmark = (e) => {
     setLandmark(e.target.value);
     setLandmarkError("");
     setFormError("");
-  }
-
-  
+  };
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
     if (!/^\d{0,6}$/.test(value)) {
       return;
     }
-  
+
     setPincode(value);
     if (value.length > 0 && value.length < 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
     }
-  
-    // setGeneralError("");
-    // setIsChangedError("");
   };
 
   const handleCity = (e) => {
     setCity(e.target.value);
     setCityError("");
     setFormError("");
-  }
+  };
 
- 
   const aadharInputRef = useRef(null);
   const otherDocInputRef = useRef(null);
   const handleImageChange = async (event) => {
-    // handleInputChange()
-
     const fileImage = event.target.files[0];
     if (fileImage) {
       const options = {
@@ -607,72 +531,31 @@ function UserListRoomDetail(props) {
     });
   }, [hostel_Id]);
 
-
-
   useEffect(() => {
     const selectedHostel =
-    state.UsersList.hostelListNewDetails.data &&
-    state.UsersList.hostelListNewDetails.data.filter(
+      state.UsersList.hostelListNewDetails.data &&
+      state.UsersList.hostelListNewDetails.data.filter(
         (item) => item.id === state.login.selectedHostel_Id
       );
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
   }, []);
 
-  // const handleHostelId = (e) => {
-  //   const selectedHostelId = e.target.value;
-  //   // handleInputChange()
-  //   const selectedHostel =
-  //     state.UsersList.hostelList &&
-  //     state.UsersList.hostelList.filter((item) => item.id == e.target.value);
-  //   setHostel_Id(selectedHostelId);
-  //   setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-  //   if (selectedHostelId === "Select a PG") {
-  //     setHostelIdError("Please select a valid PG");
-  //   } else {
-  //     setHostelIdError("");
-  //   }
-  //   setFloor("");
-  //   setRooms("");
-  //   setBed("");
-  //   setHostelIdError("");
-  //   setFormError("");
-  //   setRoomId("");
-  //   setBedId("");
-  // };
-  // const handleFloor = (selectedOption) => {
-  //   setFloor(selectedOption?.value || '');
-
-  //   if (selectedOption === "Selected Floor") {
-  //     setfloorError("Please select a valid floor");
-  //   } else {
-  //     setfloorError("");
-  //   }
-  //   // handleInputChange()
-  //   setRooms("");
-  //   setfloorError("");
-  //   setFormError("");
-  //   setRoomId("");
-  //   setBedId("");
-  //   setRoomRent(0);
-  // };
   const handleFloor = (selectedOption) => {
     if (selectedOption) {
-      setFloor(selectedOption.value); // correctly set value
+      setFloor(selectedOption.value);
       setfloorError("");
     } else {
       setFloor("");
       setfloorError("Please select a valid floor");
     }
-  
-    // Reset dependent fields
+
     setRooms("");
     setRoomId("");
     setBedId("");
     setRoomRent(0);
     setFormError("");
   };
-  
 
   useEffect(() => {
     dispatch({
@@ -706,82 +589,80 @@ function UserListRoomDetail(props) {
     setFormError("");
     setBedId("");
     setRoomRent(0);
-    // handleInputChange()
   };
 
   const handleRoomRent = (e) => {
     const roomRentValue = e.target.value;
     if (!/^\d*$/.test(roomRentValue)) {
-      return; 
+      return;
     }
-    // handleInputChange()
     setRoomRent(roomRentValue);
     setRoomRentError("");
     setFormError("");
   };
 
-  console.log("BedId",BedId)
+  console.log("BedId", BedId);
   const handleBed = (e) => {
     const selectedBedId = e.target.value;
     setBedId(selectedBedId);
-  
+
     const Bedfilter = state?.UsersList?.roomdetails?.filter(
       (u) =>
         String(u.Hostel_Id) === String(hostel_Id) &&
         String(u.Floor_Id) === String(Floor) &&
         String(u.Room_Id) === String(RoomId)
     );
-  
+
     const Roomamountfilter =
       Bedfilter?.[0]?.bed_details?.filter(
         (amount) => String(amount.id) === String(selectedBedId)
       ) ?? [];
-  
+
     if (Roomamountfilter.length > 0) {
       const selectedRoomRent = Roomamountfilter[0]?.bed_amount;
-  
-      if (editMode && String(selectedBedId) === String(initialStateAssign.Bed)) {
+
+      if (
+        editMode &&
+        String(selectedBedId) === String(initialStateAssign.Bed)
+      ) {
         setRoomRent(initialStateAssign.RoomRent);
       } else {
         setRoomRent(selectedRoomRent);
       }
     } else {
-      // Optional: if no rent found, clear or reset rent
-      setRoomRent('');
+      setRoomRent("");
     }
-  
+
     if (selectedBedId === "Select a Bed") {
       setBedError("Please select a valid Bed");
     } else {
       setBedError("");
     }
-  
+
     setFormError("");
     setRoomRentError("");
   };
-  
-  
+
   const bedOptions = [
-    { value: '', label: 'Select a Bed' },
+    { value: "", label: "Select a Bed" },
     ...(Editbed === "editbeddet" && Bednum?.[0]?.Bed
       ? [{ value: Bednum[0].hstl_Bed, label: Bednum[0].Bed }]
       : []),
     ...(state.UsersList?.bednumberdetails?.bed_details
-      ?.filter((item) => item.bed_no && item.bed_no !== "0" && item.bed_no !== "undefined")
+      ?.filter(
+        (item) =>
+          item.bed_no && item.bed_no !== "0" && item.bed_no !== "undefined"
+      )
       .map((item) => ({
         value: item.id,
         label: item.bed_no,
       })) || []),
   ];
- 
-
-  
 
   const handleAdvanceAmount = (e) => {
-    // handleInputChange()
     const advanceAmount = e.target.value;
     if (!/^\d*$/.test(advanceAmount)) {
-      return; 
+      return;
     }
     setAdvanceAmount(advanceAmount);
     setAdvanceAmountError("");
@@ -799,14 +680,13 @@ function UserListRoomDetail(props) {
     setHostelIdError("");
     setFirstnameError("");
     setEmailError("");
-    // setAddressError("");
     setPhoneError("");
-    setHouseNo("")
-    setStreet("")
-    setCity("")
-    setLandmark("")
-    setPincode("")
-    setStateName("")
+    setHouseNo("");
+    setStreet("");
+    setCity("");
+    setLandmark("");
+    setPincode("");
+    setStateName("");
     setStateNameError("");
     setPincodeError("");
     setCityError("");
@@ -814,28 +694,27 @@ function UserListRoomDetail(props) {
     setStreetError("");
     setHouse_NoError("");
     setDateError("");
-    setActiveRow(null)
-    setEmailErrorMessage("")
+    setActiveRow(null);
+    setEmailErrorMessage("");
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-  // const [addressError, setAddressError] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
 
   const validateField = (value, fieldName) => {
     const stringValue = String(value).trim();
-  
+
     if (
       fieldName === "Email" &&
       ["n/a", "na"].includes(stringValue.toLowerCase())
     ) {
-      setEmailError(""); // No error for N/A email
+      setEmailError("");
       return true;
     }
-  
+
     if (!stringValue) {
       switch (fieldName) {
         case "First Name":
@@ -864,8 +743,7 @@ function UserListRoomDetail(props) {
       }
       return false;
     }
-  
-    // ✅ Clear old error if the value is now valid
+
     switch (fieldName) {
       case "First Name":
         setFirstnameError("");
@@ -891,51 +769,45 @@ function UserListRoomDetail(props) {
       default:
         break;
     }
-  
+
     return true;
   };
-  
-  
 
   const handleSaveUserlist = () => {
-
-
-    
-
     const normalize = (value) =>
-      value === null || value === undefined || value === "null" || value === "undefined" ? "" : String(value).trim();
-    
+      value === null ||
+      value === undefined ||
+      value === "null" ||
+      value === "undefined"
+        ? ""
+        : String(value).trim();
 
-    
     const isChanged =
-  firstname !== initialState.firstname ||
-  lastname !== initialState.lastname ||
-  Number(countryCode + Phone) !== Number(initialState.Phone) ||
-  Email !== initialState.Email ||
-  String(hostel_Id) !== String(initialState.hostel_Id) ||
-  file !== initialState.file ||
-  normalize(house_no) !== normalize(initialState.house_no ?? "") ||
-  normalize(street) !== normalize(initialState.street ?? "") ||
-  normalize(landmark) !== normalize(initialState.landmark ?? "") ||
-  city !== initialState.city ||
-  String(pincode || "").trim() !== String(initialState.pincode || "").trim() ||
-  state_name !== initialState.state;
-
-
+      firstname !== initialState.firstname ||
+      lastname !== initialState.lastname ||
+      Number(countryCode + Phone) !== Number(initialState.Phone) ||
+      Email !== initialState.Email ||
+      String(hostel_Id) !== String(initialState.hostel_Id) ||
+      file !== initialState.file ||
+      normalize(house_no) !== normalize(initialState.house_no ?? "") ||
+      normalize(street) !== normalize(initialState.street ?? "") ||
+      normalize(landmark) !== normalize(initialState.landmark ?? "") ||
+      city !== initialState.city ||
+      String(pincode || "").trim() !==
+        String(initialState.pincode || "").trim() ||
+      state_name !== initialState.state;
 
     let hasError = false;
 
     if (!validateField(firstname, "First Name")) return;
     if (!validateField(Phone, "Phone Number")) return;
-    // if (!validateField(Address, "Address")) return;
     if (!validateField(hostel_Id, "Hostel ID")) return;
     if (!validateField(city, "City")) return;
     if (!validateField(pincode, "Pincode")) return;
     if (!validateField(state_name, "Statename")) return;
-    
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
-      setHostelIdError("Please select a valid PG"); 
+      setHostelIdError("Please select a valid PG");
       return;
     }
     if (Phone.length !== 10) {
@@ -946,8 +818,6 @@ function UserListRoomDetail(props) {
       setPhoneErrorMessage("");
     }
 
-
-  
     if (Email && !["n/a", "na"].includes(Email.toLowerCase().trim())) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(Email.toLowerCase());
@@ -958,23 +828,15 @@ function UserListRoomDetail(props) {
         setEmailError("");
       }
     } else {
-      setEmailError(""); // Don't show error if Email is empty or "N/A"
+      setEmailError("");
     }
-   
-
 
     if (hasError) return;
 
-
-    
-    
-    
-    
     if (!isChanged) {
       setFormError("No Changes Detected");
       return;
-    }
-    else {
+    } else {
       setFormError("");
     }
     const capitalizeFirstLetter = (str) => {
@@ -990,12 +852,12 @@ function UserListRoomDetail(props) {
       lastname: capitalizedLastname,
       Phone: normalizedPhoneNumber,
       Email: Email,
-      Address:house_no ,
-      area : street,
-      landmark : landmark,
-      city : city,
-      pincode : pincode,
-      state:state_name,
+      Address: house_no,
+      area: street,
+      landmark: landmark,
+      city: city,
+      pincode: pincode,
+      state: state_name,
       AadharNo: AadharNo,
       PancardNo: PancardNo,
       licence: licence,
@@ -1017,62 +879,58 @@ function UserListRoomDetail(props) {
       type: "ADDUSER",
       payload: payload,
     });
-
-   
-
-    // setFormShow(false);
   };
 
+  const [generateForm, seGenerateForm] = useState(false);
+  const handlegenerateForm = () => {
+    seGenerateForm(true);
+  };
 
-  const [generateForm,seGenerateForm]= useState(false)
-const handlegenerateForm = ()=>{
-  seGenerateForm(true)
-}
-
-
-const handleCloseGenerateFormShow =()=>{
-  seGenerateForm(false)
-  setAdvanceDateError("")
-  setAdvanceDueDateError("")
-  setAdvanceDate("")
-  setAdvanceDueDate("")
-
-}
-const handleGenerateAdvance=()=>{
-  
-  let hasError = false;
-
-  if (!advanceDate) {
-    setAdvanceDateError("Invoice Date is Required");
-    hasError = true;
-  } else {
+  const handleCloseGenerateFormShow = () => {
+    seGenerateForm(false);
     setAdvanceDateError("");
-  }
-
-  if (!advanceDueDate) {
-    setAdvanceDueDateError("Due Date is Required");
-    hasError = true;
-  } else {
     setAdvanceDueDateError("");
-  }
-  if (hasError) {
-    return;
-  }
-  const formattedInvoiceDate = formatDate(advanceDate);
-  const formattedDueDate = formatDate(advanceDueDate);
+    setAdvanceDate("");
+    setAdvanceDueDate("");
+  };
+  const handleGenerateAdvance = () => {
+    let hasError = false;
 
-  dispatch({ type: "ADVANCEGENERATE", payload: { user_id: props.id,invoice_date:formattedInvoiceDate,due_date:formattedDueDate } });
+    if (!advanceDate) {
+      setAdvanceDateError("Invoice Date is Required");
+      hasError = true;
+    } else {
+      setAdvanceDateError("");
+    }
 
-  
-}
-const formatDate = (dateObj) => {
-  const date = new Date(dateObj);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
+    if (!advanceDueDate) {
+      setAdvanceDueDateError("Due Date is Required");
+      hasError = true;
+    } else {
+      setAdvanceDueDateError("");
+    }
+    if (hasError) {
+      return;
+    }
+    const formattedInvoiceDate = formatDate(advanceDate);
+    const formattedDueDate = formatDate(advanceDueDate);
 
+    dispatch({
+      type: "ADVANCEGENERATE",
+      payload: {
+        user_id: props.id,
+        invoice_date: formattedInvoiceDate,
+        due_date: formattedDueDate,
+      },
+    });
+  };
+  const formatDate = (dateObj) => {
+    const date = new Date(dateObj);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   const [initialState, setInitialState] = useState({
     firstname: "",
@@ -1080,12 +938,12 @@ const formatDate = (dateObj) => {
     Phone: "",
     Email: "",
     Address: "",
-    house_no:'',
-    street:'',
-    city:'',
-    landmark:'',
-    state:'',
-    pincode:'',
+    house_no: "",
+    street: "",
+    city: "",
+    landmark: "",
+    state: "",
+    pincode: "",
     hostel_Id: "",
     countryCode: "",
     file: null,
@@ -1101,7 +959,6 @@ const formatDate = (dateObj) => {
   });
 
   const validateAssignField = (value, fieldName) => {
-    // If the value is a string, trim it, otherwise check for non-empty or valid number
     const isValueEmpty =
       (typeof value === "string" && value.trim() === "") ||
       value === "undefined" ||
@@ -1134,7 +991,6 @@ const formatDate = (dateObj) => {
       return false;
     }
 
-    // Clear errors if the value is valid
     switch (fieldName) {
       case "Floor":
         setfloorError("");
@@ -1162,14 +1018,12 @@ const formatDate = (dateObj) => {
   };
 
   const handleSaveUserlistAddUser = () => {
-    // Validate fields first
     if (!validateAssignField(Floor, "Floor"));
     if (!validateAssignField(RoomId, "RoomId"));
     if (!validateAssignField(BedId, "BedId"));
     if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
     if (!validateAssignField(RoomRent, "RoomRent"));
 
-    // Validate date separately for clarity
     const isValidDate = (date) => !isNaN(Date.parse(date));
 
     if (!isValidDate(selectedDate)) {
@@ -1179,7 +1033,6 @@ const formatDate = (dateObj) => {
       setDateError("");
     }
 
-    // Check if room rent is valid
     if (Number(RoomRent) <= 0) {
       setRoomRentError("Please Enter Valid Rent Amount");
       return;
@@ -1187,7 +1040,6 @@ const formatDate = (dateObj) => {
       setRoomRentError("");
     }
 
-    // Check if advance amount is valid
     if (Number(AdvanceAmount) <= 0) {
       setAdvanceAmountError("Please Enter Valid Advance Amount");
       return;
@@ -1195,7 +1047,6 @@ const formatDate = (dateObj) => {
       setAdvanceAmountError("");
     }
 
-    // Floor, Room, and Bed validation checks
     if (Floor === "Selected Floor") {
       setfloorError("Please select a valid PG");
       return;
@@ -1208,30 +1059,22 @@ const formatDate = (dateObj) => {
 
     if (BedId === "" || BedId === "Select a Bed") {
       setBedError("Please select a valid Bed");
-      return; 
+      return;
     }
 
-    // Format the date
-  //   let formattedDate = null;
-  //   try {
-  //     formattedDate = new Date(selectedDate).toISOString().split("T")[0];
-  //   } 
-  //   catch (errors) {  
-  //     console.log("errors",errors)
-  //     setDateError("Invalid date format.");
-  //     return;
-  // }
-  const formattedDate = selectedDate ? dayjs(selectedDate).format("YYYY-MM-DD") : null;
+    const formattedDate = selectedDate
+      ? dayjs(selectedDate).format("YYYY-MM-DD")
+      : null;
 
-  if (!formattedDate) {
-    setDateError("Invalid date format.");
-    return;
-  }
+    if (!formattedDate) {
+      setDateError("Invalid date format.");
+      return;
+    }
 
-  const initialFormattedDate = dayjs(initialStateAssign.selectedDate).format("YYYY-MM-DD");
-  
+    const initialFormattedDate = dayjs(initialStateAssign.selectedDate).format(
+      "YYYY-MM-DD"
+    );
 
-    // Detect any changes
     const isChangedBed =
       String(Floor).toLowerCase() !==
         String(initialStateAssign.Floor).toLowerCase() ||
@@ -1239,8 +1082,6 @@ const formatDate = (dateObj) => {
         String(initialStateAssign.Rooms).toLowerCase() ||
       String(BedId).toLowerCase() !==
         String(initialStateAssign.Bed).toLowerCase() ||
-      // formattedDate !==
-      //   new Date(initialStateAssign.selectedDate).toISOString().split("T")[0] ||
       formattedDate !== initialFormattedDate ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
@@ -1252,7 +1093,6 @@ const formatDate = (dateObj) => {
       setFormError("");
     }
 
-    // Dispatch if validation passed
     dispatch({
       type: "ADDUSER",
       payload: {
@@ -1262,11 +1102,11 @@ const formatDate = (dateObj) => {
         Phone,
         Email,
         Address,
-        area:street ,
-        landmark ,
+        area: street,
+        landmark,
         city,
         pincode,
-        state:state_name,
+        state: state_name,
         AadharNo,
         PancardNo,
         licence,
@@ -1285,8 +1125,6 @@ const formatDate = (dateObj) => {
         ID: id,
       },
     });
-    // Trigger post-edit actions
- 
 
     setFormShow(false);
     dispatch({ type: "INVOICELIST" });
@@ -1303,7 +1141,7 @@ const formatDate = (dateObj) => {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForAddUser === 200) {
-      handleCloseEditcustomer()
+      handleCloseEditcustomer();
       dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
 
@@ -1312,21 +1150,19 @@ const formatDate = (dateObj) => {
       }, 100);
     }
   }, [state.UsersList.statusCodeForAddUser, state.UsersList.Users]);
-const [advanceDetail,setAdvanceDetail] = useState("")
-  useEffect(()=>{
-if(state.UsersList.customerdetails.data){
-setAdvanceDetail(state.UsersList.customerdetails.data)
-}
-  },[state.UsersList.customerdetails.data])
+  const [advanceDetail, setAdvanceDetail] = useState("");
+  useEffect(() => {
+    if (state.UsersList.customerdetails.data) {
+      setAdvanceDetail(state.UsersList.customerdetails.data);
+    }
+  }, [state.UsersList.customerdetails.data]);
 
-console.log("state.UsersList.customerdetails.data",state.UsersList.customerdetails.data)
+  const [uploadError, setUploadError] = useState("");
 
-const [uploadError,setUploadError]= useState("")
+  useEffect(() => {
+    setUploadError(state.UsersList.adharuploadfileError);
+  }, [state.UsersList.adharuploadfileError]);
 
-useEffect(()=>{
-  setUploadError(state.UsersList.adharuploadfileError)
-},[state.UsersList.adharuploadfileError])
-  
   const handleFileChange = (e, type) => {
     const file = e.target.files[0];
     if (file) {
@@ -1340,7 +1176,6 @@ useEffect(()=>{
           },
         });
       } else if (type === "doc2") {
-        // setOtherFile(file.name);
         dispatch({
           type: "UPLOADOTHERDOCUMENT",
           payload: {
@@ -1353,57 +1188,44 @@ useEffect(()=>{
     }
   };
 
-  // const handleUploadClick = (ref) => {
-  //   ref.current.click(); 
-  //   setUploadError("")
-  //   dispatch({type:"CLEAR_ADHAR_UPLOAD_ERROR"})
-    
-  // };
   const handleUploadClick = (ref) => {
     if (ref?.current) {
       ref.current.click();
     }
-    setUploadError(""); 
+    setUploadError("");
     dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
-  }
-  useEffect(()=>{
-    if(state.UsersList.statuscodeForAdharFileError === 201){
-      setUploadError(state.UsersList.adharuploadfileError)
+  };
+  useEffect(() => {
+    if (state.UsersList.statuscodeForAdharFileError === 201) {
+      setUploadError(state.UsersList.adharuploadfileError);
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
       }, 100);
     }
-  },[state.UsersList.statuscodeForAdharFileError])
+  }, [state.UsersList.statuscodeForAdharFileError]);
   const handleOtherUploadClick = (ref) => {
-    ref.current.click(); 
+    ref.current.click();
   };
 
-  useEffect(()=>{
-    if(state.UsersList.statusCodeForUploadDocument === 200){
-      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
+  useEffect(() => {
+    if (state.UsersList.statusCodeForUploadDocument === 200) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
       setTimeout(() => {
         dispatch({ type: "CLEAR_UPLOAD_DOCUMENT" });
         dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR_STATUSCODE" });
         dispatch({ type: "CLEAR_ADHAR_UPLOAD_ERROR" });
       }, 500);
     }
-      },[state.UsersList.statusCodeForUploadDocument])
+  }, [state.UsersList.statusCodeForUploadDocument]);
 
-    
-
-
-      useEffect(()=>{
-        if(state.UsersList.statusCodeForOtherDocu === 200){
-          dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id}});
-          setTimeout(() => {
-            dispatch({ type: "CLEAR_UPLOAD_OTHER_DOCUMENT" });
-          }, 100);
-        }
-          },[state.UsersList.statusCodeForOtherDocu])
-  // const handleUploadClick = (ref) => {
-  //   ref.current.click(); // Trigger the hidden file input
-  // };
-
+  useEffect(() => {
+    if (state.UsersList.statusCodeForOtherDocu === 200) {
+      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_UPLOAD_OTHER_DOCUMENT" });
+      }, 100);
+    }
+  }, [state.UsersList.statusCodeForOtherDocu]);
 
   const [contactDeleteId, setContactDeleteId] = useState("");
   const handleContactDelete = (v) => {
@@ -1428,16 +1250,16 @@ useEffect(()=>{
     }
   }, [state.UsersList.statusCodeDeleteContact]);
 
-useEffect (()=>{
-if(state.UsersList.statusCodeForGenerateAdvance === 200){
-  handleCloseGenerateFormShow ()
-  dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
-  dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
-  setTimeout(() => {
-    dispatch({ type: "REMOVE_GENERATE_ADVANCE" });
-  }, 500);
-}
-},[state.UsersList.statusCodeForGenerateAdvance ])
+  useEffect(() => {
+    if (state.UsersList.statusCodeForGenerateAdvance === 200) {
+      handleCloseGenerateFormShow();
+      dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: props.id } });
+      dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_GENERATE_ADVANCE" });
+      }, 500);
+    }
+  }, [state.UsersList.statusCodeForGenerateAdvance]);
   return (
     <>
       {props.roomDetail && (
@@ -1449,42 +1271,47 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                 <div
                   key={item.ID}
                   className="container mt-2"
-                  style={{ marginLeft: "-20px", height: "90vh", overflowY: "auto" }}
+                  style={{
+                    marginLeft: "-20px",
+                    height: "90vh",
+                    overflowY: "auto",
+                  }}
                 >
-                   <div
-        className="d-flex align-items-center"
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 1000,
-          backgroundColor: "#fff",
-          padding: "12px 20px",
-          height: "60px",
-          // borderBottom: "1px solid #ddd"
-        }}
-      >
-        <img
-          src={leftarrow}
-          alt="leftarrow"
-          width={20}
-          height={20}
-          onClick={props.handleBack}
-          style={{ cursor: "pointer" }}
-        />
-        <span
-          style={{
-            fontWeight: 600,
-            fontSize: "18px",
-            fontFamily: "Gilroy",
-            paddingLeft: "10px"
-          }}
-        >
-          Customer Profile
-        </span>
-      </div>
-   
+                  <div
+                    className="d-flex align-items-center"
+                    style={{
+                      position: "sticky",
+                      top: 0,
+                      zIndex: 1000,
+                      backgroundColor: "#fff",
+                      padding: "12px 20px",
+                      height: "60px",
+                    }}
+                  >
+                    <img
+                      src={leftarrow}
+                      alt="leftarrow"
+                      width={20}
+                      height={20}
+                      onClick={props.handleBack}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <span
+                      style={{
+                        fontWeight: 600,
+                        fontSize: "18px",
+                        fontFamily: "Gilroy",
+                        paddingLeft: "10px",
+                      }}
+                    >
+                      Customer Profile
+                    </span>
+                  </div>
 
-                  <div className="card mt-3" style={{ borderRadius: "24px",marginLeft:'20px' }}>
+                  <div
+                    className="card mt-3"
+                    style={{ borderRadius: "24px", marginLeft: "20px" }}
+                  >
                     <div className="card-body d-flex flex-column flex-md-row align-items-center justify-content-between">
                       <div className="d-flex align-items-center mb-3 mb-md-0">
                         <Image
@@ -1511,50 +1338,10 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                             }}
                           >
                             {item.Name}
-                            {/* <img
-                              src={verify}
-                              width={17}
-                              height={17}
-                              style={{ marginTop: "-3px" }}
-                            /> */}
                           </span>
-                          {/* <p style={{ marginTop: 10 }}>
-                            <span
-                              style={{
-                                backgroundColor: "#FFE0D9",
-                                borderRadius: "10px",
-                                padding: "5px 10px",
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Room: {item.Rooms || "N/A"} - Bed:{" "}
-                              {item.Bed || "N/A"}
-                            </span>
 
-                            <span
-                              style={{
-                                backgroundColor: "#FFEFCF",
-                                borderRadius: "10px",
-                                padding: "5px 10px",
-                                marginLeft: 10,
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Floor:{" "}
-                              {item.Floor &&
-                              item.Floor !== "undefined" &&
-                              item.Floor !== 0 &&
-                              item.Floor !== "null"
-                                ? item.Floor
-                                : "N/A"}
-                            </span>
-                          </p> */}
                           <p
-                            style={{ marginTop: 8 ,cursor:"pointer"}}
+                            style={{ marginTop: 8, cursor: "pointer" }}
                             onClick={() => {
                               handleKycdetailsForm(item);
                             }}
@@ -1571,79 +1358,31 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                         </div>
                       </div>
 
-                      {/* <div  onClick={() => handleShowEditBed(props.userDetails)}>
-                        <img src={dots} width={40} height={40} />
-                      </div> */}
-
-
-{/* 
- cursor: props.customerEditPermission
- opacity: props.customerEditPermission ? 0.6 : 1, */}
-
-              <div
-                                                     style={{
-                                                       cursor: "pointer",
-                                                       height: 40,
-                                                       width: 40,
-                                                       borderRadius: 100,
-                                                       border: "1px solid #EFEFEF",
-                                                       display: "flex",
-                                                       justifyContent: "center",
-                                                       alignItems: "center",
-                                                       position: "relative",
-                                                       zIndex:
-                                                         activeRow === item.ID
-                                                           ? 1000
-                                                           : "auto",
-                                                       backgroundColor:
-                                                         activeRow === item.ID
-                                                           ? "#E7F1FF"
-                                                           : "white",
-                                                     }}
-                                                     onClick={() => {
-                                                      if (!props.customerEditPermission) {
-                                                        handleShowEditBed(props.userDetails);
-                                                      }
-                                                    }}
-                                                   >
-                                                     <PiDotsThreeOutlineVerticalFill
-                                                       style={{ height: 20, width: 20 }}
-                                                     />
-                                                       </div>
-
-                      {/* <div
+                      <div
+                        style={{
+                          cursor: "pointer",
+                          height: 40,
+                          width: 40,
+                          borderRadius: 100,
+                          border: "1px solid #EFEFEF",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          position: "relative",
+                          zIndex: activeRow === item.ID ? 1000 : "auto",
+                          backgroundColor:
+                            activeRow === item.ID ? "#E7F1FF" : "white",
+                        }}
                         onClick={() => {
                           if (!props.customerEditPermission) {
                             handleShowEditBed(props.userDetails);
                           }
                         }}
-                        style={{
-                          cursor: props.customerEditPermission
-                            ? "not-allowed"
-                            : "pointer",
-                          opacity: props.customerEditPermission ? 0.6 : 1,
-                          zIndex:
-                                              activeRow === item.ID
-                                                ? 1000
-                                                : "auto",
-                          backgroundColor:
-                                  activeRow === item.ID
-                                                ? "#E7F1FF"
-                                                : "white",
-                        }}
                       >
-                        <img
-                          src={dots}
-                          alt="dots"
-                          width={40}
-                          height={40}
-                          style={{
-                            filter: props.customerEditPermission
-                              ? "grayscale(100%)"
-                              : "none",
-                          }}
+                        <PiDotsThreeOutlineVerticalFill
+                          style={{ height: 20, width: 20 }}
                         />
-                      </div> */}
+                      </div>
                     </div>
                   </div>
 
@@ -1698,19 +1437,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                               textTransform: "none",
                             }}
                           />
-                          {/* <Tab
-                            label="Compliants"
-                            value="4"
-                            style={{
-                              fontSize: 16,
-                              fontFamily: "Gilroy",
-                              color: value === "4" ? "#222222" : "#4B4B4B",
-                              lineHeight: "normal",
-                              fontStyle: "normal",
-                              fontWeight: 500,
-                              textTransform: "none",
-                            }}
-                          /> */}
+
                           <Tab
                             label="Amenities"
                             value="4"
@@ -1731,14 +1458,13 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                       <>
                         <div className="roomdetailscard">
                           <div style={{ flex: 1 }}>
-                            {/* <div className="mt-3 d-flex flex-column flex-md-row justify-content-end"> */}
                             <div className="col-md-12 mb-3 mb-md-0">
                               <div
                                 className="card"
                                 style={{
                                   borderRadius: "20px",
                                   padding: "20px",
-                                  marginLeft:'20px'
+                                  marginLeft: "20px",
                                 }}
                               >
                                 <div
@@ -1824,7 +1550,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                             marginLeft: 5,
                                           }}
                                         >
-                                          {/* {item.HostelName} */}{" "}
+                                          {" "}
                                           {item.Floor &&
                                           item.Floor !== "undefined" &&
                                           item.Floor !== 0 &&
@@ -2024,7 +1750,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         RoomRent
                                       </p>
                                       <p style={{ marginTop: "-10px" }}>
-                                        {/* <Call size="16" color="#1E45E1" /> */}
                                         <img
                                           src={Money}
                                           alt="money"
@@ -2056,345 +1781,435 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       >
                                         Address
                                       </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <House size="16" color="#1E45E1" />
-                                        <span
+
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "flex-end",
+                                          gap: "10px",
+                                          marginTop: "-8px",
+                                        }}
+                                      >
+                                        <House
+                                          size="18"
+                                          color="#1E45E1"
+                                          style={{ marginBottom: "2px" }}
+                                        />
+
+                                        <div
                                           style={{
-                                            marginLeft: 5,
                                             fontSize: 14,
                                             fontWeight: 600,
                                             fontFamily: "Gilroy",
+                                            lineHeight: "1.5em",
                                           }}
                                         >
-                                          {item.Address}
-                                        </span>
-                                      </p>
+                                          {(props.userDetails[0].Address ||
+                                            props.userDetails[0].area) && (
+                                            <>
+                                              {props.userDetails[0].Address
+                                                ? props.userDetails[0].Address +
+                                                  ", "
+                                                : ""}
+                                              {props.userDetails[0].area || ""}
+                                              <br />
+                                            </>
+                                          )}
+
+                                          {(props.userDetails[0].city ||
+                                            props.userDetails[0].pincode ||
+                                            props.userDetails[0].state) && (
+                                            <>
+                                              {props.userDetails[0].city
+                                                ? props.userDetails[0].city +
+                                                  ", "
+                                                : ""}
+                                              {props.userDetails[0].pincode
+                                                ? props.userDetails[0].pincode +
+                                                  " - "
+                                                : ""}
+                                              {props.userDetails[0].state || ""}
+                                            </>
+                                          )}
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                             <div className="col-lg-12 col-md-12">
-                            <div
-                              className="card"
-                              style={{
-                                borderRadius: "20px",
-                                padding: "30px",
-                                marginTop: 30,
-                                marginLeft:'20px',
-                                
-                              }}
-                            >
-                              {/* Header */}
+                            <div className="col-lg-12 col-md-12">
                               <div
-                                className="card-header d-flex justify-content-between align-items-center"
+                                className="card"
                                 style={{
-                                  backgroundColor: "transparent",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  borderBottom: "1px solid #e0e0e0",
-                                  marginBottom: "15px",
-                                 
+                                  borderRadius: "20px",
+                                  padding: "30px",
+                                  marginTop: 30,
+                                  marginLeft: "20px",
                                 }}
                               >
                                 <div
+                                  className="card-header d-flex justify-content-between align-items-center"
                                   style={{
-                                    fontSize: 16,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy, sans-serif",
-                                    lineHeight: "40px",
+                                    backgroundColor: "transparent",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    borderBottom: "1px solid #e0e0e0",
+                                    marginBottom: "15px",
                                   }}
                                 >
-                                  Document Details
+                                  <div
+                                    style={{
+                                      fontSize: 16,
+                                      fontWeight: 600,
+                                      fontFamily: "Gilroy, sans-serif",
+                                      lineHeight: "40px",
+                                    }}
+                                  >
+                                    Document Details
+                                  </div>
                                 </div>
-                              </div>
 
-                              {/* Upload Section */}
-                              <div
-                                className="row"
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                }}
-                              >
-                                {/* Aadhar Card */}
-                                <div className="col-6 text-start">
-      <label
-        style={{
-          display: "block",
-          fontSize: 14,
-          fontWeight: 500,
-          marginBottom: "10px",
-        }}
-      >
-        Aadhar Card
-      </label>
-      <button
-        className="btn"
-        style={{
-          borderRadius: "10px",
-          padding: "10px 20px",
-          fontSize: "14px",
-          border: "1px solid #D9D9D9",
-        }}
-        onClick={() => handleUploadClick(aadharInputRef)}
-      >
-        <img
-          src={upload}
-          alt="upload"
-          width={20}
-          height={20}
-          style={{ marginRight: "8px" }}
-        />
-        Upload Document
-      </button>
-       <input
-         type="file"
-         ref={aadharInputRef}
-         style={{ display: "none" }}
-         onChange={(e) => handleFileChange(e, "doc1")}
-         
-      />  
-      {/* <img src={docDown} style={{width:20,height:20}}/> */}
-      {/* {advanceDetail && advanceDetail[0]?.doc1 && (
-  <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
-)} */}
-{advanceDetail[0]?.doc1 && (
-  <a href={advanceDetail[0]?.doc1} target="_blank" rel="noopener noreferrer">
-    <img src={docDown} alt="docdown" style={{ width: 20, height: 20, marginLeft: "10px" }} />
-  </a>
-)}
-  
-     {uploadError && (
-                               <div style={{ color: "red" }}>
-                                 <MdError />
-                                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{uploadError}</span> 
-                               </div>
-                             )}
-    </div>
-
-                                {/* Other Document */}
-                                <div className="col-6 text-start">
-                                  <label
-                                    style={{
-                                      display: "block",
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      marginBottom: "10px",
-                                    }}
-                                  >
-                                    Other Document
-                                  </label>
-                                  <button
-                                    className="btn "
-                                    style={{
-                                      borderRadius: "10px",
-                                      padding: "10px 20px",
-                                      fontSize: "14px",
-                                      border: "1px solid #D9D9D9",
-                                    }}
-                                    // onClick={handleOtherDocument}
-                                    onClick={() => handleOtherUploadClick(otherDocInputRef)}
-                                  >
-                                    <img
-                                      src={upload}
-                                      alt="upload"
-                                      width={20}
-                                      height={20}
-                                      style={{ marginRight: "8px" }}
+                                <div
+                                  className="row"
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                  }}
+                                >
+                                  <div className="col-6 text-start">
+                                    <label
+                                      style={{
+                                        display: "block",
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        marginBottom: "10px",
+                                      }}
+                                    >
+                                      Aadhar Card
+                                    </label>
+                                    <button
+                                      className="btn"
+                                      style={{
+                                        borderRadius: "10px",
+                                        padding: "10px 20px",
+                                        fontSize: "14px",
+                                        border: "1px solid #D9D9D9",
+                                      }}
+                                      onClick={() =>
+                                        handleUploadClick(aadharInputRef)
+                                      }
+                                    >
+                                      <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+                                      Upload Document
+                                    </button>
+                                    <input
+                                      type="file"
+                                      ref={aadharInputRef}
+                                      style={{ display: "none" }}
+                                      onChange={(e) =>
+                                        handleFileChange(e, "doc1")
+                                      }
                                     />
-                                    Upload Document
-                                  </button>
-                                  <input
-                                    type="file"
-                                    ref={otherDocInputRef}
-                                    style={{ display: "none" }}
-                                    // onChange={(e) =>
-                                    //   handleOtherDocUploadClick(e, "doc2")
-                                    // }
-                                    onChange={(e) => handleFileChange(e, "doc2")}
-                                  />  
-                                  {/* <img src={docDown} style={{width:20,height:20}}/> */}
-                                  {/* {advanceDetail && advanceDetail[0]?.doc2 && (
-  <img src={docDown} style={{ width: 20, height: 20, marginLeft: "10px" }} />
-)} */}
 
+                                    {advanceDetail[0]?.doc1 && (
+                                      <a
+                                        href={advanceDetail[0]?.doc1}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <img
+                                          src={docDown}
+                                          alt="docdown"
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                          }}
+                                        />
+                                      </a>
+                                    )}
 
-{advanceDetail && advanceDetail[0]?.doc2 && (
-  <img
-    src={docDown}
-    style={{ width: 20, height: 20, marginLeft: "10px", cursor: "pointer" }}
-    alt="Download Document"
-    onClick={() => window.open(advanceDetail[0]?.doc2, "_blank")}
-  />
-)}
-                                  
+                                    {uploadError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {uploadError}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <div className="col-6 text-start">
+                                    <label
+                                      style={{
+                                        display: "block",
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        marginBottom: "10px",
+                                      }}
+                                    >
+                                      Other Document
+                                    </label>
+                                    <button
+                                      className="btn "
+                                      style={{
+                                        borderRadius: "10px",
+                                        padding: "10px 20px",
+                                        fontSize: "14px",
+                                        border: "1px solid #D9D9D9",
+                                      }}
+                                      onClick={() =>
+                                        handleOtherUploadClick(otherDocInputRef)
+                                      }
+                                    >
+                                      <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+                                      Upload Document
+                                    </button>
+                                    <input
+                                      type="file"
+                                      ref={otherDocInputRef}
+                                      style={{ display: "none" }}
+                                      onChange={(e) =>
+                                        handleFileChange(e, "doc2")
+                                      }
+                                    />
+
+                                    {advanceDetail &&
+                                      advanceDetail[0]?.doc2 && (
+                                        <img
+                                          src={docDown}
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                            cursor: "pointer",
+                                          }}
+                                          alt="Download Document"
+                                          onClick={() =>
+                                            window.open(
+                                              advanceDetail[0]?.doc2,
+                                              "_blank"
+                                            )
+                                          }
+                                        />
+                                      )}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
                             </div>
                           </div>
 
-                          {/* </div> */}
                           <div style={{ flex: 1 }}>
                             <div>
                               <div
                                 className="col-md-12 col-lg-12 mb-3 mb-md-0"
                                 style={{ paddingLeft: 20, paddingRight: 20 }}
                               >
-                               
+                                <div
+                                  className="card"
+                                  style={{
+                                    borderRadius: "20px",
+                                    padding: "10px",
+                                  }}
+                                >
+                                  <div
+                                    className="card-header d-flex justify-content-between align-items-center"
+                                    style={{
+                                      backgroundColor: "transparent",
+                                      display: "flex",
+                                      alignItems: "center",
+                                    }}
+                                  >
                                     <div
-                                      // key={}
-                                      className="card"
                                       style={{
-                                        borderRadius: "20px",
-                                        padding: "10px",
+                                        fontSize: 16,
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        lineHeight: "40px",
                                       }}
                                     >
+                                      Advance Detail
+                                    </div>
+                                  </div>
+
+                                  <div className="card-body">
+                                    {props.userDetails[0]?.AdvanceAmount > 0 ? (
+                                      <div className="row mb-3">
+                                        {/* Advance Amount */}
+                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <div
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Advance Amount
+                                          </div>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            <img src={Money} alt="Money Icon" />{" "}
+                                            ₹
+                                            {
+                                              props.userDetails[0]
+                                                ?.AdvanceAmount
+                                            }
+                                          </p>
+                                        </div>
+
+                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <div
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Invoice Date
+                                          </div>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            {advanceDetail[0]?.Date
+                                              ? new Date(
+                                                  advanceDetail[0].Date
+                                                ).toLocaleDateString("en-GB", {
+                                                  day: "2-digit",
+                                                  month: "short",
+                                                  year: "numeric",
+                                                })
+                                              : "-"}
+                                          </p>
+                                        </div>
+
+                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <div
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            Due Date
+                                          </div>
+                                          <p
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                            }}
+                                          >
+                                            {advanceDetail[0]?.DueDate
+                                              ? new Date(
+                                                  advanceDetail[0].DueDate
+                                                ).toLocaleDateString("en-GB", {
+                                                  day: "2-digit",
+                                                  month: "short",
+                                                  year: "numeric",
+                                                })
+                                              : "-"}
+                                          </p>
+                                        </div>
+
+                                        {!advanceDetail[0]?.inv_id && (
+                                          <div className="col-sm-4 d-flex flex-column align-items-center">
+                                            <Button
+                                              style={{
+                                                width: 102,
+                                                height: 31,
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                fontFamily: "Gilroy",
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                backgroundColor: "#1E45E1",
+                                                color: "#fff",
+                                                borderRadius: "5px",
+                                                marginTop: "10px",
+                                              }}
+                                              onClick={handlegenerateForm}
+                                            >
+                                              Generate
+                                            </Button>
+                                          </div>
+                                        )}
+
+                                        <div className="col-sm-4 d-flex flex-column align-items-start">
+                                          <strong
+                                            style={{
+                                              fontSize: 12,
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              textAlign: "start",
+                                              paddingRight: 15,
+                                            }}
+                                          >
+                                            Bill Status
+                                          </strong>
+                                          <p
+                                            style={{
+                                              backgroundColor: "#D9FFD9",
+                                              padding: "2px 12px",
+                                              borderRadius: "10px",
+                                              display: "inline-block",
+                                              fontFamily: "Gilroy",
+                                              fontSize: "14px",
+                                              fontWeight: "500",
+                                              marginTop: "5px",
+                                            }}
+                                          >
+                                            {state.UsersList?.customerdetails.data?.map(
+                                              (item) => (
+                                                <>{item.status}</>
+                                              )
+                                            )}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    ) : (
                                       <div
-                                        className="card-header d-flex justify-content-between align-items-center"
                                         style={{
-                                          backgroundColor: "transparent",
-                                          display: "flex",
-                                          alignItems: "center",
+                                          fontSize: 18,
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 600,
+                                          textAlign: "center",
                                         }}
                                       >
-                                        <div
-                                          style={{
-                                            fontSize: 16,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            lineHeight: "40px",
-                                          }}
-                                        >
-                                          Advance Detail
-                                        </div>
-                                        {/* <img
-                                          src={editliner}
-                                          alt="Edit Icon"
-                                          width={20}
-                                          height={20}
-                                        /> */}
+                                        In this User Not Assigned
                                       </div>
-
-                                      <div className="card-body">
-  {props.userDetails[0]?.AdvanceAmount > 0 ? (
-    <div className="row mb-3">
-      {/* Advance Amount */}
-      <div className="col-sm-4 d-flex flex-column align-items-start">
-        <div style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-          Advance Amount
-        </div>
-        <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-          <img src={Money} alt="Money Icon" /> ₹{props.userDetails[0]?.AdvanceAmount}
-        </p>
-      </div>
-
-      <div className="col-sm-4 d-flex flex-column align-items-start">
-  <div style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-    Invoice Date
-  </div>
-  <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-    {advanceDetail[0]?.Date
-      ? new Date(advanceDetail[0].Date).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        })
-      : "-"}
-  </p>
-</div>
-
-{/* Due Date */}
-<div className="col-sm-4 d-flex flex-column align-items-start">
-  <div style={{ fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
-    Due Date
-  </div>
-  <p style={{ fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
-    {advanceDetail[0]?.DueDate
-      ? new Date(advanceDetail[0].DueDate).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        })
-      : "-"}
-  </p>
-</div>
-
-
-      {/* Bill Status - Generate */}
-      {!advanceDetail[0]?.inv_id && (
-        <div className="col-sm-4 d-flex flex-column align-items-center">
-          <Button
-            style={{
-              width: 102,
-              height: 31,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontFamily: "Gilroy",
-              fontSize: 14,
-              fontWeight: 500,
-              backgroundColor: "#1E45E1",
-              color: "#fff",
-              borderRadius: "5px",
-              marginTop: "10px",
-            }}
-            onClick={handlegenerateForm}
-          >
-            Generate
-          </Button>
-        </div>
-      )}
-
-      {/* Bill Status - Paid/Not Paid */}
-      <div className="col-sm-4 d-flex flex-column align-items-start">
-        <strong
-          style={{
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            textAlign: "start",
-            paddingRight: 15,
-          }}
-        >
-          Bill Status
-        </strong>
-        <p
-          style={{
-            backgroundColor: "#D9FFD9",
-            padding: "2px 12px",
-            borderRadius: "10px",
-            display: "inline-block",
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-            fontWeight: "500",
-            marginTop: "5px",
-          }}
-        >
-          {state.UsersList?.customerdetails.data?.map((item) => (
-            <>{item.status}</>
-          ))}
-        </p>
-      </div>
-    </div>
-  ) : (
-    <div
-      style={{
-        fontSize: 18,
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        textAlign: "center",
-      }}
-    >
-      In this User Not Assigned
-    </div>
-  )}
-</div>
-
-
-                                    </div>
-                                
+                                    )}
+                                  </div>
+                                </div>
                               </div>
 
                               <div
@@ -2433,7 +2248,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       className="btn btn-link fw-medium text-decoration-none"
                                       style={{ fontSize: 14 }}
                                       onClick={handleAdditionalForm}
-                                      // disabled={state.UsersList.customerAllDetails.contact_details?.length > 2 == 'disabled'}
                                     >
                                       + Add Contact
                                     </button>
@@ -2597,7 +2411,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                                       Address
                                                     </p>
                                                     <p className="mb-0 fw-semibold">
-                                                      {v.address} , {v.area} , {v.city} <br></br>
+                                                      {v.address} , {v.area} ,{" "}
+                                                      {v.city} <br></br>
                                                       {v.state}- {v.pin_code}
                                                     </p>
                                                   </div>
@@ -2608,7 +2423,16 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         </div>
                                       )
                                     ) : (
-                                      <div style={{fontSize:18,fontFamily:"Gilroy",fontWeight:600,textAlign:"center"}}>No data Found</div>
+                                      <div
+                                        style={{
+                                          fontSize: 18,
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 600,
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        No data Found
+                                      </div>
                                     )}
                                   </div>
                                 </div>
@@ -2651,14 +2475,14 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                         }}
                         className="m-0 p-0"
                       >
-                        <Modal.Body >
+                        <Modal.Body>
                           <div className="d-flex align-items-center">
                             {customerdetailShow ? (
                               <div>
                                 <Modal.Header
                                   style={{
                                     position: "relative",
-                                    paddingTop:"3px"
+                                    paddingTop: "3px",
                                   }}
                                 >
                                   <div
@@ -2666,45 +2490,17 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       fontSize: 20,
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                     
                                     }}
                                   >
                                     Edit Customer
-                                    {/* {props.edit === 'Edit' ? "Edit Customer" : "Add an customer"} */}
                                   </div>
-                                  {/* <button
-                                    type="button"
-                                    className="close"
-                                    aria-label="Close"
+
+                                  <CloseCircle
+                                    size="24"
+                                    color="#000"
                                     onClick={handleCloseEditcustomer}
-                                    style={{
-                                      position: "absolute",
-                                      right: "10px",
-                                      top: "28px",
-                                      border: "1px solid black",
-                                      background: "transparent",
-                                      cursor: "pointer",
-                                      padding: "0",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      width: "25px",
-                                      height: "25px",
-                                      borderRadius: "50%",
-                                    }}
-                                  >
-                                    <span
-                                      aria-hidden="true"
-                                      style={{
-                                        fontSize: "30px",
-                                        paddingBottom: "6px",
-                                      }}
-                                    >
-                                      &times;
-                                    </span>
-                                  </button> */}
-                                  <CloseCircle size="24" color="#000" onClick={handleCloseEditcustomer} 
-            style={{ cursor: 'pointer' }}/>
+                                    style={{ cursor: "pointer" }}
+                                  />
                                 </Modal.Header>
 
                                 <div className="d-flex align-items-center">
@@ -2822,9 +2618,21 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       />
                                     </Form.Group>
                                     {firstnameError && (
-                                      <div style={{ marginTop:"-15px",color: "red" }}>
+                                      <div
+                                        style={{
+                                          marginTop: "-15px",
+                                          color: "red",
+                                        }}
+                                      >
                                         {" "}
-                                        <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }} />
+                                        <MdError
+                                          style={{
+                                            fontSize: "12px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            marginRight: "5px",
+                                          }}
+                                        />
                                         <span
                                           style={{
                                             fontSize: "13px",
@@ -2848,7 +2656,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       >
                                         Last Name{" "}
-                                       
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -2865,15 +2672,13 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           border: "1px solid #D9D9D9",
                                           height: 50,
                                           borderRadius: 8,
-                                          marginTop:6
+                                          marginTop: 6,
                                         }}
                                       />
                                     </Form.Group>
                                   </div>
 
-                                  <div
-                                    className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2"
-                                  >
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                                     <Form.Group>
                                       <Form.Label
                                         style={{
@@ -2899,7 +2704,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         <Form.Select
                                           value={countryCode}
                                           id="vendor-select-pg"
-                                          // onChange={handleCountryCodeChange}
                                           style={{
                                             border: "1px solid #D9D9D9",
                                             borderRadius: "8px 0 0 8px",
@@ -2914,8 +2718,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                             paddingRight: 10,
                                           }}
                                         >
-                                         
-
                                           <option> +{countryCode}</option>
                                         </Form.Select>
                                         <Form.Control
@@ -2948,8 +2750,20 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       ></p>
                                       {phoneError && (
-                                        <div style={{ marginTop:"-15px",color: "red" }}>
-                                          <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }}/>
+                                        <div
+                                          style={{
+                                            marginTop: "-15px",
+                                            color: "red",
+                                          }}
+                                        >
+                                          <MdError
+                                            style={{
+                                              fontSize: "12px",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              marginRight: "5px",
+                                            }}
+                                          />
                                           <span
                                             style={{
                                               fontSize: "13px",
@@ -2960,13 +2774,24 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           >
                                             {phoneError}
                                           </span>
-                                         
                                         </div>
                                       )}
-                                     
+
                                       {phoneErrorMessage && (
-                                        <div style={{ marginTop:"-15px",color: "red" }}>
-                                          <MdError style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500,marginRight:"5px" }}/>
+                                        <div
+                                          style={{
+                                            marginTop: "-15px",
+                                            color: "red",
+                                          }}
+                                        >
+                                          <MdError
+                                            style={{
+                                              fontSize: "12px",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                              marginRight: "5px",
+                                            }}
+                                          />
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -2992,7 +2817,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       >
                                         Email ID{" "}
-                                       
                                       </Form.Label>
                                       <FormControl
                                         type="text"
@@ -3000,7 +2824,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         placeholder="Enter email address"
                                         value={Email}
                                         onChange={(e) => handleEmail(e)}
-                                        // style={bottomBorderStyle}
                                         style={{
                                           fontSize: 16,
                                           color: "#4B4B4B",
@@ -3010,13 +2833,18 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           border: "1px solid #D9D9D9",
                                           height: 50,
                                           borderRadius: 8,
-                                          marginTop:6
+                                          marginTop: 6,
                                         }}
                                       />
 
                                       {emailError && (
                                         <div style={{ color: "red" }}>
-                                          <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
+                                          <MdError
+                                            style={{
+                                              marginRight: "5px",
+                                              fontSize: "12px",
+                                            }}
+                                          />
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -3029,10 +2857,15 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           </span>
                                         </div>
                                       )}
-                                      
+
                                       {emailErrorMessage && (
                                         <div style={{ color: "red" }}>
-                                          <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
+                                          <MdError
+                                            style={{
+                                              marginRight: "5px",
+                                              fontSize: "12px",
+                                            }}
+                                          />
                                           <span
                                             style={{
                                               fontSize: "12px",
@@ -3048,304 +2881,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Group>
                                   </div>
 
-                                   
-                                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                                                    <Form.Group className="">
-                                                                      <Form.Label
-                                                                        style={{
-                                                                          fontSize: 14,
-                                                                          color: "#222222",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                        }}
-                                                                      >
-                                                                        Flat , House no , Building , Company , Apartment {" "}
-                                                                      </Form.Label>
-                                                                      <FormControl
-                                                                        type="text"
-                                                                        id="form-controls"
-                                                                        placeholder="Enter House No"
-                                                                        value={house_no}
-                                                                        onChange={(e) => handleHouseNo(e)}
-                                                                        style={{
-                                                                          fontSize: 16,
-                                                                          color: "#4B4B4B",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                          boxShadow: "none",
-                                                                          border: "1px solid #D9D9D9",
-                                                                          height: 50,
-                                                                          borderRadius: 8,
-                                                                        }}
-                                                                      />
-                                                                    </Form.Group>
-                                                                    {house_noError && (
-                                                                      <div style={{ color: "red"}}>
-                                                                        <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                                        <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                                                                      </div>
-                                                                    )}
-                                                                  </div>
-                                                      
-                                                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                                                    <Form.Group className="">
-                                                                      <Form.Label
-                                                                        style={{
-                                                                          fontSize: 14,
-                                                                          color: "#222222",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                        }}
-                                                                      >
-                                                                        Area , Street , Sector , Village{" "}
-                                                                      </Form.Label>
-                                                                      <FormControl
-                                                                        type="text"
-                                                                        id="form-controls"
-                                                                        placeholder="Enter Street"
-                                                                        value={street}
-                                                                        onChange={(e) => handleStreetName(e)}
-                                                                        style={{
-                                                                          fontSize: 16,
-                                                                          color: "#4B4B4B",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                          boxShadow: "none",
-                                                                          border: "1px solid #D9D9D9",
-                                                                          height: 50,
-                                                                          borderRadius: 8,
-                                                                        }}
-                                                                      />
-                                                                    </Form.Group>
-                                                                    {streetError && (
-                                                                      <div style={{ color: "red"}}>
-                                                                        <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                                        <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                                                                      </div>
-                                                                    )}
-                                                                  </div>
-                                                      
-                                                                  <div className="col-lg-6 col-md-6S col-sm-12 col-xs-12 mb-1">
-                                                                    <Form.Group className="">
-                                                                      <Form.Label
-                                                                        style={{
-                                                                          fontSize: 14,
-                                                                          color: "#222222",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                        }}
-                                                                      >
-                                                                        Landmark{" "}
-                                                                      </Form.Label>
-                                                                      <FormControl
-                                                                        type="text"
-                                                                        id="form-controls"
-                                                                        placeholder="E.g , near appollo hospital"
-                                                                        value={landmark}
-                                                                        onChange={(e) => handleLandmark(e)}
-                                                                        style={{
-                                                                          fontSize: 16,
-                                                                          color: "#4B4B4B",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                          boxShadow: "none",
-                                                                          border: "1px solid #D9D9D9",
-                                                                          height: 50,
-                                                                          borderRadius: 8,
-                                                                        }}
-                                                                      />
-                                                                    </Form.Group>
-                                                                    {landmarkError && (
-                                                                      <div style={{ color: "red"}}>
-                                                                        <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                                        <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                                                                      </div>
-                                                                    )}
-                                                                  </div>
-                                                      
-                                                                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                                      <Form.Group
-                                                                                                     className="mb-3"
-                                                                                               controlId="exampleForm.ControlInput1"
-                                                                                                                                          >
-                                                                                                                                            <Form.Label
-                                                                                                                                              style={{
-                                                                                                                                                fontSize: 14,
-                                                                                                                                                color: "#222222",
-                                                                                                                                                fontFamily: "Gilroy",
-                                                                                                                                                fontWeight: 500,
-                                                                                                                                              }}
-                                                                                                                                            >
-                                                                                                                                              Pincode
-                                                                                                                                              <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                                                                                                                                            </Form.Label>
-                                                                                                                                            <Form.Control
-                                                                                                                                              value={pincode}
-                                                                                                                                              onChange={(e) => handlePinCodeChange(e)}
-                                                                                                                                              type="tel"
-                                                                                                                                              maxLength={6}
-                                                                                                                                              inputMode="numeric" 
-                                                                                                                                              pattern="[0-9]*" 
-                                                                                                                                              placeholder="Enter Pincode"
-                                                                                                                                              style={{
-                                                                                                                                                fontSize: 16,
-                                                                                                                                                color: "#4B4B4B",
-                                                                                                                                                fontFamily: "Gilroy",
-                                                                                                                                                fontWeight: pincode ? 600 : 500,
-                                                                                                                                                boxShadow: "none",
-                                                                                                                                                border: "1px solid #D9D9D9",
-                                                                                                                                                height: 50,
-                                                                                                                                                borderRadius: 8,
-                                                                                                                                              }}
-                                                                                                                                            />
-                                                                                                                                            {pincodeError && (
-                                                                                                                                              <div className="d-flex align-items-center p-1 mb-2">
-                                                                                                                                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                                                                                                                <label
-                                                                                                                                                  className="mb-0"
-                                                                                                                                                  style={{
-                                                                                                                                                    color: "red",
-                                                                                                                                                    fontSize: "12px",
-                                                                                                                                                    fontFamily: "Gilroy",
-                                                                                                                                                    fontWeight: 500,
-                                                                                                                                                  }}
-                                                                                                                                                >
-                                                                                                                                                  {pincodeError}
-                                                                                                                                                </label>
-                                                                                                                                              </div>
-                                                                                                                                            )}
-                                                                                                                          
-                                                                                                                          
-                                                                                                                                          </Form.Group>
-                                                                                                                                        </div>
-                                                      
-                                                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                                                    <Form.Group className="">
-                                                                      <Form.Label
-                                                                        style={{
-                                                                          fontSize: 14,
-                                                                          color: "#222222",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                        }}
-                                                                      >
-                                                                        Town/City{" "}
-                                                                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                                                      </Form.Label>
-                                                                      <FormControl
-                                                                        type="text"
-                                                                        id="form-controls"
-                                                                        placeholder="Enter City"
-                                                                        value={city}
-                                                                        onChange={(e) => handleCity(e)}
-                                                                        style={{
-                                                                          fontSize: 16,
-                                                                          color: "#4B4B4B",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                          boxShadow: "none",
-                                                                          border: "1px solid #D9D9D9",
-                                                                          height: 50,
-                                                                          borderRadius: 8,
-                                                                        }}
-                                                                      />
-                                                                    </Form.Group>
-                                                                    {cityError && (
-                                                                      <div style={{ color: "red" }}>
-                                                                        <MdError style={{fontSize: '13px',marginRight:"5px"}} />
-                                                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                                                                      </div>
-                                                                    )}
-                                                                  </div>
-                                                      
-                                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                                                   <Form.Label
-                                                                     style={{
-                                                                       fontFamily: "Gilroy",
-                                                                       fontSize: 14,
-                                                                       fontWeight: 500,
-                                                                       color: "#222",
-                                                                       fontStyle: "normal",
-                                                                       lineHeight: "normal",
-                                                                     }}
-                                                                   >
-                                                                     State
-                                                                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                                                   </Form.Label>
-                                                               
-                                                                   <Select
-                                                                     options={indianStates}
-                                                                     onChange={(selectedOption) => {
-                                                                       setStateName(selectedOption?.value);
-                                                                     }}
-                                                                     value={
-                                                                       state_name ? { value: state_name, label: state_name } : null
-                                                                     }
-                                                                     placeholder="Select State"
-                                                                     classNamePrefix="custom"
-                                                                     menuPlacement="auto"
-                                                                     noOptionsMessage={() => "No state available"}
-                                                                     styles={{
-                                                                       control: (base) => ({
-                                                                         ...base,
-                                                                         height: "50px",
-                                                                         border: "1px solid #D9D9D9",
-                                                                         borderRadius: "8px",
-                                                                         fontSize: "16px",
-                                                                         color: "#4B4B4B",
-                                                                         fontFamily: "Gilroy",
-                                                                         fontWeight: state_name ? 600 : 500,
-                                                                         boxShadow: "none",
-                                                                       }),
-                                                                       menu: (base) => ({
-                                                                         ...base,
-                                                                         backgroundColor: "#f8f9fa",
-                                                                         border: "1px solid #ced4da",
-                                                                       }),
-                                                                       menuList: (base) => ({
-                                                                         ...base,
-                                                                         backgroundColor: "#f8f9fa",
-                                                                         maxHeight: "120px",
-                                                                         padding: 0,
-                                                                         scrollbarWidth: "thin",
-                                                                         overflowY: "auto",
-                                                                       }),
-                                                                       placeholder: (base) => ({
-                                                                         ...base,
-                                                                         color: "#555",
-                                                                       }),
-                                                                       dropdownIndicator: (base) => ({
-                                                                         ...base,
-                                                                         color: "#555",
-                                                                         cursor: "pointer",
-                                                                       }),
-                                                                       indicatorSeparator: () => ({
-                                                                         display: "none",
-                                                                       }),
-                                                                       option: (base, state) => ({
-                                                                         ...base,
-                                                                         cursor: "pointer",
-                                                                         backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                                                         color: "#000",
-                                                                       }),
-                                                                     }}
-                                                                   />
-                                                                 </Form.Group>
-                                                                 {!state_name && state_nameError && (
-  <div style={{ color: "red" }}>
-    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {state_nameError}
-    </span>
-  </div>
-)}
-
-                                                               </div>
-
-
-                                  {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <Form.Group className="mb-3">
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                                    <Form.Group className="">
                                       <Form.Label
                                         style={{
                                           fontSize: 14,
@@ -3354,16 +2891,15 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Address{" "}
-                                     
+                                        Flat , House no , Building , Company ,
+                                        Apartment{" "}
                                       </Form.Label>
                                       <FormControl
                                         type="text"
                                         id="form-controls"
-                                        value={Address}
-                                        placeholder="Enter address"
-                                        onChange={(e) => handleAddress(e)}
-                                        // style={bottomBorderStyle}
+                                        placeholder="Enter House No"
+                                        value={house_no}
+                                        onChange={(e) => handleHouseNo(e)}
                                         style={{
                                           fontSize: 16,
                                           color: "#4B4B4B",
@@ -3376,71 +2912,386 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         }}
                                       />
                                     </Form.Group>
-                                    {addressError && (
+                                    {house_noError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError />
-                                        {addressError}
+                                        <MdError
+                                          style={{
+                                            fontFamily: "Gilroy",
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                            marginBottom: "1px",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {house_noError}
+                                        </span>
                                       </div>
                                     )}
-                                  </div> */}
+                                  </div>
 
-                                  {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <Form.Label
-                                      style={{
-                                        fontSize: 14,
-                                        color: "#222222",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      Paying Guest{" "}
-                                      <span
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                                    <Form.Group className="">
+                                      <Form.Label
                                         style={{
-                                          color: "red",
-                                          fontSize: "20px",
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
                                         }}
                                       >
-                                        {" "}
-                                        *{" "}
-                                      </span>
-                                    </Form.Label>
-                                    <Form.Select
-                                      aria-label="Default select example"
-                                      className="border"
-                                      // style={{ backgroundColor: "#f8f9fa", padding: 10, border: "none", boxShadow: "none", width: "100%", fontSize: 12, fontWeight: 700, textTransform: "capitalize" }}
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
-                                      }}
-                                      value={hostel_Id}
-                                      onChange={(e) => handleHostelId(e)}
-                                    >
-                                      <option>Select a PG</option>
-                                      {state.UsersList?.hostelList?.map(
-                                        (item) => (
-                                          <option key={item.id} value={item.id}>
-                                            {item.Name}
-                                          </option>
-                                        )
-                                      )}
-                                    </Form.Select>
-                                    {hostelIdError && (
+                                        Area , Street , Sector , Village{" "}
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="Enter Street"
+                                        value={street}
+                                        onChange={(e) => handleStreetName(e)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
+                                    {streetError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError />
-                                        {hostelIdError}
+                                        <MdError
+                                          style={{
+                                            fontFamily: "Gilroy",
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                            marginBottom: "1px",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {streetError}
+                                        </span>
                                       </div>
                                     )}
-                                  </div> */}
+                                  </div>
+
+                                  <div className="col-lg-6 col-md-6S col-sm-12 col-xs-12 mb-1">
+                                    <Form.Group className="">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Landmark{" "}
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="E.g , near appollo hospital"
+                                        value={landmark}
+                                        onChange={(e) => handleLandmark(e)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
+                                    {landmarkError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError
+                                          style={{
+                                            fontFamily: "Gilroy",
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                            marginBottom: "1px",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {landmarkError}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Pincode
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          *
+                                        </span>
+                                      </Form.Label>
+                                      <Form.Control
+                                        value={pincode}
+                                        onChange={(e) => handlePinCodeChange(e)}
+                                        type="tel"
+                                        maxLength={6}
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
+                                        placeholder="Enter Pincode"
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: pincode ? 600 : 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                      {pincodeError && (
+                                        <div className="d-flex align-items-center p-1 mb-2">
+                                          <MdError
+                                            style={{
+                                              color: "red",
+                                              marginRight: "5px",
+                                              fontSize: "13px",
+                                              marginBottom: "2px",
+                                            }}
+                                          />
+                                          <label
+                                            className="mb-0"
+                                            style={{
+                                              color: "red",
+                                              fontSize: "12px",
+                                              fontFamily: "Gilroy",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            {pincodeError}
+                                          </label>
+                                        </div>
+                                      )}
+                                    </Form.Group>
+                                  </div>
+
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                                    <Form.Group className="">
+                                      <Form.Label
+                                        style={{
+                                          fontSize: 14,
+                                          color: "#222222",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        Town/City{" "}
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+                                      <FormControl
+                                        type="text"
+                                        id="form-controls"
+                                        placeholder="Enter City"
+                                        value={city}
+                                        onChange={(e) => handleCity(e)}
+                                        style={{
+                                          fontSize: 16,
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          border: "1px solid #D9D9D9",
+                                          height: 50,
+                                          borderRadius: 8,
+                                        }}
+                                      />
+                                    </Form.Group>
+                                    {cityError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError
+                                          style={{
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {cityError}{" "}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput5"
+                                    >
+                                      <Form.Label
+                                        style={{
+                                          fontFamily: "Gilroy",
+                                          fontSize: 14,
+                                          fontWeight: 500,
+                                          color: "#222",
+                                          fontStyle: "normal",
+                                          lineHeight: "normal",
+                                        }}
+                                      >
+                                        State
+                                        <span
+                                          style={{
+                                            color: "red",
+                                            fontSize: "20px",
+                                          }}
+                                        >
+                                          {" "}
+                                          *{" "}
+                                        </span>
+                                      </Form.Label>
+
+                                      <Select
+                                        options={indianStates}
+                                        onChange={(selectedOption) => {
+                                          setStateName(selectedOption?.value);
+                                        }}
+                                        value={
+                                          state_name
+                                            ? {
+                                                value: state_name,
+                                                label: state_name,
+                                              }
+                                            : null
+                                        }
+                                        placeholder="Select State"
+                                        classNamePrefix="custom"
+                                        menuPlacement="auto"
+                                        noOptionsMessage={() =>
+                                          "No state available"
+                                        }
+                                        styles={{
+                                          control: (base) => ({
+                                            ...base,
+                                            height: "50px",
+                                            border: "1px solid #D9D9D9",
+                                            borderRadius: "8px",
+                                            fontSize: "16px",
+                                            color: "#4B4B4B",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: state_name ? 600 : 500,
+                                            boxShadow: "none",
+                                          }),
+                                          menu: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            border: "1px solid #ced4da",
+                                          }),
+                                          menuList: (base) => ({
+                                            ...base,
+                                            backgroundColor: "#f8f9fa",
+                                            maxHeight: "120px",
+                                            padding: 0,
+                                            scrollbarWidth: "thin",
+                                            overflowY: "auto",
+                                          }),
+                                          placeholder: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                          }),
+                                          dropdownIndicator: (base) => ({
+                                            ...base,
+                                            color: "#555",
+                                            cursor: "pointer",
+                                          }),
+                                          indicatorSeparator: () => ({
+                                            display: "none",
+                                          }),
+                                          option: (base, state) => ({
+                                            ...base,
+                                            cursor: "pointer",
+                                            backgroundColor: state.isFocused
+                                              ? "#f0f0f0"
+                                              : "white",
+                                            color: "#000",
+                                          }),
+                                        }}
+                                      />
+                                    </Form.Group>
+                                    {!state_name && state_nameError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError
+                                          style={{
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                          }}
+                                        />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {state_nameError}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
                                 {formError && (
-                                  <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
-                                    <MdError style={{marginRight:"5px"}}/>
+                                  <div
+                                    className="d-flex align-items-center justify-content-center"
+                                    style={{ color: "red" }}
+                                  >
+                                    <MdError style={{ marginRight: "5px" }} />
                                     <span
                                       style={{
                                         fontSize: "14px",
@@ -3466,7 +3317,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   }}
                                   onClick={handleSaveUserlist}
                                 >
-                                  {/* {props.edit === 'Edit' ? "Edit Customer" : "Add an customer"} */}
                                   Edit Customer
                                 </Button>
                               </div>
@@ -3480,7 +3330,8 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
 
                                 <Modal.Header
                                   style={{
-                                    position: "relative",paddingTop:"-0px"
+                                    position: "relative",
+                                    paddingTop: "-0px",
                                   }}
                                 >
                                   <div
@@ -3492,39 +3343,13 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   >
                                     Edit Assign bed
                                   </div>
-                                  {/* <button
-                                    type="button"
-                                    className="close"
-                                    aria-label="Close"
+
+                                  <CloseCircle
+                                    size="24"
+                                    color="#000"
                                     onClick={handleCloseEditcustomer}
-                                    style={{
-                                      position: "absolute",
-                                      right: "10px",
-                                      top: "16px",
-                                      border: "1px solid black",
-                                      background: "transparent",
-                                      cursor: "pointer",
-                                      padding: "0",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      width: "25px",
-                                      height: "25px",
-                                      borderRadius: "50%",
-                                    }}
-                                  >
-                                    <span
-                                      aria-hidden="true"
-                                      style={{
-                                        fontSize: "30px",
-                                        paddingBottom: "6px",
-                                      }}
-                                    >
-                                      &times;
-                                    </span>
-                                  </button> */}
-                                  <CloseCircle size="24" color="#000" onClick={handleCloseEditcustomer} 
-            style={{ cursor: 'pointer' }}/>
+                                    style={{ cursor: "pointer" }}
+                                  />
                                 </Modal.Header>
 
                                 <div className="row mb-3">
@@ -3547,111 +3372,87 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         *{" "}
                                       </span>
                                     </Form.Label>
-                                    {/* <Form.Select
-                                      aria-label="Default select example"
-                                      placeholder="Select no. of floor"
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
+
+                                    <Select
+                                      options={
+                                        state.UsersList?.hosteldetailslist?.map(
+                                          (u) => ({
+                                            value: u.floor_id,
+                                            label: u.floor_name,
+                                          })
+                                        ) || []
+                                      }
+                                      onChange={handleFloor}
+                                      value={
+                                        state.UsersList?.hosteldetailslist
+                                          ?.map((u) => ({
+                                            value: u.floor_id,
+                                            label: u.floor_name,
+                                          }))
+                                          .find(
+                                            (option) =>
+                                              String(option.value) ===
+                                              String(Floor)
+                                          ) || null
+                                      }
+                                      placeholder="Select a Floor"
+                                      classNamePrefix="custom"
+                                      menuPlacement="auto"
+                                      styles={{
+                                        control: (base) => ({
+                                          ...base,
+                                          height: "50px",
+                                          border: "1px solid #D9D9D9",
+                                          borderRadius: "8px",
+                                          fontSize: "16px",
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          paddingLeft: "10px",
+                                        }),
+                                        menu: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          border: "1px solid #ced4da",
+                                        }),
+                                        menuList: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          maxHeight: "120px",
+                                          padding: 0,
+                                          scrollbarWidth: "thin",
+                                          overflowY: "auto",
+                                        }),
+                                        placeholder: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        dropdownIndicator: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                          display: "inline-block",
+                                          fill: "currentColor",
+                                          lineHeight: 1,
+                                          stroke: "currentColor",
+                                          strokeWidth: 0,
+                                          cursor: "pointer",
+                                        }),
+                                        indicatorSeparator: () => ({
+                                          display: "none",
+                                        }),
                                       }}
-                                      id="form-selects"
-                                      className="border"
-                                      value={Floor}
-                                      onChange={(e) => handleFloor(e)}
-                                    >
-                                      <option>Selected Floor</option>
-                                      {state.UsersList?.hosteldetailslist?.map(
-                                        (u) => (
-                                          <option
-                                            key={u.floor_id}
-                                            value={u.floor_id}
-                                          >
-                                            {u.floor_name}
-                                          </option>
-                                        )
-                                      )}
-                                    </Form.Select> */}
-                                  
+                                    />
 
-                                  <Select
-  options={
-    state.UsersList?.hosteldetailslist?.map((u) => ({
-      value: u.floor_id,
-      label: u.floor_name,
-    })) || []
-  }
-  onChange={handleFloor}
-  value={
-    state.UsersList?.hosteldetailslist
-      ?.map((u) => ({
-        value: u.floor_id,
-        label: u.floor_name,
-      }))
-      .find((option) => String(option.value) === String(Floor)) || null
-  }
-  placeholder="Select a Floor"
-  classNamePrefix="custom"
-  menuPlacement="auto"
-  styles={{
-    control: (base) => ({
-      ...base,
-      height: "50px",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-      paddingLeft: "10px",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      display: "inline-block",
-      fill: "currentColor",
-      lineHeight: 1,
-      stroke: "currentColor",
-      strokeWidth: 0,
-      cursor:"pointer"
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  }}
-/>
-
-
-
-
-
-                                    
                                     {floorError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
+                                        <MdError
+                                          style={{
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                            marginBottom: "2px",
+                                          }}
+                                        />
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3685,109 +3486,89 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         *{" "}
                                       </span>
                                     </Form.Label>
-                                    {/* <Form.Select
-                                      aria-label="Default select example"
-                                      placeholder="Select no. of rooms"
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
-                                      }}
-                                      value={RoomId}
-                                      className="border"
-                                      id="form-selects"
-                                      onChange={(e) => handleRooms(e)}
-                                    >
-                                      <option>Selected Room</option>
-                                  
 
-                                      {state.UsersList?.roomdetails &&
-                                        state.UsersList.roomdetails.map(
-                                          (item) => (
-                                            <option
-                                              key={item.Room_Id}
-                                              value={item.Room_Id}
-                                            >
-                                              {item.Room_Name}
-                                            </option>
-                                          )
-                                        )}
-                                    </Form.Select> */}
                                     <Select
-  options={
-    state.UsersList?.roomdetails?.map((item) => ({
-      value: item.Room_Id,
-      label: item.Room_Name,
-    })) || []
-  }
-  onChange={handleRooms}
-  value={
-    state.UsersList?.roomdetails?.find((option) => option.Room_Id === RoomId)
-      ? {
-          value: RoomId,
-          label: state.UsersList.roomdetails.find(
-            (option) => option.Room_Id === RoomId
-          )?.Room_Name,
-        }
-      : null
-  }
-  placeholder="Select a Room"
-  classNamePrefix="custom"
-  menuPlacement="auto"
-  styles={{
-    control: (base) => ({
-      ...base,
-      height: "50px",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-      paddingLeft: "10px",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      display: "inline-block",
-      fill: "currentColor",
-      lineHeight: 1,
-      stroke: "currentColor",
-      strokeWidth: 0,
-      cursor:"pointer"
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  }}
-/>
+                                      options={
+                                        state.UsersList?.roomdetails?.map(
+                                          (item) => ({
+                                            value: item.Room_Id,
+                                            label: item.Room_Name,
+                                          })
+                                        ) || []
+                                      }
+                                      onChange={handleRooms}
+                                      value={
+                                        state.UsersList?.roomdetails?.find(
+                                          (option) => option.Room_Id === RoomId
+                                        )
+                                          ? {
+                                              value: RoomId,
+                                              label:
+                                                state.UsersList.roomdetails.find(
+                                                  (option) =>
+                                                    option.Room_Id === RoomId
+                                                )?.Room_Name,
+                                            }
+                                          : null
+                                      }
+                                      placeholder="Select a Room"
+                                      classNamePrefix="custom"
+                                      menuPlacement="auto"
+                                      styles={{
+                                        control: (base) => ({
+                                          ...base,
+                                          height: "50px",
+                                          border: "1px solid #D9D9D9",
+                                          borderRadius: "8px",
+                                          fontSize: "16px",
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          paddingLeft: "10px",
+                                        }),
+                                        menu: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          border: "1px solid #ced4da",
+                                        }),
+                                        menuList: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          maxHeight: "120px",
+                                          padding: 0,
+                                          scrollbarWidth: "thin",
+                                          overflowY: "auto",
+                                        }),
+                                        placeholder: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        dropdownIndicator: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                          display: "inline-block",
+                                          fill: "currentColor",
+                                          lineHeight: 1,
+                                          stroke: "currentColor",
+                                          strokeWidth: 0,
+                                          cursor: "pointer",
+                                        }),
+                                        indicatorSeparator: () => ({
+                                          display: "none",
+                                        }),
+                                      }}
+                                    />
 
                                     {roomError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
+                                        <MdError
+                                          style={{
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                            marginBottom: "2px",
+                                          }}
+                                        />
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3821,118 +3602,77 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                         *{" "}
                                       </span>
                                     </Form.Label>
-                                    {/* <Form.Select
-                                      aria-label="Default select example"
-                                      style={{
-                                        fontSize: 16,
-                                        color: "#4B4B4B",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                        boxShadow: "none",
-                                        border: "1px solid #D9D9D9",
-                                        height: 50,
-                                        borderRadius: 8,
+
+                                    <Select
+                                      options={bedOptions}
+                                      value={bedOptions.find(
+                                        (opt) => opt.value === BedId
+                                      )}
+                                      onChange={(selectedOption) =>
+                                        handleBed({
+                                          target: {
+                                            value: selectedOption.value,
+                                          },
+                                        })
+                                      }
+                                      placeholder="Select a Bed"
+                                      classNamePrefix="custom"
+                                      menuPlacement="auto"
+                                      styles={{
+                                        control: (base) => ({
+                                          ...base,
+                                          height: "50px",
+                                          border: "1px solid #D9D9D9",
+                                          borderRadius: "8px",
+                                          fontSize: "16px",
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          paddingLeft: "10px",
+                                        }),
+                                        menu: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          border: "1px solid #ced4da",
+                                        }),
+                                        menuList: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          maxHeight: "120px",
+                                          padding: 0,
+                                          scrollbarWidth: "thin",
+                                          overflowY: "auto",
+                                        }),
+                                        placeholder: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        dropdownIndicator: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                          display: "inline-block",
+                                          fill: "currentColor",
+                                          lineHeight: 1,
+                                          stroke: "currentColor",
+                                          strokeWidth: 0,
+                                          cursor: "pointer",
+                                        }),
+                                        indicatorSeparator: () => ({
+                                          display: "none",
+                                        }),
                                       }}
-                                      value={BedId}
-                                      className="border"
-                                      placeholder="Select a bed"
-                                      id="form-selects"
-                                      onChange={(e) => handleBed(e)}
-                                    >
-                                      <option>Select a Bed</option>
-
-                                      {Editbed === "editbeddet" &&
-                                        Bednum &&
-                                        Bednum[0]?.Bed && (
-                                          <option
-                                            value={Bednum[0].hstl_Bed}
-                                            selected
-                                          >
-                                            {Bednum[0].Bed}
-                                          </option>
-                                        )}
-
-                                      {state.UsersList?.bednumberdetails
-                                        ?.bed_details?.length > 0 &&
-                                        state.UsersList.bednumberdetails.bed_details.map(
-                                          (item) =>
-                                            item.bed_no &&
-                                            !item.bed_no !== "undefined" &&
-                                            item.bed_no !== "0" &&
-                                            item.bed_no !== "" &&
-                                            item.bed_no !== null && (
-                                              <option
-                                                key={item.id}
-                                                value={item.id}
-                                              >
-                                                {item.bed_no}
-                                              </option>
-                                            )
-                                        )}
-                                    </Form.Select> */}
-                                  
-                                  <Select
-  options={bedOptions}
-  value={bedOptions.find((opt) => opt.value === BedId)}
-  onChange={(selectedOption) => handleBed({ target: { value: selectedOption.value } })}
-  
-  placeholder="Select a Bed"
-  classNamePrefix="custom"
-  menuPlacement="auto"
-  styles={{
-    control: (base) => ({
-      ...base,
-      height: "50px",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-      paddingLeft: "10px",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      display: "inline-block",
-      fill: "currentColor",
-      lineHeight: 1,
-      stroke: "currentColor",
-      strokeWidth: 0,
-      cursor:"pointer"
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  }}
-/>
-
-
-
-
-
+                                    />
 
                                     {bedError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
+                                        <MdError
+                                          style={{
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                            marginBottom: "2px",
+                                          }}
+                                        />
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -3948,9 +3688,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                   </div>
 
                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <Form.Group
-                                      className="mb-2"
-                                    >
+                                    <Form.Group className="mb-2">
                                       <Form.Label
                                         style={{
                                           fontSize: 14,
@@ -3969,27 +3707,56 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                           *
                                         </span>
                                       </Form.Label>
-                                       <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
+                                      <div
+                                        className="datepicker-wrapper"
+                                        style={{
+                                          position: "relative",
+                                          width: "100%",
+                                        }}
+                                      >
                                         <DatePicker
-                                          style={{ width: "100%", height: 48,cursor:"pointer" }}
+                                          style={{
+                                            width: "100%",
+                                            height: 48,
+                                            cursor: "pointer",
+                                          }}
                                           format="DD/MM/YYYY"
                                           placeholder="DD/MM/YYYY"
-                                          value={selectedDate ? dayjs(selectedDate) : null}
+                                          value={
+                                            selectedDate
+                                              ? dayjs(selectedDate)
+                                              : null
+                                          }
                                           onChange={(date) => {
-                                            setDateError('');
-                                            setFormError("")
-                                            setSelectedDate(date ? date.toDate() : null);
+                                            setDateError("");
+                                            setFormError("");
+                                            setSelectedDate(
+                                              date ? date.toDate() : null
+                                            );
                                           }}
                                           getPopupContainer={(triggerNode) =>
-                                            triggerNode.closest('.datepicker-wrapper')
+                                            triggerNode.closest(
+                                              ".datepicker-wrapper"
+                                            )
                                           }
                                         />
                                       </div>
                                     </Form.Group>
 
                                     {dateError && (
-                                      <div style={{ color: "red",marginTop:"-7px" }}>
-                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
+                                      <div
+                                        style={{
+                                          color: "red",
+                                          marginTop: "-7px",
+                                        }}
+                                      >
+                                        <MdError
+                                          style={{
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                            marginBottom: "2px",
+                                          }}
+                                        />
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -4045,7 +3812,13 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     </Form.Group>
                                     {advanceAmountError && (
                                       <div style={{ color: "red" }}>
-                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
+                                        <MdError
+                                          style={{
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                            marginBottom: "2px",
+                                          }}
+                                        />
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -4098,8 +3871,19 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                       />
                                     </Form.Group>
                                     {roomrentError && (
-                                      <div style={{ color: "red",marginTop:"-15px" }}>
-                                        <MdError style={{fontSize:"13px",marginRight:"5px",marginBottom:"2px"}}/>
+                                      <div
+                                        style={{
+                                          color: "red",
+                                          marginTop: "-15px",
+                                        }}
+                                      >
+                                        <MdError
+                                          style={{
+                                            fontSize: "13px",
+                                            marginRight: "5px",
+                                            marginBottom: "2px",
+                                          }}
+                                        />
                                         <span
                                           style={{
                                             fontSize: "12px",
@@ -4114,12 +3898,32 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     )}
                                   </div>
                                 </div>
-                               {formError && (
-                                                        <div className="" style={{ color: "red",paddingBottom:"8px",textAlign:"center"}}>
-                                                          <MdError style={{fontSize: '14px',marginRight:"6px" }}/>
-                                                          <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
-                                                        </div>
-                                                      )}
+                                {formError && (
+                                  <div
+                                    className=""
+                                    style={{
+                                      color: "red",
+                                      paddingBottom: "8px",
+                                      textAlign: "center",
+                                    }}
+                                  >
+                                    <MdError
+                                      style={{
+                                        fontSize: "14px",
+                                        marginRight: "6px",
+                                      }}
+                                    />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      {formError}
+                                    </span>
+                                  </div>
+                                )}
                                 <Button
                                   className="w-100"
                                   style={{
@@ -4129,7 +3933,7 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                                     borderRadius: 12,
                                     fontSize: 16,
                                     fontFamily: "Montserrat",
-                                    marginTop:"15px !importent"
+                                    marginTop: "15px !importent",
                                   }}
                                   onClick={handleSaveUserlistAddUser}
                                 >
@@ -4228,318 +4032,258 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
                         </Button>
                       </Modal.Footer>
                     </Modal>
-                    {/* <Modal
-      show={generateForm}
-      onHide={handleCloseGenerateFormShow}
-      centered
-      backdrop="static"
-      style={{
-        width: 388,
-        height: 300,
-        marginLeft: "500px",
-        marginTop: "200px",
-      }}
-    >
-      <Modal.Header style={{ borderBottom: "none" }}>
-        <Modal.Title
-          style={{
-            fontSize: "18px",
-            fontFamily: "Gilroy",
-            textAlign: "center",
-            fontWeight: 600,
-            color: "#222222",
-            flex: 1,
-          }}
-        >
-          Bill Generate?
-        </Modal.Title>
-      </Modal.Header>
 
-      <Modal.Body
-        style={{
-          fontSize: 14,
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-          color: "#646464",
-          textAlign: "center",
-        }}
-      >
-       
-
-        <div style={{ marginBottom: "10px" }}>
-          <label style={{ display: "block", fontSize: 13, marginBottom: 5 }}>Select Date</label>
-          <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
-          <DatePicker
-                                          style={{ width: "100%", height: 48 }}
-                                          format="DD/MM/YYYY"
-                                          placeholder="DD/MM/YYYY"
-                                          value={advanceDate ? dayjs(advanceDate) : null}
-                                          onChange={(date) => {
-                                            setAdvanceDate(date ? date.toDate() : null);
-                                          }}
-                                          getPopupContainer={(triggerNode) =>
-                                            triggerNode.closest('.datepicker-wrapper')
-                                          }
-                                        />
-                                        </div>
-        </div>
-      </Modal.Body>
-
-      <Modal.Footer
-        style={{
-          justifyContent: "center",
-          borderTop: "none",
-          marginTop: "-10px",
-        }}
-      >
-        <Button
-          style={{
-            width: 160,
-            height: 52,
-            borderRadius: 8,
-            padding: "12px 20px",
-            background: "#fff",
-            color: "#1E45E1",
-            border: "1px solid #1E45E1",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-            marginRight: 10,
-          }}
-          onClick={handleCloseGenerateFormShow}
-        >
-          Cancel
-        </Button>
-        <Button
-          style={{
-            width: 160,
-            height: 52,
-            borderRadius: 8,
-            padding: "12px 20px",
-            background: "#1E45E1",
-            color: "#FFFFFF",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-          }}
-          onClick={handleGenerateAdvance}
-        >
-          Generate
-        </Button>
-      </Modal.Footer>
-    </Modal> */}
-
-
-
-
-    <Modal
-            show={generateForm}
-            onHide={handleCloseGenerateFormShow}
-            backdrop="static"
-            centered
-          >
-            <Modal.Dialog
-              style={{
-                maxWidth: 666,
-                paddingRight: "10px",
-                borderRadius: "30px",
-              }}
-              className="m-0 p-0"
-            >
-              <Modal.Body  style={{marginTop:-30}}>
-                <div className="d-flex align-items-center">
-                  
-                    <div className="container">
-                      <div className="row mb-3"></div>
-    
-                      <Modal.Header
-                        style={{ position: "relative" }}
-                      >
-                        <div
-                          style={{
-                            fontSize: 20,
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Generate Advance
-                        </div>
-                        {/* <button
-                          type="button"
-                          className="close"
-                          aria-label="Close"
-                          onClick={handleCloseGenerateFormShow}
-                          style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "16px",
-                            border: "1px solid black",
-                            background: "transparent",
-                            cursor: "pointer",
-                            padding: "0",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "25px",
-                            height: "24px",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <span
-                            aria-hidden="true"
-                            style={{
-                              fontSize: "30px",
-                              paddingBottom: "6px",
-                            }}
-                          >
-                            &times;
-                          </span>
-                        </button> */}
-                        <CloseCircle size="24" color="#000" onClick={handleCloseGenerateFormShow} 
-            style={{ cursor: 'pointer' }}/>
-                      </Modal.Header>
-    
-    
-    
-    
-                      <div className="row mb-3">
-                        
-            
-                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <Form.Group className="mb-2" controlId="checkoutDate">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Invoice Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-              </Form.Label>
-    
-              <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
-          <DatePicker
-                                          style={{ width: "100%", height: 48,cursor: "pointer"}}
-                                          format="DD/MM/YYYY"
-                                          placeholder="DD/MM/YYYY"
-                                          value={advanceDate ? dayjs(advanceDate) : null}
-                                          onChange={(date) => {
-                                            setAdvanceDateError("")
-                                            setAdvanceDate(date ? date.toDate() : null);
-                                            
-                                          }}
-                                          getPopupContainer={(triggerNode) =>
-                                            triggerNode.closest('.datepicker-wrapper')
-                                          }
-                                          dropdownClassName="custom-datepicker-popup"
-                                        />
-                                        </div>
-            </Form.Group>
-            {advanceDateError && (
-                                      <div style={{ color: "red",marginTop:"-7px" }}>
-                                        <MdError style={{fontSize:"13px",marginRight:"5px"}}/>
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {advanceDateError}
-                                        </span>
-                                      </div>
-                                    )}
-           
-          </div>
-          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <Form.Group className="mb-2" controlId="checkoutDate">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Due Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-              </Form.Label>
-    
-              <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
-          <DatePicker
-                                          style={{ width: "100%", height: 48,cursor: "pointer" }}
-                                          format="DD/MM/YYYY"
-                                          placeholder="DD/MM/YYYY"
-                                          value={advanceDueDate ? dayjs(advanceDueDate) : null}
-                                          onChange={(date) => {
-                                            setAdvanceDueDateError("")
-                                            setAdvanceDueDate(date ? date.toDate() : null);
-                                          }}
-                                          getPopupContainer={(triggerNode) =>
-                                            triggerNode.closest('.datepicker-wrapper')
-                                          }
-                                          dropdownClassName="custom-datepicker-popup"
-                                        />
-                                        </div>
-            </Form.Group>
-            {advanceDueDateError && (
-                                      <div style={{ color: "red",marginTop:"-7px" }}>
-                                        <MdError style={{fontSize:"13px",marginRight:"5px"}}/>
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {advanceDueDateError}
-                                        </span>
-                                      </div>
-                                    )}
-           
-          </div>
-
-                      </div>
-                      
-    
-                      <Button
-                        className="w-100"
+                    <Modal
+                      show={generateForm}
+                      onHide={handleCloseGenerateFormShow}
+                      backdrop="static"
+                      centered
+                    >
+                      <Modal.Dialog
                         style={{
-                          backgroundColor: "#1E45E1",
-                          fontWeight: 600,
-                          height: 50,
-                          borderRadius: 12,
-                          fontSize: 16,
-                          fontFamily: "Montserrat",
+                          maxWidth: 666,
+                          paddingRight: "10px",
+                          borderRadius: "30px",
                         }}
-                        onClick={handleGenerateAdvance}
+                        className="m-0 p-0"
                       >
-                      Generate Advance
-                      </Button>
-                    </div>
-                  {/* )} */}
-                </div>
-              </Modal.Body>
-    
-              <Modal.Footer style={{ border: "none" }}></Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
+                        <Modal.Body style={{ marginTop: -30 }}>
+                          <div className="d-flex align-items-center">
+                            <div className="container">
+                              <div className="row mb-3"></div>
+
+                              <Modal.Header style={{ position: "relative" }}>
+                                <div
+                                  style={{
+                                    fontSize: 20,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy",
+                                  }}
+                                >
+                                  Generate Advance
+                                </div>
+
+                                <CloseCircle
+                                  size="24"
+                                  color="#000"
+                                  onClick={handleCloseGenerateFormShow}
+                                  style={{ cursor: "pointer" }}
+                                />
+                              </Modal.Header>
+
+                              <div className="row mb-3">
+                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <Form.Group
+                                    className="mb-2"
+                                    controlId="checkoutDate"
+                                  >
+                                    <Form.Label
+                                      style={{
+                                        fontSize: 14,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      Invoice Date{" "}
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        *
+                                      </span>
+                                    </Form.Label>
+
+                                    <div
+                                      className="datepicker-wrapper"
+                                      style={{
+                                        position: "relative",
+                                        width: "100%",
+                                      }}
+                                    >
+                                      <DatePicker
+                                        style={{
+                                          width: "100%",
+                                          height: 48,
+                                          cursor: "pointer",
+                                        }}
+                                        format="DD/MM/YYYY"
+                                        placeholder="DD/MM/YYYY"
+                                        value={
+                                          advanceDate
+                                            ? dayjs(advanceDate)
+                                            : null
+                                        }
+                                        onChange={(date) => {
+                                          setAdvanceDateError("");
+                                          setAdvanceDate(
+                                            date ? date.toDate() : null
+                                          );
+                                        }}
+                                        getPopupContainer={(triggerNode) =>
+                                          triggerNode.closest(
+                                            ".datepicker-wrapper"
+                                          )
+                                        }
+                                        dropdownClassName="custom-datepicker-popup"
+                                      />
+                                    </div>
+                                  </Form.Group>
+                                  {advanceDateError && (
+                                    <div
+                                      style={{
+                                        color: "red",
+                                        marginTop: "-7px",
+                                      }}
+                                    >
+                                      <MdError
+                                        style={{
+                                          fontSize: "13px",
+                                          marginRight: "5px",
+                                        }}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        {advanceDateError}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                  <Form.Group
+                                    className="mb-2"
+                                    controlId="checkoutDate"
+                                  >
+                                    <Form.Label
+                                      style={{
+                                        fontSize: 14,
+                                        color: "#222222",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      Due Date{" "}
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        *
+                                      </span>
+                                    </Form.Label>
+
+                                    <div
+                                      className="datepicker-wrapper"
+                                      style={{
+                                        position: "relative",
+                                        width: "100%",
+                                      }}
+                                    >
+                                      <DatePicker
+                                        style={{
+                                          width: "100%",
+                                          height: 48,
+                                          cursor: "pointer",
+                                        }}
+                                        format="DD/MM/YYYY"
+                                        placeholder="DD/MM/YYYY"
+                                        value={
+                                          advanceDueDate
+                                            ? dayjs(advanceDueDate)
+                                            : null
+                                        }
+                                        onChange={(date) => {
+                                          setAdvanceDueDateError("");
+                                          setAdvanceDueDate(
+                                            date ? date.toDate() : null
+                                          );
+                                        }}
+                                        getPopupContainer={(triggerNode) =>
+                                          triggerNode.closest(
+                                            ".datepicker-wrapper"
+                                          )
+                                        }
+                                        dropdownClassName="custom-datepicker-popup"
+                                      />
+                                    </div>
+                                  </Form.Group>
+                                  {advanceDueDateError && (
+                                    <div
+                                      style={{
+                                        color: "red",
+                                        marginTop: "-7px",
+                                      }}
+                                    >
+                                      <MdError
+                                        style={{
+                                          fontSize: "13px",
+                                          marginRight: "5px",
+                                        }}
+                                      />
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "red",
+                                          fontFamily: "Gilroy",
+                                          fontWeight: 500,
+                                        }}
+                                      >
+                                        {advanceDueDateError}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              <Button
+                                className="w-100"
+                                style={{
+                                  backgroundColor: "#1E45E1",
+                                  fontWeight: 600,
+                                  height: 50,
+                                  borderRadius: 12,
+                                  fontSize: 16,
+                                  fontFamily: "Montserrat",
+                                }}
+                                onClick={handleGenerateAdvance}
+                              >
+                                Generate Advance
+                              </Button>
+                            </div>
+                            {/* )} */}
+                          </div>
+                        </Modal.Body>
+
+                        <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+                      </Modal.Dialog>
+                    </Modal>
                     <TabPanel value="2">
-                      {/* <UserEb id={props.id} />{" "} */}
-                      <UserEb id={props.id} handleEditRoomItem={handleEditRoomItem} handleEditHostelItem={handleEditHostelItem}
-                      handleDeleteHostelItem={handleDeleteHostelItem}
-                      handleDeleteRoomItem={handleDeleteRoomItem}
+                      <UserEb
+                        id={props.id}
+                        handleEditRoomItem={handleEditRoomItem}
+                        handleEditHostelItem={handleEditHostelItem}
+                        handleDeleteHostelItem={handleDeleteHostelItem}
+                        handleDeleteRoomItem={handleDeleteRoomItem}
                       />
                     </TabPanel>
                     <TabPanel value="3">
-                      <UserListInvoice id={props.id} handleEditItem={handleEditItem} handleDeleteItem={handleDeleteItem} handleAddItem = {handleAddItem}/>
+                      <UserListInvoice
+                        id={props.id}
+                        handleEditItem={handleEditItem}
+                        handleDeleteItem={handleDeleteItem}
+                        handleAddItem={handleAddItem}
+                      />
                     </TabPanel>
 
-                    {/* <TabPanel value="4">
-                      <UserListCompliants id={props.id} />
-                    </TabPanel> */}
                     <TabPanel value="4">
                       <UserListAmenities
                         id={props.id}
@@ -4561,7 +4305,6 @@ if(state.UsersList.statusCodeForGenerateAdvance === 200){
     </>
   );
 }
-
 
 UserListRoomDetail.propTypes = {
   onEditItem: PropTypes.func.isRequired,

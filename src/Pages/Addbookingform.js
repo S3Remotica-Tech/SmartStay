@@ -44,30 +44,12 @@ function BookingModal(props) {
     const [pincode, setPincode] = useState("");
     const [city, setCity] = useState("")
     const [state_name, setStateName] = useState("");
-
-  // const [paying, setPaying] = useState("");
-  // const [floor, setFloor] = useState("");
-  // const [room, setRoom] = useState("");
-  // const [bed, setBed] = useState("");
-  // const [hostelIdError, setHostelIdError] = useState("");
-  // const [floorError, setfloorError] = useState("");
-  // const [roomError, setRoomError] = useState("");
-  // const [bedError, setBedError] = useState("");
-  // const [endMeterError, setendMeterError] = useState("");
-  const [firstNameError, setfirstNameError] = useState("");
-  // const [startMeterError, setstartMeterError] = useState("");
+    const [firstNameError, setfirstNameError] = useState("");
   const [dateError, setDateError] = useState("");
   const [amountError, setamountError] = useState("");
-  // const [formError, setFormError] = useState("");
-  // const [HostelName, setHostelName] = useState("");
-  // const [validated, setValidated] = useState(false);
-  // const [formErrors, setFormErrors] = useState({});
-  // const [formEdit, setFormEdit] = useState({});
   const [Phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-  // const [Address, setAddress] = useState("");
-  // const [addressError, setAddressError] = useState("");
   const [Email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [house_noError, setHouse_NoError] = useState("");
@@ -76,11 +58,8 @@ function BookingModal(props) {
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
-  // const [emailIdError, setemailIdError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  // const [errorInPhone, seterrorInPhone] = useState("");
-  // const [errorInEmail, seterrorInEmail] = useState("");
-  // const [hostalId, setHostalId] = useState(null);
+
   const [file, setFile] = useState(null);
   const countryCode = '91';
 
@@ -125,40 +104,6 @@ function BookingModal(props) {
 
  
 
-  // useEffect(() => {
-  //   dispatch({ type: "HOSTELLIST" });
-  // }, []);
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "HOSTELDETAILLIST",
-  //     payload: { hostel_Id: paying },
-  //   });
-  // }, [paying]);
-  // useEffect(()=>{
-  //   dispatch({ type: "GET_BOOKING_LIST"});
-  // },[])
-
-  // useEffect(() => {
-  //   if (paying && floor) {
-  //     dispatch({
-  //       type: "ROOMDETAILS",
-  //       payload: { hostel_Id: paying, floor_Id: floor },
-  //     });
-  //   }
-  // }, [floor]);
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "BOOKINGBEDDETAILS",
-  //     payload: {
-  //       hostel_id: paying,
-  //       floor_id: floor,
-  //       room_id: room,
-  //       joining_date: joiningDate,
-  //     },
-  //   });
-  // }, [room]);
-
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -175,7 +120,6 @@ function BookingModal(props) {
 
   useEffect(() => {
     if (state.Booking.bookingEmailError) {
-      // seterrorInEmail(state.Booking.bookingEmailError)
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
       }, 2000);
@@ -227,59 +171,7 @@ function BookingModal(props) {
     setamountError("");
   };
 
-  // const handlePayingguest =(e)=>{
-  //   setPaying(e.target.value)
-  //   setHostelIdError('')
-  // }
-  // const handlePayingguest = (e) => {
-  //   const selectedHostelId = e.target.value;
-  //   // handleInputChange()
-  //   const selectedHostel =
-  //     state.UsersList.hostelList &&
-  //     state.UsersList.hostelList.filter((item) => item.id == e.target.value);
-
-  //   setPaying(selectedHostelId);
-  //   setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-  //   if (selectedHostelId === "Select a PG") {
-  //     setHostelIdError("Please select a valid PG");
-  //   } else {
-  //     setHostelIdError("");
-  //   }
-  //   setFloor("");
-  //   setRoom("");
-  //   // setBed("");
-  //   setHostelIdError("");
-  //   setFormError("");
-  // };
-  // const handleFloor = (e) => {
-  //   setFloor(e.target.value);
-  //   setfloorError("");
-  // };
-
-  // const handleRoom = (e) => {
-  //   setRoom(e.target.value);
-  //   setRoomError("");
-  // };
-
-  // const handleBed = (e) => {
-  //   setBed(e.target.value);
-  //   const Bedfilter =
-  //     state?.UsersList?.roomdetails &&
-  //     state.UsersList.roomdetails.filter(
-  //       (u) => u.Hostel_Id == paying && u.Floor_Id == floor && u.Room_Id == room
-  //     );
-
-  //   const Roomamountfilter =
-  //     Bedfilter &&
-  //     Bedfilter.length > 0 &&
-  //     Bedfilter[0].bed_details.filter((amount) => amount.id == e.target.value);
-
-  //   if (Roomamountfilter.length != 0) {
-  //     setAmount(Roomamountfilter[0].bed_amount);
-  //   }
-  //   setBedError("");
-  //   setamountError("");
-  // };
+ 
 
 
 
@@ -307,38 +199,23 @@ function BookingModal(props) {
   };
  
 
-  // const handleDate = (selectedDates) => {
-  //   setJoiningDate(selectedDates[0]);
-  //   setDateError("");
-  // };
-  // const handleAddress = (e) => {
-  //   setAddress(e.target.value);
-  //   setAddressError("");
-  // };
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
     setHouse_NoError("")
-    // setFormError("");
   };
 
   const handleStreetName = (e) => {
     setStreet(e.target.value);
     setStreetError("");
-    // setFormError("");
   }
 
   const handleLandmark = (e) => {
     setLandmark(e.target.value);
     setLandmarkError("");
-    // setFormError("");
   }
 
-  // const handlePincode = (e) => {
-  //   setPincode(e.target.value);
-  //   setPincodeError("");
-  //   // setFormError("");
-  // }
+  
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -352,22 +229,15 @@ function BookingModal(props) {
     } else {
       setPincodeError("");
     }
-  
-    // setGeneralError("");
-    // setIsChangedError("");
+
   };
 
   const handleCity = (e) => {
     setCity(e.target.value);
     setCityError("");
-    // setFormError("");
   }
 
-  // const handleStateChange = (e) => {
-  //   setStateName(e.target.value);
-  //   setStateNameError("");
-  //   // setFormError("");
-  // }
+ 
 
   const handleEmail = (e) => {
     const emailValue = e.target.value.toLowerCase();
@@ -391,9 +261,6 @@ function BookingModal(props) {
     if (
       !value ||
       value === "Select a PG"
-      // value === "Select a floor" ||
-      // value === "Select a room" ||
-      // value === "Select a bed"
     ) {
       switch (fieldName) {
         case "firstName":
@@ -408,22 +275,6 @@ function BookingModal(props) {
         case "amount":
           setamountError("Amount is Required");
           break;
-        // case "paying":
-        //   setHostelIdError("Hostel ID is required");
-        //   break;
-        // case "floor":
-        //   setfloorError("Floor is required");
-        //   break;
-        // case "room":
-        //   setRoomError("Room is required");
-        //   break;
-        // case "bed":
-        //   setBedError("Bed is required");
-        //   break;
-        // case "Address":
-        //   setAddressError("Address is Required");
-        //   break;
-
       
         case "City":
           setCityError("Please Enter City");
@@ -454,24 +305,8 @@ function BookingModal(props) {
           break;
         case "amount":
           setamountError("");
-          break;
-        // case "paying":
-        //   setHostelIdError("");
-        //   break;
-        // case "floor":
-        //   setfloorError("");
-        //   break;
-        // case "room":
-        //   setRoomError("");
-        //   break;
-        // case "bed":
-        //   setBedError("");
-        //   break;
-        // case "Address":
-        //   setAddressError("");
-        //   break;
-         
-          case "City":
+          break;    
+        case "City":
             setCityError("");
             break;
           case "Pincode":
@@ -490,23 +325,15 @@ function BookingModal(props) {
       return true;
     }
   };
-  // const handleCountryCodeChange = (e) => {
-  //   setCountryCode(e.target.value);
-  // };
+
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleSubmit = () => {
-    // Validate fields
     let hasError = false;
     const isFirstnameValid = validateAssignField(firstName, "firstName");
     const isPhoneValid = validateAssignField(Phone, "Phone");
     const isJoiningDateValid = validateAssignField(joiningDate, "joiningDate");
     const isAmountValid = validateAssignField(amount, "amount");
-    // const isHostelValid = validateAssignField(paying, "paying");
-    // const isAddressValid = validateAssignField(Address, "Address");
-    // const isHousenoValid = validateAssignField(house_no, "Houseno");
-    // const isStreetValid = validateAssignField(street, "Street");
-    // const isLandmarkValid = validateAssignField(landmark, "Landmark");
     const isCityValid = validateAssignField(city, "City");
     const isPincodeValid = validateAssignField(pincode, "Pincode");
     const isStatenameValid = validateAssignField(state_name, "Statename");
@@ -535,7 +362,7 @@ function BookingModal(props) {
         setEmailError("");
       }
     } else {
-      setEmailError(""); // No error shown if email is empty
+      setEmailError(""); 
     }
 
     if (hasError) return;
@@ -543,7 +370,6 @@ function BookingModal(props) {
       !isFirstnameValid ||
       !isPhoneValid ||
       !isJoiningDateValid ||
-      // !isAddressValid ||
       !isAmountValid  || 
       !isCityValid  || 
       !isPincodeValid ||
@@ -552,7 +378,6 @@ function BookingModal(props) {
       return;
     }
 
-    // Format the joining date
     let formattedDate = null;
 try {
   const date = new Date(joiningDate);
@@ -563,7 +388,6 @@ try {
   setDateError("Date is Required");
   return;
 }
-    // Ensure all required fields are present before dispatching
 
     dispatch({
       type: "ADD_BOOKING",
@@ -599,11 +423,7 @@ try {
     setPincode("")
     setStateName("")
     setPhoneError("");
-    // setAddress("");
-    // setAddressError("");
     setfirstNameError("");
-    // setfloorError("");
-    // setHostelIdError("");
     setDateError("");
     setamountError("");
     setStateNameError("");
@@ -616,8 +436,6 @@ try {
     setEmail("");
     setEmailError("");
     setEmailErrorMessage("");
-    // seterrorInPhone("");
-    // seterrorInEmail("");
     props.handleClose();
   };
  
@@ -654,7 +472,7 @@ try {
           <Modal.Title
             style={{ fontSize: 18, fontFamily: "Gilroy", fontWeight: 600 }}
           >
-            Add Booking form
+            Add Booking 
           </Modal.Title>
           <CloseCircle
             size="24"
@@ -673,9 +491,9 @@ try {
                 src={
                   file
                     ? typeof file === "string"
-                      ? file // Handle case if file is an existing URL
-                      : URL.createObjectURL(file) // Handle file object preview
-                    : Profile2 // Default placeholder
+                      ? file 
+                      : URL.createObjectURL(file) 
+                    : Profile2 
                 }
                 roundedCircle
                 style={{ height: 100, width: 100 }}
@@ -760,7 +578,6 @@ try {
                     height: "50px",
                   }}
                   value={firstName}
-                  // className={formErrors.firstName ? "is-invalid" : ""}
                   onChange={(e) => handleFirstName(e)}
                 />
               </Form.Group>
@@ -792,10 +609,7 @@ try {
                   }}
                 >
                   Last Name{" "}
-                  {/* <span style={{ color: "transparent", fontSize: "20px" }}>
-                    {" "}
-                    *{" "}
-                  </span> */}
+               
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -808,7 +622,6 @@ try {
                     marginTop:5
                   }}
                   value={lastName}
-                  // isInvalid={!!formErrors.lastName}
                   onChange={(e) =>handleLastName(e)}
                 />
               </Form.Group>
@@ -836,7 +649,6 @@ try {
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                    // onChange={handleCountryCodeChange}
                     style={{
                       border: "1px solid #D9D9D9",
 
@@ -852,17 +664,7 @@ try {
                       paddingRight: 10,
                     }}
                   >
-                    {/* {state.UsersList?.countrycode?.country_codes?.map(
-                      (item) => {
-                        return (
-                          <>
-                            <option value={item.country_code}>
-                              +{item.country_code}
-                            </option>
-                          </>
-                        );
-                      }
-                    )} */}
+                
                      <option >
                               +{countryCode}
                             </option>
@@ -966,7 +768,6 @@ try {
                     marginTop:5
                   }}
                   value={Email}
-                  // isInvalid={!!formErrors.lastName}
                   onChange={(e) => handleEmail(e)}
                 />
               </Form.Group>
@@ -985,21 +786,7 @@ try {
                   </span>
                 </div>
               )}
-              {/* {emailIdError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{marginRight:"3px",fontSize:"15px",marginBottom:"1px"}} />
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {emailIdError}
-                  </span>
-                </div>
-              )} */}
+           
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
                   <MdError style={{marginRight:"3px",fontSize:"15px",marginBottom:"1px"}}/>
@@ -1033,52 +820,6 @@ try {
             </Col>
           </Row>
 
-          {/* <Col md={12} className="mb-3">
-            <Form.Group controlId="formFirstName">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Address
-                <span style={{ color: "red", fontSize: "20px" }}>
-                    {" "}
-                    *{" "}
-                  </span>
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Address"
-                style={{
-                  fontSize: 14,
-                  color: "rgba(75, 75, 75, 1)",
-                  fontFamily: "Gilroy",
-                  height: "50px",
-                }}
-                value={Address}
-                // className={formErrors.firstName ? "is-invalid" : ""}
-                onChange={(e) => handleAddress(e)}
-              />
-            </Form.Group>
-            {addressError && (
-              <div style={{ color: "red" }}>
-                <MdError style={{marginRight:"5px",fontSize:"15px",marginBottom:"1px"}}/>
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: 12,
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {addressError}
-                </span>
-              </div>
-            )}
-          </Col> */}
 
                   <Col md={12}>
                                 
@@ -1370,7 +1111,7 @@ try {
      />
    </Form.Group>
  
-   {state_nameError && (
+   {!state_name && state_nameError && (
      <div style={{ color: "red" }}>
        <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
        <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>

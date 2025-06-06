@@ -700,9 +700,11 @@ function* handleAddWalkInCustomer(action) {
 
    };
 
-   if (response.statusCode === 200 || response.status === 200) {
-      yield put({ type: 'ADD_WALK_IN_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
-      toast.success(`${response.data.message}`, {
+   
+
+   if ( response.statusCode === 200 || response.status === 200 || response.data.statusCode === 200  ) {
+      yield put({ type: 'ADD_WALK_IN_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.data.statusCode || response.status } })
+      toast.success(`${response.message}`, {
          position: "bottom-center",
          autoClose: 2000,
          hideProgressBar: true,

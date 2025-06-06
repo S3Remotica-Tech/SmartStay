@@ -1,28 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {Button, Form,FormControl,} from "react-bootstrap";
+import { Button, Form, FormControl } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
 import "../Pages/UserList.css";
 import { useDispatch, useSelector } from "react-redux";
-import { InputGroup} from "react-bootstrap";
+import { InputGroup } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Plus from "../Assets/Images/New_images/add-circle.png";
 import imageCompression from "browser-image-compression";
 import Image from "react-bootstrap/Image";
 import Profile from "../Assets/Images/New_images/profile-picture.png";
-// import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
-import {CloseCircle} from "iconsax-react";
-
-
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
+import { CloseCircle } from "iconsax-react";
 
 function UserlistForm(props) {
-
   const [id, setId] = useState("");
   const [file, setFile] = useState(null);
   const [firstname, setFirstname] = useState("");
@@ -39,18 +35,16 @@ function UserlistForm(props) {
   const [AdvanceAmount, setAdvanceAmount] = useState("");
   const [paid_advance, setPaidAdvance] = useState("");
   const [paid_rent, setPaidrent] = useState("");
-  // const [Address, setAddress] = useState("");
   const [Email, setEmail] = useState("");
   const [AadharNo, setAadharNo] = useState("");
   const [PancardNo, setPancardNo] = useState("");
   const [licence, setLicence] = useState("");
-   const [house_no, setHouseNo] = useState("");
-    const [street, setStreet] = useState("");
-    const [landmark, setLandmark] = useState("");
-    const [pincode, setPincode] = useState("");
-    const [city, setCity] = useState("")
-    const [state_name, setStateName] = useState("");
-  // const [romnum, setRoomnum] = useState("");
+  const [house_no, setHouseNo] = useState("");
+  const [street, setStreet] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [city, setCity] = useState("");
+  const [state_name, setStateName] = useState("");
   const [payableamount, setPayableamount] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [floorError, setfloorError] = useState("");
@@ -61,21 +55,19 @@ function UserlistForm(props) {
   const [firstnameError, setFirstnameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [emailError, setEmailError] = useState("");
-  // const [addressError, setAddressError] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
   const [phonenumError, setphonenumError] = useState("");
   const [emailIdError, setemailIdError] = useState("");
-   const [house_noError, setHouse_NoError] = useState("");
-    const [streetError, setStreetError] = useState("");
-    const [landmarkError, setLandmarkError] = useState("");
-    const [pincodeError, setPincodeError] = useState("");
-    const [cityError, setCityError] = useState("");
-    const [state_nameError, setStateNameError] = useState("");
+  const [house_noError, setHouse_NoError] = useState("");
+  const [streetError, setStreetError] = useState("");
+  const [landmarkError, setLandmarkError] = useState("");
+  const [pincodeError, setPincodeError] = useState("");
+  const [cityError, setCityError] = useState("");
+  const [state_nameError, setStateNameError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
 
-  const countryCode = '91';
-
+  const countryCode = "91";
 
   const indianStates = [
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
@@ -106,19 +98,21 @@ function UserlistForm(props) {
     { value: "Uttar Pradesh", label: "Uttar Pradesh" },
     { value: "Uttarakhand", label: "Uttarakhand" },
     { value: "West Bengal", label: "West Bengal" },
-    { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
+    {
+      value: "Andaman and Nicobar Islands",
+      label: "Andaman and Nicobar Islands",
+    },
     { value: "Chandigarh", label: "Chandigarh" },
-    { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
+    {
+      value: "Dadra and Nagar Haveli and Daman and Diu",
+      label: "Dadra and Nagar Haveli and Daman and Diu",
+    },
     { value: "Delhi", label: "Delhi" },
     { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
     { value: "Ladakh", label: "Ladakh" },
     { value: "Lakshadweep", label: "Lakshadweep" },
     { value: "Puducherry", label: "Puducherry" },
   ];
-
-  // const handleCountryCodeChange = (e) => {
-  //   setCountryCode(e.target.value);
-  // };
 
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -153,13 +147,12 @@ function UserlistForm(props) {
       calendarRef.current.flatpickr.set(options);
     }
   }, [selectedDate]);
-  // const handleDate = (selectedDates) => {
-  //   setSelectedDate(selectedDates[0]);
-  //   setDateError("");
-  // };
 
   useEffect(() => {
-    dispatch({ type: "HOSTELDETAILLIST", payload: { hostel_Id: state.login.selectedHostel_Id } });
+    dispatch({
+      type: "HOSTELDETAILLIST",
+      payload: { hostel_Id: state.login.selectedHostel_Id },
+    });
   }, [hostel_Id]);
 
   useEffect(() => {
@@ -170,16 +163,9 @@ function UserlistForm(props) {
       });
     }
   }, [Floor]);
-  // useEffect(() => {
-  //   const Roomdetail = state.UsersList.Users.filter((item) => {
-  //     return item.Hostel_Id == hostel_Id && item.Floor == Floor;
-  //   });
-
-  //   setRoomnum(Roomdetail);
-  // }, [state.UsersList.Users]);
 
   const handleFirstName = (e) => {
-const value = e.target.value
+    const value = e.target.value;
     const pattern = /^[a-zA-Z\s]*$/;
     if (!pattern.test(value)) {
       return;
@@ -196,9 +182,8 @@ const value = e.target.value
     setemailIdError(state.UsersList.emailError);
   }, [state.UsersList.emailError]);
 
-
   const validateField = (value, fieldName) => {
-    const trimmedValue = String(value).trim(); // Ensure value is a string and trim it
+    const trimmedValue = String(value).trim();
     if (!trimmedValue) {
       switch (fieldName) {
         case "First Name":
@@ -210,22 +195,20 @@ const value = e.target.value
         case "Email":
           setEmailError("Email is Required");
           break;
-        // case "Address":
-        //   setAddressError("Address is Required");
-        //   break;
+
         case "Hostel ID":
           setHostelIdError("Hostel ID is Required");
           break;
-       
-          case "City":
-            setCityError("Please Enter City");
-            break;
-          case "Pincode":
-            setPincodeError("Please Enter Pincode");
-            break;
-          case "Statename":
-            setStateNameError("Please Select State");
-            break;
+
+        case "City":
+          setCityError("Please Enter City");
+          break;
+        case "Pincode":
+          setPincodeError("Please Enter Pincode");
+          break;
+        case "Statename":
+          setStateNameError("Please Select State");
+          break;
         default:
           break;
       }
@@ -234,89 +217,32 @@ const value = e.target.value
     return true;
   };
 
-
-  // const validateField = (value, fieldName) => {
-  //   if (!value || value.trim() === "") {
-  //     switch (fieldName) {
-  //       case "First Name":
-  //         setFirstnameError("First Name is required");
-  //         break;
-  //       case "Phone Number":
-  //         setPhoneError("Phone Number is required");
-  //         break;
-  //       case "Email":
-  //         setEmailError("Email is required");
-  //         break;
-  //       case "Address":
-  //         setAddressError("Address is required");
-  //         break;
-  //       case "Hostel ID":
-  //         setHostelIdError("Hostel ID is required");
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
   const handleLastName = (e) => {
-    const value =  e.target.value;
+    const value = e.target.value;
     const pattern = /^[a-zA-Z\s]*$/;
 
-    // Don't update value if user types anything other than letters or space
     if (!pattern.test(value)) {
       return;
     }
     setLastname(value);
   };
 
-  // const handlePaidadvance = (e) => {
-  //   setPaidAdvance(e.target.value);
-  // };
-
-  // useEffect(() => {
-  //   dispatch({ type: "COUNTRYLIST" });
-  // }, []);
-
-  // const handlePaidrent = (e) => {
-  //   const value = e.target.value;
-  //   if (value <= payableamount) {
-  //     setPaidrent(e.target.value);
-  //   }
-  // };
-
-  // const handlePhone = (e) => {
-  //   setPhone(e.target.value);
-  //   const pattern = /^\d{1,10}$/;
-  //   const isValidMobileNo = pattern.test(e.target.value);
-
-  //   if (isValidMobileNo && e.target.value.length === 10) {
-  //     setPhoneError("");
-  //   } else {
-  //     setPhoneError("Invalid mobile number *");
-  //   }
-  
-  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
-  //   setPhoneErrorMessage("");
-  // };
   const handlePhone = (e) => {
-    const input = e.target.value.replace(/\D/g, ""); 
+    const input = e.target.value.replace(/\D/g, "");
     setPhone(input);
-  
+
     if (input.length === 0) {
-      setPhoneError(""); 
+      setPhoneError("");
     } else if (input.length < 10) {
-      setPhoneError("Invalid Nobile Number");
+      setPhoneError("Invalid Mobile Number");
     } else if (input.length === 10) {
-      setPhoneError(""); 
+      setPhoneError("");
     }
-  
+
     setPhoneErrorMessage("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
-  
+
   const handleEmail = (e) => {
     const emailValue = e.target.value.toLowerCase();
     setEmail(emailValue);
@@ -328,7 +254,7 @@ const value = e.target.value
       setEmailErrorMessage("");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
-      setEmailError("Invalid Email Id *");
+      setEmailError("Invalid Email Id");
     } else {
       setEmailError("");
       setEmailErrorMessage("");
@@ -336,40 +262,15 @@ const value = e.target.value
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
-  // const handleAddress = (e) => {
-  //   setAddress(e.target.value);
-  //   setAddressError("");
-  // };
-
-  // const handleIsActiveUser = (e) => {
-  //   setIsActive(e.target.value);
-  // };
-
   useEffect(() => {
-    const selectedHostel = state.UsersList.hostelListNewDetails.data &&
-      state.UsersList.hostelListNewDetails.data?.filter((item) => item.id === state.login.selectedHostel_Id);
+    const selectedHostel =
+      state.UsersList.hostelListNewDetails.data &&
+      state.UsersList.hostelListNewDetails.data?.filter(
+        (item) => item.id === state.login.selectedHostel_Id
+      );
     setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
     setHostel_Id(state.login.selectedHostel_Id);
-  }, [])
-
-  // const handleHostelId = (e) => {
-  //   const selectedHostelId = e.target.value;
-  //   const selectedHostel =
-  //     state.UsersList.hostelList &&
-  //     state.UsersList.hostelList.filter((item) => item.id == e.target.value);
-  //   setHostel_Id(selectedHostelId);
-  //   setHostelName(selectedHostel ? selectedHostel[0]?.Name : "");
-  //   if (selectedHostelId === "Select a PG") {
-  //     setHostelIdError("Please select a valid PG");
-  //   } else {
-  //     setHostelIdError("");
-  //   }
-  //   setFloor("");
-  //   setRooms("");
-  //   setBed("");
-  //   setHostelIdError("");
-  // };
-
+  }, []);
 
   const validateAssignField = (value, fieldName) => {
     if (
@@ -397,7 +298,7 @@ const value = e.target.value
         case "RoomRent":
           setRoomRentError("Rental Amount is Required");
           break;
-        
+
         default:
           break;
       }
@@ -422,24 +323,24 @@ const value = e.target.value
         case "RoomRent":
           setRoomRentError("");
           break;
-          case "Houseno":
-            setHouse_NoError("");
-            break;
-          case "Street":
-            setStreetError("");
-            break;
-          case "Landmark":
-            setLandmarkError("");
-            break;
-          case "City":
-            setCityError("");
-            break;
-          case "Pincode":
-            setPincodeError("");
-            break;
-          case "Statename":
-            setStateNameError("");
-            break;
+        case "Houseno":
+          setHouse_NoError("");
+          break;
+        case "Street":
+          setStreetError("");
+          break;
+        case "Landmark":
+          setLandmarkError("");
+          break;
+        case "City":
+          setCityError("");
+          break;
+        case "Pincode":
+          setPincodeError("");
+          break;
+        case "Statename":
+          setStateNameError("");
+          break;
         default:
           break;
       }
@@ -447,31 +348,13 @@ const value = e.target.value
     }
   };
 
-  // const handleFloor = (e) => {
-  //   setFloor(e.target.value);
-  //   setRooms("");
-  //   setBed("");
-  //   setfloorError("");
-  // };
   const handleFloor = (selectedOption) => {
-    setFloor(selectedOption?.value || '');
+    setFloor(selectedOption?.value || "");
     setRooms("");
     setBed("");
     setfloorError("");
   };
-  // const handleRooms = (e) => {
-  //   setRooms(e.target.value);
-  //   dispatch({
-  //     type: "BEDNUMBERDETAILS",
-  //     payload: {
-  //       hostel_id: state.login.selectedHostel_Id,
-  //       floor_id: Floor,
-  //       room_id: e.target.value,
-  //     },
-  //   });
-  //   setRoomRent("");
-  //   setRoomError("");
-  // };
+
   const handleRooms = (selectedValue) => {
     setRooms(selectedValue);
 
@@ -480,169 +363,115 @@ const value = e.target.value
       payload: {
         hostel_id: state.login.selectedHostel_Id,
         floor_id: Floor,
-        room_id: selectedValue, 
+        room_id: selectedValue,
       },
     });
 
     setRoomRent("");
     setRoomError("");
-};
+  };
 
+  const handleBed = (selectedOption) => {
+    const selectedBedId = selectedOption?.value || "";
+    setBed(selectedBedId);
 
+    const Bedfilter = state?.UsersList?.roomdetails?.filter(
+      (u) =>
+        String(u.Hostel_Id) === String(hostel_Id) &&
+        String(u.Floor_Id) === String(Floor) &&
+        String(u.Room_Id) === String(Rooms)
+    );
 
-const handleBed = (selectedOption) => {
-  const selectedBedId = selectedOption?.value || '';
-  setBed(selectedBedId);
+    const Roomamountfilter =
+      Bedfilter?.[0]?.bed_details?.filter(
+        (amount) => String(amount.id) === String(selectedBedId)
+      ) ?? [];
 
-  const Bedfilter = state?.UsersList?.roomdetails?.filter(
-    (u) =>
-      String(u.Hostel_Id) === String(hostel_Id) &&
-      String(u.Floor_Id) === String(Floor) &&
-      String(u.Room_Id) === String(Rooms)
-  );
+    if (Roomamountfilter.length > 0) {
+      setRoomRent(Roomamountfilter[0]?.bed_amount);
+    }
 
-  const Roomamountfilter =
-    Bedfilter?.[0]?.bed_details?.filter(
-      (amount) => String(amount.id) === String(selectedBedId)
-    ) ?? [];
-
-  if (Roomamountfilter.length > 0) {
-    setRoomRent(Roomamountfilter[0]?.bed_amount);
-  }
-
-  setBedError("");
-  setRoomRentError("");
-};
-
-  
-
-  //  useEffect (()=>{
-
-  //   const Bedfilter =state?.UsersList?.roomdetails && state.UsersList.roomdetails.filter ((u)=>  u.Hostel_Id == hostel_Id && u.Floor_Id == Floor  && u.Room_Id == Rooms  )
-
-  //   const Roomamountfilter = Bedfilter&& Bedfilter.length > 0 && Bedfilter[0].bed_details.filter (amount => amount.id == Bed)
-
-  //   if (Roomamountfilter.length !=0) {
-  //   }
-  //   setRoomRent(Roomamountfilter)
-  //  },[hostel_Id,Floor,Rooms, Bed])
+    setBedError("");
+    setRoomRentError("");
+  };
 
   const handleRoomRent = (e) => {
-    // const value = e.target.value;
     const newAmount = e.target.value;
     if (!/^\d*$/.test(newAmount)) {
-      return; 
+      return;
     }
     setRoomRent(newAmount);
     setRoomRentError("");
   };
 
-  // const handlePaymentType = (e) => {
-  //   setPaymentType(e.target.value);
-  // };
-
   const handleAdvanceAmount = (e) => {
-    
     const advanceAmount = e.target.value;
     if (!/^\d*$/.test(advanceAmount)) {
-      return; 
+      return;
     }
     setAdvanceAmount(advanceAmount);
     setAdvanceAmountError("");
   };
 
-
-   
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
-    setHouse_NoError("")
-    // setFormError("");
+    setHouse_NoError("");
   };
 
   const handleStreetName = (e) => {
     setStreet(e.target.value);
     setStreetError("");
-
-    
-    // setFormError("");
-  }
+  };
 
   const handleLandmark = (e) => {
     setLandmark(e.target.value);
     setLandmarkError("");
-    // setFormError("");
-  }
-
-  // const handlePincode = (e) => {
-  //   setPincode(e.target.value);
-  //   setPincodeError("");
-  //   // setFormError("");
-  // }
+  };
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
     if (!/^\d{0,6}$/.test(value)) {
       return;
     }
-  
+
     setPincode(value);
     if (value.length > 0 && value.length < 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
     }
-  
-    // setGeneralError("");
-    // setIsChangedError("");
   };
 
   const handleCity = (e) => {
     setCity(e.target.value);
     setCityError("");
-    // setFormError("");
-  }
+  };
 
-  // const handleStateChange = (e) => {
-  //   setStateName(e.target.value);
-  //   setStateNameError("");
-  //   // setFormError("");
-  // }
+  const [advanceDate, setAdvanceDate] = useState(null);
+  const [advanceDueDate, setAdvanceDueDate] = useState(null);
+  const [advanceDateError, setAdvanceDateError] = useState("");
+  const [advanceDueDateError, setAdvanceDueDateError] = useState("");
 
-  // const handleAadharNo = (e) => {
-  //   setAadharNo(e.target.value);
-  // };
-  // const handlePancardNo = (e) => {
-  //   setPancardNo(e.target.value);
-  // };
-  // const handlelicence = (e) => {
-  //   setLicence(e.target.value);
-  // };
-const [advanceDate,setAdvanceDate] = useState(null)
-const [advanceDueDate,setAdvanceDueDate] = useState(null)
-const [advanceDateError,setAdvanceDateError] = useState("")
-const [advanceDueDateError,setAdvanceDueDateError] = useState("")
   const handleClose = () => {
     setFirstname("");
     setLastname("");
-    // setAddress("");
     setAadharNo("");
     setPancardNo("");
     setLicence("");
     setPhone("");
     setEmail("");
-    setHouseNo("")
-    setStreet("")
-    setCity("")
-    setLandmark("")
-    setPincode("")
-    setStateName("")
+    setHouseNo("");
+    setStreet("");
+    setCity("");
+    setLandmark("");
+    setPincode("");
+    setStateName("");
     setStateNameError("");
     setPincodeError("");
     setCityError("");
     setLandmarkError("");
     setStreetError("");
     setHouse_NoError("");
-    // setHostel_Id("");
     setFloor("");
     setRooms("");
     setBed("");
@@ -653,7 +482,6 @@ const [advanceDueDateError,setAdvanceDueDateError] = useState("")
     setPaidAdvance("");
     setPaidrent("");
     setPayableamount("");
-    // setPhoneErrorMessage("");
     dispatch({ type: "CLEAR_PHONE_ERROR" });
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     props.setShowMenu(false);
@@ -662,16 +490,13 @@ const [advanceDueDateError,setAdvanceDueDateError] = useState("")
     if (props.edit === "Edit") {
       props.OnShowTable(true);
     } else {
-      // props.setUserList(true);
       props.setRoomDetail(false);
     }
   };
 
-
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {
       props.setEdit("Edit");
-      // setBednum(props.EditObj);
       setId(props.EditObj.ID);
       if (props.EditObj.profile === 0) setFile(null);
       else {
@@ -694,15 +519,10 @@ const [advanceDueDateError,setAdvanceDueDateError] = useState("")
       setEmail(props.EditObj.Email);
       setHostelName(props.EditObj.HostelName);
       setHostel_Id(props.EditObj.Hostel_Id);
-      // setFloor(props.EditObj.Floor);
       setRooms(props.EditObj.Rooms);
-      // setBed(props.EditObj.Bed);
-      // setAdvanceAmount(props.EditObj.AdvanceAmount);
-      // setRoomRent(props.EditObj.RoomRent);
       setPaymentType(props.EditObj.PaymentType);
       setBalanceDue(props.EditObj.BalanceDue);
       setPaidAdvance(props.EditObj.paid_advance);
-      // setPaidrent(props.EditObj.paid_rent);
     } else {
       props.setEdit("Add");
     }
@@ -714,19 +534,14 @@ const [advanceDueDateError,setAdvanceDueDateError] = useState("")
     let hasError = false;
     if (!validateField(firstname, "First Name"));
     if (!validateField(Phone, "Phone Number"));
- 
-    // if (!validateField(Address, "Address"));
+
     if (!validateField(hostel_Id, "Hostel ID"));
-    // if (!validateField(house_no, "Houseno"));
-    // if (!validateField(street, "Street"));
-    // if (!validateField(landmark, "Landmark"));
     if (!validateField(city, "City"));
     if (!validateField(pincode, "Pincode"));
     if (!validateField(state_name, "Statename"));
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a Valid PG");
-      // return;
     }
     if (!Phone) {
       setPhoneError("Mobile Number is Required");
@@ -740,7 +555,7 @@ const [advanceDueDateError,setAdvanceDueDateError] = useState("")
       setPhoneError("");
       setPhoneErrorMessage("");
     }
-  
+
     if (Email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(Email.toLowerCase());
@@ -751,10 +566,9 @@ const [advanceDueDateError,setAdvanceDueDateError] = useState("")
         setEmailError("");
       }
     } else {
-      setEmailError(""); // No error shown if email is empty
+      setEmailError("");
     }
 
-    // Final check — block saving if any error
     if (hasError) return;
     const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -784,13 +598,12 @@ const [advanceDueDateError,setAdvanceDueDateError] = useState("")
       paid_advance: paid_advance,
       paid_rent: paid_rent,
       payable_rent: payableamount,
-      Address:house_no ,
-      area : street,
-      landmark : landmark,
-      city : city,
-      pincode : pincode,
-      state:state_name,
-      
+      Address: house_no,
+      area: street,
+      landmark: landmark,
+      city: city,
+      pincode: pincode,
+      state: state_name,
     };
 
     if (props.edit === "Edit") {
@@ -801,182 +614,22 @@ const [advanceDueDateError,setAdvanceDueDateError] = useState("")
       type: "ADDUSER",
       payload: payload,
     });
-
-  
   };
- 
- 
 
-const handleAdvaceShowForm = ()=>{
+  const handleAdvaceShowForm = () => {
+    props.setShowMenu(false);
+    props.setAdvanceForm(true);
+  };
 
-  
-  props.setShowMenu(false);
-  props.setAdvanceForm(true)
-}
+  useEffect(() => {}, [props.showMenu]);
 
-
-
-useEffect(() => {
-  console.log("showMenu updated to:", props.showMenu);
-}, [props.showMenu]);
-
-const handleSaveUserlistAddUser =async () => {
-  if (!validateAssignField(Floor, "Floor"));
-  if (!validateAssignField(Rooms, "Rooms"));
-  if (!validateAssignField(Bed, "Bed"));
-  if (!validateAssignField(selectedDate, "selectedDate"));
-  if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) ;
-  if (!validateAssignField(RoomRent, "RoomRent"));
-
-  if (Floor === "Selected Floor" || floorError) {
-    setfloorError("Please Select a Valid PG");
-    return;
-  }
-  if (Rooms === "Selected Room" || roomError) {
-    setRoomError("Please Select a Valid PG");
-    return;
-  }
-  if (Bed === "Selected Bed" || bedError) {
-    setBedError("Please Select a Valid PG");
-    return;
-  }
-
-  if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
-    setRoomRentError("Rental Amount is Required");
-    return;
-  }
-  if (Number(RoomRent) <= 0) {
-    setRoomRentError("Please Enter Valid Rental Amount");
-    return;
-  }
-
-  if (AdvanceAmount === "" || AdvanceAmount === null || AdvanceAmount === undefined) {
-    setAdvanceAmountError("Advance Amount is Required");
-    return;
-  }
-  if (Number(AdvanceAmount) <= 0) {
-    setAdvanceAmountError("Please Enter Valid Advance Amount");
-    return;
-  }
-
-  // ✅ Final condition check
-  if (
-    Floor !== "Selected Floor" &&
-    Rooms !== "Selected Room" &&
-    Bed !== "Selected Bed" &&
-    selectedDate &&
-    Number(AdvanceAmount) > 0 &&
-    Number(RoomRent) > 0
-  ) {
-    console.log('testinform');
-    handleAdvaceShowForm()
-    // props.setAdvanceForm(true);
-
-   console.log("Advance Form Details",props.advanceForm);
-   
-    
-  //   handleAdvaceShowForm();
-
-  // props.setShowMenu(false);
-
-  //   setAdvanceFormtriggered(true)
-    // setAdvanceFormtriggered(true)
-
-    // const incrementDateAndFormat = (date) => {
-    //   const newDate = new Date(date);
-    //   newDate.setDate(newDate.getDate() + 1);
-    //   return newDate.toISOString().split("T")[0];
-    // };
-
-    // const formattedDate = incrementDateAndFormat(selectedDate);
- 
-    // dispatch({ type: "ADDUSER", payload: {...} });
-    // handleAdvaceShowForm()
-    // setAdvanceForm(true);
-    // props.setShowMenu(false);
-  }
-  // props.setShowMenu(false);
-  dispatch({ type: "INVOICELIST" });
-};
-
-  // const handleSaveUserlistAddUser = () => {
-  //   if (!validateAssignField(Floor, "Floor")) ;
-  //   if (!validateAssignField(Rooms, "Rooms"));
-  //   if (!validateAssignField(Bed, "Bed"));
-  //   if (!validateAssignField(selectedDate, "selectedDate")) ;
-  //   if (!validateAssignField(AdvanceAmount, "AdvanceAmount")) ;
-  //   if (!validateAssignField(RoomRent, "RoomRent")) ;
-  
-  //   if (Floor === "Selected Floor" || floorError) {
-  //     setfloorError("Please Select a Valid PG");
-  //     return;
-  //   }
-  //   if (Rooms === "Selected Room" || roomError) {
-  //     setRoomError("Please Select a Valid PG");
-  //     return;
-  //   }
-  //   if (Bed === "Selected Bed" || bedError) {
-  //     setBedError("Please Select a Valid PG");
-  //     return;
-  //   }
-  
-  //   if (!RoomRent && RoomRent !== 0) {
-  //     setRoomRentError("Rental Amount is Required");
-  //     return;
-  //   }
-  //   if (RoomRent <= 0) {
-  //     setRoomRentError("Please Enter Valid Rental Amount");
-  //     return;
-  //   }
-  
-  //   if (!AdvanceAmount && AdvanceAmount !== 0) {
-  //     setAdvanceAmountError("Advance Amount is Required");
-  //     return;
-  //   }
-  //   if (AdvanceAmount <= 0) {
-  //     setAdvanceAmountError("Please Enter Valid Advance Amount");
-  //     return;
-  //   }
-  
-  //   if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
-  //     const incrementDateAndFormat = (date) => {
-  //       const newDate = new Date(date);
-  //       newDate.setDate(newDate.getDate() + 1);
-  //       return newDate.toISOString().split("T")[0];
-  //     };
-  
-  //     const formattedDate = selectedDate
-  //       ? incrementDateAndFormat(selectedDate)
-  //       : "";
-  
-  //     // Uncomment and use your actual dispatch logic
-  //     // dispatch({
-  //     //   type: "ADDUSER",
-  //     //   payload: { ... }
-  //     // });
-  
-  //     // handleClose();
-  
-  //     // ✅ Set AdvanceForm only after everything is valid
-      
-  //     setAdvanceForm(true);
-      
-      
-  //   }
-  
-  //   dispatch({ type: "INVOICELIST" });
-  // };
-  
-
-
-  const handleSaveUserlistAddUserButon = () => {
+  const handleSaveUserlistAddUser = async () => {
     if (!validateAssignField(Floor, "Floor"));
     if (!validateAssignField(Rooms, "Rooms"));
     if (!validateAssignField(Bed, "Bed"));
     if (!validateAssignField(selectedDate, "selectedDate"));
     if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
     if (!validateAssignField(RoomRent, "RoomRent"));
- 
 
     if (Floor === "Selected Floor" || floorError) {
       setfloorError("Please Select a Valid PG");
@@ -989,8 +642,62 @@ const handleSaveUserlistAddUser =async () => {
     if (Bed === "Selected Bed" || bedError) {
       setBedError("Please Select a Valid PG");
       return;
+    }
 
+    if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
+      setRoomRentError("Rental Amount is Required");
+      return;
+    }
+    if (Number(RoomRent) <= 0) {
+      setRoomRentError("Please Enter Valid Rental Amount");
+      return;
+    }
 
+    if (
+      AdvanceAmount === "" ||
+      AdvanceAmount === null ||
+      AdvanceAmount === undefined
+    ) {
+      setAdvanceAmountError("Advance Amount is Required");
+      return;
+    }
+    if (Number(AdvanceAmount) <= 0) {
+      setAdvanceAmountError("Please Enter Valid Advance Amount");
+      return;
+    }
+
+    if (
+      Floor !== "Selected Floor" &&
+      Rooms !== "Selected Room" &&
+      Bed !== "Selected Bed" &&
+      selectedDate &&
+      Number(AdvanceAmount) > 0 &&
+      Number(RoomRent) > 0
+    ) {
+      handleAdvaceShowForm();
+    }
+    dispatch({ type: "INVOICELIST" });
+  };
+
+  const handleSaveUserlistAddUserButon = () => {
+    if (!validateAssignField(Floor, "Floor"));
+    if (!validateAssignField(Rooms, "Rooms"));
+    if (!validateAssignField(Bed, "Bed"));
+    if (!validateAssignField(selectedDate, "selectedDate"));
+    if (!validateAssignField(AdvanceAmount, "AdvanceAmount"));
+    if (!validateAssignField(RoomRent, "RoomRent"));
+
+    if (Floor === "Selected Floor" || floorError) {
+      setfloorError("Please Select a Valid PG");
+      return;
+    }
+    if (Rooms === "Selected Room" || roomError) {
+      setRoomError("Please Select a Valid PG");
+      return;
+    }
+    if (Bed === "Selected Bed" || bedError) {
+      setBedError("Please Select a Valid PG");
+      return;
     }
     if (!RoomRent && RoomRent !== 0) {
       setRoomRentError("Rental Amount is Required");
@@ -1004,12 +711,12 @@ const handleSaveUserlistAddUser =async () => {
       setAdvanceAmountError("Advance Amount is Required");
       return;
     }
-    
+
     if (AdvanceAmount <= 0) {
       setAdvanceAmountError("Please Enter Valid Advance Amount");
       return;
     }
-    
+
     if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
       const incrementDateAndFormat = (date) => {
         const newDate = new Date(date);
@@ -1029,12 +736,12 @@ const handleSaveUserlistAddUser =async () => {
           lastname: lastname,
           Phone: Phone,
           Email: Email,
-          Address:house_no ,
-          area : street,
-          landmark : landmark,
-          city : city,
-          pincode : pincode,
-          state:state_name,
+          Address: house_no,
+          area: street,
+          landmark: landmark,
+          city: city,
+          pincode: pincode,
+          state: state_name,
           AadharNo: AadharNo,
           PancardNo: PancardNo,
           licence: licence,
@@ -1051,125 +758,86 @@ const handleSaveUserlistAddUser =async () => {
           paid_advance: paid_advance,
           paid_rent: paid_rent,
           payable_rent: payableamount,
-          isadvance:0,
+          isadvance: 0,
           ID: props.edit === "Edit" ? id : "",
         },
       });
-      
-      // handleClose();
     }
     dispatch({ type: "INVOICELIST" });
   };
 
-
   const handleSaveAdvance = () => {
-   
-    
-   
-
     let hasError = false;
 
     if (!advanceDate) {
       setAdvanceDateError("Invoice Date is required.");
       hasError = true;
     } else {
-      setAdvanceDateError(""); // clear if valid
+      setAdvanceDateError("");
     }
-  
+
     if (!advanceDueDate) {
       setAdvanceDueDateError("Due Date is required.");
       hasError = true;
     } else {
-      setAdvanceDueDateError(""); // clear if valid
+      setAdvanceDueDateError("");
     }
-  
+
     if (hasError) {
-      return; // stop dispatching if there's any error
+      return;
     }
-  
+
     const incrementDateAndFormat = (date) => {
       const newDate = new Date(date);
       newDate.setDate(newDate.getDate() + 1);
       return newDate.toISOString().split("T")[0];
     };
-  
-    const formattedDate = selectedDate ? incrementDateAndFormat(selectedDate) : "";
+
+    const formattedDate = selectedDate
+      ? incrementDateAndFormat(selectedDate)
+      : "";
     const formattedAdvanceDate = incrementDateAndFormat(advanceDate);
     const formattedAdvanceDateDue = incrementDateAndFormat(advanceDueDate);
-      
-      // const incrementDateAndFormat = (date) => {
-      //   const newDate = new Date(date);
-      //   newDate.setDate(newDate.getDate() + 1);
 
-      //   return newDate.toISOString().split("T")[0];
-      // };
-      // const formattedDate = selectedDate
-      //   ? incrementDateAndFormat(selectedDate)
-      //   : "";
+    dispatch({
+      type: "ADDUSER",
+      payload: {
+        profile: file,
+        firstname: firstname,
+        lastname: lastname,
+        Phone: Phone,
+        Email: Email,
+        Address: house_no,
+        area: street,
+        landmark: landmark,
+        city: city,
+        pincode: pincode,
+        state: state_name,
+        AadharNo: AadharNo,
+        PancardNo: PancardNo,
+        licence: licence,
+        HostelName: HostelName,
+        hostel_Id: hostel_Id,
+        Floor: Floor,
+        Rooms: Rooms,
+        Bed: Bed,
+        joining_date: formattedDate,
+        AdvanceAmount: AdvanceAmount,
+        RoomRent: RoomRent,
+        BalanceDue: BalanceDue,
+        PaymentType: PaymentType,
+        paid_advance: paid_advance,
+        paid_rent: paid_rent,
+        payable_rent: payableamount,
+        isadvance: 1,
+        invoice_date: formattedAdvanceDate,
+        due_date: formattedAdvanceDateDue,
+        ID: props.edit === "Edit" ? id : "",
+      },
+    });
 
-
-      //   const incrementDateAndFormatAdvance = (date) => {
-      //     const newDate = new Date(date);
-      //     newDate.setDate(newDate.getDate() + 1);
-  
-      //     return newDate.toISOString().split("T")[0];
-      //   };
-      //   const formattedAdvanceDate = advanceDate
-      //     ? incrementDateAndFormatAdvance(advanceDate)
-      //     : "";
-      //     const incrementDateAndFormatAdvanceDue = (date) => {
-      //       const newDate = new Date(date);
-      //       newDate.setDate(newDate.getDate() + 1);
-    
-      //       return newDate.toISOString().split("T")[0];
-      //     };
-      //     const formattedAdvanceDateDue = advanceDueDate
-      //       ? incrementDateAndFormatAdvanceDue(advanceDueDate)
-      //       : "";
-
-     
-
-      dispatch({
-        type: "ADDUSER",
-        payload: {
-          profile: file,
-          firstname: firstname,
-          lastname: lastname,
-          Phone: Phone,
-          Email: Email,
-          Address:house_no ,
-          area : street,
-          landmark : landmark,
-          city : city,
-          pincode : pincode,
-          state:state_name,
-          AadharNo: AadharNo,
-          PancardNo: PancardNo,
-          licence: licence,
-          HostelName: HostelName,
-          hostel_Id: hostel_Id,
-          Floor: Floor,
-          Rooms: Rooms,
-          Bed: Bed,
-          joining_date: formattedDate,
-          AdvanceAmount: AdvanceAmount,
-          RoomRent: RoomRent,
-          BalanceDue: BalanceDue,
-          PaymentType: PaymentType,
-          paid_advance: paid_advance,
-          paid_rent: paid_rent,
-          payable_rent: payableamount,
-          isadvance:1,
-          invoice_date:formattedAdvanceDate,
-          due_date:formattedAdvanceDateDue,
-          ID: props.edit === "Edit" ? id : "",
-        },
-      });
-      
-      dispatch({ type: "INVOICELIST" });
-    }
-    
-  
+    dispatch({ type: "INVOICELIST" });
+  };
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
@@ -1180,48 +848,15 @@ const handleSaveUserlistAddUser =async () => {
         props.setRoomDetail(false);
       }
       handleClose();
-      handleCloseAdvanceForm()
+      handleCloseAdvanceForm();
     }
   }, [state.UsersList?.statusCodeForAddUser]);
 
- 
-
-
-  // const customDateInput = (props) => {
-  //   return (
-  //     <div className="date-input-container w-100" onClick={props.onClick} style={{ position: "relative" }}>
-  //       <FormControl
-  //         type="text"
-  //         className='date_input'
-  //         value={props.value || 'DD/MM/YYYY'}
-  //         readOnly
-  //         style={{
-  //           border: "1px solid #D9D9D9",
-  //           borderRadius: 8,
-  //           padding: 9,
-  //           fontSize: 14,
-  //           fontFamily: "Gilroy",
-  //           fontWeight: props.value ? 600 : 500,
-  //           width: "100%",
-  //           height: 50,
-  //           boxSizing: "border-box",
-  //           boxShadow: "none"
-  //         }}
-  //       />
-  //       <img
-  //         src={Calendars}
-  //         style={{ height: 24, width: 24, marginLeft: 10, cursor: "pointer", position: "absolute", right: 10, top: "50%", transform: 'translateY(-50%)' }}
-  //         alt="Calendar"
-  //         onClick={props.onClick}
-  //       />
-  //     </div>
-  //   );
-  // };
-const handleCloseAdvanceForm =()=>{
-  props.setAdvanceForm(false)
-  setAdvanceDate("")
-  setAdvanceDueDate("")
-}
+  const handleCloseAdvanceForm = () => {
+    props.setAdvanceForm(false);
+    setAdvanceDate("");
+    setAdvanceDueDate("");
+  };
   return (
     <div>
       <Modal
@@ -1242,54 +877,24 @@ const handleCloseAdvanceForm =()=>{
             <div className="d-flex align-items-center">
               {props.displayDetail ? (
                 <div>
-                  <Modal.Header
-                    style={{  position: "relative",paddingTop:5 }}
-                  >
+                  <Modal.Header style={{ position: "relative", paddingTop: 5 }}>
                     <div
                       style={{
                         fontSize: 18,
                         fontWeight: 600,
-                        fontFamily: "Gilroy", textAlign: "start",
-
+                        fontFamily: "Gilroy",
+                        textAlign: "start",
                       }}
                     >
-                      {props.edit === "Edit"
-                        ? "Edit Customer"
-                        : "Add Customer"}
+                      {props.edit === "Edit" ? "Edit Customer" : "Add Customer"}
                     </div>
-                    {/* <button
-                      type="button"
-                      className="close"
-                      aria-label="Close"
+
+                    <CloseCircle
+                      size="24"
+                      color="#000"
                       onClick={handleClose}
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        marginTop: -15,
-                        border: "1px solid black",
-                        background: "transparent",
-                        cursor: "pointer",
-                        padding: "0",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "25px",
-                        height: "25px",
-                        borderRadius: "50%",
-                      }}
-                    >
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          fontSize: "30px",
-                          paddingBottom: "6px",
-                        }}
-                      >
-                        &times;
-                      </span>
-                    </button> */}
-                    <CloseCircle size="24" color="#000" onClick={handleClose} 
-            style={{ cursor: 'pointer' }}/>
+                      style={{ cursor: "pointer" }}
+                    />
                   </Modal.Header>
 
                   <div className="d-flex align-items-center mt-1">
@@ -1399,8 +1004,20 @@ const handleCloseAdvanceForm =()=>{
                       {firstnameError && (
                         <div style={{ color: "red", marginTop: "-15px" }}>
                           {" "}
-                          <MdError style={{fontSize: '13px',marginRight:"4px"}} />
-                          <span style={{fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {firstnameError}</span>
+                          <MdError
+                            style={{ fontSize: "13px", marginRight: "4px" }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {" "}
+                            {firstnameError}
+                          </span>
                         </div>
                       )}
                     </div>
@@ -1416,12 +1033,6 @@ const handleCloseAdvanceForm =()=>{
                           }}
                         >
                           Last Name{" "}
-                          {/* <span
-                            style={{ color: "transparent", fontSize: "20px" }}
-                          >
-                            {" "}
-                            *{" "}
-                          </span> */}
                         </Form.Label>
                         <FormControl
                           type="text"
@@ -1466,7 +1077,6 @@ const handleCloseAdvanceForm =()=>{
                         <Form.Select
                           value={countryCode}
                           id="vendor-select-pg"
-                          // onChange={handleCountryCodeChange}
                           style={{
                             border: "1px solid #D9D9D9",
 
@@ -1482,20 +1092,6 @@ const handleCloseAdvanceForm =()=>{
                             paddingRight: 10,
                           }}
                         >
-                          {/* {state.UsersList?.countrycode?.country_codes?.map(
-                            (item) => {
-                              return (
-                             
-                                (
-                                  <>
-                                    <option value={countryCode}>
-                                      +{item.country_code}
-                                    </option>
-                                  </>
-                                )
-                              );
-                            }
-                          )} */}
                           <option>{countryCode}</option>
                         </Form.Select>
                         <Form.Control
@@ -1521,24 +1117,64 @@ const handleCloseAdvanceForm =()=>{
                       </InputGroup>
                       <p
                         id="MobileNumberError"
-                        style={{ color: "red", fontSize: 11, marginTop: "-15px" }}
+                        style={{
+                          color: "red",
+                          fontSize: 11,
+                          marginTop: "-15px",
+                        }}
                       ></p>
                       {phoneError && (
                         <div style={{ color: "red" }}>
-                          <MdError style={{marginRight:"4px",fontSize: '13px',}}/>
-                          <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {phoneError}</span>
+                          <MdError
+                            style={{ marginRight: "4px", fontSize: "13px" }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {" "}
+                            {phoneError}
+                          </span>
                         </div>
                       )}
                       {phonenumError && (
                         <div style={{ color: "red" }}>
-                          <MdError style={{marginRight:"4px",fontSize: '13px',}}/>
-                          <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {phonenumError}</span>
+                          <MdError
+                            style={{ marginRight: "4px", fontSize: "13px" }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {" "}
+                            {phonenumError}
+                          </span>
                         </div>
                       )}
                       {phoneErrorMessage && (
                         <div style={{ color: "red" }}>
-                          <MdError style={{marginRight:"4px",fontSize: '13px',}}/>
-                          <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>  {phoneErrorMessage}</span>
+                          <MdError
+                            style={{ marginRight: "4px", fontSize: "13px" }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {" "}
+                            {phoneErrorMessage}
+                          </span>
                         </div>
                       )}
                     </Form.Group>
@@ -1554,12 +1190,6 @@ const handleCloseAdvanceForm =()=>{
                           }}
                         >
                           Email ID{" "}
-                          {/* <span
-                            style={{ color: "transparent", fontSize: "20px" }}
-                          >
-                            {" "}
-                            *{" "}
-                          </span> */}
                         </Form.Label>
                         <FormControl
                           type="text"
@@ -1581,323 +1211,54 @@ const handleCloseAdvanceForm =()=>{
                         {emailError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {emailError}</span>
+                            <span
+                              style={{
+                                fontSize: "12px",
+                                color: "red",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {" "}
+                              {emailError}
+                            </span>
                           </div>
                         )}
                         {emailIdError && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailIdError}</span>
+                            <span
+                              style={{
+                                fontSize: "12px",
+                                color: "red",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {emailIdError}
+                            </span>
                           </div>
                         )}
                         {emailErrorMessage && (
                           <div style={{ color: "red" }}>
                             <MdError />
-                            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span>
+                            <span
+                              style={{
+                                fontSize: "12px",
+                                color: "red",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {emailErrorMessage}
+                            </span>
                           </div>
                         )}
                       </Form.Group>
                     </div>
 
-                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                 <Form.Group className="">
-                                   <Form.Label
-                                     style={{
-                                       fontSize: 14,
-                                       color: "#222222",
-                                       fontFamily: "Gilroy",
-                                       fontWeight: 500,
-                                     }}
-                                   >
-                                     Flat , House no , Building , Company , Apartment {" "}
-                                   </Form.Label>
-                                   <FormControl
-                                     type="text"
-                                     id="form-controls"
-                                     placeholder="Enter House No"
-                                     value={house_no}
-                                     onChange={(e) => handleHouseNo(e)}
-                                     style={{
-                                       fontSize: 16,
-                                       color: "#4B4B4B",
-                                       fontFamily: "Gilroy",
-                                       fontWeight: 500,
-                                       boxShadow: "none",
-                                       border: "1px solid #D9D9D9",
-                                       height: 50,
-                                       borderRadius: 8,
-                                     }}
-                                   />
-                                 </Form.Group>
-                                 {house_noError && (
-                                   <div style={{ color: "red"}}>
-                                     <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                     <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                                   </div>
-                                 )}
-                               </div>
-                   
-                               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                 <Form.Group className="">
-                                   <Form.Label
-                                     style={{
-                                       fontSize: 14,
-                                       color: "#222222",
-                                       fontFamily: "Gilroy",
-                                       fontWeight: 500,
-                                     }}
-                                   >
-                                     Area , Street , Sector , Village{" "}
-                                   </Form.Label>
-                                   <FormControl
-                                     type="text"
-                                     id="form-controls"
-                                     placeholder="Enter Street"
-                                     value={street}
-                                     onChange={(e) => handleStreetName(e)}
-                                     style={{
-                                       fontSize: 16,
-                                       color: "#4B4B4B",
-                                       fontFamily: "Gilroy",
-                                       fontWeight: 500,
-                                       boxShadow: "none",
-                                       border: "1px solid #D9D9D9",
-                                       height: 50,
-                                       borderRadius: 8,
-                                     }}
-                                   />
-                                 </Form.Group>
-                                 {streetError && (
-                                   <div style={{ color: "red"}}>
-                                     <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                     <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                                   </div>
-                                 )}
-                               </div>
-                   
-                               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                 <Form.Group className="">
-                                   <Form.Label
-                                     style={{
-                                       fontSize: 14,
-                                       color: "#222222",
-                                       fontFamily: "Gilroy",
-                                       fontWeight: 500,
-                                     }}
-                                   >
-                                     Landmark{" "}
-                                   </Form.Label>
-                                   <FormControl
-                                     type="text"
-                                     id="form-controls"
-                                     placeholder="E.g , near appollo hospital"
-                                     value={landmark}
-                                     onChange={(e) => handleLandmark(e)}
-                                     style={{
-                                       fontSize: 16,
-                                       color: "#4B4B4B",
-                                       fontFamily: "Gilroy",
-                                       fontWeight: 500,
-                                       boxShadow: "none",
-                                       border: "1px solid #D9D9D9",
-                                       height: 50,
-                                       borderRadius: 8,
-                                     }}
-                                   />
-                                 </Form.Group>
-                                 {landmarkError && (
-                                   <div style={{ color: "red"}}>
-                                     <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                     <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                                   </div>
-                                 )}
-                               </div>
-                   
-                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                   <Form.Group
-                                                                  className=""
-                                                            controlId="exampleForm.ControlInput1"
-                                                                                                       >
-                                                                                                         <Form.Label
-                                                                                                           style={{
-                                                                                                             fontSize: 14,
-                                                                                                             color: "#222222",
-                                                                                                             fontFamily: "Gilroy",
-                                                                                                             fontWeight: 500,
-                                                                                                           }}
-                                                                                                         >
-                                                                                                           Pincode
-                                                                                                           <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                                                                                                         </Form.Label>
-                                                                                                         <Form.Control
-                                                                                                           value={pincode}
-                                                                                                           onChange={(e) => handlePinCodeChange(e)}
-                                                                                                           type="tel"
-                                                                                                           maxLength={6}
-                                                                                                           inputMode="numeric" 
-                                                                                                           pattern="[0-9]*" 
-                                                                                                           placeholder="Enter Pincode"
-                                                                                                           style={{
-                                                                                                             fontSize: 16,
-                                                                                                             color: "#4B4B4B",
-                                                                                                             fontFamily: "Gilroy",
-                                                                                                             fontWeight: pincode ? 600 : 500,
-                                                                                                             boxShadow: "none",
-                                                                                                             border: "1px solid #D9D9D9",
-                                                                                                             height: 50,
-                                                                                                             borderRadius: 8,
-                                                                                                           }}
-                                                                                                         />
-                                                                                                         {pincodeError && (
-                                                                                                           <div className="d-flex align-items-center p-1 mb-2">
-                                                                                                             <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                                                                             <label
-                                                                                                               className="mb-0"
-                                                                                                               style={{
-                                                                                                                 color: "red",
-                                                                                                                 fontSize: "12px",
-                                                                                                                 fontFamily: "Gilroy",
-                                                                                                                 fontWeight: 500,
-                                                                                                               }}
-                                                                                                             >
-                                                                                                               {pincodeError}
-                                                                                                             </label>
-                                                                                                           </div>
-                                                                                                         )}
-                                                                                       
-                                                                                       
-                                                                                                       </Form.Group>
-                                                                                                     </div>
-                   
-                               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                 <Form.Group className="">
-                                   <Form.Label
-                                     style={{
-                                       fontSize: 14,
-                                       color: "#222222",
-                                       fontFamily: "Gilroy",
-                                       fontWeight: 500,
-                                     }}
-                                   >
-                                     Town/City{" "}
-                                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                   </Form.Label>
-                                   <FormControl
-                                     type="text"
-                                     id="form-controls"
-                                     placeholder="Enter City"
-                                     value={city}
-                                     onChange={(e) => handleCity(e)}
-                                     style={{
-                                       fontSize: 16,
-                                       color: "#4B4B4B",
-                                       fontFamily: "Gilroy",
-                                       fontWeight: 500,
-                                       boxShadow: "none",
-                                       border: "1px solid #D9D9D9",
-                                       height: 50,
-                                       borderRadius: 8,
-                                     }}
-                                   />
-                                 </Form.Group>
-                                 {cityError && (
-                                   <div style={{ color: "red" }}>
-                                     <MdError style={{fontSize: '13px',marginRight:"5px"}} />
-                                     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                                   </div>
-                                 )}
-                               </div>
-                   
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                <Form.Label
-                                  style={{
-                                    fontFamily: "Gilroy",
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    color: "#222",
-                                    fontStyle: "normal",
-                                    lineHeight: "normal",
-                                  }}
-                                >
-                                  State
-                                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                </Form.Label>
-                            
-                                <Select
-                                  options={indianStates}
-                                  onChange={(selectedOption) => {
-                                    setStateName(selectedOption?.value);
-                                  }}
-                                  value={
-                                    state_name ? { value: state_name, label: state_name } : null
-                                  }
-                                  placeholder="Select State"
-                                  classNamePrefix="custom"
-                                  menuPlacement="auto"
-                                  noOptionsMessage={() => "No state available"}
-                                  styles={{
-                                    control: (base) => ({
-                                      ...base,
-                                      height: "50px",
-                                      border: "1px solid #D9D9D9",
-                                      borderRadius: "8px",
-                                      fontSize: "16px",
-                                      color: "#4B4B4B",
-                                      fontFamily: "Gilroy",
-                                      fontWeight: state_name ? 600 : 500,
-                                      boxShadow: "none",
-                                    }),
-                                    menu: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      border: "1px solid #ced4da",
-                                    }),
-                                    menuList: (base) => ({
-                                      ...base,
-                                      backgroundColor: "#f8f9fa",
-                                      maxHeight: "120px",
-                                      padding: 0,
-                                      scrollbarWidth: "thin",
-                                      overflowY: "auto",
-                                    }),
-                                    placeholder: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                    }),
-                                    dropdownIndicator: (base) => ({
-                                      ...base,
-                                      color: "#555",
-                                      cursor: "pointer",
-                                    }),
-                                    indicatorSeparator: () => ({
-                                      display: "none",
-                                    }),
-                                    option: (base, state) => ({
-                                      ...base,
-                                      cursor: "pointer",
-                                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                      color: "#000",
-                                    }),
-                                  }}
-                                />
-                              </Form.Group>
-                            
-                              {!state_name && state_nameError && (
-  <div style={{ color: "red",marginTop:"-16px" }}>
-    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {state_nameError}
-    </span>
-  </div>
-)}
-
-                            </div>
-                   
-
-
-                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <Form.Group className="mb-3">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                      <Form.Group className="">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -1906,18 +1267,14 @@ const handleCloseAdvanceForm =()=>{
                             fontWeight: 500,
                           }}
                         >
-                          Address
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
+                          Flat , House no , Building , Company , Apartment{" "}
                         </Form.Label>
                         <FormControl
                           type="text"
                           id="form-controls"
-                          value={Address}
-                          placeholder="Enter Address"
-                          onChange={(e) => handleAddress(e)}
+                          placeholder="Enter House No"
+                          value={house_no}
+                          onChange={(e) => handleHouseNo(e)}
                           style={{
                             fontSize: 16,
                             color: "#4B4B4B",
@@ -1929,64 +1286,359 @@ const handleCloseAdvanceForm =()=>{
                             borderRadius: 8,
                           }}
                         />
-                        {addressError && (
-                          <div style={{ color: "red" }}>
-                            <MdError style={{marginRight:"5px",fontSize:"12px"}}/>
-                            <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span>
+                      </Form.Group>
+                      {house_noError && (
+                        <div style={{ color: "red" }}>
+                          <MdError
+                            style={{
+                              fontFamily: "Gilroy",
+                              fontSize: "13px",
+                              marginRight: "5px",
+                              marginBottom: "1px",
+                            }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {house_noError}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                      <Form.Group className="">
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
+                            color: "#222222",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Area , Street , Sector , Village{" "}
+                        </Form.Label>
+                        <FormControl
+                          type="text"
+                          id="form-controls"
+                          placeholder="Enter Street"
+                          value={street}
+                          onChange={(e) => handleStreetName(e)}
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
+                            border: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: 8,
+                          }}
+                        />
+                      </Form.Group>
+                      {streetError && (
+                        <div style={{ color: "red" }}>
+                          <MdError
+                            style={{
+                              fontFamily: "Gilroy",
+                              fontSize: "13px",
+                              marginRight: "5px",
+                              marginBottom: "1px",
+                            }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {streetError}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                      <Form.Group className="">
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
+                            color: "#222222",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Landmark{" "}
+                        </Form.Label>
+                        <FormControl
+                          type="text"
+                          id="form-controls"
+                          placeholder="E.g , near appollo hospital"
+                          value={landmark}
+                          onChange={(e) => handleLandmark(e)}
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
+                            border: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: 8,
+                          }}
+                        />
+                      </Form.Group>
+                      {landmarkError && (
+                        <div style={{ color: "red" }}>
+                          <MdError
+                            style={{
+                              fontFamily: "Gilroy",
+                              fontSize: "13px",
+                              marginRight: "5px",
+                              marginBottom: "1px",
+                            }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {landmarkError}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      <Form.Group
+                        className=""
+                        controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
+                            color: "#222222",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Pincode
+                          <span style={{ color: "red", fontSize: "20px" }}>
+                            *
+                          </span>
+                        </Form.Label>
+                        <Form.Control
+                          value={pincode}
+                          onChange={(e) => handlePinCodeChange(e)}
+                          type="tel"
+                          maxLength={6}
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          placeholder="Enter Pincode"
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: pincode ? 600 : 500,
+                            boxShadow: "none",
+                            border: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: 8,
+                          }}
+                        />
+                        {pincodeError && (
+                          <div className="d-flex align-items-center p-1 mb-2">
+                            <MdError
+                              style={{
+                                color: "red",
+                                marginRight: "5px",
+                                fontSize: "13px",
+                                marginBottom: "2px",
+                              }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {pincodeError}
+                            </label>
                           </div>
                         )}
                       </Form.Group>
-                    </div> */}
+                    </div>
 
-                    {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Paying Guest
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </Form.Label>
-                      <Form.Select
-                        aria-label="Default select example"
-                        className="border"
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
-                        }}
-                        value={hostel_Id}
-                        onChange={(e) => handleHostelId(e)}
-                      >
-                        <option>Select a PG</option>
-                        {state.UsersList?.hostelList?.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.Name}
-                          </option>
-                        ))}
-                      </Form.Select>
-                      {hostelIdError && (
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                      <Form.Group className="">
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
+                            color: "#222222",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Town/City{" "}
+                          <span style={{ color: "red", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
+                        </Form.Label>
+                        <FormControl
+                          type="text"
+                          id="form-controls"
+                          placeholder="Enter City"
+                          value={city}
+                          onChange={(e) => handleCity(e)}
+                          style={{
+                            fontSize: 16,
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
+                            border: "1px solid #D9D9D9",
+                            height: 50,
+                            borderRadius: 8,
+                          }}
+                        />
+                      </Form.Group>
+                      {cityError && (
                         <div style={{ color: "red" }}>
-                          <MdError />
-                          {hostelIdError}
+                          <MdError
+                            style={{ fontSize: "13px", marginRight: "5px" }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {cityError}{" "}
+                          </span>
                         </div>
                       )}
-                    </div> */}
+                    </div>
+
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlInput5"
+                      >
+                        <Form.Label
+                          style={{
+                            fontFamily: "Gilroy",
+                            fontSize: 14,
+                            fontWeight: 500,
+                            color: "#222",
+                            fontStyle: "normal",
+                            lineHeight: "normal",
+                          }}
+                        >
+                          State
+                          <span style={{ color: "red", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
+                        </Form.Label>
+
+                        <Select
+                          options={indianStates}
+                          onChange={(selectedOption) => {
+                            setStateName(selectedOption?.value);
+                          }}
+                          value={
+                            state_name
+                              ? { value: state_name, label: state_name }
+                              : null
+                          }
+                          placeholder="Select State"
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          noOptionsMessage={() => "No state available"}
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: state_name ? 600 : 500,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              cursor: "pointer",
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused
+                                ? "#f0f0f0"
+                                : "white",
+                              color: "#000",
+                            }),
+                          }}
+                        />
+                      </Form.Group>
+
+                      {!state_name && state_nameError && (
+                        <div style={{ color: "red", marginTop: "-16px" }}>
+                          <MdError
+                            style={{ fontSize: "13px", marginRight: "5px" }}
+                          />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {state_nameError}
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <Button
-                     className="w-100"
+                    className="w-100"
                     style={{
                       backgroundColor: "#1E45E1",
                       fontWeight: 600,
@@ -2003,10 +1655,8 @@ const handleCloseAdvanceForm =()=>{
                 </div>
               ) : (
                 <div className="">
-                 
-
                   <Modal.Header
-                    style={{ position: "relative",marginTop:"-20px" }}
+                    style={{ position: "relative", marginTop: "-20px" }}
                   >
                     <div
                       style={{
@@ -2017,39 +1667,13 @@ const handleCloseAdvanceForm =()=>{
                     >
                       Assign Bed
                     </div>
-                    {/* <button
-                      type="button"
-                      className="close"
-                      aria-label="Close"
+
+                    <CloseCircle
+                      size="24"
+                      color="#000"
                       onClick={handleClose}
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        // top: "16px",
-                        border: "1px solid black",
-                        background: "transparent",
-                        cursor: "pointer",
-                        padding: "0",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "25px",
-                        height: "25px",
-                        borderRadius: "50%",
-                      }}
-                    >
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          fontSize: "30px",
-                          paddingBottom: "6px",
-                        }}
-                      >
-                        &times;
-                      </span>
-                    </button> */}
-                    <CloseCircle size="24" color="#000" onClick={handleClose} 
-            style={{ cursor: 'pointer' }}/>
+                      style={{ cursor: "pointer" }}
+                    />
                   </Modal.Header>
 
                   <div className="row">
@@ -2059,7 +1683,7 @@ const handleCloseAdvanceForm =()=>{
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          paddingTop:"6px"
+                          paddingTop: "6px",
                         }}
                       >
                         Floor
@@ -2068,99 +1692,80 @@ const handleCloseAdvanceForm =()=>{
                           *{" "}
                         </span>
                       </Form.Label>
-                      {/* <Form.Select
-                        aria-label="Default select example"
-                        placeholder="Select no. of floor"
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
+
+                      <Select
+                        options={
+                          state.UsersList?.hosteldetailslist?.map((u) => ({
+                            value: u.floor_id,
+                            label: u.floor_name,
+                          })) || []
+                        }
+                        onChange={handleFloor}
+                        value={
+                          state.UsersList?.hosteldetailslist?.find(
+                            (option) => option.floor_id === Floor
+                          )
+                            ? {
+                                value: Floor,
+                                label: state.UsersList.hosteldetailslist.find(
+                                  (option) => option.floor_id === Floor
+                                )?.floor_name,
+                              }
+                            : null
+                        }
+                        placeholder="Select a Floor"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "50px",
+                            border: "1px solid #D9D9D9",
+                            borderRadius: "8px",
+                            fontSize: "16px",
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                            cursor: "pointer",
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
                         }}
-                        id="form-selects"
-                        className="border"
-                        value={Floor}
-                        onChange={(e) => handleFloor(e)}
-                      >
-                        <option>Selected Floor</option>
-                        {state.UsersList?.hosteldetailslist?.map((u) => (
-                          <option key={u.floor_id} value={u.floor_id}>
-                            {u.floor_name}
-                          </option>
-                        ))}
-                      </Form.Select> */}
-                   
-
-
-  <Select
-    options={
-      state.UsersList?.hosteldetailslist?.map((u) => ({
-        value: u.floor_id,
-        label: u.floor_name,
-      })) || []
-    }
-    onChange= {handleFloor}
-    value={
-      state.UsersList?.hosteldetailslist?.find((option) => option.floor_id === Floor)
-        ? { value: Floor, label: state.UsersList.hosteldetailslist.find((option) => option.floor_id === Floor)?.floor_name }
-        : null
-    }
-    placeholder="Select a Floor"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px", 
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto", 
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        display: "inline-block",
-        fill: "currentColor",
-        lineHeight: 1,
-        stroke: "currentColor",
-        strokeWidth: 0,
-        cursor:"pointer"
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
-
+                      />
 
                       {floorError && (
                         <div style={{ color: "red" }}>
-                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                          <MdError
+                            style={{ fontSize: "13px", marginRight: "5px" }}
+                          />
                           <label
                             className="mb-0"
                             style={{
@@ -2172,7 +1777,6 @@ const handleCloseAdvanceForm =()=>{
                           >
                             {floorError}
                           </label>
-
                         </div>
                       )}
                     </div>
@@ -2191,104 +1795,82 @@ const handleCloseAdvanceForm =()=>{
                           *{" "}
                         </span>
                       </Form.Label>
-                      {/* <Form.Select
-                        aria-label="Default select example"
-                        placeholder="Select no. of rooms"
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
+
+                      <Select
+                        options={
+                          state.UsersList?.roomdetails?.map((item) => ({
+                            value: item.Room_Id,
+                            label: item.Room_Name,
+                          })) || []
+                        }
+                        onChange={(selectedOption) =>
+                          handleRooms(selectedOption?.value)
+                        }
+                        value={
+                          state.UsersList?.roomdetails?.find(
+                            (option) => option.Room_Id === Rooms
+                          )
+                            ? {
+                                value: Rooms,
+                                label: state.UsersList.roomdetails.find(
+                                  (option) => option.Room_Id === Rooms
+                                )?.Room_Name,
+                              }
+                            : null
+                        }
+                        placeholder="Select a Room"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "50px",
+                            border: "1px solid #D9D9D9",
+                            borderRadius: "8px",
+                            fontSize: "16px",
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                            cursor: "pointer",
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
                         }}
-                        value={Rooms}
-                        className="border"
-                        id="form-selects"
-                        onChange={(e) => handleRooms(e)}
-                      >
-                        <option>Selected Room</option>
-
-                        {state.UsersList?.roomdetails &&
-                          state.UsersList.roomdetails.map((item) => (
-                            <option key={item.Room_Id} value={item.Room_Id}>
-                              {item.Room_Name}
-                            </option>
-                          ))}
-                      </Form.Select> */}
-                    
-  <Select
-    options={
-      state.UsersList?.roomdetails?.map((item) => ({
-        value: item.Room_Id,
-        label: item.Room_Name,
-      })) || []
-    }
-    onChange={(selectedOption) => handleRooms(selectedOption?.value)}
-    value={
-      state.UsersList?.roomdetails?.find((option) => option.Room_Id === Rooms)
-        ? {
-            value: Rooms,
-            label: state.UsersList.roomdetails.find(
-              (option) => option.Room_Id === Rooms
-            )?.Room_Name,
-          }
-        : null
-    }
-    placeholder="Select a Room"
-    classNamePrefix="custom" 
-    menuPlacement="auto"
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        display: "inline-block",
-        fill: "currentColor",
-        lineHeight: 1,
-        stroke: "currentColor",
-        strokeWidth: 0,
-        cursor:"pointer"
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
-
+                      />
 
                       {roomError && (
                         <div style={{ color: "red" }}>
-                          <MdError style={{ fontSize: "13px", marginRight: "5px" }}/>
+                          <MdError
+                            style={{ fontSize: "13px", marginRight: "5px" }}
+                          />
                           <label
                             className="mb-0"
                             style={{
@@ -2300,7 +1882,6 @@ const handleCloseAdvanceForm =()=>{
                           >
                             {roomError}
                           </label>
-                          
                         </div>
                       )}
                     </div>
@@ -2320,136 +1901,88 @@ const handleCloseAdvanceForm =()=>{
                         </span>
                       </Form.Label>
 
-                      {/* <Form.Select
-                        aria-label="Default select example"
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
-                        }}
-                        value={Bed}
-                        className="border"
-                        placeholder="Select a bed"
-                        id="form-selects"
-                        onChange={(e) => handleBed(e)}
-                      >
-                        <option value="" selected>
-                          Selected Bed
-                        </option>
-
-                        {props.edit === "Edit" &&
-                          Bednum &&
-                          Bednum.Bed &&
-                          Bednum.Bed !== "undefined" &&
-                          Bednum.Bed !== "" &&
-                          Bednum.Bed !== "null" &&
-                          Bednum.Bed !== "0" && (
-                            <option value={Bednum.Bed} selected>
-                              {Bednum.Bed}
-                            </option>
-                          )}
-
-                        {state.UsersList?.bednumberdetails?.bed_details &&
+                      <Select
+                        options={
                           state.UsersList?.bednumberdetails?.bed_details
-                            .filter(
+                            ?.filter(
                               (item) =>
                                 item.bed_no !== "0" &&
                                 item.bed_no !== "undefined" &&
                                 item.bed_no !== "" &&
                                 item.bed_no !== "null"
                             )
-                            .map((item) => (
-                              <option key={item.id} value={item.id}>
-                                {item.bed_no}
-                              </option>
-                            ))}
-                      </Form.Select> */}
-
-  <Select
-    options={
-      state.UsersList?.bednumberdetails?.bed_details
-        ?.filter(
-          (item) =>
-            item.bed_no !== "0" &&
-            item.bed_no !== "undefined" &&
-            item.bed_no !== "" &&
-            item.bed_no !== "null"
-        )
-        ?.map((item) => ({
-          value: item.id,
-          label: item.bed_no,
-        })) || []
-    }
-    onChange={handleBed}
-    value={
-      state.UsersList?.bednumberdetails?.bed_details?.find(
-        (option) => option.id === Bed
-      )
-        ? {
-            value: Bed,
-            label: state.UsersList.bednumberdetails.bed_details.find(
-              (option) => option.id === Bed
-            )?.bed_no,
-          }
-        : null
-    }
-    placeholder="Select a Bed"
-    classNamePrefix="custom" // Prefix for custom styles
-    menuPlacement="auto"
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px", // Scrollable dropdown
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        display: "inline-block",
-        fill: "currentColor",
-        lineHeight: 1,
-        stroke: "currentColor",
-        strokeWidth: 0,
-        cursor:"pointer"
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
-
+                            ?.map((item) => ({
+                              value: item.id,
+                              label: item.bed_no,
+                            })) || []
+                        }
+                        onChange={handleBed}
+                        value={
+                          state.UsersList?.bednumberdetails?.bed_details?.find(
+                            (option) => option.id === Bed
+                          )
+                            ? {
+                                value: Bed,
+                                label:
+                                  state.UsersList.bednumberdetails.bed_details.find(
+                                    (option) => option.id === Bed
+                                  )?.bed_no,
+                              }
+                            : null
+                        }
+                        placeholder="Select a Bed"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "50px",
+                            border: "1px solid #D9D9D9",
+                            borderRadius: "8px",
+                            fontSize: "16px",
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                            cursor: "pointer",
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                        }}
+                      />
 
                       {bedError && (
                         <div style={{ color: "red" }}>
-                          <MdError style={{ fontSize: "13px", marginRight: "5px" }}/>
+                          <MdError
+                            style={{ fontSize: "13px", marginRight: "5px" }}
+                          />
                           <label
                             className="mb-0"
                             style={{
@@ -2461,36 +1994,55 @@ const handleCloseAdvanceForm =()=>{
                           >
                             {bedError}
                           </label>
-                         
                         </div>
                       )}
                     </div>
 
-                    <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2'>
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                       <Form.Group controlId="purchaseDate">
-                        <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                          Joining Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
+                            color: "#222222",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Joining Date{" "}
+                          <span style={{ color: "red", fontSize: "20px" }}>
+                            *
+                          </span>
                         </Form.Label>
-           
-    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-  <DatePicker
-    style={{ width: "100%", height: 48,cursor:"pointer" }}
-    format="DD/MM/YYYY"
-    placeholder="DD/MM/YYYY"
-    value={selectedDate ? dayjs(selectedDate) : null}
-    onChange={(date) => {
-      setDateError('');
-      setSelectedDate(date ? date.toDate() : null);
-    }}
-    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-   
-  />
-</div>
+
+                        <div
+                          className="datepicker-wrapper"
+                          style={{ position: "relative", width: "100%" }}
+                        >
+                          <DatePicker
+                            style={{
+                              width: "100%",
+                              height: 48,
+                              cursor: "pointer",
+                            }}
+                            format="DD/MM/YYYY"
+                            placeholder="DD/MM/YYYY"
+                            value={selectedDate ? dayjs(selectedDate) : null}
+                            onChange={(date) => {
+                              setDateError("");
+                              setSelectedDate(date ? date.toDate() : null);
+                            }}
+                            getPopupContainer={(triggerNode) =>
+                              triggerNode.closest(".datepicker-wrapper")
+                            }
+                          />
+                        </div>
                       </Form.Group>
 
                       {dateError && (
-                        <div style={{ color: "red",marginTop:"-px" }}>
-                          <MdError  style={{ fontSize: "13px", marginRight: "5px" }}/>
+                        <div style={{ color: "red", marginTop: "-px" }}>
+                          <MdError
+                            style={{ fontSize: "13px", marginRight: "5px" }}
+                          />
                           <label
                             className="mb-0"
                             style={{
@@ -2502,8 +2054,6 @@ const handleCloseAdvanceForm =()=>{
                           >
                             {dateError}
                           </label>
-                          
-                          
                         </div>
                       )}
                     </div>
@@ -2543,7 +2093,9 @@ const handleCloseAdvanceForm =()=>{
                       </Form.Group>
                       {advanceAmountError && (
                         <div style={{ color: "red" }}>
-                          <MdError  style={{ fontSize: "13px", marginRight: "5px" }}/>
+                          <MdError
+                            style={{ fontSize: "13px", marginRight: "5px" }}
+                          />
                           <label
                             className="mb-0"
                             style={{
@@ -2553,9 +2105,8 @@ const handleCloseAdvanceForm =()=>{
                               fontWeight: 500,
                             }}
                           >
-                        {advanceAmountError}
+                            {advanceAmountError}
                           </label>
-                         
                         </div>
                       )}
                     </div>
@@ -2594,8 +2145,13 @@ const handleCloseAdvanceForm =()=>{
                         />
                       </Form.Group>
                       {roomrentError && (
-                        <div className="d-flex align-items-center justify-content-start" style={{ color: "red" }}>
-                          <MdError  style={{ fontSize: "13px", marginRight: "5px"}}/>
+                        <div
+                          className="d-flex align-items-center justify-content-start"
+                          style={{ color: "red" }}
+                        >
+                          <MdError
+                            style={{ fontSize: "13px", marginRight: "5px" }}
+                          />
                           <label
                             className="mb-0"
                             style={{
@@ -2605,9 +2161,8 @@ const handleCloseAdvanceForm =()=>{
                               fontWeight: 500,
                             }}
                           >
-                      {roomrentError}
+                            {roomrentError}
                           </label>
-                          
                         </div>
                       )}
                     </div>
@@ -2622,7 +2177,7 @@ const handleCloseAdvanceForm =()=>{
                       borderRadius: 12,
                       fontSize: 16,
                       fontFamily: "Montserrat",
-                      marginTop:10
+                      marginTop: 10,
                     }}
                     onClick={handleSaveUserlistAddUser}
                   >
@@ -2637,53 +2192,46 @@ const handleCloseAdvanceForm =()=>{
         </Modal.Dialog>
       </Modal>
 
+      <Modal
+        show={props.advanceForm}
+        onHide={handleCloseAdvanceForm}
+        backdrop="static"
+        centered
+      >
+        <Modal.Dialog
+          style={{
+            maxWidth: 666,
+            paddingRight: "10px",
+            borderRadius: "30px",
+          }}
+          className="m-0 p-0"
+        >
+          <Modal.Body style={{ marginTop: -30 }}>
+            <div className="d-flex align-items-center">
+              <div className="container">
+                <div className="row mb-3"></div>
 
-
-     
-        <Modal
-                    show={props.advanceForm}
-                    onHide={handleCloseAdvanceForm}
-                    backdrop="static"
-                    centered
+                <Modal.Header style={{ position: "relative" }}>
+                  <div
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                    }}
                   >
-                    <Modal.Dialog
-                      style={{
-                        maxWidth: 666,
-                        paddingRight: "10px",
-                        borderRadius: "30px",
-                      }}
-                      className="m-0 p-0"
-                    >
-                      <Modal.Body  style={{marginTop:-30}}>
-                        <div className="d-flex align-items-center">
-                          
-                            <div className="container">
-                              <div className="row mb-3"></div>
-            
-                              <Modal.Header
-                                style={{ position: "relative" }}
-                              >
-                                <div
-                                  style={{
-                                    fontSize: 20,
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  Generate Advance
-                                </div>
-                                
-                                <CloseCircle size="24" color="#000" onClick={handleCloseAdvanceForm} 
-                    style={{ cursor: 'pointer' }}/>
-                              </Modal.Header>
-            
-            
-            
-            
-                              <div className="row mb-3">
-                                
-                    
-                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    Generate Advance
+                  </div>
+
+                  <CloseCircle
+                    size="24"
+                    color="#000"
+                    onClick={handleCloseAdvanceForm}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Modal.Header>
+
+                <div className="row mb-3">
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2" controlId="checkoutDate">
                       <Form.Label
                         style={{
@@ -2693,42 +2241,53 @@ const handleCloseAdvanceForm =()=>{
                           fontWeight: 500,
                         }}
                       >
-                        Invoice Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                        Invoice Date{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          *
+                        </span>
                       </Form.Label>
-            
-                      <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
-                  <DatePicker
-                                                  style={{ width: "100%", height: 48,cursor: "pointer"}}
-                                                  format="DD/MM/YYYY"
-                                                  placeholder="DD/MM/YYYY"
-                                                  value={advanceDate ? dayjs(advanceDate) : null}
-                                                  onChange={(date) => {
-                                                    setAdvanceDateError("")
-                                                    setAdvanceDate(date ? date.toDate() : null);
-                                                  }}
-                                                  getPopupContainer={(triggerNode) =>
-                                                    triggerNode.closest('.datepicker-wrapper')
-                                                  }
-                                                  dropdownClassName="custom-datepicker-popup"
-                                                />
-                                                </div>
+
+                      <div
+                        className="datepicker-wrapper"
+                        style={{ position: "relative", width: "100%" }}
+                      >
+                        <DatePicker
+                          style={{
+                            width: "100%",
+                            height: 48,
+                            cursor: "pointer",
+                          }}
+                          format="DD/MM/YYYY"
+                          placeholder="DD/MM/YYYY"
+                          value={advanceDate ? dayjs(advanceDate) : null}
+                          onChange={(date) => {
+                            setAdvanceDateError("");
+                            setAdvanceDate(date ? date.toDate() : null);
+                          }}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.closest(".datepicker-wrapper")
+                          }
+                          dropdownClassName="custom-datepicker-popup"
+                        />
+                      </div>
                     </Form.Group>
-                     {advanceDateError && (
-                                                         <div style={{ color: "red",marginTop:"-7px" }}>
-                                                           <MdError style={{fontSize:"13px",marginRight:"5px"}}/>
-                                                           <span
-                                                             style={{
-                                                               fontSize: "12px",
-                                                               color: "red",
-                                                               fontFamily: "Gilroy",
-                                                               fontWeight: 500,
-                                                             }}
-                                                           >
-                                                             {advanceDateError}
-                                                           </span>
-                                                         </div>
-                                                       )}
-                   
+                    {advanceDateError && (
+                      <div style={{ color: "red", marginTop: "-7px" }}>
+                        <MdError
+                          style={{ fontSize: "13px", marginRight: "5px" }}
+                        />
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            color: "red",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {advanceDateError}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-2" controlId="checkoutDate">
@@ -2740,131 +2299,123 @@ const handleCloseAdvanceForm =()=>{
                           fontWeight: 500,
                         }}
                       >
-                        Due Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                        Due Date{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          *
+                        </span>
                       </Form.Label>
-            
-                      <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
-                  <DatePicker
-                                                  style={{ width: "100%", height: 48,cursor: "pointer" }}
-                                                  format="DD/MM/YYYY"
-                                                  placeholder="DD/MM/YYYY"
-                                                  value={advanceDueDate ? dayjs(advanceDueDate) : null}
-                                                  onChange={(date) => {
-                                                    setAdvanceDueDateError("")
-                                                    setAdvanceDueDate(date ? date.toDate() : null);
-                                                  }}
-                                                  getPopupContainer={(triggerNode) =>
-                                                    triggerNode.closest('.datepicker-wrapper')
-                                                  }
-                                                  dropdownClassName="custom-datepicker-popup"
-                                                />
-                                                </div>
+
+                      <div
+                        className="datepicker-wrapper"
+                        style={{ position: "relative", width: "100%" }}
+                      >
+                        <DatePicker
+                          style={{
+                            width: "100%",
+                            height: 48,
+                            cursor: "pointer",
+                          }}
+                          format="DD/MM/YYYY"
+                          placeholder="DD/MM/YYYY"
+                          value={advanceDueDate ? dayjs(advanceDueDate) : null}
+                          onChange={(date) => {
+                            setAdvanceDueDateError("");
+                            setAdvanceDueDate(date ? date.toDate() : null);
+                          }}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.closest(".datepicker-wrapper")
+                          }
+                          dropdownClassName="custom-datepicker-popup"
+                        />
+                      </div>
                     </Form.Group>
-                     {advanceDueDateError && (
-                                                         <div style={{ color: "red",marginTop:"-7px" }}>
-                                                           <MdError style={{fontSize:"13px",marginRight:"5px"}}/>
-                                                           <span
-                                                             style={{
-                                                               fontSize: "12px",
-                                                               color: "red",
-                                                               fontFamily: "Gilroy",
-                                                               fontWeight: 500,
-                                                             }}
-                                                           >
-                                                             {advanceDueDateError}
-                                                           </span>
-                                                         </div>
-                                                       )}
-                   
+                    {advanceDueDateError && (
+                      <div style={{ color: "red", marginTop: "-7px" }}>
+                        <MdError
+                          style={{ fontSize: "13px", marginRight: "5px" }}
+                        />
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            color: "red",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {advanceDueDateError}
+                        </span>
+                      </div>
+                    )}
                   </div>
-        
-                              </div>
-                              
-            
-                              {/* <Button
-                                className="w-100"
-                                style={{
-                                  backgroundColor: "#1E45E1",
-                                  fontWeight: 600,
-                                  height: 50,
-                                  borderRadius: 12,
-                                  fontSize: 16,
-                                  fontFamily: "Montserrat",
-                                }}
-                                // onClick={handleGenerateAdvance}
-                              >
-                              Generate Advance
-                              </Button> */}
-     <div className="row col-md-12 col-lg-12">                    
-  <div className="col-md-6 col-lg-6 mb-2">
-    <Button
-      variant="secondary"
-      className="w-100"
-      style={{
-        height: 45,
-        borderRadius: 12,
-        fontSize: 15,
-        fontWeight: 500,
-        fontFamily: "Montserrat",
-        paddingLeft: 20,
-        paddingRight: 20,
-      }}
-      onClick={handleSaveUserlistAddUserButon}
-    >
-      Cancel
-    </Button>
-  </div>
+                </div>
 
-  <div className="col-md-6 col-lg-6 mb-2">
-    <Button
-      variant="primary"
-      className="w-100"
-      style={{
-        backgroundColor: "#1E45E1",
-        height: 45,
-        borderRadius: 12,
-        fontSize: 15,
-        fontWeight: 600,
-        fontFamily: "Montserrat",
-        paddingLeft: 25,
-        paddingRight: 25,
-      }}
-      onClick={handleSaveAdvance}
-    >
-      Save
-    </Button>
-  </div>
-</div>
+                <div className="row col-md-12 col-lg-12">
+                  <div className="col-md-6 col-lg-6 mb-2">
+                    <Button
+                      variant="secondary"
+                      className="w-100"
+                      style={{
+                        height: 45,
+                        borderRadius: 12,
+                        fontSize: 15,
+                        fontWeight: 500,
+                        fontFamily: "Montserrat",
+                        paddingLeft: 20,
+                        paddingRight: 20,
+                      }}
+                      onClick={handleSaveUserlistAddUserButon}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
 
-                            </div>
-                          {/* )} */}
-                        </div>
-                      </Modal.Body>
-            
-                      <Modal.Footer style={{ border: "none" }}></Modal.Footer>
-                    </Modal.Dialog>
-                  </Modal>
-      
+                  <div className="col-md-6 col-lg-6 mb-2">
+                    <Button
+                      variant="primary"
+                      className="w-100"
+                      style={{
+                        backgroundColor: "#1E45E1",
+                        height: 45,
+                        borderRadius: 12,
+                        fontSize: 15,
+                        fontWeight: 600,
+                        fontFamily: "Montserrat",
+                        paddingLeft: 25,
+                        paddingRight: 25,
+                      }}
+                      onClick={handleSaveAdvance}
+                    >
+                      Save
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              {/* )} */}
+            </div>
+          </Modal.Body>
+
+          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+        </Modal.Dialog>
+      </Modal>
     </div>
   );
 }
 
-
 UserlistForm.propTypes = {
   EditObj: PropTypes.func.isRequired,
   setRoomDetail: PropTypes.func.isRequired,
-  setUserClicked: PropTypes.func.isRequired, 
+  setUserClicked: PropTypes.func.isRequired,
   setShowMenu: PropTypes.func.isRequired,
   setShowForm: PropTypes.func.isRequired,
-  OnShowTable: PropTypes.func.isRequired, 
+  OnShowTable: PropTypes.func.isRequired,
   setEdit: PropTypes.func.isRequired,
   edit: PropTypes.func.isRequired,
   AfterEditFloors: PropTypes.func.isRequired,
   AfterEditRoomses: PropTypes.func.isRequired,
-  AfterEditBeds: PropTypes.func.isRequired, 
+  AfterEditBeds: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
-  displayDetail: PropTypes.func.isRequired, 
+  displayDetail: PropTypes.func.isRequired,
   showMenu: PropTypes.func.isRequired,
   advanceForm: PropTypes.func.isRequired,
   setAdvanceForm: PropTypes.func.isRequired,

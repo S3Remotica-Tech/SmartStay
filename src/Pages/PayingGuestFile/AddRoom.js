@@ -5,13 +5,12 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { MdError } from "react-icons/md";
-import {CloseCircle,} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 
 function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
   const [room, setRoom] = useState("");
   const [roomError, setRoomError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
@@ -38,24 +37,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
     setRoomError("");
     setIsChangedError("");
     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
-
-    // if (!/^\d*$/.test(Room_Id)) {
-    //   setErrorMessage("Please enter a valid  number.");
-    // } else {
-    //   setErrorMessage("");
-    // }
-
     setRoom(Room_Id);
-    // const floorId = hostelDetails.floor_Id.toString();
-    //     const hostel_Id = hostelDetails.hostel_Id.toString();
-    // const floorId = hostelDetails?.floor_Id
-    //   ? hostelDetails.floor_Id.toString()
-    //   : "";
-    // const hostel_Id = hostelDetails?.hostel_Id
-    //   ? hostelDetails.hostel_Id.toString()
-    //   : "";
-
-  
   };
   const handleCreateRoom = () => {
     let floorId, hostel_Id, room_Id;
@@ -64,7 +46,6 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
       floorId = editRoom?.floor_Id ? editRoom.floor_Id.toString() : "";
       hostel_Id = editRoom?.hostel_Id ? editRoom.hostel_Id.toString() : "";
       room_Id = editRoom?.room_Id ? editRoom?.room_Id.toString() : "";
-      // room_Name = editRoom?.Room_Name ? editRoom?.Room_Name.toString() : "";
     } else {
       floorId = hostelDetails?.floor_Id
         ? hostelDetails.floor_Id.toString()
@@ -74,24 +55,8 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
         : "";
     }
 
-    // if (!room || !/^[1-9]\d*$/.test(room)) {
-
-    // setRoomError('Please enter a valid Room no. (must be a positive number greater than 0)')
-
-    //   // Swal.fire({
-    //   //   icon: 'warning',
-    //   //   title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
-    //   // });
-    //   return;
-    // }
-
     if (!room) {
       setRoomError("Please Enter a Room No or Name");
-
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Please enter a valid Room no. (must be a positive number greater than 0)',
-      // });
       return;
     }
 
@@ -103,14 +68,6 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
 
       return;
     }
-
-    // if (alreadyRoom) {
-    //     Swal.fire({
-    //         icon: 'error',
-    //         title: 'This room already exists in the hostel.',
-    //     });
-    //     return;
-    // }
 
     const isChanged = room !== initialState.room;
 
@@ -168,20 +125,18 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
               {modalTitle}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose}  style={{cursor:"pointer"}}/>
+            <CloseCircle
+              size="24"
+              color="#000"
+              onClick={handleClose}
+              style={{ cursor: "pointer" }}
+            />
           </Modal.Header>
 
-          <Modal.Body style={{ paddingTop: 5,}}>
+          <Modal.Body style={{ paddingTop: 5 }}>
             <div className="row mt-2">
-              {/* {alreadyRoom && 
-            <div>
-             <label style={{color:"red", fontSize:16}}>This room already exists in the hostel.</label>
-            </div>} */}
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <Form.Group
-                  // className="mb-2"
-                  controlId="exampleForm.ControlInput1"
-                >
+                <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -216,7 +171,14 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
 
           {isChangedError && (
             <div className="d-flex align-items- justify-content-center">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px",marginTop:"2px" }} />
+              <MdError
+                style={{
+                  color: "red",
+                  marginRight: "5px",
+                  marginLeft: "15px",
+                  marginTop: "2px",
+                }}
+              />
               <label
                 className="mb-0"
                 style={{
@@ -233,7 +195,9 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
 
           {roomError && (
             <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
+              <MdError
+                style={{ color: "red", marginRight: "5px", marginLeft: "15px" }}
+              />
               <label
                 className="mb-0"
                 style={{
@@ -249,7 +213,9 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
           )}
           {floorError && (
             <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
+              <MdError
+                style={{ color: "red", marginRight: "5px", marginLeft: "15px" }}
+              />
               <label
                 className="mb-0"
                 style={{
@@ -264,26 +230,16 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             </div>
           )}
 
-          {/* {state.PgList && state.PgList?.alreadyRoomHere && (
-            // <div className="d-flex align-items-center p-1 mb-2">
-            <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {state.PgList?.alreadyRoomHere}
-              </label>
-            </div>
-          )} */}
           {state.PgList && state.PgList?.alreadyRoomHere && (
             <div className="d-flex align-items- justify-content-center">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px",marginTop:"2px" }} />
+              <MdError
+                style={{
+                  color: "red",
+                  marginRight: "5px",
+                  marginLeft: "15px",
+                  marginTop: "2px",
+                }}
+              />
               <label
                 className="mb-0"
                 style={{
@@ -308,10 +264,10 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
                 borderRadius: 12,
                 fontSize: 16,
                 fontFamily: "Gilroy",
-                paddingTop: 5,
-                paddingBottom:5,
-                paddingLeft:5,
-                paddingRight:5
+                paddingTop: 12,
+                paddingBottom: 12,
+                paddingLeft: 12,
+                paddingRight: 12,
               }}
             >
               {modalTitle}

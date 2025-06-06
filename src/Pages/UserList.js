@@ -43,6 +43,7 @@ import Calendars from "../Assets/Images/New_images/calendar.png";
 import PropTypes from "prop-types";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import moment from 'moment';
 import Filters from "../Assets/Images/Filters.svg";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -154,7 +155,6 @@ function UserList(props) {
       setSelectedTypes((prev) => [...prev, type]);
     }
 
-    // Clear error messages
     setAllFieldErrmsg("");
     setTableErrmsg("");
 
@@ -401,8 +401,6 @@ function UserList(props) {
           due_date: formatduedate,
           id: currentView.id,
           amenity: newRows,
-          // start_date: formattedStartDate,
-          // end_date: formattedEndDate,
         },
       });
 
@@ -429,12 +427,11 @@ function UserList(props) {
   const handleCreateBill = () => {
     let hasError = false;
 
-    // Check required fields and set error messages only if empty
     if (!customername) {
       setCustomerErrmsg("Please Select Customer");
       hasError = true;
     } else {
-      setCustomerErrmsg(""); // Clear error when field is filled
+      setCustomerErrmsg(""); 
     }
 
     if (!invoicedate) {
@@ -518,13 +515,12 @@ function UserList(props) {
     } else {
       setCustomerErrmsg("");
     }
-    // setStartDate("");
-    // setEndDate("");
+
     setTotalAmount("");
   };
 
   const formatDateForPayloadmanualinvoice = (date) => {
-    return dayjs(date).format("YYYY-MM-DD"); // Change format if needed
+    return dayjs(date).format("YYYY-MM-DD");
   };
 
   const handleInvoiceDate = (selectedDates) => {
@@ -591,20 +587,16 @@ function UserList(props) {
     setRoomDetail(true);
     setCustomerName("");
     setInvoiceNumber("");
-    // setStartDate("");
-    // setEndDate("");
     setInvoiceDate("");
     setInvoiceDueDate("");
 
     setTotalAmount("");
     setCustomerErrmsg("");
-    // setStartdateErrmsg("");
     setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
     setNewRows("");
     setTableErrmsg("");
-    // setEnddateErrmsg("")
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
     dispatch({ type: "REMOVE_MANUAL_INVOICE_NUMBER_GET" });
   };
@@ -621,26 +613,15 @@ function UserList(props) {
       }
 
       if (currentView.Date) {
-        const parsedDate = new Date(currentView.Date); // Convert to Date object
+        const parsedDate = new Date(currentView.Date); 
         if (!isNaN(parsedDate.getTime())) {
-          setInvoiceDate(parsedDate); // Set the date object in state
+          setInvoiceDate(parsedDate);
         }
       }
 
       setTotalAmount(currentView.Amount);
 
-      // setNewRows(currentView.amenity);
-      // if (currentView.amenity && Array.isArray(currentView.amenity)) {
-      //   setNewRows(currentView.amenity);
-
-      //   const types = [];
-      //   currentView.amenity.forEach((item) => {
-      //     if (item.am_name === "Room Rent") types.push("RoomRent");
-      //     if (item.am_name === "EB") types.push("EB");
-      //   });
-
-      //   setSelectedTypes(types);
-      // }
+    
       if (currentView.amenity && Array.isArray(currentView.amenity)) {
         setNewRows(currentView.amenity);
 
@@ -698,14 +679,7 @@ function UserList(props) {
     }
   }, [state.login.selectedHostel_Id]);
 
-  //  useEffect(() => {
-  //     if (uniqueostel_Id && Floor) {
-  //       dispatch({
-  //         type: "ROOMDETAILS",
-  //         payload: { hostel_Id: uniqueostel_Id, floor_Id: Floor },
-  //       });
-  //     }
-  //   }, [Floor]);
+
 
   const [userListDetail, setUserListDetail] = useState("");
 
@@ -713,7 +687,6 @@ function UserList(props) {
     if (state.UsersList?.UserListStatusCode === 200) {
       setLoading(false);
       setUserListDetail(state.UsersList.Users);
-      // setFilteredUsers(state.UsersList.Users);
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 1000);
@@ -721,8 +694,6 @@ function UserList(props) {
   }, [state.UsersList?.UserListStatusCode]);
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
-      // setIsEditing(true);
-      // props.setRoomDetail(false)
       setIsEditing(true);
       setRoomDetail(false);
 
@@ -732,46 +703,22 @@ function UserList(props) {
 
   useEffect(() => {
     if (!isEditing) {
-      // Update UsersList component state to true when isEditing is false
       dispatch({ type: "UPDATE_USERSLIST_TRUE" });
     }
   }, [isEditing]);
 
   useEffect(() => {
     if (state.UsersList.userProfilebill) {
-      // setIsEditing(true);
-      // props.setRoomDetail(false)
+
       setIsDeleting(true);
       setRoomDetail(true);
       dispatch({ type: "USERPROFILEBILLFALSE" });
     }
   }, [state.UsersList.userProfilebill]);
-  // useEffect(() => {
-  //   if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
-  //     dispatch({
-  //       type: "MANUALINVOICESLIST",
-  //       payload: { hostel_id: uniqueostel_Id },
-  //     });
-  //     setLoading(false);
-  //     setIsEditing(false)
-
-  //     setTimeout(() => {
-  //       dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
-  //       setLoading(false);
-
-  //     }, 1000);
-  //   }
-  // }, [
-  //   state.InvoiceList.manualInvoiceEditStatusCode,
-  //   state.InvoiceList.ManualInvoices,
-  // ]);
+ 
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
-      // dispatch({
-      //   type: "MANUALINVOICESLIST",
-      //   payload: { hostel_id: uniqueostel_Id },
-      // });
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
 
       setLoading(false);
@@ -807,7 +754,6 @@ function UserList(props) {
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
-        // setLoading(false);
       }, 1000);
     }
   }, [
@@ -854,7 +800,6 @@ function UserList(props) {
     setReadingError("");
     setFormError("");
     setDateError("");
-    // setEditId("")
   };
 
   const handleCloseRoom = () => {
@@ -980,7 +925,6 @@ function UserList(props) {
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
   useEffect(() => {
-    // setLoading(true)
     dispatch({
       type: "WALKINCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
@@ -989,7 +933,6 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList?.getWalkInStatusCode === 200) {
-      // setLoading(false)
       setWalkingCustomer(state.UsersList.WalkInCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_STATUS_CODE" });
@@ -1000,7 +943,6 @@ function UserList(props) {
   useEffect(() => {
     if (state.UsersList?.NoDataWalkInCustomerStatusCode === 201) {
       setWalkingCustomer([]);
-      // setLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_WALK_IN_CUSTOMER_LIST_STATUS_CODE" });
       }, 200);
@@ -1008,7 +950,6 @@ function UserList(props) {
   }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
 
   useEffect(() => {
-    // setLoading(true)
     dispatch({
       type: "CHECKOUTCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
@@ -1017,7 +958,6 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode === 200) {
-      // setLoading(false)
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
@@ -1085,7 +1025,7 @@ function UserList(props) {
             }`.toLowerCase();
             return fullName.includes(filterInput.toLowerCase());
           })
-        : []; // Return empty array if not an array
+        : []; 
 
       setFilteredUsers(FilterUsertwo);
     }
@@ -1124,7 +1064,7 @@ function UserList(props) {
   ]);
 
   const handlefilterInput = (e) => {
-    const searchValue = e.target.value.toLowerCase().trim(); // Trim spaces
+    const searchValue = e.target.value.toLowerCase().trim(); 
     setFilterInput(searchValue);
 
     if (searchValue.length > 0) {
@@ -1140,24 +1080,21 @@ function UserList(props) {
 
       setFilteredUsers(filtered);
       setDropdownVisible(true);
-      setCurrentPage(1); // Reset to first page
+      setCurrentPage(1); 
     } else {
-      setFilteredUsers(filteredUsers); // Reset when input is cleared
+      setFilteredUsers(filteredUsers); 
       setDropdownVisible(false);
     }
   };
 
-  // const handlefilterInput = (e) => {
-  //   setFilterInput(e.target.value);
-  //   setDropdownVisible(e.target.value?.length > 0);
-  // };
+
   const handleUserSelect = (user) => {
     if (value === "1") {
       setFilterInput(user?.Name || "");
     } else if (value === "2") {
       setFilterInput(
         [user?.first_name, user?.last_name].filter(Boolean).join(" ")
-      ); // Ensures last name is optional
+      ); 
     } else if (value === "3") {
       setFilterInput(user?.Name || "");
     } else if (value === "4") {
@@ -1168,16 +1105,7 @@ function UserList(props) {
     setDropdownVisible(false);
   };
 
-  // const handleUserSelect = (user) => {
-  //   if (value === "1") {
-  //     setFilterInput(user.Name);
-  //   } else if (value === "2") {
-  //     setFilterInput(user.first_name);
-  //   }
 
-  //   setFilteredUsers([]);
-  //   setDropdownVisible(false);
-  // };
 
   const handleCloseSearch = () => {
     setSearch(false);
@@ -1324,7 +1252,6 @@ function UserList(props) {
     if (state.UsersList?.NoUserListStatusCode === 201) {
       setUserDetails([]);
       setFilteredUsers([]);
-      // setLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_USER_LIST" });
       }, 2000);
@@ -1364,7 +1291,6 @@ function UserList(props) {
   useEffect(() => {
     const users = Array.isArray(userListDetail) ? userListDetail : [];
 
-    // Filter Particular User Details
     const ParticularUserDetails = users.filter((item) => {
       return item.User_Id === customerUser_Id;
     });
@@ -1431,9 +1357,8 @@ function UserList(props) {
     const searchTerm = event.target.value;
     setStatusFilterCheckout(searchTerm);
 
-    // Clear previously selected date range when switching away from "Date"
     if (searchTerm !== "date") {
-      setCheckoutDateRange(null); // This will also hide the picker in UI
+      setCheckoutDateRange(null); 
     }
 
     if (searchTerm === "All") {
@@ -1666,7 +1591,6 @@ function UserList(props) {
   const checkoutcloseModal = () => {
     setcheckoutForm(false);
   };
-  // walkin from
 
   const [walkInForm, setWalkinForm] = useState(false);
   const walkinForm = () => {
@@ -1700,7 +1624,7 @@ function UserList(props) {
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
-  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); // To control downloads
+  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); 
 
   useEffect(() => {
     if (state.UsersList?.exportDetails?.response?.fileUrl) {
@@ -1794,7 +1718,6 @@ function UserList(props) {
       link.download = "smartstay_file.xlsx";
       link.click();
 
-      // Reset states after download
       setTimeout(() => {
         setIsDownloadTriggered(false);
         setExcelDownloadBooking("");
@@ -1809,7 +1732,6 @@ function UserList(props) {
       link.download = "smartstay_file.xlsx";
       link.click();
 
-      // Reset states after download
       setTimeout(() => {
         setIsDownloadTriggered(false);
         setExcelDownload("");
@@ -1824,7 +1746,6 @@ function UserList(props) {
       link.download = "smartstay_file.xlsx";
       link.click();
 
-      // Reset states after download
       setTimeout(() => {
         setIsDownloadTriggered(false);
         setExcelDownload("");
@@ -1864,94 +1785,8 @@ function UserList(props) {
     }
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
-  // const customStartDateInput = (props) => {
-  //   return (
-  //     <div
-  //       className="date-input-container w-100"
-  //       onClick={props.onClick}
-  //       style={{ position: "relative" }}
-  //     >
-  //       <FormControl
-  //         type="text"
-  //         className="date_input"
-  //         value={props.value || "DD/MM/YYYY"}
-  //         readOnly
-  //         style={{
-  //           border: "1px solid #D9D9D9",
-  //           borderRadius: 8,
-  //           padding: 9,
-  //           fontSize: 14,
-  //           fontFamily: "Gilroy",
-  //           fontWeight: props.value ? 600 : 500,
-  //           width: "100%",
-  //           height: 50,
-  //           boxSizing: "border-box",
-  //           boxShadow: "none",
-  //         }}
-  //       />
-  //       <img
-  //         src={Calendars}
-  //         style={{
-  //           height: 24,
-  //           width: 24,
-  //           marginLeft: 10,
-  //           cursor: "pointer",
-  //           position: "absolute",
-  //           right: 10,
-  //           top: "50%",
-  //           transform: "translateY(-50%)",
-  //         }}
-  //         alt="Calendar"
-  //         onClick={props.onClick}
-  //       />
-  //     </div>
-  //   );
-  // };
-
-  // const customEndDateInput = (props) => {
-  //   return (
-  //     <div
-  //       className="date-input-container w-100"
-  //       onClick={props.onClick}
-  //       style={{ position: "relative" }}
-  //     >
-  //       <FormControl
-  //         type="text"
-  //         className="date_input"
-  //         value={props.value || "DD/MM/YYYY"}
-  //         readOnly
-  //         style={{
-  //           border: "1px solid #D9D9D9",
-  //           borderRadius: 8,
-  //           padding: 9,
-  //           fontSize: 14,
-  //           fontFamily: "Gilroy",
-  //           fontWeight: props.value ? 600 : 500,
-  //           width: "100%",
-  //           height: 50,
-  //           boxSizing: "border-box",
-  //           boxShadow: "none",
-  //         }}
-  //       />
-  //       <img
-  //         src={Calendars}
-  //         style={{
-  //           height: 24,
-  //           width: 24,
-  //           marginLeft: 10,
-  //           cursor: "pointer",
-  //           position: "absolute",
-  //           right: 10,
-  //           top: "50%",
-  //           transform: "translateY(-50%)",
-  //         }}
-  //         alt="Calendar"
-  //         onClick={props.onClick}
-  //       />
-  //     </div>
-  //   );
-  // };
-
+  
+ 
   const customInvoiceDateInput = (props) => {
     return (
       <div
@@ -2051,7 +1886,6 @@ function UserList(props) {
           className="date_input"
           value={props.value || "DD/MM/YYYY"}
           readOnly
-          // disabled={edit}
           style={{
             border: "1px solid #D9D9D9",
             borderRadius: 8,
@@ -2098,7 +1932,6 @@ function UserList(props) {
   };
 
   return (
-    // <div style={{ padding: 10, marginLeft: 20 }}>
     <div>
       <Addbooking
         show={showbookingForm}
@@ -2147,7 +1980,6 @@ function UserList(props) {
               </div>
 
               <div className="d-flex flex-wrap align-items-center gap-2">
-                {/* Search Box */}
                 {search ? (
                   <div
                     style={{
@@ -2182,7 +2014,6 @@ function UserList(props) {
                       </span>
                     </div>
 
-                    {/* Dropdown */}
                     {isDropdownVisible && filteredUsers?.length > 0 && (
                       <div
                         style={{
@@ -2366,7 +2197,6 @@ function UserList(props) {
                   </div>
                 )}
 
-                {/* Excel Buttons */}
                 <div style={{ marginTop: 1 }}>
                   {value === "1" && (
                     <img
@@ -2410,7 +2240,6 @@ function UserList(props) {
                   )}
                 </div>
 
-                {/* Action Buttons */}
                 <div className="mt-2 me-lg-4 text-center">
                   {value === "1" && (
                     <Button
@@ -2522,10 +2351,7 @@ function UserList(props) {
               <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
                 <TabList
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
-                  // value={value}
                   onChange={handleChange}
-                  // indicatorColor="primary"
-                  // textColor=""
                   aria-label="lab API tabs example"
                   className="d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
@@ -2617,17 +2443,14 @@ function UserList(props) {
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
-                        // height: "100vh",
                       }}
                     >
-                      {/* Image */}
                       <img
                         src={Emptystate}
                         alt="Empty State"
                         style={{ maxWidth: "100%", height: "auto" }}
                       />
 
-                      {/* Permission Error */}
                       {customerpermissionError && (
                         <div
                           style={{
@@ -2664,12 +2487,10 @@ function UserList(props) {
                             marginTop: "20px",
                             paddingRight: 0,
                             paddingLeft: 0,
-                            //  borderBottom:"1px solid #DCDCDC"
                           }}
                         >
                           <Table
                             responsive="md"
-                            // className="Table_Design"
                             style={{
                               fontFamily: "Gilroy",
                               color: "rgba(34, 34, 34, 1)",
@@ -2704,7 +2525,6 @@ function UserList(props) {
                                     fontSize: "12px",
                                     fontWeight: 500,
                                     fontFamily: "Gilroy",
-                                    // borderTopLeftRadius: 24,
                                     paddingLeft: "20px",
                                   }}
                                 >
@@ -2947,13 +2767,10 @@ function UserList(props) {
                                     color: "rgba(34, 34, 34, 1)",
                                     fontSize: 12,
                                     fontWeight: 500,
-                                    // borderTopRightRadius: 24,
                                   }}
                                 >
                                   Action
-                                  {/* <div style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", zIndex: 1000 }} >
-          <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
-        </div> */}
+     
                                 </th>
                               </tr>
                             </thead>
@@ -2968,22 +2785,9 @@ function UserList(props) {
                                           fontSize: "16px",
                                           fontWeight: 600,
                                           textAlign: "center",
-                                          // marginTop: 10,
                                         }}
                                       >
-                                        {/* <td
-                                          style={{
-                                            padding: "10px",
-                                            border: "none",
-                                          }}
-                                        >
-                                          <img
-                                            src={squre}
-                                            height={20}
-                                            width={20}
-                                            style={{ marginTop: 10 }}
-                                          />
-                                        </td> */}
+                                     
                                         <td
                                           style={{
                                             border: "none",
@@ -2996,7 +2800,6 @@ function UserList(props) {
                                         >
                                           <span
                                             className="Customer_Name_Hover ps-0 ps-sm-0 ps-md-3 ps-lg-2"
-                                            //  className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                                             style={{
                                               fontSize: "13px",
                                               fontWeight: 600,
@@ -3014,39 +2817,34 @@ function UserList(props) {
                                           </span>
                                         </td>
 
-                                        <td
-                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                          style={{
-                                            paddingTop: 15,
-                                            border: "none",
-                                            textAlign: "start",
-                                            fontSize: "13px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            marginTop: 10,
-                                              // paddingLeft:10,
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
-                                          }}
-                                        >
-                                          <span
-                                            style={{
-                                              paddingTop: "3px",
-                                              paddingLeft: "10px",
-                                              paddingRight: "10px",
-                                              paddingBottom: "3px",
-                                              borderRadius: "60px",
-                                              backgroundColor: "#FFEFCF",
-                                              textAlign: "center",
-                                              fontSize: "11px",
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              marginLeft:10
-                                            }}
-                                          >
-                                            {user.user_join_date}
-                                          </span>
-                                        </td>
+                                        <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+  style={{
+    paddingTop: 15,
+    border: "none",
+    textAlign: "start",
+    fontSize: "13px",
+    fontWeight: 500,
+    fontFamily: "Gilroy",
+    verticalAlign: "middle",
+    borderBottom: "1px solid #E8E8E8",
+  }}
+>
+  <span
+    style={{
+      padding: "3px 10px",
+      borderRadius: "60px",
+      backgroundColor: "#EBEBEB",
+      textAlign: "center",
+      fontSize: "11px",
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+      display: "inline-block", 
+    }}
+  >
+        {moment(user.user_join_date).format("D MMMM YYYY")}
+  </span>
+</td>
+
                                         <td
                                           style={{
                                             border: "none",
@@ -3105,12 +2903,9 @@ function UserList(props) {
                                         </td>
 
                                         <td
-                                          // className={user.Bed === 0 ? 'assign-bed' : ''}
-                                          // onClick={user.Bed === 0 ? () => handleShowAddBed(user) : null}
                                           className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                                           style={{
                                             paddingTop: 15,
-                                            // paddingLeft:20,
                                             border: "none",
                                             cursor: "pointer",
                                             textAlign: "start",
@@ -3131,7 +2926,6 @@ function UserList(props) {
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
                                         >
-                                          {/* <MoreCircle  variant="Outline"  size="40" color="#dcdcdc" style={{transform:"rotate(90deg)"}}/>  */}
 
                                           <div
                                             style={{
@@ -3144,10 +2938,6 @@ function UserList(props) {
                                               justifyContent: "center",
                                               alignItems: "center",
                                               position: "relative",
-                                              // zIndex:
-                                              //   activeRow === user.ID
-                                              //     ? 1000
-                                              //     : "auto",
                                               backgroundColor:
                                                 activeRow === user.ID
                                                   ? "#E7F1FF"
@@ -3167,7 +2957,6 @@ function UserList(props) {
                                                   position: "fixed",
                                                   top: popupPosition.top - 25,
                                                   left: popupPosition.left,
-                                                  // right: 70,
 
                                                   width: "163px",
                                                   backgroundColor: "#F9F9F9",
@@ -3180,14 +2969,7 @@ function UserList(props) {
                                                   alignItems: "center",
                                                 }}
                                               >
-                                                <div
-                                                  style={
-                                                    {
-                                                      // backgroundColor: "#fff",
-                                                    }
-                                                  }
-                                                  className=""
-                                                >
+                                                <div>
                                                   {!user.Bed && (
                                                     <div
                                                       className="mb-3 d-flex justify-content-start align-items-center gap-2"
@@ -3201,7 +2983,6 @@ function UserList(props) {
                                                         }
                                                       }}
                                                       style={{
-                                                        // backgroundColor: "#fff",
                                                         cursor:
                                                           customerAddPermission
                                                             ? "not-allowed"
@@ -3248,11 +3029,7 @@ function UserList(props) {
                                                   {user.Bed && (
                                                     <div
                                                       className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                      // onClick={() => {
-                                                      //   if (!customerAddPermission) {
-                                                      //     handleShowAddBed(user);
-                                                      //   }
-                                                      // }}
+                                                   
                                                       onClick={() =>
                                                         handleCustomerCheckout(
                                                           user
@@ -3306,11 +3083,6 @@ function UserList(props) {
                                                   {user.Bed && (
                                                     <div
                                                       className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                      // onClick={() => {
-                                                      //   if (!customerAddPermission) {
-                                                      //     handleShowAddBed(user);
-                                                      //   }
-                                                      // }}
                                                       onClick={() =>
                                                         handleCustomerReAssign(
                                                           user
@@ -3418,13 +3190,6 @@ function UserList(props) {
                                                     </label>
                                                   </div>
 
-                                                  {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                onClick={() => { handleShowform(props) }}
-                                style={{ backgroundColor: "#fff" }}
-                            >
-                                <img src={Assign} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Record Payment</label>
-
-                            </div> */}
 
                                                   <div
                                                     className={
@@ -3477,7 +3242,6 @@ function UserList(props) {
                                             )}
                                           </div>
 
-                                          {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
                                         </td>
                                       </tr>
                                     );
@@ -3527,122 +3291,7 @@ function UserList(props) {
                 {
                   (search ? filteredUsers?.length : userListDetail?.length) >=
                     5 && (
-                    // <nav
-                    //   style={{
-                    //     display: "flex",
-                    //     alignItems: "center",
-                    //     justifyContent: "end",
-                    //     padding: "10px",
-                    //     position: "fixed",
-                    //     bottom: "10px",
-                    //     right: "10px",
-                    //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                    //     borderRadius: "5px",
-                    //   }}
-                    // >
-
-                    //   {/* Dropdown for Items Per Page */}
-                    //   <div>
-                    //     <select
-                    //       value={itemsPerPage}
-                    //       onChange={handleItemsPerPageChange}
-                    //       style={{
-                    //         padding: "5px",
-                    //         border: "1px solid #1E45E1",
-                    //         borderRadius: "5px",
-                    //         color: "#1E45E1",
-                    //         fontWeight: "bold",
-                    //         cursor: "pointer",
-                    //         outline: "none",
-                    //         boxShadow: "none",
-                    //       }}
-                    //     >
-                    //       <option value={5}>5</option>
-                    //       <option value={10}>10</option>
-                    //       <option value={50}>50</option>
-                    //       <option value={100}>100</option>
-                    //     </select>
-                    //   </div>
-
-                    //   {/* Pagination Controls */}
-                    //   <ul
-                    //     style={{
-                    //       display: "flex",
-                    //       alignItems: "center",
-                    //       listStyleType: "none",
-                    //       margin: 0,
-                    //       padding: 0,
-                    //     }}
-                    //   >
-                    //     {/* Previous Button */}
-                    //     <li style={{ margin: "0 10px" }}>
-                    //       <button
-                    //         style={{
-                    //           padding: "5px",
-                    //           textDecoration: "none",
-                    //           color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                    //           cursor:
-                    //             currentPage === 1 ? "not-allowed" : "pointer",
-                    //           borderRadius: "50%",
-                    //           display: "inline-block",
-                    //           minWidth: "30px",
-                    //           textAlign: "center",
-                    //           backgroundColor: "transparent",
-                    //           border: "none",
-                    //         }}
-                    //         onClick={() => handlePageChange(currentPage - 1)}
-                    //         disabled={currentPage === 1}
-                    //       >
-                    //         <ArrowLeft2
-                    //           size="16"
-                    //           color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                    //         />
-                    //       </button>
-                    //     </li>
-
-                    //     {/* Current Page Indicator */}
-                    //     <li
-                    //       style={{
-                    //         margin: "0 10px",
-                    //         fontSize: "14px",
-                    //         fontWeight: "bold",
-                    //       }}
-                    //     >
-                    //       {currentPage} of {totalPages}
-                    //     </li>
-
-                    //     {/* Next Button */}
-                    //     <li style={{ margin: "0 10px" }}>
-                    //       <button
-                    //         style={{
-                    //           padding: "5px",
-                    //           textDecoration: "none",
-                    //           color:
-                    //             currentPage === totalPages ? "#ccc" : "#1E45E1",
-                    //           cursor:
-                    //             currentPage === totalPages
-                    //               ? "not-allowed"
-                    //               : "pointer",
-                    //           borderRadius: "50%",
-                    //           display: "inline-block",
-                    //           minWidth: "30px",
-                    //           textAlign: "center",
-                    //           backgroundColor: "transparent",
-                    //           border: "none",
-                    //         }}
-                    //         onClick={() => handlePageChange(currentPage + 1)}
-                    //         disabled={currentPage === totalPages}
-                    //       >
-                    //         <ArrowRight2
-                    //           size="16"
-                    //           color={
-                    //             currentPage === totalPages ? "#ccc" : "#1E45E1"
-                    //           }
-                    //         />
-                    //       </button>
-                    //     </li>
-                    //   </ul>
-                    // </nav>
+                   
                     <nav
                       style={{
                         display: "flex",
@@ -3656,7 +3305,6 @@ function UserList(props) {
                         zIndex: "1000",
                       }}
                     >
-                      {/* Dropdown for Items Per Page */}
                       <div>
                         <select
                           value={itemsPerPage}
@@ -3679,7 +3327,6 @@ function UserList(props) {
                         </select>
                       </div>
 
-                      {/* Pagination Controls */}
                       <ul
                         style={{
                           display: "flex",
@@ -3689,7 +3336,6 @@ function UserList(props) {
                           padding: 0,
                         }}
                       >
-                        {/* Previous Button */}
                         <li style={{ margin: "0 10px" }}>
                           <button
                             style={{
@@ -3715,7 +3361,6 @@ function UserList(props) {
                           </button>
                         </li>
 
-                        {/* Current Page Indicator */}
                         <li
                           style={{
                             margin: "0 10px",
@@ -3726,7 +3371,6 @@ function UserList(props) {
                           {currentPage} of {totalPages}
                         </li>
 
-                        {/* Next Button */}
                         <li style={{ margin: "0 10px" }}>
                           <button
                             style={{
@@ -3811,7 +3455,6 @@ function UserList(props) {
                   filterInput={filterInput}
                   setAddCheckoutForm={setAddCheckoutForm}
                   checkoutaddform={checkoutaddform}
-                  // loader={loading}
                   search={search}
                   checkoutDateRange={checkoutDateRange}
                   filterStatus={filterStatus}
@@ -3945,7 +3588,6 @@ function UserList(props) {
           handleMenuClick={handleMenuClick}
           setShowForm={setShowForm}
           showForm={showForm}
-          // handleEdit={handleEdit}
           handleShowAddBed={handleShowAddBed}
           roomDetail={roomDetail}
           setRoomDetail={setRoomDetail}
@@ -3961,16 +3603,9 @@ function UserList(props) {
           kycOtpValue={kycOtpValue}
           handleKycOtpChange={handleKycOtpChange}
           showValidate={showValidate}
-          // selectAmneties={selectAmneties}
-          // handleselect={handleselect}
           hostelName={hostelName}
-          // createby={createby}
-          // statusShow={statusShow}
           customerUser_Id={customerUser_Id}
           hostelIds={hostelIds}
-          // statusAmni={statusAmni}
-          // handleStatusAmnities={handleStatusAmnities}
-          // handleAddUserAmnities={handleAddUserAmnities}
           handleAdhaarChange={handleAdhaarChange}
           customerEditPermission={customerEditPermission}
           uniqueostel_Id={uniqueostel_Id}
@@ -4047,11 +3682,7 @@ function UserList(props) {
                   <Form.Select
                     aria-label="Default select example"
                     className="border"
-                    // disabled={
-                    //   // unitAmount &&
-                    //   // unitAmount?.length === 0 &&
-                    //   selectedHostel != ""
-                    // }
+                
                     value={Floor}
                     onChange={(e) => handleFloor(e)}
                     style={{
@@ -4112,11 +3743,7 @@ function UserList(props) {
                   <Form.Select
                     aria-label="Default select example"
                     className="border"
-                    // disabled={
-                    //   // unitAmount &&
-                    //   // unitAmount?.length === 0 &&
-                    //   selectedHostel != ""
-                    // }
+                  
                     value={Rooms}
                     onChange={(e) => handleRoom(e)}
                     style={{
@@ -4218,7 +3845,6 @@ function UserList(props) {
                         onChange={handleDateChange}
                         dateFormat="dd/MM/yyyy"
                         minDate={null}
-                        // disabled={edit}
                         customInput={customDateInput({
                           value: selectedDate
                             ? selectedDate.toLocaleDateString("en-GB")
@@ -4263,7 +3889,6 @@ function UserList(props) {
                   fontFamily: "Montserrat, sans-serif",
                   marginTop: 10,
                 }}
-                // onClick={handleSaveChanges}
                 disabled={!!formError}
               >
                 Save Changes
@@ -4348,7 +3973,6 @@ function UserList(props) {
                       id="form-controls"
                       placeholder="6542310"
                       value={hos_Name}
-                      //   onChange={(e) => handleReadingChange(e)}
                       style={{
                         fontSize: 16,
                         color: "#4B4B4B",
@@ -4362,12 +3986,7 @@ function UserList(props) {
                     />
                   </Form.Group>
 
-                  {/* {readingError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {readingError}
-                  </div>
-                )} */}
+             
                 </div>
 
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -4441,7 +4060,6 @@ function UserList(props) {
                         onChange={handleDateChange}
                         dateFormat="dd/MM/yyyy"
                         minDate={null}
-                        // disabled={edit}
                         customInput={customDateInput({
                           value: selectedDate
                             ? selectedDate.toLocaleDateString("en-GB")
@@ -4495,8 +4113,7 @@ function UserList(props) {
                   fontFamily: "Montserrat, sans-serif",
                   marginTop: 10,
                 }}
-                // onClick={handleSaveEb}
-                // disabled={!!formError}
+
               >
                 Save Changes
               </Button>
@@ -4583,7 +4200,6 @@ function UserList(props) {
                   fontFamily: "Gilroy",
                   fontSize: "14px",
                 }}
-                // onClick={handleDeleteRoom}
               >
                 Delete
               </Button>
@@ -4670,7 +4286,6 @@ function UserList(props) {
                   fontFamily: "Gilroy",
                   fontSize: "14px",
                 }}
-                // onClick={handleDeletehostel}
               >
                 Delete
               </Button>
@@ -4693,7 +4308,6 @@ function UserList(props) {
               backgroundColor: "#fff",
               padding: "12px 20px",
               height: "60px",
-              // borderBottom: "1px solid #ddd"
             }}
           >
             <img
@@ -4862,7 +4476,6 @@ function UserList(props) {
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={invoicedate ? dayjs(invoicedate) : null}
-                    // onChange={(date) => handleInvoiceDate(date)}
                     onChange={(date) =>
                       handleInvoiceDate(date ? date.toDate() : null)
                     }
@@ -4870,7 +4483,6 @@ function UserList(props) {
                       triggerNode.closest(".datepicker-wrapper")
                     }
                     dateFormat="dd/MM/yyyy"
-                    // minDate={new Date()}
 
                     popperPlacement="top-start"
                     popperClassName="custom-datepicker"
@@ -4949,13 +4561,11 @@ function UserList(props) {
                   style={{ position: "relative", width: "100%" }}
                 >
                   <DatePicker
-                    // selected={invoiceduedate}
-                    // onChange={(date) => handleDueDate(date)}
+  
                     style={{ width: "100%", height: 48, cursor: "pointer" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={invoiceduedate ? dayjs(invoiceduedate) : null}
-                    // onChange={(date) => handleInvoiceDate(date)}
                     onChange={(date) =>
                       handleDueDate(date ? date.toDate() : null)
                     }
@@ -4996,25 +4606,6 @@ function UserList(props) {
                 </div>
               </Form.Group>
 
-              {/* {invoiceduedateerrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{ fontSize: "12px", color: "red", marginTop: "3px",fontWeight:500,fontFamily:"Gilroy" }}
-                  >
-                    {invoiceduedateerrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "15px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-                        }}
-                      />
-                    )}{" "}
-                    {invoiceduedateerrmsg}
-                  </p>
-                </div>
-              )} */}
               {invoiceduedateerrmsg.trim() !== "" && (
                 <div>
                   <p
@@ -5071,7 +4662,6 @@ function UserList(props) {
             </div>
           )}
 
-          {/* Table */}
 
           {Array.isArray(newRows) && newRows.length > 0 && (
             <div className="row ">
@@ -5157,9 +4747,7 @@ function UserList(props) {
                               type="text"
                               placeholder="Enter total amount"
                               value={u.amount}
-                              // onChange={(e) =>
-                              //   handleNewRowChange(index, "amount", e.target.value)
-                              // }
+                           
                               onChange={(e) => {
                                 const value = e.target.value;
                                 if (/^\d*\.?\d*$/.test(value)) {
@@ -5194,31 +4782,7 @@ function UserList(props) {
             </div>
           )}
 
-          {/* <div>
-            <p
-              style={{
-                color: "#1E45E1",
-                fontSize: "14px",
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
-              onClick={handleAddColumn}
-            >
-              {" "}
-              + Add new column
-            </p>
-          </div>
-          <div className="mb-2">
-  <Form.Select
-    onChange={(e) => handleRowTypeSelect(e.target.value)}
-    defaultValue=""
-  >
-    <option value="" disabled>Select Item Type</option>
-    <option value="RoomRent">Room Rent</option>
-    <option value="EB">EB</option>
-    <option value="Other">Other</option>
-  </Form.Select>
-</div> */}
+         
           <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
             <Form.Select
               className="border"
@@ -5280,7 +4844,6 @@ function UserList(props) {
               <h5>Total Amount ₹{totalAmount}</h5>
             )}
             <Button
-              // onClick={handleEditBill}
               onClick={isAddMode ? handleCreateBill : handleEditBill}
               className="w-80 mt-3"
               style={{

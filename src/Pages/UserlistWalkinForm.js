@@ -23,35 +23,15 @@ function CustomerForm({ show, handleClose, initialData }) {
     const [mobile, setMobile] = useState('');
     const [countryCode, setCountryCode] = useState('91');
     const [walkInDate, setWalkInDate] = useState(null);
-    // const [comments, setComments] = useState('');
      const [house_no, setHouseNo] = useState("");
       const [street, setStreet] = useState("");
       const [landmark, setLandmark] = useState("");
       const [pincode, setPincode] = useState("");
       const [city, setCity] = useState("")
       const [state_name, setStateName] = useState("");
-    // const [errors, setErrors] = useState({
-    //     name: '',
-    //     lastname: '',
-    //     email: '',
-    //     mobile: '',
-    //     walkInDate: '',
-    //     comments: '',
-    // });
-
-
     const state = useSelector(state => state)
     const dispatch = useDispatch();
-
-
-
-
-
-
-
-
-
-
+    const [file, setFile] = useState(null);
 
     const [generalError, setGeneralError] = useState('');
     const [nameError, setNameError] = useState('');
@@ -67,23 +47,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       const [cityError, setCityError] = useState("");
       const [state_nameError, setStateNameError] = useState("");
 
-    // const datePickerRef = useRef(null);
-
-    // const handlePhone = (e) => {
-    //     setGeneralError('');
-    //     setMobileError('');
-    //     setIsChangedError('');
-    //     dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' })
-    //     const value = e.target.value;
-    //     if (/^\d*$/.test(value) && value.length <= 10) {
-    //         setMobile(value);
-    //         if (value.length === 10) {
-    //             setErrors(prev => ({ ...prev, mobile: '' }));
-    //         } else {
-    //             setErrors(prev => ({ ...prev, mobile: 'Mobile number must be 10 digits.' }));
-    //         }
-    //     }
-    // };
+   
     const handlePhone = (e) => {
         const input = e.target.value.replace(/\D/g, ""); 
         setMobile(input);
@@ -99,31 +63,8 @@ function CustomerForm({ show, handleClose, initialData }) {
         setIsChangedError("")
         dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
       };
-    // const handlePhone = (e) => {
-    //     setGeneralError('');
-    //     setMobileError('');
-    //     setIsChangedError('');
-    //     dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
+ 
       
-    //     const value = e.target.value;
-      
-    //     if (/^\d*$/.test(value) && value.length <= 10) {
-    //       setMobile(value);
-      
-    //       // Show error immediately if less than 10 digits
-    //       if (value.length < 10) {
-    //         setErrors((prev) => ({
-    //           ...prev,
-    //           mobile: 'Mobile number must be 10 digits.'
-    //         }));
-    //       } else {
-    //         setErrors((prev) => ({
-    //           ...prev,
-    //           mobile: ''
-    //         }));
-    //       }
-    //     }
-    //   };
       
       
 
@@ -147,16 +88,14 @@ function CustomerForm({ show, handleClose, initialData }) {
             setPincode(initialData.pin_code || '');
             setCity(initialData.city || '');
             setStateName(initialData.state || '')
-            if (initialData.profile === 0) {
-              setFile(null);
-            } else {
-              setFile(initialData.profile);
-            }
-
+   if (initialData?.profile === "0" || !initialData?.profile) {
+    setFile(null);
+  } else {
+    setFile(initialData.profile); 
+  }
 
 
             setWalkInDate(initialData.walk_In_Date ? moment(initialData.walk_In_Date).toDate('') : null);
-            // setComments(initialData.comments || '');
         } else {
             setName('');
             setLastName('');
@@ -164,65 +103,25 @@ function CustomerForm({ show, handleClose, initialData }) {
             setCountryCode('91');
             setMobile('');
             setWalkInDate(null);
-            // setComments('');
             setHouseNo("");
             setStreet("");
             setLandmark("")
             setPincode("");
             setCity("");
             setStateName("")
-            // setErrors({
-            //     name: '',
-            //     lastname: '',
-            //     email: '',
-            //     mobile: '',
-            //     walkInDate: '',
-            //     comments: '',
-            // });
+       
         }
     }, [initialData, show]);
 
 
-   
+    const isFileChanged = (() => {
+  if (initialData?.profile === "0" || !initialData?.profile) {
+    return file !== null; 
+  } else {
+    return typeof file !== 'string' || file !== initialData.profile; 
+  }
+})();
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-
-    //     if (validateForm()) {
-    //         const updatedCustomer = {
-    //             ...initialData,
-    //             name,
-    //             email,
-    //             mobile: `+${countryCode} ${mobile}`,
-    //             walkInDate: walkInDate.toLocaleDateString('en-GB'),
-    //             comments
-    //         };
-
-
-    //         if (onSubmit) {
-    //             onSubmit(updatedCustomer);
-    //         } else {
-    //         }
-
-    //         if (modalType === 'add') {
-    //             setName('');
-    //             setEmail('');
-    //             setCountryCode('91');
-    //             setMobile('');
-    //             setWalkInDate(null);
-    //             setComments('');
-    //             setErrors({
-    //                 name: '',
-    //                 email: '',
-    //                 mobile: '',
-    //                 walkInDate: '',
-    //                 comments: '',
-    //             });
-    //         }
-
-
-    //     }
-    // };
 
 
 
@@ -250,7 +149,8 @@ function CustomerForm({ show, handleClose, initialData }) {
             landmark.trim() !== normalize(initialData.landmark) ||
             city.trim() !== normalize(initialData.city) ||
             String(pincode).trim() !== String(initialData.pin_code || "").trim() ||
-            state_name.trim() !== normalize(initialData.state)
+            state_name.trim() !== normalize(initialData.state) ||
+            isFileChanged
 
         );
 
@@ -265,26 +165,21 @@ function CustomerForm({ show, handleClose, initialData }) {
 
         if (!name) {
             setNameError('Please Enter First Name');
-            // return;
         }
 
         if (!mobile) {
             setMobileError('Please Enter Mobile Number');
-            // return;
         }
 
         if (!countryCode) {
             setCountryCodeError('Please select Country Code');
-            // return;
         }
 
         if (!walkInDate) {
             setWalkInDateError('Please Select Walk-In Date');
-            // return;
         }
 
         if (emailError) {
-            // setWalkInDateError('Please select Walk-In Date');
             return;
         }
         
@@ -295,12 +190,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
      
     
-       
-    
-       
-
-
-
+      
 
 
         const Mobile_Number = `${countryCode}${mobile}`
@@ -343,11 +233,6 @@ function CustomerForm({ show, handleClose, initialData }) {
         setNameError('');
         setIsChangedError('');
         setName(value);
-        // if (value.trim() !== '') {
-        //     setErrors(prev => ({ ...prev, name: '' }));
-        // } else {
-        //     setErrors(prev => ({ ...prev, name: 'Name is Required' }));
-        // }
     };
 
     const handleLastNameChange = (e) => {
@@ -383,16 +268,6 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
     
-
-
-
-    // const handleCountryCodeChange = (e) => {
-    //     const value = e.target.value;
-    //     setIsChangedError('');
-    //     setCountryCode(value);
-    //     setGeneralError('');
-    //     setCountryCodeError('');
-    // };
 
 
     const indianStates = [
@@ -438,26 +313,19 @@ function CustomerForm({ show, handleClose, initialData }) {
     const handleHouseNo = (e) => {
         setHouseNo(e.target.value);
         setHouse_NoError("")
-        // setFormError("");
       };
     
       const handleStreetName = (e) => {
         setStreet(e.target.value);
         setStreetError("");
-        // setFormError("");
       }
     
       const handleLandmark = (e) => {
         setLandmark(e.target.value);
         setLandmarkError("");
-        // setFormError("");
       }
     
-      // const handlePincode = (e) => {
-      //   setPincode(e.target.value);
-      //   setPincodeError("");
-      //   // setFormError("");
-      // }
+     
 
       const handlePinCodeChange = (e) => {
         const value = e.target.value;
@@ -472,33 +340,16 @@ function CustomerForm({ show, handleClose, initialData }) {
           setPincodeError("");
         }
       
-        // setGeneralError("");
-        // setIsChangedError("");
       };
     
       const handleCity = (e) => {
         setCity(e.target.value);
         setCityError("");
-        // setFormError("");
       }
     
-      // const handleStateChange = (e) => {
-      //   setStateName(e.target.value);
-      //   setStateNameError("");
-      //   // setFormError("");
-      // }
+     
 
 
-
-    // const handleCommentsChange = (e) => {
-    //     const value = e.target.value;
-    //     setGeneralError('');
-    //     setComments(value);
-    //     setIsChangedError('');
-
-    // };
-
-    const [file, setFile] = useState(null);
 
      const handleImageChange = async (event) => {
         const fileImage = event.target.files[0];
@@ -525,36 +376,19 @@ function CustomerForm({ show, handleClose, initialData }) {
               payload: { hostel_id: state.login.selectedHostel_Id },
             });
       
-            // setShowForm(false);
       
             setTimeout(() => {
               dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
             }, 1000);
            
-            // setShowDeleteModal(false);
           }
         }, [
           state.UsersList.addWalkInCustomerStatusCode
          
         ]);
 
-    // const handleImageChange = (e) => {
-    //     const file = e.target.files[0];
-    //     if (file) {
-    //         const options = {
-    //             maxSizeMB: 1,
-    //             maxWidthOrHeight: 1920,
-    //             useWebWorker: true
-    //         };
-    //         imageCompression(file, options).then((compressedFile) => {
-    //             setFile(compressedFile);
-    //         }).catch((error) => {
-    //             console.error('Error compressing image:', error);
-    //         });
-    //     }
-    // };
+  
     const handleFormClose = () => {
-        // setErrors('');
         setEmailError("")
         setNameError("")
         setMobileError("")
@@ -589,14 +423,6 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
 
-                {/* {state.UsersList.alreadyHere && (
-                    <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                            {state.UsersList.alreadyHere}
-                        </label>
-                    </div>
-                )} */}
 
                 <Modal.Body>
 
@@ -605,7 +431,8 @@ function CustomerForm({ show, handleClose, initialData }) {
 
                         <div className="" style={{ height: 100, width: 100, position: "relative" }}>
 
-                            <Image src={file ? (typeof file === 'string' ? file : URL.createObjectURL(file)) : Profile} roundedCircle style={{ height: 100, width: 100 }} />
+                            <Image     src={ file ? typeof file === 'string' ? file  : URL.createObjectURL(file) : Profile }
+                          roundedCircle style={{ height: 100, width: 100 }} />
 
                             <label htmlFor="imageInput" className='' >
                                 <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
@@ -653,7 +480,6 @@ function CustomerForm({ show, handleClose, initialData }) {
                                         border: '1px solid #D9D9D9'
                                     }}
                                 />
-                                {/* {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>} */}
                             </Form.Group>
                             {nameError && (
                                 <div className="d-flex align-items-center p-1" style={{ marginTop: "-13px" }}>
@@ -687,16 +513,8 @@ function CustomerForm({ show, handleClose, initialData }) {
                                         marginTop: 6
                                     }}
                                 />
-                                {/* {errors.name && <small style={{ color: 'red' }}>{errors.name}</small>} */}
                             </Form.Group>
-                            {/* {nameError && (
-                                <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                                    <MdError style={{ color: "red", marginRight: '5px' }} />
-                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                        {nameError}
-                                    </label>
-                                </div>
-                            )} */}
+                       
                         </div>
 
 
@@ -716,7 +534,6 @@ function CustomerForm({ show, handleClose, initialData }) {
                                     <Form.Select
                                         value={countryCode}
                                         id="vendor-select-pg"
-                                        // onChange={handleCountryCodeChange}
                                         style={{
                                             border: "1px solid #D9D9D9",
                                             borderRadius: "8px 0 0 8px",
@@ -754,7 +571,6 @@ function CustomerForm({ show, handleClose, initialData }) {
                                         }}
                                     />
                                 </InputGroup>
-                                {/* {errors.mobile && <small style={{ color: 'red' }}>{errors.mobile}</small>} */}
                             </Form.Group>
 
                             {mobileError && (
@@ -804,7 +620,6 @@ function CustomerForm({ show, handleClose, initialData }) {
                                         marginTop: 6
                                     }}
                                 />
-                                {/* {errors.email && <small style={{ color: 'red' }}>{errors.email}</small>} */}
                             </Form.Group>
 
                             {emailError && (
@@ -1116,35 +931,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                                                                  </div>
                       
 
-                        {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <Form.Group controlId="formComments" className="mb-3">
-                                <Form.Label style={{
-                                    fontSize: '14px',
-                                    color: "#222222",
-                                    fontFamily: "Gilroy",
-                                    fontWeight: 500
-                                }}>
-                                    Address
-                                </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter Address"
-                                    value={comments}
-                                    onChange={handleCommentsChange}
-                                    style={{
-                                        height: "50px",
-                                        borderRadius: "8px",
-                                        fontSize: '16px',
-                                        fontFamily: 'Gilroy',
-                                        color: '#4B4B4B',
-                                        fontWeight: 500,
-                                        boxShadow: 'none',
-                                        border: errors.comments ? '1px solid red' : '1px solid #D9D9D9'
-                                    }}
-                                />
-                                {errors.comments && <small style={{ color: 'red' }}>{errors.comments}</small>}
-                            </Form.Group>
-                        </div> */}
+                      
 
                         <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                             <Form.Group controlId="purchaseDate">
