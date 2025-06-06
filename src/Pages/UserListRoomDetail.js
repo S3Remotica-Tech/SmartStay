@@ -38,6 +38,7 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
+import { RightOutlined } from '@ant-design/icons';
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -200,6 +201,15 @@ function UserListRoomDetail(props) {
     setContactEdit(u);
     setAdditionalForm(true);
   };
+
+
+const handleKYCSubmit = () => {
+   
+ dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id:props.id } })
+
+  }
+
+
   const handleKycdetailsForm = (item) => {
     setkycuserDetails(item);
     setKycDetailForm(true);
@@ -1340,7 +1350,7 @@ function UserListRoomDetail(props) {
                             {item.Name}
                           </span>
 
-                          <p
+                          {/* <p
                             style={{ marginTop: 8, cursor: "pointer" }}
                             onClick={() => {
                               handleKycdetailsForm(item);
@@ -1354,7 +1364,23 @@ function UserListRoomDetail(props) {
                               height={17}
                               style={{ marginTop: "-3px" }}
                             />
-                          </p>
+                          </p> */}
+                         <Button
+  type="primary"
+  style={{
+    borderRadius: '20px',
+    backgroundColor: '#1848f1',
+    border: 'none',
+    padding: '0 16px',
+    height: '32px',
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '14px',
+  }}
+  onClick={handleKYCSubmit}
+>
+  Verify KYC <RightOutlined style={{ fontSize: '12px', marginLeft: 6 }} />
+</Button>
                         </div>
                       </div>
 
