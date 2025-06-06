@@ -39,7 +39,7 @@ function SettingGeneral() {
   const [countryCode, setCountryCode] = useState("91");
   const [Phone, setPhone] = useState("");
   const [emilId, setEmailId] = useState("");
-  // const [address, setAddress] = useState("");
+ 
   const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
@@ -59,7 +59,7 @@ function SettingGeneral() {
   const [firstNameError, setFirstNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  // const [addressError, setAddressError] = useState("");
+  
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [landmarkError, setLandmarkError] = useState("");
@@ -81,10 +81,9 @@ function SettingGeneral() {
   const [conformShowPassword, setConFormShowPassword] = useState("");
   const [conformPasswordError, setConformPasswordError] = useState("");
   const [newPassError, setNewPassError] = useState("")
-  // const [conPassError,setConPassError]=useState("")
-  const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
-  const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
-  const [generalFilterddata, setGeneralFilterddata] = useState([]);
+   const [generalFilterddata, setGeneralFilterddata] = useState([]);
+  
+ 
   const [loading, setLoading] = useState(true)
 const [generalDeleteError,setGeneralDeleteError] = useState("")
 
@@ -159,14 +158,14 @@ const indianStates = [
     setChangePassword(false);
     setPassError("");
     setCheckPassword("")
-    // setCheckPasswordError("")
+    
 
   };
 
   const handleCheckPassword = (e) => {
     setCheckPassword(e.target.value);
     setPassError("");
-    // setCheckPasswordError("")
+    
     dispatch({ type: "CLEAR_PASSWORD_ERROR" });
   };
 
@@ -226,12 +225,10 @@ const indianStates = [
     setFirstName("");
     setLastName("");
     setEmailId("");
-    // setAddress("");
     setFile("");
     setPassword("");
     setPhone("");
     setFirstNameError("");
-    // setLastNameError("");
     setEmailError("");
     setHouseNo("");
     setStreet("");
@@ -246,7 +243,6 @@ const indianStates = [
     setPincodeError("")
     setStateNameError("")
     setPhoneError("");
-    // setAddressError("");
     setPasswordError("");
     setFormError("");
     setEmailError("")
@@ -291,7 +287,7 @@ const indianStates = [
        return;
      }
     setLastName(value);
-    // setLastNameError("");
+    
     setFormError("");
   };
 
@@ -349,11 +345,7 @@ const indianStates = [
 
 
 
-  // const handleAddress = (e) => {
-  //   setAddress(e.target.value);
-  //   setAddressError("");
-  //   setFormError("");
-  // };
+ 
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
@@ -373,11 +365,7 @@ const indianStates = [
     setFormError("");
   }
 
-  // const handlePincode = (e) => {
-  //   setPincode(e.target.value);
-  //   setPincodeError("");
-  //   setFormError("");
-  // }
+  
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -392,8 +380,7 @@ const indianStates = [
       setPincodeError("");
     }
   
-    // setGeneralError("");
-    // setIsChangedError("");
+  
   };
 
   const handleCity = (e) => {
@@ -402,21 +389,16 @@ const indianStates = [
     setFormError("");
   }
 
-  // const handleStateChange = (e) => {
-  //   setStateName(e.target.value);
-  //   setStateNameError("");
-  //   setFormError("");
-  // }
-
+ 
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setPasswordError("");
-    // setPasswordError("")
+    
   };
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEditGeneralUser = (user) => {
-    console.log("user", user)
+    
     const phoneNumber = String(user.mobileNo || "");
     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
     const mobileNumber = phoneNumber.slice(-10);
@@ -427,7 +409,7 @@ const indianStates = [
     setLastName(user.last_name);
     setPhone(mobileNumber);
     setCountryCode(countryCode);
-    // setAddress(user.Address);
+   
     setHouseNo(user.Address);
     setStreet(user.area);
     setLandmark(user.landmark)
@@ -444,7 +426,7 @@ const indianStates = [
       lastName: user.last_name || "",
       Phone: user.mobileNo || "",
       emilId: user.email_Id || "",
-      // address: user.Address || "",
+      
       house_no: user.Address || '',
       street: user.area || '',
       city: user.city || '',
@@ -467,9 +449,7 @@ const indianStates = [
         case "Phone":
           setPhoneError("Phone Number Required");
           break;
-        // case "address":
-        //   setAddressError("Address Required");
-        //   break;
+       
         case "password":
           setPasswordError("Password Required");
           break;
@@ -507,205 +487,87 @@ const indianStates = [
     file: null,
   });
 
-  // save
+  
   function isValidEmail(email) {
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     return emailRegex.test(email);
   }
-  // const handleSave = () => {
-  //   const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-  //   if (!validateField(firstName, "firstName"));
-  //   if (!validateField(emilId, "emilId"));
-  //   if (!validateField(Phone, "Phone"));
-  //   if (!validateField(password, "password"));
-  //   if (!validateField(address, "address"));
 
-  //   if (!isValidEmail(emilId)) {
-  //     setEmailError("Please enter a valid Email ID.");
-  //     return;
-  //   }
 
-  //   if (edit && editId) {
-  //     const normalize = (value) => (value === null ? "" : value);
-  //     const isChanged =
-  //       firstName !== initialStateAssign.firstName ||
-  //       Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-  //       // lastName !== initialStateAssign.lastName ||
-  //       normalize(lastName) !== normalize(initialStateAssign.lastName) ||
-  //       emilId !== initialStateAssign.emilId ||
-  //       address !== initialStateAssign.address ||
-  //       // (file && initialStateAssign.file && file !== initialStateAssign.file) ||
-  //       // (!file && initialStateAssign.file);
-  //       file !== initialStateAssign.file ||
-  //       (!file && initialStateAssign.file);
-
-  //     console.log("Change detection:");
-  //     console.log("First Name:", firstName, initialStateAssign.firstName);
-  //     console.log("Phone:", Number(countryCode + Phone), Number(initialStateAssign.Phone));
-  //     console.log("Last Name:", lastName, initialStateAssign);
-  //     console.log("Email ID:", emilId, initialStateAssign.emilId);
-  //     console.log("Address:", address, initialStateAssign.address);
-  //     console.log("File comparison:", file, initialStateAssign.file);
-  //     console.log("Is Changed:", isChanged);
-
-  //     if (!isChanged) {
-  //       setFormError("No changes detected.");
-  //       console.log("No changes detected. Form not submitted.");
-  //       return;
-  //     } else {
-  //       setFormError("");
-  //     }
-
-  //     console.log("Submitting changes to dispatch...");
-  //     dispatch({
-  //       type: "ADDGENERALSETTING",
-  //       payload: {
-  //         f_name: firstName,
-  //         l_name: lastName,
-  //         mob_no: normalizedPhoneNumber,
-  //         email_id: emilId,
-  //         address: address,
-  //         profile: file,
-  //         id: editId,
-  //       },
-  //     });
-  //   }
-
-  //   else if (firstName && emilId && Phone && address && password) {
-  //     dispatch({
-  //       type: "ADDGENERALSETTING",
-  //       payload: {
-  //         f_name: firstName,
-  //         l_name: lastName,
-  //         mob_no: normalizedPhoneNumber,
-  //         email_id: emilId,
-  //         address: address,
-  //         password: password,
-  //         profile: file,
-  //       },
-  //     });
-  //   }
-  // };
   const handleSave = () => {
-    let hasError = false;
-    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-  
-
-    const isFirstNameValid = validateField(firstName, "firstName");
-    const isEmailValid = validateField(emilId, "emilId");
-    const isPhoneValid = validateField(Phone, "Phone");
-    // const isAddressValid = validateField(address, "address");
-    const isPasswordValid = !edit ? validateField(password, "password") : true;
-    const isCityValid = validateField(city, "City");
-    const isPincodeValid = validateField(pincode, "Pincode");
-    const isStatenameValid = validateField(state_name, "state_name");
+  let hasError = false;
+  const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+  const normalize = (v) => (v ?? "");
 
 
-    if (!Phone) {
-      setPhoneError("Mobile Number Required");
-      hasError = true;
-    }
-    else if (Phone.length !== 10) {
-      setPhoneError("Please Enter Valid Mobile Number");
-      hasError = true;
-    } else {
-      setPhoneError(""); 
-    }
+  const validations = [
+    validateField(firstName, "firstName"),
+    validateField(emilId,   "emilId"),
+    validateField(Phone,    "Phone"),
+    !edit ? validateField(password, "password") : true,
+    validateField(city,     "City"),
+    validateField(pincode,  "Pincode"),
+    validateField(state_name, "state_name"),
+  ];
 
-    if (emilId && isEmailValid) {
-      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-      const isValidEmailFormat = emailRegex.test(emilId.toLowerCase());
-      if (!isValidEmailFormat) {
-        setEmailError("Please Enter a Valid Email ID");
-        hasError = true;
-      } else {
-        setEmailError("");
-      }
-    }
+ 
+  if (!Phone) {
+    setPhoneError("Mobile Number Required"); hasError = true;
+  } else if (!/^\d{10}$/.test(Phone)) {
+    setPhoneError("Please Enter Valid Mobile Number"); hasError = true;
+  } else setPhoneError("");
+
   
-  
-    if (hasError) return;
-    if ( 
-      !isFirstNameValid ||
-      !isEmailValid ||
-      !isPhoneValid ||
-      !isPasswordValid ||
-      !isCityValid  || 
-      !isPincodeValid ||
-      !isStatenameValid
-     
-    ) {
-      console.log("Form validation failed");
-      return;
-    }
-  
-    if (!isValidEmail(emilId)) {
-      setEmailError("Please enter a valid Email ID");
-      return;
-    }
-  
-    if (edit && editId) {
-      const normalize = (value) => (value === null ? "" : value);
-      const isChanged =
-        firstName !== initialStateAssign.firstName ||
-        Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-        normalize(lastName) !== normalize(initialStateAssign.lastName) ||
-        emilId !== initialStateAssign.emilId ||
-        // address !== initialStateAssign.address ||
-        normalize(house_no) !== normalize(initialStateAssign.house_no) ||
-        normalize(street) !== normalize(initialStateAssign.street) ||
-        normalize(landmark) !== normalize(initialStateAssign.landmark) ||
-        city !== initialStateAssign.city ||
-        String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
-        state_name !== initialStateAssign.state ||
-        file !== initialStateAssign.file ||
-        (!file && initialStateAssign.file); 
-  
-      if (!isChanged) {
-        setFormError("No Changes Detected");
-        return;
-      } else {
-        setFormError("");
-      }
-      dispatch({
-        type: "ADDGENERALSETTING",
-        payload: {
-          f_name: firstName,
-          l_name: lastName,
-          mob_no: normalizedPhoneNumber,
-          email_id: emilId,
-          address: house_no,
-          area : street,
-          landmark : landmark,
-          city : city,
-          pin_code : pincode,
-          state:state_name,
-          profile: file,
-          id: editId,
-        },
-      });
-    }
-     else if (firstName && emilId && Phone && house_no
-      && street &&  landmark && city && pincode && state_name  && password) {
-      dispatch({
-        type: "ADDGENERALSETTING",
-        payload: {
-          f_name: firstName,
-          l_name: lastName,
-          mob_no: normalizedPhoneNumber,
-          email_id: emilId,
-          address: house_no,
-          area : street,
-          landmark : landmark,
-          city : city,
-          pin_code : pincode,
-          state:state_name,
-          password: password,
-          profile: file,
-        },
-      });
-    }
+  if (emilId) {
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    if (!emailRegex.test(emilId.toLowerCase())) {
+      setEmailError("Please Enter a Valid Email ID"); hasError = true;
+    } else setEmailError("");
+  }
+
+  if (hasError || validations.includes(false) || !isValidEmail(emilId)) return;
+
+
+  const payload = {
+    f_name : firstName,
+    l_name : lastName,
+    mob_no : normalizedPhoneNumber,
+    email_id : emilId,
+    address : house_no,
+    area    : street,
+    landmark: landmark,
+    city,
+    pin_code: pincode,
+    state   : state_name,
+    profile : file,
   };
+  if (!edit) payload.password = password;
+  if (edit && editId) payload.id = editId;
+
+  
+  if (edit && editId) {
+    const isChanged =
+      firstName !== initialStateAssign.firstName ||
+      Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
+      normalize(lastName) !== normalize(initialStateAssign.lastName) ||
+      emilId !== initialStateAssign.emilId ||
+      normalize(house_no) !== normalize(initialStateAssign.house_no) ||
+      normalize(street) !== normalize(initialStateAssign.street) ||
+      normalize(landmark) !== normalize(initialStateAssign.landmark) ||
+      city !== initialStateAssign.city ||
+      String(pincode).trim() !== String(initialStateAssign.pincode ?? "").trim() ||
+      state_name !== initialStateAssign.state ||
+      file !== initialStateAssign.file ||
+      (!file && initialStateAssign.file);
+
+    if (!isChanged) { setFormError("No Changes Detected"); return; }
+    setFormError("");
+  }
+
+  /* ------------ 4. Dispatch --------------- */
+  dispatch({ type: "ADDGENERALSETTING", payload });
+};
+
   
   useEffect(() => {
     if (state.Settings.notmatchpass) {
@@ -788,8 +650,10 @@ const indianStates = [
     }
   }, [state.Settings?.statusCodeForGeneralDelete]);
 
-  // pagination
-
+ 
+ const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
+  const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
+ 
 
   const indexOfLastRowGeneral = generalcurrentPage * generalrowsPerPage;
   const indexOfFirstRowGeneral = indexOfLastRowGeneral - generalrowsPerPage;
@@ -804,65 +668,14 @@ const indianStates = [
 
   const handleItemsPerPageChange = (event) => {
     setGeneralrowsPerPage(Number(event.target.value));
+    setGeneralcurrentPage(1);
   };
 
   const totalPagesGeneral = Math.ceil(
     generalFilterddata?.length / generalrowsPerPage
   );
 
-  // const renderPageNumbersGeneral = () => {
-  //   const pageNumbersGeneral = [];
-  //   let startPageGeneral = generalcurrentPage - 1;
-  //   let endPageGeneral = generalcurrentPage + 1;
 
-  //   if (generalcurrentPage === 1) {
-  //     startPageGeneral = 1;
-  //     endPageGeneral = 3;
-  //   }
-
-  //   if (generalcurrentPage === totalPagesGeneral) {
-  //     startPageGeneral = totalPagesGeneral - 2;
-  //     endPageGeneral = totalPagesGeneral;
-  //   }
-
-  //   if (generalcurrentPage === 2) {
-  //     startPageGeneral = 1;
-  //     endPageGeneral = 3;
-  //   }
-
-  //   if (generalcurrentPage === totalPagesGeneral - 1) {
-  //     startPageGeneral = totalPagesGeneral - 2;
-  //     endPageGeneral = totalPagesGeneral;
-  //   }
-
-  //   for (let i = startPageGeneral; i <= endPageGeneral; i++) {
-  //     if (i > 0 && i <= totalPagesGeneral) {
-  //       pageNumbersGeneral.push(
-  //         <li key={i} style={{ margin: '0 5px' }}>
-  //           <button
-  //             style={{
-  //               padding: '5px 10px',
-  //               textDecoration: 'none',
-  //               color: i === generalcurrentPage ? '#007bff' : '#000000',
-  //               cursor: 'pointer',
-  //               borderRadius: '5px',
-  //               display: 'inline-block',
-  //               minWidth: '30px',
-  //               textAlign: 'center',
-  //               backgroundColor: i === generalcurrentPage ? 'transparent' : 'transparent',
-  //               border: i === generalcurrentPage ? '1px solid #ddd' : 'none'
-  //             }}
-  //             onClick={() => handleGeneralPageChange(i)}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //   }
-
-  //   return pageNumbersGeneral;
-  // };
 
   useEffect(() => {
     if (state.Settings?.StatusCodeforGetGeneral === 200 || state.Settings?.StatusCodeforGetGeneral === 201) {
@@ -941,15 +754,12 @@ const indianStates = [
           left: 0,
           zIndex: 1000,
           backgroundColor: "#FFFFFF",
-          // height: 83,
-          // height: "auto",
-          // padding:"0px",
+        
           minHeight: 83,
           whiteSpace: "nowrap",
           paddingRight:10,
           paddingLeft:10,
-          // paddingTop: 20, 
-          // paddingBottom: 20,
+         
 
         }}
       >
@@ -972,7 +782,7 @@ const indianStates = [
         </div>
         <div
          className="d-flex justify-content-center justify-content-md-end w-100 mt-3 mt-md-0"
-      //  style={{paddingRight:1}} 
+      
        >
         
           <div style={{marginTop:6}}
@@ -987,15 +797,14 @@ const indianStates = [
               fontWeight: 600,
               borderRadius: "8px",
               padding: "11px",
-              // paddingLeft: 30,
-              // paddingRight: 20,
+            
               height:45,
               width:146,
               whiteSpace:"nowrap",
               marginTop:5
 
             }}
-              //   disabled={ebAddPermission}
+            
               onClick={handleShowFormGreneral}
             >
               + Create Master
@@ -1005,7 +814,7 @@ const indianStates = [
       </div>
 
       <div className="container scroll-issue" style={{ position: "relative" ,  
-      // maxHeight: "470px",
+      
                   overflowY: "auto",}}>
 
         {loading &&
@@ -1056,7 +865,7 @@ const indianStates = [
                 key={item.id}
               >
                 <div 
-                // className="d-flex flex-wrap justify-content-between align-items-center"
+                
                 className="d-flex flex-wrap justify-content-between align-items-center w-100"
                 >
                   <div className="d-flex align-items-center flex-wrap mt-2">
@@ -1080,7 +889,7 @@ const indianStates = [
                           fontSize: 16,
                           fontWeight: 600,
                           fontFamily: "Gilroy",
-                          // whiteSpace: "nowrap",
+                          
                         }}
                       >
                         {item.first_name} {item.last_name}
@@ -1129,16 +938,10 @@ const indianStates = [
                         style={{
                           cursor: "pointer",
                           backgroundColor: "#F9F9F9",
-                          position: "absolute",
-                          // left: window.innerWidth <= 404 ? 0 : "auto",
-                          right: window.innerWidth <= 404 ? "auto" : 40, 
-                          // right: window.innerWidth <= 404 ? 5 : 40,
-                          // right: 40,
-                          // top: 28,
-                          top: 40,
-                          // width: 120,
+                          position: "absolute",                         
+                          right: window.innerWidth <= 404 ? "auto" : 40,                         
+                          top: 40,                        
                           width: window.innerWidth <= 404 ? 100 : 120,
-                          // height: 70,
                           height: "auto",
                           border: "1px solid #EBEBEB",
                           borderRadius: 10,
@@ -1315,25 +1118,12 @@ const indianStates = [
         )}
       </div>
 
-      {generalFilterddata?.length >=5 && generalrowsPerPage && (
+      {generalFilterddata?.length >=3 && (
         <nav 
         className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
-        // className="pagination-container"
-        // style={{
-        //   display: "flex",
-        //   alignItems: "center",
-        //   justifyContent: "end",
-        //   padding: "10px",
-        //   position: "fixed",
-        //   bottom: "10px",
-        //   right: "10px",
-        //   backgroundColor: "#fff",
-        //   borderRadius: "5px",
-        //   boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-        //   zIndex: 1000,
-        // }}
+       
         >
-          {/* Dropdown for Items Per Page */}
+      
           <div>
             <select
               value={generalrowsPerPage}
@@ -1793,7 +1583,7 @@ const indianStates = [
                         fontWeight: 500,
                         boxShadow: "none",
                         border: "1px solid #D9D9D9",
-                        borderRight: "none", // Remove the right border
+                        borderRight: "none", 
                         height: "50px",
                         borderRadius: "8px 0 0 8px",
                       }}
@@ -1807,7 +1597,7 @@ const indianStates = [
                       style={{
                         backgroundColor: "#fff",
                         border: "1px solid #D9D9D9",
-                        borderLeft: "none", // Ensure no overlap with the input
+                        borderLeft: "none", 
                         cursor: "pointer",
                         borderRadius: "0 8px 8px 0",
                       }}
@@ -2184,12 +1974,7 @@ const indianStates = [
         centered
         backdrop="static"
         dialogClassName="custom-delete-modal"
-        // style={{
-        //   width: 388,
-        //   height: 250,
-        //   marginLeft: "500px",
-        //   marginTop: "200px",
-        // }}
+      
 
       >
         <Modal.Header style={{ borderBottom: "none" }}>
@@ -2198,7 +1983,7 @@ const indianStates = [
             style={{
               fontSize: "18px",
               fontFamily: "Gilroy",
-              // textAlign: "center",
+              
               fontWeight: 600,
               color: "#222222",
               flex: 1,
@@ -2241,7 +2026,6 @@ const indianStates = [
         <Modal.Footer
         className="d-flex justify-content-center"
           style={{
-            // justifyContent: "center",
             borderTop: "none",
             marginTop: "-10px",
           }}
@@ -2249,7 +2033,7 @@ const indianStates = [
           <Button
           className="me-2"
             style={{
-              // width: 160,
+            
               width: "100%",
               maxWidth: 160,
               height: 52,
@@ -2293,14 +2077,10 @@ const indianStates = [
         backdrop="static"
         centered
             dialogClassName="custom-modal"
-        // className="modal-dialog-centered"
-        // style={{
-        //   maxWidth: "353px",
-        //   width: "80vw",
-        // }}
+      
       >
         <Modal.Header style={{ 
-          // marginBottom: "0px", 
+          
           position: "relative" }}>
           <div
             style={{
@@ -2311,43 +2091,13 @@ const indianStates = [
           >
             Current Password
           </div>
-          {/* <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleCloseChangepassword}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "16px",
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              // padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "24px",
-              height: "24px",
-              borderRadius: "50%",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{ fontSize: "24px", 
-                // paddingBottom: "6px" 
-              }}
-            >
-              &times;
-            </span>
-          </button> */}
+         
           <CloseCircle size="24" color="#000" onClick={handleCloseChangepassword} 
             style={{ cursor: 'pointer' }}/>
 			
         </Modal.Header>
         <Modal.Body style={{ marginTop: '0px' }}>
-          {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> */}
-            {/* {!editShow && ( */}
+          
             <Form.Group className="">
               <Form.Label
                 style={{
@@ -2377,7 +2127,7 @@ const indianStates = [
                     fontWeight: 500,
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
-                    borderRight: "none", // Remove the right border
+                    borderRight: "none", 
                     height: "50px",
                     borderRadius: "8px 0 0 8px",
                   }}
@@ -2389,7 +2139,7 @@ const indianStates = [
                   style={{
                     backgroundColor: "#fff",
                     border: "1px solid #D9D9D9",
-                    borderLeft: "none", // Ensure no overlap with the input
+                    borderLeft: "none", 
                     cursor: "pointer",
                     borderRadius: "0 8px 8px 0",
                   }}
@@ -2415,12 +2165,11 @@ const indianStates = [
               </div>
             )}
 
-            {/* )} */}
-          {/* </div> */}
+         
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center" style={{border:"none"}}>
           <Button
-            // className="col-12"
+           
             className="w-100 custom-button mt-2"
             style={{
               backgroundColor: "#1E45E1",
@@ -2438,27 +2187,15 @@ const indianStates = [
         </Modal.Footer>
       </Modal>
 
-      {/* confirm */}
+      
       <Modal
         show={confirmPass}
         onHide={() => handleCloseConfirmPass()}
         backdrop="static"
         centered
-        dialogClassName="custom-modal"
-        // className="custom-modal modal-dialog-centered"
-        // style={{
-        //   maxWidth: "353px",
-        //   width: "80vw",
-        // }}
+     
       >
-         {/* <Modal.Dialog
-    className="w-100"
-    style={{
-      maxWidth: "min(95%, 400px)", // Ensures modal is responsive
-      width: "90vw", // Adapts to smaller screens
-      margin: "auto", // Centers properly
-    }}
-  > */}
+         
         <Modal.Header style={{ marginBottom: "", position: "relative" }}>
           <div
             style={{
@@ -2469,42 +2206,15 @@ const indianStates = [
           >
             Confirm Password
           </div>
-          {/* <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleCloseConfirmPass}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "16px",
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "32px",
-              height: "32px",
-              borderRadius: "50%",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{ fontSize: "24px", paddingBottom: "4px" }}
-            >
-              &times;
-            </span>
-          </button> */}
+         
           <CloseCircle size="24" color="#000" onClick={handleCloseConfirmPass} 
             style={{ cursor: 'pointer' }}/>
         </Modal.Header>
         <Modal.Body>
           <div className="col-lg-12 
-          // col-md-12 col-sm-12 col-xs-12"
+           col-md-12 col-sm-12 col-xs-12"
           >
-            {/* {!editShow && ( */}
+          
             <Form.Group className="mb-3">
               <Form.Label
                 style={{
@@ -2532,7 +2242,7 @@ const indianStates = [
                     fontWeight: 500,
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
-                    borderRight: "none", // Remove the right border
+                    borderRight: "none",
                     height: "50px",
                     borderRadius: "8px 0 0 8px",
                   }}
@@ -2544,7 +2254,7 @@ const indianStates = [
                   style={{
                     backgroundColor: "#fff",
                     border: "1px solid #D9D9D9",
-                    borderLeft: "none", // Ensure no overlap with the input
+                    borderLeft: "none", 
                     cursor: "pointer",
                     borderRadius: "0 8px 8px 0",
                   }}
@@ -2568,10 +2278,10 @@ const indianStates = [
                 {newPassError}
               </div>
             )}
-            {/* )} */}
+            
           </div>
           <div className="col-lg-12 
-          // col-md-12 col-sm-12 col-xs-12"
+           col-md-12 col-sm-12 col-xs-12"
           >
             <Form.Group className="mb-3">
               <Form.Label
@@ -2599,7 +2309,7 @@ const indianStates = [
                     fontWeight: 500,
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
-                    borderRight: "none", // Remove the right border
+                    borderRight: "none", 
                     height: "50px",
                     borderRadius: "8px 0 0 8px",
                   }}
@@ -2613,7 +2323,7 @@ const indianStates = [
                   style={{
                     backgroundColor: "#fff",
                     border: "1px solid #D9D9D9",
-                    borderLeft: "none", // Ensure no overlap with the input
+                    borderLeft: "none", 
                     cursor: "pointer",
                     borderRadius: "0 8px 8px 0",
                   }}
@@ -2637,7 +2347,7 @@ const indianStates = [
                 {conformPasswordError}
               </div>
             )}
-            {/* )} */}
+            
           </div>
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center">
@@ -2650,14 +2360,14 @@ const indianStates = [
               borderRadius: "12px",
               fontSize: "14px",
               fontFamily: "Montserrat, sans-serif",
-              // marginTop: "10px",
+             
             }}
             onClick={handleSavePassword}
           >
             Save Password
           </Button>
         </Modal.Footer>
-        {/* </Modal.Dialog> */}
+       
       </Modal>
     </>
   );

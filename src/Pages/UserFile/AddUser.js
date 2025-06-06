@@ -44,7 +44,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
   useEffect(() => {
     dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-    // dispatch({ type: "COUNTRYLIST" });
+   
   }, [])
 
   useEffect(() => {
@@ -77,13 +77,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
 
 
-  // ///// function /////////////
-
-  // const handleNameChange = (e) => {
-  //   setName(e.target.value)
-  //   setNameError('')
-  //   setError('')
-  // }
+  
   const handleNameChange = (e) => {
     const value = e.target.value;
     if (/^[a-zA-Z\s]*$/.test(value)) {
@@ -105,7 +99,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     const isValidEmail = emailRegex.test(emailValue);
   
     if (emailValue && !isValidEmail) {
-      setEmailError("Invalid Email Id *");
+      setEmailError("Invalid Email Id");
     } else {
       setEmailError("");
     }
@@ -118,11 +112,10 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   
     const value = e.target.value;
   
-    // Allow only numbers, max 10 digits
+    
     if (/^\d{0,10}$/.test(value)) {
       setMobile(value);
   
-      // Show error if length is less than 10 digits (but not empty)
       if (value && value.length < 10) {
         setMobileError('Please Enter Valid Mobile Number');
       } else {
@@ -138,54 +131,6 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   };
   
 
-  // const handleEmailChange = (e) => {
-  //   setEmailError('');
-  //   setError('');
-
-  //   const emailValue = e.target.value.toLowerCase();
-  //   setEmail(emailValue);
-
-  //   const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-  //   const isValidEmail = emailRegex.test(emailValue);
-
-  //   if (!emailValue) {
-  //     setEmailError("Please enter Email");
-  //   } else if (!isValidEmail) {
-  //     setEmailError("Invalid Email Id *");
-  //   } else {
-  //     setEmailError("");
-  //   }
-
-  //   dispatch({ type: "CLEAR_EMAIL_ID_ERROR" });
-  // };
-
-
-
-
-  // const handleMobileChange = (e) => {
-  //   setMobileError('')
-  //   setError('')
-  //   const value = e.target.value;
-  //   if (/^\d{0,10}$/.test(value)) {
-  //     setMobile(value);
-  //     setMobileError('');
-  //   } else {
-  //     setMobileError('Invalid mobile number. Only 10-digit numeric values are allowed.');
-  //   }
-
-
-  //   dispatch({ type: "CLEAR_PHONE_NUM_ERROR" });
-  // };
-  // const handleCountryCodeChange = (e) => {
-  //   setCountryCodeError('')
-  //   setError('')
-  //   setCountryCode(e.target.value)
-  // }
-  // const handleRoleChange = (e) => {
-  //   setRoleError('')
-  //   setError('')
-  //   setRole(e.target.value)
-  // }
   const handleRoleChange = (selectedOption) => {
     setRoleError('');
     setError('');
@@ -321,171 +266,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   };
   
 
-  // const handleSubmit = () => {
-  //   let isValid = true;
-  
-  //   setNameError('');
-  //   setEmailError('');
-  //   setMobileError('');
-  //   setCountryCodeError('');
-  //   setRoleError('');
-  //   setError('');
-  
-  //   const emailRegex = /^[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-  
-  //   if (!name) {
-  //     setNameError('Please Enter Name');
-  //     isValid = false;
-  //   }
-  
-  //   if (!email) {
-  //     setEmailError('Please Enter Email ID');
-  //     isValid = false;
-  //   } else if (!emailRegex.test(email)) {
-  //     setEmailError('Invalid Email Id *');
-  //     isValid = false;
-  //   }
-  
-  //   if (!countryCode) {
-  //     setCountryCodeError('Please Select Country Code');
-  //     isValid = false;
-  //   }
-  
-  //   if (!mobile) {
-  //     setMobileError('Please Enter Mobile Number');
-  //     isValid = false;
-  //   }
-  
-  //   if (!role) {
-  //     setRoleError('Please Select Role');
-  //     isValid = false;
-  //   }
-  
-  //   if (!editDetails && !password) {
-  //     setPasswordError('Please Enter Password');
-  //     isValid = false;
-  //   }
-  
-  //   const hasChanges =
-  //     name !== initialState.name ||
-  //     email !== initialState.email ||
-  //     mobile !== initialState.mobile ||
-  //     countryCode !== initialState.countryCode ||
-  //     role !== initialState.role ||
-  //     description !== initialState.description;
-  
-  //   if (editDetails && !hasChanges) {
-  //     setError("No changes detected");
-  //     isValid = false;
-  //   }
-  
-  //   if (isValid) {
-  //     const MobileNumber = `${countryCode}${mobile}`;
-  //     const payload = {
-  //       user_name: name,
-  //       phone: MobileNumber,
-  //       email_id: email,
-  //       role_id: role,
-  //       description: description,
-  //     };
-  
-  //     if (editDetails && edit) {
-  //       payload.id = editDetails.id;
-  //     } else {
-  //       payload.password = password;
-  //     }
-  
-  //     dispatch({
-  //       type: "ADDSTAFFUSER",
-  //       payload,
-  //     });
-  //   }
-  // };
-  
-  // const handleSubmit = () => {
-
-  //   let isValid = true;
-
-  //   setNameError('');
-  //   setEmailError('');
-  //   setMobileError('');
-  //   setCountryCodeError('');
-  //   setRoleError('');
-
-
-
-  //   if (!name) {
-  //     setNameError('Please enter name');
-  //     isValid = false;
-  //   }
-  //   if (!email) {
-  //     setEmailError('Please enter email');
-  //     isValid = false;
-  //   }
-  //   if (!countryCode) {
-  //     setCountryCodeError('Please select country code');
-  //     isValid = false;
-  //   }
-  //   if (!mobile) {
-  //     setMobileError('Please enter mobile number');
-  //     isValid = false;
-  //   }
-  //   if (!role) {
-  //     setRoleError('Please select a role');
-  //     isValid = false;
-  //   }
-  //   if (!editDetails && !password) {
-  //     setPasswordError('Please enter a password');
-  //     isValid = false;
-  //   }
-
-  //   const hasChanges =
-  //     name !== initialState.name ||
-  //     email !== initialState.email ||
-  //     mobile !== initialState.mobile ||
-  //     countryCode !== initialState.countryCode ||
-  //     role !== initialState.role ||
-  //     description !== initialState.description;
-
-  //   if (editDetails && !hasChanges) {
-  //     setError("No changes detected. Please update the fields.");
-  //     isValid = false;
-  //   }
-
-  //   if (isValid) {
-  //     if (editDetails && edit) {
-  //       const MobileNumber = `${countryCode}${mobile}`
-  //       dispatch({
-  //         type: "ADDSTAFFUSER",
-  //         payload: {
-  //           user_name: name,
-  //           phone: MobileNumber,
-  //           email_id: email,
-  //           role_id: role,
-  //           description: description,
-  //           id: editDetails.id
-  //         },
-  //       });
-  //     } else {
-  //       const MobileNumber = `${countryCode}${mobile}`
-
-
-  //       dispatch({
-  //         type: "ADDSTAFFUSER",
-  //         payload: {
-  //           user_name: name,
-  //           phone: MobileNumber,
-  //           email_id: email,
-  //           password: password,
-  //           role_id: role,
-  //           description: description,
-  //         },
-  //       });
-  //     }
-
-
-  //   }
-  // };
+ 
 
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 200) {
@@ -616,7 +397,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       value={countryCode}
                       autoComplete="off"
                       autoCorrect="off"
-                      // onChange={handleCountryCodeChange}
+                      
                       id="vendor-select-pg"
                       style={{
                         border: "1px solid #D9D9D9",

@@ -1,309 +1,311 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import {Row, Col, Card, Form, Button, FormControl } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Row, Col, Card, Form, Button, FormControl } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
-import EmptyState from '../Assets/Images/New_images/empty_image.png';
+import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import Select from "react-select";
-import './SettingAll.css'
+import "./SettingAll.css";
 import PropTypes from "prop-types";
-import {CloseCircle} from "iconsax-react";
-import './SettingElectricity.css';
+import { CloseCircle } from "iconsax-react";
+import "./SettingElectricity.css";
 
 const SettingElectricity = ({ hostelid }) => {
-
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [isRecurring, setIsRecurring] = useState(false);
   const [roomBasedCalculation, setRoomBasedCalculation] = useState(false);
   const [hostelBasedCalculation, setHostelBasedCalculation] = useState(false);
   const [showFormElectricity, setShowFormElectricity] = useState(false);
-  const [amount, setAmount] = useState('');
-  const [amountErr, setAmountErr] = useState('');
-  const [totalErr, setTotalErr] = useState('');
+  const [amount, setAmount] = useState("");
+  const [amountErr, setAmountErr] = useState("");
+  const [totalErr, setTotalErr] = useState("");
   const [recurringform, setRecurringForm] = useState(false);
   const [calculatedstartdate, setCalculatedstartdate] = useState(null);
   const [calculatedenddate, setCalculatedEnddate] = useState("");
-  const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] = useState("");
+  const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] =
+    useState("");
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
   const [every_recurr, setEvery_Recurr] = useState("");
 
-  const [editHostel, setEditHostel] = useState({ id: '', name: '', editamount: '' })
+  const [editHostel, setEditHostel] = useState({
+    id: "",
+    name: "",
+    editamount: "",
+  });
 
-
-  const [EbList, setEbList] = useState([])
-  const [loading, setLoading] = useState(true)
-
+  const [EbList, setEbList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (hostelid) {
-      dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
+      dispatch({
+        type: "EB-BILLING-UNIT-LIST",
+        payload: { hostel_id: hostelid },
+      });
     }
-  }, [hostelid])
-
+  }, [hostelid]);
 
   useEffect(() => {
-    if (state.Settings.addEbbillingUnitStatuscode === 200 || state.Settings.deleteElectricityStatuscode === 200) {
-
-      dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
-      handleClose()
+    if (
+      state.Settings.addEbbillingUnitStatuscode === 200 ||
+      state.Settings.deleteElectricityStatuscode === 200
+    ) {
+      dispatch({
+        type: "EB-BILLING-UNIT-LIST",
+        payload: { hostel_id: hostelid },
+      });
+      handleClose();
 
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_ADD_EB_BILLING_STATUS_CODE' })
+        dispatch({ type: "CLEAR_ADD_EB_BILLING_STATUS_CODE" });
       }, 500);
 
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_DELETE_ELECTRICITY_STATUS_CODE' })
+        dispatch({ type: "CLEAR_DELETE_ELECTRICITY_STATUS_CODE" });
       }, 500);
     }
-  }, [state.Settings.addEbbillingUnitStatuscode, state.Settings.deleteElectricityStatuscode])
+  }, [
+    state.Settings.addEbbillingUnitStatuscode,
+    state.Settings.deleteElectricityStatuscode,
+  ]);
 
   const handleClose = () => {
-    setShowFormElectricity(false)
-    setAmount('')
-    setAmountErr('');
-    setTotalErr('');
-  }
+    setShowFormElectricity(false);
+    setAmount("");
+    setAmountErr("");
+    setTotalErr("");
+  };
 
-  //add electricity button
-  // const handleShowFormElectricity = () => {
-  //   setShowFormElectricity(true)
-  //   if (!hostelid) {
-  //     alert("Please add a hostel before adding electricity information.");
-  //     return;
-  //   }
-  //   console.log("Opening Electricity Form...");
-  // }
   const [showPopup, setShowPopup] = useState(false);
   const handleShowFormElectricity = () => {
     if (!hostelid) {
       setShowPopup(true);
       return;
     }
-    setEditHostel({ id: null, name: null, editamount: null })
+    setEditHostel({ id: null, name: null, editamount: null });
     setShowFormElectricity(true);
-    setEdit(false)
+    setEdit(false);
   };
 
-
-  const [edit, setEdit] = useState(false)
-  
+  const [edit, setEdit] = useState(false);
 
   const handleEditElectricity = (item) => {
-
     if (!hostelid) {
       setShowPopup(true);
       return;
     }
-    setEdit(true)
+    setEdit(true);
     setShowFormElectricity(true);
-    setAmount(item.amount)
-    setEditHostel({ id: item.hostel_id, name: item.Name, editamount: item.amount })
-
-  }
-
-
+    setAmount(item.amount);
+    setEditHostel({
+      id: item.hostel_id,
+      name: item.Name,
+      editamount: item.amount,
+    });
+  };
 
   const handleChangeAmount = (e) => {
     const newAmount = e.target.value;
     if (!/^\d*$/.test(newAmount)) {
-      return; 
+      return;
     }
     setAmount(newAmount);
 
-    if (newAmount !== '') {
-      setAmountErr('');
-      setTotalErr('')
+    if (newAmount !== "") {
+      setAmountErr("");
+      setTotalErr("");
     }
 
     if (editHostel && String(editHostel.editamount) === String(newAmount)) {
-      setTotalErr('No Changes Deducted');
+      setTotalErr("No Changes Deducted");
     }
   };
 
   const handleAddElectricity = () => {
-        if (amount === '') {
-      setAmountErr('Please Enter Amount');
+    if (amount === "") {
+      setAmountErr("Please Enter Amount");
       return;
     }
 
-    if (edit && editHostel && String(editHostel.editamount) === String(amount)) {
-      setTotalErr('No Changes Deducted');
+    if (
+      edit &&
+      editHostel &&
+      String(editHostel.editamount) === String(amount)
+    ) {
+      setTotalErr("No Changes Deducted");
       return;
     }
 
-
-
-
-    if (edit && editHostel && amount !== '') {
-    
+    if (edit && editHostel && amount !== "") {
       dispatch({
-        type: 'EB-BILLING-UNIT-ADD',
-        // payload: { hostel_id: editHostel.id, unit: 1, amount: Number(amount) },
-        payload: { hostel_id: editHostel.id, unit:1, amount: Number(amount), room_based: roomBasedCalculation ? 1 :0, hostel_based: hostelBasedCalculation ? 1 :0 }
+        type: "EB-BILLING-UNIT-ADD",
+
+        payload: {
+          hostel_id: editHostel.id,
+          unit: 1,
+          amount: Number(amount),
+          room_based: roomBasedCalculation ? 1 : 0,
+          hostel_based: hostelBasedCalculation ? 1 : 0,
+        },
       });
-    } else if (!edit &&  amount !== '') {
-
-
+    } else if (!edit && amount !== "") {
       dispatch({
-        type: 'EB-BILLING-UNIT-ADD',
-        // payload: { hostel_id: hostelid, unit: 1, amount: Number(amount) },
-        payload: {  hostel_id: hostelid, unit: 1, amount: Number(amount), room_based: roomBasedCalculation ? 1 :0, hostel_based: hostelBasedCalculation ? 1 :0 }
+        type: "EB-BILLING-UNIT-ADD",
+
+        payload: {
+          hostel_id: hostelid,
+          unit: 1,
+          amount: Number(amount),
+          room_based: roomBasedCalculation ? 1 : 0,
+          hostel_based: hostelBasedCalculation ? 1 : 0,
+        },
       });
     }
   };
-
-  // const [deleteItems, setDeleteItems] = useState('')
-
-  //  const handleDeleteElectricity = (item) => {
-  //   setDeleteItems(item)
-  //   setShowDeleteform (true)
-
-  //  }
-
-  // const handleConfirmDelete = () => {
-  //   if (deleteItems) {
-  //     dispatch({ type: 'DELETE-ELECTRICITY', payload: { hostel_id: deleteItems.hostel_id, settings_id: deleteItems.id } });
-  //     setShowDeleteform(false)
-  //   }
-  // }
-
-  // const handleCloseDeleteform = () => {
-  //   setShowDeleteform(false)
-  // }
-
-
 
   const handleCloseRecurringForm = () => {
     setRecurringForm(false);
-    setIsRecurring(false)
-    setCalculatedstartdateErrmsg("")
-    setCalculatedEnddateErrMsg("")
-    setCalculatedEnddate("")
-    setCalculatedstartdate("")
+    setIsRecurring(false);
+    setCalculatedstartdateErrmsg("");
+    setCalculatedEnddateErrMsg("");
+    setCalculatedEnddate("");
+    setCalculatedstartdate("");
   };
 
   const handleRecurringFormShow = (item) => {
-    setIsRecurring(!isRecurring)
+    setIsRecurring(!isRecurring);
 
     if (!isRecurring === false) {
       setRecurringForm(false);
       dispatch({
-        type: 'SETTINGSADDRECURRING',
+        type: "SETTINGSADDRECURRING",
         payload: {
           type: "electricity",
           recure: 0,
           hostel_id: Number(item.hostel_id),
-          start_date: '0',
-          end_date: '0',
-          // am_id: amenityDetails.id,
+          start_date: "0",
+          end_date: "0",
         },
       });
-
     } else {
       setRecurringForm(true);
     }
-
   };
 
- 
-
-  // const handleEndDateChange = (e) => {
-  //   setCalculatedEnddate(e.target.value);
-  // };
-
   const handlechangeEvery = (e) => {
-    setEvery_Recurr(e.target.value)
-  }
-
+    setEvery_Recurr(e.target.value);
+  };
 
   const handleSaveRecurring = () => {
     if (!calculatedstartdate || !calculatedenddate) {
-
       if (!calculatedstartdate) {
-        setCalculatedstartdateErrmsg('Please Select Date')
+        setCalculatedstartdateErrmsg("Please Select Date");
       }
       if (!calculatedenddate) {
-        setCalculatedEnddateErrMsg('Please Select Date')
+        setCalculatedEnddateErrMsg("Please Select Date");
       }
       return;
-    }
-    else {
+    } else {
       dispatch({
         type: "SETTINGSADDRECURRING",
-        payload: { hostel_id: Number(hostelid), type: 'electricity', recure: 1, start_date: Number(calculatedstartdate), end_date: Number(calculatedenddate) }
+        payload: {
+          hostel_id: Number(hostelid),
+          type: "electricity",
+          recure: 1,
+          start_date: Number(calculatedstartdate),
+          end_date: Number(calculatedenddate),
+        },
       });
-      setIsRecurring(false)
+      setIsRecurring(false);
     }
-    
-  }
+  };
 
   useEffect(() => {
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
-      setCalculatedstartdate("")
-      setCalculatedEnddate("")
+      setCalculatedstartdate("");
+      setCalculatedEnddate("");
 
-      dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
+      dispatch({
+        type: "EB-BILLING-UNIT-LIST",
+        payload: { hostel_id: hostelid },
+      });
       setRecurringForm(false);
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING' })
-      }, 100)
+        dispatch({ type: "REMOVE_STATUS_CODE_SETTINGS_ADD_RECURRING" });
+      }, 100);
     }
-  }, [state.InvoiceList.settingsaddRecurringStatusCode])
+  }, [state.InvoiceList.settingsaddRecurringStatusCode]);
 
   const handleHostelBased = (v) => {
-    setHostelBasedCalculation(true)
-    setRoomBasedCalculation(false)
-    dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { id: v.id, hostel_id: hostelid, unit: v.unit, amount: v.amount, room_based: 0, hostel_based: 1 } })
-  }
+    setHostelBasedCalculation(true);
+    setRoomBasedCalculation(false);
+    dispatch({
+      type: "EB-BILLING-UNIT-ADD",
+      payload: {
+        id: v.id,
+        hostel_id: hostelid,
+        unit: v.unit,
+        amount: v.amount,
+        room_based: 0,
+        hostel_based: 1,
+      },
+    });
+  };
 
   const handleRoomBased = (v) => {
-    setRoomBasedCalculation(true)
-    setHostelBasedCalculation(false)
-    dispatch({ type: 'EB-BILLING-UNIT-ADD', payload: { id: v.id, hostel_id: hostelid, unit: v.unit, amount: v.amount, room_based: 1, hostel_based: 0 } })
-  }
+    setRoomBasedCalculation(true);
+    setHostelBasedCalculation(false);
+    dispatch({
+      type: "EB-BILLING-UNIT-ADD",
+      payload: {
+        id: v.id,
+        hostel_id: hostelid,
+        unit: v.unit,
+        amount: v.amount,
+        room_based: 1,
+        hostel_based: 0,
+      },
+    });
+  };
 
   useEffect(() => {
-
     if (state.Settings.EBBillingUnitlist.length > 0) {
-      let temp = state.Settings.EBBillingUnitlist
-      setHostelBasedCalculation(temp[0].hostel_based === 1)
-      setRoomBasedCalculation(temp[0].room_based === 1)
-      setIsRecurring(temp[0].recuring)
+      let temp = state.Settings.EBBillingUnitlist;
+      setHostelBasedCalculation(temp[0].hostel_based === 1);
+      setRoomBasedCalculation(temp[0].room_based === 1);
+      setIsRecurring(temp[0].recuring);
     }
-  }, [state.Settings.EBBillingUnitlist])
+  }, [state.Settings.EBBillingUnitlist]);
 
   useEffect(() => {
-
     if (state.PgList.checkEBList) {
-      dispatch({ type: 'EB-BILLING-UNIT-LIST', payload: { hostel_id: hostelid } })
+      dispatch({
+        type: "EB-BILLING-UNIT-LIST",
+        payload: { hostel_id: hostelid },
+      });
     }
-  }, [state.PgList.checkEBList])
-
+  }, [state.PgList.checkEBList]);
 
   useEffect(() => {
     if (state.Settings?.getebStatuscode === 200) {
-      setLoading(false)
-      setEbList(state.Settings.EBBillingUnitlist)
+      setLoading(false);
+      setEbList(state.Settings.EBBillingUnitlist);
       setTimeout(() => {
-        dispatch({ type: 'CLEAR_GET_EBBILLINGS_STATUS_CODE' })
-      }, 500)
+        dispatch({ type: "CLEAR_GET_EBBILLINGS_STATUS_CODE" });
+      }, 500);
     }
+  }, [state.Settings?.getebStatuscode]);
 
-  }, [state.Settings?.getebStatuscode])
-
-
-  useEffect(()=>{
-    if(state.Settings?.errorEbUnitStatusCode){
-      setLoading(false)
+  useEffect(() => {
+    if (state.Settings?.errorEbUnitStatusCode) {
+      setLoading(false);
       setTimeout(() => {
-        dispatch({ type: 'REMOVE_ERROR_EB_BILLING_UNIT_LIST' })
-      }, 500)
+        dispatch({ type: "REMOVE_ERROR_EB_BILLING_UNIT_LIST" });
+      }, 500);
     }
-
-  },[state.Settings?.errorEbUnitStatusCode])
-
+  }, [state.Settings?.errorEbUnitStatusCode]);
 
   const options = Array.from({ length: 31 }, (_, index) => ({
     value: index + 1,
@@ -312,82 +314,76 @@ const SettingElectricity = ({ hostelid }) => {
 
   const handleStartDateChange = (selectedOption) => {
     setCalculatedstartdate(selectedOption?.value);
-    setCalculatedstartdateErrmsg("")
-      
+    setCalculatedstartdateErrmsg("");
   };
   const handleEndDateChange = (selectedOption) => {
-    setCalculatedEnddate(selectedOption?.value); 
-   setCalculatedEnddateErrMsg("")
+    setCalculatedEnddate(selectedOption?.value);
+    setCalculatedEnddateErrMsg("");
   };
 
-
-// useEffect(()=>{
-//   if(EbList.length == 0){
-//     setLoading(false)
-//   }
-
-// },[EbList])
-
   return (
-
-    <div className="mt-4" style={{ position: "relative",paddingRight:10,paddingLeft:10 }}>
-
-
-      {loading &&
-       <div
-       style={{
-         position: 'fixed',
-         top: '48%',
-         left: '68%',
-         transform: 'translate(-50%, -50%)',
-         width: '100vw',
-         height: '100vh',
-         display: 'flex',
-         alignItems: 'center',
-         justifyContent: 'center',
-         backgroundColor: 'transparent',
-         zIndex: 1050,
-       }}
-     >
-       <div
-         style={{
-           borderTop: '4px solid #1E45E1',
-           borderRight: '4px solid transparent',
-           borderRadius: '50%',
-           width: '40px',
-           height: '40px',
-           animation: 'spin 1s linear infinite',
-         }}
-       ></div>
-     </div>
-      }
-
-
-
-<div 
-  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-                style={{
-                    // display: "flex", flexDirection: "row", justifyContent: "space-between",
-                     position: "sticky",
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    zIndex: 1000,
-                    backgroundColor: "#FFFFFF",
-                    // height: 83,
-                }}>
-        <div 
-    className="w-100 d-flex justify-content-center justify-content-md-start mt-2">
-          <h4 style={{
-            fontSize: 20,
-            color: "#000000",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-             marginTop: 6,
-            whiteSpace: "nowrap",
-          }}>Electricity</h4>
+    <div
+      className="mt-4"
+      style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}
+    >
+      {loading && (
+        <div
+          style={{
+            position: "fixed",
+            top: "48%",
+            left: "68%",
+            transform: "translate(-50%, -50%)",
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "transparent",
+            zIndex: 1050,
+          }}
+        >
+          <div
+            style={{
+              borderTop: "4px solid #1E45E1",
+              borderRight: "4px solid transparent",
+              borderRadius: "50%",
+              width: "40px",
+              height: "40px",
+              animation: "spin 1s linear infinite",
+            }}
+          ></div>
         </div>
-        <div className="d-flex justify-content-center justify-content-md-end w-100  mt-md-0" style={{marginTop:-10}}>
+      )}
+
+      <div
+        className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+        style={{
+          position: "sticky",
+          top: 0,
+          right: 0,
+          left: 0,
+          zIndex: 1000,
+          backgroundColor: "#FFFFFF",
+        }}
+      >
+        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-2">
+          <h4
+            style={{
+              fontSize: 20,
+              color: "#000000",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              marginTop: 6,
+              whiteSpace: "nowrap",
+            }}
+          >
+            Electricity
+          </h4>
+        </div>
+        <div
+          className="d-flex justify-content-center justify-content-md-end w-100  mt-md-0"
+          style={{ marginTop: -10 }}
+        >
           {/* <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
           padding:"12px 16px 12px 16px"
            }} 
@@ -395,10 +391,10 @@ const SettingElectricity = ({ hostelid }) => {
             + Electricity
           </Button> */}
 
-
           {EbList.length > 0 ? (
             EbList.map((v, i) => (
-              <Button className='electricity-btn'
+              <Button
+                className="electricity-btn"
                 key={i}
                 onClick={() => handleEditElectricity(v)}
                 style={{
@@ -408,21 +404,17 @@ const SettingElectricity = ({ hostelid }) => {
                   color: "white",
                   fontWeight: 600,
                   borderRadius: 8,
-                  // padding: "11px 27px",
-                  // paddingLeft:26,
-                  // marginTop:-2
-                  height:45,
-                  width:146,
-                  // marginTop:-2,
-                 
-                 
+
+                  height: 45,
+                  width: 146,
                 }}
               >
                 Edit Electricity
               </Button>
             ))
           ) : (
-            <Button className='electricity-btn'
+            <Button
+              className="electricity-btn"
               onClick={handleShowFormElectricity}
               style={{
                 fontFamily: "Gilroy",
@@ -431,65 +423,55 @@ const SettingElectricity = ({ hostelid }) => {
                 color: "white",
                 fontWeight: 600,
                 borderRadius: 8,
-                // padding: "11px 35px",
-                height:45,
-                width:146,
-                // marginTop:-2,
+                height: 45,
+                width: 146,
               }}
               disabled={showPopup}
             >
               + Electricity
             </Button>
           )}
-
-</div>
+        </div>
 
         {showPopup && (
           <div className="d-flex flex-wrap">
-            <p style={{ color: "red", fontFamily:"Gilroy",fontSize:14 }} className="col-12 col-sm-6 col-md-6 col-lg-9">
+            <p
+              style={{ color: "red", fontFamily: "Gilroy", fontSize: 14 }}
+              className="col-12 col-sm-6 col-md-6 col-lg-9"
+            >
               Please add a hostel before adding Electricity information.
             </p>
-
-            {/* <img 
-  src={close} 
-  alt="close icon" 
-  onClick={() => setShowPopup(false)}
-  className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
-  style={{ width: '20px', height: 'auto' ,cursor:"pointer"}} 
-/> */}
-
           </div>
-
-
         )}
       </div>
-     
-          <>
-            {EbList && EbList.length > 0 ? (
-              EbList.map((v,index) => {
-                return (
-                
-                  <Row key={index} className='scroll-issue'>
-                    <Col lg={8} md={12} sm={12}>
-                    
-                      <Card className="p-2 border mb-4 mb-md-0" style={{ borderRadius: 16 }}>
-                        <Card.Body>
-                          <div className="d-flex justify-content-between align-items-center flex-wrap">
-                            <div className="d-flex gap-2">
-                              <label
-                                style={{
-                                  fontFamily: "Gilroy",
-                                  fontSize: 18,
-                                  color: "#222",
-                                  fontWeight: 600,
-                                  marginLeft: "10px",
-                                }}
-                              >
-                                Electricity Information
-                              </label>
-                            </div>
 
-                            {/* <div>
+      <>
+        {EbList && EbList.length > 0
+          ? EbList.map((v, index) => {
+              return (
+                <Row key={index} className="scroll-issue">
+                  <Col lg={8} md={12} sm={12}>
+                    <Card
+                      className="p-2 border mb-4 mb-md-0"
+                      style={{ borderRadius: 16 }}
+                    >
+                      <Card.Body>
+                        <div className="d-flex justify-content-between align-items-center flex-wrap">
+                          <div className="d-flex gap-2">
+                            <label
+                              style={{
+                                fontFamily: "Gilroy",
+                                fontSize: 18,
+                                color: "#222",
+                                fontWeight: 600,
+                                marginLeft: "10px",
+                              }}
+                            >
+                              Electricity Information
+                            </label>
+                          </div>
+
+                          {/* <div>
               <div
                 style={{
                   height: 40,
@@ -592,14 +574,31 @@ const SettingElectricity = ({ hostelid }) => {
                 )}
               </div>
             </div> */}
-                          </div>
-                          <hr />
-                          <Form>
-                            <Row className="mb-3">
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Per unit Amount</Form.Label>
-                                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>₹ {v.amount}</h6>
-                                {/* {unitErr && (
+                        </div>
+                        <hr />
+                        <Form>
+                          <Row className="mb-3">
+                            <Col>
+                              <Form.Label
+                                style={{
+                                  fontSize: 12,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  color: "#939393",
+                                }}
+                              >
+                                Per unit Amount
+                              </Form.Label>
+                              <h6
+                                style={{
+                                  fontSize: 16,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                ₹ {v.amount}
+                              </h6>
+                              {/* {unitErr && (
                 <p 
                   style={{
                     color: "red",
@@ -615,83 +614,163 @@ const SettingElectricity = ({ hostelid }) => {
                   {unitErr}
                 </p>
               )} */}
-                              </Col>
+                            </Col>
 
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Room Based Calculation</Form.Label>
-                                <Form.Check
-                                  type="switch"
-                                  id="roomBased"
-                                  label="Enabled"
-                                  // checked={v.room_based === 1}
-                                  checked={roomBasedCalculation}
-                                  onChange={() => { handleRoomBased(v) }}
-                                // onChange={() => setRoomBasedCalculation(!roomBasedCalculation)}
-                                />
-                              </Col>
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Hostel Based Calculation</Form.Label>
-                                <Form.Check
-                                  type="switch"
-                                  id="hostelBased"
-                                  label="Enabled"
-                                  // checked={v.hostel_based === 1}
-                                  checked={hostelBasedCalculation}
-                                  onChange={() => { handleHostelBased(v) }}
-                                // onChange={() => setHostelBasedCalculation(!hostelBasedCalculation)}
-                                />
-                              </Col>
-                            </Row>
+                            <Col>
+                              <Form.Label
+                                style={{
+                                  fontSize: 12,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  color: "#939393",
+                                }}
+                              >
+                                Room Based Calculation
+                              </Form.Label>
+                              <Form.Check
+                                type="switch"
+                                id="roomBased"
+                                label="Enabled"
+                                checked={roomBasedCalculation}
+                                onChange={() => {
+                                  handleRoomBased(v);
+                                }}
+                              />
+                            </Col>
+                            <Col>
+                              <Form.Label
+                                style={{
+                                  fontSize: 12,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  color: "#939393",
+                                }}
+                              >
+                                Hostel Based Calculation
+                              </Form.Label>
+                              <Form.Check
+                                type="switch"
+                                id="hostelBased"
+                                label="Enabled"
+                                checked={hostelBasedCalculation}
+                                onChange={() => {
+                                  handleHostelBased(v);
+                                }}
+                              />
+                            </Col>
+                          </Row>
 
-                            <Row className="mb-3">
-                              <Col md={6}>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Recurring</Form.Label>
-                                <Form.Check
-                                  type="switch"
-                                  // id="recurring"
-                                  id={`custom-switch-${isRecurring}`}
-                                  label="Recurring"
-                                    className="custom-switch-pointer"
-                                  // checked = {v.recuring === 1}
-                                  checked={isRecurring}
-                                  onChange={() => handleRecurringFormShow(v)}
-                                />
-                                <style>
-                                    {`
+                          <Row className="mb-3">
+                            <Col md={6}>
+                              <Form.Label
+                                style={{
+                                  fontSize: 12,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  color: "#939393",
+                                }}
+                              >
+                                Recurring
+                              </Form.Label>
+                              <Form.Check
+                                type="switch"
+                                id={`custom-switch-${isRecurring}`}
+                                label="Recurring"
+                                className="custom-switch-pointer"
+                                checked={isRecurring}
+                                onChange={() => handleRecurringFormShow(v)}
+                              />
+                              <style>
+                                {`
                                       .custom-switch-pointer input[type="checkbox"],
                                       .custom-switch-pointer label {
                                         cursor: pointer !important;
                                       }
                                     `}
-                                  </style>
-                              </Col>
-                            </Row>
+                              </style>
+                            </Col>
+                          </Row>
 
-                            <Row className="mb-3">
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Calculation Type</Form.Label>
-                                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>Monthly</h6>
-                              </Col>
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Calculation Start Day</Form.Label>
-                                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{v.start_date}</h6>
-                              </Col>
-                              <Col>
-                                <Form.Label style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500, color: "#939393" }}>Calculation End Day</Form.Label>
-                                <h6 style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>{v.end_date}</h6>
-                              </Col>
-                            </Row>
-                          </Form>
-                        </Card.Body>
-                      </Card>
-                     
-                    </Col>
-                  </Row>
-                 
-                )
-              })
-            ) : !loading && (
-              <div style={{ alignItems: "center", justifyContent: "center", marginTop: 65 }}>
+                          <Row className="mb-3">
+                            <Col>
+                              <Form.Label
+                                style={{
+                                  fontSize: 12,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  color: "#939393",
+                                }}
+                              >
+                                Calculation Type
+                              </Form.Label>
+                              <h6
+                                style={{
+                                  fontSize: 16,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                Monthly
+                              </h6>
+                            </Col>
+                            <Col>
+                              <Form.Label
+                                style={{
+                                  fontSize: 12,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  color: "#939393",
+                                }}
+                              >
+                                Calculation Start Day
+                              </Form.Label>
+                              <h6
+                                style={{
+                                  fontSize: 16,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {v.start_date}
+                              </h6>
+                            </Col>
+                            <Col>
+                              <Form.Label
+                                style={{
+                                  fontSize: 12,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  color: "#939393",
+                                }}
+                              >
+                                Calculation End Day
+                              </Form.Label>
+                              <h6
+                                style={{
+                                  fontSize: 16,
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {v.end_date}
+                              </h6>
+                            </Col>
+                          </Row>
+                        </Form>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
+              );
+            })
+          : !loading && (
+              <div
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: 65,
+                }}
+              >
                 <div className="d-flex justify-content-center">
                   <img
                     src={EmptyState}
@@ -712,22 +791,17 @@ const SettingElectricity = ({ hostelid }) => {
                   No Electricity available
                 </div>
               </div>
-            )
-            }
-          </>
-     
-
-
-
+            )}
+      </>
 
       <Modal
         show={showFormElectricity}
         onHide={() => handleClose()}
         backdrop="static"
         centered
-         dialogClassName="custom-modal"
+        dialogClassName="custom-modal"
       >
-        <Modal.Header style={{  position: "relative" }}>
+        <Modal.Header style={{ position: "relative" }}>
           <div
             style={{
               fontSize: 20,
@@ -737,40 +811,13 @@ const SettingElectricity = ({ hostelid }) => {
           >
             {edit ? "Edit Electricity" : "Add Electricity"}
           </div>
-          {/* <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleClose}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "16px",
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "32px",
-              height: "32px",
-              borderRadius: "50%",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{
-                fontSize: "30px",
-                paddingBottom: "6px",
-              }}
-            >
-              &times;
-            </span>
-          </button> */}
-          <CloseCircle size="24" color="#000" onClick={handleClose} 
-            style={{ cursor: 'pointer' }}/>
 
+          <CloseCircle
+            size="24"
+            color="#000"
+            onClick={handleClose}
+            style={{ cursor: "pointer" }}
+          />
         </Modal.Header>
         <Modal.Body style={{ marginBottom: "0px" }}>
           <div className="col">
@@ -785,14 +832,11 @@ const SettingElectricity = ({ hostelid }) => {
                   }}
                 >
                   Unit{" "}
-                  {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
                 </Form.Label>
                 <FormControl
                   type="text"
                   id="form-controls"
                   placeholder="1 kW Unit"
-                  // value={unit}
-                  // onChange={(e) => handleChangeUnit(e)}
                   readOnly
                   style={{
                     fontSize: 16,
@@ -804,11 +848,10 @@ const SettingElectricity = ({ hostelid }) => {
                     height: 50,
                     borderRadius: 8,
                     backgroundColor: "#E7F1FF",
-                    width: "100%" ,
+                    width: "100%",
                   }}
                 />
               </Form.Group>
-              {/* {unitErr && <span style={{ color: "red", fontSize: 16 }}> {unitErr} </span>} */}
             </div>
 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -822,7 +865,6 @@ const SettingElectricity = ({ hostelid }) => {
                   }}
                 >
                   Amount/Unit{" "}
-                  {/* <span style={{ color: "red", fontSize: "20px" }}> * </span> */}
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -842,51 +884,53 @@ const SettingElectricity = ({ hostelid }) => {
                   }}
                 />
               </Form.Group>
-              {/* {amountErr && <span style={{ color: "red", fontSize: 16 }}> {amountErr} </span>} */}
-              <div className=''>
-              {amountErr && (
-                <p 
-                  style={{
-                    color: "red",
-                    fontSize: 12,
-                  textAlign:"start",
-                    margin: 0,
-                    fontFamily:"Gilroy",
-                    fontWeight:500
-                  }}
-                >
-                  <span style={{ fontSize: "20px" }}>
-                    <MdError style={{ fontSize: "14px" }} />
-                  </span>
-                  {amountErr}
-                </p>
-              )}
+
+              <div className="">
+                {amountErr && (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      textAlign: "start",
+                      margin: 0,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    <span style={{ fontSize: "20px" }}>
+                      <MdError style={{ fontSize: "14px" }} />
+                    </span>
+                    {amountErr}
+                  </p>
+                )}
               </div>
-              <div className=''>
-              {totalErr && (
-                <p 
-                  style={{
-                    color: "red",
-                    fontSize: 12,
-                  textAlign:"center",
-                    margin: 0,
-                    fontFamily:"Gilroy",
-                    fontWeight:500
-                  }}
-                >
-                  <span style={{ fontSize: "20px" }}>
-                    <MdError style={{ fontSize: "14px" }} />
-                  </span>
-                  {totalErr}
-                </p>
-              )}
+              <div className="">
+                {totalErr && (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: 12,
+                      textAlign: "center",
+                      margin: 0,
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    <span style={{ fontSize: "20px" }}>
+                      <MdError style={{ fontSize: "14px" }} />
+                    </span>
+                    {totalErr}
+                  </p>
+                )}
               </div>
             </div>
-
           </div>
         </Modal.Body>
 
-        <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none", marginBottom: "20px" }}>
+        <Modal.Footer
+          className="d-flex justify-content-center"
+          style={{ borderTop: "none", marginBottom: "20px" }}
+        >
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -896,8 +940,8 @@ const SettingElectricity = ({ hostelid }) => {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Montserrat, sans-serif",
-              marginTop:'-10px',
-              width: "100%"
+              marginTop: "-10px",
+              width: "100%",
             }}
             onClick={handleAddElectricity}
           >
@@ -905,99 +949,6 @@ const SettingElectricity = ({ hostelid }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-
-      {/* {showdeleteform &&
-        <div>
-          <Modal
-            show={showdeleteform}
-            onHide={handleCloseDeleteform}
-            centered
-            backdrop="static"
-            style={{
-              width: 388,
-              height: 250,
-              marginLeft: "500px",
-              marginTop: "200px",
-            }}
-          >
-            <Modal.Header style={{ borderBottom: "none" }}>
-              <Modal.Title
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "Gilroy",
-                  textAlign: "center",
-                  fontWeight: 600,
-                  color: "#222222",
-                  flex: 1,
-                }}
-              >
-                Delete Electricity?
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                color: "#646464",
-                textAlign: "center",
-                marginTop: "-20px",
-              }}
-            >
-              Are you sure you want to delete this Eb ?
-            </Modal.Body>
-
-            <Modal.Footer
-              style={{
-                justifyContent: "center",
-                borderTop: "none",
-                marginTop: "-10px",
-                borderTopColor: "red"
-              }}
-            >
-              <Button
-                style={{
-                  width: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#fff",
-                  color: "#1E45E1",
-                  border: "1px solid #1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                  marginRight: 10,
-
-                }}
-                onClick={handleCloseDeleteform}
-
-              >
-                Cancel
-              </Button>
-              <Button
-                style={{
-                  width: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#1E45E1",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-                onClick={handleConfirmDelete}
-
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-      } */}
 
       {recurringform && (
         <div
@@ -1037,69 +988,27 @@ const SettingElectricity = ({ hostelid }) => {
                     >
                       Recurring Enable
                     </div>
-                    {/* <button
-                      type="button"
-                      className="close"
-                      aria-label="Close"
-                      onClick={handleCloseRecurringForm}
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "16px",
-                        border: "1px solid black",
-                        background: "transparent",
-                        cursor: "pointer",
-                        padding: "0",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "25px",
-                        height: "25px",
-                        borderRadius: "50%",
-                      }}
-                    >
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          fontSize: "30px",
-                          paddingBottom: "6px",
-                        }}
-                      >
-                        &times;
-                      </span>
-                    </button> */}
-                    <CloseCircle size="24" color="#000" onClick={handleCloseRecurringForm} 
-            style={{ cursor: 'pointer' }}/>
 
-                    {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+                    <CloseCircle
+                      size="24"
+                      color="#000"
+                      onClick={handleCloseRecurringForm}
+                      style={{ cursor: "pointer" }}
+                    />
                   </Modal.Header>
                 </div>
 
                 <div className="row mt-1">
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">EB Calculation Start Date Will Be
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                    {" "}
-                    *{" "}
-                  </span>
+                      <label htmlFor="startDayDropdown" className="form-label">
+                        EB Calculation Start Date Will Be
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
                       </label>
                     </div>
-                    {/* <div className="hi col-lg-4">
-                      <select className="form-select border" id="startDayDropdown"
-                        value={calculatedstartdate}
-                        onChange={handlestartDateChange}
-                        size={5} 
-                      >
-                        <option value="">Select</option>
-                        {[...Array(31)].map((_, index) => (
-                          <option key={index + 1} value={index + 1} className='ReSELECT'>
-                            {index + 1}
-                          </option>
-                        ))}
-                      </select>
-                       </div> */}
-
 
                     <div className="col-lg-4">
                       <Select
@@ -1114,6 +1023,15 @@ const SettingElectricity = ({ hostelid }) => {
                             height: "40px",
                             border: "1px solid #ced4da",
                           }),
+                          option: (provided, state) => ({
+                            ...provided,
+                            padding: "6px 10px",
+                            backgroundColor: state.isFocused
+                              ? "lightblue"
+                              : "white",
+                            color: "#222",
+                            cursor: "pointer",
+                          }),
                           menu: (base) => ({
                             ...base,
                             maxHeight: "120px",
@@ -1143,7 +1061,7 @@ const SettingElectricity = ({ hostelid }) => {
                             lineHeight: 1,
                             stroke: "currentColor",
                             strokeWidth: 0,
-                            cursor:"pointer"
+                            cursor: "pointer",
                           }),
                           indicatorSeparator: () => ({
                             display: "none",
@@ -1152,53 +1070,48 @@ const SettingElectricity = ({ hostelid }) => {
                       />
                     </div>
 
-
-
-
-                   {calculatedstartdateerrmsg && (
-                                     <div className="d-flex align-items-center  mb-2">
-                                       <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
-                                       <label
-                                         className="mb-0"
-                                         style={{
-                                           color: "red",
-                                           fontSize: "12px",
-                                           fontFamily: "Gilroy",
-                                           fontWeight: 500,
-                                         }}
-                                       >
-                                         {calculatedstartdateerrmsg}
-                                       </label>
-                                     </div>
-                                   )}
+                    {calculatedstartdateerrmsg && (
+                      <div className="d-flex align-items-center  mb-2">
+                        <MdError
+                          style={{
+                            color: "red",
+                            marginRight: "5px",
+                            fontSize: "14px",
+                          }}
+                        />
+                        <label
+                          className="mb-0"
+                          style={{
+                            color: "red",
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {calculatedstartdateerrmsg}
+                        </label>
+                      </div>
+                    )}
                   </div>
 
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">EB Calculation End Date Will Be
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                    {" "}
-                    *{" "}
-                  </span>
+                      <label htmlFor="startDayDropdown" className="form-label">
+                        EB Calculation End Date Will Be
+                        <span style={{ color: "red", fontSize: "20px" }}>
+                          {" "}
+                          *{" "}
+                        </span>
                       </label>
                     </div>
-                    {/* <div className="col-lg-4">
-                      <select className="form-select border" id="startDayDropdown"
-                        value={calculatedenddate}
-                        onChange={handleEndDateChange}
-                      >
-                        {[...Array(31)].map((_, index) => (
-                          <option key={index + 1} value={index + 1}>
-                            {index + 1}
-                          </option>
-                        ))}
-                      </select>
-                    </div> */}
+
                     <div className="col-lg-4">
                       <Select
                         options={options}
                         onChange={handleEndDateChange}
-                        value={options.find((option) => option.value === calculatedenddate)}
+                        value={options.find(
+                          (option) => option.value === calculatedenddate
+                        )}
                         placeholder="Select"
                         classNamePrefix="custom"
                         menuPlacement="auto"
@@ -1208,12 +1121,20 @@ const SettingElectricity = ({ hostelid }) => {
                             height: "40px",
                             border: "1px solid #ced4da",
                           }),
+                          option: (provided, state) => ({
+                            ...provided,
+                            padding: "6px 10px",
+                            backgroundColor: state.isFocused
+                              ? "lightblue"
+                              : "white",
+                            color: "#222",
+                            cursor: "pointer",
+                          }),
                           menu: (base) => ({
                             ...base,
                             maxHeight: "120px",
                             overflowY: "auto",
                             scrollbarWidth: "thin",
-                           
                           }),
                           menuList: (base) => ({
                             ...base,
@@ -1238,51 +1159,56 @@ const SettingElectricity = ({ hostelid }) => {
                             lineHeight: 1,
                             stroke: "currentColor",
                             strokeWidth: 0,
-                            cursor:"pointer"
+                            cursor: "pointer",
                           }),
                           indicatorSeparator: () => ({
                             display: "none",
+                            cursor: "pointer",
                           }),
                         }}
                       />
                     </div>
                     {calculatedenddateerrmsg && (
-                                     <div className="d-flex align-items-center  mb-2">
-                                       <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
-                                       <label
-                                         className="mb-0"
-                                         style={{
-                                           color: "red",
-                                           fontSize: "12px",
-                                           fontFamily: "Gilroy",
-                                           fontWeight: 500,
-                                         }}
-                                       >
-                                         {calculatedenddateerrmsg}
-                                       </label>
-                                     </div>
-                                   )}
-
+                      <div className="d-flex align-items-center  mb-2">
+                        <MdError
+                          style={{
+                            color: "red",
+                            marginRight: "5px",
+                            fontSize: "14px",
+                          }}
+                        />
+                        <label
+                          className="mb-0"
+                          style={{
+                            color: "red",
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {calculatedenddateerrmsg}
+                        </label>
+                      </div>
+                    )}
                   </div>
-
 
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">On Every</label>
+                      <label htmlFor="startDayDropdown" className="form-label">
+                        On Every
+                      </label>
                     </div>
                     <div className="col-lg-4">
-                      <select className="form-select border" id="startDayDropdown"
+                      <select
+                        className="form-select border"
+                        id="startDayDropdown"
                         value={every_recurr}
                         onChange={handlechangeEvery}
                       >
                         <option value="monthly">Monthly</option>
-
                       </select>
                     </div>
-
                   </div>
-
-
                 </div>
               </Modal.Body>
 
@@ -1308,7 +1234,6 @@ const SettingElectricity = ({ hostelid }) => {
           </Modal>
         </div>
       )}
-
     </div>
   );
 };
