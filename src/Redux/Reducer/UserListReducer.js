@@ -111,7 +111,9 @@ export const initialState = {
     statusCodeConformEdit:0,
     conformChekoutEditError:'',
     kycverifynew:{},
-    statusCodeforverifyKYC:0
+    statusCodeforverifyKYC:0,
+    KycCustomerDetails:{},
+    statusCodeForCustomerDetails:0
 }
 
 const UserListReducer = (state = initialState, action) => {
@@ -557,6 +559,13 @@ const UserListReducer = (state = initialState, action) => {
             return { ...state, kycverifynew: action.payload.response, statusCodeforverifyKYC: action.payload.statusCode }
         case 'REMOVE_KYC_VERIFY_NEW':
             return { ...state, statusCodeforverifyKYC: 0 }
+
+
+     case 'KYC_CUSTOMER_DETAILS':
+            return { ...state, KycCustomerDetails: action.payload.response, statusCodeForCustomerDetails: action.payload.statusCode }
+        case 'REMOVEKYC_CUSTOMER_DETAILS':
+            return { ...state, statusCodeForCustomerDetails: 0 }
+
             default:
                 return state;
     }

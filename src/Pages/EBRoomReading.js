@@ -47,13 +47,7 @@ function EBRoomReading(props) {
   const [roomelectricity,setRoomElectricity] = useState("")
   
 
-  // const handleShowDots = (eb_Id) => {
-  //   if (activeRow === eb_Id) {
-  //     setActiveRow(null);
-  //   } else {
-  //     setActiveRow(eb_Id);
-  //   }
-  // };
+ 
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
    
@@ -79,7 +73,7 @@ function EBRoomReading(props) {
     }
   }, [state.PgList.statusCodeForEbRoomList])
 
-console.log("state.PgList.statusCodeForEBRoombased",state.PgList.statusCodeForEBRoombasednodata)
+
 useEffect(() => {
     if (state.PgList.statusCodeForEBRoombasednodata === 201) {
       props.setLoader(false)
@@ -91,7 +85,7 @@ useEffect(() => {
     }
   }, [state.PgList.statusCodeForEBRoombasednodata]);
 
-  console.log("props", props);
+ 
 
   const handleShowDots = (eb_Id,event) => {
     setActiveRow((prevActiveRow) => (prevActiveRow === eb_Id ? null : eb_Id)); 
@@ -190,14 +184,7 @@ useEffect(() => {
     setDateErrorMesg("")
     setReadingError('')
   };
-  // const handleDateChange = (date) => {
 
-  //   setSelectedDate(date);
-  //   dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
-  //   setDateError('');
-  //   setFormError("")
-  //   setDateErrorMesg("")
-  // };
 
   const handleCloseDelete = () => {
     setDeleteShow(false);
@@ -214,17 +201,6 @@ useEffect(() => {
 
   }, []);
   
-
-  // useEffect(() => {
-  //   if (state.PgList?.statusCodeForEbRoomList === 200) {
-  //     setelectricityFilterddata(state.PgList?.EB_startmeterlist);
-
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
-  //     }, 1000);
-  //   }
-  // }, [state.PgList.statusCodeForEbRoomList])
-
 
 
 
@@ -244,13 +220,9 @@ useEffect(() => {
 
 
     setReading(item.reading);
-    // const formattedJoiningDate = item.date ? new Date(item.date) : null;
-    // setSelectedDate(formattedJoiningDate);
+  
     setSelectedDate(item.date || "");
-          // const formattedJoiningDate = item.joining_date
-          //   ? new Date(item.joining_date)
-          //   : null;
-          // setJoiningDate(formattedJoiningDate);
+       
           setSelectedDate(
             item.date ? moment(item.date).toDate("") : null
           );
@@ -298,7 +270,7 @@ useEffect(() => {
       return false;
     }
 
-    // Clear the error if value is valid
+   
     switch (fieldName) {
       case "reading":
         setReadingError("");
@@ -334,16 +306,14 @@ useEffect(() => {
       setfloorError("");
     }
 
-    // Validate Room field
+ 
     if (Rooms === "Select a Room" || !isRoomValid) {
       setRoomError("Please Select a Valid Room");
       return;
     } else {
       setRoomError("");
     }
-    // if (!isreadingValid || !isDatevalid) {
-    //   return;
-    // }
+   
     if (
 
       !isreadingValid ||
@@ -389,7 +359,7 @@ useEffect(() => {
 
   };
 
-  // const electricityrowsPerPage = 5;
+ 
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const indexOfLastRowelectricity =
@@ -400,17 +370,7 @@ useEffect(() => {
     indexOfFirstRowelectricity,
     indexOfLastRowelectricity
   );
-  //  useEffect(() => {
-  //     if (state.PgList?.statusCodeForEbRoomList === 200) {
-  //       setLoading(false)
-  //       setelectricityFilterddata(state.PgList?.EB_startmeterlist);
-  
-  //       setTimeout(() => {
-  //         dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
-  //       }, 1000);
-  //     }
-  //   }, [state.PgList.statusCodeForEbRoomList])
-
+ 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
   };
@@ -455,65 +415,7 @@ useEffect(() => {
       setSortConfig({ key, direction });
     };
 
-  // const renderPageNumberselectricity = () => {
-  //   const pageNumberselectricity = [];
-  //   let startPageelectricity = electricitycurrentPage - 1;
-  //   let endPageelectricity = electricitycurrentPage + 1;
-
-  //   if (electricitycurrentPage === 1) {
-  //     startPageelectricity = 1;
-  //     endPageelectricity = 3;
-  //   }
-
-  //   if (electricitycurrentPage === totalPagesinvoice) {
-  //     startPageelectricity = totalPagesinvoice - 2;
-  //     endPageelectricity = totalPagesinvoice;
-  //   }
-
-  //   if (electricitycurrentPage === 2) {
-  //     startPageelectricity = 1;
-  //     endPageelectricity = 3;
-  //   }
-
-  //   if (electricitycurrentPage === totalPagesinvoice - 1) {
-  //     startPageelectricity = totalPagesinvoice - 2;
-  //     endPageelectricity = totalPagesinvoice;
-  //   }
-
-  //   for (let i = startPageelectricity; i <= endPageelectricity; i++) {
-  //     if (i > 0 && i <= totalPagesinvoice) {
-  //       pageNumberselectricity.push(
-  //         <li key={i} style={{ margin: "0 5px" }}>
-  //           <button
-  //             style={{
-  //               padding: "5px 10px",
-  //               textDecoration: "none",
-  //               color: i === electricitycurrentPage ? "#007bff" : "#000000",
-  //               cursor: "pointer",
-  //               borderRadius: "5px",
-  //               display: "inline-block",
-  //               minWidth: "30px",
-  //               textAlign: "center",
-  //               backgroundColor:
-  //                 i === electricitycurrentPage ? "transparent" : "transparent",
-  //               border:
-  //                 i === electricitycurrentPage ? "1px solid #ddd" : "none",
-  //             }}
-  //             onClick={() => handleElectricityPageChange(i)}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //   }
-
-  //   return pageNumberselectricity;
-  // };
-
-  // useEffect(() => {
-  //   setelectricityFilterddata(state.PgList?.EB_startmeterlist);
-  // }, [state.PgList?.EB_startmeterlist]);
+ 
 
 
   const handleDeleteReading = () => {
@@ -566,17 +468,17 @@ useEffect(() => {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              // height: "100vh",
+             
             }}
           >
-            {/* Image */}
+         
             <img
               src={emptyimg}
               alt="Empty State"
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-            {/* Permission Error */}
+           
             {props.ebpermissionError && (
               <div
                 style={{
@@ -606,12 +508,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
               <div
                 className='show-scrolls electricity-table'
                 style={{
-                  // height: "400px",
-                  // height: currentItems.length >= 6 ? "380px" : "auto",
-                  // overflowY: currentItems.length >= 6 ? "auto" : "visible",
-                  // borderRadius: "24px",
-                  // border: "1px solid #DCDCDC",
-                  // borderBottom:"none"
+                  
 
                   height: currentRowelectricity.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
 
@@ -619,7 +516,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   borderTop: "1px solid #E8E8E8",
                   marginBottom: 20,
                   marginTop: "20px"
-                  //  borderBottom:"1px solid #DCDCDC"
+                  
                 }}>
 
                 <Table
@@ -677,72 +574,62 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                             <>
                               {sortedData.map((v) => {
 
-                         let formattedDate;
+let formattedDate;
 
-// Check if v.date exists and is not "00-00-00"
 if (v.date && v.date !== '0000-00-00') {
   let Dated = new Date(v.date);
-  let day = Dated.getDate();
-  let month = Dated.getMonth() + 1;
+  let day = Dated.getDate().toString().padStart(2, '0');
+  let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
   let year = Dated.getFullYear();
   formattedDate = `${day}/${month}/${year}`;
 } else {
-  // Use a default initial date if v.date is empty or "00-00-00"
-  let initialDate = new Date(v.initial_date); // Set your default initial date here
-  let day = initialDate.getDate();
-  let month = initialDate.getMonth() + 1;
+  let initialDate = new Date(v.initial_date);
+  let day = initialDate.getDate().toString().padStart(2, '0');
+  let month = (initialDate.getMonth() + 1).toString().padStart(2, '0');
   let year = initialDate.getFullYear();
   formattedDate = `${day}/${month}/${year}`;
 }
 
 
 
+
 return (
   <tr key={v.id}>
+  
+
+
     <td
-      style={{
-        border: "none",
-        padding: "10px",
-        textAlign: "start",
-        verticalAlign: "middle", // Center vertically
-        paddingLeft:"20px",borderBottom: "1px solid #E8E8E8"
-      }}
-    >
-      <div
-        style={{
-          // display: "flex",
-          // alignItems: "center",
-          // justifyContent: "center",
-          // textAlign:"start",
-          // paddingLeft:"20px"
-        }}
-      >
-        {/* <Image
-          src={imageUrl}
-          alt={v.hoatel_Name || "Default Profile"}
-          roundedCircle
-          style={{
-            height: "40px",
-            width: "40px",
-            marginRight: "10px",
-          }}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = Profile;
-          }}
-        /> */}
-        <span
-          style={{
-            fontSize: 13, 
-            fontWeight: 500,
-            fontFamily: "Gilroy",
-            whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-          }}
-        >
-          {v.hoatel_Name}
-        </span>
-      </div>
-    </td>
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "13px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            marginTop: 10,
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
+                                          }}
+                                        >
+                                          <span
+                                            style={{
+                                              paddingTop: "3px",
+                                              paddingLeft: "10px",
+                                              paddingRight: "10px",
+                                              paddingBottom: "3px",
+                                              borderRadius: "60px",
+                                              backgroundColor: "#FFEFCF",
+                                              textAlign: "center",
+                                              fontSize: "11px",
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              marginLeft:10
+                                            }}
+                                          >
+                                            {v.hoatel_Name}
+                                          </span>
+                                        </td>
     <td
       style={{
         fontSize: 13, 
@@ -750,7 +637,9 @@ return (
                               fontFamily: "Gilroy",
         textAlign: "start",
         verticalAlign: "middle",
-        borderBottom: "1px solid #E8E8E8"
+        borderBottom: "1px solid #E8E8E8",
+        paddingLeft:20,
+        whiteSpace:"nowrap"
       }}
     >
       {v.floor_name}
@@ -762,7 +651,9 @@ return (
         fontFamily: "Gilroy",
         textAlign: "start",
         verticalAlign: "middle"
-        ,borderBottom: "1px solid #E8E8E8"
+        ,borderBottom: "1px solid #E8E8E8",
+        paddingLeft:20,
+        whiteSpace:"nowrap"
       }}
     >
       {v.Room_Id}
@@ -775,7 +666,9 @@ return (
         fontFamily: "Gilroy",
         textAlign: "start",
         verticalAlign: "middle",
-       borderBottom: "1px solid #E8E8E8"
+       borderBottom: "1px solid #E8E8E8",
+       paddingLeft:20,
+       whiteSpace:"nowrap"
       }}
     >
       {v.reading}
@@ -783,8 +676,11 @@ return (
     <td
       style={{
         textAlign: "start",
-        verticalAlign: "middle", // Center vertically
-        borderBottom: "1px solid #E8E8E8"
+        verticalAlign: "middle", 
+        borderBottom: "1px solid #E8E8E8",
+        paddingRight:5,
+        whiteSpace:"nowrap"
+        
       }}
     >
       <span
@@ -798,6 +694,7 @@ return (
           fontSize: 13, 
           fontWeight: 500,
           fontFamily: "Gilroy",
+          whiteSpace:"nowrap"
         }}
       >
         {formattedDate}
@@ -809,7 +706,9 @@ return (
         fontWeight: 500,
         fontFamily: "Gilroy",
         textAlign: "start",
-        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8" // Center vertically
+        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
+        paddingLeft:20,
+        whiteSpace:"nowrap"
        
       }}
     >
@@ -821,7 +720,9 @@ return (
         fontWeight: 500,
         fontFamily: "Gilroy",
         textAlign: "start",
-        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
+        paddingLeft:20,
+        whiteSpace:"nowrap"
         
       }}
     >
@@ -846,8 +747,7 @@ return (
           justifyContent: "center",
           alignItems: "center",
           position: "relative",
-          // zIndex: 1000,
-          // zIndex:activeRow === v.eb_Id? 1000: "auto",
+         
           backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
         }}
         onClick={(e) => handleShowDots(v.eb_Id,e)}
@@ -865,9 +765,6 @@ return (
                 position: "fixed",
                 top: popupPosition.top,
                 left: popupPosition.left,
-                // position: "absolute",
-                // right: 50,
-                // top: 20,
                 width: 120,
                 height: "auto",
                 border: "1px solid #EBEBEB",
@@ -886,7 +783,6 @@ return (
                 <div
                   className={"mb-3 d-flex justify-content-start align-items-center gap-2"}
                   style={{
-                    // backgroundColor: props.ebEditPermission ? "#f9f9f9" : "#fff",
                     cursor: props.ebEditPermission ? "not-allowed" : "pointer",
                   }}
                   onClick={() => {
@@ -900,7 +796,7 @@ return (
                     style={{
                       height: 16,
                       width: 16,
-                      filter: props.ebEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                      filter: props.ebEditPermission ? "grayscale(100%)" : "none",
                     }}
                     alt="Edit"
                   />
@@ -922,7 +818,6 @@ return (
                 <div
                   className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
                   style={{
-                    // backgroundColor: props.ebDeletePermission ? "#f9f9f9" : "#fff",
                     cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
                   }}
                   onClick={() => {
@@ -936,7 +831,7 @@ return (
                     style={{
                       height: 16,
                       width: 16,
-                      filter: props.ebDeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                      filter: props.ebDeletePermission ? "grayscale(100%)" : "none", 
                     }}
                     alt="Delete"
                   />
@@ -945,7 +840,7 @@ return (
                       fontSize: 14,
                       fontWeight: 500,
                       fontFamily: "Gilroy, sans-serif",
-                      color: props.ebDeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
+                      color: props.ebDeletePermission ? "#ccc" : "#FF0000", 
                       cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
                     }}
                   >

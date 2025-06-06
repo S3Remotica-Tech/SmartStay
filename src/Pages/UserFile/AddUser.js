@@ -35,11 +35,13 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const [error, setError] = useState("");
 
   useEffect(() => {
+
     dispatch({
       type: "SETTING_ROLE_LIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
   }, []);
+
 
   useEffect(() => {
     if (editDetails && edit) {
@@ -67,6 +69,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     }
   }, [editDetails]);
 
+
   const handleNameChange = (e) => {
     const value = e.target.value;
     if (/^[a-zA-Z\s]*$/.test(value)) {
@@ -87,7 +90,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     const isValidEmail = emailRegex.test(emailValue);
 
     if (emailValue && !isValidEmail) {
-      setEmailError("Invalid Email Id *");
+      setEmailError("Invalid Email Id");
     } else {
       setEmailError("");
     }
@@ -99,6 +102,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     setError("");
 
     const value = e.target.value;
+
 
     if (/^\d{0,10}$/.test(value)) {
       setMobile(value);
@@ -116,6 +120,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
     dispatch({ type: "CLEAR_PHONE_NUM_ERROR" });
   };
+
 
   const handleRoleChange = (selectedOption) => {
     setRoleError("");
@@ -247,6 +252,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       });
     }
   };
+
 
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 200) {
@@ -453,6 +459,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       value={countryCode}
                       autoComplete="off"
                       autoCorrect="off"
+
                       id="vendor-select-pg"
                       style={{
                         border: "1px solid #D9D9D9",
