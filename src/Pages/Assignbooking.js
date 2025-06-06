@@ -7,8 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
 import PropTypes from "prop-types";
-import { DatePicker } from 'antd';
-import dayjs from 'dayjs';
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 function AssignBooking(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -55,6 +55,7 @@ function AssignBooking(props) {
     setBedError("");
     setRentError("");
     setAdavanceError("");
+    setAdvanceamount(props.assignBooking.amount);
   };
 
   useEffect(() => {
@@ -124,7 +125,7 @@ function AssignBooking(props) {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
 
     const isFloorvalid = validateAssignField(floor, "floor");
     const isRoomValid = validateAssignField(room, "room");
@@ -174,10 +175,6 @@ function AssignBooking(props) {
     });
   };
 
-
- 
-  
-
   useEffect(() => {
     if (state.Booking.statusCodeForAssignBooking === 200) {
       handleAssignClose();
@@ -192,11 +189,10 @@ function AssignBooking(props) {
       });
 
       setTimeout(() => {
-        dispatch({type:"CLEAR_ASSIGN_USER_BOOKING"})
+        dispatch({ type: "CLEAR_ASSIGN_USER_BOOKING" });
       }, 300);
     }
   }, [state.Booking.statusCodeForAssignBooking]);
-
 
   const handleFloor = (floorId) => {
     if (!floorId) {
@@ -212,18 +208,19 @@ function AssignBooking(props) {
   };
 
   useEffect(() => {
-      if (state.login.selectedHostel_Id && floor) {
-        dispatch({
-          type: "ROOMDETAILS",
-          payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: floor },
-        });
-      }
-    }, [floor]);
+    if (state.login.selectedHostel_Id && floor) {
+      dispatch({
+        type: "ROOMDETAILS",
+        payload: { hostel_Id: state.login.selectedHostel_Id, floor_Id: floor },
+      });
+    }
+  }, [floor]);
 
   const handleRoom = (selectedOption) => {
     const selectedRoomId = selectedOption?.value;
     setRoom(selectedRoomId);
     setBed("");
+    setRentAmount("");
 
     if (selectedRoomId) {
       const payload = {
@@ -244,18 +241,22 @@ function AssignBooking(props) {
   };
 
   const handleBed = (selectedOption) => {
-    setBed(selectedOption?.value || '');
+    setBed(selectedOption?.value || "");
 
     const Bedfilter =
       state?.UsersList?.roomdetails &&
       state.UsersList.roomdetails.filter(
         (u) =>
-          String(u.Hostel_Id) === String(hostalId) && String(u.Floor_Id) === String(floor) && String(u.Room_Id) === String(room)
+          String(u.Hostel_Id) === String(hostalId) &&
+          String(u.Floor_Id) === String(floor) &&
+          String(u.Room_Id) === String(room)
       );
     const Roomamountfilter =
       Bedfilter &&
       Bedfilter.length > 0 &&
-      Bedfilter[0]?.bed_details.filter((amount) => String(amount.id) === String(selectedOption));
+      Bedfilter[0]?.bed_details.filter(
+        (amount) => String(amount.id) === String(selectedOption?.value)
+      );
 
     if (Roomamountfilter.length !== 0) {
       setRentAmount(Roomamountfilter[0]?.bed_amount);
@@ -267,7 +268,7 @@ function AssignBooking(props) {
   const handleRentAmount = (e) => {
     const value = e.target.value;
     if (!/^\d*$/.test(value)) {
-      return; 
+      return;
     }
     setRentAmount(e.target.value);
     setRentError("");
@@ -275,13 +276,11 @@ function AssignBooking(props) {
   const handleAdvanceAmount = (e) => {
     const value = e.target.value;
     if (!/^\d*$/.test(value)) {
-      return; 
+      return;
     }
     setAdvanceamount(value);
     setAdavanceError("");
   };
-
-
 
   return (
     <>
@@ -589,116 +588,77 @@ function AssignBooking(props) {
                 Bed <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
 
-              {/* <Form.Select
-                aria-label="Default select example"
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
+              <Select
+                options={
+                  state.UsersList?.bednumberdetails?.bed_details?.length > 0
+                    ? state.UsersList.bednumberdetails.bed_details
+                        .filter(
+                          (item) =>
+                            item.bed_no !== "0" &&
+                            item.bed_no !== "undefined" &&
+                            item.bed_no !== "" &&
+                            item.bed_no !== "null"
+                        )
+                        .map((item) => ({
+                          value: item.id,
+                          label: item.bed_no,
+                        }))
+                    : []
+                }
+                onChange={handleBed}
+                value={
+                  bed
+                    ? {
+                        value: bed,
+                        label:
+                          state.UsersList?.bednumberdetails?.bed_details?.find(
+                            (bedItem) => bedItem.id === bed
+                          )?.bed_no || "Selected Bed",
+                      }
+                    : null
+                }
+                placeholder="Selected Bed"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No beds available"}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    height: "50px",
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "8px",
+                    fontSize: "16px",
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "120px",
+                    padding: 0,
+                    scrollbarWidth: "thin",
+                    overflowY: "auto",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
                 }}
-                value={bed}
-                className="border"
-                placeholder="Select a bed"
-                id="form-selects"
-                onChange={(e) => handleBed(e)}
-              >
-                <option value="" selected>
-                  Selected Bed
-                </option>
-
-                {state.UsersList?.bednumberdetails?.bed_details &&
-                  state.UsersList?.bednumberdetails?.bed_details
-                    .filter(
-                      (item) =>
-                        item.bed_no !== "0" &&
-                        item.bed_no !== "undefined" &&
-                        item.bed_no !== "" &&
-                        item.bed_no !== "null"
-                    )
-                    .map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.bed_no}
-                      </option>
-                    ))}
-              </Form.Select> */}
-
-  <Select
-    options={
-      state.UsersList?.bednumberdetails?.bed_details?.length > 0
-        ? state.UsersList.bednumberdetails.bed_details
-            .filter(
-              (item) =>
-                item.bed_no !== "0" &&
-                item.bed_no !== "undefined" &&
-                item.bed_no !== "" &&
-                item.bed_no !== "null"
-            )
-            .map((item) => ({
-              value: item.id,
-              label: item.bed_no,
-            }))
-        : []
-    }
-    onChange={handleBed}
-    value={
-      bed
-        ? {
-            value: bed,
-            label:
-              state.UsersList?.bednumberdetails?.bed_details?.find(
-                (bedItem) => bedItem.id === bed
-              )?.bed_no || "Selected Bed",
-          }
-        : null
-    }
-    placeholder="Selected Bed"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    noOptionsMessage={() => "No beds available"} 
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
-
+              />
 
               {bedError && (
                 <div style={{ color: "red" }}>
@@ -735,23 +695,28 @@ function AssignBooking(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Joining Date
-                </Form.Label>              
+                  Joining Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
 
- <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%",marginTop:6}}>
-  <DatePicker
-    style={{ width: "100%", height: 48,cursor:"pointer"}}
-    format="DD/MM/YYYY"
-    placeholder="DD/MM/YYYY"
-    value={joiningDate ? dayjs(joiningDate) : null}
-    onChange={(date) => {
-      setDateError('');
-      setJoiningDate(date ? date.toDate() : null);
-    }}
-    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-  />
-</div>
-
+                <div
+                  className="datepicker-wrapper"
+                  style={{ position: "relative", width: "100%", marginTop: 6 }}
+                >
+                  <DatePicker
+                    style={{ width: "100%", height: 48, cursor: "pointer" }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={joiningDate ? dayjs(joiningDate) : null}
+                    onChange={(date) => {
+                      setDateError("");
+                      setJoiningDate(date ? date.toDate() : null);
+                    }}
+                    getPopupContainer={(triggerNode) =>
+                      triggerNode.closest(".datepicker-wrapper")
+                    }
+                  />
+                </div>
               </Form.Group>
               {dateError && (
                 <div style={{ color: "red" }}>
@@ -787,7 +752,8 @@ function AssignBooking(props) {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  Advance Amount
+                  Advance Amount{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -832,14 +798,28 @@ function AssignBooking(props) {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  Rent Amount
+                  Rent Amount{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                {/* <FormControl
+
+                <FormControl
                   type="text"
                   id="form-controls"
                   placeholder="Enter Rent Amount"
                   value={rentamount}
                   onChange={(e) => handleRentAmount(e)}
+                  onKeyDown={(e) => {
+                    const allowedKeys = [
+                      "Backspace",
+                      "Tab",
+                      "ArrowLeft",
+                      "ArrowRight",
+                      "Delete",
+                    ];
+                    if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -850,38 +830,7 @@ function AssignBooking(props) {
                     height: 50,
                     borderRadius: 8,
                   }}
-                /> */}
-                <FormControl
-  type="text"
-  id="form-controls"
-  placeholder="Enter Rent Amount"
-  value={rentamount}
-  onChange={(e) => handleRentAmount(e)}
-  onKeyDown={(e) => {
-   
-    const allowedKeys = [
-      "Backspace",
-      "Tab",
-      "ArrowLeft",
-      "ArrowRight",
-      "Delete"
-    ];
-    if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
-      e.preventDefault();
-    }
-  }}
-  style={{
-    fontSize: 16,
-    color: "#4B4B4B",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-    border: "1px solid #D9D9D9",
-    height: 50,
-    borderRadius: 8,
-  }}
-/>
-
+                />
               </Form.Group>
               {rentError && (
                 <div style={{ color: "red" }}>

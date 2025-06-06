@@ -335,12 +335,12 @@ border-radius: 6px;
     border-radius: 8px;
   }
 
-  .list-Item.active img,
+  /* .list-Item.active img,
   .list-sub-Item.active img,
   .list-Items.active img {
     filter: brightness(0) saturate(100%) invert(27%) sepia(70%) saturate(2878%) hue-rotate(215deg)
       brightness(94%) contrast(92%);
-  }
+  } */
 }
 
 .list-Item,
