@@ -73,7 +73,7 @@ dayjs.extend(isSameOrBefore);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
   const [bankking, setBanking] = useState("")
   const [selfTranfer,setSelfTransfer] = useState(false)
-  // const [amount, setAmount] = useState("");
+  
   
 
   useEffect(() => {
@@ -162,7 +162,7 @@ dayjs.extend(isSameOrBefore);
     } else {
       setOpenMenuId(id);
     }
-    // setSearch(false);
+    
   };
 
   useEffect(() => {
@@ -203,18 +203,6 @@ dayjs.extend(isSameOrBefore);
   }, []);
   
 
-  // useEffect(() => {
-  //   const handleClickOutsideAccount = (event) => {
-  //     if (popupRef.current && !popupRef.current.contains(event.target)) {
-  //       setShowAccountTypeOptions(null);
-  //     }
-  //   };
-  //   document.addEventListener("mousedown", handleClickOutsideAccount);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutsideAccount);
-  //   };
-  // }, []);
 
   const handleAccountTypeSelection = (e) => {
     const selectedValue = parseInt(e.target.value);
@@ -226,13 +214,13 @@ dayjs.extend(isSameOrBefore);
   };
   useEffect(() => {
     if (showAccountTypeOptions !== null) {
-      setSelectedAccountType(defaltType); // Set the selectedAccountType to the default
+      setSelectedAccountType(defaltType); 
     }
   }, [showAccountTypeOptions, defaltType]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
-      // setLoading(false);
+      
       setShowAccountTypeOptions(null);
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -243,7 +231,7 @@ dayjs.extend(isSameOrBefore);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
-      // setLoading(false);
+     
       handleCloseAddBalance();
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -282,7 +270,6 @@ const handleCloseSElfTransfer=()=>{
   const handleDeleteForm = (v) => {
     setDeleteBankId(v.id);
     setDeleteShow(true);
-    // setdotsshowbank(false);
     setOpenMenuId(false);
   };
   const handleDeleteBank = () => {
@@ -303,13 +290,12 @@ const handleCloseSElfTransfer=()=>{
 
   const handleCloseDelete = () => {
     setDeleteShow(false);
-    // setdotsshowbank(false);
+    
   };
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   const handleEditTrans = (id,event) => {
-    // setEditTransaction((prevId) => (prevId === id ? null : id));
-    // setEditTransaction((prevId) => (prevId === id ? null : id));
+ 
     if (EditTransaction === id) {
       setEditTransaction(null);
     } else {
@@ -380,10 +366,10 @@ const handleCloseSElfTransfer=()=>{
 
   const handleShowAddBalance = (item) => {
     setAddBankName(item.bank_name);
-    // setAddBankName(item.acc_name);
+    
     setTypeId(item.id);
     setshowAddBalance(true);
-    // setdotsshowbank(false);
+    
   };
   const handleCloseAddBalance = () => {
     setshowAddBalance(false);
@@ -420,10 +406,7 @@ const handleCloseSElfTransfer=()=>{
     transactioncurrentPage * transactionrowsPerPage;
   const indexOfFirstRowTransaction =
     indexOfLastRowTransaction - transactionrowsPerPage;
-  // const currentRowTransaction = transactionFilterddata?.slice(
-  //   indexOfFirstRowTransaction,
-  //   indexOfLastRowTransaction
-  // );
+
   const currentRowTransaction =
     filterInput.length > 0
       ? transactionFilterddata
@@ -432,6 +415,7 @@ const handleCloseSElfTransfer=()=>{
   const handlePageChange = (pageNumber) => {
     settransactioncurrentPage(pageNumber);
   };
+  
 
    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
       
@@ -473,9 +457,9 @@ const handleCloseSElfTransfer=()=>{
 
 
   useEffect(() => {
-    const FilterUser = Array.isArray(transactionFilterddata)
-      ? transactionFilterddata?.filter((item) =>
-        item.bank_name?.toLowerCase().includes(filterInput.toLowerCase())
+    const FilterUser = Array.isArray(sortedData)
+      ? sortedData?.filter((item) =>
+        item.benificiary_name ?.toLowerCase().includes(filterInput.toLowerCase())
       )
       : [];
 
@@ -495,7 +479,7 @@ const handleCloseSElfTransfer=()=>{
 
   const handleSearch = () => {
     setSearch(!search);
-    // setFilterStatus(false);
+   
   };
 
   const handleFilterd = () => {
@@ -507,17 +491,17 @@ const handleCloseSElfTransfer=()=>{
     setDropdownVisible(e.target.value.length > 0);
     settransactionFilterddata(originalBillsFilter)
   };
+
+
   const handleUserSelect = (user) => {
-    setFilterInput(user.bank_name);
+  setFilterInput(user.benificiary_name); 
+  const selected = sortedData.filter(
+    (item) => String(item.id) === String(user.id)
+  );
+  settransactionFilterddata(selected);
+  setDropdownVisible(false);
+};
 
-
-    const selectedUserData = transactionFilterddata?.filter(
-      (item) => item.bank_name === user.bank_name
-    );
-    settransactionFilterddata(selectedUserData);
-
-    setDropdownVisible(false);
-  };
   const [dateRange, setDateRange] = useState(null);
   const handleStatusFilter = (event) => {
     const value = event.target.value;
@@ -526,12 +510,20 @@ const handleCloseSElfTransfer=()=>{
     if (value === "All") {
       settransactionFilterddata(originalBillsFilter);
     } else if (value === "date") {
-      // Don't filter yet - wait for date selection
+      
       settransactionFilterddata(originalBillsFilter);
-    } else {
-      const filtered = originalBillsFilter?.filter((user) => {
-        return user.type !== undefined && String(user.type) === String(value);
-      });
+    } 
+   
+    else {
+    const filtered = originalBillsFilter?.filter((user) => {
+      const isCredit = user.desc === "Invoice";
+      const isDebit = user.desc !== "Invoice";
+
+      return (
+        (value === "1" && isCredit) ||
+        (value === "2" && isDebit)
+      );
+    });
       settransactionFilterddata(filtered);
     }
   };
@@ -539,15 +531,15 @@ const handleCloseSElfTransfer=()=>{
     setDateRange(dates);
   
     if (!dates || dates.length !== 2) {
-      settransactionFilterddata(originalBillsFilter); // Reset to all data
-      setStatusfilter("All");                         // Reset dropdown to "All"
+      settransactionFilterddata(originalBillsFilter); 
+      setStatusfilter("All");                        
       return;
     }
   
     const [start, end] = dates;
   
     const filtered = originalBillsFilter?.filter((item) => {
-      const itemDate = dayjs(item.date); // Replace with your actual field
+      const itemDate = dayjs(item.date); 
       return itemDate.isSameOrAfter(dayjs(start), 'day') &&
              itemDate.isSameOrBefore(dayjs(end), 'day');
     });
@@ -555,59 +547,7 @@ const handleCloseSElfTransfer=()=>{
     settransactionFilterddata(filtered);
   };
   
-  // const handleDateRangeChange = (dates) => {
-  //   setDateRange(dates);
-  
-  //   if (!dates || dates.length !== 2) {
-  //     settransactionFilterddata(originalBillsFilter);  // Reset to all data
-  //     setStatusfilter("All");                          // Reset dropdown to "All"
-  //     return;
-  //   }
-  
-  //   const [start, end] = dates;
-  
-  //   const filtered = originalBillsFilter?.filter((item) => {
-  //     const itemDate = dayjs(item.date); // Replace with your actual field
-  //     return itemDate.isAfter(dayjs(start).subtract(1, "day")) &&
-  //            itemDate.isBefore(dayjs(end).add(1, "day"));
-  //   });
-  
-  //   settransactionFilterddata(filtered);
-  // };
-  
-  // const handleDateRangeChange = (dates) => {
-  //   setDateRange(dates);
-  
-  //   if (!dates || dates.length !== 2) {
-  //     settransactionFilterddata(originalBillsFilter);
-  //     return;
-  //   }
-  
-  //   const [start, end] = dates;
-  
-  //   const filtered = originalBillsFilter?.filter((item) => {
-  //     const itemDate = dayjs(item.date); // Assuming your bill data has a `date` field
-  //     return itemDate.isAfter(start.subtract(1, "day")) && itemDate.isBefore(end.add(1, "day"));
-  //   });
-  
-  //   settransactionFilterddata(filtered);
-  // };
-  // const handleStatusFilter = (event) => {
-  //   const searchTerm = event.target.value;;
-  //   setStatusfilter(searchTerm);
-
-  //   if (searchTerm === "All") {
-  //     settransactionFilterddata(originalBillsFilter);
-  //   } else {
-  //     const filteredItems = originalBillsFilter?.filter((user) => {
-  //       return (
-  //         user.type !== undefined && String(user.type) === String(searchTerm)
-  //       );
-  //     });
-
-  //     settransactionFilterddata(filteredItems);
-  //   }
-  // };
+ 
 
   useEffect(() => {
     if (originalBillsFilter.length === 0 && transactionFilterddata.length > 0) {
@@ -688,7 +628,6 @@ const handleCloseSElfTransfer=()=>{
                     position: "relative",
                     display: "flex",
                     alignItems: "center",
-                    // width: "100%",
                     marginTop: "0px",
                     marginBottom: "5px",
                   }}
@@ -718,7 +657,7 @@ const handleCloseSElfTransfer=()=>{
                       <div
                         className="input-group"
 
-                        // style={{ marginRight: 20 }}
+                    
 
                       >
                         <span className="input-group-text bg-white border-end-0">
@@ -779,7 +718,6 @@ const handleCloseSElfTransfer=()=>{
                           }}
                         >
                           {transactionFilterddata?.map((user, index) => {
-                            // const imagedrop = user.profile || Profile;
                             return (
                               <li
                                 key={index}
@@ -795,7 +733,7 @@ const handleCloseSElfTransfer=()=>{
                                 onClick={() => handleUserSelect(user)}
                               >
                                 
-                                <span>{user.bank_name}</span>
+                                <span>{user.benificiary_name}</span>
                               </li>
                             );
                           })}
@@ -1202,7 +1140,7 @@ whiteSpace: "nowrap"
                       {showAccountTypeOptions === item.id && (
   <div
     className="account-type-dropdown"
-    onMouseDown={(e) => e.stopPropagation()} // ← this line is key
+    onMouseDown={(e) => e.stopPropagation()} 
     style={{
       position: "absolute",
       top: 70,
@@ -1340,12 +1278,11 @@ whiteSpace: "nowrap"
                                         marginTop: "20px",
                                         paddingRight:0,
                                         paddingLeft:0
-                                        //  borderBottom:"1px solid #DCDCDC"
                                       }}
                                     >
                                       <Table
                                         responsive="md"
-                                        // className="Table_Design"
+                                        
                                         style={{
                                           fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                                           top: 0,
@@ -1369,7 +1306,7 @@ whiteSpace: "nowrap"
                           fontFamily: "Gilroy",
                           paddingLeft: "20px",
                           whiteSpace:"nowrap"
-                          // borderTopLeftRadius: 24,
+                         
                         }}
                       >
                         <div className='d-flex gap-1 align-items-center justify-content-start'>
@@ -1465,7 +1402,6 @@ whiteSpace: "nowrap"
                           color: "rgb(147, 147, 147)",
                           fontSize: 14,
                           fontWeight: 500,
-                          // borderTopRightRadius: 24,
                         }}
                       ></th>
                     </tr>
@@ -1478,7 +1414,7 @@ whiteSpace: "nowrap"
                       let month = Dated.getMonth();
                       let year = Dated.getFullYear();
 
-                      // Array of month names abbreviated to the first 3 letters
+                     
                       const monthNames = [
                         "Jan",
                         "Feb",
@@ -1540,7 +1476,6 @@ whiteSpace: "nowrap"
                                 paddingRight: "10px",
                                 paddingBottom: "3px",
                                 borderRadius: "60px",
-                                // backgroundColor: "#FFEFCF",
                                 textAlign: "center",
                                 fontSize: "11px",
                                 fontWeight: 500,
@@ -1592,13 +1527,7 @@ whiteSpace: "nowrap"
                                 paddingRight: "10px",
                                 paddingBottom: "3px",
                                 borderRadius: "60px",
-                                // backgroundColor: "#FFEFCF",
-                                // backgroundColor:
-                                //   user.type === 1
-                                //     ? "#C8E6C9"
-                                //     : user.type === 2
-                                //       ? "#FFE0B2"
-                                //       : "#FFEFCF",
+                             
                                 textAlign: "start",
                                 fontSize: "11px",
                                 fontWeight: 500,
@@ -1628,8 +1557,7 @@ whiteSpace: "nowrap"
                                 EditTransaction === user.id
                                   ? "#E7F1FF"
                                   : "white",
-                              //zIndex:
-                                //EditTransaction === user.id ? 1000 : "auto",
+                            
                             }}
                             onClick={(e) => handleEditTrans(user.id,e)}
                           >
@@ -1642,9 +1570,7 @@ whiteSpace: "nowrap"
                                 style={{
                                   cursor: "pointer",
                                   backgroundColor: "#F9F9F9",
-                                  // position: "absolute",
-                                  // right: 80,
-                                  // top: 8,
+                               
                                   marginLeft:10,
                                   position: "fixed",
                                   top: popupPosition.top,
@@ -2107,7 +2033,7 @@ whiteSpace: "nowrap"
                     id="form-controls"
                     placeholder="Enter amount"
                     value={AddBankName}
-                    // onChange={(e) => handleAccountName(e)}
+                 
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",

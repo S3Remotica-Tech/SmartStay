@@ -44,24 +44,7 @@ function SettingExpenses({ hostelid }) {
   
 
 
-  // const uniqueExpences = expences.filter((expence, index, self) =>
-  //   index === self.findIndex((e) => e.category_Id === expence.category_Id)
-  // );
-
-  // useEffect(() => {
-  //   if (isSubCategory) {
-  //     const selectedCategory = expences.find(category => category.category_Id === parseInt(category_Id));
-  //     console.log("selectedCategory", selectedCategory)
-  //     if (selectedCategory) {
-  //       setType(selectedCategory.category_Name)
-  //     }
-  //   }
-
-  // }, [isSubCategory])
-
-
-
-  //add electricity
+ 
   const [showPopup, setShowPopup] = useState(false);
   const handleShow = () => {
     setCategoryErrmsg('')
@@ -104,14 +87,14 @@ function SettingExpenses({ hostelid }) {
   const [deletesubcat, setDeleteSubCat] = useState(false)
 
   const handleDeleteSubCategory = (item) => {
-    console.log("items", item);
+   
 
     setDeleteSubCatItems(item)
     setShowModal(true)
     setDeleteSubCat(true)
   }
 
-  console.log("deletesubcatItems", deletesubcatItems);
+  
 
 
 
@@ -137,73 +120,14 @@ function SettingExpenses({ hostelid }) {
     }
     setShowModal(false);
 
-    //   if ( deleteCategoryId && subCategory_Id) {
-    //     dispatch({
-    //         type: 'DELETE-EXPENCES-CATEGORY',
-    //         payload: {
-    //             id: deleteCategoryId,
-    //             subcat_id: subCategory_Id,
-    //             cat_id:''
-    //         },
-    //     });
-    // }
-    //  else {
-    //     dispatch({
-    //         type: 'DELETE-EXPENCES-CATEGORY',
-    //         payload: { id: deleteCategoryId,
-    //           sub_Category_Id: subCategory_Id},
-    //     });
-    // }
+  
 
   };
 
   const cancelDelete = () => {
     setShowModal(false)
+    setDeleteSubCat("")
   };
-
-
-
-
-
-
-  // const addType = () => {
-  //   if (!type) {
-  //     setCategoryErrmsg("Please Enter a Category")
-  //     return;
-  //   }
-
-  //   if (type.trim()) {
-  //     if (isSubCategory) {
-
-  //       if (!subType) {
-  //         setSubCategoryErrmsg("Please Enter a Sub-Category")
-  //       }
-
-  //       if (!subType && !namefilter) {
-  //         setTotalErrmsg('Please enter All Field')
-  //         return;
-  //       }
-  //       else if (subType.trim()) {
-  //         dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { hostel_id: hostelid, id: type, category_Name: namefilter, sub_Category: subType } });
-  //         setSubType('');
-  //         setType('');
-  //         setShowForm(false);
-  //         setIsSubCategory(false)
-  //       }
-
-  //     }
-  //     else {
-  //       dispatch({ type: 'EXPENCES-CATEGORY-ADD', payload: { hostel_id: hostelid, category_Name: type, sub_Category: '' } });
-  //       setType('');
-  //       setShowForm(false);
-  //       setIsSubCategory(false)
-  //     }
-  //   }
-
-  // };
-
-
-
 
 
 
@@ -220,16 +144,16 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     setLoading(true);
-    console.log('load', loading);
+    
   
     dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } });
   
-    // Set a delay for the loader to disappear
+   
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 4000); // Adjust the duration (1000ms = 1 second) as needed
+    }, 4000); 
   
-    return () => clearTimeout(timeout); // Cleanup the timeout on component unmount
+    return () => clearTimeout(timeout); 
   }, [hostelid]);
   
 
@@ -238,7 +162,7 @@ function SettingExpenses({ hostelid }) {
     if (state.Settings.getExpensesStatuscode === 200) {
       setExpensesFilterddata(state.Settings.Expences.data);
       setLoading(false)
-      // setExpences(state.Settings.Expences.data)
+      
       setTimeout(() => {
         dispatch({ type: 'CLEAR_GET_EXPENSES_STATUS_CODE' })
       }, 100)
@@ -255,14 +179,14 @@ function SettingExpenses({ hostelid }) {
 
   }, [state.Settings.categoryError])
 
-  console.log("state.Settings.categoryError", state.Settings.categoryError, isSubCategory)
+  
 
 
 
   useEffect(() => {
     if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
 
-      //  setShowForm(false)
+      
       setCategoryErrmsg('')
       if (state.Settings.editexpencesStatuscode === 200) {
         setShowForm(false)
@@ -289,9 +213,7 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  // useEffect(() => {
-  //   dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } })
-  // }, [])
+ 
 
 
 
@@ -306,7 +228,7 @@ function SettingExpenses({ hostelid }) {
   const updateType = () => {
 
 
-    console.log("subType === initialSubCategory.subcategory",subType , initialSubCategory.name)
+    
 
 
    
@@ -342,7 +264,7 @@ function SettingExpenses({ hostelid }) {
   }
 
 
-  console.log("isSubCategory", isSubCategory)
+ 
 
   const addType = () => {
 
@@ -397,14 +319,14 @@ function SettingExpenses({ hostelid }) {
 
   const handleEditCategory = (item) => {
 
-    console.log("edititem", item);
+  
 
     setEdit(true);
     setShowForm(true);
     if (item.category_Id && item.category_Name) {
       setType({ value: item.category_Id, label: item.category_Name });
       setSelectedOptions({ value: item.category_Id, label: item.category_Name })
-      // setCategory_ID(item.category_Id || '')
+      
       setEditsubCat(false)
       setIsSubCategory(false);
       setInitialCategory({ id: item.category_Id, name: item.category_Name });
@@ -426,29 +348,13 @@ function SettingExpenses({ hostelid }) {
 
   const handleChange = (selected) => {
     setSelectedOptions(selected);
-    console.log("Selected Category:", selected);
+   
     setType(selected)
     setCategoryErrmsg("")
   };
 
 
-  //   const handleCreate = (inputValue) => {
-  //   const newOption = { value: inputValue, label: inputValue };
-  //   console.log("Created Category:", newOption);
-  //   setOptions((prev) => Array.isArray(prev) ? [...prev, newOption] : [newOption]);
-  //   setSelectedOptions(newOption);
-
-  //   dispatch({
-  //     type: 'EXPENCES-CATEGORY-ADD',
-  //     payload: { hostel_id: hostelid, category_Name: inputValue, sub_Category: '' }
-  //   });
-  // };
-
-
-
-
-
-  console.log("editsubcat", editsubcat)
+ 
 
 
 
@@ -457,7 +363,7 @@ function SettingExpenses({ hostelid }) {
   const handleCreate = (inputValue) => {
 
     const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
-    console.log(" existingCategoryIndex", existingCategoryIndex)
+   
 
     if (existingCategoryIndex !== -1) {
 
@@ -495,7 +401,7 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     if (!state.Settings?.Expences?.data || !Array.isArray(state.Settings.Expences.data)) {
-      console.log("Expences data is undefined or not an array");
+     
       return;
     }
 
@@ -504,7 +410,7 @@ function SettingExpenses({ hostelid }) {
         (view) => selectedOptions?.label && view.category_Name?.toLowerCase() === selectedOptions.label.toLowerCase()
       );
 
-      console.log("TakeCategoryId:", TakeCategoryId);
+     
 
       if (TakeCategoryId.length > 0) {
         setType({ value: TakeCategoryId[0]?.category_Id, label: TakeCategoryId[0]?.category_Name });
@@ -514,9 +420,7 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  console.log("selected cate type", type)
 
-  console.log("selectedOptions", selectedOptions)
 
 
 
@@ -553,14 +457,7 @@ function SettingExpenses({ hostelid }) {
     }
   }
 
-  // const [expandedCategoryId, setExpandedCategoryId] = useState(null);
-
-
-  // const handleToggleDropdown = (categoryId) => {
-  //   setExpandedCategoryId((prev) => (prev === categoryId ? null : categoryId));
-  // };
-
-  // const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+  
   const [expandedCategoryId, setExpandedCategoryId] = useState(null);
   
   const handleToggleDropdown = (categoryId, event) => {
@@ -568,20 +465,15 @@ function SettingExpenses({ hostelid }) {
       setExpandedCategoryId(null);
     } else {
       const rect = event.target.getBoundingClientRect();
-      console.log("rect.width",rect.width, rect.bottom, rect.left );
       
-      // setDropdownPosition({
-      //   top: rect.bottom + 6, 
-      //   // left: rect.left + window.scrollX,  
-      //   left: rect.left - 361,
-      //   width: rect.width + 370,
-      // });
+      
+     
       setExpandedCategoryId(categoryId);
     }
   };
   
 
-  // pagination
+ 
   const indexOfLastRowExpense = expensescurrentPage * expensesrowsPerPage;
   const indexOfFirstRowExpense = indexOfLastRowExpense - expensesrowsPerPage;
   const currentRowExpense = expensesFilterddata?.slice(
@@ -655,19 +547,7 @@ function SettingExpenses({ hostelid }) {
 
 
 
-      {/* <div 
-      className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-      style={{
-                position: 'sticky',
-        top: 0,
-        right: 0,
-        left: 0,
-        zIndex: 1000,
-        backgroundColor: "#FFFFFF",
-        height: 63,
-        alignItems: "center",
-        
-      }} > */}
+     
       <div 
   className="container-fluid"
   style={{
@@ -680,22 +560,17 @@ function SettingExpenses({ hostelid }) {
 >
   <div 
     className="row align-items-center justify-content-between"
-    // style={{ paddingTop: 20, paddingBottom: 10 }}
+   
     style={{ marginTop: 20}}
   >
-        {/* <div 
-         className="w-100 text-md-start text-center"
-        style={{ marginTop: 25 }}> */}
+      
             <div className="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
           <h3 style={{ fontFamily: "Gilroy", 
             fontSize: 20, color: "#222", 
             fontWeight: 600, marginLeft:-11,marginTop:18
             }}>
               Expenses Category</h3></div>
-        {/* <div 
-        className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
-        
-        > */}
+      
     <div  className="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
           <Button onClick={handleShow}
             style={{
@@ -705,7 +580,6 @@ function SettingExpenses({ hostelid }) {
               color: "white",
               fontWeight: 600,
               borderRadius: 8,
-              // padding: "11px 35px",
               height:45,
               width:146,
               marginTop:5,
@@ -724,13 +598,7 @@ function SettingExpenses({ hostelid }) {
             Please add a hostel before adding Expense information.
           </p>
 
-          {/* <img
-            src={close}
-            alt="close icon"
-            onClick={() => setShowPopup(false)}
-            className="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-end"
-            style={{ width: '20px', height: 'auto', cursor: "pointer" }}
-          /> */}
+        
 
         </div>
 
@@ -743,7 +611,7 @@ function SettingExpenses({ hostelid }) {
   {currentRowExpense && currentRowExpense.length > 0 ? (
     currentRowExpense.map((category) => (
       <div key={category.category_Id} 
-      // className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2" 
+    
       
        className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2 card-width-sm  "
       style={{ 
@@ -753,11 +621,10 @@ function SettingExpenses({ hostelid }) {
         }}>
         <Card className="d-flex justify-content-between border-0 card-height-sm" 
         style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}>
-          {/* <div className="d-flex justify-content-between align-items-center border-0 gap-4"> */}
-          {/* <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2"> */}
+       
           <div className="d-flex justify-content-between align-items-center border-0 gap-4 flex-wrap card-inner">
             <div className="category-title">{category.category_Name}</div>
-            {/* <div className="d-flex align-items-center gap-2 mt-2 mt-md-0"> */}
+           
             <div className="d-flex align-items-center " style={{ gap: "10px" }}>
               <img
                 src={Editbtn}
@@ -765,7 +632,7 @@ function SettingExpenses({ hostelid }) {
                 width={15}
                 alt="edit"
                 style={{ 
-                  // marginRight: 10, 
+                 
                   cursor: "pointer" }}
                 onClick={(e) => { e.stopPropagation(); handleEditCategory(category); }}
               />
@@ -775,7 +642,6 @@ function SettingExpenses({ hostelid }) {
                 width={15}
                 alt="delete"
                 style={{ 
-                  // marginRight: 10, 
                   cursor: "pointer" }}
                 onClick={(e) => { e.stopPropagation(); handleDeleteExpensesCategory(category); }}
               />
@@ -838,8 +704,7 @@ function SettingExpenses({ hostelid }) {
 
       {expensesFilterddata?.length >= 5 && (
         <nav 
-        // className="pagination-container position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{zIndex:995}}
-        // className="position-sticky bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
+      
         className="container  bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
         style={{
           position: "fixed",
@@ -851,7 +716,7 @@ function SettingExpenses({ hostelid }) {
           paddingBottom: "30px",
         }}
         >
-          {/* Dropdown for Items Per Page */}
+         
           <div >
             <select className='selectoption'
               value={expensesrowsPerPage}
@@ -867,7 +732,7 @@ function SettingExpenses({ hostelid }) {
                 boxShadow: "none",
               }}
             >
-              {/* <option value={2}>2</option> */}
+            
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={50}>50</option>
@@ -875,7 +740,7 @@ function SettingExpenses({ hostelid }) {
             </select>
           </div>
 
-          {/* Pagination Controls */}
+          
           <ul className='selectoption'
             style={{
               display: "flex",
@@ -885,7 +750,7 @@ function SettingExpenses({ hostelid }) {
               padding: 0,
             }}
           >
-            {/* Previous Button */}
+            
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -910,14 +775,14 @@ function SettingExpenses({ hostelid }) {
               </button>
             </li>
 
-            {/* Current Page Indicator */}
+            
             <li
               style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
             >
               {expensescurrentPage} of {totalPagesGeneral}
             </li>
 
-            {/* Next Button */}
+           
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -984,46 +849,17 @@ function SettingExpenses({ hostelid }) {
                   <div
                     style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
                   >
-                    {/* {edit ? "Edit Invoice" : "Add Invoice "} */}
+                 
 
                     {edit ? "Edit Category" : "Add Category"}
 
 
                   </div>
-                  {/* <button
-                    type="button"
-                    className="close"
-                    aria-label="Close"
-                    onClick={handleCloseForm}
-                    style={{
-                      position: "absolute", right: "10px",
-                      top: "16px",
-                      border: "1px solid black",
-                      background: "transparent",
-                      cursor: "pointer",
-                      padding: "0",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "26px",
-                      height: "26px",
-                      borderRadius: "50%",
-                    }}
-                  >
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        fontSize: "30px",
-                        paddingBottom: "6px",
-                      }}
-                    >
-                      &times;
-                    </span>
-                  </button> */}
+                 
                   <CloseCircle size="24" color="#000" onClick={handleCloseForm} 
             style={{ cursor: 'pointer' }}/>
 
-                  {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+                 
                 </Modal.Header>
               </div>
               <Modal.Body>
@@ -1051,8 +887,8 @@ function SettingExpenses({ hostelid }) {
                           styles={{
                             menu: (provided) => ({
                               ...provided,
-                              maxHeight: '100px',  // Limit dropdown height
-                              overflowY: 'auto',  // Enable scrolling when needed
+                              maxHeight: '100px', 
+                              overflowY: 'auto', 
                               zIndex: 9999,
                             }),
                            
@@ -1083,7 +919,7 @@ function SettingExpenses({ hostelid }) {
                               minHeight: '40px',
                             }),
                           }}
-                          menuPlacement="bottom" // Ensures dropdown opens properly
+                          menuPlacement="bottom" 
                         />
 
 
@@ -1110,7 +946,7 @@ function SettingExpenses({ hostelid }) {
                       <p className='' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Make Sub-Category</p>
                     </div>
 
-                    {/* {isSubCategory && ( */}
+                  
                     <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12  ms-xs-0'>
 
                       <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
@@ -1135,7 +971,7 @@ function SettingExpenses({ hostelid }) {
                         )}
                       </Form.Group>
                     </div>
-                    {/* )} */}
+                   
                   </div>
 
 
@@ -1202,8 +1038,7 @@ function SettingExpenses({ hostelid }) {
                   onClick={edit ? updateType : addType}
                 >
                   {edit ? "Save Changes" : "Save"}
-                  {/* Add Category */}
-                  {/* {edit ? "Save invoice" : "Add invice"} */}
+                 
                 </Button>
               </Modal.Footer>
             </Modal.Dialog>
@@ -1231,7 +1066,7 @@ function SettingExpenses({ hostelid }) {
               
             }}
           >
-            Delete Category?
+            {deletesubcat?"Delete Sub-Category?":"Delete Category?"}
           </Modal.Title>
         </Modal.Header>
 
@@ -1246,7 +1081,7 @@ function SettingExpenses({ hostelid }) {
             marginTop: '-27px'
           }}
         >
-          Are you sure you want to delete this Expences-category?
+          {deletesubcat ?"Are you sure you want to delete this Expences-Sub-category?":"Are you sure you want to delete this Expences-Category?"}
         </Modal.Body>
 
         <Modal.Footer 
@@ -1267,7 +1102,7 @@ function SettingExpenses({ hostelid }) {
             fontFamily: "Gilroy",
             fontSize: "14px",
           }}
-            onClick={cancelDelete} // Cancel, close modal
+            onClick={cancelDelete} 
           >
             Cancel
           </Button>
@@ -1284,7 +1119,7 @@ function SettingExpenses({ hostelid }) {
             fontFamily: "Gilroy",
             fontSize: "14px",
           }}
-            onClick={confirmDelete}  // Confirm delete, dispatch action
+            onClick={confirmDelete}  
           >
             Delete
           </Button>

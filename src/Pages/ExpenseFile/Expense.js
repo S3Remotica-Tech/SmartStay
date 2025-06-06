@@ -19,7 +19,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-// import Filters from "../Assets/Images/Filters.svg";
 import Filters from "../../Assets/Images/Filters.svg";
 import Image from 'react-bootstrap/Image';
 import { ArrowUp2, ArrowDown2} from 'iconsax-react';
@@ -279,18 +278,7 @@ function Expenses({ allPageHostel_Id }) {
       setMinAmount("");
       setMaxAmount("");
     }
-    //  else if (startDate && endDate) {
-    //   dispatch({ type: 'EXPENSELIST', payload: { start_date: startDate, end_date: endDate, hostel_id: state.login.selectedHostel_Id } })
-    //   setCategoryValue('')
-    //   setAssetValue('')
-    //   setVendorValue('')
-    //   setModeValue('')
-    //   setSelectedValue('')
-    //   setDates('')
-    //   setAmountValue('')
-    //   setMinAmount('')
-    //   setMaxAmount('')
-    // }
+  
     else if (minAmount || maxAmount) {
       dispatch({
         type: "EXPENSELIST",
@@ -462,10 +450,9 @@ function Expenses({ allPageHostel_Id }) {
     setShowFilter(!showFilter);
   };
 
-  //  pagination
+  
 
   const [currentPage, setCurrentPage] = useState(1);
-  // const [itemsPerPage] = useState(10);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -657,14 +644,14 @@ function Expenses({ allPageHostel_Id }) {
               height: "100vh",
             }}
           >
-            {/* Image */}
+           
             <img
               src={EmptyState}
               alt="Empty State"
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-            {/* Permission Error */}
+           
             {expencepermissionError && (
               <div
                 style={{
@@ -694,7 +681,7 @@ function Expenses({ allPageHostel_Id }) {
               }}
             >
               <div
-                // className="d-flex align-items-center flex-wrap"
+               
                 className="col-12 col-md-auto d-flex flex-wrap align-items-center"
                 style={{ marginTop: 13, marginLeft: 11 }}
               >
@@ -709,20 +696,23 @@ function Expenses({ allPageHostel_Id }) {
                   Expenses
                 </label>
 
-                <RangePicker className="range-picker"
-                  key={pickerKey}
-                  style={{
-                    height: 40,
-                    width: 250,
-                    marginLeft: 7,
-                    marginTop: 5,
-                    cursor: "pointer"
-                  }}
-                  onChange={handleDateChange}
-                  value={dates.length === 2 ? [dates[0], dates[1]] : null}
-                  format="DD-MM-YYYY"
-                  placeholder={["Start Date", "End Date"]}
-                />
+             <RangePicker
+  className="range-picker-with-left-arrow"
+  key={pickerKey}
+  style={{
+    height: 40,
+    width: 250,
+    marginLeft: 7,
+    marginTop: 5,
+    cursor: "pointer",
+    paddingLeft: 30 
+  }}
+  onChange={handleDateChange}
+  value={dates.length === 2 ? [dates[0], dates[1]] : null}
+  format="DD-MM-YYYY"
+  placeholder={["Start Date", "End Date"]}
+/>
+
               </div>
 
               {/* <div className="d-flex  flex-wrap justify-content-between align-items-center"> */}
@@ -738,7 +728,7 @@ function Expenses({ allPageHostel_Id }) {
                         height: "24px",
                         width: "24px",
                         cursor: "pointer",
-                        // paddingRight: 10,
+                       
                         marginTop: 8,
                       }}
                     />
@@ -779,7 +769,6 @@ function Expenses({ allPageHostel_Id }) {
                         Category
                         {showCategory && (
                           <ListGroup
-                            // className="show-scroll-category"
                             className="show-scroll-category submenu"
                             style={{
                               position: "absolute",
@@ -925,7 +914,7 @@ function Expenses({ allPageHostel_Id }) {
                           fontSize: 15,
                           fontWeight: 500,
                           color: "#222",
-                          //  '::placeholder': { color: "#222", fontWeight: 500 }
+                          
                         }}
                         placeholder="Search..."
                       />
@@ -1142,18 +1131,13 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                 className='show-scrolls'
 
                 style={{
-                  // height: "400px",
-                  // height: currentItems.length >= 6 ? "380px" : "auto",
-                  // overflowY: currentItems.length >= 6 ? "auto" : "visible",
-                  // borderRadius: "24px",
-                  // border: "1px solid #DCDCDC",
-                  // borderBottom:"none"
+                 
                   height: currentItems.length >= 8 || sortedData.length >= 8 ? "400px" : "auto",
                   overflow: "auto",
                   borderTop: "1px solid #E8E8E8",
                   marginBottom: 20,
                   marginTop: "20px"
-                  //  borderBottom:"1px solid #DCDCDC"
+                 
                 }}>
 
                 <Table
@@ -1294,20 +1278,16 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                 >
                   There are no expenses available.
                 </div>
-                {/* <div className='d-flex justify-content-center pb-1 mt-3'>                  
-                   <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "20px 40px", fontFamily: "Gilroy" }}
-                  disabled={expenceAddPermission} onClick={handleShow}
-                > + Expense</Button>
-                </div> */}
+              
               </div>
               <div></div>
             </div>
           )}
 
-          {/*  Pagination code */}
+          
           {filteredData.length >= 5 && (
             <nav 
-            // className="pagination-container"
+           
               style={{
                 display: "flex",
                 alignItems: "center",

@@ -93,14 +93,14 @@ const [hostelEbList,setHostelEbList] = useState("")
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setActiveRow(null); // Close the menu if clicked outside
+        setActiveRow(null); 
       }
     };
 
-    // Add event listener for detecting clicks outside the popup
+   
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Cleanup the event listener when the component unmounts
+    
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -114,24 +114,18 @@ const [hostelEbList,setHostelEbList] = useState("")
   const handleCloseDelete = () => {
     setDeleteForm(false);
   };
-//  useEffect(() => {
-//     dispatch({
-//       type: "CUSTOMEREBLIST",
-//       payload: { hostel_id: state.login.selectedHostel_Id },
-//     });
-   
-//   }, [state.login.selectedHostel_Id]);
+
   const handlehosetelDelete = () => {
     dispatch({
       type: "HOSTELBASEDDELETEEB",
       payload: { id: hosteldeleteId },
     });
   };
-console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCodeForDeleteHostelBased)
+
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteHostelBased === 200) {
       handleCloseDelete();
-      // dispatch({ type: "EBSTARTMETERLIST" });
+      
       dispatch({
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
@@ -155,16 +149,13 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     setSelectedHostel(selectedHostel);
     setEditId(user.eb_Id);
  setSelectedDate(user.date || "");
-          // const formattedJoiningDate = item.joining_date
-          //   ? new Date(item.joining_date)
-          //   : null;
-          // setJoiningDate(formattedJoiningDate);
+          
           setSelectedDate(
             user.date ? moment(user.date).toDate("") : null
           );
 
     setInitialStateAssign({
-      // hos_Name: user.hoatel_Name || "",
+      
       reading: user.reading || "",
       selectedDate: user.date || "",
     });
@@ -223,7 +214,6 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
       return false;
     }
 
-    // Clear the error if value is valid
     switch (fieldName) {
       case "reading":
         setReadingError("");
@@ -242,12 +232,12 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
   };
 
   const [initialStateAssign, setInitialStateAssign] = useState({
-    // hos_Name: "",
+   
     reading: "",
     selectedDate: "",
   });
   const handleSaveEb = () => {
-    // Validate fields
+    
     const isReadingValid = validateAssignField(reading, "reading");
     const isDateValid = validateAssignField(selectedDate, "selectedDate");
     const isHostelValid = validateAssignField(hos_Name, "Hostel ID");
@@ -278,96 +268,30 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
 
       setFormError("");
 
-      // Dispatch edit action
+    
       dispatch({
         type: "HOSTELBASEDEDITEB",
         payload: {
           hostel_id: selectedHostel,
           reading: reading,
-          date: formattedDated, // Use formatted date
+          date: formattedDated, 
           id: editId,
         },
       });
     } else {
-      // Dispatch add action
+      
       dispatch({
         type: "HOSTELBASEDADDEB",
         payload: {
           hostel_id: selectedHostel,
           reading: reading,
-          date: formattedDated, // Use formatted date
+          date: formattedDated, 
         },
       });
     }
   };
 
-  // const handleSaveEb = () => {
-  //   const isreadingValid = validateAssignField(reading, "reading");
-  //   const isDatevalid = validateAssignField(selectedDate, "selectedDate");
-  //   const isHostelValid = validateAssignField(hos_Name, "Hostel ID");
 
-  //   if (!isHostelValid || !isreadingValid || !isDatevalid) {
-  //     return;
-  //   }
-  //   const incrementDateAndFormat = (date) => {
-  //     const newDate = new Date(date);
-  //     if (isNaN(newDate.getTime())) {
-  //       // Handle invalid date
-  //       return "";
-  //     }
-  //     newDate.setDate(newDate.getDate() + 1); // Increment the date by 1
-  //     const year = newDate.getFullYear();
-  //     const month = String(newDate.getMonth() + 1).padStart(2, "0"); // Ensure 2 digits for month
-  //     const day = String(newDate.getDate()).padStart(2, "0"); // Ensure 2 digits for day
-  //     return `${year}-${month}-${day}`; // Format to YYYY-MM-DD
-  //   };
-
-  //   const formattedDate = selectedDate
-  //     ? incrementDateAndFormat(selectedDate)
-  //     : "";
-
-  //   if (editeb && editId) {
-  //     const isValidDate = (date) => {
-  //       return !isNaN(Date.parse(date));
-  //     };
-
-  //     const isChangedBed =
-  //       (isValidDate(selectedDate) && isValidDate(selectedDate)
-  //         ? new Date(selectedDate).toISOString().split("T")[0] !==
-  //           new Date(initialStateAssign.selectedDate)
-  //             .toISOString()
-  //             .split("T")[0]
-  //         : selectedDate !== selectedDate) ||
-  //       String(reading) !== String(initialStateAssign.reading);
-
-  //     if (!isChangedBed) {
-  //       setFormError("No changes detected.");
-  //       return;
-  //     } else {
-  //       setFormError("");
-  //     }
-
-  //     dispatch({
-  //       type: "HOSTELBASEDEDITEB",
-  //       payload: {
-  //         hostel_id: selectedHostel,
-  //         reading: reading,
-  //         date: formattedDate, // Use the formatted date here
-  //         id: editId,
-  //       },
-  //     });
-  //   }
-
-  //   // For adding a new entry
-  //   dispatch({
-  //     type: "HOSTELBASEDADDEB",
-  //     payload: {
-  //       hostel_id: selectedHostel,
-  //       reading: reading,
-  //       date: formattedDate, // Use the formatted date here as well
-  //     },
-  //   });
-  // };
 
   useEffect(() => {
     if (state.PgList.statusCodeForAddHostelBased === 200) {
@@ -392,7 +316,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     if (state.PgList.statusCodeForEditHostelBased === 200) {
       handleCloseHostel();
       props.setEditEb(false);
-      // dispatch({ type: "EBSTARTMETERLIST" });
+     
       dispatch({
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
@@ -418,13 +342,14 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     setDateError("");
     setEditId("")
     setDateErrorMesg("")
+     dispatch({ type: "CLEAR_SAME_DATE_ALREADY" });
+    
   };
 
 
-  //  const electricityrowsPerPage = 5;
+  
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
-  // const [electricityFilterddata, setelectricityFilterddata] = useState([]);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
@@ -434,9 +359,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
     indexOfLastRowelectricity
   );
 
-  // const handleElectricityPageChange = (InvoicepageNumber) => {
-  //   setelectricitycurrentPage(InvoicepageNumber);
-  // };
+ 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
   };
@@ -483,65 +406,7 @@ console.log("state.PgList.statusCodeForDeleteHostelBased",state.PgList.statusCod
       setSortConfig({ key, direction });
     };
 
-  // const renderPageNumberselectricity = () => {
-  //   const pageNumberselectricity = [];
-  //   let startPageelectricity = electricitycurrentPage - 1;
-  //   let endPageelectricity = electricitycurrentPage + 1;
-
-  //   if (electricitycurrentPage === 1) {
-  //     startPageelectricity = 1;
-  //     endPageelectricity = 3;
-  //   }
-
-  //   if (electricitycurrentPage === totalPagesinvoice) {
-  //     startPageelectricity = totalPagesinvoice - 2;
-  //     endPageelectricity = totalPagesinvoice;
-  //   }
-
-  //   if (electricitycurrentPage === 2) {
-  //     startPageelectricity = 1;
-  //     endPageelectricity = 3;
-  //   }
-
-  //   if (electricitycurrentPage === totalPagesinvoice - 1) {
-  //     startPageelectricity = totalPagesinvoice - 2;
-  //     endPageelectricity = totalPagesinvoice;
-  //   }
-
-  //   for (let i = startPageelectricity; i <= endPageelectricity; i++) {
-  //     if (i > 0 && i <= totalPagesinvoice) {
-  //       pageNumberselectricity.push(
-  //         <li key={i} style={{ margin: "0 5px" }}>
-  //           <button
-  //             style={{
-  //               padding: "5px 10px",
-  //               textDecoration: "none",
-  //               color: i === electricitycurrentPage ? "#007bff" : "#000000",
-  //               cursor: "pointer",
-  //               borderRadius: "5px",
-  //               display: "inline-block",
-  //               minWidth: "30px",
-  //               textAlign: "center",
-  //               backgroundColor:
-  //                 i === electricitycurrentPage ? "transparent" : "transparent",
-  //               border:
-  //                 i === electricitycurrentPage ? "1px solid #ddd" : "none",
-  //             }}
-  //             onClick={() => handleElectricityPageChange(i)}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //   }
-
-  //   return pageNumberselectricity;
-  // };
-
-  // useEffect(() => {
-  //   setelectricityFilterddata(state?.PgList?.getHostelBasedRead?.hostel_readings);
-  // }, [state?.PgList?.getHostelBasedRead?.hostel_readings]);
+  
 
  
 
@@ -561,18 +426,13 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                         <div
                           className='show-scrolls'
                           style={{
-                            // height: "400px",
-                            // height: currentItems.length >= 6 ? "380px" : "auto",
-                            // overflowY: currentItems.length >= 6 ? "auto" : "visible",
-                            // borderRadius: "24px",
-                            // border: "1px solid #DCDCDC",
-                            // borderBottom:"none"
+                           
                             height: sortedData.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
                             overflow: "auto",
                             borderTop: "1px solid #E8E8E8",
                             marginBottom: 20,
                             marginTop: "20px"
-                            //  borderBottom:"1px solid #DCDCDC"
+                            
                           }}>
           
                           <Table
@@ -632,23 +492,24 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 
 
           
-                  let formattedDate;
+                 let formattedDate;
 
-                  // Check if v.date exists and is not "00-00-00"
-                  if (v.date && v.date !== '0000-00-00') {
-                    let Dated = new Date(v.date);
-                    let day = Dated.getDate();
-                    let month = Dated.getMonth() + 1;
-                    let year = Dated.getFullYear();
-                    formattedDate = `${day}/${month}/${year}`;
-                  } else {
-                    // Use a default initial date if v.date is empty or "00-00-00"
-                    let initialDate = new Date(v.initial_date); // Set your default initial date here
-                    let day = initialDate.getDate();
-                    let month = initialDate.getMonth() + 1;
-                    let year = initialDate.getFullYear();
-                    formattedDate = `${day}/${month}/${year}`;
-                  }
+
+if (v.date && v.date !== '0000-00-00') {
+  let Dated = new Date(v.date);
+  let day = Dated.getDate().toString().padStart(2, '0');
+  let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
+  let year = Dated.getFullYear();
+  formattedDate = `${day}/${month}/${year}`;
+} else {
+  
+  let initialDate = new Date(v.initial_date); 
+  let day = initialDate.getDate().toString().padStart(2, '0');
+  let month = (initialDate.getMonth() + 1).toString().padStart(2, '0');
+  let year = initialDate.getFullYear();
+  formattedDate = `${day}/${month}/${year}`;
+}
+
 
                   return (
                     <tr key={v.eb_Id}>
@@ -702,7 +563,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       >
                         {v.reading}
                       </td>
-                      <td
+                      {/* <td
                         style={{
                           textAlign: "start",
                           verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
@@ -714,8 +575,43 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       
                         
                           {formattedDate}
-                        {/* </span> */}
-                      </td>
+                        
+                      </td> */}
+                        <td
+                  style={{
+                    paddingTop: "15px",
+                    border: "none",
+                    textAlign: "start",
+                    fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    verticalAlign: "middle",
+                    whiteSpace: "nowrap",
+                    marginBottom: "-20px",
+                    borderBottom: "1px solid #E8E8E8"
+                  }}
+                >
+                  <span
+                    style={{
+                      paddingTop: "5px",
+                      paddingLeft: "16px",
+                      paddingRight: "16px",
+                      paddingBottom: "5px",
+                      borderRadius: "60px",
+                      backgroundColor: "#EBEBEB",
+                      textAlign: "start",
+                      fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      display: "inline-block",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {formattedDate}
+                  </span>
+                </td>
                       <td
                         style={{
                           fontSize: 13, 
@@ -744,7 +640,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       fontSize: 13, 
                       fontWeight: 500,
                       fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8"
-                      // borderTopRightRadius: 24,
+                     
                     }}>
                         <div
                          style={{
@@ -757,8 +653,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                           justifyContent: "center",
                           alignItems: "center",
                           position: "relative",
-                          // zIndex: 1000,
-                          // zIndex:activeRow === v.eb_Id? 1000: "auto",
+                         
                           backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
                         }}
                           onClick={(e) => handleShowActive(v.eb_Id, e)}
@@ -775,9 +670,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                 position: "fixed",
                                 top: popupPosition.top,
                                 left: popupPosition.left,
-                                // position: "absolute",
-                                // right: 50,
-                                // top: 20,
+                              
                                 width: 120,
                                 height: "auto",
                                 border: "1px solid #EBEBEB",
@@ -1319,7 +1212,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   id="form-controls"
                   placeholder="6542310"
                   value={hos_Name}
-                  //   onChange={(e) => handleReadingChange(e)}
+                
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -1492,9 +1385,9 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
               marginTop: 10,
             }}
             onClick={handleSaveEb}
-          // disabled={!!formError}
+         
           >
-            {/* Save Changes */}
+          
             {props.editeb ? "Save Changes" : "Add Reading"}
           </Button>
         </Modal.Footer>
