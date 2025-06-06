@@ -456,15 +456,16 @@ const handleCloseSElfTransfer=()=>{
   );
 
 
-  useEffect(() => {
-    const FilterUser = Array.isArray(sortedData)
-      ? sortedData?.filter((item) =>
-        item.benificiary_name ?.toLowerCase().includes(filterInput.toLowerCase())
+useEffect(() => {
+  const FilterUser = Array.isArray(sortedData)
+    ? sortedData?.filter((item) =>
+        item.benificiary_name?.toLowerCase().includes(filterInput.toLowerCase())
       )
-      : [];
+    : [];
 
-    settransactionFilterddata(FilterUser);
-  }, [filterInput]);
+  settransactionFilterddata(FilterUser);
+}, [filterInput]);
+
   useEffect(() => {
     if (transactionFilterddata.length > 0 && originalBills?.length === 0) {
       setOriginalBills(transactionFilterddata);
