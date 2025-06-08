@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { deleteCustomer,AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument,hostelDetailsId,EditConfirmCheckOut } from "../Action/UserListAction"
+import { deleteCustomer,AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument,hostelDetailsId,EditConfirmCheckOut,handleKycVerify,handlegetCustomerDetails } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -72,10 +72,9 @@ function* handleDeleteCustomer(customer) {
          draggable: true,
          progress: undefined,
                });
-      // yield put({ type: 'DELETE_CUSTOMER_ERROR', payload: { response: response.data.message, statusCode: response.status || response.statusCode } })
    }
    else {
-      // yield put({ type: 'ERROR', payload: response.data.message })
+      yield put({ type: 'ERROR', payload: response.data.message })
    }
    if (response) {
       refreshToken(response)
@@ -105,7 +104,7 @@ function* handleHostelList(hostel) {
 
 function* handleAllHostelList(action) {
    const response = yield call(hostelList, action.payload)
-console.log("handleAllHostelList",response)
+
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'HOSTEL_LIST_All', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
    }
@@ -195,12 +194,7 @@ function* handleCreateFloor(data) {
       });
    }
    else if (response.status === 202 || response.statusCode === 202) {
-      // Swal.fire({
-      //    icon: 'warning',
-      //   title: 'Error',
-      //   html: `<span style="color: red">${response.data.message }</span> `,
-
-      // });
+   
       yield put({ type: 'ALREADY_FLOOR_ERROR', payload: response.data.message })
 
    }
@@ -235,7 +229,7 @@ function* handleAddUser(datum) {
          payload: { response: response.message, statusCode: response.statusCode || response.status },
       });
 
-      // Define the style
+     
       var toastStyle = {
          backgroundColor: "#E6F6E6",
          color: "black",
@@ -303,8 +297,7 @@ function* handleCheckOut(action) {
       Swal.fire({
          icon: 'success',
          text: 'User Check Out Successfully',
-         //   timer: 2000,
-         //   showConfirmButton: false,
+        
       });
 
    }
@@ -353,12 +346,7 @@ function* handleDeleteFloor(hosteID) {
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'DELETE_FLOOR_ERROR', payload: response.data.message })
-      //    Swal.fire({
-      //       icon: 'warning',
-      //    text: 'Please delete rooms before deleting the floor',
-      // //   timer: 2000,
-      // //   showConfirmButton: false,
-      // });
+    
    }
    if (response) {
       refreshToken(response)
@@ -404,10 +392,7 @@ function* handleDeleteRoom(roomDetails) {
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'DELETE_ROOM_ERROR', payload: response.data.message })
-      //    Swal.fire({
-      //       icon: 'warning',
-      //    text: `Please delete the bed before deleting the room`,
-      //   });
+   
    }
    if (response) {
       refreshToken(response)
@@ -715,9 +700,11 @@ function* handleAddWalkInCustomer(action) {
 
    };
 
-   if (response.statusCode === 200 || response.status === 200) {
-      yield put({ type: 'ADD_WALK_IN_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
-      toast.success(`${response.data.message}`, {
+   
+
+   if ( response.statusCode === 200 || response.status === 200 || response.data.statusCode === 200  ) {
+      yield put({ type: 'ADD_WALK_IN_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.data.statusCode || response.status } })
+      toast.success(`${response.message}`, {
          position: "bottom-center",
          autoClose: 2000,
          hideProgressBar: true,
@@ -948,10 +935,9 @@ function* handleAddConfirmCheckout(action) {
 
 }
 
-// edit
+
 function* handleEditConfirmCheckout(action) {
    const response = yield call(EditConfirmCheckOut, action.payload);
-console.log("handleEditConfirmCheckout",response)
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -985,9 +971,7 @@ console.log("handleEditConfirmCheckout",response)
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', payload: response.data.message })
    }
-   //  else {
-   //    yield put({ type: 'ERROR', payload: response.data.message })
-   // }
+ 
    if (response) {
       refreshToken(response)
    }
@@ -1427,6 +1411,105 @@ function* handlehostelDetailsId() {
       refreshToken(response)
    }
 }
+
+
+
+
+
+
+
+
+
+function* handleKYCVerifyNew(action) {
+   const response = yield call(handleKycVerify, action.payload)
+   var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+
+   };
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'KYC_VERIFY_NEW', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+
+      toast.success(`${response.data.result.message}`, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+      });
+
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+
+
+   if (response) {
+      refreshToken(response)
+   }
+
+}
+
+
+
+
+function* handleCustomerDetails(action) {
+   const response = yield call(handlegetCustomerDetails, action.payload)
+   var toastStyle = {
+      backgroundColor: "#E6F6E6",
+      color: "black",
+      width: "100%",
+      borderRadius: "60px",
+      height: "20px",
+      fontFamily: "Gilroy",
+      fontWeight: 600,
+      fontSize: 14,
+      textAlign: "start",
+      display: "flex",
+      alignItems: "center",
+      padding: "10px",
+
+   };
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'KYC_CUSTOMER_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+
+      toast.success(`${response.data.result.message}`, {
+         position: "bottom-center",
+         autoClose: 2000,
+         hideProgressBar: true,
+         closeButton: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         style: toastStyle,
+      });
+
+   }
+   else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+   }
+
+
+   if (response) {
+      refreshToken(response)
+   }
+
+}
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
@@ -1440,7 +1523,6 @@ function* UserListSaga() {
    yield takeEvery('CHECKOUTUSER', handleCheckOut)
    yield takeEvery('DELETEFLOOR', handleDeleteFloor)
    yield takeEvery('DELETEROOM', handleDeleteRoom)
-   // yield takeEvery('DELETEBED',handleDeleteBed) 
    yield takeEvery('CUSTOMERDETAILS', handlecustomerdetails)
    yield takeEvery('AMENITESHISTORY', handleamenityhistory)
    yield takeEvery('AMENITESNAMES', handleAmnitiesName)
@@ -1476,9 +1558,9 @@ function* UserListSaga() {
    yield takeEvery('UPLOADOTHERDOCUMENT', handleUploadOtherDocument)
    yield takeEvery('DELETECUSTOMER', handleDeleteCustomer)
    yield takeEvery('HOSTELIDDETAILS', handlehostelDetailsId)
-
-
-    yield takeEvery('EDITCONFIRMCHECKOUTCUSTOMER', handleEditConfirmCheckout)
+   yield takeEvery('KYCVERIFYINGNEW', handleKYCVerifyNew)
+   yield takeEvery("KYCCUSTOMERDETAILS",handleCustomerDetails) 
+   yield takeEvery('EDITCONFIRMCHECKOUTCUSTOMER', handleEditConfirmCheckout)
   
 
 

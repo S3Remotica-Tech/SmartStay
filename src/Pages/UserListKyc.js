@@ -15,35 +15,13 @@ function UserListKyc(props) {
   const [otp, setOtp] = useState(Array(6).fill(""));
   const [refId, setRefId] = useState('');
   const [aadhaarErr, setaadhaarErr] = useState('')
-  const [otpErr, setOtpErr] = useState('')
   const handleCloseyc = () => {
     props.setKycDetailForm(false);
     setAadhaarNo('')
     setOtp('')
   }
 
-  const handleValidate = () => {
-    if (aadhaarNo) {
-      if (validateAadharNumber(aadhaarNo)) {
-        dispatch({
-          type: 'KYCVALIDATE',
-          payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID }
-        });
-        setaadhaarErr('');
-      } else {
-        setaadhaarErr('Invalid Aadhaar Number');
-      }
-    } else {
-      setaadhaarErr('Please Enter Aadhar Number');
-    }
-  };
-  
-  function validateAadharNumber(aadhar) {
-    const aadharStr = aadhar.toString(); // always convert to string
-    const regex = /^[2-9]{1}[0-9]{11}$/; // Aadhaar must start with 2-9 and be 12 digits
-    return regex.test(aadharStr);
-  }
-  
+
   
   const handleAadharNumber = (e) => {
     const value = e.target.value;
@@ -58,34 +36,20 @@ function UserListKyc(props) {
     setAadhaarNo(value);
     setaadhaarErr("");
   };
-  
 
-
-
-  const handleSubmit = () => {
-    const otpString = otp.join("");
-    const otpRegex = /^\d{6}$/;
-    if (otp) {
-      if (otpRegex.test(otpString)) {
-        dispatch({ type: 'KYCVALIDATEOTPVERIFY', payload: { aadhar_number: aadhaarNo, user_id: props.kycuserDetails.ID, otp: otpString, ref_id: refId } })
-      } else {
-        setOtpErr('Enter valid OTP')
-      }
-    }
-    else {
-      setOtpErr('Enter OTP')
-    }
-
+const handleSubmit = () => {
+   
+ dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id:props.kycuserDetails.ID } })
 
   }
-  // state.UsersList.kycValidateSendOtpSuccess
+ 
+ 
+  
   useEffect(() => {
     if (state.UsersList.kycValidateSendOtpSuccess === 200) {
 
       setRefId(state.UsersList.Kyc_Ref_Id)
-      // setTimeout(() => {
-      //   dispatch({type:'CLEAR_KYC_VALIDATE_SATUS_CODE'})
-      // }, 500);
+      
     }
   }, [state.UsersList.kycValidateSendOtpSuccess])
 
@@ -118,7 +82,6 @@ function UserListKyc(props) {
 
                 <Modal.Header
                   style={{  position: "relative",
-                    // marginBottom: "10px",
                     paddingTop: "2px",paddingBottom:6 }}
                 >
                   
@@ -133,37 +96,7 @@ function UserListKyc(props) {
                   >
                     KYC Verify
                   </div>
-                  {/* <button
-                    type="button"
-                    className="close"
-                    aria-label="Close"
-                    onClick={handleCloseyc}
-                    style={{
-                      position: "absolute",
-                      right: "10px",
-                      marginTop: "-15px",
-                      border: "1px solid black",
-                      background: "transparent",
-                      cursor: "pointer",
-                      padding: "0",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "25px",
-                      height: "25px",
-                      borderRadius: "50%",
-                    }}
-                  >
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        fontSize: "30px",
-                        paddingBottom: "6px",
-                      }}
-                    >
-                      &times;
-                    </span>
-                  </button> */}
+                 
                   <CloseCircle size="24" color="#000" onClick={handleCloseyc} 
             style={{ cursor: 'pointer' }}/>
                 </Modal.Header>
@@ -179,7 +112,7 @@ function UserListKyc(props) {
                           fontFamily: "Gilroy",
                           display: "flex",
                           alignItems: "center",
-                          gap: "5px", // Add gap between icon and text
+                          gap: "5px", 
                         }}
                       >
                         Aadhar Number
@@ -206,7 +139,7 @@ function UserListKyc(props) {
                         onChange={(e) =>{handleAadharNumber(e)}}
                       />
                     </Form.Group>
-                    {/* {aadhaarErr && <p style={{ color: 'red',fontSize:12,fontFamily:"Gilroy",fontWeight:500 }}>{aadhaarErr}</p>} */}
+                   
                      {aadhaarErr && (
                                 <div className="d-flex align-items-center p-1 mt-6">
                                   <MdError style={{ color: "red", marginRight: "5px", }} />
@@ -286,8 +219,7 @@ function UserListKyc(props) {
                             />
                           ))}
                         </div>
-                        {/* otpErr */}
-                        {otpErr && <p style={{ color: 'red' }}>{otpErr}</p>}
+                     
                       </Form.Group>
 
                     </div>
@@ -306,13 +238,12 @@ function UserListKyc(props) {
                     fontSize: 14,
                     fontFamily: "Montserrat",
                   }}
-                  // onClick={handleSubmit}
-                  onClick={refId ? handleSubmit : handleValidate}
+                  onClick={handleSubmit}
                 >
-                  {refId ? 'Submit' : 'Validate'}
+                  submit
                 </Button>
               </div>
-              {/* )} */}
+             
             </div>
           </Modal.Body>
 

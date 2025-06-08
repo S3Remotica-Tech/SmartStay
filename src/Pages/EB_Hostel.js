@@ -80,14 +80,7 @@ const { RangePicker } = DatePicker;
     setSelectedHostel(state.login.selectedHostel_Id);
   }, [state.login.selectedHostel_Id]);
 
-  // useEffect(() => {
-  //   if (selectedHostel) {
-  //     dispatch({
-  //       type: "ALL_HOSTEL_DETAILS",
-  //       payload: { hostel_id: selectedHostel },
-  //     });
-  //   }
-  // }, [selectedHostel]);
+ 
 
   const [editeb, setEditEb] = useState(false);
 
@@ -199,19 +192,17 @@ const { RangePicker } = DatePicker;
   };
 
   const calendarRef = useRef(null);
-  // useEffect(() => {
-  //   dispatch({ type: "EBLIST" });
-  // }, []);
+ 
   const [electricityFilterd, setelectricityFilterd] = useState([]);
   const [electricityHostel, setelectricityHostel] = useState([]);
   useEffect(() => {
-    //  if(state.login.selectedHostel_Id){
+    
     setCustomerLoader(true);
     dispatch({
       type: "CUSTOMEREBLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
-    //  }
+    
   }, []);
   useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
@@ -269,9 +260,7 @@ const { RangePicker } = DatePicker;
     }
   }, [selectedDate]);
 
-  // useEffect(() => {
-  //   setSelectedHostel(state.login.selectedHostel_Id);
-  // }, [state.login.selectedHostel_Id]);
+ 
 
   const handleFloor = (selectedOption) => {
     setFloor(selectedOption?.value || "");
@@ -312,9 +301,7 @@ const { RangePicker } = DatePicker;
       });
     }
   }, [selectedHostel]);
-  // useEffect(() => {
-  //   dispatch({ type: "TRANSACTIONHISTORY" });
-  // }, []);
+
 
   const handleAddEbDetails = () => {
     if (!state.login.selectedHostel_Id) {
@@ -343,18 +330,7 @@ const { RangePicker } = DatePicker;
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
-  // useEffect(() => {
-  //   const FilterEbAmount = state.Settings.EBBillingUnitlist?.filter(
-  //     (item) => item.hostel_id == selectedHostel
-  //   );
-  //   setUnitAmount(FilterEbAmount);
-  //   if (Array.isArray(FilterEbAmount) && FilterEbAmount.length > 0) {
-  //     setUnitAmount(FilterEbAmount[0]?.amount);
-  //   } else {
-  //     console.log("unitAmount is not a valid array or is empty.");
-  //   }
-  // }, [state.Settings.EBBillingUnitlist, selectedHostel]);
-
+ 
   useEffect(() => {
     const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
       (item) => item.hostel_id === selectedHostel
@@ -488,7 +464,7 @@ const { RangePicker } = DatePicker;
       setfloorError("");
     }
 
-    // Validate Room field
+   
     if (Rooms === "Select a Room" || !isRoomValid) {
       setRoomError("Please Select Valid Room");
       return;
@@ -531,16 +507,13 @@ const { RangePicker } = DatePicker;
     }
   }, [state.PgList?.AddEBstatusCode]);
 
-  // const electricityrowsPerPage = 5;
+ 
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  // const currentRoomelectricity = electricityFilterddata?.slice(
-  //   indexOfFirstRowelectricity,
-  //   indexOfLastRowelectricity
-  // );
+ 
   const currentRoomelectricity =
     filterInput.length > 0
       ? electricityFilterddata
@@ -596,61 +569,6 @@ const { RangePicker } = DatePicker;
 
    
 
-  // const renderPageNumberselectricity = () => {
-  //   const pageNumberselectricity = [];
-  //   let startPageelectricity = electricitycurrentPage - 1;
-  //   let endPageelectricity = electricitycurrentPage + 1;
-
-  //   if (electricitycurrentPage === 1) {
-  //     startPageelectricity = 1;
-  //     endPageelectricity = 3;
-  //   }
-
-  //   if (electricitycurrentPage === totalPagesinvoice) {
-  //     startPageelectricity = totalPagesinvoice - 2;
-  //     endPageelectricity = totalPagesinvoice;
-  //   }
-
-  //   if (electricitycurrentPage === 2) {
-  //     startPageelectricity = 1;
-  //     endPageelectricity = 3;
-  //   }
-
-  //   if (electricitycurrentPage === totalPagesinvoice - 1) {
-  //     startPageelectricity = totalPagesinvoice - 2;
-  //     endPageelectricity = totalPagesinvoice;
-  //   }
-
-  //   for (let i = startPageelectricity; i <= endPageelectricity; i++) {
-  //     if (i > 0 && i <= totalPagesinvoice) {
-  //       pageNumberselectricity.push(
-  //         <li key={i} style={{ margin: "0 5px" }}>
-  //           <button
-  //             style={{
-  //               padding: "5px 10px",
-  //               textDecoration: "none",
-  //               color: i === electricitycurrentPage ? "#007bff" : "#000000",
-  //               cursor: "pointer",
-  //               borderRadius: "5px",
-  //               display: "inline-block",
-  //               minWidth: "30px",
-  //               textAlign: "center",
-  //               backgroundColor:
-  //                 i === electricitycurrentPage ? "transparent" : "transparent",
-  //               border:
-  //                 i === electricitycurrentPage ? "1px solid #ddd" : "none",
-  //             }}
-  //             onClick={() => handleElectricityPageChange(i)}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //   }
-
-  //   return pageNumberselectricity;
-  // };
 
   
   const handleDateChange = (date) => {
@@ -692,11 +610,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
 
   const [originalElec, setOriginalElec] = useState("");
 
-  // const handleUserSelect = (user) => {
-  //   setFilterInput(user.Name);
-  //   setelectricityFilterddata([user]);
-  //   setDropdownVisible(false);
-  // };
+
   const handleUserSelect = (user) => {
     setFilterInput(user.Name);
     setelectricityFilterddata([user]);
@@ -704,34 +618,21 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
     setDropdownVisible(false);
   };
 
-  // const handlefilterInput = (e) => {
-  //   const inputValue = e.target.value;
-  //   setFilterInput(inputValue);
-  //   setDropdownVisible(inputValue.length > 0);
-
-  //   if (inputValue.length === 0) {
-  //     setelectricityFilterddata(originalElec);
-  //   } else {
-  //     const filteredData = originalElec?.filter((item) =>
-  //       item.Name.toLowerCase().includes(inputValue.toLowerCase())
-  //     );
-  //     setelectricityFilterddata(filteredData);
-  //   }
-  // };
+ 
   const handlefilterInput = (e) => {
     const searchText = e.target.value;
     setFilterInput(searchText);
     setDropdownVisible(searchText.length > 0);
 
     if (searchText.length > 0) {
-      // Filter the latest list
+     
       setelectricityFilterddata(
         originalElec.filter((item) =>
           item.Name.toLowerCase().includes(searchText.toLowerCase())
         )
       );
     } else {
-      // Reset to the full list when input is cleared
+      
       setelectricityFilterddata(originalElec);
     }
   };
@@ -746,8 +647,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
     setSearch(false);
     setFilterInput("");
     setelectricityFilterddata(originalElec);
-    // setRoomBasedDetail(originalElecRoom);
-    // setReceiptData(originalReceipt);
+   
   };
 
   return (
@@ -1055,17 +955,17 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    // height: "100vh",
+                   
                   }}
                 >
-                  {/* Image */}
+                 
                   <img
                     src={Emptystate}
                     alt="Empty State"
                     style={{ maxWidth: "100%", height: "auto" }}
                   />
 
-                  {/* Permission Error */}
+                  
                   {ebpermissionError && (
                     <div
                       style={{
@@ -1104,12 +1004,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                    <div
                                      className='show-scrolls electricity-table'
                                      style={{
-                                       // height: "400px",
-                                       // height: currentItems.length >= 6 ? "380px" : "auto",
-                                       // overflowY: currentItems.length >= 6 ? "auto" : "visible",
-                                       // borderRadius: "24px",
-                                       // border: "1px solid #DCDCDC",
-                                       // borderBottom:"none"
+                                      
 
                                        height: sortedData.length >= 5 || sortedData.length >= 5 ? "350px" : "auto",
 
@@ -1117,7 +1012,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                        borderTop: "1px solid #E8E8E8",
                                        marginBottom: 20,
                                        marginTop: "20px"
-                                       //  borderBottom:"1px solid #DCDCDC"
+                                      
                                      }}>
                      
                                      <Table
@@ -1201,6 +1096,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             const formattedDate = v.reading_date
               ? v.reading_date.split("-").reverse().join("-")
               : "";
+           
+
 
             return (
               <tr key={v.id}>
@@ -1452,7 +1349,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 
                 {electricityFilterddata?.length >= 5 && (
                   <nav
-                  // className="pagination-container"
+                  
                     style={{
                       display: "flex",
                       alignItems: "center",

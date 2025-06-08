@@ -81,81 +81,22 @@ function BankingAddForm(props) {
     setUpiId(e.target.value)
   }
 
-//   useEffect(() => {
-//     if (props.editAddBank && props.editAddBank.id) {
-// console.log("props.editAddBank",props.editAddBank.type === "cash")
-// setAccountName(props.editAddBank.benificiary_name)
-//       props.setEdit(true)
-//       setAccountName(props.editAddBank.acc_name)
-//       setAccountNo(props.editAddBank.acc_num)
-//       setBankName(props.editAddBank.bank_name)
-//       setIfscCode(props.editAddBank.ifsc_code)
-//       setDescription(props.editAddBank.description)
-//       setBankId(props.editAddBank.id)
 
-
-//       setInitialStateAssign({
-//         accountName: props.editAddBank.acc_name || "",
-//         accountNo: props.editAddBank.acc_num || "",
-//         bankName: props.editAddBank.bank_name || "",
-//         ifscCode: props.editAddBank.ifsc_code || "",
-//         description: props.editAddBank.description || ""
-
-//       });
-
-//     }
-//     else {
-//       props.setEdit(false);
-//     }
-//   }, [])
-
-// useEffect(() => {
-//   if (props.editAddBank && props.editAddBank.id) {
-//     console.log("props.editAddBank",props.editAddBank)
-//     props.setEdit(true);
-
-//     if (props.editAddBank.type === "cash") {
-//       setAccountName(props.editAddBank.benificiary_name);
-//     } else {
-//       setAccountName(props.editAddBank.acc_name);
-//     }
-
-//     setAccountNo(props.editAddBank.acc_num);
-//     setBankName(props.editAddBank.bank_name);
-//     setIfscCode(props.editAddBank.ifsc_code);
-//     setDescription(props.editAddBank.description);
-//     setBankId(props.editAddBank.id);
-//     setUpiId(props.editAddBank.upi_id)
-
-//     setInitialStateAssign({
-//       accountName: props.editAddBank.type === "cash"
-//         ? props.editAddBank.benificiary_name || ""
-//         : props.editAddBank.acc_name || "",
-//       accountNo: props.editAddBank.acc_num || "",
-//       bankName: props.editAddBank.bank_name || "",
-//       ifscCode: props.editAddBank.ifsc_code || "",
-//       description: props.editAddBank.description || "",
-//     });
-//   } else {
-//     props.setEdit(false);
-//   }
-// }, [props.editAddBank]);
 useEffect(() => {
   if (props.editAddBank && props.editAddBank.id) {
-    console.log("props.editAddBank",props.editAddBank)
     props.setEdit(true);
 
-    // Set the active tab to the current type ('bank', 'upi', 'card', 'cash')
+ 
     if (props.editAddBank.type) {
       setActiveTab(props.editAddBank.type);
       
     }
 
-    // Set account name based on type
-    if (props.editAddBank.type === "cash" || props.editAddBank.type === "upi") {
+    
+    if (props.editAddBank.type === "cash" || props.editAddBank.type === "upi" || props.editAddBank.type === "bank") {
       setAccountName(props.editAddBank.benificiary_name);
     } else if (props.editAddBank.type === "card") {
-      setAccountName(props.editAddBank.card_holder);
+      setAccountName(props.editAddBank.benificiary_name);
     } else {
       setAccountName(props.editAddBank.acc_name);
     }
@@ -170,17 +111,9 @@ useEffect(() => {
     setCardNo(props.editAddBank.card_no)
     setUpiId(props.editAddBank.upi_id)
 
-    // setInitialStateAssign({
-    //   accountName: props.editAddBank.type === "cash"
-    //     ? props.editAddBank.benificiary_name || ""
-    //     : props.editAddBank.acc_name || "",
-    //   accountNo: props.editAddBank.acc_num || "",
-    //   bankName: props.editAddBank.bank_name || "",
-    //   ifscCode: props.editAddBank.ifsc_code || "",
-    //   description: props.editAddBank.description || "",
-    //   upiId:props.editAddBank.upi_id
-    // });
+   
     setInitialStateAssign({
+      
       accountName:
         props.editAddBank.type === "cash" || props.editAddBank.type === "upi"
           ? props.editAddBank.benificiary_name || ""
@@ -228,35 +161,13 @@ useEffect(() => {
   });
 
 
-  // const validateField = (value, fieldName) => {
-  //   if (!value || (typeof value === "string" && value.trim() === "")) {
-  //     switch (fieldName) {
-  //       case "accountName":
-  //         setaccountnameError("Account Name is Required");
-  //         break;
-  //       // case "accountNo":
-  //       //   setaccountNumberError("Account No is Required");
-  //       //   break;
-  //       // case "bankName":
-  //       //   setBankNameError("Bank Name is Required");
-  //       //   break;
-  //       // case "ifscCode":
-  //       //   setIfcsCodeError("IFSC Code is Required");
-  //       //   break;
-        
-  //       default:
-  //         break;
-  //     }
-  //     return false;
-  //   }
-  //   return true;
-  // };
+
   const handleSubmitBank = () => {
 
     if (props.edit) {
       const isChanged =
         accountName !== initialStateAssign.accountName ||
-        // accountNo !== initialStateAssign.accountNo ||
+       
         Number(accountNo) !== Number(initialStateAssign.accountNo) ||
         bankName !== initialStateAssign.bankName ||
         ifscCode !== initialStateAssign.ifscCode ||
@@ -335,12 +246,9 @@ const handleCardNo=(e)=>{
 }
 
 const [cardType,setCardType] = useState("")
-// const handleCardType = (e)=>{
-//   setCardType(e.target.value)
-// }
+
 const handleCardType = (e) => {
   const selected = e.target.value;
-  console.log("Selected Card Type:", selected);
   setCardType(selected);
   setError("")
 };
@@ -444,7 +352,7 @@ const handleSubmitCash = ()=>{
         onHide={() => handleClose()}
         backdrop="static"
         centered
-        // className="BankingCustom-modal"
+       
 
       >
 
@@ -458,46 +366,14 @@ const handleSubmitCash = ()=>{
           >
             {props.edit ? "Edit Bank" : "Add Bank"}
           </div>
-          {/* <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleClose}
-            style={{
-              position: "absolute",
-              right: "15px",
-              marginTop: -5,
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "25px",
-              height: "25px",
-              borderRadius: "50%",
-            }}
-          >
-          <span
-                    aria-hidden="true"
-                    style={{
-                      fontSize: "30px",
-                      paddingBottom: "5px",
-                    }}
-                  >
-                    &times;
-                  </span>
-          </button> */}
+         
           <CloseCircle size="24" color="#000" onClick={handleClose} 
             style={{ cursor: 'pointer' }}/>
         </Modal.Header>
         <Nav
   variant="tabs"
   activeKey={activeTab}
-  // onSelect={(selectedKey) => setActiveTab(selectedKey)
-  //   setError("")
-  // }
+
   onSelect={(selectedKey) => {
     setActiveTab(selectedKey);
     setError("");
