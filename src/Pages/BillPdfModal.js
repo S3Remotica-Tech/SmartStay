@@ -63,9 +63,11 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const [invoice_details, setInvoiceDetails] = useState({})
   const [tabledetails, setTableDetails] = useState([])
   const [isVisible, setIsVisible] = useState(true);
+  const [idforwhats, setIdForWhats] = useState("");
   const cardRef = useRef(null);
 
   useEffect(() => {
+    setIdForWhats(rowData?.id);
     setIsVisible(true)
   }, [rowData])
 
@@ -184,6 +186,29 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     setIsOpen(!isOpen);
   };
 
+  const handleMenuClick = async (key) => {
+    console.log("Hai from whats")
+    setIsOpen(false);
+
+    if (key === "whatsapp") {
+      try {
+        dispatch({
+          type: "SET_TRIGGER_SOURCE",
+          payload: "whatsapp",
+        });
+
+        dispatch({
+          type: "RECEIPTPDF",
+          payload: {
+            id: idforwhats,
+          },
+        });
+
+      } catch (error) {
+        console.error("Error sending WhatsApp with PDF:", error);
+      }
+    }
+  };
 
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
@@ -290,6 +315,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         }}
                         onMouseEnter={() => setHoveredItem(item.key)}
                         onMouseLeave={() => setHoveredItem(null)}
+                        onClick={() => handleMenuClick(item.key)}
                       >
                         <img
                           src={hoveredItem === item.key ? item.iconWhite : item.icon}
