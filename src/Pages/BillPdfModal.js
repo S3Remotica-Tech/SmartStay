@@ -187,7 +187,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   };
 
   const handleMenuClick = async (key) => {
-    console.log("Hai from whats")
     setIsOpen(false);
 
     if (key === "whatsapp") {

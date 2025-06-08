@@ -29,12 +29,10 @@ import paidfull from '../Assets/Images/New_images/paidfull.png'
 import { useDispatch, useSelector } from "react-redux";
 import Logo from '../Assets/Images/get.png'
 import receiptLogo from '../Assets/Images/New_images/receiptlogo.png'
-import axios from "axios";
 
 
 
 const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
-  console.log("props>>>>>>>>>>>>", props)
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(true);
@@ -49,8 +47,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
     }
 
   }, [state.InvoiceList.statusCodeNewReceiptStatusCode])
-
-  console.log("receiptDataNew...........//", JSON.stringify(receiptDataNew))
 
   const cardRef = useRef(null);
 
@@ -82,7 +78,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
 
   const handleShareClick = () => {
     setIsOpen(!isOpen);
-    console.log("receiptDataNew>>>>", receiptDataNew)
   };
 
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -240,7 +235,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
   // if (!isVisible) return null;
 
   const handleMenuClick = async (key) => {
-    console.log("Hai from whats")
     setIsOpen(false);
 
     if (key === "whatsapp") {

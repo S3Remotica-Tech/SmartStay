@@ -12,6 +12,7 @@ import User from "../Assets/Images/New_images/profile-picture.png";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import LoaderComponent from "./LoaderComponent";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
@@ -222,7 +223,6 @@ const InvoicePage = (props) => {
   }, [state.InvoiceList.NodataRecurringStatusCode]);
 
 
-  console.log("container", receiptdata)
 
   useEffect(() => {
     if (state.InvoiceList.NodataReceiptStatusCode === 201) {
@@ -365,10 +365,8 @@ const InvoicePage = (props) => {
       setShowLoader(true);
     }
   };
-  console.log("bills", bills)
 
   const handleReceiptDetail = (item) => {
-    console.log("item>>>>>>>", item);
 
     if (item.user_id) {
 
@@ -938,7 +936,6 @@ const InvoicePage = (props) => {
     }
   };
 
-  console.log("props", invoiceList.balanceDue);
   const handleCloseForm = () => {
     // setEdit(!edit)
     setPaymodeErrmsg("")
@@ -1706,7 +1703,6 @@ const InvoicePage = (props) => {
 
     return sorted;
   }, [currentReceiptData, sortConfigReceipt]);
-  console.log("sortedDataReceipt", receiptdata)
   const handleSortReceipt = (key, direction) => {
     setSortConfigReceipt({ key, direction });
   };
@@ -1829,7 +1825,6 @@ const InvoicePage = (props) => {
     setDownloadReceipt(isVisible);
     setShowPdfReceiptModal(true);
     setRowData(rowData);
-    console.log("rowData>>>>", rowData)
     dispatch({ type: "RECEIPTPDF_NEWCHANGES", id: rowData?.id })
   };
   useEffect(() => {
@@ -1847,7 +1842,6 @@ const InvoicePage = (props) => {
   const handleClosePdfReceipt = () => {
     setDownloadReceipt(false);
   };
-  console.log("DownloadReceipt????", receiptdata)
   const handleClosePdfModal = () => {
     setDownloadInvoice(false);
   };
@@ -2049,7 +2043,6 @@ const InvoicePage = (props) => {
 
 
   useEffect(() => {
-    console.log("bye", JSON.stringify(state.InvoiceList))
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state.InvoiceList.invoicePDF;
 
@@ -2067,54 +2060,6 @@ const InvoicePage = (props) => {
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
 
-  // useEffect(() => {
-  //   const sendWhatsAppMessage = async () => {
-  //     if (state.InvoiceList?.statusCodeForReceiptPDf === 200) {
-  //       const pdfUrl = state.InvoiceList.ReceiptPDF;
-  //       const filename = state.InvoiceList.ReceiptPDF?.split('/').pop();
-  //       const triggeredBy = state.InvoiceList.triggeredBy;
-
-  //       console.log("state.InvoiceList.BillsPdfDetails.user_details.name",JSON.stringify(state.InvoiceList.BillsPdfDetails))
-  //       if (pdfUrl) {
-  //         setShowLoader(false);
-  //         if (triggeredBy == "whatsapp") {
-  //           const userName = state.InvoiceList.newReceiptchanges.receipt?.user_details.name;
-  //           const userName1 = state.InvoiceList.BillsPdfDetails.user_details.name
-  //           const userPhone1 = state.InvoiceList.BillsPdfDetails.user_details.phone
-  //           let userPhone = state.InvoiceList.newReceiptchanges.receipt?.user_details.phone?.toString();
-
-  //           if (!userPhone?.startsWith("+91")) {
-  //             if (userPhone?.startsWith("91")) {
-  //               userPhone = "+" + userPhone;
-  //             } else {
-  //               userPhone = "+91" + userPhone;
-  //             }
-  //           }
-  //           try {
-  //             await axios.post('/send-whatsapp', {
-  //               to: userPhone,
-  //               templateName: 'invoice_notification',
-  //               parameters: [userName, filename]
-  //             });
-  //           } catch (error) {
-  //             console.error("Failed to send WhatsApp message:", error);
-  //           }
-  //         } else {
-  //           const pdfWindow = window.open("", "_blank");
-  //           if (pdfWindow) {
-  //             pdfWindow.location.href = pdfUrl;
-  //           }
-  //         }
-
-  //         dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-  //         dispatch({ type: "CLEAR_TRIGGER_SOURCE" });
-  //       }
-  //     }
-  //   };
-
-  //   sendWhatsAppMessage();
-  // }, [state.InvoiceList?.statusCodeForReceiptPDf, state.triggeredBy]);
-
 
   useEffect(() => {
     const sendWhatsAppMessage = async () => {
@@ -2123,16 +2068,15 @@ const InvoicePage = (props) => {
         const filename = pdfUrl?.split('/').pop();
         const triggeredBy = state.InvoiceList.triggeredBy;
 
-        console.log("state.InvoiceList", state.InvoiceList)
         if (pdfUrl) {
           setShowLoader(false);
 
           if (triggeredBy === "whatsapp") {
+            setLoading(true);
             const receiptData =
               state.InvoiceList.newReceiptchanges?.receipt ??
               state.InvoiceList.BillsPdfDetails;
 
-            console.log("receiptData", receiptData)
             const userName = receiptData?.user_details?.name || '';
             let userPhone = receiptData?.user_details?.phone?.toString() || '';
 
@@ -2150,14 +2094,25 @@ const InvoicePage = (props) => {
                 templateName: "invoice_notification",
                 parameters: [userName, filename],
               });
-              if (response.status === 200) {
-                toast.success(response.data.message);
-              }
-              else {
-                toast.error(response.data.message);
+
+              if (response.data.statusCode === 200) {
+                Swal.fire({
+                  icon: 'success',
+                  text: response.data.message,
+                });
+              } else {
+                Swal.fire({
+                  icon: 'warning',
+                  text: "Unexpected response from server.",
+                });
               }
             } catch (error) {
-              console.error("Failed to send WhatsApp message:", error);
+              Swal.fire({
+                icon: 'error',
+                text: error.response?.data?.error || "WhatsApp sending failed",
+              });
+            } finally {
+              setLoading(false);
             }
           } else {
             const pdfWindow = window.open("", "_blank");
@@ -2914,7 +2869,6 @@ const InvoicePage = (props) => {
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      console.log(`Clicked on: ${user.user_name}`);
                                       handleUserRecuire(user);
                                     }}
                                   >
@@ -2981,7 +2935,6 @@ const InvoicePage = (props) => {
                                       onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
-                                        console.log(`Clicked on: ${user.Name}`); // Debug line
                                         handleUserReceipt(user);
                                       }}
                                     >
