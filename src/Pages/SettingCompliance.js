@@ -35,6 +35,7 @@ function SettingCompliance({ hostelid }) {
   const [compliancerowsPerPage, setCompliancerowsPerPage] = useState(10);
   const [complianceFilterddata, setComplianceFilterddata] = useState([]);
   const [compliancecurrentPage, setCompliancecurrentPage] = useState(1);
+  const [planExpiredCompliance, setPlanExpiredCompliance] = useState("");
 
   const handleDeleteClick = () => {
     setShowPopup(true);
@@ -51,6 +52,12 @@ function SettingCompliance({ hostelid }) {
       setShowPopup(false);
     }, 200);
   };
+
+  useEffect(() => {
+    if (state.Settings.planExpired) {
+      setPlanExpiredCompliance(state.Settings.planExpired);
+    }
+  }, [state.Settings.planExpired]);
 
   const handleCancel = () => {
     setShowPopup(false);
@@ -105,6 +112,10 @@ function SettingCompliance({ hostelid }) {
     setIsChangedError("");
     setShowEditForm(false);
     setComplaintError("");
+    setPlanExpiredCompliance("");
+    dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR"});
+    dispatch({type:"CLEAR_PLAN-EXPIRED"})
+    
   };
 
   const [showPopupvalidation, setShowPopupValidation] = useState(false);
@@ -793,6 +804,27 @@ function SettingCompliance({ hostelid }) {
             </div>
           </div>
         </Modal.Body>
+        {planExpiredCompliance && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 10,
+            }}
+          >
+            <MdError style={{ marginRight: "7px", color: "red" }} />
+            <span
+              style={{
+                color: "red",
+                fontSize: 13,
+                fontFamily: "Gilroy",
+              }}
+            >
+              {planExpiredCompliance}
+            </span>
+          </div>
+        )}
 
         <Modal.Footer
           className="d-flex justify-content-center"
