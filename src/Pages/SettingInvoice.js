@@ -119,11 +119,11 @@ function SettingInvoice() {
 
 
    const PdfOptions = [
-    { value: "paymentinvoice", label: "paymentinvoice" },
-    { value: "despositinvoice", label: "despositinvoice" },
-    { value: "payementreceipt", label: "payementreceipt" },
-    { value: "depositreceipt", label: "depositreceipt" },
-    { value: "finalreceipt", label: "finalreceipt" },
+    { value: "paymentinvoice", label: "Payment Invoice" },
+    { value: "despositinvoice", label: "Security Deposit Invoice" },
+    { value: "payementreceipt", label: "Payment Receipt" },
+    { value: "depositreceipt", label: "Security Deposit Receipt" },
+    { value: "finalreceipt", label: "Final Settlement Receipt" },
   ];
 
   const handleselectPdf = (selected) => {
@@ -1928,6 +1928,7 @@ const handleTermsChange = (e) => {
                                 style={{ padding: '10px', marginTop: '10px', fontSize: 16,   color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 400 }}
                                 type="text"
                                 placeholder="preview"
+                                value={`${prefix}-${suffix}`}
                                 readOnly
                            
                             />
@@ -2105,8 +2106,9 @@ const handleTermsChange = (e) => {
       >Add a respected Persons Signature</small>
 
       <div
-        className="border border-dashed rounded mt-2 d-flex justify-content-center align-items-center"
-        style={{ height: '120px', borderStyle: 'dashed' }}
+        className="rounded mt-2 d-flex justify-content-center align-items-center"
+        style={{ height: '120px', borderStyle: 'dotted' , borderWidth: '3px', 
+    borderColor: '#ced4da'}}
       >
         {signaturePreview ? (
           <img src={signaturePreview} alt="signature" style={{ maxHeight: '100%', maxWidth: '100%' }} />

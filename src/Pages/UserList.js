@@ -2807,7 +2807,8 @@ function UserList(props) {
                                               color: "#1E45E1",
                                               cursor: "pointer",
                                               marginTop: 10,
-                                              paddingLeft:10
+                                              paddingLeft:10,
+                                              whiteSpace: "nowrap",
                                             }}
                                             onClick={() =>
                                               handleRoomDetailsPage(user)

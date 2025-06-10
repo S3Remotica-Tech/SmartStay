@@ -678,7 +678,7 @@ setConformEdit(true)
                                     textAlign: "start",
                                     verticalAlign: "middle"
                                   }}
-                                  className="ms-2 customer-name"
+                                  className=" customer-name ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                                 >
                                   {checkout.Name}
                                 </span>
@@ -695,6 +695,7 @@ setConformEdit(true)
                                 textAlign: "start",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               +
                               {checkout &&
@@ -716,6 +717,7 @@ setConformEdit(true)
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -748,6 +750,7 @@ setConformEdit(true)
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -779,6 +782,7 @@ setConformEdit(true)
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -810,6 +814,7 @@ setConformEdit(true)
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -868,7 +873,9 @@ setConformEdit(true)
                               fontFamily: "Gilroy",
                               verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
                               whiteSpace: "nowrap", color: checkout.BalanceDue === 0 ? "green" : "red"
-                            }}>
+                            }}
+                                className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                            >
                               {checkout.isActive === 0 ? <span style={{ backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Completed</span> : <span
                                 style={{ cursor: 'pointer', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Pending</span>}</td>
 

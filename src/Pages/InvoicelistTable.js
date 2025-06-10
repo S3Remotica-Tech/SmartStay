@@ -98,7 +98,7 @@ const InvoiceTable = (props) => {
       <tr key={props.item.id} style={{ color: "#000", fontFamily: "Gilroy", fontSize: "14px", fontStyle: "normal", lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
 
-      <td className="table-cells" style={{ border: "none", flexWrap: "wrap",whiteSpace:"nowrap",borderBottom: "1px solid #E8E8E8" }}>
+      <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap",whiteSpace:"nowrap",borderBottom: "1px solid #E8E8E8" }} >
           <div className="d-flex  align-items-center">
        
           <div className="Invoice_Name" style={{
@@ -110,11 +110,11 @@ const InvoiceTable = (props) => {
 
           </div>
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className=''>{props.item.Invoices === null || props.item.Invoices === '' ? '0.00' : props.item.Invoices}</td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize",borderBottom: "1px solid #E8E8E8" }} className=''>{props.item.action === 'auto' ? "Recurring" : props.item.action}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'>{props.item.Invoices === null || props.item.Invoices === '' ? '0.00' : props.item.Invoices}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'>{props.item.action === 'auto' ? "Recurring" : props.item.action}</td>
 
-        <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
-        <td style={{ border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDueDate}</span></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDueDate}</span></td>
         <td
           style={{
             border: "none",
@@ -125,6 +125,7 @@ const InvoiceTable = (props) => {
             color: "#000000",
             fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8"
           }}
+          className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'
         >
           ₹{Number(props.item?.Amount || 0).toLocaleString('en-IN')}
         </td>
@@ -141,6 +142,7 @@ const InvoiceTable = (props) => {
             color: "#000000",
             fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8"
           }}
+          className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'
         >
           ₹{Number(props.item?.BalanceDue || 0).toLocaleString('en-IN')}
         </td>
@@ -154,6 +156,7 @@ const InvoiceTable = (props) => {
     fontFamily: "Gilroy",
     color: props.item.status === "Paid" ? "green" : "red", borderBottom: "1px solid #E8E8E8"
   }}
+  className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'
 >
   {props.item.status === "Unpaid" ? (
     <span

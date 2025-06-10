@@ -501,7 +501,7 @@ useEffect(() => {
  {sortedData && sortedData.length > 0 && (
 
 <div
-className="p-0 booking-table-userlist  booking-table"
+className="p-0 booking-table-userlist  booking-table ps-2 ms-2"
 style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
 
@@ -513,7 +513,6 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   height: currentRowelectricity.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
 
                   overflow: "auto",
-                  borderTop: "1px solid #E8E8E8",
                   marginBottom: 20,
                   marginTop: "20px"
                   
@@ -599,7 +598,7 @@ return (
 
 
     <td
-                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
                                           style={{
                                             paddingTop: 15,
                                             border: "none",
@@ -726,7 +725,7 @@ return (
         
       }}
     >
-      {v.total_amount}
+      ₹{v.total_amount}
     </td>
     <td  style={{
        fontSize: 13, 

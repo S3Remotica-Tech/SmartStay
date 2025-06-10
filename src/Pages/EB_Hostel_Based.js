@@ -419,7 +419,7 @@ const [hostelEbList,setHostelEbList] = useState("")
            {sortedData && sortedData.length > 0 && (
           
           <div
-className="p-0 booking-table-userlist  booking-table"
+className="p-0 booking-table-userlist  booking-table ms-2"
 style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
           
@@ -522,6 +522,7 @@ if (v.date && v.date !== '0000-00-00') {
                           verticalAlign: "middle",
                           paddingLeft:"25px",borderBottom: "1px solid #E8E8E8"
                         }}
+                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                       >
                         <div
                          
@@ -560,6 +561,7 @@ if (v.date && v.date !== '0000-00-00') {
                           verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                           
                         }}
+                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                       >
                         {v.reading}
                       </td>
@@ -590,6 +592,7 @@ if (v.date && v.date !== '0000-00-00') {
                     marginBottom: "-20px",
                     borderBottom: "1px solid #E8E8E8"
                   }}
+                   className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                 >
                   <span
                     style={{
@@ -620,6 +623,7 @@ if (v.date && v.date !== '0000-00-00') {
                           textAlign: "start",
                           verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                         }}
+                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                       >
                         {v.total_reading}
                       </td>
@@ -631,8 +635,9 @@ if (v.date && v.date !== '0000-00-00') {
                           textAlign: "start",
                           verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                         }}
+                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                       >
-                        {v.total_amount}
+                        ₹{v.total_amount}
                       </td>
                       <td  style={{
                       textAlign: "start",
@@ -640,8 +645,9 @@ if (v.date && v.date !== '0000-00-00') {
                       fontSize: 13, 
                       fontWeight: 500,
                       fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8"
-                     
-                    }}>
+                    }} 
+                    
+                    >
                         <div
                          style={{
                           cursor: "pointer",

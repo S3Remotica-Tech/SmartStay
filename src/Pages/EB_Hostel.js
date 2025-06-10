@@ -998,7 +998,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
                      
                      
                      <div
-className="p-0 booking-table-userlist  booking-table"
+className="p-0 booking-table-userlist  booking-table ms-2"
 style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
                                    <div
@@ -1009,7 +1009,6 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                        height: sortedData.length >= 5 || sortedData.length >= 5 ? "350px" : "auto",
 
                                        overflow: "auto",
-                                       borderTop: "1px solid #E8E8E8",
                                        marginBottom: 20,
                                        marginTop: "20px"
                                       
@@ -1111,6 +1110,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                         border: "none",
                         borderBottom: "1px solid #E8E8E8"
                       }}
+                      className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
                       {v.Name}
                     </td>
@@ -1126,6 +1126,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     fontFamily: "Gilroy",
                     marginTop: 10,borderBottom: "1px solid #E8E8E8"
                   }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                 >
                   <span
                     style={{
@@ -1142,6 +1143,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       verticalAlign: "middle",
                       whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                     }}
+                    
                   >
                     {v.HostelName}
                   </span>
@@ -1157,18 +1159,21 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                         verticalAlign: "middle",
                         borderBottom: "1px solid #E8E8E8"
                       }}
+                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
                       {v.floor_name}
                     </td>
                     <td
                       style={{
                         fontSize: 13, 
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
                         textAlign: "start",
                         verticalAlign: "middle",
-                        borderBottom: "1px solid #E8E8E8"
+                        borderBottom: "1px solid #E8E8E8",
+                        paddingLeft:20
                       }}
+                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                     >
                       {v.Room_Id}
                     </td>
@@ -1183,6 +1188,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     verticalAlign: "middle",
                     borderBottom: "1px solid #E8E8E8"
                   }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                 >
                   {v.start_meter}
                 </td>
@@ -1195,6 +1201,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     verticalAlign: "middle",
                     borderBottom: "1px solid #E8E8E8"
                   }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                 >
                   {v.end_meter}
                 </td>
@@ -1211,6 +1218,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     marginBottom: "-20px",
                     borderBottom: "1px solid #E8E8E8"
                   }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
                 >
                   <span
                     style={{
@@ -1240,8 +1248,9 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     fontFamily: "Gilroy",
                     textAlign: "start",
                     verticalAlign: "middle",
-                    borderBottom: "1px solid #E8E8E8"
+                    borderBottom: "1px solid #E8E8E8", paddingLeft:20
                   }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                 >
                   {v.unit}
                 </td>
@@ -1252,10 +1261,12 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     fontFamily: "Gilroy",
                     textAlign: "start",
                     verticalAlign: "middle",
-                    borderBottom: "1px solid #E8E8E8"
+                    borderBottom: "1px solid #E8E8E8",
+                    paddingLeft:20
                   }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                 >
-                  {v.amount}
+                  ₹{v.amount}
                 </td>
               </tr>
             );

@@ -1123,7 +1123,7 @@ function Expenses({ allPageHostel_Id }) {
 
 
 <div
-className="p-0 booking-table-userlist  booking-table"
+className="p-0 booking-table-userlist  booking-table ms-2 "
 style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
               <div
@@ -1134,7 +1134,6 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                  
                   height: currentItems.length >= 8 || sortedData.length >= 8 ? "400px" : "auto",
                   overflow: "auto",
-                  borderTop: "1px solid #E8E8E8",
                   marginBottom: 20,
                   marginTop: "20px"
                  
