@@ -36,11 +36,15 @@ import isBetween from "dayjs/plugin/isBetween";
 import Filters from "../Assets/Images/Filters.svg";
 import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import {CloseCircle} from "iconsax-react";
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 function EB_Hostel() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const theme = useTheme();
 const { RangePicker } = DatePicker;
+dayjs.extend(isSameOrAfter); 
+dayjs.extend(isSameOrBefore);
  dayjs.extend(isBetween);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [addEbDetail, setaddEbDetail] = useState(false);
@@ -586,27 +590,38 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
     setFilterStatus(!filterStatus);
   };
 
-  const handleDateRangeChangeEb = (dates) => {
-    setCustomerDateRange(dates);
+ const handleDateRangeChangeEb = (dates) => {
+  setCustomerDateRange(dates);
+
+  if (!dates || dates.length !== 2) {
+    setFilterStatus(false);
+    setelectricityFilterddata(originalElec);
+    return;
+  }
+
+  const [start, end] = dates;
+
+  const filtered = originalElec?.filter((item) => {
     
-      if (!dates || dates.length !== 2) {
-        setFilterStatus(false);  
-        setelectricityFilterddata(originalElec); 
-        return;
-      }
+    if (!item.reading_date || typeof item.reading_date !== 'string') {
+      return false; 
+    }
+
+    const itemDate = dayjs(item.reading_date);
+
     
-      const [start, end] = dates;
-    
-      const filtered = originalElec?.filter((item) => {
-        const itemDate = dayjs(item.reading_date);
-        return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
-      });
-    
-      setelectricityFilterddata(filtered);
-      setFilterStatus(true); 
-      setelectricitycurrentPage(1)
-      
-    };
+    if (!itemDate.isValid()) {
+      console.warn(`Invalid date found for item:`, item.reading_date);
+      return false; 
+    }
+
+    return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+  });
+
+  setelectricityFilterddata(filtered);
+  setFilterStatus(true);
+  setelectricitycurrentPage(1);
+};
 
   const [originalElec, setOriginalElec] = useState("");
 

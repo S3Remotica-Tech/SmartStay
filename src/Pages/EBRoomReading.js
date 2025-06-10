@@ -580,13 +580,13 @@ if (v.date && v.date !== '0000-00-00') {
   let day = Dated.getDate().toString().padStart(2, '0');
   let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
   let year = Dated.getFullYear();
-  formattedDate = `${day}/${month}/${year}`;
+  formattedDate = `${day}-${month}-${year}`;
 } else {
   let initialDate = new Date(v.initial_date);
   let day = initialDate.getDate().toString().padStart(2, '0');
   let month = (initialDate.getMonth() + 1).toString().padStart(2, '0');
   let year = initialDate.getFullYear();
-  formattedDate = `${day}/${month}/${year}`;
+  formattedDate = `${day}-${month}-${year}`;
 }
 
 
