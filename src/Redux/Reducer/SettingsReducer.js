@@ -75,6 +75,7 @@ export const initialState = {
   SettingsBillsGetRecurring:[],
   settingsBillsggetRecurrSucesscode: 0,
   settingsBillsAddInvoiceSucesscode: 0,
+  planExpired:''
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -180,6 +181,16 @@ const SettingsReducer = (state = initialState, action) => {
 
     case "CLEAR_ALREADY_COMPLAINTTYPE_ERROR":
       return { ...state, alreadytypeerror: "" };
+
+
+case "PLAN-EXPIRED":
+      return { ...state, planExpired: action.payload };
+
+    case "CLEAR_PLAN-EXPIRED":
+      return { ...state, planExpired: "" };
+
+
+
     case "EB_BILLING_UNIT_ADD":
       return {
         ...state,

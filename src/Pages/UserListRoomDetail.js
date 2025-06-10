@@ -1395,7 +1395,7 @@ const handleKYCSubmit = () => {
         fontSize: "14px",
         color: "#fff",
       }}
-      onClick={handleKYCSubmit}
+      
     >
       <img src={timehalf} alt="time" style={{ width: "16px", marginRight: 8 }} />
       Pending
