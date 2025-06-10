@@ -4,7 +4,6 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import verify from "../Assets/Images/verify.png";
 import "./UserList.css";
 import { Call, Sms, House, Buildings } from "iconsax-react";
 import Group from "../Assets/Images/Group.png";
@@ -43,7 +42,6 @@ import timehalf from "../Assets/Images/New_images/time-half past.png";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
-  console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [id, setId] = useState("");
@@ -100,7 +98,6 @@ function UserListRoomDetail(props) {
   const [state_nameError, setStateNameError] = useState("");
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
-  const [kycuserDetails, setkycuserDetails] = useState("");
   const [contactEdit, setContactEdit] = useState("");
   const [editAdditional, setEditAdditional] = useState(false);
   const [deleteAdditional, setDeleteAdditional] = useState(false);
@@ -158,6 +155,21 @@ function UserListRoomDetail(props) {
   useEffect(()=>{
 dispatch({type:'KYCCUSTOMERDETAILS',payload:{customer_id:props.id}})
 },[])
+
+useEffect(() => {
+    if (state.UsersList.statusCodeForCustomerDetails === 200) {
+      setTimeout(() => {
+        dispatch({ type: "REMOVEKYC_CUSTOMER_DETAILS" });
+      }, 100);
+    }
+  }, [state.UsersList.statusCodeForCustomerDetails]);
+  useEffect(() => {
+    if (state.UsersList.KYCStatusCode === 201) {
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_KYC_NOT_ADDED" });
+      }, 100);
+    }
+  }, [state.UsersList.KYCStatusCode]);
 
 
   useEffect(() => {
@@ -217,23 +229,13 @@ const handleKYCSubmit = () => {
 
   }
 
-  const handleKycdetailsForm = (item) => {
-    setkycuserDetails(item);
-    setKycDetailForm(true);
-  };
   const handleAdditionalForm = () => {
     setEditAdditional(false);
     setAdditionalForm(true);
   };
-  console.log(
-    "state.UsersList.customerAllDetails?.contact_details",
-    state.UsersList.customerAllDetails?.contact_details
-  );
+ 
 
-  // const handleCountryCodeChange = (e) => {
-  //   setCountryCode(e.target.value);
-  // };
-
+ 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
     setFormShow(false);
@@ -440,7 +442,7 @@ const handleKYCSubmit = () => {
     if (input.length === 0) {
       setPhoneError("");
     } else if (input.length < 10) {
-      setPhoneError("Invalid mobile number *");
+      setPhoneError("Invalid mobile number");
     } else if (input.length === 10) {
       setPhoneError("");
     }
@@ -467,7 +469,7 @@ const handleKYCSubmit = () => {
       setEmailErrorMessage("");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
-      setEmailError("Invalid Email Id *");
+      setEmailError("Invalid Email Id");
     } else {
       setEmailError("");
       setEmailErrorMessage("");
@@ -618,7 +620,7 @@ const handleKYCSubmit = () => {
     setFormError("");
   };
 
-  console.log("BedId", BedId);
+ 
   const handleBed = (e) => {
     const selectedBedId = e.target.value;
     setBedId(selectedBedId);
@@ -1372,7 +1374,7 @@ const handleKYCSubmit = () => {
                               style={{ marginTop: "-3px" }}
                             />
                           </p> */}
-                 {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" ? (
+                 {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" && 
   <>
     <Button
       type="primary"
@@ -1390,7 +1392,10 @@ const handleKYCSubmit = () => {
       KYC Verified
     </Button>
   </>
-) : state.UsersList?.KycCustomerDetails?.message === "KYC Pending" ? (
+            }
+
+
+ {state.UsersList?.KycCustomerDetails?.message === "KYC Pending" && 
   <>
     <Button
       style={{
@@ -1420,8 +1425,11 @@ const handleKYCSubmit = () => {
       Last Attempt: 03 June, 2025 – 04:22 PM
     </p>
   </>
-) : (
-  <>
+            }
+
+   {
+state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" && 
+ <>
     <Button
       type="primary"
       style={{
@@ -1449,7 +1457,8 @@ const handleKYCSubmit = () => {
       Verify your Customer KYC Details via DigiLocker.
     </p>
   </>
-)}
+   }         
+ 
                         </div>
                       </div>
 
@@ -2540,7 +2549,7 @@ const handleKYCSubmit = () => {
                           <UserListKyc
                             kycdetailsForm={kycdetailsForm}
                             setKycDetailForm={setKycDetailForm}
-                            kycuserDetails={kycuserDetails}
+                         
                           />
                         ) : null}
                         {additionalForm === true ? (

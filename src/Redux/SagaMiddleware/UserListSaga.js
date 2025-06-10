@@ -1465,12 +1465,11 @@ function* handleKYCVerifyNew(action) {
 }
 
 
-
-
 function* handleCustomerDetailsKyc(action) {
-   const response = yield call(handlegetCustomerDetailsKyc, action.payload)
-   console.log("handleCustomerDetailsKyc",response)
-   var toastStyle = {
+  try {
+    const response = yield call(handlegetCustomerDetailsKyc, action.payload);
+
+    const toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
       width: "100%",
@@ -1483,34 +1482,44 @@ function* handleCustomerDetailsKyc(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
+    };
 
-   };
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'KYC_CUSTOMER_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-
-      toast.success(`${response.data.result.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
+    if (response.status === 200) {
+      yield put({
+        type: 'KYC_CUSTOMER_DETAILS',
+        payload: {
+          response: response.data,
+          statusCode: response.status,
+        },
       });
 
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
+      toast.success(`${response.data.result.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
 
-
-   if (response) {
-      refreshToken(response)
+      yield call(refreshToken, response);
+    }
+     else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'KYC_NOT_ADDED', payload: { response: response.data, statusCode: response.status || response.statusCode } })
    }
-
+     else {
+      yield put({ type: 'ERROR', payload: response.data.message });
+    }
+  } catch (error) {
+    console.error("KYC fetch error", error);
+    yield put({ type: 'ERROR', payload: error.message || 'Something went wrong' });
+  }
 }
+
+
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
