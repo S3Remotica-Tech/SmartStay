@@ -1359,21 +1359,7 @@ const handleKYCSubmit = () => {
                             {item.Name}
                           </span>
 
-                          {/* <p
-                            style={{ marginTop: 8, cursor: "pointer" }}
-                            onClick={() => {
-                              handleKycdetailsForm(item);
-                            }}
-                          >
-                            KYC Verified
-                            <img
-                              src={verify}
-                              alt="verify"
-                              width={17}
-                              height={17}
-                              style={{ marginTop: "-3px" }}
-                            />
-                          </p> */}
+                         
                  {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" && 
   <>
     <Button
