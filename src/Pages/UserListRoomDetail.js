@@ -42,6 +42,7 @@ import { RightOutlined } from '@ant-design/icons';
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
+  console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [id, setId] = useState("");
@@ -152,6 +153,12 @@ function UserListRoomDetail(props) {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
+
+  useEffect(()=>{
+dispatch({type:'KYCCUSTOMERDETAILS',payload:{customer_id:props.id}})
+},[])
+
+
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
   }, [props]);
@@ -208,7 +215,6 @@ const handleKYCSubmit = () => {
  dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id:props.id } })
 
   }
-
 
   const handleKycdetailsForm = (item) => {
     setkycuserDetails(item);
@@ -1365,22 +1371,84 @@ const handleKYCSubmit = () => {
                               style={{ marginTop: "-3px" }}
                             />
                           </p> */}
-                         <Button
-  type="primary"
-  style={{
-    borderRadius: '20px',
-    backgroundColor: '#1848f1',
-    border: 'none',
-    padding: '0 16px',
-    height: '32px',
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: '14px',
-  }}
-  onClick={handleKYCSubmit}
->
-  Verify KYC <RightOutlined style={{ fontSize: '12px', marginLeft: 6 }} />
-</Button>
+                 {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" ? (
+  <>
+    <Button
+      type="primary"
+      style={{
+        borderRadius: "20px",
+        backgroundColor: "#1848f1",
+        border: "none",
+        padding: "0 16px",
+        height: "32px",
+        display: "flex",
+        alignItems: "center",
+        fontSize: "14px",
+      }}
+    >
+      KYC Verified
+    </Button>
+  </>
+) : state.UsersList?.KycCustomerDetails?.message === "KYC Pending" ? (
+  <>
+    <Button
+      style={{
+        borderRadius: "20px",
+        backgroundColor: "#f59e0b",
+        border: "none",
+        padding: "0 16px",
+        height: "32px",
+        display: "flex",
+        alignItems: "center",
+        fontSize: "14px",
+        color: "#fff",
+      }}
+      onClick={handleKYCSubmit}
+    >
+      <img src={timehalf} alt="time" style={{ width: "16px", marginRight: 8 }} />
+      Pending
+    </Button>
+    <p
+      style={{
+        fontSize: 14,
+        fontWeight: 400,
+        fontFamily: "Gilroy",
+        marginTop: 4,
+      }}
+    >
+      Last Attempt: 03 June, 2025 – 04:22 PM
+    </p>
+  </>
+) : (
+  <>
+    <Button
+      type="primary"
+      style={{
+        borderRadius: "20px",
+        backgroundColor: "#1848f1",
+        border: "none",
+        padding: "0 16px",
+        height: "32px",
+        display: "flex",
+        alignItems: "center",
+        fontSize: "14px",
+      }}
+      onClick={handleKYCSubmit}
+    >
+      Verify KYC <RightOutlined style={{ fontSize: "12px", marginLeft: 6 }} />
+    </Button>
+    <p
+      style={{
+        fontSize: 14,
+        fontWeight: 400,
+        fontFamily: "Gilroy",
+        marginTop: 4,
+      }}
+    >
+      Verify your Customer KYC Details via DigiLocker.
+    </p>
+  </>
+)}
                         </div>
                       </div>
 

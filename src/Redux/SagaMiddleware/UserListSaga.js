@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { deleteCustomer,AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument,hostelDetailsId,EditConfirmCheckOut,handleKycVerify,handlegetCustomerDetails } from "../Action/UserListAction"
+import { deleteCustomer,AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument,hostelDetailsId,EditConfirmCheckOut,handleKycVerify,handlegetCustomerDetailsKyc } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -1467,8 +1467,9 @@ function* handleKYCVerifyNew(action) {
 
 
 
-function* handleCustomerDetails(action) {
-   const response = yield call(handlegetCustomerDetails, action.payload)
+function* handleCustomerDetailsKyc(action) {
+   const response = yield call(handlegetCustomerDetailsKyc, action.payload)
+   console.log("handleCustomerDetailsKyc",response)
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -1559,7 +1560,7 @@ function* UserListSaga() {
    yield takeEvery('DELETECUSTOMER', handleDeleteCustomer)
    yield takeEvery('HOSTELIDDETAILS', handlehostelDetailsId)
    yield takeEvery('KYCVERIFYINGNEW', handleKYCVerifyNew)
-   yield takeEvery("KYCCUSTOMERDETAILS",handleCustomerDetails) 
+   yield takeEvery("KYCCUSTOMERDETAILS",handleCustomerDetailsKyc) 
    yield takeEvery('EDITCONFIRMCHECKOUTCUSTOMER', handleEditConfirmCheckout)
   
 
