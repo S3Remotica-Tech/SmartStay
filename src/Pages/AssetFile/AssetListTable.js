@@ -173,10 +173,10 @@ function AssetListTable(props) {
   return (
     <>
       <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"  title={props.item.product_name} 
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"  title={props.item.product_name} 
          style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", }}>{props.item.product_name}</td>
 
-        <td  title={props.item.serial_number} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">{props.item.serial_number}</td>
+        <td  title={props.item.serial_number} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-4">{props.item.serial_number}</td>
 
         <td title={props.item.brand_name  || "-"} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
           <div >
@@ -194,9 +194,13 @@ function AssetListTable(props) {
           </div>
         </td>
 
-        <td title={props.item.price} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}</td>
+        <td title={props.item.price} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div className='ps-1'>
+          ₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}
+          </div>
+          </td>
 
-        <td title={moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}   style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+        <td title={moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}   style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
           <div style={{ width: "100%", }}>
             <div style={{
               //  backgroundColor: "#EBEBEB", 

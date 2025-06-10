@@ -419,7 +419,7 @@ const [hostelEbList,setHostelEbList] = useState("")
            {sortedData && sortedData.length > 0 && (
           
           <div
-className="p-0 booking-table-userlist  booking-table ms-2"
+className="p-0 booking-table-userlist  booking-table ms-2 me-4"
 style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
           

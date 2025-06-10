@@ -407,8 +407,8 @@ setConformEdit(true)
           <div>
             {sortedData?.length > 0 ?  (
              <div
-             className="p-0 booking-table-userlist  booking-table"
-             style={{ paddingBottom: "20px",marginLeft:"-22px" }}
+             className="p-0 booking-table-userlist  booking-table me-4"
+             style={{ paddingBottom: "20px",marginLeft:"-14px" }}
            >
                 <div
                          
@@ -695,7 +695,7 @@ setConformEdit(true)
                                 textAlign: "start",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
-                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                             >
                               +
                               {checkout &&

@@ -2471,8 +2471,8 @@ function UserList(props) {
                   <>
                     {sortedData && sortedData.length > 0 && (
                       <div
-                        className=" booking-table-userlist  booking-table"
-                        style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+                        className=" booking-table-userlist  booking-table  me-4"
+                        style={{ paddingBottom: "20px", marginLeft: "-14px" }}
                       >
                         <div
                           className="show-scrolls"
@@ -2797,9 +2797,10 @@ function UserList(props) {
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
+                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                         >
                                           <span
-                                            className="Customer_Name_Hover ps-0 ps-sm-0 ps-md-3 ps-lg-2"
+                                            className="Customer_Name_Hover  ps-lg-3"
                                             style={{
                                               fontSize: "13px",
                                               fontWeight: 600,
@@ -2858,8 +2859,12 @@ function UserList(props) {
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
+                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                         >
-                                          {user.Email}
+                                          <div className="ps-2">
+                                            {user.Email}
+                                          </div>
+                                          
                                         </td>
                                         <td
                                           style={{
@@ -2875,6 +2880,7 @@ function UserList(props) {
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
+                                           className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
                                         >
                                           +
                                           {user &&
@@ -2898,6 +2904,7 @@ function UserList(props) {
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
+                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
                                         >
                                           {" "}
                                           {!user.Rooms ? "-" : user.Rooms}

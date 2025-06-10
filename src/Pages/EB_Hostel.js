@@ -998,7 +998,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
                      
                      
                      <div
-className="p-0 booking-table-userlist  booking-table ms-2"
+className="p-0 booking-table-userlist  booking-table ms-2 me-4"
 style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
                                    <div
@@ -1161,7 +1161,10 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       }}
                          className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
-                      {v.floor_name}
+                      <div className="ps-1">
+                        {v.floor_name}
+                      </div>
+                
                     </td>
                     <td
                       style={{
@@ -1250,7 +1253,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     verticalAlign: "middle",
                     borderBottom: "1px solid #E8E8E8", paddingLeft:20
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                 >
                   {v.unit}
                 </td>
@@ -1264,7 +1267,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     borderBottom: "1px solid #E8E8E8",
                     paddingLeft:20
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                 >
                   ₹{v.amount}
                 </td>

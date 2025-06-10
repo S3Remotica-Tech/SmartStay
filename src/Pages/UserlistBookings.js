@@ -951,8 +951,8 @@ if (!pattern.test(value)) {
 ) : sortedData?.length > 0 ? (
  
   <div
-                className="p-10 booking-table-userlist  booking-table"
-                style={{ paddingBottom: "20px" }}
+                className="p-10 booking-table-userlist  booking-table me-4"
+                style={{ paddingBottom: "20px" , marginLeft: "5px" }}
               >
                 <div
                          
@@ -1262,7 +1262,7 @@ if (!pattern.test(value)) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
-                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -1295,7 +1295,7 @@ if (!pattern.test(value)) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
-                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -1327,7 +1327,7 @@ if (!pattern.test(value)) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
-                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{

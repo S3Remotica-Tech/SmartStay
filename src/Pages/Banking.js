@@ -1261,7 +1261,7 @@ whiteSpace: "nowrap"
             )}
           </div>
 
-          <div style={{ marginTop: 30 }} className="container bankingtab-table ms-2">
+          <div style={{ marginTop: 30 }} className="container bankingtab-table ms-2 me-4">
             {sortedData?.length > 0 ? (
              <div
                                    className=" booking-table-userlist  booking-table"
@@ -1453,10 +1453,14 @@ whiteSpace: "nowrap"
                               fontWeight: 600,
                               fontFamily: "Gilroy",
                               paddingTop: 15,
+                              marginLeft:20
                             }}
                             className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                           >
-                            {user.benificiary_name} - {user.type}
+                            <div className="ps-2 ps-lg-2">
+   {user.benificiary_name} - {user.type}
+                            </div>
+                         
                           </td>
                           <td
                             style={{

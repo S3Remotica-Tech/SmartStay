@@ -283,7 +283,7 @@ function SettingNewUser() {
       <div className="mt-4 scroll-issue">
         {sortedData?.length > 0 ? (
           <div
-            className=" booking-table-userlist  booking-table"
+            className=" booking-table-userlist  booking-table me-2"
             style={{ paddingBottom: "20px" }}
           >
             <div
@@ -502,12 +502,13 @@ function SettingNewUser() {
                             whiteSpace: "nowrap",
                             overflow: "hidden",
                             textOverflow: "ellipsis",
-                            paddingLeft: "25px",
+                            paddingLeft: "20px",
                             borderBottom: "1px solid #E8E8E8",
                           }}
+                          className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                         >
                           <span
-                            className="Customer_Name_Hover"
+                            className="Customer_Name_Hover ps-3"
                             style={{
                               fontSize: "13px",
                               fontWeight: 500,
@@ -532,8 +533,12 @@ function SettingNewUser() {
                             whiteSpace: "nowrap",
                             borderBottom: "1px solid #E8E8E8",
                           }}
+                          className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                         >
-                          {item.email_Id}
+                          <div className="ps-2">
+                            {item.email_Id}
+                          </div>
+                       
                         </td>
 
                         <td
@@ -551,6 +556,7 @@ function SettingNewUser() {
                             textOverflow: "ellipsis",
                             borderBottom: "1px solid #E8E8E8",
                           }}
+                           className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                         >
                           +
                           {item &&
@@ -574,6 +580,7 @@ function SettingNewUser() {
                             whiteSpace: "nowrap",
                             borderBottom: "1px solid #E8E8E8",
                           }}
+                          className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                         >
                           {item.role_name}
                         </td>
