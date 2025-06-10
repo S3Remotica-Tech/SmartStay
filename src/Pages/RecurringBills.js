@@ -326,7 +326,7 @@ const RecurringBills = (props) => {
       fontStyle: 'normal', 
       lineHeight: 'normal' 
     }}>
-    Customer
+    Customer<span style={{ color: "red", fontSize: "20px" }}>*</span>
   </Form.Label>
   {/* <Form.Select 
     aria-label="Default select example" 

@@ -320,8 +320,8 @@ function UserlistWalkin(props) {
             ) : (
               sortedData.length > 0 && (
                 <div
-                  className="p-10 booking-table-userlist  booking-table"
-                  style={{ paddingBottom: "20px", marginLeft: "-15px" }}
+                  className="p-10 booking-table-userlist  booking-table me-4"
+                  style={{ paddingBottom: "20px", marginLeft: "0px" }}
                 >
                   <div
                     className="show-scrolls"
@@ -331,7 +331,6 @@ function UserlistWalkin(props) {
                           ? "350px"
                           : "auto",
                       overflow: "auto",
-                      borderTop: "1px solid #E8E8E8",
                       marginBottom: 20,
                       marginTop: "20px",
                     }}
@@ -348,6 +347,7 @@ function UserlistWalkin(props) {
                           position: "sticky",
                           top: 0,
                           zIndex: 1,
+                          borderRadius:0
                         }}
                       >
                         <tr>
@@ -360,6 +360,7 @@ function UserlistWalkin(props) {
                               fontSize: 12,
                               fontStyle: "normal",
                               fontWeight: 500,
+                              padding:10
                             }}
                           >
                             {" "}
@@ -581,9 +582,10 @@ function UserlistWalkin(props) {
                                       padding: "10px",
                                       textAlign: "start",
                                       verticalAlign: "middle",
-                                      paddingLeft: "25px",
+                                      paddingLeft: "23px",
                                       borderBottom: "1px solid #E8E8E8",
                                     }}
+                                     className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                   >
                                     <div>
                                       <span
@@ -606,6 +608,7 @@ function UserlistWalkin(props) {
                                       verticalAlign: "middle",
                                       borderBottom: "1px solid #E8E8E8",
                                     }}
+                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                   >
                                     {v.email_Id || "N/A"}
                                   </td>
@@ -618,6 +621,7 @@ function UserlistWalkin(props) {
                                       fontFamily: "Gilroy",
                                       borderBottom: "1px solid #E8E8E8",
                                     }}
+                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                   >
                                     +
                                     {v &&
@@ -640,6 +644,7 @@ function UserlistWalkin(props) {
                                       verticalAlign: "middle",
                                       borderBottom: "1px solid #E8E8E8",
                                     }}
+                                     className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                                   >
                                     <span
                                       style={{
@@ -672,6 +677,7 @@ function UserlistWalkin(props) {
                                       verticalAlign: "middle",
                                       borderBottom: "1px solid #E8E8E8",
                                     }}
+                                     className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                   >
                                     {v.total_amount}
                                     {v.comments || ""}

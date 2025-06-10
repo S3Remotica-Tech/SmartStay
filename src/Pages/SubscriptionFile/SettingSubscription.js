@@ -309,7 +309,7 @@ function SettingSubscription() {
         {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 && (
           <div className="col-lg-12 col-md-12 col-sm-10 mt-3">
             <div
-              className=" booking-table-userlist  booking-table"
+              className=" booking-table-userlist  booking-table me-2"
               style={{ paddingBottom: "20px" }}
             >
               {getPlanActive?.length > 0 && (
@@ -534,20 +534,7 @@ function SettingSubscription() {
                             Status
                           </div>
                         </th>
-                        <th
-                          style={{
-                            color: "#939393",
-                            fontWeight: 500,
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            textAlign: "start",
-                          }}
-                        >
-                          {" "}
-                          Action
-                        </th>
+                     
                       </tr>
                     </thead>
                     <tbody
@@ -586,6 +573,7 @@ function SettingSubscription() {
                                   fontFamily: "Gilroy",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
+                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
                                 {index + 1}
                               </td>
@@ -598,6 +586,7 @@ function SettingSubscription() {
                                   paddingLeft: "20px",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
+                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
                                 {view.name}
                               </td>
@@ -606,6 +595,7 @@ function SettingSubscription() {
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
+                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
                                 <span
                                   style={{
@@ -631,6 +621,7 @@ function SettingSubscription() {
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
+                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
                                 <span
                                   style={{
@@ -657,6 +648,7 @@ function SettingSubscription() {
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
+                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
                                 <span
                                   style={{
@@ -675,18 +667,7 @@ function SettingSubscription() {
                                 </span>
                               </td>
 
-                              <td
-                                onClick={() => handleDownloadPdf(view)}
-                                style={{
-                                  fontWeight: 500,
-                                  fontSize: "13px",
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  borderBottom: "1px solid #E8E8E8",
-                                }}
-                              >
-                                Download
-                              </td>
+                           
                             </tr>
                           );
                         })}

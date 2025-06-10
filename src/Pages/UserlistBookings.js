@@ -951,8 +951,8 @@ if (!pattern.test(value)) {
 ) : sortedData?.length > 0 ? (
  
   <div
-                className="p-10 booking-table-userlist  booking-table"
-                style={{ paddingBottom: "20px" }}
+                className="p-10 booking-table-userlist  booking-table me-4"
+                style={{ paddingBottom: "20px" , marginLeft: "5px" }}
               >
                 <div
                          
@@ -1175,25 +1175,32 @@ if (!pattern.test(value)) {
 
                         return (
                           <tr key={customer.id} className="customer-row">
-                            <td style={{ verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}>
-                              <div className="d-flex align-items-center">
-                                {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
+                            <td style={{    border: "none",
+                                            padding: "10px",
+                                            textAlign: "start",
+                                            paddingLeft: "20px",
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",}}>
+             
                                 <span
                                   style={{
-                                    fontSize: "13px",
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    color: "#222222",
-                                    paddingLeft: "4px",
-                                    textAlign: "start",
+                                 fontSize: "13px",
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              color: "#1E45E1",
+                                              cursor: "pointer",
+                                              marginTop: 10,
+                                              // paddingLeft:10,
+                                              whiteSpace: "nowrap",
+                                  
                                   }}
-                                  className="ms-2 customer-name"
+                                  className="customer-name ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                 >
                                   {customer.first_name} {customer.last_name ? customer.last_name : ""}
                                   {/* {`${customer.first_name || ""} ${customer.last_name || ""}`.trim() || ""} */}
 
                                 </span>
-                              </div>
+                            
                             </td>
                             <td
                               style={{
@@ -1202,8 +1209,10 @@ if (!pattern.test(value)) {
                                 fontFamily: "Gilroy",
                                 color: "#000000",
                                 textAlign: "start",
+                                paddingLeft:20,
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                                className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                             >
                               {/* {customer.email_id} */}
                               {customer.email_id ? customer.email_id : "N/A"}
@@ -1230,6 +1239,7 @@ if (!pattern.test(value)) {
                                 textAlign: "start",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                             >
                               +
                               {customer &&
@@ -1252,6 +1262,7 @@ if (!pattern.test(value)) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -1284,6 +1295,7 @@ if (!pattern.test(value)) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -1315,6 +1327,7 @@ if (!pattern.test(value)) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{

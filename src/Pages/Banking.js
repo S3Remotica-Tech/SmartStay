@@ -1261,7 +1261,7 @@ whiteSpace: "nowrap"
             )}
           </div>
 
-          <div style={{ marginTop: 30 }} className="container bankingtab-table">
+          <div style={{ marginTop: 30 }} className="container bankingtab-table ms-2 me-4">
             {sortedData?.length > 0 ? (
              <div
                                    className=" booking-table-userlist  booking-table"
@@ -1453,10 +1453,14 @@ whiteSpace: "nowrap"
                               fontWeight: 600,
                               fontFamily: "Gilroy",
                               paddingTop: 15,
-                              paddingLeft: "20px",
+                              marginLeft:20
                             }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                           >
-                            {user.benificiary_name} - {user.type}
+                            <div className="ps-2 ps-lg-2">
+   {user.benificiary_name} - {user.type}
+                            </div>
+                         
                           </td>
                           <td
                             style={{
@@ -1495,6 +1499,7 @@ whiteSpace: "nowrap"
                               fontFamily: "Gilroy",
                               paddingTop: 15,
                             }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                           >
                             {user.amount}
                           </td>
@@ -1507,6 +1512,7 @@ whiteSpace: "nowrap"
                               fontFamily: "Gilroy",
                               paddingTop: 15,
                             }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                           >
                             {user.desc}
                           </td>
@@ -1520,13 +1526,13 @@ whiteSpace: "nowrap"
                               fontFamily: "Gilroy",
                               whiteSpace: "nowrap",
                             }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                           >
                             <span
                               style={{
-                                paddingTop: "3px",
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
-                                paddingBottom: "3px",
+                                padding: "3px 10px",
+                                borderRadius: "60px",
+                                backgroundColor: "#EBEBEB",
                                 borderRadius: "60px",
                              
                                 textAlign: "start",
