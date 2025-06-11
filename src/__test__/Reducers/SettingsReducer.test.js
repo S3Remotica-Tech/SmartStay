@@ -429,6 +429,31 @@ describe('it should check settings reducers', () => {
         });
     });
 
+it('it should check PLAN-EXPIRED', () => {
+  const action = {
+    type: 'PLAN-EXPIRED',
+    payload: "plan expired",
+  };
+
+  expect(SettingsReducer(initialState, action)).toStrictEqual({
+    ...initialState,
+    planExpired: "plan expired",
+  });
+});
+
+
+   it('it should check CLEAR_PLAN-EXPIRED', () => {
+  const action = {
+    type: 'CLEAR_PLAN-EXPIRED',
+    payload: "", 
+  };
+
+  expect(SettingsReducer(initialState, action)).toStrictEqual({
+    ...initialState,
+    planExpired: "",
+  });
+});
+
 
 
     it('it should check EB_BILLING_UNIT_ADD', () => {
@@ -1346,6 +1371,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
     it('it should check CLEAR_NEW_SUBSCRIPTION', () => {
@@ -1434,6 +1460,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -1527,6 +1554,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -1617,6 +1645,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -1709,6 +1738,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -1799,6 +1829,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -1889,6 +1920,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -1979,6 +2011,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -2069,6 +2102,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -2159,6 +2193,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -2249,6 +2284,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -2339,6 +2375,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -2429,6 +2466,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 200,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -2519,6 +2557,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
 
@@ -2609,6 +2648,7 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 200,
+            planExpired:''
         });
     });
 
@@ -2699,8 +2739,12 @@ describe('it should check settings reducers', () => {
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
             settingsBillsAddInvoiceSucesscode: 0,
+            planExpired:''
         });
     });
+
+
+
 
 
 })
