@@ -17,7 +17,7 @@ import InvesGraph from "../Assets/Reports/graph.png";
 import Aging from "../Assets/Reports/chart-2.png";
 import Image from 'react-bootstrap/Image';
 import CatoryActive from "../Assets/Images/New_images/category-active.png";
-import HostelRentProjection from '../Reports/HostelRentProjection';
+import HostelRentProjection from './HostelRentProjection';
 import { FormControl, InputGroup, Row, Col } from 'react-bootstrap';
 import { CloseCircle, SearchNormal1} from 'iconsax-react';
 import './Reports.css';
