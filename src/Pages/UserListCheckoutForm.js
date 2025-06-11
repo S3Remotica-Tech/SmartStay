@@ -11,126 +11,117 @@ import Image from "react-bootstrap/Image";
 import People from "../Assets/Images/New_images/profile-picture.png";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
-import {  FormControl } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import PlusIcon from "../Assets/Images/New_images/plusIcon.png";
-// import Closebtn from "../Assets/Images/CloseCircle.png";
 import Delete from "../Assets/Images/New_images/trash.png";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 
 const CheckOutForm = ({
-  // item,
   uniqueostel_Id,
   show,
   handleClose,
   currentItem,
-  // checkoutaction,
-  data,
+    data,
   checkouteditaction,
-  // checkoutaddform,
   cofirmForm,
   conformEdit,
-  // setConfirmForm,
-  handleCloseConformForm
+    handleCloseConformForm
 }) => {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
 
-console.log("CheckOutForm",state)
+  
   const [checkOutDate, setCheckOutDate] = useState("");
   const [checkOutrequestDate, setCheckOutRequestDate] = useState("");
-  // const [currentFloor, setCurrentFloor] = useState("");
-  // const [currentBed, setCurrentBed] = useState("");
-  const [selectedCustomer, setSelectedCustomer] = useState("");
-  // const [noticeDays, setNoticeDays] = useState("");
-  const [comments, setComments] = useState("");
+    const [selectedCustomer, setSelectedCustomer] = useState("");
+    const [comments, setComments] = useState("");
   const [advanceamount, setAdvanceAmount] = useState("");
   const [dueamount, SetDueAmount] = useState('');
   const [invoicenumber, SetInvoiceNumber] = useState([]);
   const [bedname, setBedname] = useState("");
   const [floorname, setFloorname] = useState("");
-const [paymentDate,setPaymentDate] = useState("")
-const [fields, setFields] = useState([{ reason: "", amount: "" }]);
-const [noChangeMessage, setNoChangeMessage] = useState("");
-const [modeOfPayment, setModeOfPayment] = useState("");
+  const [paymentDate, setPaymentDate] = useState("")
+  const [fields, setFields] = useState([{ reason: "", amount: "" }]);
+  const [noChangeMessage, setNoChangeMessage] = useState("");
+  const [modeOfPayment, setModeOfPayment] = useState("");
 
-console.log("reason", fields);
+
 
 
   const handlecloseform = () => {
     handleClose();
     setSelectedCustomer("");
-    // setCurrentBed("");
-    // setCurrentFloor("");
-    // setNoticeDays("");
-    setComments("");
+       setComments("");
     setCheckOutDate("");
     setCheckOutRequestDate("");
     setBedname("");
     setFloorname("");
     setCheckOutDateError("");
-    // setGeneralError("");
-    setCustomerError("");
+       setCustomerError("");
     setCheckOutRequestDateError("");
     setDateDifference(null);
-    // setReinburse(0)
-    SetDueAmount('')
-    
+       SetDueAmount('')
+
   };
 
-  const handleCloseConfirmFormPage = ()=>{
-    // handleCloseConformForm(false)
+  const handleCloseConfirmFormPage = () => {
+    
     if (typeof handleCloseConformForm === "function") {
-      handleCloseConformForm(); 
+      handleCloseConformForm();
     }
-    dispatch({type:'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR'})
-     dispatch({type:'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR'})
+    dispatch({ type: 'CLEAR_ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
+    dispatch({ type: 'CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR' })
     setConformCheckErr("")
     setNoChangeMessage("")
     setModeOfPaymentError("")
-    // setFields("")
-    setFields([{ reason: "", amount: "" }]); 
+   
+    setFields([{ reason: "", amount: "" }]);
   }
 
-  // const [isChecked, setIsChecked] = useState(false);
+
+
+
+ 
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST",payload:{ hostel_id: state.login.selectedHostel_Id} });
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }
   }, []);
 
   const handleModeOfPaymentChange = (e) => {
-        setModeOfPayment(e.target.value);
-        setModeOfPaymentError("")
-        console.log("handleModeOfPaymentChange",modeOfPayment)
-      
-      };
-
-  
+    setModeOfPayment(e.target.value);
+    setModeOfPaymentError("")
 
 
- 
+  };
+
+
+
+
+
 
   const handleCustomerChange = (selectedOption) => {
     setSelectedCustomer(selectedOption ? selectedOption.value : "");
-    // setGeneralError("");
+    
     setCustomerError("");
   };
 
-  
+
 
   const handleCommentsChange = (event) => {
-    // setGeneralError("");
-    setComments(event.target.value);
+       setComments(event.target.value);
     setNoChangeMessage("")
   };
 
- 
+
 
   const [dateDifference, setDateDifference] = useState(null);
 
- 
+
 
   useEffect(() => {
     if (currentItem) {
@@ -141,9 +132,7 @@ console.log("reason", fields);
         currentItem.req_date ? new Date(currentItem.req_date) : null
       );
       setSelectedCustomer(currentItem.ID);
-      // setCurrentBed(currentItem.Bed);
-      // setCurrentFloor(currentItem.Floor);
-      // setNoticeDays(currentItem.notice_period);
+      
       setComments(currentItem.checkout_comment);
       setBedname(currentItem.bed_name);
       setFloorname(currentItem.floor_name);
@@ -151,9 +140,7 @@ console.log("reason", fields);
       setCheckOutDate("");
       setCheckOutRequestDate("");
       setSelectedCustomer("");
-      // setCurrentBed("");
-      // setCurrentFloor("");
-      // setNoticeDays("");
+      
       setComments("");
       setBedname("");
       setFloorname("");
@@ -163,85 +150,68 @@ console.log("reason", fields);
 
   useEffect(() => {
     if (data) {
-      console.log("data.,.sdi",data)
+
       setCheckOutDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null);
       setPaymentDate(data.CheckoutDate ? new Date(data.CheckoutDate) : null)
       setCheckOutRequestDate(data.req_date ? new Date(data.req_date) : null);
       setSelectedCustomer(data.ID);
-      // setCurrentBed(data.Bed);
-      // setCurrentFloor(data.Floor);
-      // setNoticeDays(data.notice_period);
+      
       setComments(data.checkout_comment);
       setBedname(data.bed_name);
       setFloorname(data.floor_name);
       setModeOfPayment(data.bank_id)
-     
+
     } else {
       setCheckOutDate("");
       setCheckOutRequestDate("");
       setSelectedCustomer("");
-      // setCurrentBed("");
-      // setCurrentFloor("");
-      // setNoticeDays("");
       setComments("");
       setBedname("");
       setFloorname("");
       setModeOfPayment("")
-    //     if (data?.amenities && data?.amenities.length > 0) {
-    //   const mappedFields = data?.amenities.map(item => ({
-    //     reason: item.reason || "",
-    //     amount: item.amount || ""
-    //   }));
-    //   console.log("mappeditems",mappedFields);
-    //   console.log("data?.amenities",data?.amenities)
-      
-    //   setFields(mappedFields);
-    // } else {
-    //   setFields([{ reason: "", amount: "" }]);
-    // }
-      // SetDueAmount(0);
+
       dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
     }
   }, [data, show]);
 
 
-useEffect(() => {
-  // Always ensure DueAmount is the first field
-  setFields(prevFields => {
-    const otherFields = prevFields.filter((_, i) => i !== 0); // Remove index 0
-    return [
-      { reason: "DueAmount", amount: String(dueamount || "") },
-      ...otherFields,
-    ];
-  });
-}, [dueamount]);
+  useEffect(() => {
+
+    setFields(prevFields => {
+      const otherFields = prevFields.filter((_, i) => i !== 0);
+      return [
+        { reason: "DueAmount", amount: String(dueamount || "") },
+        ...otherFields,
+      ];
+    });
+  }, [dueamount]);
 
 
 
-useEffect(() => {
-  if (data?.amenities?.length > 0) {
-    let outstandingDueAmount = "";
-    const amenityFields = data.amenities
-      .filter(item => {
-        if (item.reason === "Outstanding Due") {
-          outstandingDueAmount = String(item.amount || "");
-          return false; 
-        }
-        return true;
-      })
-      .map(item => ({
-        reason: item.reason || "",
-        amount: String(item.amount || ""),
-      }));
+  useEffect(() => {
+    if (data?.amenities?.length > 0) {
+      let outstandingDueAmount = "";
+      const amenityFields = data.amenities
+        .filter(item => {
+          if (item.reason === "Outstanding Due") {
+            outstandingDueAmount = String(item.amount || "");
+            return false;
+          }
+          return true;
+        })
+        .map(item => ({
+          reason: item.reason || "",
+          amount: String(item.amount || ""),
+        }));
 
-    const dueAmountValue = outstandingDueAmount || String(dueamount || "");
+      const dueAmountValue = outstandingDueAmount || String(dueamount || "");
 
-    setFields([
-      { reason: "DueAmount", amount: dueAmountValue },
-      ...amenityFields,
-    ]);
-  }
-}, [data?.amenities, dueamount]);
+      setFields([
+        { reason: "DueAmount", amount: dueAmountValue },
+        ...amenityFields,
+      ]);
+    }
+  }, [data?.amenities, dueamount]);
 
   useEffect(() => {
 
@@ -255,35 +225,28 @@ useEffect(() => {
         const user = filteruserlist[0];
 
         if (user.Bed !== undefined && user.Bed !== null) {
-          // setCurrentBed(user.Bed);
-          setBedname(user.Bed);
+                    setBedname(user.Bed);
         }
 
         if (user.bed_name !== undefined && user.bed_name !== null) {
           setBedname(user.bed_name);
         }
-      
+
         setFloorname(filteruserlist[0].floor_name);
 
         if (user.floor_name !== undefined && user.floor_name !== null) {
           setFloorname(user.floor_name);
         }
-      } else {
-        console.log(
-          "No matching user found for selectedCustomer",
-          selectedCustomer
-        );
       }
     }
   }, [selectedCustomer, state.UsersList.Users, data, currentItem]);
 
-  // const [generalError, setGeneralError] = useState("");
-  const [customerWError, setCustomerError] = useState("");
+    const [customerWError, setCustomerError] = useState("");
   const [checkoUtDateError, setCheckOutDateError] = useState("");
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
 
-  
+
 
   const handleCheckOutCustomer = () => {
     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
@@ -294,35 +257,31 @@ useEffect(() => {
       "DD-MM-YYYY"
     ).format("YYYY-MM-DD");
 
-    // let isValid = true;
+    
 
     if (!selectedCustomer) {
       setCustomerError("Please Select a Customer");
-      // isValid = false;
+      
     }
 
-    // if (!uniqueostel_Id) {
-    //   setHostelError('Please select a hostel.');
-    //   isValid = false;
-    // }
+    
 
     if (!checkOutDate) {
       setCheckOutDateError("Please Select a Check-Out Date");
-      // isValid = false;
+      
     }
 
     if (!checkOutrequestDate) {
       setCheckOutRequestDateError("Please Select a Request Date");
-      // isValid = false;
+     
     }
 
     if (!selectedCustomer || !checkOutDate || !checkOutrequestDate) {
-      // setGeneralError("Please select all mandatory fields.");
-      return;
+           return;
     }
 
-    
-  
+
+
 
     const formatDateTocheckoutDate = (startdate) => {
       if (!startdate) return "";
@@ -387,16 +346,14 @@ useEffect(() => {
       });
     }
     setSelectedCustomer("");
-    // setCurrentBed("");
-    // setCurrentFloor("");
-    // setNoticeDays("");
+    
     setComments("");
     setCheckOutDate("");
     setCheckOutRequestDate("");
     setBedname("");
     setFloorname("");
     setCheckOutDateError("");
-    // setGeneralError("");
+    
     setCustomerError("");
     setCheckOutRequestDateError("");
     setDateDifference(null);
@@ -422,10 +379,10 @@ useEffect(() => {
     menuList: (base) => ({
       ...base,
       backgroundColor: "#f8f9fa",
-      maxHeight: "120px", 
+      maxHeight: "120px",
       padding: 0,
       scrollbarWidth: "thin",
-      overflowY: "auto", 
+      overflowY: "auto",
     }),
     placeholder: (base) => ({
       ...base,
@@ -489,7 +446,7 @@ useEffect(() => {
       setAdvanceAmount(
         state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
       );
-      
+
       SetInvoiceNumber(state?.UsersList?.GetconfirmcheckoutBillDetails);
       setTimeout(() => {
         dispatch({ type: "CLEAR_GET_CONFIRM_CHECK_OUT_CUSTOMER" });
@@ -498,73 +455,205 @@ useEffect(() => {
   }, [state.UsersList.statusCodegetConfirmCheckout]);
 
 
-  
-  
+
+
 
 
 
   const validInvoices = invoicenumber.filter((invoice) => invoice.balance > 0);
 
-  
+
   const hasBalance =
     Array.isArray(validInvoices) &&
     validInvoices.some((invoice) => invoice.balance > 0);
 
   useEffect(() => {
-    if (validInvoices && hasBalance ) {
+    if (validInvoices && hasBalance) {
       const totaldueamount = validInvoices.reduce(
         (total, invoice) => total + invoice.balance,
         0
       );
       SetDueAmount(totaldueamount);
-      
+
     }
   }, [validInvoices]);
 
 
 
-const [returnAmount,setReturnAmount] = useState("")
+  const [returnAmount, setReturnAmount] = useState("")
 
 
-  const [modeOfPaymentError,setModeOfPaymentError] = useState("")
+  const [modeOfPaymentError, setModeOfPaymentError] = useState("")
 
-const handleConfirmCheckout = () => {
-  let hasError = false;
+  const handleConfirmCheckout = () => {
+    let hasError = false;
 
-  if (!selectedCustomer) {
-    setCustomerError("Please Select a Customer");
-    hasError = true;
-  }
+    if (!selectedCustomer) {
+      setCustomerError("Please Select a Customer");
+      hasError = true;
+    }
 
-  if (!checkOutDate) {
-    setCheckOutDateError("Please select a checkout Date");
-    hasError = true;
-  }
+    if (!checkOutDate) {
+      setCheckOutDateError("Please select a checkout Date");
+      hasError = true;
+    }
 
-  if (!modeOfPayment) {
-    setModeOfPaymentError("Please Select Mode Of Payment");
-    hasError = true;
-  }
+    if (!modeOfPayment) {
+      setModeOfPaymentError("Please Select Mode Of Payment");
+      hasError = true;
+    }
 
-  if (!data.Hostel_Id) {
-    hasError = true;
-  }
+    if (!data.Hostel_Id) {
+      hasError = true;
+    }
 
-  if (hasError) {
-    return; // Stop if there's any error
-  }
+    if (hasError) {
+      return; 
+    }
 
-  const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
+    const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format("YYYY-MM-DD");
 
-  if (advanceamount) {
-    const nonEmptyFields = fields.filter(
+    if (advanceamount) {
+      const nonEmptyFields = fields.filter(
+        (field) =>
+          field.reason !== "DueAmount" &&
+          (field.reason.trim() !== "" || field.amount.trim() !== "")
+      );
+
+      dispatch({
+        type: "ADDCONFIRMCHECKOUTCUSTOMER",
+        payload: {
+          checkout_date: formattedDate,
+          id: selectedCustomer,
+          hostel_id: data.Hostel_Id,
+          comments: comments,
+          advance_return: returnAmount,
+          reinburse: 1,
+          reasons: nonEmptyFields,
+          payment_id: modeOfPayment,
+        },
+      });
+    }
+  };
+
+
+
+  const [initialData, setInitialData] = useState({});
+
+  useEffect(() => {
+    if (data) {
+      const initialReasons = (data.amenities || []).map((item) => ({
+        reason: item.reason || "",
+        amount: String(item.amount || ""),
+      }));
+
+      setInitialData({
+        comments: data.checkout_comment || "",
+        modeOfPayment: data.bank_id || "",
+        reason: initialReasons,
+        paymentDate: data.CheckoutDate ? moment(data.CheckoutDate).format("YYYY-MM-DD") : "",
+      });
+    }
+  }, [data]);
+
+
+
+  const handleConfirmEditCheckout = () => {
+    if (!conformEdit) return;
+
+    let hasError = false;
+    setNoChangeMessage("");
+    setModeOfPaymentError(""); 
+
+    if (!selectedCustomer) {
+      setNoChangeMessage("Please select a customer.");
+      hasError = true;
+    }
+
+    if (!data.Hostel_Id) {
+      setNoChangeMessage("Hostel ID is missing.");
+      hasError = true;
+    }
+
+    if (!checkOutDate) {
+      setNoChangeMessage("Please select a checkout date.");
+      hasError = true;
+    }
+
+    if (!modeOfPayment) {
+      setModeOfPaymentError("Please select mode of payment.");
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
+
+    const currentReasonFields = fields.filter(
       (field) =>
         field.reason !== "DueAmount" &&
+        field.reason !== "Outstanding Due" &&
         (field.reason.trim() !== "" || field.amount.trim() !== "")
     );
 
+    const formattedPaymentDate = paymentDate
+      ? moment(paymentDate).format("YYYY-MM-DD")
+      : "";
+
+    const formattedIniatialDate = initialData.paymentDate
+      ? moment(initialData.paymentDate).format("YYYY-MM-DD")
+      : "";
+
+    const hasCommentsChanged = comments !== initialData.comments;
+    const hasBankIdChanged = modeOfPayment !== initialData.modeOfPayment;
+    const hasPaymentDateChanged = formattedPaymentDate !== formattedIniatialDate;
+
+    const areFieldsEqual = (a = [], b = []) => {
+      const filterFields = (fields) =>
+        fields
+          .filter(
+            (item) =>
+              item.reason?.trim() !== "DueAmount" &&
+              item.reason?.trim() !== "Outstanding Due"
+          )
+          .map((item) => ({
+            reason: (item.reason || "").trim(),
+            amount: (item.amount || "").trim(),
+          }));
+
+      const aFiltered = filterFields(a);
+      const bFiltered = filterFields(b);
+
+      if (aFiltered.length !== bFiltered.length) return false;
+
+      for (let i = 0; i < aFiltered.length; i++) {
+        if (
+          aFiltered[i].reason !== bFiltered[i].reason ||
+          aFiltered[i].amount !== bFiltered[i].amount
+        ) {
+          return false;
+        }
+      }
+
+      return true;
+    };
+
+    const haveFieldsChanged = !areFieldsEqual(currentReasonFields, initialData.reason);
+
+    
+
+    if (
+      !hasCommentsChanged &&
+      !haveFieldsChanged &&
+      !hasPaymentDateChanged &&
+      !hasBankIdChanged
+    ) {
+      setNoChangeMessage("No Changes Detected");
+      return;
+    }
+
     dispatch({
-      type: "ADDCONFIRMCHECKOUTCUSTOMER",
+      type: "EDITCONFIRMCHECKOUTCUSTOMER",
       payload: {
         checkout_date: formattedDate,
         id: selectedCustomer,
@@ -572,355 +661,16 @@ const handleConfirmCheckout = () => {
         comments: comments,
         advance_return: returnAmount,
         reinburse: 1,
-        reasons: nonEmptyFields,
+        reasons: currentReasonFields,
+        payment_date: formattedPaymentDate,
         payment_id: modeOfPayment,
+        user_id: selectedCustomer || currentItem?.ID,
       },
     });
-  }
-};
-
-
-
-const [initialData, setInitialData] = useState({});
-
-useEffect(() => {
-  if (data) {
-    console.log("data???????????????",data)
-    const initialReasons = (data.amenities || []).map((item) => ({
-      reason: item.reason || "",
-      amount: String(item.amount || ""),
-    }));
-
-    setInitialData({
-      comments: data.checkout_comment || "",
-      modeOfPayment:data.bank_id || "",
-      // returnAmount: String(data.advance_return || ""),
-      reason: initialReasons, // ✅ only reason & amount
-      paymentDate: data.CheckoutDate ? moment(data.CheckoutDate).format("YYYY-MM-DD") : "",
-    });
-  }
-}, [data]);
-
-
-
-const handleConfirmEditCheckout = () => {
-  if (!conformEdit) return;
-
-  let hasError = false;
-  setNoChangeMessage("");
-  setModeOfPaymentError(""); // clear specific error
-
-  if (!selectedCustomer) {
-    setNoChangeMessage("Please select a customer.");
-    hasError = true;
-  }
-
-  if (!data.Hostel_Id) {
-    setNoChangeMessage("Hostel ID is missing.");
-    hasError = true;
-  }
-
-  if (!checkOutDate) {
-    setNoChangeMessage("Please select a checkout date.");
-    hasError = true;
-  }
-
-  if (!modeOfPayment) {
-    setModeOfPaymentError("Please select mode of payment.");
-    hasError = true;
-  }
-
-  if (hasError) return;
-
-  const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
-
-  const currentReasonFields = fields.filter(
-    (field) =>
-      field.reason !== "DueAmount" &&
-      field.reason !== "Outstanding Due" &&
-      (field.reason.trim() !== "" || field.amount.trim() !== "")
-  );
-
-  const formattedPaymentDate = paymentDate
-    ? moment(paymentDate).format("YYYY-MM-DD")
-    : "";
-
-  const formattedIniatialDate = initialData.paymentDate
-    ? moment(initialData.paymentDate).format("YYYY-MM-DD")
-    : "";
-
-  const hasCommentsChanged = comments !== initialData.comments;
-  const hasBankIdChanged = modeOfPayment !== initialData.modeOfPayment;
-  const hasPaymentDateChanged = formattedPaymentDate !== formattedIniatialDate;
-
-  const areFieldsEqual = (a = [], b = []) => {
-    const filterFields = (fields) =>
-      fields
-        .filter(
-          (item) =>
-            item.reason?.trim() !== "DueAmount" &&
-            item.reason?.trim() !== "Outstanding Due"
-        )
-        .map((item) => ({
-          reason: (item.reason || "").trim(),
-          amount: (item.amount || "").trim(),
-        }));
-
-    const aFiltered = filterFields(a);
-    const bFiltered = filterFields(b);
-
-    if (aFiltered.length !== bFiltered.length) return false;
-
-    for (let i = 0; i < aFiltered.length; i++) {
-      if (
-        aFiltered[i].reason !== bFiltered[i].reason ||
-        aFiltered[i].amount !== bFiltered[i].amount
-      ) {
-        return false;
-      }
-    }
-
-    return true;
   };
-
-  const haveFieldsChanged = !areFieldsEqual(currentReasonFields, initialData.reason);
-
-  console.log("comments", initialData.comments);
-  console.log("currentReasonFields", initialData.reason);
-  console.log("modeOfPayment", modeOfPayment, initialData.modeOfPayment);
-
-  if (
-    !hasCommentsChanged &&
-    !haveFieldsChanged &&
-    !hasPaymentDateChanged &&
-    !hasBankIdChanged
-  ) {
-    setNoChangeMessage("No Changes Detected");
-    return;
-  }
-
-  dispatch({
-    type: "EDITCONFIRMCHECKOUTCUSTOMER",
-    payload: {
-      checkout_date: formattedDate,
-      id: selectedCustomer,
-      hostel_id: data.Hostel_Id,
-      comments: comments,
-      advance_return: returnAmount,
-      reinburse: 1,
-      reasons: currentReasonFields,
-      payment_date: formattedPaymentDate,
-      payment_id: modeOfPayment,
-      user_id: selectedCustomer || currentItem?.ID,
-    },
-  });
-};
-
-
-// const handleConfirmEditCheckout = () => {
-//   if (!conformEdit) return;
-
-//   let hasError = false;
-//   setNoChangeMessage(""); 
-//   setModeOfPaymentError(""); // clear specific error
-
-//   if (!selectedCustomer) {
-//     setNoChangeMessage("Please select a customer.");
-//     hasError = true;
-//   }
-
-//   if (!data.Hostel_Id) {
-//     setNoChangeMessage("Hostel ID is missing.");
-//     hasError = true;
-//   }
-
-//   if (!checkOutDate) {
-//     setNoChangeMessage("Please select a checkout date.");
-//     hasError = true;
-//   }
-
-//   if (!modeOfPayment) {
-//     setModeOfPaymentError("Please select mode of payment.");
-//     hasError = true;
-//   }
-
-//   if (hasError) return;
-
-//   const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
-
-//   const currentReasonFields = fields.filter(
-//     (field) =>
-//       field.reason !== "DueAmount" &&
-//       (field.reason.trim() !== "" || field.amount.trim() !== "")
-//   );
-
-//   const formattedPaymentDate = paymentDate
-//     ? moment(paymentDate).format("YYYY-MM-DD")
-//     : "";
-
-//   const formattedIniatialDate = initialData.paymentDate
-//     ? moment(initialData.paymentDate).format("YYYY-MM-DD")
-//     : "";
-
-//   const hasCommentsChanged = comments !== initialData.comments;
-//   const hasBankIdChanged = modeOfPayment !== initialData.modeOfPayment;
-//   const haveFieldsChanged =
-//     JSON.stringify(currentReasonFields) !== JSON.stringify(initialData.reason);
-//   const hasPaymentDateChanged =
-//     formattedPaymentDate !== formattedIniatialDate;
-
-//     console.log("comments",initialData.comments)
-//     console.log("currentReasonFields",initialData.reason)
-//     console.log("modeOfPayment",modeOfPayment,initialData.modeOfPayment)
-
-//   if (
-//     !hasCommentsChanged &&
-//     !haveFieldsChanged &&
-//     !hasPaymentDateChanged &&
-//     !hasBankIdChanged
-//   ) {
-//     setNoChangeMessage("No Changes Detected");
-//     return;
-//   }
-
-//   dispatch({
-//     type: "EDITCONFIRMCHECKOUTCUSTOMER",
-//     payload: {
-//       checkout_date: formattedDate,
-//       id: selectedCustomer,
-//       hostel_id: data.Hostel_Id,
-//       comments: comments,
-//       advance_return: returnAmount,
-//       reinburse: 1,
-//       reasons: currentReasonFields,
-//       payment_date: formattedPaymentDate,
-//       payment_id: modeOfPayment,
-//       user_id: selectedCustomer || currentItem?.ID,
-//     },
-//   });
-// };
-
-
-
-// const handleConfirmEditCheckout = () => {
-//   if (!conformEdit) return;
-
-//   if (!selectedCustomer || !data.Hostel_Id || !checkOutDate || !modeOfPayment) {
-//     setNoChangeMessage("Please fill all required fields");
-//     return;
-//   }
-
-//   // if(!modeOfPayment){
-//   //   setModeOfPaymentError("Please Select Mode Of Payment")
-//   // }
-
-//   const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
-//  const currentReasonFields = fields.filter(
-//   (field) =>
-//     field.reason !== "DueAmount" &&
-//     (field.reason.trim() !== "" || field.amount.trim() !== "")
-// );
-
-// // Format current payment date
-// const formattedPaymentDate = paymentDate
-//   ? moment(paymentDate).format("YYYY-MM-DD")
-//   : "";
-
-//   const formattedIniatialDate = initialData.paymentDate
-//   ? moment(initialData.paymentDate).format("YYYY-MM-DD")
-//   : "";
-
-// // Compare with initial
-// const hasCommentsChanged = comments !== initialData.comments;
-// // const hasReturnAmountChanged = Number(returnAmount) !== Number(initialData.returnAmount);
-// const haveFieldsChanged = JSON.stringify(currentReasonFields) !== JSON.stringify(initialData.reason);
-// const hasPaymentDateChanged = formattedPaymentDate !== formattedIniatialDate;
-
-
-// if (
-//   !hasCommentsChanged &&
-//   // !hasReturnAmountChanged &&
-//   !haveFieldsChanged &&
-//   !hasPaymentDateChanged
-// ) {
-//   setNoChangeMessage("No Changes Detected.");
-//   return;
-// }
-
-
-
-//   dispatch({
-//     type: "EDITCONFIRMCHECKOUTCUSTOMER",
-//     payload: {
-//       checkout_date: formattedDate,
-//       id: selectedCustomer,
-//       hostel_id: data.Hostel_Id,
-//       comments: comments,
-//       advance_return: returnAmount,
-//       reinburse: 1,
-//       reasons: currentReasonFields,
-//       payment_date: formattedPaymentDate,
-//       payment_id:modeOfPayment,
-//       user_id: selectedCustomer || currentItem?.ID,
-//     },
-//   });
-// };
-
-
-
-// const handleConfirmEditCheckout = () => {
-//   if (!conformEdit) return;
-//     if (!selectedCustomer || !data.Hostel_Id || !checkOutDate) {
-//       return;
-//     }
-//     if (!selectedCustomer) {
-//       setCustomerError("Please Select a Customer");
-//       // return;
-//     }
-
-    
-
-//     if (!checkOutDate) {
-//       setCheckOutDateError("Please select a checkout Date");
-//       // return;
-//     }
-
-
-//     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
-//       "YYYY-MM-DD"
-//     );
-
-   
-
-//     if (selectedCustomer && data.Hostel_Id && formattedDate && advanceamount) {
-//       const nonEmptyFields = fields.filter(
-//         (field) =>
-//           field.reason !== "DueAmount" &&
-//           (field.reason.trim() !== "" || field.amount.trim() !== "")
-//       );
-      
-      
-//       dispatch({
-//         type: "EDITCONFIRMCHECKOUTCUSTOMER",
-//         payload: {
-//           checkout_date: formattedDate,
-//           id: selectedCustomer,
-//           hostel_id: data.Hostel_Id,
-//           comments: comments,
-//           advance_return: returnAmount,
-//           reinburse: 1,
-//           reasons: nonEmptyFields,
-//           payment_date:paymentDate,
-//           user_id:selectedCustomer || currentItem?.ID,
-//         },
-//       });
-//     }
-
-
 
 
   
-//   };
 
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
@@ -933,7 +683,7 @@ const handleConfirmEditCheckout = () => {
 
 
 
-   useEffect(() => {
+  useEffect(() => {
     if (state.UsersList.statusCodeConformEdit === 200) {
       handleCloseConfirmFormPage()
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
@@ -942,75 +692,63 @@ const handleConfirmEditCheckout = () => {
       }, 500);
     }
   }, [state.UsersList.statusCodeConformEdit]);
-  console.log("state.UserList.conformChekoutError",state.UsersList.conformChekoutError)
-
   
-  const [conformcheckErr,setConformCheckErr] = useState("")
-  useEffect(()=>{
-if(state.UsersList.conformChekoutError){
-  setConformCheckErr(state.UsersList.conformChekoutError)
 
-}
-  },[state.UsersList.conformChekoutError])
 
-  
-  useEffect(()=>{
-if(state.UsersList.conformChekoutEditError){
-  setConformCheckErr(state.UsersList.conformChekoutEditError)
+  const [conformcheckErr, setConformCheckErr] = useState("")
+  useEffect(() => {
+    if (state.UsersList.conformChekoutError) {
+      setConformCheckErr(state.UsersList.conformChekoutError)
 
-}
-  },[state.UsersList.conformChekoutEditError])
-  // useEffect(() => {
-  //   const advance = parseFloat(advanceamount) || 0;
-  //   const due = parseFloat(dueamount) || 0;
-  //   const totalExtra = fields
-  //     .slice(1)
-  //     .reduce((acc, curr) => {
-  //       const amt = parseFloat(curr.amount);
-  //       return acc + (isNaN(amt) ? 0 : amt);
-  //     }, 0);
-  
-  //   const result = advance - (due + totalExtra);
-  //   setReturnAmount(result);
-  // }, [advanceamount, dueamount, fields,conformEdit]);
+    }
+  }, [state.UsersList.conformChekoutError])
+
 
   useEffect(() => {
-  const advance = parseFloat(advanceamount) || 0;
-  const due = parseFloat(dueamount) || 0;
+    if (state.UsersList.conformChekoutEditError) {
+      setConformCheckErr(state.UsersList.conformChekoutEditError)
 
-  const relevantFields = conformEdit ? fields : fields.slice(1);
-
-  const totalExtra = relevantFields.reduce((acc, curr) => {
-    const amt = parseFloat(curr.amount);
-    return acc + (isNaN(amt) ? 0 : amt);
-  }, 0);
-
-  const result = advance - (due + totalExtra);
-  setReturnAmount(result);
-}, [advanceamount, dueamount, fields, conformEdit]);
-
-  
+    }
+  }, [state.UsersList.conformChekoutEditError])
   
 
-  
-  console.log("Advance:", advanceamount, "Due:", dueamount, "Fields:", fields);
-  
- 
+  useEffect(() => {
+    const advance = parseFloat(advanceamount) || 0;
+    const due = parseFloat(dueamount) || 0;
+
+    const relevantFields = conformEdit ? fields : fields.slice(1);
+
+    const totalExtra = relevantFields.reduce((acc, curr) => {
+      const amt = parseFloat(curr.amount);
+      return acc + (isNaN(amt) ? 0 : amt);
+    }, 0);
+
+    const result = advance - (due + totalExtra);
+    setReturnAmount(result);
+  }, [advanceamount, dueamount, fields, conformEdit]);
+
+
+
+
+
+
+
+
   const handleInputChange = (index, field, value) => {
     const updatedFields = [...fields];
     updatedFields[index][field] = value;
     setNoChangeMessage("")
-  
-    
+
+
     setFields(updatedFields);
   };
-  
 
-  
+
+
   const handleAddField = () => {
     setFields([...fields, { reason: "", amount: "" }]);
   };
-  
+
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
     updatedFields.splice(index, 1);
@@ -1023,7 +761,7 @@ if(state.UsersList.conformChekoutEditError){
     fontFamily: "Gilroy",
     fontWeight: 500,
   };
-  
+
   const inputStyle = {
     height: "50px",
     borderRadius: "8px",
@@ -1035,7 +773,7 @@ if(state.UsersList.conformChekoutEditError){
     border: "1px solid #D9D9D9",
   };
 
-  
+
 
 
   return (
@@ -1050,17 +788,17 @@ if(state.UsersList.conformChekoutEditError){
             }}
           >
             {
-               currentItem && checkouteditaction
-              ? "Edit Check-Out"
-              : "Add Check-Out"}
+              currentItem && checkouteditaction
+                ? "Edit Check-Out"
+                : "Add Check-Out"}
           </Modal.Title>
-          <CloseCircle size="24" color="#000" onClick={handlecloseform} 
-            style={{ cursor: 'pointer' }}/>
+          <CloseCircle size="24" color="#000" onClick={handlecloseform}
+            style={{ cursor: 'pointer' }} />
         </Modal.Header>
 
         <Modal.Body>
           <div className="row row-gap-2">
-            { !checkouteditaction && (
+            {!checkouteditaction && (
               <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
                 <div className="form-group">
                   <label
@@ -1084,9 +822,9 @@ if(state.UsersList.conformChekoutEditError){
                     options={formatOptions()}
                     placeholder="Select a customer"
                     classNamePrefix="custom"
-    menuPlacement="auto"
-   
-                    // isDisabled={checkouteditaction}
+                    menuPlacement="auto"
+
+                  
                   />
 
                   {customerWError && (
@@ -1126,17 +864,14 @@ if(state.UsersList.conformChekoutEditError){
                   }}
                 >
                   Current Floor{" "}
-                  {/* <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span> */}
+                  
                 </Form.Label>
                 <FormControl
                   id="form-controls"
                   placeholder="Enter Name"
                   type="text"
                   value={floorname}
-                  //   onChange={(e) => handleFirstName(e)}
+                  
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -1169,7 +904,7 @@ if(state.UsersList.conformChekoutEditError){
                   placeholder="Enter name"
                   type="text"
                   value={bedname}
-                  //   onChange={(e) => handleFirstName(e)}
+                  
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -1185,66 +920,66 @@ if(state.UsersList.conformChekoutEditError){
               </Form.Group>
             </div>
 
-           
-          
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-2" controlId="purchaseDate">
-                  <Form.Label
+
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group className="mb-2" controlId="purchaseDate">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Request Date{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
+
+
+                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                  <DatePicker
+                    style={{ width: "100%", height: 48, cursor: "pointer" }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={checkOutrequestDate ? dayjs(checkOutrequestDate) : null}
+                    onChange={(date) => {
+                      setCheckOutRequestDateError("");
+                      setIsChangedError("");
+                      setCheckOutRequestDate(date ? date.toDate() : null);
+                    }}
+                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                  />
+                </div>
+              </Form.Group>
+              {checkoUtrequestDateError && (
+                <div
+                  className="d-flex align-items-center p-1 mb-2"
+                  style={{ marginTop: "-6px" }}
+                >
+                  <MdError
                     style={{
-                      fontSize: 14,
-                      color: "#222222",
+                      color: "red",
+                      marginRight: "5px",
+                      fontSize: "12px",
+                    }}
+                  />
+                  <label
+                    className="mb-0"
+                    style={{
+                      color: "red",
+                      fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
                   >
-                    Request Date{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                  </Form.Label>
-                 
+                    {checkoUtrequestDateError}
+                  </label>
+                </div>
+              )}
+            </div>
 
-<div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                <DatePicker
-                  style={{ width: "100%", height: 48,cursor:"pointer" }}
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  value={checkOutrequestDate ? dayjs(checkOutrequestDate) : null}
-                  onChange={(date) => {
-                    setCheckOutRequestDateError("");
-                    setIsChangedError("");
-                    setCheckOutRequestDate(date ? date.toDate() : null);
-                  }}
-                  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                />
-              </div>
-                </Form.Group>
-                {checkoUtrequestDateError && (
-                  <div
-                    className="d-flex align-items-center p-1 mb-2"
-                    style={{ marginTop: "-6px" }}
-                  >
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "12px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {checkoUtrequestDateError}
-                    </label>
-                  </div>
-                )}
-              </div>
-           
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-2" controlId="purchaseDate">
                 <Form.Label
                   style={{
@@ -1257,23 +992,23 @@ if(state.UsersList.conformChekoutEditError){
                   Check-Out Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-               
 
 
-               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                <DatePicker
-                  style={{ width: "100%", height: 48,cursor:"pointer" }}
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  value={checkOutDate ? dayjs(checkOutDate) : null}
-                  onChange={(date) => {
-                    setCheckOutDateError('');
-                    setIsChangedError("");
-                    setCheckOutDate(date ? date.toDate() : null);
-                  }}
-                  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                />
-              </div>
+
+                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                  <DatePicker
+                    style={{ width: "100%", height: 48, cursor: "pointer" }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={checkOutDate ? dayjs(checkOutDate) : null}
+                    onChange={(date) => {
+                      setCheckOutDateError('');
+                      setIsChangedError("");
+                      setCheckOutDate(date ? date.toDate() : null);
+                    }}
+                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                  />
+                </div>
               </Form.Group>
               {checkoUtDateError && (
                 <div
@@ -1294,7 +1029,7 @@ if(state.UsersList.conformChekoutEditError){
                       fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      whiteSpace:"nowrap"
+                      whiteSpace: "nowrap"
                     }}
                   >
                     {checkoUtDateError}
@@ -1303,7 +1038,7 @@ if(state.UsersList.conformChekoutEditError){
               )}
             </div>
 
-            
+
 
             <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
               <label
@@ -1365,7 +1100,7 @@ if(state.UsersList.conformChekoutEditError){
                   fontSize: "12px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
-                 
+
                 }}
               >
                 {state.UsersList.errorMessageAddCheckOut}
@@ -1373,12 +1108,12 @@ if(state.UsersList.conformChekoutEditError){
             </div>
           )}
 
-         
+
 
           {isChangedError && (
             <div
               className="d-flex justify-content-center align-items-center"
-              style={{ color: "red",marginTop:15 }}
+              style={{ color: "red", marginTop: 15 }}
             >
               <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
               <span
@@ -1396,24 +1131,7 @@ if(state.UsersList.conformChekoutEditError){
 
 
 
-          {/* {data && checkoutaction && !checkoutaddform && dueamount > 0 && (
-            <div className="d-flex align-items-center p-1  mt-2" style={{paddingTop:"6px"}}>
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                This customer has Due Amounts Total Due Amount is Rs{" "}
-                {dueamount}
-              </label>
-            </div>
-          )} */}
-
+          
           <Button
             className="mt-3"
             style={{
@@ -1425,29 +1143,26 @@ if(state.UsersList.conformChekoutEditError){
               width: "100%",
               backgroundColor: "#1E45E1",
             }}
-            // disabled={
-            //   !checkouteditaction &&
-            //   !checkoutaddform &&
-            //   dueamount > 0 }
-              onClick={() => {
-               if (checkouteditaction) {
-                  handleCheckOutCustomer();
-                } else {
-                  handleCheckOutCustomer();
-                }
-              }}
-              
-              
-               
+           
+            onClick={() => {
+              if (checkouteditaction) {
+                handleCheckOutCustomer();
+              } else {
+                handleCheckOutCustomer();
+              }
+            }}
+
+
+
           >
-            { currentItem && checkouteditaction
+            {currentItem && checkouteditaction
               ? "Save Changes"
               : "Add Check-Out"}
           </Button>
         </Modal.Body>
       </Modal>
 
-{/* confirm checkout form */}
+    
 
       <Modal show={cofirmForm} onHide={handleCloseConfirmFormPage} centered backdrop="static">
         <Modal.Header className="d-flex justify-content-between align-items-center">
@@ -1458,7 +1173,7 @@ if(state.UsersList.conformChekoutEditError){
               fontFamily: "Gilroy",
             }}
           >
-           Confirm Check-Out
+            Confirm Check-Out
           </Modal.Title>
           <img
             src={Closecircle}
@@ -1470,8 +1185,8 @@ if(state.UsersList.conformChekoutEditError){
 
         <Modal.Body>
           <div className="row row-gap-2">
-          
-           
+
+
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -1484,17 +1199,14 @@ if(state.UsersList.conformChekoutEditError){
                   }}
                 >
                   Current Floor{" "}
-                  {/* <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span> */}
+                 
                 </Form.Label>
                 <FormControl
                   id="form-controls"
                   placeholder="Enter Name"
                   type="text"
                   value={floorname}
-                  //   onChange={(e) => handleFirstName(e)}
+                 
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -1527,7 +1239,7 @@ if(state.UsersList.conformChekoutEditError){
                   placeholder="Enter name"
                   type="text"
                   value={bedname}
-                  //   onChange={(e) => handleFirstName(e)}
+                  
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -1556,26 +1268,28 @@ if(state.UsersList.conformChekoutEditError){
                   Check-Out Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-               
 
 
-               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", }}>
-                <DatePicker
-                  style={{ width: "100%", height: 48,cursor:"pointer" ,
-      backgroundColor: conformEdit ? "#E7F1FF" : "#fff",
-      color: conformEdit ? "#000" : "#000"}}
-                  format="DD/MM/YYYY"
-                  placeholder="DD/MM/YYYY"
-                  value={checkOutDate ? dayjs(checkOutDate) : null}
-                  onChange={(date) => {
-                    setCheckOutDateError('');
-                    setIsChangedError("");
-                    setCheckOutDate(date ? date.toDate() : null);
-                  }}
-                  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                  disabled={conformEdit}
-                />
-              </div>
+
+                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", }}>
+                  <DatePicker
+                    style={{
+                      width: "100%", height: 48, cursor: "pointer",
+                      backgroundColor: conformEdit ? "#E7F1FF" : "#fff",
+                      color: conformEdit ? "#000" : "#000"
+                    }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={checkOutDate ? dayjs(checkOutDate) : null}
+                    onChange={(date) => {
+                      setCheckOutDateError('');
+                      setIsChangedError("");
+                      setCheckOutDate(date ? date.toDate() : null);
+                    }}
+                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                    disabled={conformEdit}
+                  />
+                </div>
               </Form.Group>
               {checkoUtDateError && (
                 <div
@@ -1604,212 +1318,115 @@ if(state.UsersList.conformChekoutEditError){
               )}
             </div>
 
-          
-            <div className="col-lg-6 col-md-6 col-sm-12 colxs-12 mt-2">
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <label
-                      htmlFor="Advance"
-                      style={{
-                        fontSize: 14,
-                        color: "rgba(75, 75, 75, 1)",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                     Total Advance 
-                    </label>
 
-                  
+            <div className="col-lg-6 col-md-6 col-sm-12 colxs-12 mt-2">
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <label
+                  htmlFor="Advance"
+                  style={{
+                    fontSize: 14,
+                    color: "rgba(75, 75, 75, 1)",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Total Advance
+                </label>
+
+
+              </div>
+
+              <input
+                type="text"
+                name="Advance"
+                id="Advance"
+                value={advanceamount}
+                
+                className="form-control mt-2"
+                placeholder="Add Advance Amount"
+                required
+                style={{
+                  height: "50px",
+                  borderRadius: "8px",
+                  fontSize: 16,
+                  color: comments ? "#222" : "#4b4b4b",
+                  fontFamily: "Gilroy",
+                  fontWeight: comments ? 600 : 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                }}
+              />
+            </div>
+
+
+            <h6>Advance Deduction</h6>
+
+            <div className="row align-items-center">
+              {fields.map((item, index) => (
+                <React.Fragment key={index}>
+                  <div className="col-lg-5 col-md-6 col-sm-12">
+                    <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
+                      {index === 0 ? 'DueAmount ' : 'Reason'}
+                    </label>
+                    <input
+                      type="text"
+                      id={`reason-${index}`}
+                      name={`reason-${index}`}
+                      placeholder={index === 0 ? 'Due Reason' : 'Enter Reason'}
+                      value={item.reason}
+                      onChange={(e) => handleInputChange(index, "reason", e.target.value)}
+                      className="form-control"
+                      style={inputStyle}
+                      disabled={index === 0} 
+                    />
                   </div>
 
-                  <input
-                    type="text"
-                    name="Advance"
-                    id="Advance"
-                    value={advanceamount}
-                    // onChange={handleCommentsChange}
-                    className="form-control mt-2"
-                    placeholder="Add Advance Amount"
-                    required
-                    style={{
-                      height: "50px",
-                      borderRadius: "8px",
-                      fontSize: 16,
-                      color: comments ? "#222" : "#4b4b4b",
-                      fontFamily: "Gilroy",
-                      fontWeight: comments ? 600 : 500,
-                      boxShadow: "none",
-                      border: "1px solid #D9D9D9",
-                    }}
-                  />
-                </div>
+                  <div className="col-lg-5 col-md-6 col-sm-12">
+                    <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
+                      Amount
+                    </label>
+                    <input
+                      type="text"
+                      id={`amount-${index}`}
+                      name={`amount-${index}`}
+                      placeholder={index === 0 ? `₹${dueamount || 0}` : 'Enter Amount'}
+                      value={index === 0 ? (fields[0].amount || dueamount || "") : item.amount}
+                      onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                      className="form-control"
+                      style={inputStyle}
+                      disabled={index === 0} 
+                    />
+                  </div>
 
+                  <div className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-center align-items-center gap-2" style={{ marginTop: 30 }}>
+                    {index === fields.length - 1 && (
+                      <img
+                        src={PlusIcon}
+                        alt="plus"
+                        width={25}
+                        height={25}
+                        style={{ cursor: "pointer" }}
+                        onClick={handleAddField}
+                      />
+                    )}
+                    {fields.length > 1 && index !== 0 && (
+                      <img
+                        src={Delete}
+                        alt="remove"
+                        width={20}
+                        height={20}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => handleRemoveField(index)}
+                      />
+                    )}
+                  </div>
+                </React.Fragment>
+              ))}
+            </div>
 
-  <h6>Advance Deduction</h6>
-  
-  <div className="row align-items-center">
-  {fields.map((item, index) => (
-    <React.Fragment key={index}>
-      <div className="col-lg-5 col-md-6 col-sm-12">
-        <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
-          {index === 0 ? 'DueAmount ' : 'Reason'}
-        </label>
-        <input
-          type="text"
-          id={`reason-${index}`}
-          name={`reason-${index}`}
-          placeholder={index === 0 ? 'Due Reason' : 'Enter Reason'}
-          value={item.reason}
-          onChange={(e) => handleInputChange(index, "reason", e.target.value)}
-          className="form-control"
-          style={inputStyle}
-          disabled={index === 0} // 🔒 Disable DueAmount Reason
-        />
-      </div>
-
-      <div className="col-lg-5 col-md-6 col-sm-12">
-        <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
-          Amount
-        </label>
-        <input
-          type="text"
-          id={`amount-${index}`}
-          name={`amount-${index}`}
-          placeholder={index === 0 ? `₹${dueamount || 0}` : 'Enter Amount'}
-          value={index === 0 ? (fields[0].amount || dueamount || "") : item.amount}
-          onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-          className="form-control"
-          style={inputStyle}
-          disabled={index === 0} // 🔒 Disable DueAmount Amount
-        />
-      </div>
-
-      <div className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-center align-items-center gap-2" style={{ marginTop: 30 }}>
-        {index === fields.length - 1 && (
-          <img
-            src={PlusIcon}
-            alt="plus"
-            width={25}
-            height={25}
-            style={{ cursor: "pointer" }}
-            onClick={handleAddField}
-          />
-        )}
-        {fields.length > 1 && index !== 0 && (
-          <img
-            src={Delete}
-            alt="remove"
-            width={20}
-            height={20}
-            style={{ cursor: "pointer" }}
-            onClick={() => handleRemoveField(index)}
-          />
-        )}
-      </div>
-    </React.Fragment>
-  ))}
-</div>
-
-{(conformEdit) && (
-  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <Form.Group className="mb-2" controlId="purchaseDate">
-      <Form.Label
-        style={{
-          fontSize: 14,
-          color: "#222222",
-          fontFamily: "Gilroy",
-          fontWeight: 500,
-        }}
-      >
-        Payment Date{" "}
-        <span style={{ color: "red", fontSize: "20px" }}>*</span>
-      </Form.Label>
-
-      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-        <DatePicker
-          style={{ width: "100%", height: 48, cursor: "pointer" }}
-          format="DD/MM/YYYY"
-          placeholder="DD/MM/YYYY"
-          value={paymentDate ? dayjs(paymentDate) : null}
-          onChange={(date) => {
-            setIsChangedError("");
-            setNoChangeMessage("")
-            setPaymentDate(date ? date.toDate() : null);
-          }}
-          getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-        />
-      </div>
-    </Form.Group>
-
-    {/* {checkoUtDateError && (
-      <div
-        className="d-flex align-items-center p-1"
-        style={{ marginTop: "-6px" }}
-      >
-        <MdError
-          style={{
-            color: "red",
-            marginRight: "5px",
-            fontSize: "12px",
-          }}
-        />
-        <label
-          className="mb-0"
-          style={{
-            color: "red",
-            fontSize: "12px",
-            fontFamily: "Gilroy",
-            fontWeight: 500,
-          }}
-        >
-          {checkoUtDateError}
-        </label>
-      </div>
-    )} */}
-  </div>
-)}
-
-           
-<div className="col-lg-6 col-md-6 col-sm-12">
-    <label
-      htmlFor="amount"
-      className="form-label"
-      style={{
-        fontSize: 14,
-        color: "rgba(75, 75, 75, 1)",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-      }}
-    >
-      ReturnAmount
-    </label>
-    <input
-      type="text"
-      id="amount"
-      name="amount"
-      placeholder="Enter Return Amount"
-      className="form-control"
-      disabled
-      // onChange={(e)=>handleAddAmount(e)}
-      value={returnAmount}
-      style={{
-        height: "50px",
-        borderRadius: "8px",
-        fontSize: 16,
-        color: "#222",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-        border: "1px solid #D9D9D9",
-      }}
-    />
-  </div>
-
-  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-1"
-                  controlId="exampleForm.ControlInput1"
-                >
+            {(conformEdit) && (
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Group className="mb-2" controlId="purchaseDate">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1818,114 +1435,148 @@ if(state.UsersList.conformChekoutEditError){
                       fontWeight: 500,
                     }}
                   >
-                    Mode of Transaction{" "}
-                    <span
-                      style={{
-                        color: "#FF0000",
-                        display: modeOfPayment ? "none" : "inline-block",
-                      }}
-                    >
-                      *
-                    </span>
+                    Payment Date{" "}
+                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    value={modeOfPayment}
-                    onChange={handleModeOfPaymentChange}
-                    // disabled={currentItem}
-                    className=""
-                    id="vendor-select"
+
+                  <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                    <DatePicker
+                      style={{ width: "100%", height: 48, cursor: "pointer" }}
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                      value={paymentDate ? dayjs(paymentDate) : null}
+                      onChange={(date) => {
+                        setIsChangedError("");
+                        setNoChangeMessage("")
+                        setPaymentDate(date ? date.toDate() : null);
+                      }}
+                      getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                    />
+                  </div>
+                </Form.Group>
+
+               
+              </div>
+            )}
+
+
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              <label
+                htmlFor="amount"
+                className="form-label"
+                style={{
+                  fontSize: 14,
+                  color: "rgba(75, 75, 75, 1)",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                ReturnAmount
+              </label>
+              <input
+                type="text"
+                id="amount"
+                name="amount"
+                placeholder="Enter Return Amount"
+                className="form-control"
+                disabled
+               
+                value={returnAmount}
+                style={{
+                  height: "50px",
+                  borderRadius: "8px",
+                  fontSize: 16,
+                  color: "#222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                }}
+              />
+            </div>
+
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <Form.Group
+                className="mb-1"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Mode of Transaction{" "}
+                  <span
                     style={{
-                      fontSize: 16,
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: modeOfPayment ? 600 : 500,
-                      cursor:"pointer"
+                      color: "#FF0000",
+                      display: modeOfPayment ? "none" : "inline-block",
                     }}
                   >
-              
-                   <option value="">Select Mode Of Payment</option>
-                    {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
+                    *
+                  </span>
+                </Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  value={modeOfPayment}
+                  onChange={handleModeOfPaymentChange}
+                                   className=""
+                  id="vendor-select"
+                  style={{
+                    fontSize: 16,
+                    color: "rgba(75, 75, 75, 1)",
+                    fontFamily: "Gilroy",
+                    fontWeight: modeOfPayment ? 600 : 500,
+                    cursor: "pointer"
+                  }}
+                >
+
+                  <option value="">Select Mode Of Payment</option>
+                  {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
                     state.bankingDetails?.bankingList?.banks.map((item) => {
                       let label = "";
                       if (item.type === "bank") label = 'Bank';
                       else if (item.type === "upi") label = "UPI";
                       else if (item.type === "card") label = "Card";
                       else if (item.type === "cash") label = "Cash";
-                  
+
                       return (
                         <option key={item.id} value={item.id}>
-                        {`${item.benificiary_name} - ${label}`}
-                      </option>                      
+                          {`${item.benificiary_name} - ${label}`}
+                        </option>
                       );
                     })}
-                  
-                  </Form.Select>
+
+                </Form.Select>
 
 
-                    {modeOfPaymentError && (
-            <div
-              className="d-flex justify-content-center align-items-center"
-              style={{ color: "red",marginTop:15 }}
-            >
-              <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
-              <span
-                style={{
-                  fontSize: "14px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {modeOfPaymentError}
-              </span>
-            </div>
-          )}
-                 
-  {/* <Select
-    options={options}
-    value={options.find((opt) => opt?.value === modeOfPayment)}
-    onChange={(selectedOption) =>
-      handleModeOfPaymentChange(selectedOption?.value)
-    }
-    placeholder="Select Mode Of Payment"
-    // styles={{
-    //   menu: (provided) => ({
-    //     ...provided,
-    //     maxHeight: 200, // Set max height for scroll
-    //     overflowY: "auto",
-    //   }),
-    //   control: (provided, state) => ({
-    //     ...provided,
-    //     fontSize: 16,
-    //     color: "rgba(75, 75, 75, 1)",
-    //     fontFamily: "Gilroy",
-    //     fontWeight: modeOfPayment ? 600 : 500,
-    //     cursor: "pointer",
-    //   }),
-    // }}
-    styles={customStyles}
-  /> */}
-
-
-                </Form.Group>
-                {/* {paymentError && (
-                  <div className="d-flex align-items-center  mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
-                    <label
-                      className="mb-0"
+                {modeOfPaymentError && (
+                  <div
+                    className="d-flex justify-content-center align-items-center"
+                    style={{ color: "red", marginTop: 15 }}
+                  >
+                    <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                    <span
                       style={{
-                        color: "red",
-                        fontSize: "12px",
+                        fontSize: "14px",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
                       }}
                     >
-                      {paymentError}
-                    </label>
+                      {modeOfPaymentError}
+                    </span>
                   </div>
-                )} */}
-              </div>
-            
+                )}
+
+              
+
+
+              </Form.Group>
+              
+            </div>
+
 
             <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
               <label
@@ -1987,7 +1638,7 @@ if(state.UsersList.conformChekoutEditError){
                   fontSize: "12px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
-                 
+
                 }}
               >
                 {state.UsersList.errorMessageAddCheckOut}
@@ -1995,27 +1646,12 @@ if(state.UsersList.conformChekoutEditError){
             </div>
           )}
 
-          {/* {generalError && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {generalError}
-              </label>
-            </div>
-          )} */}
+        
 
           {isChangedError && (
             <div
               className="d-flex justify-content-center align-items-center"
-              style={{ color: "red",marginTop:15 }}
+              style={{ color: "red", marginTop: 15 }}
             >
               <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
               <span
@@ -2031,26 +1667,26 @@ if(state.UsersList.conformChekoutEditError){
           )}
 
           {conformcheckErr && (
-           <div
-           className="d-flex justify-content-center align-items-center"
-           style={{ color: "red",marginTop:15 }}
-         >
-           <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
-           <span
-             style={{
-               fontSize: "12px",
-               fontFamily: "Gilroy",
-               fontWeight: 500,
-             }}
-           >
-             {conformcheckErr}
-           </span>
-         </div>
-          )}
-           {noChangeMessage && (
             <div
               className="d-flex justify-content-center align-items-center"
-              style={{ color: "red",marginTop:15 }}
+              style={{ color: "red", marginTop: 15 }}
+            >
+              <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                {conformcheckErr}
+              </span>
+            </div>
+          )}
+          {noChangeMessage && (
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ color: "red", marginTop: 15 }}
             >
               <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
               <span
@@ -2064,7 +1700,7 @@ if(state.UsersList.conformChekoutEditError){
               </span>
             </div>
           )}
-          
+
 
           <Button
             className="mt-3"
@@ -2077,17 +1713,17 @@ if(state.UsersList.conformChekoutEditError){
               width: "100%",
               backgroundColor: "#1E45E1",
             }}
-           
 
-              // onClick={handleConfirmCheckout}
-               onClick={conformEdit ? handleConfirmEditCheckout : handleConfirmCheckout}
-              
-              
-               
+
+            
+            onClick={conformEdit ? handleConfirmEditCheckout : handleConfirmCheckout}
+
+
+
           >
             {conformEdit
               ? "Save Changes"
-              
+
               : "Confirm Check-Out"}
 
           </Button>
@@ -2111,7 +1747,7 @@ CheckOutForm.propTypes = {
   onClick: PropTypes.func.isRequired,
   cofirmForm: PropTypes.func.isRequired,
   handleCloseConformForm: PropTypes.func.isRequired,
-   conformEdit: PropTypes.func.isRequired,
+  conformEdit: PropTypes.func.isRequired,
 };
 
 export default CheckOutForm;
