@@ -1527,15 +1527,13 @@ whiteSpace: "nowrap"
                                 padding: "3px 10px",
                                 borderRadius: "60px",
                                 backgroundColor: "#EBEBEB",
-                                borderRadius: "60px",
-                             
                                 textAlign: "start",
                                 fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                               }}
                             >
-                               {/* {user.desc === ""} */}
+                              
                               {user.desc === "Invoice"
                                 ? "Credit":"Debit"
                               }
