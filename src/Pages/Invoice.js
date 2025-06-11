@@ -220,7 +220,7 @@ const InvoicePage = () => {
   }, [state.InvoiceList.NodataRecurringStatusCode]);
 
 
-console.log("container",receiptdata)
+
 
   useEffect(() => {
     if (state.InvoiceList.NodataReceiptStatusCode === 201) {
@@ -363,10 +363,10 @@ console.log("container",receiptdata)
       setShowLoader(true);
     }
   };
-  console.log("bills",bills)
+
 
   const handleReceiptDetail = (item) => {
-    console.log("item", item);
+   
     
     if (item.user_id) {
 
@@ -936,7 +936,6 @@ console.log("container",receiptdata)
     }
   };
 
-  console.log("props", invoiceList.balanceDue);
   const handleCloseForm = () => {
     // setEdit(!edit)
     setPaymodeErrmsg("")
@@ -1704,7 +1703,7 @@ console.log("container",receiptdata)
 
     return sorted;
   }, [currentReceiptData, sortConfigReceipt]);
-  console.log("sortedDataReceipt",receiptdata)
+  
   const handleSortReceipt = (key, direction) => {
     setSortConfigReceipt({ key, direction });
   };
@@ -1844,7 +1843,7 @@ useEffect(()=>{
   const handleClosePdfReceipt = () => {
     setDownloadReceipt(false);
   };
-console.log("DownloadReceipt",receiptdata)
+
   const handleClosePdfModal = () => {
     setDownloadInvoice(false);
   };
@@ -2824,8 +2823,7 @@ console.log("DownloadReceipt",receiptdata)
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      console.log(`Clicked on: ${user.user_name}`);
-                                      handleUserRecuire(user);
+                                                                           handleUserRecuire(user);
                                     }}
                                   >
                                     <Image
@@ -2891,7 +2889,7 @@ console.log("DownloadReceipt",receiptdata)
                                       onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
-                                        console.log(`Clicked on: ${user.Name}`); // Debug line
+                                       
                                         handleUserReceipt(user);
                                       }}
                                     >

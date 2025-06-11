@@ -10,7 +10,6 @@ import vector from "../Assets/Images/New_images/Asset_Arrow.png";
 import key from "../Assets/Images/key.png";
 import clock from "../Assets/Images/Car.png";
 import { useDispatch, useSelector } from "react-redux";
-// import Profile from "../Assets/Images/New_images/profile-picture.png";
 import drop from "../Assets/Images/New_images/arrow-down.png";
 import DashboardAnnouncement from "./DashboardAnnouncement";
 import DashboardUpdates from "./DashboardUpdates";
@@ -36,7 +35,6 @@ import {
 } from "recharts";
 import { MdError } from "react-icons/md";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
-// import { Table } from "react-bootstrap";
 import LoaderComponent from "./LoaderComponent";
 import PropTypes from "prop-types";
 import Marquee from "react-fast-marquee";
@@ -48,14 +46,7 @@ import advancedHand from "../Assets/Images/New_images/AdvancedHand.png";
 import newBooking from "../Assets/Images/New_images/NewBooking.png";
 
 
-// const newChart = [
-//   { name: "Jan 2024", Advance: 10000, AdvanceReturn: 9000 },
-//   { name: "Feb 2024", Advance: 15000, AdvanceReturn: 13000 },
-//   { name: "Mar 2024", Advance: 20000, AdvanceReturn: 18000 },
-//   { name: "Apr 2024", Advance: 25000, AdvanceReturn: 23000 },
-//   { name: "May 2024", Advance: 20000, AdvanceReturn: 18000 },
-//   { name: "Jun 2024", Advance: 15000, AdvanceReturn: 14000 },
-// ];
+
 
 function Dashboard() {
   const state = useSelector((state) => state);
@@ -64,8 +55,7 @@ function Dashboard() {
   const [dashboardList, setDashboardList] = useState([]);
   const [lablesdata, setLables] = useState([]);
   const [totalAmount, setTotalAmount] = useState([]);
-  // const [activecommpliance, setActivecommpliance] = useState([]);
-  const [rolePermission, setRolePermission] = useState("");
+   const [rolePermission, setRolePermission] = useState("");
   const [permissionError, setPermissionError] = useState("");
   const [announcePermissionError, setAnnouncePermissionError] = useState("");
   const [updatePermissionError, setupdatePermissionError] = useState("");
@@ -105,10 +95,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
     }
   }, [state.login.selectedHostel_Id]);
 
-  // useEffect(() => {
-  //   dispatch({ type: "ACCOUNTDETAILS" });
-  // }, []);
-
+  
 
 
   useEffect(() => {
@@ -157,8 +144,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
   };
 
   useEffect(() => {
-    // if(hostel_id){
-    setLoading(true);
+       setLoading(true);
     dispatch({
       type: "DASHBOARDFILTERCASHBACK",
       payload: {
@@ -167,7 +153,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
         hostel_id: hostel_id,
       },
     });
-    // }
+  
   }, [selectCashback, hostel_id]);
   useEffect(() => {
     if (hostel_id) {
@@ -204,7 +190,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
       }, 1000);
     }
   }, [state.PgList?.statusCodeForAdvanceFilter]);
-  console.log("state.PgList?.statusCodeForAdvanceFilter",state.PgList?.dashboardFilterAdvance)
+
 
   useEffect(() => {
     const cashBackDataRevenu =
@@ -240,7 +226,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
 
   const handleSelectedExpenses = (e) => {
     setSelectExpence(e.target.value);
-    // dispatch({ type: "DASHBOARDFILTER", payload: { type:'expenses',range:e.target.value}});
+   
   };
   useEffect(() => {
     if (hostel_id) {
@@ -273,13 +259,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
       setPermissionError("Permission Denied");
     }
 
-    // if (rolePermission) {
-    //   setPermissionError('No role permissions found.');
-    // } else if (rolePermission?.[0]?.is_owner === 0) {
-    //   setPermissionError('Permission Denied');
-    // } else {
-    //   setPermissionError('');
-    // }
+  
   }, [rolePermission]);
 
   useEffect(() => {
@@ -328,9 +308,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
     setTotalAmount(state.PgList?.dashboardFilter?.total_amount);
   }, [state.PgList?.dashboardFilter?.total_amount]);
 
-  // const handlecompliance = (compliance) => {
-  //   props.displayCompliance(compliance);
-  // };
+ 
 
   useEffect(() => {
     setLables(state.PgList?.dashboardFilter?.exp_data || []);
@@ -358,9 +336,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
     }
   }, [state.PgList.dashboardDetails.dashboardList]);
 
-  // useEffect(() => {
-  //   setActivecommpliance(state.PgList.dashboardDetails?.com_data);
-  // }, [state.PgList.dashboardDetails?.com_data]);
+ 
 
   useEffect(() => {
     setCashBackData(state.PgList?.dashboardFilterCashback?.cash_back_data);
@@ -388,21 +364,21 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
   for (let i = 5; i >= 0; i--) {
     const date = new Date(currentDate);
     date.setMonth(currentDate.getMonth() - i);
-    const monthYear = date.toISOString().substring(0, 7); // Format: YYYY-MM
+    const monthYear = date.toISOString().substring(0, 7); 
     months.push({ month: monthYear, revenue: 0, expense: 0 });
   }
 
   const fixedColors = [
-    "#FF6384", // Red
-    "#36A2EB", // Blue
-    "#FFCE56", // Yellow
-    "#4BC0C0", // Teal
-    "#9966FF", // Purple
-    "#FF9F40", // Orange
-    "#E7E9ED", // Light Grey
-    "#8DD35F", // Green
-    "#D65DB1", // Pink
-    "#6A4C93", // Dark Purple
+    "#FF6384",
+    "#36A2EB", 
+    "#FFCE56", 
+    "#4BC0C0", 
+    "#9966FF", 
+    "#FF9F40", 
+    "#E7E9ED",
+    "#8DD35F", 
+    "#D65DB1", 
+    "#6A4C93", 
   ];
 
   const datum = {
@@ -412,10 +388,10 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
         data: lablesdata?.map((category) => category.purchase_amount),
         backgroundColor: lablesdata?.map(
           (_, index) => fixedColors[index % fixedColors.length]
-        ), // Use colors from the fixed array
+        ),
         hoverBackgroundColor: lablesdata?.map(
           (_, index) => fixedColors[index % fixedColors.length]
-        ), // Keep hover colors the same
+        ), 
         borderWidth: 5,
         borderColor: "#fff",
         borderRadius: 10,
@@ -443,19 +419,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
 
   const { datasets } = datum;
 
-  // if (!datasets || datasets.length === 0 || !datasets[0].backgroundColor) {
-  //   return (
-  //     <div
-  //       className="d-flex justify-content-center align-items-start gap-3"
-  //       style={{ height: "100%" }}
-  //     >
-  //       <Spinner animation="grow" style={{ color: "rgb(30, 69, 225)" }} />{" "}
-  //       <div style={{ color: "rgb(30, 69, 225)", fontWeight: 600 }}>
-  //         Loading.....
-  //       </div>
-  //     </div>
-  //   );
-  // }
+ 
 
   const CustomLegend = ({ payload }) => {
     return (
@@ -505,17 +469,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
     <>
       <div className="cotainer">
         <Marquee>
-          {/* {showWarning && (
-        <div className="alert alert-warning mt-3" role="alert">
-          ⚠️ Your plan will expire in {Math.floor((new Date(accountList[0]?.plan_end_date) - new Date()) / (1000 * 60 * 60 * 24))} days!
-        </div>
-      )} */}
-          {/* {showWarning && (
-        <div className="alert alert-warning mt-3 d-flex justify-content-between align-items-center" role="alert">
-          ⚠️ Your plan will expire in {daysLeft} days!
-          <button className="btn btn-sm btn-primary ms-3" onClick={handleOkClick}>OK</button>
-        </div>
-      )} */}
+        
           {showWarning && (
             <div
               className="alert alert-warning mt-3 d-flex justify-content-between align-items-center"
@@ -621,14 +575,14 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                     justifyContent: "center",
                   }}
                 >
-                  {/* Image */}
+                 
                   <img
                     src={Emptystate}
                     alt="Empty State"
                     style={{ maxWidth: "100%", height: "auto" }}
                   />
 
-                  {/* Permission Error */}
+                 
                   {permissionError && (
                     <div
                       style={{
@@ -861,13 +815,13 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                             border: "1px solid #e0e0e0",
                             borderRadius: "20px",
                             backgroundColor: "#fff",
-                            // marginLeft: "-3px",
+                          
                             paddingRight: 20,
                             width: "98%",
                             marginTop: 10,
                           }}
                         >
-                          {/* Header Section */}
+                         
                           <div
   style={{
     display: "flex",
@@ -878,7 +832,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
     marginTop: "-15px",
   }}
 >
-  {/* Left Side - Title */}
+ 
   <div
     style={{
       flex: "1 1 60%",
@@ -900,7 +854,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
     </p>
   </div>
 
-  {/* Right Side - Dropdown */}
+  
   <div
     style={{
       flex: "1 1 40%",
@@ -948,7 +902,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
 
 
 
-                          {/* Chart Section */}
+                        
                           <div
                             className="chart-container"
                             style={{
@@ -992,7 +946,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                                       const date = new Date(`${month}-01`);
                                       return date.toLocaleDateString("en-US", {
                                         month: "short",
-                                      }); // Only "Jan", "Feb", etc.
+                                      });
                                     }}
                                   />
                                   <YAxis
@@ -1102,7 +1056,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                             </div>
 
                             <div className="d-flex flex-wrap align-items-center">
-                              {/* Circular Progress Bar */}
+                             
                               <div
                                 className="flex-shrink-0 me-3"
                                 style={{
@@ -1133,7 +1087,6 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                                 />
                               </div>
 
-                              {/* Status Section - Aligned to Right */}
                               <div className="d-flex flex-column ms-auto pe-5">
                                 <div className="d-flex align-items-center mb-2">
                                   <div
@@ -1223,7 +1176,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                               </p>
                             </div>
 
-                            {/* Select Dropdown */}
+                           
                             <div
                               style={{
                                 flex: "1 1 40%",
@@ -1276,7 +1229,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                           <ResponsiveContainer width="100%" height={300}>
   <LineChart data={formattedChart}>
     <CartesianGrid stroke="#e0e0e0" strokeDasharray="0" vertical={false} />
-    {/* <XAxis dataKey="name" /> */}
+   
     <XAxis
   dataKey="name"
   tickFormatter={(tick) => {
@@ -1321,7 +1274,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                         </div>
                         <div className="expenses-container animated-text">
                           <div className="dropp d-flex justify-content-between align-items-center flex-wrap py-2 px-3">
-                            {/* Left Section: Expenses Text */}
+                           
                             <div className="d-flex text-start mb-2">
                               <p
                                 style={{
@@ -1336,7 +1289,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                               </p>
                             </div>
 
-                            {/* Right Section: Dropdown */}
+                            
                             <div
                               className="d-flex justify-content-end align-items-center mb-2"
                               style={{ width: "100%", maxWidth: 200 }}
@@ -1378,7 +1331,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                             </div>
                           </div>
 
-                          {/* Content Section */}
+                         
                           <div
                             className="content"
                             style={{
@@ -1387,7 +1340,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                               justifyContent: "space-between",
                             }}
                           >
-                            {/* Chart Section */}
+                          
                             <div className="chart" style={{ flex: "1" }}>
                               {lablesdata && lablesdata?.length > 0 ? (
                                 <Doughnut
@@ -1424,14 +1377,14 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                               </p>
                             </div>
 
-                            {/* Categories Section */}
+                            
                             <div
                               className="categories"
                               style={{
                                 flex: "1",
                                 display: "grid",
-                                gridTemplateColumns: "1fr 1fr", // Two columns
-                                gap: "20px", // Space between items
+                                gridTemplateColumns: "1fr 1fr", 
+                                gap: "20px", 
                               }}
                             >
                               {lablesdata && lablesdata?.length > 0 ? (
@@ -1459,7 +1412,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                                       className="text"
                                       style={{
                                         display: "flex",
-                                        flexDirection: "column", // Arrange items vertically
+                                        flexDirection: "column",
                                       }}
                                     >
                                       <p

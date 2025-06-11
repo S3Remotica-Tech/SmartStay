@@ -75,16 +75,14 @@ const ComplianceList = (props) => {
       handleCloseDeleteForm();
     }
   }, [state.ComplianceList.statusCodeForDeleteCompliance]);
-  // const handleShowDots = () => {
-  //   setShowDots(!showDots)
-  // }
+ 
   const handleShowDots = (id) => {
     if (showDots === id) {
       setShowDots(null);
     } else {
       setShowDots(id);
     }
-    // setSearch(false);
+   
   };
 
   const handleEdit = (item) => {
@@ -125,7 +123,7 @@ const ComplianceList = (props) => {
     let formattedMonth = monthNames[month];
     let formattedDate = `${day} ${formattedMonth} ${year}`;
     setDate(formattedDate);
-    // setProfile(item.profile)
+  
     setProfile(item.profile && item.profile !== "0" ? item.profile : User);
   };
 
@@ -222,23 +220,7 @@ const ComplianceList = (props) => {
     setCommentError("");
   };
 
-  // const handleChangeStatusClick = () => {
-  //   if (status === "") {
-  //     setComplianceError("Please Select Compliant");
-  //   } else {
-  //     dispatch({
-  //       type: "COMPLIANCEASSIGN",
-  //       payload: {
-  //         type: "status_change",
-  //         assigner: compliant,
-  //         status: status,
-  //         id: assignId,
-  //         hostel_id: hostel_id,
-  //       },
-  //     });
-  //   }
-  // };
-
+  
   const [selectedStatus, setSelectedStatus] = useState("");
 
 
@@ -382,14 +364,7 @@ const ComplianceList = (props) => {
       setStatusErrorType(" ");
     }
   };
-  // const handleStatus = (e) => {
-  //   setStatus(e.target.value);
-  //   if (e.target.value === "") {
-  //     setStatusError("Please Select Status");
-  //   } else {
-  //     setStatusError("");
-  //   }
-  // };
+ 
 
   const handleStatus = (selectedOption) => {
     setStatus(selectedOption?.value || '');
@@ -491,7 +466,7 @@ const ComplianceList = (props) => {
             <Card.Body style={{ padding: 20 }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className="d-flex flex-wrap gap-2 align-items-start">
-                  {/* Profile Image */}
+               
                   <div>
                     <Image
                       src={
@@ -506,7 +481,7 @@ const ComplianceList = (props) => {
                     />
                   </div>
 
-                  {/* Name + Tags Section */}
+               
                   <div className="flex-grow-1">
                     <div className="pb-2">
                       <label
@@ -522,9 +497,9 @@ const ComplianceList = (props) => {
                         {props.complaints && props.complaints.Name}
                       </label>
 
-                      {/* Tags */}
+                    
                       <div className="d-flex flex-wrap gap-2 ms-2">
-                        {/* Room & Bed */}
+                      
                         <div
                           style={{
                             display: "flex",
@@ -542,7 +517,7 @@ const ComplianceList = (props) => {
                           {props.complaints?.room_name} - B{props.complaints?.Bed}
                         </div>
 
-                        {/* Floor */}
+                  
                         <div
                           style={{
                             display: "flex",
@@ -668,7 +643,7 @@ const ComplianceList = (props) => {
                               </label>
                             </div>
 
-                            {/* edit */}
+                           
                             <div
                               className={"mb-2"}
                               onClick={() => {
@@ -711,22 +686,16 @@ const ComplianceList = (props) => {
                               </label>
                             </div>
 
-                            {/* Delete */}
+                           
                             <div
                               className={"mb-2"}
                               style={{
-                                // backgroundColor: props.complianceDeletePermission ? "#f9f9f9" : "#fff",
-                                cursor: props.complianceDeletePermission
+                                                               cursor: props.complianceDeletePermission
                                   ? "not-allowed"
                                   : "pointer",
                               }}
                               onClick={() => handleDeleteFormShow(props.complaints)}
-                            //   onClick={() => {
-                            //     if (!props.complianceDeletePermission) {
-                            //       handleDelete(props.complaints); // Replace with your delete function if necessary
-                            //     }
-                            //   }}
-                            >
+                                                        >
                               <img
                                 src={Delete}
                                 style={{
@@ -734,7 +703,7 @@ const ComplianceList = (props) => {
                                   width: 16,
                                   filter: props.complianceDeletePermission
                                     ? "grayscale(100%)"
-                                    : "none", // Dim icon when disabled
+                                    : "none", 
                                 }}
                                 alt="Delete"
                               />
@@ -1007,7 +976,7 @@ const ComplianceList = (props) => {
                   )}
                 </label>
 
-                {/* CommentIcon  */}
+                
                 <div>
                   <div
                     onClick={() => handleIconClick(props.complaints)}
@@ -1017,7 +986,7 @@ const ComplianceList = (props) => {
                       padding: "8px 12px",
                       cursor: "pointer",
                     }}
-                  // onClick={handleIconClick}
+                 
                   >
                     <label style={{ cursor: "pointer" }}>
                       <img
@@ -1040,9 +1009,7 @@ const ComplianceList = (props) => {
                       style={{
                         maxWidth: 950,
                         paddingTop: "-10px",
-                        // paddingRight: "5px",
-                        // paddingRight: "10px",
-                        borderRadius: "30px",
+                                              borderRadius: "30px",
 
                       }}
                       className="m-0 p-0"
@@ -1054,8 +1021,7 @@ const ComplianceList = (props) => {
                               marginBottom: "30px",
                               position: "relative",
                               display: "flex",
-                              // alignItems: "center",
-                              marginleft: "-15px"
+                                                            marginleft: "-15px"
                             }}
                           >
                             <div
@@ -1100,37 +1066,7 @@ const ComplianceList = (props) => {
                               </div>
                             </div>
 
-                            {/* <button
-                              type="button"
-                              className="close"
-                              aria-label="Close"
-                              onClick={handleCloseIconClick}
-                              style={{
-                                position: "absolute",
-                                right: "10px",
-                                top: "16px",
-                                border: "1px solid black",
-                                background: "transparent",
-                                cursor: "pointer",
-                                padding: "0",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                width: "24px",
-                                height: "24px",
-                                borderRadius: "50%",
-                              }}
-                            >
-                              <span
-                                aria-hidden="true"
-                                style={{
-                                  fontSize: "30px",
-                                  paddingBottom: "6px",
-                                }}
-                              >
-                                &times;
-                              </span>
-                            </button> */}
+                           
                             <CloseCircle size="24" color="#000" onClick={handleCloseIconClick}
                               style={{ cursor: 'pointer' }} />
                           </Modal.Header>
@@ -1323,7 +1259,7 @@ const ComplianceList = (props) => {
                                 width: "16px",
                                 height: "16px",
                               }}
-                            // onClick={handleAddComment}
+                           
                             />
                           </div>
 
@@ -1363,46 +1299,16 @@ const ComplianceList = (props) => {
                           >
                             Change Status
                           </div>
-                          {/* <button
-                            type="button"
-                            className="close"
-                            aria-label="Close"
-                            onClick={ChangeStatusClose}
-                            style={{
-                              position: "absolute",
-                              right: "10px",
-                              top: "3px",
-                              border: "1px solid black",
-                              background: "transparent",
-                              cursor: "pointer",
-                              padding: "0",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              width: "25px",
-                              height: "25px",
-                              borderRadius: "50%",
-                            }}
-                          >
-                            <span
-                              aria-hidden="true"
-                              style={{
-                                fontSize: "30px",
-                                paddingBottom: "6px",
-                              }}
-                            >
-                              &times;
-                            </span>
-                          </button> */}
+                        
                           <CloseCircle size="24" color="#000" onClick={ChangeStatusClose}
                             style={{ cursor: 'pointer' }} />
 
-                          {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+                         
                         </Modal.Header>
                       </div>
 
                       <div className="row mt-2">
-                        {/* complaint type */}
+                      
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <Form.Group
                             className="mb-4"
@@ -1423,30 +1329,7 @@ const ComplianceList = (props) => {
                                 *
                               </span>
                             </Form.Label>
-                            {/* <Form.Select
-                              className="border"
-                              value={status}
-                              onChange={(e) => {
-                                handleStatus(e);
-                              }}
-                              style={{
-                                fontSize: 16,
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                boxShadow: "none",
-                                border: "1px solid #D9D9D9",
-                                height: 50,
-                                borderRadius: 8,
-                              }}
-                            >
-                              <option value="" disabled selected>
-                                Select a status
-                              </option>
-                              <option value="open">Open</option>
-                              <option value="in-progress">In Progress</option>
-                              <option value="resolved">Resolved</option>
-                            </Form.Select> */}
+                           
 
                             <Select
                               options={[
@@ -1556,8 +1439,7 @@ const ComplianceList = (props) => {
                       maxWidth: 950,
                       paddingRight: "10px",
                       borderRadius: "30px",
-                      // padding:"5px"
-                    }}
+                                         }}
                     className="m-0 p-0"
                   >
                     <Modal.Body>
@@ -1576,46 +1458,16 @@ const ComplianceList = (props) => {
                           >
                             Assign Complaint
                           </div>
-                          {/* <button
-                            type="button"
-                            className="close"
-                            aria-label="Close"
-                            onClick={handleCloseAssign}
-                            style={{
-                              position: "absolute",
-                              right: "10px",
-                              top: "16px",
-                              border: "1px solid black",
-                              background: "transparent",
-                              cursor: "pointer",
-                              padding: "0",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              width: "25px",
-                              height: "25px",
-                              borderRadius: "50%",
-                            }}
-                          >
-                            <span
-                              aria-hidden="true"
-                              style={{
-                                fontSize: "30px",
-                                paddingBottom: "6px",
-                              }}
-                            >
-                              &times;
-                            </span>
-                          </button> */}
+                        
                           <CloseCircle size="24" color="#000" onClick={handleCloseAssign}
                             style={{ cursor: 'pointer' }} />
 
-                          {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
+                       
                         </Modal.Header>
                       </div>
 
                       <div className="row mt-1" style={{ paddingTop: 2 }}>
-                        {/* complaint type */}
+                       
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <Form.Group
 
@@ -1636,35 +1488,7 @@ const ComplianceList = (props) => {
                                 *
                               </span>
                             </Form.Label>
-                            {/* <Form.Select className="mb-2 border"
-
-                              value={compliant}
-                              onChange={(e) => {
-                                handleCompliant(e);
-                              }}
-                              style={{
-                                fontSize: 16,
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                                boxShadow: "none",
-                                border: "1px solid #D9D9D9",
-                                height: 50,
-                                borderRadius: 8,
-                              }}
-                            >
-                              <option value="" disabled selected>
-                                Select a Complaint
-                              </option>
-                              {state.Settings.addSettingStaffList &&
-                                state.Settings.addSettingStaffList.map((v) => {
-                                  return (
-                                    <option key={v.id} value={v.id}>
-                                      {v.first_name}
-                                    </option>
-                                  );
-                                })}
-                            </Form.Select> */}
+                         
 
                             <Select
                               options={
@@ -1772,21 +1596,7 @@ const ComplianceList = (props) => {
                   </Modal.Dialog>
                 </Modal>
 
-                {/* Background overlay */}
-                {/* {showAssignComplaint && (
-                        <div
-                          onClick={handleAssignOpenClose}
-                          style={{
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            zIndex: 999,
-                          }}
-                        />
-                      )} */}
+               
               </div>
             </Card.Body>
           </Card>

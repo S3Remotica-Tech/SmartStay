@@ -387,12 +387,7 @@ dayjs.extend(isSameOrBefore);
 
 
 
-  useEffect(() => {
-    if (stateAccount.statusCodeForAccountList === 200) {
-   
-    }
-
-  }, [stateAccount.statusCodeForAccountList])
+ 
 
   const skeletonStyle = {
     backgroundColor: '#dcdcdc',
