@@ -1967,81 +1967,106 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                     justifyContent: "space-between",
                                   }}
                                 >
-                                  <div className="col-6 text-start">
-                                    <label
-                                      style={{
-                                        display: "block",
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        marginBottom: "10px",
-                                      }}
-                                    >
-                                      Aadhar Card
-                                    </label>
-                                    <button
-                                      className="btn"
-                                      style={{
-                                        borderRadius: "10px",
-                                        padding: "10px 20px",
-                                        fontSize: "14px",
-                                        border: "1px solid #D9D9D9",
-                                      }}
-                                      onClick={() =>
-                                        handleUploadClick(aadharInputRef)
-                                      }
-                                    >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-                                      Upload Document
-                                    </button>
-                                    <input
-                                      type="file"
-                                      ref={aadharInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) =>
-                                        handleFileChange(e, "doc1")
-                                      }
-                                    />
+ <div className="col-6 text-start">
+  <label
+    style={{
+      display: "block",
+      fontSize: 14,
+      fontWeight: 500,
+      marginBottom: "10px",
+    }}
+  >
+    Aadhar Card
+  </label>
 
-                                    {advanceDetail[0]?.doc1 && (
-                                      <a
-                                        href={advanceDetail[0]?.doc1}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        <img
-                                          src={docDown}
-                                          alt="docdown"
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                          }}
-                                        />
-                                      </a>
-                                    )}
+  
+  <button
+    className="btn"
+    style={{
+      borderRadius: "10px",
+      padding: "10px 20px",
+      fontSize: "14px",
+      border: "1px solid #D9D9D9",
+    }}
+    onClick={() => handleUploadClick(aadharInputRef)}
+  >
+    <img
+      src={upload}
+      alt="upload"
+      width={20}
+      height={20}
+      style={{ marginRight: "8px" }}
+    />
+    Upload Document
+  </button>
 
-                                    {uploadError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {uploadError}
-                                        </span>
-                                      </div>
-                                    )}
-                                  </div>
+  
+  <input
+    type="file"
+    ref={aadharInputRef}
+    style={{ display: "none" }}
+    onChange={(e) => handleFileChange(e, "doc1")}
+  />
+
+ 
+  {state.UsersList?.KycCustomerDetails?.pic && (
+  <a
+    href={`data:image/jpeg;base64,${state.UsersList.KycCustomerDetails.pic}`}
+    download="aadhar_document.jpg"  
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <img
+      src={docDown}
+      alt="Download Aadhar"
+      style={{
+        width: 20,
+        height: 20,
+        marginLeft: "10px",
+      }}
+    />
+  </a>
+)}
+
+
+ 
+  {advanceDetail[0]?.doc1 && (
+    <a
+      href={advanceDetail[0]?.doc1}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        src={docDown}
+        alt="docdown"
+        style={{
+          width: 20,
+          height: 20,
+          marginLeft: "10px",
+        }}
+      />
+    </a>
+  )}
+
+
+  {uploadError && (
+    <div style={{ color: "red" }}>
+      <MdError />
+      <span
+        style={{
+          fontSize: "12px",
+          color: "red",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+        }}
+      >
+        {uploadError}
+      </span>
+    </div>
+  )}
+</div>
+
+
 
                                   <div className="col-6 text-start">
                                     <label
