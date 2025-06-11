@@ -327,7 +327,7 @@ const handleTermsChange = (e) => {
        setAccNumberErrMsg("Please Enter Account No");
       }
       if (!ifsccode) {
-        setIfscCodeErrMsg("Please Enter IfscCode");
+        setIfscCodeErrMsg("Please Enter Ifsc Code");
       }
       if (!bank_name) {
         setBankErrMsg("Please Select Date");
@@ -361,7 +361,7 @@ const handleTermsChange = (e) => {
     dispatch({
       type: "ADD_INVOICE_SETTINGS",
       payload: {
-        hostelId: Number(state.login.selectedHostel_Id),
+        hostelId  : Number(state.login.selectedHostel_Id),
         bankName: bank_name,
         accountNo: account_number,
         ifscCode: ifsccode,
@@ -380,9 +380,13 @@ const handleTermsChange = (e) => {
  
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
+    dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
   }, [state.login.selectedHostel_Id]);
+
+
+
 
   useEffect(() => {
     const appearOptions = {
@@ -408,15 +412,37 @@ const handleTermsChange = (e) => {
   });
 
 
+      useEffect(() => {
+    if (state.Settings?.settingsInvoicegetSucesscode === 200) {
+        
+      setInvoiceList(state.Settings.SettingsInvoice)
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_SETTINGSGETINVOICE_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.settingsInvoicegetSucesscode]);
 
 
   
   
+    useEffect(() => {
+    if (state.Settings?.settingsAddInvoiceSucesscode === 200) {
+
+    dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.settingsAddInvoiceSucesscode]);
+
 
  
 
 
-
+  console.log("InvoiceList", InvoiceList);
+  
 
  
 
@@ -518,18 +544,7 @@ const handleTermsChange = (e) => {
 
 
 
-  useEffect(() => {
-    if (!InvoiceList || InvoiceList.length === 0) return;
-  
-    const allPrefixSuffixEmpty = InvoiceList.every(item =>
-      (!item.prefix || item.prefix === 'null' || item.prefix === null || item.prefix === 0) &&
-      (!item.suffix || item.suffix === 'null' || item.suffix === null || item.suffix === 0)
-    );
-  
-    if (allPrefixSuffixEmpty) {
-      setLoading(false);
-    }
-  }, [InvoiceList]);
+ 
   
 
 

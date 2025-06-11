@@ -1345,7 +1345,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
     it('it should check CLEAR_NEW_SUBSCRIPTION', () => {
@@ -1433,7 +1433,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -1526,7 +1526,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -1616,7 +1616,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -1708,7 +1708,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -1798,7 +1798,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -1888,7 +1888,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -1978,7 +1978,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -2068,7 +2068,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -2158,7 +2158,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -2248,7 +2248,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 200,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -2338,7 +2338,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -2428,7 +2428,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 200,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -2518,7 +2518,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
@@ -2608,7 +2608,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 200,
+            settingsAddInvoiceSucesscode: 200,
         });
     });
 
@@ -2698,7 +2698,7 @@ describe('it should check settings reducers', () => {
             NotificationypegetSuccessCode: 0,
             SettingsBillsGetRecurring:[],
             settingsBillsggetRecurrSucesscode: 0,
-            settingsBillsAddInvoiceSucesscode: 0,
+            settingsAddInvoiceSucesscode: 0,
         });
     });
 
