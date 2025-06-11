@@ -40,8 +40,7 @@ function Asset() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropDown, setShowDropDown] = useState(false)
   const [showFilterData, setShowFilterData] = useState(false)
-  const stateAccount = useSelector(state => state.createAccount)
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
