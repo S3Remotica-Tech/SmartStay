@@ -4168,7 +4168,7 @@ console.log("DownloadReceipt",receiptdata)
                               {sortedData && sortedData.length > 0 ? (
 
                                 <div
-                                                      className=" booking-table-userlist  booking-table"
+                                                      className=" booking-table-userlist  booking-table ps-2"
                                                       style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                                     >
                                                        <div
@@ -4729,7 +4729,7 @@ console.log("DownloadReceipt",receiptdata)
 
                   {sortedDataRecure && sortedDataRecure.length > 0 && (
                      <div
-                                         className=" booking-table-userlist  booking-table"
+                                         className=" booking-table-userlist  booking-table ps-2"
                                          style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                        >
                                           <div
@@ -5535,7 +5535,7 @@ console.log("DownloadReceipt",receiptdata)
                             {sortedDataReceipt &&
                               sortedDataReceipt.length > 0 && (
                                <div
-                                                     className=" booking-table-userlist  booking-table"
+                                                     className=" booking-table-userlist  booking-table ps-2"
                                                      style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                                    >
                                                       <div
@@ -6014,7 +6014,7 @@ console.log("DownloadReceipt",receiptdata)
                   lineHeight: "normal",
                 }}
               >
-                Customer
+                Customer<span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
               {/* <Form.Select
                 aria-label="Default select example"
@@ -6410,7 +6410,7 @@ console.log("DownloadReceipt",receiptdata)
           {/* Table */}
           {Array.isArray(newRows) && newRows.length > 0 && (
   <div className="row ">
-    <div className="col-lg-11 col-md-11 col-12">
+    <div className="col-lg-11 col-md-11 col-12 ">
       <div style={{ maxHeight: "400px", overflowY: "auto" }}>
         <Table className="ebtable mt-3" responsive>
           <thead
@@ -6491,7 +6491,7 @@ console.log("DownloadReceipt",receiptdata)
   </div>
 )}
 
-<div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+<div className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-3">
             <Form.Select
               className="border"
               style={{
@@ -6520,7 +6520,7 @@ console.log("DownloadReceipt",receiptdata)
               <div>
                 <p
                   style={{
-                    fontSize: "12px", color: "red", marginTop: "4px", textAlign: "center", fontFamily: "Gilroy",
+                    fontSize: "12px", color: "red", marginTop: "4px", textAlign: "left", fontFamily: "Gilroy",
                     fontWeight: 500,
                   }}
                 >

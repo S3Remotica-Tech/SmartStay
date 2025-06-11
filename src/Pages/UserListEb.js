@@ -203,7 +203,7 @@ function UserEb(props) {
 
       <div>
       <div
-                                                     className=" booking-table-userlist  booking-table"
+                                                     className=" booking-table-userlist  booking-table ms-2"
                                                      style={{ paddingBottom: "20px" }}
                                                    >
                                                      {sortedData?.length > 0 ? (
@@ -431,14 +431,15 @@ function UserEb(props) {
                 return (
                   <tr key={u.id} style={{ lineHeight: "20px" }}>
 
-                    <td style={{  fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8",paddingTop:10 }}>{u.floor_name}</td>
-                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}}>{u.Room_Id}</td>
-                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>₹{u.start_meter}</td>
-                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}}>{u.end_meter}</td>
-                    <td style={{borderBottom: "1px solid #E8E8E8"}}> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "11px", fontWeight: 500, fontFamily: "Gilroy" }}>{formattedDate}</span></td>
-                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>{u.unit}</td>
+                    <td style={{  fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8",paddingTop:10 }}
+                     className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "  >{u.floor_name}</td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.Room_Id}</td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >₹{u.start_meter}</td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.end_meter}</td>
+                    <td style={{borderBottom: "1px solid #E8E8E8"}}> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "11px", fontWeight: 500, fontFamily: "Gilroy" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{formattedDate}</span></td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.unit}</td>
                     {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td> */}
-                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}>{u.amount}</td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.amount}</td>
                    
 
                   </tr>

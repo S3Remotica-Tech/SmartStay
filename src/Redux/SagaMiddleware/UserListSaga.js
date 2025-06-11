@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { deleteCustomer,AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument,hostelDetailsId,EditConfirmCheckOut,handleKycVerify,handlegetCustomerDetails } from "../Action/UserListAction"
+import { deleteCustomer,AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument,hostelDetailsId,EditConfirmCheckOut,handleKycVerify,handlegetCustomerDetailsKyc } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -1465,11 +1465,11 @@ function* handleKYCVerifyNew(action) {
 }
 
 
+function* handleCustomerDetailsKyc(action) {
+  try {
+    const response = yield call(handlegetCustomerDetailsKyc, action.payload);
 
-
-function* handleCustomerDetails(action) {
-   const response = yield call(handlegetCustomerDetails, action.payload)
-   var toastStyle = {
+    const toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
       width: "100%",
@@ -1482,34 +1482,44 @@ function* handleCustomerDetails(action) {
       display: "flex",
       alignItems: "center",
       padding: "10px",
+    };
 
-   };
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'KYC_CUSTOMER_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-
-      toast.success(`${response.data.result.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
+    if (response.status === 200) {
+      yield put({
+        type: 'KYC_CUSTOMER_DETAILS',
+        payload: {
+          response: response.data,
+          statusCode: response.status,
+        },
       });
 
-   }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
+      toast.success(`${response.data.result.message}`, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle,
+      });
 
-
-   if (response) {
-      refreshToken(response)
+      yield call(refreshToken, response);
+    }
+     else if (response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'KYC_NOT_ADDED', payload: { response: response.data, statusCode: response.status || response.statusCode } })
    }
-
+     else {
+      yield put({ type: 'ERROR', payload: response.data.message });
+    }
+  } catch (error) {
+    console.error("KYC fetch error", error);
+    yield put({ type: 'ERROR', payload: error.message || 'Something went wrong' });
+  }
 }
+
+
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
    yield takeEvery('ADDUSER', handleAddUser)
@@ -1559,7 +1569,7 @@ function* UserListSaga() {
    yield takeEvery('DELETECUSTOMER', handleDeleteCustomer)
    yield takeEvery('HOSTELIDDETAILS', handlehostelDetailsId)
    yield takeEvery('KYCVERIFYINGNEW', handleKYCVerifyNew)
-   yield takeEvery("KYCCUSTOMERDETAILS",handleCustomerDetails) 
+   yield takeEvery("KYCCUSTOMERDETAILS",handleCustomerDetailsKyc) 
    yield takeEvery('EDITCONFIRMCHECKOUTCUSTOMER', handleEditConfirmCheckout)
   
 

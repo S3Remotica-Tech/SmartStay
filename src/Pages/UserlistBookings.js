@@ -922,38 +922,38 @@ function Booking(props) {
       ) : (
         <div className="p-10" style={{ marginLeft: "-20px" }}>
           <div>
-            {loader ? (
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: "200px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "transparent",
-                  opacity: 0.75,
-                  zIndex: 10,
-                }}
-              >
-                <div
-                  style={{
-                    borderTop: "4px solid #1E45E1",
-                    borderRight: "4px solid transparent",
-                    borderRadius: "50%",
-                    width: "40px",
-                    height: "40px",
-                    animation: "spin 1s linear infinite",
-                  }}
-                ></div>
-              </div>
-            ) : sortedData?.length > 0 ? (
-
-              <div
-                className="p-10 booking-table-userlist  booking-table"
-                style={{ paddingBottom: "20px" }}
+          {loader ? (
+ <div
+ style={{
+   position: "absolute",
+   top: 0,
+   right: 0,
+   bottom: 0,
+   left: "200px",
+   display: "flex",
+   alignItems: "center",
+   justifyContent: "center",
+   backgroundColor: "transparent",
+   opacity: 0.75,
+   zIndex: 10,
+ }}
+>
+ <div
+   style={{
+     borderTop: "4px solid #1E45E1",
+     borderRight: "4px solid transparent",
+     borderRadius: "50%",
+     width: "40px",
+     height: "40px",
+     animation: "spin 1s linear infinite",
+   }}
+ ></div>
+</div>
+) : sortedData?.length > 0 ? (
+ 
+  <div
+                className="p-10 booking-table-userlist  booking-table me-4"
+                style={{ paddingBottom: "20px" , marginLeft: "5px" }}
               >
                 <div
 
@@ -1176,25 +1176,32 @@ function Booking(props) {
 
                         return (
                           <tr key={customer.id} className="customer-row">
-                            <td style={{ verticalAlign: "middle", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }}>
-                              <div className="d-flex align-items-center">
-                                {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
+                            <td style={{    border: "none",
+                                            padding: "10px",
+                                            textAlign: "start",
+                                            paddingLeft: "20px",
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",}}>
+             
                                 <span
                                   style={{
-                                    fontSize: "13px",
-                                    fontWeight: 600,
-                                    fontFamily: "Gilroy",
-                                    color: "#222222",
-                                    paddingLeft: "4px",
-                                    textAlign: "start",
+                                 fontSize: "13px",
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy",
+                                              color: "#1E45E1",
+                                              cursor: "pointer",
+                                              marginTop: 10,
+                                              // paddingLeft:10,
+                                              whiteSpace: "nowrap",
+                                  
                                   }}
-                                  className="ms-2 customer-name"
+                                  className="customer-name ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                 >
                                   {customer.first_name} {customer.last_name ? customer.last_name : ""}
                                   {/* {`${customer.first_name || ""} ${customer.last_name || ""}`.trim() || ""} */}
 
                                 </span>
-                              </div>
+                            
                             </td>
                             <td
                               style={{
@@ -1203,8 +1210,10 @@ function Booking(props) {
                                 fontFamily: "Gilroy",
                                 color: "#000000",
                                 textAlign: "start",
-                                verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+                                paddingLeft:20,
+                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                               }}
+                                className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                             >
                               {/* {customer.email_id} */}
                               {customer.email_id ? customer.email_id : "N/A"}
@@ -1231,6 +1240,7 @@ function Booking(props) {
                                 textAlign: "start",
                                 verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                             >
                               +
                               {customer &&
@@ -1253,6 +1263,7 @@ function Booking(props) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -1285,6 +1296,7 @@ function Booking(props) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -1316,6 +1328,7 @@ function Booking(props) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
+                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{

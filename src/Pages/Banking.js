@@ -416,6 +416,7 @@ const handleCloseSElfTransfer=()=>{
 
   const handlePageChange = (pageNumber) => {
     settransactioncurrentPage(pageNumber);
+    settransactioncurrentPage(1)
   };
   
 
@@ -458,15 +459,7 @@ const handleCloseSElfTransfer=()=>{
   );
 
 
-useEffect(() => {
-  const FilterUser = Array.isArray(sortedData)
-    ? sortedData?.filter((item) =>
-        item.benificiary_name?.toLowerCase().includes(filterInput.toLowerCase())
-      )
-    : [];
 
-  settransactionFilterddata(FilterUser);
-}, [filterInput]);
 
   useEffect(() => {
     if (transactionFilterddata.length > 0 && originalBills?.length === 0) {
@@ -498,7 +491,7 @@ useEffect(() => {
 
   const handleUserSelect = (user) => {
   setFilterInput(user.benificiary_name); 
-  const selected = sortedData.filter(
+  const selected = transactionFilterddata.filter(
     (item) => String(item.id) === String(user.id)
   );
   settransactionFilterddata(selected);
@@ -1263,7 +1256,8 @@ whiteSpace: "nowrap"
             )}
           </div>
 
-          <div style={{ marginTop: 30 }} className="container bankingtab-table">
+          <div style={{ marginTop: 30 }} className="container bankingtab-table ms-2 me-4">
+
             {sortedData?.length > 0 ? (
              <div
                                    className=" booking-table-userlist  booking-table"
@@ -1455,10 +1449,14 @@ whiteSpace: "nowrap"
                               fontWeight: 600,
                               fontFamily: "Gilroy",
                               paddingTop: 15,
-                              paddingLeft: "20px",
+                              marginLeft:20
                             }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                           >
-                            {user.benificiary_name} - {user.type}
+                            <div className="ps-2 ps-lg-2">
+   {user.benificiary_name} - {user.type}
+                            </div>
+                         
                           </td>
                           <td
                             style={{
@@ -1497,6 +1495,7 @@ whiteSpace: "nowrap"
                               fontFamily: "Gilroy",
                               paddingTop: 15,
                             }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                           >
                             {user.amount}
                           </td>
@@ -1509,6 +1508,7 @@ whiteSpace: "nowrap"
                               fontFamily: "Gilroy",
                               paddingTop: 15,
                             }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                           >
                             {user.desc}
                           </td>
@@ -1522,22 +1522,20 @@ whiteSpace: "nowrap"
                               fontFamily: "Gilroy",
                               whiteSpace: "nowrap",
                             }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                           >
                             <span
                               style={{
-                                paddingTop: "3px",
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
-                                paddingBottom: "3px",
+                                padding: "3px 10px",
                                 borderRadius: "60px",
-                             
+                                backgroundColor: "#EBEBEB",
                                 textAlign: "start",
                                 fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                               }}
                             >
-                               {/* {user.desc === ""} */}
+                              
                               {user.desc === "Invoice"
                                 ? "Credit":"Debit"
                               }

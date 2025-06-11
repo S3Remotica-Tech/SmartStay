@@ -218,7 +218,7 @@ export async function SettingsGetRecurring(reccurring) {
 export async function AddInvoiceSettings(params) {
   const formData = new FormData();
 
-  if (params.hostelId) formData.append("hostel_id", params.hostelId);
+  if (params.hostelId) formData.append("hostelId", params.hostelId);
   if (params.bankName) formData.append("bank_name", params.bankName);
   if (params.accountNo) formData.append("account_no", params.accountNo);
   if (params.ifscCode) formData.append("ifsc_code", params.ifscCode);

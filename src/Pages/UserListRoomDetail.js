@@ -4,7 +4,6 @@ import Profile from "../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import verify from "../Assets/Images/verify.png";
 import "./UserList.css";
 import { Call, Sms, House, Buildings } from "iconsax-react";
 import Group from "../Assets/Images/Group.png";
@@ -38,6 +37,8 @@ import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
+import { RightOutlined } from '@ant-design/icons';
+import timehalf from "../Assets/Images/New_images/time-half past.png";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -97,7 +98,6 @@ function UserListRoomDetail(props) {
   const [state_nameError, setStateNameError] = useState("");
   const [kycdetailsForm, setKycDetailForm] = useState(false);
   const [additionalForm, setAdditionalForm] = useState(false);
-  const [kycuserDetails, setkycuserDetails] = useState("");
   const [contactEdit, setContactEdit] = useState("");
   const [editAdditional, setEditAdditional] = useState(false);
   const [deleteAdditional, setDeleteAdditional] = useState(false);
@@ -151,6 +151,27 @@ function UserListRoomDetail(props) {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
+
+  useEffect(()=>{
+dispatch({type:'KYCCUSTOMERDETAILS',payload:{customer_id:props.id}})
+},[])
+
+useEffect(() => {
+    if (state.UsersList.statusCodeForCustomerDetails === 200) {
+      setTimeout(() => {
+        dispatch({ type: "REMOVEKYC_CUSTOMER_DETAILS" });
+      }, 100);
+    }
+  }, [state.UsersList.statusCodeForCustomerDetails]);
+  useEffect(() => {
+    if (state.UsersList.KYCStatusCode === 201) {
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_KYC_NOT_ADDED" });
+      }, 100);
+    }
+  }, [state.UsersList.KYCStatusCode]);
+
+
   useEffect(() => {
     dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
   }, [props]);
@@ -200,23 +221,21 @@ function UserListRoomDetail(props) {
     setContactEdit(u);
     setAdditionalForm(true);
   };
-  const handleKycdetailsForm = (item) => {
-    setkycuserDetails(item);
-    setKycDetailForm(true);
-  };
+
+
+const handleKYCSubmit = () => {
+   
+ dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id:props.id } })
+
+  }
+
   const handleAdditionalForm = () => {
     setEditAdditional(false);
     setAdditionalForm(true);
   };
-  console.log(
-    "state.UsersList.customerAllDetails?.contact_details",
-    state.UsersList.customerAllDetails?.contact_details
-  );
+ 
 
-  // const handleCountryCodeChange = (e) => {
-  //   setCountryCode(e.target.value);
-  // };
-
+ 
   const handleChanges = (event, newValue) => {
     setValue(newValue);
     setFormShow(false);
@@ -423,7 +442,7 @@ function UserListRoomDetail(props) {
     if (input.length === 0) {
       setPhoneError("");
     } else if (input.length < 10) {
-      setPhoneError("Invalid mobile number *");
+      setPhoneError("Invalid mobile number");
     } else if (input.length === 10) {
       setPhoneError("");
     }
@@ -450,7 +469,7 @@ function UserListRoomDetail(props) {
       setEmailErrorMessage("");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
-      setEmailError("Invalid Email Id *");
+      setEmailError("Invalid Email Id");
     } else {
       setEmailError("");
       setEmailErrorMessage("");
@@ -601,7 +620,7 @@ function UserListRoomDetail(props) {
     setFormError("");
   };
 
-  console.log("BedId", BedId);
+ 
   const handleBed = (e) => {
     const selectedBedId = e.target.value;
     setBedId(selectedBedId);
@@ -1340,21 +1359,92 @@ function UserListRoomDetail(props) {
                             {item.Name}
                           </span>
 
-                          <p
-                            style={{ marginTop: 8, cursor: "pointer" }}
-                            onClick={() => {
-                              handleKycdetailsForm(item);
-                            }}
-                          >
-                            KYC Verified
-                            <img
-                              src={verify}
-                              alt="verify"
-                              width={17}
-                              height={17}
-                              style={{ marginTop: "-3px" }}
-                            />
-                          </p>
+                         
+                 {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" && 
+  <>
+    <Button
+      type="primary"
+      style={{
+        borderRadius: "20px",
+        backgroundColor: "#1848f1",
+        border: "none",
+        padding: "0 16px",
+        height: "32px",
+        display: "flex",
+        alignItems: "center",
+        fontSize: "14px",
+      }}
+    >
+      KYC Verified
+    </Button>
+  </>
+            }
+
+
+ {state.UsersList?.KycCustomerDetails?.message === "KYC Pending" && 
+  <>
+    <Button
+      style={{
+        borderRadius: "20px",
+        backgroundColor: "#f59e0b",
+        border: "none",
+        padding: "0 16px",
+        height: "32px",
+        display: "flex",
+        alignItems: "center",
+        fontSize: "14px",
+        color: "#fff",
+      }}
+      
+    >
+      <img src={timehalf} alt="time" style={{ width: "16px", marginRight: 8 }} />
+      Pending
+    </Button>
+    <p
+      style={{
+        fontSize: 14,
+        fontWeight: 400,
+        fontFamily: "Gilroy",
+        marginTop: 4,
+      }}
+    >
+      Last Attempt: 03 June, 2025 – 04:22 PM
+    </p>
+  </>
+            }
+
+   {
+state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" && 
+ <>
+    <Button
+      type="primary"
+      style={{
+        borderRadius: "20px",
+        backgroundColor: "#1848f1",
+        border: "none",
+        padding: "0 16px",
+        height: "32px",
+        display: "flex",
+        alignItems: "center",
+        fontSize: "14px",
+      }}
+      onClick={handleKYCSubmit}
+    >
+      Verify KYC <RightOutlined style={{ fontSize: "12px", marginLeft: 6 }} />
+    </Button>
+    <p
+      style={{
+        fontSize: 14,
+        fontWeight: 400,
+        fontFamily: "Gilroy",
+        marginTop: 4,
+      }}
+    >
+      Verify your Customer KYC Details via DigiLocker.
+    </p>
+  </>
+   }         
+ 
                         </div>
                       </div>
 
@@ -1877,81 +1967,106 @@ function UserListRoomDetail(props) {
                                     justifyContent: "space-between",
                                   }}
                                 >
-                                  <div className="col-6 text-start">
-                                    <label
-                                      style={{
-                                        display: "block",
-                                        fontSize: 14,
-                                        fontWeight: 500,
-                                        marginBottom: "10px",
-                                      }}
-                                    >
-                                      Aadhar Card
-                                    </label>
-                                    <button
-                                      className="btn"
-                                      style={{
-                                        borderRadius: "10px",
-                                        padding: "10px 20px",
-                                        fontSize: "14px",
-                                        border: "1px solid #D9D9D9",
-                                      }}
-                                      onClick={() =>
-                                        handleUploadClick(aadharInputRef)
-                                      }
-                                    >
-                                      <img
-                                        src={upload}
-                                        alt="upload"
-                                        width={20}
-                                        height={20}
-                                        style={{ marginRight: "8px" }}
-                                      />
-                                      Upload Document
-                                    </button>
-                                    <input
-                                      type="file"
-                                      ref={aadharInputRef}
-                                      style={{ display: "none" }}
-                                      onChange={(e) =>
-                                        handleFileChange(e, "doc1")
-                                      }
-                                    />
+ <div className="col-6 text-start">
+  <label
+    style={{
+      display: "block",
+      fontSize: 14,
+      fontWeight: 500,
+      marginBottom: "10px",
+    }}
+  >
+    Aadhar Card
+  </label>
 
-                                    {advanceDetail[0]?.doc1 && (
-                                      <a
-                                        href={advanceDetail[0]?.doc1}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        <img
-                                          src={docDown}
-                                          alt="docdown"
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                          }}
-                                        />
-                                      </a>
-                                    )}
+  
+  <button
+    className="btn"
+    style={{
+      borderRadius: "10px",
+      padding: "10px 20px",
+      fontSize: "14px",
+      border: "1px solid #D9D9D9",
+    }}
+    onClick={() => handleUploadClick(aadharInputRef)}
+  >
+    <img
+      src={upload}
+      alt="upload"
+      width={20}
+      height={20}
+      style={{ marginRight: "8px" }}
+    />
+    Upload Document
+  </button>
 
-                                    {uploadError && (
-                                      <div style={{ color: "red" }}>
-                                        <MdError />
-                                        <span
-                                          style={{
-                                            fontSize: "12px",
-                                            color: "red",
-                                            fontFamily: "Gilroy",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          {uploadError}
-                                        </span>
-                                      </div>
-                                    )}
-                                  </div>
+  
+  <input
+    type="file"
+    ref={aadharInputRef}
+    style={{ display: "none" }}
+    onChange={(e) => handleFileChange(e, "doc1")}
+  />
+
+ 
+  {state.UsersList?.KycCustomerDetails?.pic && (
+  <a
+    href={`data:image/jpeg;base64,${state.UsersList.KycCustomerDetails.pic}`}
+    download="aadhar_document.jpg"  
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <img
+      src={docDown}
+      alt="Download Aadhar"
+      style={{
+        width: 20,
+        height: 20,
+        marginLeft: "10px",
+      }}
+    />
+  </a>
+)}
+
+
+ 
+  {advanceDetail[0]?.doc1 && (
+    <a
+      href={advanceDetail[0]?.doc1}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        src={docDown}
+        alt="docdown"
+        style={{
+          width: 20,
+          height: 20,
+          marginLeft: "10px",
+        }}
+      />
+    </a>
+  )}
+
+
+  {uploadError && (
+    <div style={{ color: "red" }}>
+      <MdError />
+      <span
+        style={{
+          fontSize: "12px",
+          color: "red",
+          fontFamily: "Gilroy",
+          fontWeight: 500,
+        }}
+      >
+        {uploadError}
+      </span>
+    </div>
+  )}
+</div>
+
+
 
                                   <div className="col-6 text-start">
                                     <label
@@ -2445,7 +2560,7 @@ function UserListRoomDetail(props) {
                           <UserListKyc
                             kycdetailsForm={kycdetailsForm}
                             setKycDetailForm={setKycDetailForm}
-                            kycuserDetails={kycuserDetails}
+                         
                           />
                         ) : null}
                         {additionalForm === true ? (

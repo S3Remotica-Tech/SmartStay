@@ -239,7 +239,7 @@ const handleDeleteBill = (user) => {
                     </div>
 
        <div
-                                                className=" booking-table-userlist  booking-table"
+                                                className=" booking-table-userlist  booking-table ms-2"
                                                 style={{ paddingBottom: "20px" }}
                                               >
                                                 {sortedData?.length > 0 ? (
@@ -583,8 +583,9 @@ const handleDeleteBill = (user) => {
                       fontWeight: 500,
                       fontSize: "13px",
                       fontFamily: "Gilroy",
-                      paddingLeft:"20px", borderBottom: "1px solid #E8E8E8"
+                      borderBottom: "1px solid #E8E8E8",
                     }}
+                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-5" 
                   >
                     {view.Invoices}
                   </td>
@@ -596,10 +597,11 @@ const handleDeleteBill = (user) => {
                       fontFamily: "Gilroy",
                       paddingLeft:"20px", borderBottom: "1px solid #E8E8E8"
                     }}
+                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-4" 
                   >
                     {view.action}
                   </td>
-                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}>
+                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}   className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" >
                     <span
                       style={{
                         backgroundColor: "#EBEBEB",
@@ -615,11 +617,12 @@ const handleDeleteBill = (user) => {
                         fontFamily: "Gilroy",
                         textAlign:"start"
                       }}
+                      
                     >
                       {formattedDate}
                     </span>
                   </td>
-                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}>
+                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
                     <span
                       style={{
                         backgroundColor: "#EBEBEB",
@@ -647,6 +650,7 @@ const handleDeleteBill = (user) => {
                       textAlign:"start"
                       , borderBottom: "1px solid #E8E8E8"
                     }}
+                         className="ps-4 ps-sm-2 ps-md-3 ps-lg-4" 
                   >
                     ₹{view.Amount}
                   </td>
@@ -658,10 +662,11 @@ const handleDeleteBill = (user) => {
                       textAlign:"start",
                       borderBottom: "1px solid #E8E8E8"
                     }}
+                         className="ps-4 ps-sm-2 ps-md-3 ps-lg-3" 
                   >
                     ₹{view.BalanceDue}
                   </td>
-                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}>
+                  <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
                     <span
                       style={{
                         color: "black",

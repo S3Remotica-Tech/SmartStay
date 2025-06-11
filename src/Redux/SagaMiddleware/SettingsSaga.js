@@ -270,6 +270,9 @@ function* handleComplaintTypeAdd(params) {
          progress: undefined,
        })
    }
+
+    else  if(response.status === 203 || response.statusCode === 203) {
+      yield put({ type: 'PLAN-EXPIRED', payload: response.data.message })}
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
    }

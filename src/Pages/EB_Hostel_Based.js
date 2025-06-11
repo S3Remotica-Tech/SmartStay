@@ -420,7 +420,7 @@ const [hostelEbList,setHostelEbList] = useState("")
            {sortedData && sortedData.length > 0 && (
           
           <div
-className="p-0 booking-table-userlist  booking-table"
+className="p-0 booking-table-userlist  booking-table ms-2 me-4"
 style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
           
@@ -451,15 +451,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                   <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
                                 </div>  Paying Guest</div>  </th>
           
-                                {/* <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
-                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
-                                </div> Floor</div></th>
-          
-                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
-                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
-                                </div> Room no </div> </th> */}
+                               
           
                                 <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                                   <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
@@ -501,7 +493,7 @@ if (v.date && v.date !== '0000-00-00') {
   let day = Dated.getDate().toString().padStart(2, '0');
   let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
   let year = Dated.getFullYear();
-  formattedDate = `${day}/${month}/${year}`;
+  formattedDate = `${day}-${month}-${year}`;
 } else {
   
   let initialDate = new Date(v.initial_date); 
@@ -516,42 +508,37 @@ if (v.date && v.date !== '0000-00-00') {
                     <tr key={v.eb_Id}>
 
                       <td
-                        style={{
-                          border: "none",
-                          padding: "10px",
-                          textAlign: "start",
-                          verticalAlign: "middle",
-                          paddingLeft:"25px",borderBottom: "1px solid #E8E8E8"
-                        }}
-                      >
-                        <div
-                         
-                        >
-                          {/* <Image
-                            src={imageUrl}
-                            alt={v.hoatel_Name || "Default Profile"}
-                            roundedCircle
-                            style={{
-                              height: "40px",
-                              width: "40px",
-                              marginRight: "10px",
-                            }}
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = Profile;
-                            }}
-                          /> */}
-                          <span
-                            style={{
-                              fontSize: 13, 
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                            }}
-                          >
-                            {v.hoatel_Name}
-                          </span>
-                        </div>
-                      </td>
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "13px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            marginTop: 10,
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
+                                          }}
+                                        >
+                                          <span
+                                            style={{
+                                              paddingTop: "3px",
+                                              paddingLeft: "10px",
+                                              paddingRight: "10px",
+                                              paddingBottom: "3px",
+                                              borderRadius: "60px",
+                                              backgroundColor: "#FFEFCF",
+                                              textAlign: "center",
+                                              fontSize: "11px",
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              marginLeft:10
+                                            }}
+                                          >
+                                            {v.hoatel_Name}
+                                          </span>
+                                        </td>
                       <td
                         style={{
                           fontSize: 13, 
@@ -561,6 +548,7 @@ if (v.date && v.date !== '0000-00-00') {
                           verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                           
                         }}
+                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                       >
                         {v.reading}
                       </td>
@@ -591,6 +579,7 @@ if (v.date && v.date !== '0000-00-00') {
                     marginBottom: "-20px",
                     borderBottom: "1px solid #E8E8E8"
                   }}
+                   className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                 >
                   <span
                     style={{
@@ -621,6 +610,7 @@ if (v.date && v.date !== '0000-00-00') {
                           textAlign: "start",
                           verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                         }}
+                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                       >
                         {v.total_reading}
                       </td>
@@ -632,8 +622,9 @@ if (v.date && v.date !== '0000-00-00') {
                           textAlign: "start",
                           verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
                         }}
+                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                       >
-                        {v.total_amount}
+                        ₹{v.total_amount}
                       </td>
                       <td  style={{
                       textAlign: "start",
@@ -641,8 +632,9 @@ if (v.date && v.date !== '0000-00-00') {
                       fontSize: 13, 
                       fontWeight: 500,
                       fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8"
-                     
-                    }}>
+                    }} 
+                    
+                    >
                         <div
                          style={{
                           cursor: "pointer",
@@ -832,126 +824,110 @@ if (v.date && v.date !== '0000-00-00') {
                 }
 
 
-      {props.value === "3" && props.electricityHostel?.length >= 5 && (
-        <nav
-        className="pagination-container"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "end",
-            padding: "10px",
-            position: "fixed",
-            bottom: "10px",
-            right: "10px",
-            backgroundColor: "#fff",
-            borderRadius: "5px",
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-            zIndex: 1000,
-          }}
-        >
-          {/* Dropdown for Items Per Page */}
-          <div>
-            <select
-              value={electricityrowsPerPage}
-              onChange={handleItemsPerPageChange}
-              style={{
-                padding: "5px",
-                border: "1px solid #1E45E1",
-                borderRadius: "5px",
-                color: "#1E45E1",
-                fontWeight: "bold",
-                cursor: "pointer",
-                outline: "none",
-                boxShadow: "none",
-              }}
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
-          </div>
-
-          {/* Pagination Controls */}
-          <ul
-            style={{
-              display: "flex",
-              alignItems: "center",
-              listStyleType: "none",
-              margin: 0,
-              padding: 0,
-            }}
-          >
-            {/* Previous Button */}
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color: electricitycurrentPage === 1 ? "#ccc" : "#1E45E1",
-                  cursor:
-                    electricitycurrentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(electricitycurrentPage - 1)}
-                disabled={electricitycurrentPage === 1}
-              >
-                <ArrowLeft2
-                  size="16"
-                  color={electricitycurrentPage === 1 ? "#ccc" : "#1E45E1"}
-                />
-              </button>
-            </li>
-
-            {/* Current Page Indicator */}
-            <li
-              style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
-            >
-              {electricitycurrentPage} of {totalPagesinvoice}
-            </li>
-
-            {/* Next Button */}
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color:
-                    electricitycurrentPage === totalPagesinvoice
-                      ? "#ccc"
-                      : "#1E45E1",
-                  cursor:
-                    electricitycurrentPage === totalPagesinvoice
-                      ? "not-allowed"
-                      : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(electricitycurrentPage + 1)}
-                disabled={electricitycurrentPage === totalPagesinvoice}
-              >
-                <ArrowRight2
-                  size="16"
-                  color={
-                    electricitycurrentPage === totalPagesinvoice
-                      ? "#ccc"
-                      : "#1E45E1"
+       {props.value === "3" && props.electricityHostel?.length >= 5 &&
+                    <nav
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "end",
+                        padding: "10px",
+                        position: "fixed",
+                        bottom: "10px",
+                        right: "10px",
+                        backgroundColor: "#fff",
+                        borderRadius: "5px",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                        zIndex: 1000,
+                      }}
+                    >
+                     
+                      <div>
+                        <select
+                          value={electricityrowsPerPage}
+                          onChange={handleItemsPerPageChange}
+                          style={{
+                            padding: "5px",
+                            border: "1px solid #1E45E1",
+                            borderRadius: "5px",
+                            color: "#1E45E1",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            outline: "none",
+                            boxShadow: "none",
+      
+                          }}
+                        >
+                          <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={50}>50</option>
+                          <option value={100}>100</option>
+                        </select>
+                      </div>
+      
+                      
+                      <ul
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          listStyleType: "none",
+                          margin: 0,
+                          padding: 0,
+                        }}
+                      >
+                        
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color: electricitycurrentPage === 1 ? "#ccc" : "#1E45E1",
+                              cursor: electricitycurrentPage === 1 ? "not-allowed" : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(electricitycurrentPage - 1)}
+                            disabled={electricitycurrentPage === 1}
+                          >
+                            <ArrowLeft2 size="16" color={electricitycurrentPage === 1 ? "#ccc" : "#1E45E1"} />
+                          </button>
+                        </li>
+      
+                        
+                        <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+                          {electricitycurrentPage} of {totalPagesinvoice}
+                        </li>
+      
+                     
+                        <li style={{ margin: "0 10px" }}>
+                          <button
+                            style={{
+                              padding: "5px",
+                              textDecoration: "none",
+                              color: electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1",
+                              cursor: electricitycurrentPage === totalPagesinvoice ? "not-allowed" : "pointer",
+                              borderRadius: "50%",
+                              display: "inline-block",
+                              minWidth: "30px",
+                              textAlign: "center",
+                              backgroundColor: "transparent",
+                              border: "none",
+                            }}
+                            onClick={() => handlePageChange(electricitycurrentPage + 1)}
+                            disabled={electricitycurrentPage === totalPagesinvoice}
+                          >
+                            <ArrowRight2
+                              size="16"
+                              color={electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1"}
+                            />
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
                   }
-                />
-              </button>
-            </li>
-          </ul>
-        </nav>
-      )}
 
       <Modal
         show={props.hostelBasedForm}
