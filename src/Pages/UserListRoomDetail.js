@@ -42,7 +42,6 @@ import timehalf from "../Assets/Images/New_images/time-half past.png";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
-  console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [id, setId] = useState("");
