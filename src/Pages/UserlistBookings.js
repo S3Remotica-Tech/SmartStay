@@ -65,9 +65,7 @@ function Booking(props) {
   const [state_name, setStateName] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-  // const [Address, setAddress] = useState("");
-  // const [addressError, setAddressError] = useState("");
-  const [Email, setEmail] = useState("");
+    const [Email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [countryCode, setCountryCode] = useState("");
@@ -211,11 +209,7 @@ function Booking(props) {
       setFirstName(item.first_name || "");
       setLastName(item.last_name || "");
       setJoiningDate(item.joining_date || "");
-      // const formattedJoiningDate = item.joining_date
-      //   ? new Date(item.joining_date)
-      //   : null;
-      // setJoiningDate(formattedJoiningDate);
-      setJoiningDate(
+            setJoiningDate(
         item.joining_date ? moment(item.joining_date).toDate("") : null
       );
       setFile(item.profile || "");
@@ -228,8 +222,7 @@ function Booking(props) {
       setCountryCode(countryCode);
       setPhone(mobileNumber);
       setEmail(item.email_id || "");
-      // setAddress(item.address || "");
-      setHouseNo(item.address || '');
+            setHouseNo(item.address || '');
       setStreet(item.area || '');
       setLandmark(item.landmark || '')
       setPincode(item.pin_code || '');
@@ -258,9 +251,7 @@ function Booking(props) {
     }
   };
 
-  // useEffect(() => {
-  //   dispatch({ type: "HOSTELLIST" });
-  // }, []);
+  
 
 
 
@@ -339,28 +330,7 @@ function Booking(props) {
     setFormError("")
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
-  // const handlePhone = (e) => {
-  //   const input = e.target.value.replace(/\D/g, ""); 
-  //   setPhone(input);
-
-  //   const isValidMobileNo = /^\d{10}$/.test(input);
-
-  //   if (isValidMobileNo) {
-  //     setPhoneError("");
-  //   } else {
-  //     setPhoneError("Invalid mobile number *");
-  //   }
-
-  //   setPhoneErrorMessage("");
-  //   setFormError("");
-  //   dispatch({ type: "CLEAR_PHONE_ERROR" });
-  // };
-
-  // const handleAddress = (e) => {
-  //   setAddress(e.target.value);
-  //   setAddressError("");
-  //   setFormError("");
-  // };
+ 
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
@@ -380,11 +350,7 @@ function Booking(props) {
     setFormError("");
   }
 
-  // const handlePincode = (e) => {
-  //   setPincode(e.target.value);
-  //   setPincodeError("");
-  //   // setFormError("");
-  // }
+  
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -400,8 +366,7 @@ function Booking(props) {
       setFormError("");
     }
 
-    // setGeneralError("");
-    // setIsChangedError("");
+   
   };
 
   const handleCity = (e) => {
@@ -410,11 +375,7 @@ function Booking(props) {
     setFormError("");
   }
 
-  // const handleStateChange = (e) => {
-  //   setStateName(e.target.value);
-  //   setStateNameError("");
-  //   // setFormError("");
-  // }
+  
 
   const handleCloseDelete = () => {
     setDeleteShow(false);
@@ -423,9 +384,7 @@ function Booking(props) {
     if (
       !value ||
       value === "Select a PG"
-      // (value === "Select a floor" && value === "") ||
-      // (value === "Select a room" && value === "") ||
-      // (value === "Select a bed" && value === "")
+      
     ) {
       switch (fieldName) {
         case "firstName":
@@ -437,21 +396,7 @@ function Booking(props) {
         case "amount":
           setamountError("Amount is Required");
           break;
-
-        // case "floor":
-        //   setfloorError("Floor is required");
-        //   break;
-        // case "room":
-        //   setRoomError("Room is required");
-        //   break;
-        // case "bed":
-        //   setBedError("Bed is required");
-        //   break;
-        // case "Address":
-        //   setAddressError("Address is Required");
-        //   break;
-
-        case "City":
+                case "City":
           setCityError("Please Enter City");
           break;
         case "Pincode":
@@ -479,21 +424,7 @@ function Booking(props) {
         case "amount":
           setamountError("");
           break;
-
-        // case "floor":
-        //   setfloorError("");
-        //   break;
-        // case "room":
-        //   setRoomError("");
-        //   break;
-        // case "bed":
-        //   setBedError("");
-        //   break;
-        // case "Address":
-        //   setAddressError("");
-        //   break;
-
-        case "City":
+            case "City":
           setCityError("");
           break;
         case "Pincode":
@@ -519,8 +450,7 @@ function Booking(props) {
     const isamountValid = validateAssignField(amount, "amount");
     const isphoneValid = validateAssignField(Phone, "Phone");
     const isHostelValid = validateAssignField(HostelIds, "paying");
-    // const isaddressValid = validateAssignField(Address, "Address");
-    const isCityValid = validateAssignField(city, "City");
+       const isCityValid = validateAssignField(city, "City");
     const isPincodeValid = validateAssignField(pincode, "Pincode");
     const isStatenameValid = validateAssignField(state_name, "Statename");
 
@@ -567,7 +497,7 @@ function Booking(props) {
 
 
 
-    // Check if any values have changed
+    
     const isValidDate = (date) => !isNaN(Date.parse(date));
 
     const normalize = (value) => {
@@ -583,12 +513,11 @@ function Booking(props) {
         : joiningDate !== initialStateAssign.joiningDate) ||
       Number(amount) !== Number(initialStateAssign.amount) ||
       String(firstName) !== String(initialStateAssign.firstName) ||
-      // String(Address) !== String(initialStateAssign.Address) ||
-      String(Email) !== String(initialStateAssign.Email) ||
+            String(Email) !== String(initialStateAssign.Email) ||
       Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
       String(lastName) !== String(initialStateAssign.lastName) ||
       ((file instanceof File || file instanceof Blob) &&
-        file.name !== initialStateAssign.file?.name) || // Correct file comparison
+        file.name !== initialStateAssign.file?.name) || 
       file !== initialStateAssign.file ||
       String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
 
@@ -605,13 +534,11 @@ function Booking(props) {
       setFormError("");
     }
 
-    // Format the date correctly
+    
     const formattedDate = moment(joiningDate).format("YYYY-MM-DD");
 
-    // Normalize phone number
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
 
-    // Dispatch action
     dispatch({
       type: "ADD_BOOKING",
       payload: {
@@ -635,7 +562,7 @@ function Booking(props) {
     });
 
 
-    // Reset form state
+   
     setFormEdit(false);
   };
 
@@ -662,9 +589,7 @@ function Booking(props) {
     setFormError("");
     setPhone("");
     setPhoneError("");
-    // setAddress("");
-    // setAddressError("");
-    setfirstNameError("");
+        setfirstNameError("");
     setDateError("");
     setamountError("");
     setStateNameError("");
@@ -711,8 +636,7 @@ function Booking(props) {
 
   useEffect(() => {
     if (state?.Booking?.bookingPhoneError) {
-      // setvalidPhoneError(state?.Booking?.bookingPhoneError)
-      setTimeout(() => {
+           setTimeout(() => {
         dispatch({ type: "CLEAR_PHONE_ERROR" });
       }, 2000);
     }
@@ -720,7 +644,7 @@ function Booking(props) {
 
   useEffect(() => {
     if (state?.Booking?.bookingEmailError) {
-      // setvalidEmailError(state?.Booking?.bookingEmailError)
+     
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
       }, 2000);
@@ -793,18 +717,10 @@ function Booking(props) {
   const popupRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // const itemsPerPage = 7;
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = props.filteredUsers?.slice(
-  //   indexOfFirstItem,
-  //   indexOfLastItem
-  // );
-  // const currentItems =
-  // props.filterInput.length > 0
-  //   ? props.filteredUsers
-  //   : customerBooking?.slice(indexOfFirstItem, indexOfLastItem);
+  
   const currentItems =
     props.search || props.filterStatus || props.bookingDateRange?.length === 2
       ? props.filteredUsers?.slice(indexOfFirstItem, indexOfLastItem)
@@ -856,7 +772,7 @@ function Booking(props) {
     }
   }, [props.resetPage]);
 
-  // const totalPages = Math.ceil(customerBooking?.length / itemsPerPage);
+  
   const totalPages = Math.ceil(
     (props.search || props.filterStatus ? props.filteredUsers?.length : customerBooking?.length) / itemsPerPage
   );
@@ -883,17 +799,16 @@ function Booking(props) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              // height: "100vh",
-            }}
+                         }}
           >
-            {/* Image */}
+           
             <img
               src={Emptystate}
               alt="Empty State"
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-            {/* Permission Error */}
+            
             {bookingPermissionError && (
               <div
                 style={{
@@ -967,12 +882,12 @@ function Booking(props) {
                     marginTop: "20px",
                     paddingRight: 0,
                     paddingLeft: 0
-                    //  borderBottom:"1px solid #DCDCDC"
+                    
                   }}
                 >
                   <Table
                     responsive="md"
-                    // className="Table_Design"
+                    
                     style={{
                       fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                       top: 0,
@@ -998,8 +913,7 @@ function Booking(props) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            // borderTopLeftRadius: 24,
-                            paddingLeft: "20px",
+                                                       paddingLeft: "20px",
                           }}
                         >
                           <div className='d-flex gap-1 align-items-center justify-content-start'>
@@ -1118,8 +1032,7 @@ function Booking(props) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            // borderTopRightRadius: "24px",
-                          }}
+                                                     }}
                         >
                           Action
                         </th>
@@ -1191,14 +1104,13 @@ function Booking(props) {
                                               color: "#1E45E1",
                                               cursor: "pointer",
                                               marginTop: 10,
-                                              // paddingLeft:10,
-                                              whiteSpace: "nowrap",
+                                                                                           whiteSpace: "nowrap",
                                   
                                   }}
                                   className="customer-name ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                 >
                                   {customer.first_name} {customer.last_name ? customer.last_name : ""}
-                                  {/* {`${customer.first_name || ""} ${customer.last_name || ""}`.trim() || ""} */}
+                                 
 
                                 </span>
                             
@@ -1215,21 +1127,10 @@ function Booking(props) {
                               }}
                                 className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                             >
-                              {/* {customer.email_id} */}
+                              
                               {customer.email_id ? customer.email_id : "N/A"}
                             </td>
-                            {/* <td
-                        style={{
-                          fontSize: '16px',
-                          fontWeight: 500,
-                          fontFamily: 'Gilroy',
-                          color: '#000000',
-                          textAlign: 'start',
-                        }}
-                      >
-                       
-                        {customer.phone_number}
-                      </td> */}
+                            
 
                             <td
                               style={{
@@ -1362,11 +1263,7 @@ function Booking(props) {
                                   justifyContent: "center",
                                   alignItems: "center",
                                   position: "relative",
-                                  // zIndex:
-                                  //   activeDotsId === customer.id
-                                  //     ? 1000
-                                  //     : "auto",
-                                  backgroundColor:
+                                                                    backgroundColor:
                                     activeDotsId === customer.id
                                       ? "#E7F1FF"
                                       : "white",
@@ -1393,10 +1290,7 @@ function Booking(props) {
                                           ? popupPosition.left
                                           : popupPosition.left - 10,
 
-                                      // top: popupPosition.top,
-                                      // left: popupPosition.left,
-                                      // right: 0,
-                                      // top: 50,
+                                     
                                       width: 163,
                                       height: 92,
                                       border: "1px solid #EBEBEB",
@@ -1457,12 +1351,7 @@ function Booking(props) {
 
                                     <div
                                       className="mb-2 d-flex align-items-center"
-                                      // onClick={() => {
-                                      //   if (bookingEditPermissionError) {
-                                      //     handleEdit(customer);
-                                      //   }
-                                      // }}
-                                      onClick={() => handleEdit(customer)}
+                                                                           onClick={() => handleEdit(customer)}
                                       style={{
                                         cursor: bookingEditPermissionError
                                           ? "not-allowed"
@@ -1602,7 +1491,7 @@ function Booking(props) {
                   zIndex: "1000",
                 }}
               >
-                {/* Dropdown for Items Per Page */}
+                
                 <div>
                   <select
                     value={itemsPerPage}
@@ -1626,7 +1515,7 @@ function Booking(props) {
                   </select>
                 </div>
 
-                {/* Pagination Controls */}
+                
                 <ul
                   style={{
                     display: "flex",
@@ -1636,7 +1525,7 @@ function Booking(props) {
                     padding: 0,
                   }}
                 >
-                  {/* Previous Button */}
+                  
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1662,7 +1551,7 @@ function Booking(props) {
                     </button>
                   </li>
 
-                  {/* Current Page Indicator */}
+                
                   <li
                     style={{
                       margin: "0 10px",
@@ -1673,7 +1562,7 @@ function Booking(props) {
                     {currentPage} of {totalPages}
                   </li>
 
-                  {/* Next Button */}
+                 
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1710,11 +1599,11 @@ function Booking(props) {
         </div>
       )}
 
-      {/* Booking Modal (Add/Edit) */}
+     
       <BookingModal
         show={modalType === "edit" || modalType === "add"}
         handleClose={handleModalClose}
-        mode={modalType} // 'edit' or 'add'
+        mode={modalType} 
         customer={selectedCustomer}
         setFormEdit={setFormEdit}
         formEdit={formEdit}
@@ -1759,11 +1648,11 @@ function Booking(props) {
             >
               <Image
                 src={
-                  file && (file === "0" || file === 0) // Check if file is "0" or number 0
+                  file && (file === "0" || file === 0) 
                     ? Profile2
                     : file instanceof File || file instanceof Blob
                       ? URL.createObjectURL(file)
-                      : file || Profile2 // Fallback to file or Profile2
+                      : file || Profile2 
                 }
                 roundedCircle
                 style={{ height: 100, width: 100 }}
@@ -1844,8 +1733,7 @@ function Booking(props) {
                     height: "50px",
                   }}
                   value={firstName}
-                  // className={formErrors.firstName ? "is-invalid" : ""}
-                  onChange={(e) => handleFirstName(e)}
+                                   onChange={(e) => handleFirstName(e)}
                 />
               </Form.Group>
               {firstNameError && (
@@ -1881,8 +1769,7 @@ function Booking(props) {
                     marginTop: 5
                   }}
                   value={lastName}
-                  // isInvalid={!!formErrors.lastName}
-                  onChange={(e) => handleLastName(e)}
+                                    onChange={(e) => handleLastName(e)}
                 />
               </Form.Group>
             </Col>
@@ -1907,8 +1794,7 @@ function Booking(props) {
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                    // onChange={handleCountryCodeChange}
-                    style={{
+                                        style={{
                       border: "1px solid #D9D9D9",
 
                       borderRadius: "8px 0 0 8px",
@@ -2006,8 +1892,7 @@ function Booking(props) {
                     marginTop: 6
                   }}
                   value={Email}
-                  // isInvalid={!!formErrors.lastName}
-                  onChange={(e) => handleEmail(e)}
+                                   onChange={(e) => handleEmail(e)}
                 />
               </Form.Group>
               {emailError && (
@@ -2366,41 +2251,7 @@ function Booking(props) {
 
           </div>
 
-          {/* <Col md={12} className="mb-0">
-            <Form.Group controlId="formFirstName" className="mb-0">
-              <Form.Label
-                style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Address{" "}
-                <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Address"
-                style={{
-                  fontSize: 14,
-                  color: "rgba(75, 75, 75, 1)",
-                  fontFamily: "Gilroy",
-                  height: "50px",
-                }}
-                value={Address}
-                // className={formErrors.firstName ? "is-invalid" : ""}
-                onChange={(e) => handleAddress(e)}
-              />
-            </Form.Group>
-            {addressError && (
-
-              <div style={{ color: "red", marginTop: "-7px" }}>
-                <MdError style={{ marginRight: "5px", fontSize: 13 }} />
-                <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{addressError}</span>
-              </div>
-            )}
-          </Col> */}
+       
           <Row>
             <Col md={6}>
               <Form.Group className="mb-2" controlId="purchaseDate">
@@ -2414,7 +2265,7 @@ function Booking(props) {
                 >
                   Joining Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                  {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
+                 
                 </Form.Label>
 
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
@@ -2517,10 +2368,10 @@ function Booking(props) {
           </Button>
 
         </Modal.Body>
-        {/* </Form> */}
+       
       </Modal>
 
-      {/* Delete Modal */}
+     
       <Modal
         show={deleteShow}
         onHide={handleCloseDelete}

@@ -6,16 +6,12 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Addbtn from "../Assets/Images/New_images/add-circle.png"
 import Delete from "../Assets/Images/New_images/trash.png";
 import Edit from "../Assets/Images/edit_blue.svg";
-// import { Modal, Pagination, Form, Card } from "react-bootstrap";
 import { ArrowLeft2, ArrowRight2,ArrowUp2, ArrowDown2, } from "iconsax-react";
-// import Flatpickr from "react-flatpickr";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import CheckOutForm from "./UserListCheckoutForm";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
-// import Image from "react-bootstrap/Image";
 import { MdError } from "react-icons/md";
-// import minus from "../Assets/Images/New_images/minus-square.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import {
   Table,
@@ -38,7 +34,6 @@ function CheckOut(props) {
   const [activeDotsId, setActiveDotsId] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  // const itemsPerPage = 10;
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
@@ -49,7 +44,7 @@ function CheckOut(props) {
   const [cofirmForm,setConfirmForm] = useState(false)
   
 
-console.log("checkOutCustomer",checkOutCustomer)
+
   
 
   useEffect(() => {
@@ -241,8 +236,7 @@ console.log("checkOutCustomer",checkOutCustomer)
   const [conformEdit,setConformEdit] = useState(false)
 
   const handleEdit = (checkout) => {
-    console.log("handleEdit",checkout)
-    setActiveDotsId(null);
+      setActiveDotsId(null);
     setcheckoutForm(true);
     setCheckOutEdit(checkout);
     setCheckoutEditAction(true)
@@ -300,7 +294,7 @@ setConformEdit(true)
 
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = (top + height / 2) - 15;
-    // const popupLeft = left - 220;
+  
 
     const popupLeft = left - (checkOutconfirm.isActive === 0 || checkOutconfirm.isActive === '0' ? 250 : 290);
     
@@ -311,7 +305,7 @@ setConformEdit(true)
     setTimeout(() => {
       if (popupRef.current) {
         const popupWidth = popupRef.current.offsetWidth;
-        const popupLeft = left - popupWidth + 0; // fine-tune +40 as needed
+        const popupLeft = left - popupWidth + 0; 
         setPopupPosition({ top: popupTop, left: popupLeft });
       }
     }, 0);
@@ -378,10 +372,10 @@ setConformEdit(true)
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              // height: "100vh",
+              
             }}
           >
-            {/* Image */}
+            
             <img
               src={Emptystate}
               alt="Empty State"
@@ -426,12 +420,12 @@ setConformEdit(true)
                            marginTop: "20px",
                            paddingRight:0,
                            paddingLeft:0
-                           //  borderBottom:"1px solid #DCDCDC"
+                           
                          }}
                        >
                   <Table
                     responsive="md"
-                    // className="Table_Design"
+                   
                     style={{
                       fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                       top: 0,
@@ -458,7 +452,7 @@ setConformEdit(true)
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            // borderTopLeftRadius: 24,
+                            
                             paddingLeft:"20px"
                           }}
                         >
@@ -597,7 +591,7 @@ setConformEdit(true)
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            // borderTopRightRadius: "24px",
+                            
                           }}
                         >
                           Action
@@ -606,72 +600,13 @@ setConformEdit(true)
                     </thead>
                     <tbody>
                       {sortedData && sortedData.length > 0 && sortedData.map((checkout) => {
-                        //  let Dated = new Date(customer.joining_date);
-
-                        //  let day = Dated.getDate();
-                        //  let month = Dated.getMonth() + 1;
-                        //  let year = Dated.getFullYear();
-                        // let formattedDate = `${year}/${month}/${day}`;
-
-                        // let Dated = new Date(checkout.CheckoutDate);
-
-                        // let day = Dated.getDate();
-                        // let month = Dated.getMonth(); 
-                        // Get the zero-indexed month
-                        // let year = Dated.getFullYear();
-
-                        // Array of month names abbreviated to the first 3 letters
-                        // const monthNames = [
-                        //   "Jan",
-                        //   "Feb",
-                        //   "Mar",
-                        //   "Apr",
-                        //   "May",
-                        //   "Jun",
-                        //   "Jul",
-                        //   "Aug",
-                        //   "Sep",
-                        //   "Oct",
-                        //   "Nov",
-                        //   "Dec",
-                        // ];
-
-                        // Get the month abbreviation
-                        // let formattedMonth = monthNames[month];
-
-                        // Format the date as YYYY Mon DD
-                        // let formattedDate = `${year} ${formattedMonth} ${day}`;
-
-
-                        // let createDated = new Date(checkout.createdat);
-
-                        // let day1 = createDated.getDate();
-                        // let month1 = createDated.getMonth() + 1;
-                        // let year1 = createDated.getFullYear();
-
-                        // const monthNamesformate = [
-                        //   "Jan",
-                        //   "Feb",
-                        //   "Mar",
-                        //   "Apr",
-                        //   "May",
-                        //   "Jun",
-                        //   "Jul",
-                        //   "Aug",
-                        //   "Sep",
-                        //   "Oct",
-                        //   "Nov",
-                        //   "Dec",
-                        // ];
-                        // let formattedMonthjj = monthNamesformate[month1];
-                        // let formattedDatecreate = `${year1} ${formattedMonthjj} ${day1}`;
+                       
 
                         return (
                           <tr key={checkout.ID} className="customer-row">
 
                             <td style={{verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"}}>
                               <div className="d-flex align-items-center">
-                                {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
                                 <span
                                   style={{
                                     fontSize: "13px",
@@ -839,35 +774,7 @@ setConformEdit(true)
                                 {moment(checkout.CheckoutDate, "YYYY-MM-DD").format("DD MMM YYYY")}
                               </span>
                             </td>
-                            {/* <td
-                        style={{
-                          padding: "10px",
-                          border: "none",
-                          textAlign: "start",
-                          fontSize: "16px",
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        <span
-                          style={{
-                            padding: "3px 10px",
-                            borderRadius: "60px",
-                            backgroundColor: "#EBEBEB",
-                            textAlign: "start",
-                            fontSize: "14px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            display: "inline-block",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {checkout.formattedDate}
-                        </span>
-                      </td> */}
+                           
                             <td style={{
                               padding: "10px",
                               border: "none",
@@ -896,13 +803,10 @@ setConformEdit(true)
                                   justifyContent: "center",
                                   alignItems: "center",
                                   position: "relative",
-                                  // zIndex:
-                                  //   activeDotsId === checkout.ID ? 1000 : "auto",
-                                    backgroundColor: activeDotsId === checkout.ID   ? "#E7F1FF" : "white",
+                                                                     backgroundColor: activeDotsId === checkout.ID   ? "#E7F1FF" : "white",
                                 }}
                                 onClick={(e) => toggleMoreOptions(checkout.ID, checkout, e)}
-                              // onClick={() => handleDotsClick(checkout.id , checkout)}
-                              >
+                                                           >
                                 <PiDotsThreeOutlineVerticalFill
                                   style={{ height: 20, width: 20 }}
                                 />
@@ -916,7 +820,7 @@ setConformEdit(true)
                                       position: "fixed",
                                       top:   popupPosition.top,
                                       left:  popupPosition.left,
-                                      // width: 200,
+                                      
                                       width:checkout.isActive === 0 ? 100:200,
                                       border: "1px solid #F9F9F9",
                                       borderRadius: 12,
@@ -926,41 +830,12 @@ setConformEdit(true)
                                       padding: 15,
                                       boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                       zIndex: 10,
-                                      // marginTop: "140px",
+                                      
                                       marginRight: "20px",
                                     }}
                                   >
 
-                                    {/* <div className="d-flex align-items-center"
-                                      onClick={() => {
-                                        if (!checkOutEditPermissionError) {
-                                          handleConfirmCheckout(checkout);
-                                        }
-                                      }}
-                                    >
-                                      <img
-                                        src={Addbtn}
-                                        style={{
-                                          height: 16,
-                                          width: 16,
-                                          marginRight: "8px",
-                                        }}
-                                        alt="checkout icon"
-                                      />
-                                      <label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy",
-                                          // color: "#FF0000",
-                                          cursor: checkOutEditPermissionError
-                                          ? "not-allowed"
-                                          : "pointer",
-                                        }}
-                                      >
-                                        Confirm Check-Out
-                                      </label>
-                                    </div> */}
+                                  
 
 {checkout.isActive !== 0 && (
   <div
@@ -994,61 +869,10 @@ setConformEdit(true)
   
 )}
 
-{/* {
-  checkout.isActive !== 0 && (
-    <div
-    className="mb-2 mt-2 d-flex align-items-center"
-    onClick={() => {
-      if (!checkOutEditPermissionError) {
-        handleEdit(checkout);
-      }
-    }}
-    style={{
-      cursor: checkOutEditPermissionError
-        ? "not-allowed"
-        : "pointer",
-      pointerEvents: checkOutEditPermissionError
-        ? "none"
-        : "auto",
-      opacity: checkOutEditPermissionError ? 0.5 : 1,
-    }}
-  >
-    <img
-      src={Edit}
-      style={{
-        height: 16,
-        width: 16,
-        marginRight: "8px",
-      }}
-      alt="Edit icon"
-    />
-    <label
-      style={{
-        fontSize: 14,
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        color: "#222222",
-        cursor: checkOutEditPermissionError
-        ? "not-allowed"
-        : "pointer",
-      }}
-    >
-      Edit
-    </label>
-  </div>
-  )
-}
-  
-                                    */}
+
                                     <div
   className="mb-2 mt-2 d-flex align-items-center"
-  // onClick={() => {
-  //   if (!checkOutEditPermissionError) {
-  //     checkout.isActive === 1
-  //       ? handleEdit(checkout)
-  //       : handleConformEdit(checkout);
-  //   }
-  // }}
+ 
   onClick={() => {
   if (!checkOutEditPermissionError) {
     if (checkout.isActive === 1) {
@@ -1300,13 +1124,7 @@ setConformEdit(true)
   />
 )}
 
-      {/* {
-        cofirmForm && (
-          <CheckOutForm  handleClose={checkoutcloseModal}/>
-
-        )
-      } */}
-
+   
       <Modal
         show={modalType === "delete"}
         onHide={handleModalClose}

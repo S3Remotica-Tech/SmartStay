@@ -719,7 +719,7 @@ function Expenses({ allPageHostel_Id }) {
 
               </div>
 
-              {/* <div className="d-flex  flex-wrap justify-content-between align-items-center"> */}
+             
               <div className="col-12 col-md d-flex flex-wrap justify-content-md-end align-items-center">
 
                 {!showFilterExpense && (
@@ -764,7 +764,7 @@ function Expenses({ allPageHostel_Id }) {
                         All
                       </ListGroup.Item>
 
-                      {/* Category */}
+
                       <ListGroup.Item
                         active={showCategory}
                         onMouseEnter={() => setShowCategory(true)}
@@ -800,7 +800,8 @@ function Expenses({ allPageHostel_Id }) {
                         )}
                       </ListGroup.Item>
 
-                      {/* Payment Mode */}
+                     
+                     
                       <ListGroup.Item
                         active={showPaymentMode}
                         onMouseEnter={() => setShowPaymentMode(true)}
@@ -841,7 +842,8 @@ function Expenses({ allPageHostel_Id }) {
                         )}
                       </ListGroup.Item>
 
-                      {/* Amount */}
+                    
+                    
                       <ListGroup.Item
                         active={showAmount}
                         onMouseEnter={() => setShowAmount(true)}
@@ -1306,7 +1308,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
               }}
             >
 
-              {/* Dropdown for Items Per Page */}
+            
+            
               <div>
                 <select className="selectoption"
                   value={itemsPerPage}
@@ -1329,7 +1332,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                 </select>
               </div>
 
-              {/* Pagination Controls */}
+             
+             
               <ul className="selectoption"
                 style={{
                   display: "flex",
@@ -1339,7 +1343,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   padding: 0,
                 }}
               >
-                {/* Previous Button */}
+                
+                
                 <li style={{ margin: "0 10px" }}>
                   <button
                     style={{
@@ -1364,7 +1369,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   </button>
                 </li>
 
-                {/* Current Page Indicator */}
+              
+              
                 <li
                   style={{
                     margin: "0 10px",
@@ -1375,7 +1381,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   {currentPage} of {totalPages}
                 </li>
 
-                {/* Next Button */}
+               
+               
                 <li style={{ margin: "0 10px" }}>
                   <button
                     style={{
@@ -1437,7 +1444,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
           >
             Delete expense?
           </Modal.Title>
-          {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
+       
+       
         </Modal.Header>
 
         <Modal.Body

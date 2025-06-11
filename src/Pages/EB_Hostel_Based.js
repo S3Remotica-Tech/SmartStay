@@ -552,20 +552,7 @@ if (v.date && v.date !== '0000-00-00') {
                       >
                         {v.reading}
                       </td>
-                      {/* <td
-                        style={{
-                          textAlign: "start",
-                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
-                          fontSize: 13, 
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                      
-                        
-                          {formattedDate}
-                        
-                      </td> */}
+                     
                         <td
                   style={{
                     paddingTop: "15px",
@@ -935,11 +922,7 @@ if (v.date && v.date !== '0000-00-00') {
         backdrop="static"
         centered
       >
-        {/* <Modal.Header closeButton className="text-center">
-            <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
-              Add a Reading
-            </Modal.Title>
-          </Modal.Header> */}
+       
 
         <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
           <div
@@ -949,227 +932,16 @@ if (v.date && v.date !== '0000-00-00') {
               fontFamily: "Gilroy",
             }}
           >
-          {/* {editeb ? "Edit Hostel Readig":"Add Hostel Reading"}   */}
+         
           {props.editeb ? "Edit Hostel Reading" : "Add Hostel Reading"}
           </div>
-          {/* <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleCloseHostel}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "16px",
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "25px",
-              height: "25px",
-              borderRadius: "50%",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{
-                fontSize: "30px",
-                paddingBottom: "6px",
-              }}
-            >
-              &times;
-            </span>
-          </button> */}
+        
           <CloseCircle size="24" color="#000" onClick={handleCloseHostel} 
             style={{ cursor: 'pointer' }}/>
         </Modal.Header>
         <Modal.Body style={{marginTop:"-13px"}}>
           <div className="row ">
-            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                {ebErrorunit && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {ebErrorunit}
-                  </div>
-                )}
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Paying Guest
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  value={hostelId}
-                  onChange={(e) => handleHostelChange(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    lineHeight: "18.83px",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                >
-                  <option
-                    style={{ fontSize: 14, fontWeight: 600 }}
-                    selected
-                    value=""
-                  >
-                    Select PG
-                  </option>
-                  {state.UsersList?.hostelList &&
-                    state.UsersList?.hostelList.map((item) => (
-                      <>
-                        <option key={item.id} value={item.id}>
-                          {item.Name}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select>
-                {hostelIdError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {hostelIdError}
-                  </div>
-                )}
-                {unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel != "" && (
-                    <>
-                      <label
-                        className="pb-1"
-                        style={{
-                          fontSize: 12,
-                          color: "red",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {" "}
-                        Please add a 'ebUnitAmount in Settings'
-                      </label>
-                    </>
-                  )}
-              </div> */}
-            {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Floor{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  disabled={
-                    unitAmount &&
-                    unitAmount?.length === 0 &&
-                    selectedHostel != ""
-                  }
-                  value={Floor}
-                  onChange={(e) => handleFloor(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                >
-                  <option
-                    style={{ fontSize: 14, fontWeight: 600 }}
-                    selected
-                    value=""
-                  >
-                    Select Floor
-                  </option>
-                  {state?.UsersList?.hosteldetailslist &&
-                    state?.UsersList?.hosteldetailslist.map((item) => (
-                      <>
-                        <option key={item.floor_id} value={item.floor_id}>
-                          {item.floor_name}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select>
-                {floorError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {floorError}
-                  </div>
-                )}
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Label
-                  style={{
-                    fontSize: 14,
-                    color: "#222222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Room{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                </Form.Label>
-                <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  disabled={
-                    unitAmount &&
-                    unitAmount?.length === 0 &&
-                    selectedHostel != ""
-                  }
-                  value={Rooms}
-                  onChange={(e) => handleRoom(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                >
-                  <option>Select a Room</option>
-                  {state.UsersList?.roomdetails &&
-                    state.UsersList?.roomdetails.map((item) => (
-                      <>
-                        <option key={item.Room_Id} value={item.Room_Id}>
-                          {item.Room_Name}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select>
-                {roomError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {roomError}
-                  </div>
-                )}
-              </div> */}
+          
 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -1218,12 +990,7 @@ if (v.date && v.date !== '0000-00-00') {
                 </div>
               )}
 
-              {/* {readingError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {readingError}
-                  </div>
-                )} */}
+            
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1274,12 +1041,7 @@ if (v.date && v.date !== '0000-00-00') {
                   </span>
                 </div>
               )}
-              {/* {readingError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  {readingError}
-                </div>
-              )} */}
+              
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group  controlId="purchaseDate">
@@ -1370,7 +1132,7 @@ if (v.date && v.date !== '0000-00-00') {
         </Modal.Footer>
       </Modal>
 
-      {/* delete */}
+    
       <Modal
         show={deleteForm}
         onHide={handleCloseDelete}
