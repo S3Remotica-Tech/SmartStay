@@ -196,14 +196,15 @@ const { RangePicker } = DatePicker;
   const [electricityFilterd, setelectricityFilterd] = useState([]);
   const [electricityHostel, setelectricityHostel] = useState([]);
   useEffect(() => {
-    
+    if(state.login.selectedHostel_Id){
     setCustomerLoader(true);
     dispatch({
       type: "CUSTOMEREBLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
-    
-  }, []);
+  }
+      }, [state.login.selectedHostel_Id]);
+
   useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
       setLoader(false);

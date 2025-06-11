@@ -95,9 +95,14 @@ console.log("reason", fields);
     setFields([{ reason: "", amount: "" }]); 
   }
 
+
+console.log("state",state)
+
   // const [isChecked, setIsChecked] = useState(false);
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     dispatch({ type: "BANKINGLIST",payload:{ hostel_id: state.login.selectedHostel_Id} });
+    }
   }, []);
 
   const handleModeOfPaymentChange = (e) => {

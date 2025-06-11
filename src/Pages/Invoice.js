@@ -2149,14 +2149,20 @@ console.log("DownloadReceipt",receiptdata)
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
         setLoading(false);
-
-        setBills(state.InvoiceList.ManualInvoices);
+      
       }, 1000);
     }
-  }, [
-    state.InvoiceList.manualInvoiceAddStatusCode,
-    state.InvoiceList.ManualInvoices,
-  ]);
+  }, [state.InvoiceList.manualInvoiceAddStatusCode]);
+
+  useEffect(()=>{
+ setBills(state.InvoiceList.ManualInvoices);
+  },[state.InvoiceList.ManualInvoices,])
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {

@@ -81,7 +81,7 @@ function Dashboard() {
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
   const [selectAdvance, setSelectAdvance] = useState("six_month");
-
+  const [accountList, setAccountList] = useState("");
 
 
   const monthNames = [
@@ -104,10 +104,13 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
       setHostel_Id(state.login.selectedHostel_Id);
     }
   }, [state.login.selectedHostel_Id]);
-  useEffect(() => {
-    dispatch({ type: "ACCOUNTDETAILS" });
-  }, []);
-  const [accountList, setAccountList] = useState("");
+
+  // useEffect(() => {
+  //   dispatch({ type: "ACCOUNTDETAILS" });
+  // }, []);
+
+
+
   useEffect(() => {
     if (state?.createAccount?.accountList[0]?.plan_data) {
       const customerDetailsPage =

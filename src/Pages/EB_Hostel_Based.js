@@ -42,12 +42,13 @@ function EBHostelReading(props) {
 const [hostelEbList,setHostelEbList] = useState("")
 
  useEffect(() => {
-   
+   if(selectedHostel){
     props.setLoader(true)
     dispatch({
       type: "HOSTELBASEDEBLIST",
       payload: { hostel_id: selectedHostel },
     });
+  }
    
     
   }, [selectedHostel]);

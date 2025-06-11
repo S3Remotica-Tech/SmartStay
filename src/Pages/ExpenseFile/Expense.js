@@ -186,13 +186,13 @@ function Expenses({ allPageHostel_Id }) {
           hostel_id: state.login.selectedHostel_Id,
         },
       });
-    } else if (dates?.length === 0) {
+    } else if (dates?.length === 0 && state.login.selectedHostel_Id) {
       dispatch({
         type: "EXPENSELIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [dates, dispatch, state.login.selectedHostel_Id]);
+  }, [dates,  state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (selectedValue === "All") {
@@ -310,10 +310,12 @@ function Expenses({ allPageHostel_Id }) {
   ]);
 
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     dispatch({
       type: "BANKINGLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+  }
   }, [state.login.selectedHostel_Id]);
 
   const handleShow = () => {
@@ -366,6 +368,7 @@ function Expenses({ allPageHostel_Id }) {
   const [currentItem, setCurrentItem] = useState("");
 
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     setLoading(true);
     dispatch({
       type: "ASSETLIST",
@@ -383,6 +386,7 @@ function Expenses({ allPageHostel_Id }) {
       type: "EXPENSELIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+  }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {

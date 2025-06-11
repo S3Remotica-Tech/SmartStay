@@ -161,10 +161,12 @@ function DashboardAnnouncement() {
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
     setLoading(true)
+    if(hostel_id){
     dispatch({
       type: "ANNOUNCEMENTLIST",
       payload: { hostel_id: hostel_id },
     });
+  }
   }, [hostel_id]);
 
 

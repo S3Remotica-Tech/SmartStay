@@ -33,7 +33,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import {CloseCircle,ArrowUp2, ArrowDown2,} from "iconsax-react";
+import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import Select from "react-select";
 
 function Booking(props) {
@@ -82,7 +82,7 @@ function Booking(props) {
     useState("");
   const [bookingDeletePermissionError, setBookingDeletePermissionError] =
     useState("");
-    const [loader,setLoader] = useState(false)
+  const [loader, setLoader] = useState(false)
   const [initialStateAssign, setInitialStateAssign] = useState({
     firstName: "",
     lastName: "",
@@ -97,9 +97,9 @@ function Booking(props) {
     countryCode: "",
     Address: "",
     Email: "",
-    house_no:  '',
-    street:'',
-    city:  '',
+    house_no: '',
+    street: '',
+    city: '',
     pincode: '',
     landmark: '',
     state: '',
@@ -148,17 +148,17 @@ function Booking(props) {
   useEffect(() => {
     setHostelIds(props.uniqueostel_Id);
   }, [props.uniqueostel_Id]);
-  const [customerBooking,setCustomerBooking] = useState([])
+  const [customerBooking, setCustomerBooking] = useState([])
 
   useEffect(() => {
-    if(state.login.selectedHostel_Id){
+    if (state.login.selectedHostel_Id) {
       setLoader(true)
       dispatch({
         type: "GET_BOOKING_LIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-   
+
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
@@ -249,12 +249,12 @@ function Booking(props) {
         house_no: item.address || '',
         street: item.area || '',
         city: item.city || '',
-        pincode:item.pin_code || '',
-        landmark:item.landmark || '',
+        pincode: item.pin_code || '',
+        landmark: item.landmark || '',
         state: item.state || '',
       });
 
-    
+
     }
   };
 
@@ -262,15 +262,15 @@ function Booking(props) {
   //   dispatch({ type: "HOSTELLIST" });
   // }, []);
 
- 
- 
+
+
 
   const handleFirstName = (e) => {
-const value = e.target.value;
-const pattern = /^[a-zA-Z\s]*$/;
-if (!pattern.test(value)) {
-  return;
-}
+    const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
     setFirstName(value);
     setfirstNameError("");
     setFormError("");
@@ -304,19 +304,19 @@ if (!pattern.test(value)) {
     setFormError("");
   };
 
- 
+
   const handleAmount = (e) => {
     const newAmount = e.target.value;
     if (!/^\d*$/.test(newAmount)) {
-      return; 
+      return;
     }
     setAmount(newAmount);
     setamountError("");
     setFormError("");
   };
 
-  
-  
+
+
   useEffect(() => {
     if (state.Booking.bookingError) {
       setPhoneError(state.Booking.bookingError);
@@ -324,17 +324,17 @@ if (!pattern.test(value)) {
   }, [state.Booking.bookingError]);
 
   const handlePhone = (e) => {
-    const input = e.target.value.replace(/\D/g, ""); 
+    const input = e.target.value.replace(/\D/g, "");
     setPhone(input);
-  
+
     if (input.length === 0) {
-      setPhoneError(""); 
+      setPhoneError("");
     } else if (input.length < 10) {
       setPhoneError("Invalid Mobile Number");
     } else if (input.length === 10) {
-      setPhoneError(""); 
+      setPhoneError("");
     }
-  
+
     setPhoneErrorMessage("");
     setFormError("")
     dispatch({ type: "CLEAR_PHONE_ERROR" });
@@ -342,20 +342,20 @@ if (!pattern.test(value)) {
   // const handlePhone = (e) => {
   //   const input = e.target.value.replace(/\D/g, ""); 
   //   setPhone(input);
-  
+
   //   const isValidMobileNo = /^\d{10}$/.test(input);
-  
+
   //   if (isValidMobileNo) {
   //     setPhoneError("");
   //   } else {
   //     setPhoneError("Invalid mobile number *");
   //   }
-  
+
   //   setPhoneErrorMessage("");
   //   setFormError("");
   //   dispatch({ type: "CLEAR_PHONE_ERROR" });
   // };
- 
+
   // const handleAddress = (e) => {
   //   setAddress(e.target.value);
   //   setAddressError("");
@@ -391,15 +391,15 @@ if (!pattern.test(value)) {
     if (!/^\d{0,6}$/.test(value)) {
       return;
     }
-  
+
     setPincode(value);
     if (value.length > 0 && value.length < 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
-      setFormError("");  
+      setFormError("");
     }
-  
+
     // setGeneralError("");
     // setIsChangedError("");
   };
@@ -437,7 +437,7 @@ if (!pattern.test(value)) {
         case "amount":
           setamountError("Amount is Required");
           break;
-        
+
         // case "floor":
         //   setfloorError("Floor is required");
         //   break;
@@ -450,16 +450,16 @@ if (!pattern.test(value)) {
         // case "Address":
         //   setAddressError("Address is Required");
         //   break;
-        
-          case "City":
-            setCityError("Please Enter City");
-            break;
-          case "Pincode":
-            setPincodeError("Please Enter Pincode");
-            break;
-          case "Statename":
-            setStateNameError("Please Select State");
-            break;
+
+        case "City":
+          setCityError("Please Enter City");
+          break;
+        case "Pincode":
+          setPincodeError("Please Enter Pincode");
+          break;
+        case "Statename":
+          setStateNameError("Please Select State");
+          break;
         case "Email":
           setEmailError("Email is Required");
           break;
@@ -479,7 +479,7 @@ if (!pattern.test(value)) {
         case "amount":
           setamountError("");
           break;
-        
+
         // case "floor":
         //   setfloorError("");
         //   break;
@@ -492,16 +492,16 @@ if (!pattern.test(value)) {
         // case "Address":
         //   setAddressError("");
         //   break;
-      
-          case "City":
-            setCityError("");
-            break;
-          case "Pincode":
-            setPincodeError("");
-            break;
-          case "Statename":
-            setStateNameError("");
-            break;
+
+        case "City":
+          setCityError("");
+          break;
+        case "Pincode":
+          setPincodeError("");
+          break;
+        case "Statename":
+          setStateNameError("");
+          break;
         case "Email":
           setEmailError("");
           break;
@@ -525,7 +525,7 @@ if (!pattern.test(value)) {
     const isStatenameValid = validateAssignField(state_name, "Statename");
 
 
-    
+
     if (!Phone) {
       setPhoneError("Mobile Number is Required");
       hasError = true;
@@ -534,7 +534,7 @@ if (!pattern.test(value)) {
       setPhoneError("Please Enter Valid Mobile Number");
       hasError = true;
     } else {
-      setPhoneError(""); 
+      setPhoneError("");
     }
 
     if (Email) {
@@ -547,9 +547,9 @@ if (!pattern.test(value)) {
         setEmailError("");
       }
     } else {
-      setEmailError(""); 
+      setEmailError("");
     }
-    
+
     if (hasError) return;
 
     if (
@@ -558,14 +558,14 @@ if (!pattern.test(value)) {
       !isamountValid ||
       !isphoneValid ||
       !isHostelValid ||
-      !isCityValid  || 
+      !isCityValid ||
       !isPincodeValid ||
       !isStatenameValid
     ) {
       return;
     }
 
-    
+
 
     // Check if any values have changed
     const isValidDate = (date) => !isNaN(Date.parse(date));
@@ -623,11 +623,11 @@ if (!pattern.test(value)) {
         mob_no: normalizedPhoneNumber,
         email_id: Email,
         address: house_no,
-        area : street,
-        landmark : landmark,
-        city : city,
-        pin_code : pincode,
-        state:state_name,
+        area: street,
+        landmark: landmark,
+        city: city,
+        pin_code: pincode,
+        state: state_name,
         profile: file,
         id: id,
       },
@@ -675,7 +675,7 @@ if (!pattern.test(value)) {
     setHouse_NoError("");
   };
 
-  
+
 
 
   const handleDelete = (item) => {
@@ -705,9 +705,9 @@ if (!pattern.test(value)) {
     setSelectedCustomer(null);
   };
 
-  
 
- 
+
+
 
   useEffect(() => {
     if (state?.Booking?.bookingPhoneError) {
@@ -743,6 +743,7 @@ if (!pattern.test(value)) {
   useEffect(() => {
     if (state?.Booking?.statusCodeForDeleteBooking === 200) {
       handleCloseDelete();
+
       dispatch({
         type: "GET_BOOKING_LIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -782,7 +783,7 @@ if (!pattern.test(value)) {
       try {
         const compressedFile = await imageCompression(fileImage, options);
         setFile(compressedFile);
-      } 
+      }
       catch (error) {
         console.error("Image compression error:", error);
       }
@@ -805,41 +806,41 @@ if (!pattern.test(value)) {
   //   ? props.filteredUsers
   //   : customerBooking?.slice(indexOfFirstItem, indexOfLastItem);
   const currentItems =
-  props.search || props.filterStatus || props.bookingDateRange?.length === 2
-    ? props.filteredUsers?.slice(indexOfFirstItem, indexOfLastItem)
-    : customerBooking?.slice(indexOfFirstItem, indexOfLastItem);
+    props.search || props.filterStatus || props.bookingDateRange?.length === 2
+      ? props.filteredUsers?.slice(indexOfFirstItem, indexOfLastItem)
+      : customerBooking?.slice(indexOfFirstItem, indexOfLastItem);
 
 
-       const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-        
-          const sortedData = React.useMemo(() => {
-            if (!sortConfig.key) return currentItems;
-        
-            const sorted = [...currentItems].sort((a, b) => {
-              const valueA = a[sortConfig.key];
-              const valueB = b[sortConfig.key];
-        
-        
-              if (!isNaN(valueA) && !isNaN(valueB)) {
-                return sortConfig.direction === 'asc'
-                  ? valueA - valueB
-                  : valueB - valueA;
-              }
-        
-              if (typeof valueA === 'string' && typeof valueB === 'string') {
-                return sortConfig.direction === 'asc'
-                  ? valueA.localeCompare(valueB)
-                  : valueB.localeCompare(valueA);
-              }
-        
-              return 0;
-            });
-        
-            return sorted;
-          }, [currentItems, sortConfig]);
-          const handleSort = (key, direction) => {
-            setSortConfig({ key, direction });
-          };
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return currentItems;
+
+    const sorted = [...currentItems].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+
+
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === 'asc'
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortConfig.direction === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [currentItems, sortConfig]);
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -851,7 +852,7 @@ if (!pattern.test(value)) {
   useEffect(() => {
     if (props.resetPage) {
       setCurrentPage(1);
-      props.setResetPage(false); 
+      props.setResetPage(false);
     }
   }, [props.resetPage]);
 
@@ -861,14 +862,14 @@ if (!pattern.test(value)) {
   );
 
   useEffect(() => {
-        if (
-          customerBooking.length > 0 &&
-          currentItems.length === 0 &&
-          currentPage > 1
-        ) {
-          setCurrentPage(currentPage - 1);
-        }
-      }, [customerBooking])
+    if (
+      customerBooking.length > 0 &&
+      currentItems.length === 0 &&
+      currentPage > 1
+    ) {
+      setCurrentPage(currentPage - 1);
+    }
+  }, [customerBooking])
 
 
 
@@ -921,54 +922,54 @@ if (!pattern.test(value)) {
       ) : (
         <div className="p-10" style={{ marginLeft: "-20px" }}>
           <div>
-          {loader ? (
- <div
- style={{
-   position: "absolute",
-   top: 0,
-   right: 0,
-   bottom: 0,
-   left: "200px",
-   display: "flex",
-   alignItems: "center",
-   justifyContent: "center",
-   backgroundColor: "transparent",
-   opacity: 0.75,
-   zIndex: 10,
- }}
->
- <div
-   style={{
-     borderTop: "4px solid #1E45E1",
-     borderRight: "4px solid transparent",
-     borderRadius: "50%",
-     width: "40px",
-     height: "40px",
-     animation: "spin 1s linear infinite",
-   }}
- ></div>
-</div>
-) : sortedData?.length > 0 ? (
- 
-  <div
+            {loader ? (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: "200px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "transparent",
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: "4px solid #1E45E1",
+                    borderRight: "4px solid transparent",
+                    borderRadius: "50%",
+                    width: "40px",
+                    height: "40px",
+                    animation: "spin 1s linear infinite",
+                  }}
+                ></div>
+              </div>
+            ) : sortedData?.length > 0 ? (
+
+              <div
                 className="p-10 booking-table-userlist  booking-table"
                 style={{ paddingBottom: "20px" }}
               >
                 <div
-                         
-                         className='show-scrolls'
-                         style={{
-                          
-                           height: sortedData?.length >= 8 || sortedData?.length >= 8 ? "350px" : "auto",
-                           overflow: "auto",
-                           borderTop: "1px solid #E8E8E8",
-                           marginBottom: 20,
-                           marginTop: "20px",
-                           paddingRight:0,
-                           paddingLeft:0
-                           //  borderBottom:"1px solid #DCDCDC"
-                         }}
-                       >
+
+                  className='show-scrolls'
+                  style={{
+
+                    height: sortedData?.length >= 8 || sortedData?.length >= 8 ? "350px" : "auto",
+                    overflow: "auto",
+                    borderTop: "1px solid #E8E8E8",
+                    marginBottom: 20,
+                    marginTop: "20px",
+                    paddingRight: 0,
+                    paddingLeft: 0
+                    //  borderBottom:"1px solid #DCDCDC"
+                  }}
+                >
                   <Table
                     responsive="md"
                     // className="Table_Design"
@@ -976,15 +977,15 @@ if (!pattern.test(value)) {
                       fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                       top: 0,
                       zIndex: 1,
-                      borderRadius:0
+                      borderRadius: 0
                     }}
                   >
                     <thead
-                     style={{
-                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                      top: 0,
-                      zIndex: 1
-                    }}
+                      style={{
+                        fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                        top: 0,
+                        zIndex: 1
+                      }}
                     >
                       <tr>
                         <th
@@ -1001,12 +1002,12 @@ if (!pattern.test(value)) {
                             paddingLeft: "20px",
                           }}
                         >
-                           <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                     </div>
-                                                                                                      Name</div>
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("first_name", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Name</div>
                         </th>
                         <th
                           style={{
@@ -1018,35 +1019,15 @@ if (!pattern.test(value)) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            whiteSpace:"nowrap"
-                          }}
-                        >
-                           <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_id", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_id", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                     </div>
-                                                                                                      Email ID</div>
-                        </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            background: "#E7F1FF",
-                            border: "none",
-                            whiteSpace:"nowrap"
+                            whiteSpace: "nowrap"
                           }}
                         >
                           <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("phone_number", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("phone_number", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                    </div>
-                                                                                                     Mobile No</div>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_id", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("email_id", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Email ID</div>
                         </th>
                         <th
                           style={{
@@ -1058,15 +1039,15 @@ if (!pattern.test(value)) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            whiteSpace:"nowrap"
+                            whiteSpace: "nowrap"
                           }}
                         >
-                           <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("createdat", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("createdat", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                     </div>
-                                                                                                      Booking Date</div>
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("phone_number", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("phone_number", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Mobile No</div>
                         </th>
                         <th
                           style={{
@@ -1078,15 +1059,35 @@ if (!pattern.test(value)) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            whiteSpace:"nowrap"
+                            whiteSpace: "nowrap"
                           }}
                         >
-                           <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("joining_date", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("joining_date", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                     </div>
-                                                                                                      Joining Date</div>
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("createdat", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("createdat", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Booking Date</div>
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            background: "#E7F1FF",
+                            border: "none",
+                            whiteSpace: "nowrap"
+                          }}
+                        >
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("joining_date", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("joining_date", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Joining Date</div>
                         </th>
                         <th
                           style={{
@@ -1100,12 +1101,12 @@ if (!pattern.test(value)) {
                             border: "none",
                           }}
                         >
-                           <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                     </div>
-                                                                                                      Amount</div>
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Amount</div>
                         </th>
                         <th
                           style={{
@@ -1175,7 +1176,7 @@ if (!pattern.test(value)) {
 
                         return (
                           <tr key={customer.id} className="customer-row">
-                            <td style={{ verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}>
+                            <td style={{ verticalAlign: "middle", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }}>
                               <div className="d-flex align-items-center">
                                 {/* <Image src={customer.avatar} roundedCircle height={40} width={40} alt="avatar" /> */}
                                 <span
@@ -1202,7 +1203,7 @@ if (!pattern.test(value)) {
                                 fontFamily: "Gilroy",
                                 color: "#000000",
                                 textAlign: "start",
-                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+                                verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               {/* {customer.email_id} */}
@@ -1228,7 +1229,7 @@ if (!pattern.test(value)) {
                                 fontFamily: "Gilroy",
                                 color: "#000000",
                                 textAlign: "start",
-                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+                                verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               +
@@ -1250,7 +1251,7 @@ if (!pattern.test(value)) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
-                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+                                verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               <span
@@ -1282,7 +1283,7 @@ if (!pattern.test(value)) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
-                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+                                verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               <span
@@ -1313,7 +1314,7 @@ if (!pattern.test(value)) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 whiteSpace: "nowrap",
-                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+                                verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
                             >
                               <span
@@ -1336,7 +1337,7 @@ if (!pattern.test(value)) {
                               </span>
                             </td>
 
-                            <td style={{borderBottom: "1px solid #E8E8E8"}}>
+                            <td style={{ borderBottom: "1px solid #E8E8E8" }}>
                               <div
                                 style={{
                                   cursor: "pointer",
@@ -1536,162 +1537,162 @@ if (!pattern.test(value)) {
                   </Table>
                 </div>
 
-               
+
               </div>
-) : (
-  
-  <div style={{ marginTop: 30 }}>
-    <div style={{ textAlign: "center" }}>
-      <img src={Emptystate} alt="emptystate" />
-    </div>
-    <div
-      className="pb-1"
-      style={{
-        textAlign: "center",
-        fontWeight: 600,
-        fontFamily: "Gilroy",
-        fontSize: 20,
-        color: "rgba(75, 75, 75, 1)",
-      }}
-    >
-      No Bookings available
-    </div>
-    <div
-      className="pb-1"
-      style={{
-        textAlign: "center",
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-        fontSize: 16,
-        color: "rgba(75, 75, 75, 1)",
-      }}
-    >
-      There are no Bookings added.
-    </div>
-  </div>
-)}
+            ) : (
+
+              <div style={{ marginTop: 30 }}>
+                <div style={{ textAlign: "center" }}>
+                  <img src={Emptystate} alt="emptystate" />
+                </div>
+                <div
+                  className="pb-1"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 20,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  No Bookings available
+                </div>
+                <div
+                  className="pb-1"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 16,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  There are no Bookings added.
+                </div>
+              </div>
+            )}
 
 
-{((props.search || props.filterStatus) ? props.filteredUsers?.length : customerBooking?.length) >= 5 && (
-                
+            {((props.search || props.filterStatus) ? props.filteredUsers?.length : customerBooking?.length) >= 5 && (
 
-                  <nav
+
+              <nav
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "end",
+                  padding: "10px",
+                  position: "fixed",
+                  bottom: "0",
+                  right: "0",
+                  backgroundColor: "white",
+                  zIndex: "1000",
+                }}
+              >
+                {/* Dropdown for Items Per Page */}
+                <div>
+                  <select
+                    value={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
+                    style={{
+                      padding: "5px",
+                      border: "1px solid #1E45E1",
+                      borderRadius: "5px",
+                      color: "#1E45E1",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                      outline: "none",
+                      boxShadow: "none",
+
+                    }}
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                  </select>
+                </div>
+
+                {/* Pagination Controls */}
+                <ul
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "end",
-                    padding: "10px",
-                    position: "fixed",
-                    bottom: "0",
-                    right: "0",
-                    backgroundColor: "white",
-                    zIndex: "1000",
+                    listStyleType: "none",
+                    margin: 0,
+                    padding: 0,
                   }}
-                  >
-                    {/* Dropdown for Items Per Page */}
-                    <div>
-                      <select
-                        value={itemsPerPage}
-                        onChange={handleItemsPerPageChange}
-                        style={{
-                          padding: "5px",
-                          border: "1px solid #1E45E1",
-                          borderRadius: "5px",
-                          color: "#1E45E1",
-                          fontWeight: "bold",
-                          cursor: "pointer",
-                          outline: "none",
-                          boxShadow: "none",
-    
-                        }}
-                      >
-                        <option value={5}>5</option>
-                        <option value={10}>10</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                      </select>
-                    </div>
-
-                    {/* Pagination Controls */}
-                    <ul
+                >
+                  {/* Previous Button */}
+                  <li style={{ margin: "0 10px" }}>
+                    <button
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        listStyleType: "none",
-                        margin: 0,
-                        padding: 0,
+                        padding: "5px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                        cursor:
+                          currentPage === 1 ? "not-allowed" : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
                       }}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
                     >
-                      {/* Previous Button */}
-                      <li style={{ margin: "0 10px" }}>
-                        <button
-                          style={{
-                            padding: "5px",
-                            textDecoration: "none",
-                            color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                            cursor:
-                              currentPage === 1 ? "not-allowed" : "pointer",
-                            borderRadius: "50%",
-                            display: "inline-block",
-                            minWidth: "30px",
-                            textAlign: "center",
-                            backgroundColor: "transparent",
-                            border: "none",
-                          }}
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                        >
-                          <ArrowLeft2
-                            size="16"
-                            color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                          />
-                        </button>
-                      </li>
+                      <ArrowLeft2
+                        size="16"
+                        color={currentPage === 1 ? "#ccc" : "#1E45E1"}
+                      />
+                    </button>
+                  </li>
 
-                      {/* Current Page Indicator */}
-                      <li
-                        style={{
-                          margin: "0 10px",
-                          fontSize: "14px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {currentPage} of {totalPages}
-                      </li>
+                  {/* Current Page Indicator */}
+                  <li
+                    style={{
+                      margin: "0 10px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {currentPage} of {totalPages}
+                  </li>
 
-                      {/* Next Button */}
-                      <li style={{ margin: "0 10px" }}>
-                        <button
-                          style={{
-                            padding: "5px",
-                            textDecoration: "none",
-                            color:
-                              currentPage === totalPages ? "#ccc" : "#1E45E1",
-                            cursor:
-                              currentPage === totalPages
-                                ? "not-allowed"
-                                : "pointer",
-                            borderRadius: "50%",
-                            display: "inline-block",
-                            minWidth: "30px",
-                            textAlign: "center",
-                            backgroundColor: "transparent",
-                            border: "none",
-                          }}
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === totalPages}
-                        >
-                          <ArrowRight2
-                            size="16"
-                            color={
-                              currentPage === totalPages ? "#ccc" : "#1E45E1"
-                            }
-                          />
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-                )}
+                  {/* Next Button */}
+                  <li style={{ margin: "0 10px" }}>
+                    <button
+                      style={{
+                        padding: "5px",
+                        textDecoration: "none",
+                        color:
+                          currentPage === totalPages ? "#ccc" : "#1E45E1",
+                        cursor:
+                          currentPage === totalPages
+                            ? "not-allowed"
+                            : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      <ArrowRight2
+                        size="16"
+                        color={
+                          currentPage === totalPages ? "#ccc" : "#1E45E1"
+                        }
+                      />
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            )}
           </div>
         </div>
       )}
@@ -1842,36 +1843,36 @@ if (!pattern.test(value)) {
                 </div>
               )}
             </Col>
-            
-             <Col md={6} className="">
-                          <Form.Group controlId="formLastName" >
-                            <Form.Label
-                              style={{
-                                fontSize: 14,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                                fontWeight: 500,
-                              }}
-                            >
-                              Last Name{" "}
-                            
-                            </Form.Label>
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter Last Name"
-                              style={{
-                                fontSize: 14,
-                                color: "rgba(75, 75, 75, 1)",
-                                fontFamily: "Gilroy",
-                                height: "50px",
-                                marginTop:5
-                              }}
-                              value={lastName}
-                              // isInvalid={!!formErrors.lastName}
-                              onChange={(e) => handleLastName(e)}
-                            />
-                          </Form.Group>
-                        </Col>
+
+            <Col md={6} className="">
+              <Form.Group controlId="formLastName" >
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Last Name{" "}
+
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Last Name"
+                  style={{
+                    fontSize: 14,
+                    color: "rgba(75, 75, 75, 1)",
+                    fontFamily: "Gilroy",
+                    height: "50px",
+                    marginTop: 5
+                  }}
+                  value={lastName}
+                  // isInvalid={!!formErrors.lastName}
+                  onChange={(e) => handleLastName(e)}
+                />
+              </Form.Group>
+            </Col>
           </Row>
 
           <Row className="mb-0">
@@ -1944,7 +1945,7 @@ if (!pattern.test(value)) {
                   </div>
 
                 )}
-               
+
                 {phoneErrorMessage && (
                   <div style={{ color: "red", marginTop: "-10px" }}>
                     <MdError style={{ marginRight: "5px", fontSize: 13 }} />
@@ -2011,7 +2012,7 @@ if (!pattern.test(value)) {
                   </span>
                 </div>
               )}
-            
+
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
                   <MdError />
@@ -2046,311 +2047,311 @@ if (!pattern.test(value)) {
               )}
             </Col>
           </Row>
-                     <Col md={12}>
-                  
-                                            <Form.Group className="">
-                                              <Form.Label
-                                                style={{
-                                                  fontSize: 14,
-                                                  color: "#222222",
-                                                  fontFamily: "Gilroy",
-                                                  fontWeight: 500,
-                                                }}
-                                              >
-                                                Flat , House no , Building , Company , Apartment {" "}
-                                              </Form.Label>
-                                              <FormControl
-                                                type="text"
-                                                id="form-controls"
-                                                placeholder="Enter House No"
-                                                value={house_no}
-                                                onChange={(e) => handleHouseNo(e)}
-                                                style={{
-                                                  fontSize: 16,
-                                                  color: "#4B4B4B",
-                                                  fontFamily: "Gilroy",
-                                                  fontWeight: 500,
-                                                  boxShadow: "none",
-                                                  border: "1px solid #D9D9D9",
-                                                  height: 50,
-                                                  borderRadius: 8,
-                                                }}
-                                              />
-                                            </Form.Group>
-                                            {house_noError && (
-                                              <div style={{ color: "red"}}>
-                                                <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                                              </div>
-                                            )}
-                                        
-                     </Col>
+          <Col md={12}>
 
-                     <Row>
-                      <Col md={6}>
-                      <Form.Group className="">
-                                              <Form.Label
-                                                style={{
-                                                  fontSize: 14,
-                                                  color: "#222222",
-                                                  fontFamily: "Gilroy",
-                                                  fontWeight: 500,
-                                                }}
-                                              >
-                                                Area , Street , Sector , Village{" "}
-                                              </Form.Label>
-                                              <FormControl
-                                                type="text"
-                                                id="form-controls"
-                                                placeholder="Enter Street"
-                                                value={street}
-                                                onChange={(e) => handleStreetName(e)}
-                                                style={{
-                                                  fontSize: 16,
-                                                  color: "#4B4B4B",
-                                                  fontFamily: "Gilroy",
-                                                  fontWeight: 500,
-                                                  boxShadow: "none",
-                                                  border: "1px solid #D9D9D9",
-                                                  height: 50,
-                                                  borderRadius: 8,
-                                                }}
-                                              />
-                                            </Form.Group>
-                                            {streetError && (
-                                              <div style={{ color: "red"}}>
-                                                <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                                              </div>
-                                            )}
-                      </Col>
+            <Form.Group className="">
+              <Form.Label
+                style={{
+                  fontSize: 14,
+                  color: "#222222",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Flat , House no , Building , Company , Apartment {" "}
+              </Form.Label>
+              <FormControl
+                type="text"
+                id="form-controls"
+                placeholder="Enter House No"
+                value={house_no}
+                onChange={(e) => handleHouseNo(e)}
+                style={{
+                  fontSize: 16,
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  height: 50,
+                  borderRadius: 8,
+                }}
+              />
+            </Form.Group>
+            {house_noError && (
+              <div style={{ color: "red" }}>
+                <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
+              </div>
+            )}
 
-                      <Col md={6}>
-                      <Form.Group className="">
-                                              <Form.Label
-                                                style={{
-                                                  fontSize: 14,
-                                                  color: "#222222",
-                                                  fontFamily: "Gilroy",
-                                                  fontWeight: 500,
-                                                }}
-                                              >
-                                                Landmark{" "}
-                                              </Form.Label>
-                                              <FormControl
-                                                type="text"
-                                                id="form-controls"
-                                                placeholder="E.g , near appollo hospital"
-                                                value={landmark}
-                                                onChange={(e) => handleLandmark(e)}
-                                                style={{
-                                                  fontSize: 16,
-                                                  color: "#4B4B4B",
-                                                  fontFamily: "Gilroy",
-                                                  fontWeight: 500,
-                                                  boxShadow: "none",
-                                                  border: "1px solid #D9D9D9",
-                                                  height: 50,
-                                                  borderRadius: 8,
-                                                }}
-                                              />
-                                            </Form.Group>
-                                            {landmarkError && (
-                                              <div style={{ color: "red"}}>
-                                                <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                                              </div>
-                                            )}
-                      </Col>
-                     </Row>
-           
-                                   
-                     <Row>
-                     <Col md={6}>
-                     <Form.Group
-                                                                                                                    className=""
-                                                                                                                    controlId="exampleForm.ControlInput1"
-                                                                                                                  >
-                                                                                                                    <Form.Label
-                                                                                                                      style={{
-                                                                                                                        fontSize: 14,
-                                                                                                                        color: "#222222",
-                                                                                                                        fontFamily: "Gilroy",
-                                                                                                                        fontWeight: 500,
-                                                                                                                      }}
-                                                                                                                    >
-                                                                                                                      Pincode
-                                                                                                                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                                                                                                                    </Form.Label>
-                                                                                                                    <Form.Control
-                                                                                                                      value={pincode}
-                                                                                                                      onChange={(e) => handlePinCodeChange(e)}
-                                                                                                                      type="tel"
-                                                                                                                      maxLength={6}
-                                                                                                                      inputMode="numeric" 
-                                                                                                                      pattern="[0-9]*" 
-                                                                                                                      placeholder="Enter Pincode"
-                                                                                                                      style={{
-                                                                                                                        fontSize: 16,
-                                                                                                                        color: "#4B4B4B",
-                                                                                                                        fontFamily: "Gilroy",
-                                                                                                                        fontWeight: pincode ? 600 : 500,
-                                                                                                                        boxShadow: "none",
-                                                                                                                        border: "1px solid #D9D9D9",
-                                                                                                                        height: 50,
-                                                                                                                        borderRadius: 8,
-                                                                                                                      }}
-                                                                                                                    />
-                                                                                                                    {pincodeError && (
-                                                                                                                      <div className="d-flex align-items-center p-1 mb-2">
-                                                                                                                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                                                                                        <label
-                                                                                                                          className="mb-0"
-                                                                                                                          style={{
-                                                                                                                            color: "red",
-                                                                                                                            fontSize: "12px",
-                                                                                                                            fontFamily: "Gilroy",
-                                                                                                                            fontWeight: 500,
-                                                                                                                          }}
-                                                                                                                        >
-                                                                                                                          {pincodeError}
-                                                                                                                        </label>
-                                                                                                                      </div>
-                                                                                                                    )}
-                                                                                                  
-                                                                                                  
-                                                                                                                  </Form.Group>
-                     </Col> 
-                      
-                     <Col md={6}>
-                     <Form.Group className="">
-                                              <Form.Label
-                                                style={{
-                                                  fontSize: 14,
-                                                  color: "#222222",
-                                                  fontFamily: "Gilroy",
-                                                  fontWeight: 500,
-                                                }}
-                                              >
-                                                Town/City{" "}
-                                                <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                              </Form.Label>
-                                              <FormControl
-                                                type="text"
-                                                id="form-controls"
-                                                placeholder="Enter City"
-                                                value={city}
-                                                onChange={(e) => handleCity(e)}
-                                                style={{
-                                                  fontSize: 16,
-                                                  color: "#4B4B4B",
-                                                  fontFamily: "Gilroy",
-                                                  fontWeight: 500,
-                                                  boxShadow: "none",
-                                                  border: "1px solid #D9D9D9",
-                                                  height: 50,
-                                                  borderRadius: 8,
-                                                }}
-                                              />
-                                            </Form.Group>
-                                            {cityError && (
-                                              <div style={{ color: "red" }}>
-                                                <MdError style={{fontSize: '13px',marginRight:"5px"}} />
-                                                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                                              </div>
-                                            )}
-                     </Col> 
-                      </Row>        
-                              
-                                         
-                              
-                              
-                                         
-                              
-                                                                                          <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
-                                          <Form.Group className="" controlId="exampleForm.ControlInput5">
-                                            <Form.Label
-                                              style={{
-                                                fontFamily: "Gilroy",
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                color: "#222",
-                                                fontStyle: "normal",
-                                                lineHeight: "normal",
-                                              }}
-                                            >
-                                              State
-                                              <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                                            </Form.Label>
-                                        
-                                            <Select
-                                              options={indianStates}
-                                              onChange={(selectedOption) => {
-                                                setStateName(selectedOption?.value);
-                                              }}
-                                              value={
-                                                state_name ? { value: state_name, label: state_name } : null
-                                              }
-                                              placeholder="Select State"
-                                              classNamePrefix="custom"
-                                              menuPlacement="auto"
-                                              noOptionsMessage={() => "No state available"}
-                                              styles={{
-                                                control: (base) => ({
-                                                  ...base,
-                                                  height: "50px",
-                                                  border: "1px solid #D9D9D9",
-                                                  borderRadius: "8px",
-                                                  fontSize: "16px",
-                                                  color: "#4B4B4B",
-                                                  fontFamily: "Gilroy",
-                                                  fontWeight: state_name ? 600 : 500,
-                                                  boxShadow: "none",
-                                                }),
-                                                menu: (base) => ({
-                                                  ...base,
-                                                  backgroundColor: "#f8f9fa",
-                                                  border: "1px solid #ced4da",
-                                                }),
-                                                menuList: (base) => ({
-                                                  ...base,
-                                                  backgroundColor: "#f8f9fa",
-                                                  maxHeight: "120px",
-                                                  padding: 0,
-                                                  scrollbarWidth: "thin",
-                                                  overflowY: "auto",
-                                                }),
-                                                placeholder: (base) => ({
-                                                  ...base,
-                                                  color: "#555",
-                                                }),
-                                                dropdownIndicator: (base) => ({
-                                                  ...base,
-                                                  color: "#555",
-                                                  cursor: "pointer",
-                                                }),
-                                                indicatorSeparator: () => ({
-                                                  display: "none",
-                                                }),
-                                                option: (base, state) => ({
-                                                  ...base,
-                                                  cursor: "pointer",
-                                                  backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                                  color: "#000",
-                                                }),
-                                              }}
-                                            />
-                                          </Form.Group>
-                                          {!state_name && state_nameError && (
-  <div style={{ color: "red" }}>
-    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {state_nameError}
-    </span>
-  </div>
-)}
+          </Col>
 
-                                        </div>
+          <Row>
+            <Col md={6}>
+              <Form.Group className="">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Area , Street , Sector , Village{" "}
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="Enter Street"
+                  value={street}
+                  onChange={(e) => handleStreetName(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+              {streetError && (
+                <div style={{ color: "red" }}>
+                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
+                </div>
+              )}
+            </Col>
+
+            <Col md={6}>
+              <Form.Group className="">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Landmark{" "}
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="E.g , near appollo hospital"
+                  value={landmark}
+                  onChange={(e) => handleLandmark(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+              {landmarkError && (
+                <div style={{ color: "red" }}>
+                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
+                </div>
+              )}
+            </Col>
+          </Row>
+
+
+          <Row>
+            <Col md={6}>
+              <Form.Group
+                className=""
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Pincode
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
+                <Form.Control
+                  value={pincode}
+                  onChange={(e) => handlePinCodeChange(e)}
+                  type="tel"
+                  maxLength={6}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="Enter Pincode"
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: pincode ? 600 : 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+                {pincodeError && (
+                  <div className="d-flex align-items-center p-1 mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {pincodeError}
+                    </label>
+                  </div>
+                )}
+
+
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group className="">
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Town/City{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                </Form.Label>
+                <FormControl
+                  type="text"
+                  id="form-controls"
+                  placeholder="Enter City"
+                  value={city}
+                  onChange={(e) => handleCity(e)}
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+              </Form.Group>
+              {cityError && (
+                <div style={{ color: "red" }}>
+                  <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
+                </div>
+              )}
+            </Col>
+          </Row>
+
+
+
+
+
+
+          <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
+            <Form.Group className="" controlId="exampleForm.ControlInput5">
+              <Form.Label
+                style={{
+                  fontFamily: "Gilroy",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: "#222",
+                  fontStyle: "normal",
+                  lineHeight: "normal",
+                }}
+              >
+                State
+                <span style={{ color: "red", fontSize: "20px" }}>*</span>
+              </Form.Label>
+
+              <Select
+                options={indianStates}
+                onChange={(selectedOption) => {
+                  setStateName(selectedOption?.value);
+                }}
+                value={
+                  state_name ? { value: state_name, label: state_name } : null
+                }
+                placeholder="Select State"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No state available"}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    height: "50px",
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "8px",
+                    fontSize: "16px",
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: state_name ? 600 : 500,
+                    boxShadow: "none",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "120px",
+                    padding: 0,
+                    scrollbarWidth: "thin",
+                    overflowY: "auto",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#555",
+                    cursor: "pointer",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer",
+                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                    color: "#000",
+                  }),
+                }}
+              />
+            </Form.Group>
+            {!state_name && state_nameError && (
+              <div style={{ color: "red" }}>
+                <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
+                  {state_nameError}
+                </span>
+              </div>
+            )}
+
+          </div>
 
           {/* <Col md={12} className="mb-0">
             <Form.Group controlId="formFirstName" className="mb-0">
@@ -2389,7 +2390,7 @@ if (!pattern.test(value)) {
           </Col> */}
           <Row>
             <Col md={6}>
-            <Form.Group className="mb-2" controlId="purchaseDate">
+              <Form.Group className="mb-2" controlId="purchaseDate">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -2402,10 +2403,10 @@ if (!pattern.test(value)) {
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
                 </Form.Label>
-               
-                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+
+                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                   <DatePicker
-                    style={{ width: "100%", height: 48,cursor:"pointer" }}
+                    style={{ width: "100%", height: 48, cursor: "pointer" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={joiningDate ? dayjs(joiningDate) : null}
@@ -2434,7 +2435,7 @@ if (!pattern.test(value)) {
                 </div>
               )}
             </Col>
-            <Col md={6}className="mb-3">
+            <Col md={6} className="mb-3">
               <Form.Group >
                 <Form.Label
                   style={{
@@ -2445,7 +2446,7 @@ if (!pattern.test(value)) {
                 >
                   Booking Amount{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                  
+
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -2467,9 +2468,9 @@ if (!pattern.test(value)) {
               </Form.Group>
               {amountError && (
                 <div style={{ color: "red" }}>
-                <MdError style={{ marginRight: "5px", fontSize: 13 }} />
-                <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
-              </div>
+                  <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                  <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
+                </div>
               )}
             </Col>
           </Row>
@@ -2477,31 +2478,31 @@ if (!pattern.test(value)) {
 
           {formError && (
             <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
-              <MdError style={{fontSize:"14px",marginRight:"5px"}}/>
-              <span style={{fontSize:"14px"}}>{formError}</span>
+              <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+              <span style={{ fontSize: "14px" }}>{formError}</span>
             </div>
           )}
-        
-            <Button
-              variant="primary"
-              type="submit"
-              className="w-100"
-              style={{
-                borderRadius: 12,
-                padding: "12px",
-                border: "1px solid rgba(36, 0, 255, 1)",
-                backgroundColor: "#1E45E1",
-                color: "#fff",
-                fontSize: 16,
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                marginTop:20
-              }}
-              onClick={handleSubmit}
-            >
-              Save Changes
-            </Button>
-        
+
+          <Button
+            variant="primary"
+            type="submit"
+            className="w-100"
+            style={{
+              borderRadius: 12,
+              padding: "12px",
+              border: "1px solid rgba(36, 0, 255, 1)",
+              backgroundColor: "#1E45E1",
+              color: "#fff",
+              fontSize: 16,
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              marginTop: 20
+            }}
+            onClick={handleSubmit}
+          >
+            Save Changes
+          </Button>
+
         </Modal.Body>
         {/* </Form> */}
       </Modal>
@@ -2516,14 +2517,14 @@ if (!pattern.test(value)) {
       >
         <Modal.Header style={{ borderBottom: "none" }}>
           <Modal.Title
-          className="w-100 text-center"
+            className="w-100 text-center"
             style={{
               fontSize: "18px",
               fontFamily: "Gilroy",
-              
+
               fontWeight: 600,
               color: "#222222",
-              
+
             }}
           >
             Delete Booking?
@@ -2531,7 +2532,7 @@ if (!pattern.test(value)) {
         </Modal.Header>
 
         <Modal.Body
-        className="text-center"
+          className="text-center"
           style={{
             fontSize: 14,
             fontWeight: 500,
@@ -2545,28 +2546,28 @@ if (!pattern.test(value)) {
         </Modal.Body>
 
         <Modal.Footer
-        className="d-flex justify-content-center"
+          className="d-flex justify-content-center"
           style={{
-           
+
             borderTop: "none",
             marginTop: "-10px",
           }}
         >
           <Button
-          className="me-2"
-          style={{
-            width: "100%",
-            maxWidth: 160,
-            height: 52,
-            borderRadius: 8,
-            padding: "12px 20px",
-            background: "#fff",
-            color: "#1E45E1",
-            border: "1px solid #1E45E1",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-          }}
+            className="me-2"
+            style={{
+              width: "100%",
+              maxWidth: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
             onClick={handleCloseDelete}
           >
             Cancel

@@ -88,13 +88,17 @@ console.log("checkOutCustomer",checkOutCustomer)
   }, [props.customerrolePermission]);
 
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     setCheckOutLoader(true)
     dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }
   }, [state.login.selectedHostel_Id]);
 
 
  useEffect(() => {
+  if(state.login.selectedHostel_Id){
        dispatch({ type: 'AVAILABLECHECKOUTCUSTOMER', payload: { hostel_id: state.login.selectedHostel_Id } })
+  }
      
    }, [state.login.selectedHostel_Id])
 

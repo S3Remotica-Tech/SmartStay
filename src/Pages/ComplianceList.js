@@ -21,7 +21,7 @@ import { MdError } from "react-icons/md";
 import PropTypes from "prop-types"
 import Select from "react-select";
 import "./ComplianceList.css";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 
 const ComplianceList = (props) => {
   const state = useSelector((state) => state);
@@ -47,7 +47,7 @@ const ComplianceList = (props) => {
   }, [state.login.selectedHostel_Id]);
 
 
- 
+
 
   const handleDeleteFormShow = (item) => {
     setDeleteForm(true);
@@ -91,7 +91,7 @@ const ComplianceList = (props) => {
     props.onEditComplaints(item);
   };
 
-  
+
   const [customer_Id, setCustomer_Id] = useState("");
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
@@ -163,7 +163,7 @@ const ComplianceList = (props) => {
   }, [state.ComplianceList.statusCodeForAddComplianceComment]);
 
 
- 
+
 
 
 
@@ -248,37 +248,37 @@ const ComplianceList = (props) => {
 
   const handleChangeStatusOpenClose = (item) => {
     setAssignId(item?.ID);
-    setShowDots(false); 
+    setShowDots(false);
     setStatus(item?.Status);
     setShowChangeStatus(true);
-    setShowAssignComplaint(false);    
+    setShowAssignComplaint(false);
   };
-  
- 
+
+
   const ChangeStatusClose = () => {
     setShowChangeStatus(false);
     setStatusError("");
   };
 
   const handleChangeStatusClick = () => {
-  
-    const prevStatus = selectedStatus || ""; 
-  
+
+    const prevStatus = selectedStatus || "";
+
     if (!status) {
       setStatusError("Please Select Status");
       return;
     }
-  
+
     if (status === prevStatus) {
       setStatusError("No Changes Detected");
       return;
     }
-  
+
     setSelectedStatus(status);
-    setStatusError(""); 
-  
-    localStorage.setItem("selectedStatus", status); 
-  
+    setStatusError("");
+
+    localStorage.setItem("selectedStatus", status);
+
     dispatch({
       type: "COMPLIANCECHANGESTATUS",
       payload: {
@@ -290,15 +290,15 @@ const ComplianceList = (props) => {
       },
     });
   };
-  
 
-useEffect(() => {
-  const savedStatus = localStorage.getItem("selectedStatus");
-  if (savedStatus) {
-    setSelectedStatus(savedStatus);
-  }
-}, []); 
-  
+
+  useEffect(() => {
+    const savedStatus = localStorage.getItem("selectedStatus");
+    if (savedStatus) {
+      setSelectedStatus(savedStatus);
+    }
+  }, []);
+
 
 
 
@@ -327,60 +327,29 @@ useEffect(() => {
   };
 
 
-  const [apiCalledAssign, setApiCalledAssign] = useState(false);
-
-
+  
   useEffect(() => {
-    if (state.ComplianceList.complianceAssignChangeStatus === 200 && !apiCalledAssign) {
+    if (state.ComplianceList.complianceAssignChangeStatus === 200 && showAssignComplaint) {
+       dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
       setShowAssignComplaint(false);
       setStatusErrorType("");
       setShowChangeStatus(false);
-      setApiCalledAssign(true)
+      
     }
   }, [state.ComplianceList.complianceAssignChangeStatus]);
 
 
-  useEffect(() => {
-    if (apiCalledAssign) {
-      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
-        setApiCalledAssign(false)
-      }, 500);
-    }
-  }, [apiCalledAssign])
+   
 
-
-
-  const [apiCalled, setApiCalled] = useState(false);
 
   useEffect(() => {
-    if (state.ComplianceList.complianceChangeStatus === 200 && !apiCalled) {
-      if (state.ComplianceList.complianceChangeStatus !== 0) {
-              setShowChangeStatus(false);
-              setApiCalled(true)
-      }
+    if (state.ComplianceList.complianceChangeStatus === 200 && showChangeStatus) {
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id } });
+      dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
+      setShowChangeStatus(false);
     }
   }, [state.ComplianceList.complianceChangeStatus]);
-
-
-  useEffect(() => {
-    if (apiCalled) {
-       dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
-       const timer = setTimeout(() => {
-        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
-        setApiCalled(false);  
-      }, 100); 
-      
-          return () => clearTimeout(timer);
-    }
-
-  }, [apiCalled])
-
-
-
-
-
 
 
 
@@ -396,7 +365,7 @@ useEffect(() => {
     setShowChangeStatus(false);
   };
 
- 
+
 
   const handleCloseAssign = () => {
     setShowAssignComplaint(false);
@@ -481,7 +450,7 @@ useEffect(() => {
 
 
 
- 
+
 
   return (
     <>
@@ -521,79 +490,79 @@ useEffect(() => {
           >
             <Card.Body style={{ padding: 20 }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap">
-              <div className="d-flex flex-wrap gap-2 align-items-start">
-  {/* Profile Image */}
-  <div>
-    <Image
-      src={
-        props.complaints.profile === "0" ||
-        props.complaints.profile === "null" ||
-        props.complaints.profile === null
-          ? User
-          : props.complaints.profile
-      }
-      roundedCircle
-      style={{ height: "60px", width: "60px", objectFit: "cover" }}
-    />
-  </div>
+                <div className="d-flex flex-wrap gap-2 align-items-start">
+                  {/* Profile Image */}
+                  <div>
+                    <Image
+                      src={
+                        props.complaints.profile === "0" ||
+                          props.complaints.profile === "null" ||
+                          props.complaints.profile === null
+                          ? User
+                          : props.complaints.profile
+                      }
+                      roundedCircle
+                      style={{ height: "60px", width: "60px", objectFit: "cover" }}
+                    />
+                  </div>
 
-  {/* Name + Tags Section */}
-  <div className="flex-grow-1">
-    <div className="pb-2">
-      <label
-        className="d-block"
-        style={{
-          fontFamily: "Gilroy",
-          fontSize: 16,
-          color: "#222",
-          fontWeight: 600,
-          marginLeft: "10px",
-        }}
-      >
-        {props.complaints && props.complaints.Name}
-      </label>
+                  {/* Name + Tags Section */}
+                  <div className="flex-grow-1">
+                    <div className="pb-2">
+                      <label
+                        className="d-block"
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: 16,
+                          color: "#222",
+                          fontWeight: 600,
+                          marginLeft: "10px",
+                        }}
+                      >
+                        {props.complaints && props.complaints.Name}
+                      </label>
 
-      {/* Tags */}
-      <div className="d-flex flex-wrap gap-2 ms-2">
-        {/* Room & Bed */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            background: "#FFE0D9",
-            padding: "6px 12px",
-            borderRadius: "60px",
-            fontFamily: "Gilroy",
-            fontSize: 16,
-            color: "#222",
-            fontWeight: 500,
-            whiteSpace: "nowrap",
-          }}
-        >
-          {props.complaints?.room_name} - B{props.complaints?.Bed}
-        </div>
+                      {/* Tags */}
+                      <div className="d-flex flex-wrap gap-2 ms-2">
+                        {/* Room & Bed */}
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            background: "#FFE0D9",
+                            padding: "6px 12px",
+                            borderRadius: "60px",
+                            fontFamily: "Gilroy",
+                            fontSize: 16,
+                            color: "#222",
+                            fontWeight: 500,
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {props.complaints?.room_name} - B{props.complaints?.Bed}
+                        </div>
 
-        {/* Floor */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            background: "#FFEFCF",
-            padding: "6px 12px",
-            borderRadius: "60px",
-            fontFamily: "Gilroy",
-            fontSize: 16,
-            color: "#222",
-            fontWeight: 500,
-            whiteSpace: "nowrap",
-          }}
-        >
-          {props.complaints?.floor_name}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                        {/* Floor */}
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            background: "#FFEFCF",
+                            padding: "6px 12px",
+                            borderRadius: "60px",
+                            fontFamily: "Gilroy",
+                            fontSize: 16,
+                            color: "#222",
+                            fontWeight: 500,
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {props.complaints?.floor_name}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
 
                 <div>
@@ -1070,11 +1039,11 @@ useEffect(() => {
                     <Modal.Dialog
                       style={{
                         maxWidth: 950,
-                        paddingTop:"-10px",
+                        paddingTop: "-10px",
                         // paddingRight: "5px",
                         // paddingRight: "10px",
                         borderRadius: "30px",
-                       
+
                       }}
                       className="m-0 p-0"
                     >
@@ -1086,7 +1055,7 @@ useEffect(() => {
                               position: "relative",
                               display: "flex",
                               // alignItems: "center",
-                              marginleft:"-15px"
+                              marginleft: "-15px"
                             }}
                           >
                             <div
@@ -1094,7 +1063,7 @@ useEffect(() => {
                                 display: "flex",
                                 alignItems: "center",
                                 width: "100%",
-                                 marginleft:"-15px",
+                                marginleft: "-15px",
                               }}
                             >
                               <img
@@ -1162,8 +1131,8 @@ useEffect(() => {
                                 &times;
                               </span>
                             </button> */}
-                            <CloseCircle size="24" color="#000" onClick={handleCloseIconClick} 
-            style={{ cursor: 'pointer' }}/>
+                            <CloseCircle size="24" color="#000" onClick={handleCloseIconClick}
+                              style={{ cursor: 'pointer' }} />
                           </Modal.Header>
                         </div>
                         <div
@@ -1183,7 +1152,7 @@ useEffect(() => {
                             borderRadius: "10px",
                           }}
                         >
-                       
+
 
                           {state.ComplianceList?.getComplianceComments?.comments?.length > 0 ? (
                             state.ComplianceList?.getComplianceComments?.comments.map((item, index) => {
@@ -1288,7 +1257,7 @@ useEffect(() => {
                         </div>
                       </Modal.Body>
                       {commentError && (
-                        <div style={{ color: "red", textAlign:"center" }}>
+                        <div style={{ color: "red", textAlign: "center" }}>
                           <MdError />
                           <span
                             style={{
@@ -1343,7 +1312,7 @@ useEffect(() => {
                               justifyContent: "center",
                               alignItems: "center",
                               cursor: "pointer",
-                             
+
                             }}
                             onClick={handleAddComment}
                           >
@@ -1354,7 +1323,7 @@ useEffect(() => {
                                 width: "16px",
                                 height: "16px",
                               }}
-                              // onClick={handleAddComment}
+                            // onClick={handleAddComment}
                             />
                           </div>
 
@@ -1381,15 +1350,15 @@ useEffect(() => {
                     <Modal.Body>
                       <div>
                         <Modal.Header
-                          style={{ position: "relative",paddingTop:"2px",paddingRight:1, }}
+                          style={{ position: "relative", paddingTop: "2px", paddingRight: 1, }}
                         >
                           <div
                             style={{
                               fontSize: 20,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              
-                              marginLeft:"-13px"
+
+                              marginLeft: "-13px"
                             }}
                           >
                             Change Status
@@ -1425,8 +1394,8 @@ useEffect(() => {
                               &times;
                             </span>
                           </button> */}
-                          <CloseCircle size="24" color="#000" onClick={ChangeStatusClose} 
-            style={{ cursor: 'pointer' }}/>
+                          <CloseCircle size="24" color="#000" onClick={ChangeStatusClose}
+                            style={{ cursor: 'pointer' }} />
 
                           {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
                         </Modal.Header>
@@ -1478,67 +1447,67 @@ useEffect(() => {
                               <option value="in-progress">In Progress</option>
                               <option value="resolved">Resolved</option>
                             </Form.Select> */}
-                         
-  <Select
-    options={[
-      { value: "open", label: "open" },
-      { value: "in-progress", label: "in-progress" },
-      { value: "resolved", label: "resolved" },
-    ]}
-    onChange={handleStatus}
-    
-    value={
-      status
-        ? { value: status, label: status.replace("-", " ")}
-        : null
-    }
-    placeholder="Select a Status"
-    classNamePrefix="custom"
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        cursor:"pointer"
-      }),
-      option: (base, state) => ({
-        ...base,
-        cursor: "pointer", 
-        backgroundColor: state.isFocused ? "lightblue" : "white", 
-        color: "#000",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
+
+                            <Select
+                              options={[
+                                { value: "open", label: "open" },
+                                { value: "in-progress", label: "in-progress" },
+                                { value: "resolved", label: "resolved" },
+                              ]}
+                              onChange={handleStatus}
+
+                              value={
+                                status
+                                  ? { value: status, label: status.replace("-", " ") }
+                                  : null
+                              }
+                              placeholder="Select a Status"
+                              classNamePrefix="custom"
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  height: "50px",
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  fontSize: "16px",
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  cursor: "pointer"
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused ? "lightblue" : "white",
+                                  color: "#000",
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                              }}
+                            />
 
 
                           </Form.Group>
@@ -1594,15 +1563,15 @@ useEffect(() => {
                     <Modal.Body>
                       <div>
                         <Modal.Header
-                          style={{position: "relative",paddingTop:2,paddingRight:1}}
+                          style={{ position: "relative", paddingTop: 2, paddingRight: 1 }}
                         >
                           <div
                             style={{
                               fontSize: 20,
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              marginLeft:"-13px",
-                              marginTop:5
+                              marginLeft: "-13px",
+                              marginTop: 5
                             }}
                           >
                             Assign Complaint
@@ -1638,17 +1607,17 @@ useEffect(() => {
                               &times;
                             </span>
                           </button> */}
-                          <CloseCircle size="24" color="#000" onClick={handleCloseAssign} 
-            style={{ cursor: 'pointer'}}/>
+                          <CloseCircle size="24" color="#000" onClick={handleCloseAssign}
+                            style={{ cursor: 'pointer' }} />
 
                           {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : "Add an complaint"}</Modal.Title> */}
                         </Modal.Header>
                       </div>
 
-                      <div className="row mt-1" style={{paddingTop:2}}>
+                      <div className="row mt-1" style={{ paddingTop: 2 }}>
                         {/* complaint type */}
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <Form.Group 
+                          <Form.Group
 
                             controlId="exampleForm.ControlInput5"
                           >
@@ -1696,74 +1665,74 @@ useEffect(() => {
                                   );
                                 })}
                             </Form.Select> */}
-                         
-                         <Select
-  options={
-    state.Settings.addSettingStaffList
-      ? state.Settings.addSettingStaffList.map((v) => ({
-          value: v.id,
-          label: v.first_name,
-        }))
-      : []
-  }
-  onChange={handleCompliant}
-  value={
-    compliant
-      ? (() => {
-          const selected = state.Settings.addSettingStaffList.find((v) => String(v.id) === String(compliant));
-          return selected
-            ? { value: selected.id, label: selected.first_name }
-            : null;
-        })()
-      : null
-  }
-  placeholder="Select a Complaint"
-  classNamePrefix="custom"
-  styles={{
-    control: (base) => ({
-      ...base,
-      height: "50px",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "16px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor:"pointer"
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer", 
-      backgroundColor: state.isFocused ? "lightblue" : "white", 
-      color: "#000",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  }}
-/>
+
+                            <Select
+                              options={
+                                state.Settings.addSettingStaffList
+                                  ? state.Settings.addSettingStaffList.map((v) => ({
+                                    value: v.id,
+                                    label: v.first_name,
+                                  }))
+                                  : []
+                              }
+                              onChange={handleCompliant}
+                              value={
+                                compliant
+                                  ? (() => {
+                                    const selected = state.Settings.addSettingStaffList.find((v) => String(v.id) === String(compliant));
+                                    return selected
+                                      ? { value: selected.id, label: selected.first_name }
+                                      : null;
+                                  })()
+                                  : null
+                              }
+                              placeholder="Select a Complaint"
+                              classNamePrefix="custom"
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  height: "50px",
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  fontSize: "16px",
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  cursor: "pointer"
+                                }),
+                                option: (base, state) => ({
+                                  ...base,
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused ? "lightblue" : "white",
+                                  color: "#000",
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                              }}
+                            />
 
 
 
@@ -1771,8 +1740,8 @@ useEffect(() => {
                           </Form.Group>
 
                           {statusErrorType.trim() !== "" && (
-                            <div style={{marginTop:25}}>
-                              <p className='text-center' style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy",fontWeight:500 }}>
+                            <div style={{ marginTop: 25 }}>
+                              <p className='text-center' style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
                                 {statusErrorType !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
                               </p>
                             </div>
@@ -1825,7 +1794,7 @@ useEffect(() => {
         </div>
       )}
 
-      
+
 
 
       <Modal
@@ -1837,14 +1806,14 @@ useEffect(() => {
       >
         <Modal.Header style={{ borderBottom: "none" }}>
           <Modal.Title
-          className="w-100 text-center"
+            className="w-100 text-center"
             style={{
               fontSize: "18px",
               fontFamily: "Gilroy",
-              
+
               fontWeight: 600,
               color: "#222222",
-             
+
             }}
           >
             Delete Compliance?
@@ -1852,13 +1821,13 @@ useEffect(() => {
         </Modal.Header>
 
         <Modal.Body
-        className="text-center"
+          className="text-center"
           style={{
             fontSize: 14,
             fontWeight: 500,
             fontFamily: "Gilroy",
             color: "#646464",
-           
+
             marginTop: "-10px",
           }}
         >
@@ -1866,28 +1835,28 @@ useEffect(() => {
         </Modal.Body>
 
         <Modal.Footer
-        className="d-flex justify-content-center"
+          className="d-flex justify-content-center"
           style={{
-            
+
             borderTop: "none",
             marginTop: "-10px",
           }}
         >
           <Button
-          className="me-2"
-          style={{
-            width: "100%",
-            maxWidth: 160,
-            height: 52,
-            borderRadius: 8,
-            padding: "12px 20px",
-            background: "#fff",
-            color: "#1E45E1",
-            border: "1px solid #1E45E1",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-          }}
+            className="me-2"
+            style={{
+              width: "100%",
+              maxWidth: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
             onClick={handleCloseDeleteForm}
           >
             Cancel
