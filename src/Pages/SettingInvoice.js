@@ -3,7 +3,6 @@ import React, { useRef, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import "../Pages/Settings.css";
 import { useDispatch, useSelector } from "react-redux";
-import DeleteIcon from '../Assets/Images/Delete_red.png';
 import leftarrow from "../Assets/Images/arrow-left.png"
 import { MdError } from "react-icons/md";
 import Logo from '../Assets/Images/get.png'
@@ -16,7 +15,6 @@ import Phonepe from '../Assets/Images/phonepe.png'
 import Paytm from '../Assets/Images/paytm.png'
 import EditICon from '../Assets/Images/edit_whiteicon.png'
 import TextAreaICon from '../Assets/Images/textarea.png'
-import AddSquareICon from '../Assets/Images/add-square.png'
 import "react-datepicker/dist/react-datepicker.css";
 import Rentalinvoice from '../Assets/Images/Rental_invoice.png';
 import SecurityDepositinvoice from '../Assets/Images/bill_settings.png';
@@ -35,6 +33,9 @@ import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
 import received from '../Assets/Images/New_images/received.png'
 import Select from "react-select";
 import PropTypes from "prop-types";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import {CloseCircle} from "iconsax-react";
 import './SettingInvoice.css';
 
 function SettingInvoice() {
@@ -305,6 +306,7 @@ const handleTermsChange = (e) => {
     setTermsErrMsg("");
     setPaymentTypeErrMsg('') 
     setAccount_Number("")
+    setSignatureErrMsg("")
     setIfscCode("")
     setBankName("")
     setPrefix("")
@@ -441,7 +443,6 @@ const handleTermsChange = (e) => {
  
 
 
-  console.log("InvoiceList", InvoiceList);
   
 
  
@@ -494,13 +495,17 @@ const handleTermsChange = (e) => {
   };
 
 
-
+  const [bankaccountform , setBankAccountForm] = useState(false)
  
 
- 
+            const handleAddBankAccount = () => {
+               setBankAccountForm(true)
+                   }
 
   
-
+            const handleCloseBankAccount = () => {
+                 setBankAccountForm(false)
+                }
  
 
 
@@ -1595,251 +1600,52 @@ const handleTermsChange = (e) => {
    
                               <div style={{overflowY:'auto', maxHeight:'500px' }}>
     
-                                <div className="border p-3 mb-3" style={{borderRadius:'10px' ,minHeight:'500px', overflowY:'auto', }}>
-
-                                    <p style={{ fontFamily: "Gilroy", fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 400,whiteSpace: "nowrap",}}>Account Details</p>
-                                    <hr></hr>
-
-                    <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                          Account No
-                        </Form.Label>
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                          type="text"
-                          placeholder="Account No"
-                          value={account_number}
-                          onChange={handleAccountNumberChange}
- 
-                        />
-
-                        {accno_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {accno_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-                      </Form.Group>
-
-                   
-                    </div>
-
-
-                       <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                          IFSC Code
-                        </Form.Label> 
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                          type="text"
-                          placeholder="Enter IFSC Code"
-                          value={ifsccode}
-                         onChange={handleIfscCodeChange}
-                          
-                        />
-
-                            {ifsccode_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {ifsccode_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-                      </Form.Group>
-
-                      
-                    </div>
-
-
-                  
-                 
-    
-                 <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label
-                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                          Bank Name
-                        </Form.Label>
-                        <Form.Control
-                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
-                          type="text"
-                          placeholder="Enter Bank Name"
-                          value={bank_name}
-                          onChange={handleBankNameChange}
-                        />
-
-                          {bank_name_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {bank_name_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-                      </Form.Group>
-
-                   
-                    </div>
-
-
- <div className="col-lg-12 col-md-12 col-sm-12 mb-3">
-  <label
-    htmlFor="paymentType"
-    className="form-label"
-    style={{
-      fontFamily: "Gilroy",
-      fontSize: 14,
-      fontWeight: 400,
-      color: "rgba(34, 34, 34, 1)",
-      fontStyle: "normal",
-      lineHeight: "normal",
-    }}
-  >
-    Payment Types
-  </label>
-
-  <div className="position-relative">
-    <input
-      type="text"
-      value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
-      placeholder="Enter payment type"
-      className="form-control"
+                                <div className="border p-3 mb-3" style={{borderRadius:'10px' ,minHeight:'100px', overflowY:'auto', }}>
+                                     <div style={{display:'flex', flexDirection:'row',justifyContent:'space-between'}}>
+                                    <div>
+                                     <p style={{ fontFamily: "Gilroy", fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 400,whiteSpace: "nowrap",}}>Account Details</p>
+                                      </div>
+                                      <div>
+ <button
+    onClick={handleAddBankAccount}
       style={{
-        height: "40px",
-        paddingRight: "40px", 
         fontFamily: "Gilroy",
-        fontSize: 16,
+        fontSize: "14px",
+        backgroundColor: "#1E45E1",
+        color: "white",
         fontWeight: 400,
-        color: "rgba(34, 34, 34, 1)",
+        borderRadius: "12px",
+        width: 106,
+        height: 35,
+        border: "1px solid #1E45E1",
       }}
-    />
+    >
+      Add
+    </button>
+                                      </div>
+                                       </div>
 
-    <img
-      src={AddSquareICon}
-      onClick={handleAdd}
-      alt="addbutton"
-      height={24}
-      width={24}
+                                      
+                                    <hr></hr>
+                   <div style={{display:'flex',flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+                   <p style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "grey", fontStyle: "normal", lineHeight: "normal" }}>No Bank accounts are there!</p>
+                    <button
+    onClick={handleAddBankAccount}
       style={{
-        position: "absolute",
-        top: "50%",
-        right: "10px",
-        transform: "translateY(-50%)",
-        cursor: "pointer",
+        fontFamily: "Gilroy",
+        fontSize: "14px",
+        backgroundColor: "#1E45E1",
+        color: "white",
+        fontWeight: 400,
+        borderRadius: "12px",
+        width: 106,
+        height: 35,
+        border: "1px solid #1E45E1",
       }}
-    />
-  </div>
-
-                                            
-
-  {paymentTypes.length > 0 && (
-    <div className="mt-3 d-flex flex-wrap gap-2">
-      {paymentTypes.map((item, index) => (
-        <div
-          key={index}
-          className="d-flex align-items-center px-3 py-1 rounded bg-white"
-          style={{
-            fontWeight: 400,
-            borderRadius: "8px",
-            border: "1px solid rgba(30, 69, 225, 1)",
-            fontFamily: "Gilroy",
-            fontSize: 14,
-            color: "rgba(34, 34, 34, 1)",
-          }}
-        >
-          {item}
-          <img
-            className="ms-2"
-            src={DeleteIcon}
-            alt="delete"
-            height={15}
-            width={15}
-            style={{ cursor: "pointer" }}
-            onClick={() => handleDelete(item)}
-          />
-        </div>
-      ))}
-    </div>
-  )}
-
-    {paymenttype_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {paymenttype_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
-
-  
-</div>
-
+    >
+      Add
+    </button>
+                      </div>
               
 
                 </div>
@@ -2234,7 +2040,310 @@ const handleTermsChange = (e) => {
     )
   }
       
+  {bankaccountform && (
+                                                <div
+                                                  className="modal show"
+                                                  style={{
+                                                    display: "block",
+                                                    position: "initial",
+                                                    fontFamily: "Gilroy,sans-serif",
+                                                  }}
+                                                >
+                                                  <Modal
+                                                    show={bankaccountform}
+                                                    onHide={handleCloseBankAccount}
+                                                    centered
+                                                    backdrop="static"
+                                                    dialogClassName="custom-modal"
+                                                  >
+                                                    <Modal.Dialog
+                                                      style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
+                                                      className="m-0 p-0"
+                                                    >
+                                                      <div>
+                                                        <Modal.Header
+                                                          style={{ position: "relative" }}
+                                                        >
+                                                          <div
+                                                            style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
+                                                          >
+                                                         
+                                        
+                                                          Banking Details
+                                        
+                                        
+                                                          </div>
+                                                         
+                                                          <CloseCircle size="24" color="#000" onClick={handleCloseBankAccount} 
+                                                    style={{ cursor: 'pointer' }}/>
+                                        
+                                                         
+                                                        </Modal.Header>
+                                                      </div>
+                                                      <Modal.Body>
+                                        
+                                                        <div className="row ">
+                                        
+                                        
+                                        
+  <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label
+                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                         Beneficiary Name
+                        </Form.Label>
+                        <Form.Control
+                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                          type="text"
+                          placeholder="Enter Beneficiary Name"
+                          value={bank_name}
+                          onChange={handleBankNameChange}
+                        />
 
+                          {bank_name_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {bank_name_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
+                      </Form.Group>
+
+                   
+                    </div>
+
+                      <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label
+                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                          Bank Name
+                        </Form.Label>
+                        <Form.Control
+                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                          type="text"
+                          placeholder="Enter Bank Name"
+                          value={bank_name}
+                          onChange={handleBankNameChange}
+                        />
+
+                          {bank_name_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {bank_name_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
+                      </Form.Group>
+
+                   
+                    </div>
+
+                                        
+                  <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1" >
+                        <Form.Label
+                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                          Account Number
+                        </Form.Label>
+                        <Form.Control
+                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                          type="text"
+                          placeholder="Account No"
+                          value={account_number}
+                          onChange={handleAccountNumberChange}
+ 
+                        />
+
+                        {accno_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {accno_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
+                      </Form.Group>
+
+                   
+                    </div>
+
+
+                       <div className="col-lg-6 col-md-6 col-sm-11 col-xs-11">
+                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                        <Form.Label
+                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                          IFSC Code
+                        </Form.Label> 
+                        <Form.Control
+                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                          type="text"
+                          placeholder="Enter IFSC Code"
+                          value={ifsccode}
+                         onChange={handleIfscCodeChange}
+                          
+                        />
+
+                            {ifsccode_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {ifsccode_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
+                      </Form.Group>
+
+                      
+                    </div>
+
+
+                  
+                   <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
+                      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label
+                          style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
+                          Description
+                        </Form.Label>
+                        <Form.Control
+                          style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
+                          type="text"
+                          placeholder="Enter Description"
+                          value={bank_name}
+                          onChange={handleBankNameChange}
+                        />
+
+                          {bank_name_errmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {bank_name_errmsg}
+                                                </label>
+                                              </div>
+                                            )}
+                      </Form.Group>
+
+                   
+                    </div>
+    
+               
+
+
+                                        
+                                        
+                                        
+                                        
+                                                       
+                                        
+                                     
+                                        
+                                        
+                                        
+                                   
+                                                        </div>
+                                                      </Modal.Body>
+                                        
+                                        
+                                        
+                                        
+                                                      <Modal.Footer style={{ border: "none" }}>
+                                                        <Button
+                                                          className="w-100"
+                                                          style={{
+                                                            backgroundColor: "#1E45E1",
+                                                            fontWeight: 500,
+                                                            height: 50,
+                                                            borderRadius: 12,
+                                                            fontSize: 16,
+                                                            fontFamily: "Gilroy",
+                                                            fontStyle: "normal",
+                                                            lineHeight: "normal",
+                                                            marginTop:"-15px"
+                                                          }}
+                                        
+                                                        >
+                                                          Save
+                                                         
+                                                        </Button>
+                                                      </Modal.Footer>
+                                                    </Modal.Dialog>
+                                                  </Modal>
+                                                </div>
+                                              )}
 
 
 

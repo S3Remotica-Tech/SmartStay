@@ -19,7 +19,7 @@ function ExpensesListTable(props) {
   const state = useSelector(state => state)
   const dispatch = useDispatch();
 
-
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -41,7 +41,7 @@ function ExpensesListTable(props) {
 
   const handleDelete = (id) => {
     props.handleDelete(id)
-
+   setShowDeletePopup(true); 
   }
 
 
@@ -51,22 +51,42 @@ function ExpensesListTable(props) {
     }
   };
 
+   const [showTagAsset, setshowTagAsset] = useState(false);
+
+  const handleShowTagAsset = () => {
+
+    setshowTagAsset(true)
+
+
+  };
+
+
+useEffect(() => {
+  function handleClickOutside(event) {
+    if (
+      popupRef.current &&
+      !popupRef.current.contains(event.target) &&
+      !showTagAsset &&
+      !showDeletePopup
+    ) {
+      setShowDots(false);
+    }
+  }
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [popupRef, showTagAsset, showDeletePopup]);
+
+
+
   const [assetname, setAssetName] = useState('')
   const [assetnameerror, setAssetNameError] = useState('')
 
-  // const handleAssetname = (e) => {
-  //   setAssetName(e.target.value)
 
-  //   if (!e.target.value) {
-  //     setAssetNameError("Please select a assetname ")
-  //   }
-  //   else {
-  //     setAssetNameError('')
-  //   }
-  // }
   const handleAssetname = (event) => {
     const { value } = event.target;
-    console.log("Selected Asset:", value); // This should now show the selected value
     setAssetName(value);
     setAssetNameError(value ? '' : 'Please select an asset');
   };
@@ -111,19 +131,6 @@ function ExpensesListTable(props) {
 
 
 
-  //Tag Asset
-  const [showTagAsset, setshowTagAsset] = useState();
-
-  const handleShowTagAsset = () => {
-
-    setshowTagAsset(true)
-
-
-  };
-
-
-
-  // close icon  in tag asset
   const handleHideTagAsset = () => {
     setshowTagAsset(false);
     setAssetNameError('')
@@ -134,13 +141,8 @@ function ExpensesListTable(props) {
 
   return (<>
     <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.id}>
-      {/* 
-      <td style={{ color: "black", fontWeight: 500 ,verticalAlign: 'middle', textAlign:"center",border: "none"}}>
-      <input type='checkbox' className="custom-checkbox" style={customCheckboxStyle} />
-    </td> */}
-
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</td>
-
+      
+              <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</span></td>
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
@@ -162,14 +164,12 @@ function ExpensesListTable(props) {
 
       </td>
 
-      <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
-        <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
-          <div style={{ fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
-            {props.item.payment_mode}
-          </div >
-        </div>
+    
 
-      </td>
+     <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8", }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }} className=''>
+      {props.item.payment_mode}
+      </span></td>
+
 
 
       <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }} className=''>
@@ -189,7 +189,6 @@ function ExpensesListTable(props) {
                 <div style={{ backgroundColor: "#f9f9f9" }} className=''>
 
 
-                  {/* Tag Asset  */}
                   <div
                     className="mb-2 d-flex justify-content-start align-items-center gap-2"
                     style={{
@@ -218,7 +217,6 @@ function ExpensesListTable(props) {
 
 
 
-                  {/* edit  */}
                   <div
                     className="mb-2 d-flex justify-content-start align-items-center gap-2 "
                     onClick={() => {
@@ -251,7 +249,6 @@ function ExpensesListTable(props) {
                     </div>
                   </div>
 
-                  {/* Delete  */}
                   <div
                     className="mb-1 d-flex justify-content-start align-items-center gap-2"
                     style={{
@@ -296,153 +293,7 @@ function ExpensesListTable(props) {
       </td>
     </tr>
 
-    {/* {showTagAsset && (
-      <>
-        <div
-          style={{
-            // marginTop: 15,
-            fontWeight: 500,
-            fontSize: 14,
-            fontFamily: "Gilroy, sans-serif",
-            display: "block", 
-            textAlign: "left", 
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              borderBottom: "1px solid#E7E7E7",
-              paddingBottom: "10px",
-            }}
-          >
-            <p
-              style={{
-                fontWeight: 600,
-                fontSize: 18,
-                fontFamily: "Gilroy, sans-serif",
-                margin: 0,
-              }}
-            >
-              Tag Asset
-            </p>
-            <img
-              src={closeicon}
-              alt="Close"
-              style={{ cursor: "pointer", width: 20, height: 20 }}
-              onClick={handleHideTagAsset}
-            />
-          </div>
-
-          <div
-            style={{
-              marginTop: 15,
-              position: "relative",
-              display: "inline-block",
-              width: "100%",
-            }}
-          >
-            <label
-              style={{
-                marginTop: 15,
-                fontWeight: 500,
-                fontSize: 14,
-                fontFamily: "Gilroy, sans-serif",
-                display: "block",
-                textAlign: "left",
-              }}
-            >
-              Asset Unique Name
-            </label>
-
-            <select
-              style={{
-                marginTop: 15,
-                border: "1px solid #E7E7E7",
-                paddingTop: 6,
-                paddingBottom: 6,
-                paddingLeft: 16,
-                width: "100%",
-                height: "52px",
-                borderRadius: "12px",
-                fontWeight: 500,
-                fontSize: 14,
-                fontFamily: "Gilroy, sans-serif",
-              }}
-              defaultValue=""
-
-              value={assetname}
-              onChange={(e) => handleAssetname(e)}
-            >
-              <option value="" disabled>
-                Select an Asset
-              </option>
-              {state.AssetList.assetList.map((view) => (
-                <option key={view.asset_id} value={view.asset_id}>
-                  {view.asset_name}
-                </option>
-              ))}
-            </select>
-
-            {state.AssetList.assetList &&
-              state.AssetList.assetList.length == 0 && (
-                <label
-                  className="pb-1"
-                  style={{
-                    fontSize: 14,
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {" "}
-                  Please add an 'Asset' option in Asset page, accessible after
-                  adding an expense.
-                </label>
-              )}
-
-            <button
-              style={{
-                marginTop: 15,
-                width: "100%",
-                height: "59px",
-                borderRadius: "12px",
-                backgroundColor: "#1E45E1",
-                color: "white",
-                border: "none",
-                fontSize: "16px",
-                fontWeight: "400px",
-                paddingTop: "20px",
-                paddingBottom: "20px",
-                paddingLeft: "40px",
-                paddingRight: "40px",
-                cursor: "pointer",
-              }}
-
-              onClick={handleTagAsset}
-            >
-              Tag Asset
-            </button>
-          </div>
-        </div>
-
-        <div
-          onClick={handleHideTagAsset}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 999,
-          }}
-        />
-      </>
-    )} */}
+  
 
 
 
@@ -461,7 +312,6 @@ function ExpensesListTable(props) {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            // borderBottom: "1px solid#E7E7E7",
             paddingBottom: "10px",
           }}
         >
@@ -523,7 +373,7 @@ function ExpensesListTable(props) {
                 MenuProps={{
                   PaperProps: {
                     sx: {
-                      backgroundColor: "#f8f9fa", // White dropdown background
+                      backgroundColor: "#f8f9fa", 
                       maxHeight: 150,
                       marginTop: 1,
                       overflowY: "auto",
@@ -533,7 +383,7 @@ function ExpensesListTable(props) {
                         color: "#fff",
                       },
                       "& .Mui-selected": {
-                        backgroundColor: "#D9E6FC !important", // Light blue like image
+                        backgroundColor: "#D9E6FC !important", 
                         color: "#000",
                       },
                       "& .Mui-selected:hover": {
@@ -610,7 +460,6 @@ function ExpensesListTable(props) {
 
             <Button
               style={{
-                // marginTop: 25,
                 marginBottom: 10,
                 width: "100%",
                 height: "45px",

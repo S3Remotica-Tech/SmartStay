@@ -930,7 +930,7 @@ function UserListAmenities(props) {
                           fontSize: "13px",
                           fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
                         }}
-                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" 
                       >
                         <span
                           style={{
