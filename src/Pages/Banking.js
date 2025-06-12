@@ -130,8 +130,10 @@ dayjs.extend(isSameOrBefore);
   }, [bankingrolePermission]);
 
   useEffect(() => {
+    if(hostel_id){
     setLoader(true);
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
+    }
   }, [hostel_id]);
 
   useEffect(() => {
