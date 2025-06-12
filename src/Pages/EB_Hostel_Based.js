@@ -1238,5 +1238,6 @@ EBHostelReading.propTypes = {
   hostelName: PropTypes.func.isRequired,
   setHostelBasedForm: PropTypes.func.isRequired,
   setLoader: PropTypes.func.isRequired,
+   filterStatus: PropTypes.func.isRequired,
 }
 export default EBHostelReading;
