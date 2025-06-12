@@ -74,8 +74,10 @@ export const initialState = {
   NotificationypegetSuccessCode: 0,
   SettingsBillsGetRecurring:[],
   settingsBillsggetRecurrSucesscode: 0,
-  settingsBillsAddInvoiceSucesscode: 0,
-  planExpired:''
+  settingsAddInvoiceSucesscode: 0,
+  planExpired:'',
+  SettingsInvoice : [],
+  settingsInvoicegetSucesscode : 0,
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -455,9 +457,14 @@ case "PLAN-EXPIRED":
       return { ...state, settingsBillsggetRecurrSucesscode: 0 };    
  
     case "ADDINVOICE_SETTINGS":
-      return {...state,  settingsBillsAddInvoiceSucesscode: action.payload.statusCode,};
+      return {...state,  settingsAddInvoiceSucesscode: action.payload.statusCode,};
     case "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE":
-      return { ...state, settingsBillsAddInvoiceSucesscode: 0 }; 
+      return { ...state, settingsAddInvoiceSucesscode: 0 }; 
+
+    case "SETTINGSGETINVOICE":
+      return {...state, SettingsInvoice : action.payload.response, settingsInvoicegetSucesscode: action.payload.statusCode,};
+    case "CLEAR_SETTINGSGETINVOICE_STATUS_CODE":
+      return { ...state, settingsInvoicegetSucesscode: 0 };    
 
     default:
       return state; 

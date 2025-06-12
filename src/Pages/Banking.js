@@ -863,7 +863,6 @@ whiteSpace: "nowrap"
                               fontWeight: 600,
                             }}
                           >
-                            {/* {item.bank_name} */}
                             Type: {item.type}
                           </p>
                           <p
@@ -877,26 +876,9 @@ whiteSpace: "nowrap"
                           >
                             {item.acc_name || item.benificiary_name}
                           </p>
-                          {/* <p
-                            className="text-muted mb-0"
-                            style={{
-                              fontSize: 16,
-                              fontFamily: "Gilroy",
-                              fontWeight: 600,
-                              color: "#4B4B4B",
-                            }}
-                          >
-                           Type: {item.type}
-                          </p> */}
+                       
                         </div>
-                        {/* <img
-                          src={more}
-                          width={20}
-                          height={20}
-                          onClick={() => handleShowDots(item.id)}
-                          alt="More options"
-                          style={{ cursor: "pointer" }}
-                        /> */}
+                       
                         <div style={{ cursor: "pointer",
                               height: 40,
                               width: 40,
@@ -1185,7 +1167,6 @@ whiteSpace: "nowrap"
 
                     </div>
 
-                    {/* Card Footer */}
                     <div
                       className="card-footer d-flex justify-content-between align-items-center"
                       style={{ backgroundColor: "#E7F1FF", marginTop: "-20px" }}
@@ -1530,14 +1511,16 @@ whiteSpace: "nowrap"
                               style={{
                                 padding: "3px 10px",
                                 borderRadius: "60px",
-                                backgroundColor: "#EBEBEB",
+
+                                backgroundColor: "#EBEBEB",                             
+
                                 textAlign: "start",
                                 fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                               }}
                             >
-                              
+
                               {user.desc === "Invoice"
                                 ? "Credit":"Debit"
                               }
@@ -1985,37 +1968,7 @@ whiteSpace: "nowrap"
               </div>
               <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance} 
             style={{ cursor: 'pointer' }}/>
-              {/* <button
-                type="button"
-                className="close"
-                aria-label="Close"
-                onClick={handleCloseAddBalance}
-                style={{
-                  position: "absolute",
-                  right: "15px",
-                  marginTop: -5,
-                  border: "1px solid black",
-                  background: "transparent",
-                  cursor: "pointer",
-                  padding: "0",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "25px",
-                  height: "25px",
-                  borderRadius: "50%",
-                }}
-              >
-              <span
-                        aria-hidden="true"
-                        style={{
-                          fontSize: "30px",
-                          paddingBottom: "5px",
-                        }}
-                      >
-                        &times;
-                      </span>
-              </button> */}
+      
             </Modal.Header>
             <Modal.Body>
               <div className="col-12" style={{ marginTop: "-35px" }}>
@@ -2104,9 +2057,7 @@ whiteSpace: "nowrap"
               </div>
               
             </Modal.Body>
-            {/* <Modal.Footer className="d-flex justify-content-center"> */}
-             
-            {/* </Modal.Footer> */}
+           
           </Modal>
 
           <Modal
@@ -2194,7 +2145,6 @@ whiteSpace: "nowrap"
           </Modal>
 
 
-{/* selfTranfer */}
 
 <Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
       
@@ -2217,12 +2167,10 @@ whiteSpace: "nowrap"
             </Modal.Header>
 
       <Modal.Body>
-        {/* From Account */}
        <div>
   <h6 style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>From</h6>
 
   <div className="d-flex align-items-center p-3" style={{ borderBottom: "1px solid #ccc" }}>
-    {/* Bank Logo */}
     <img
       src={banklogo}
       style={{marginTop:"-10px"}}
@@ -2232,15 +2180,12 @@ whiteSpace: "nowrap"
       alt="bank"
     />
 
-    {/* Main Content Row */}
     <div className="w-100 d-flex justify-content-between align-items-start">
-      {/* Left Side: Bank Name & Type */}
       <div>
         <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy",fontSize:14 }}>Canara Bank</div>
         <div className="small text-muted" style={{ fontFamily: "Gilroy",fontSize:12 }}>Savings A/C</div>
       </div>
 
-      {/* Right Side: User Info */}
       <div className="text-end" style={{ fontFamily: "Gilroy" }}>
         <div style={{ fontWeight: 500, color: "#1A1A1A" ,fontSize:14}}>Immanuel</div>
         <div className="small" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:400}}>4561 2013 6210 6540</div>
@@ -2253,12 +2198,10 @@ whiteSpace: "nowrap"
 </div>
 
 
-        {/* To Accounts */}
         <div className="mb-3">
           <h6 className="mt-1" style={{color:"#4B4B4B",fontSize:16,fontWeight:500,fontFamily:"Gilroy"}}>To</h6>
 
          <div className="d-flex align-items-center p-3" >
-    {/* Bank Logo */}
     <img
       src={banklogo}
       style={{marginTop:"-10px"}}
@@ -2268,15 +2211,12 @@ whiteSpace: "nowrap"
       alt="bank"
     />
 
-    {/* Main Content Row */}
    <div className="w-100 d-flex justify-content-between align-items-start">
-      {/* Left Side: Bank Name & Type */}
       <div>
         <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy",fontSize:14 }}> State Bank of India</div>
         <div className="small text-muted" style={{ fontFamily: "Gilroy",fontSize:12 }}>Savings A/C</div>
       </div>
 
-      {/* Right Side: User Info */}
       <div className="text-end" style={{ fontFamily: "Gilroy" }}>
         <div style={{ fontWeight: 500, color: "#1A1A1A" ,fontSize:14}}>Immanuel</div>
         <div className="small" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:400}}>4561 2013 6210 6540</div>
@@ -2288,7 +2228,6 @@ whiteSpace: "nowrap"
   </div>
 
          <div className="d-flex align-items-center p-3" style={{marginTop:"-10px"}}>
-    {/* Bank Logo */}
     <img
       src={banklogo}
       style={{marginTop:"-10px"}}
@@ -2298,15 +2237,12 @@ whiteSpace: "nowrap"
       alt="bank"
     />
 
-    {/* Main Content Row */}
     <div className="w-100 d-flex justify-content-between align-items-start">
-      {/* Left Side: Bank Name & Type */}
       <div>
         <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy",fontSize:14 }}> ICICI</div>
         <div className="small text-muted" style={{ fontFamily: "Gilroy",fontSize:12 }}>Savings A/C</div>
       </div>
 
-      {/* Right Side: User Info */}
       <div className="text-end" style={{ fontFamily: "Gilroy" }}>
         <div style={{ fontWeight: 500, color: "#1A1A1A" ,fontSize:14}}>Immanuel</div>
         <div className="small" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:400}}>4561 2013 6210 6540</div>
@@ -2318,19 +2254,7 @@ whiteSpace: "nowrap"
   </div>
         </div>
 
-        {/* Amount Input */}
-        {/* <Form.Group className="mb-3">
-          <Form.Label style={{fontFamily:"Gilroy",fontSize:18,fontWeight:400}}>Enter Amount to transfer</Form.Label>
-          <div className="input-group">
-            <span className="input-group-text">₹</span>
-            <Form.Control
-              type="text"
-              placeholder="Enter amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-          </div>
-        </Form.Group> */}
+      
         <div className="input-group">
   <span className="input-group-text bg-white border-end-0 rounded-start">₹</span>
   <input

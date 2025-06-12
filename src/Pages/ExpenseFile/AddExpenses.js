@@ -17,7 +17,6 @@ import dayjs from 'dayjs';
 
 function StaticExample({ show, currentItem,setShowModal }) {
   const state = useSelector((state) => state);
-  console.log("StaticExample",state)
   const dispatch = useDispatch();
   const customContainerRef = useRef();
   const [assetName, setAssetName] = useState("");
@@ -35,8 +34,6 @@ function StaticExample({ show, currentItem,setShowModal }) {
   const [paymentError, setPaymentError] = useState("");
   const [generalError, setGeneralError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
-  // const [account, setAccount] = useState("");
-  // const [accountError, setAccountError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [netPaymentError,setNetPaymentError] = useState("")
   const [initialState, setInitialState] = useState({
@@ -93,7 +90,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
 
   useEffect(() => {
     if (currentItem) {
-      // setId((currentItem && currentItem.id) || "");
       setAssetName((currentItem && currentItem.asset_id) || "");
       setVendorName((currentItem && currentItem.vendor_id) || "");
       setSelectedDate(moment(currentItem.purchase_date).toDate());
@@ -103,7 +99,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       setDescription((currentItem && currentItem.description) || "");
       setCount((currentItem && currentItem.unit_count) || "");
       setHostelName((currentItem && currentItem.hostel_id) || "");
-      // setAccount((currentItem && currentItem.bank_id) || "");
 
       setInitialState({
         assetName: currentItem.asset_id || "",
@@ -126,8 +121,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       calendarRef.current.flatpickr.set({
         dateFormat: "d/m/Y",
         defaultDate: selectedDate || new Date(),
-        // maxDate: "today",
-        appendTo: customContainerRef.current, // Append to custom container
+        appendTo: customContainerRef.current, 
       });
     }
   }, [customContainerRef.current, selectedDate]);
@@ -151,20 +145,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setCategoryError("");
     setIsChangedError("");
   };
-  // const handleAccount = (e) => {
-  //   setAccount(e.target.value);
-  //   setAccountError("");
-  //   setIsChangedError("");
-  //   setNetPaymentError("")
-  //   dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
-  // };
-  // const handleAccount = (selectedOption) => {
-  //   setAccount(selectedOption?.value || "");
-  //   setAccountError("");
-  //   setIsChangedError("");
-  //   setNetPaymentError("");
-  //   dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
-  // };
+ 
 
   const handleModeOfPaymentChange = (e) => {
     setModeOfPayment(e.target.value);
@@ -183,9 +164,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setPriceError("");
     setIsChangedError("");
     setNetPaymentError("")
-    // if (/^\d*$/.test(value)) {
-    //   setPrice(value);
-    // }
+
     if (/^\d*\.?\d*$/.test(value)) {
       setPrice(value);
     }
@@ -221,7 +200,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     
     let hasError = false;
   
-    // Validate individual fields and show specific errors
     if (!category) {
       setCategoryError("Please Select Category");
       hasError = true;
@@ -253,10 +231,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       hasError = true;
     }
   
-    // if (modeOfPayment === "Net Banking" && !account) {
-    //   setAccountError("Please Choose Bank Account");
-    //   hasError = true;
-    // }
+   
   
     const isChanged =
       initialState.assetName !== assetName ||
@@ -276,12 +251,10 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       hasError = true;
     }
   
-    // If any validation fails, do not proceed
     if (hasError) {
       return;
     }
   
-    // Format the date and dispatch the action
     const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
     dispatch({
       type: "ADDEXPENSE",
@@ -294,7 +267,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
         payment_mode: modeOfPayment,
         hostel_id: state.login.selectedHostel_Id,
         id: currentItem ? currentItem.id : null,
-        // bank_id: account,
       },
     });
   };
@@ -326,7 +298,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
         fontFamily: "Gilroy",
       }}
     >
-      <Modal show={show} onHide={handleClose}   dialogClassName="custom-modal">
+      <Modal show={show} onHide={handleClose}   dialogClassName="custom-modal" backdrop="static" >
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
           className="m-0 p-0"
@@ -401,40 +373,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                     </span>
                   </Form.Label>
 
-                  {/* <Form.Select
-                    aria-label="Default select example"
-                    value={category}
-                    onChange={handleCategoryChange}
-                    className=""
-                    id="vendor-select"
-                    style={{
-                      marginTop: "5px",
-                      fontSize: "16px",
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: category ? 600 : 500,
-                    }}
-                  >
-                    <option value="" >Select a Category</option>
-                    {state.Settings.Expences.data && state.Settings.Expences.data.length > 0 ? 
-                      state.Settings.Expences.data.map((view) => (
-                        <>
-                          <option
-                            key={view.category_Id}
-                            value={view.category_Id}
-                          >
-                            {view.category_Name}
-                          </option>
-                        </>
-                      ))
-                    :
-                    (
-                      <option value="" disabled>
-                      No category available
-                    </option>
-                    )
-                    }
-                  </Form.Select> */}
+               
                  
   <Select
     options={
@@ -462,7 +401,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     styles={{
       control: (base) => ({
         ...base,
-        // marginTop: "5px",
         fontSize: "16px",
         color: "rgba(75, 75, 75, 1)",
         fontFamily: "Gilroy",
