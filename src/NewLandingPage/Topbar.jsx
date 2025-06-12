@@ -196,8 +196,9 @@ useEffect(() => {
           <Startup />
           <StatsSection />
           <RoomManagement/>
+          <SmartStaySection/>
           <TestimonialSlider />
-          {/* <SmartStaySection/> */}
+          
           {/* <Getanswer /> */}
         </Element>
       )}
