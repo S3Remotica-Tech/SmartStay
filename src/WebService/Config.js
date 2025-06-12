@@ -1,5 +1,7 @@
 const config = {
 
+
+     apiBaseUrl: "https://smartstaydevapi.s3remotica.com",
     //  apiBaseUrl: "https://smartstaytestingapi.s3remotica.com",
     // apiBaseUrl: "http://localhost:2001",
 
@@ -15,6 +17,7 @@ export default config;
 // http://13.126.102.54:1010
 // https://smartstayapi.qbatz.com
 // http://13.126.102.54:2001
+// https://smartstaydevapi.s3remotica.com
 
 
 

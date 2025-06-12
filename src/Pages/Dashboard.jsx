@@ -1494,7 +1494,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                                       </p>
                                     </div>
                                   </div>
-                                ))
+                                )) 
                               ) : (
                                 <div
                                   className="no-data-category"

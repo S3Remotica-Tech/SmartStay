@@ -2277,9 +2277,6 @@ whiteSpace: "nowrap"
 
 
 
-
-
-
           {EditTransactionForm === true ? (
             <BankingEditTransaction
               setEditTransactionForm={setEditTransactionForm}
