@@ -248,3 +248,8 @@ export async function AddInvoiceSettings(params) {
     throw error;
   }
 }
+
+
+export async function SettingsGetInvoice(Invoice) {
+  return await AxiosConfig.get(`/getInvoice-settings/${Invoice.hostel_id}`);
+}

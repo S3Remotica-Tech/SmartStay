@@ -719,7 +719,7 @@ function Expenses({ allPageHostel_Id }) {
 
               </div>
 
-             
+
               <div className="col-12 col-md d-flex flex-wrap justify-content-md-end align-items-center">
 
                 {!showFilterExpense && (
@@ -800,8 +800,7 @@ function Expenses({ allPageHostel_Id }) {
                         )}
                       </ListGroup.Item>
 
-                     
-                     
+
                       <ListGroup.Item
                         active={showPaymentMode}
                         onMouseEnter={() => setShowPaymentMode(true)}
@@ -842,8 +841,7 @@ function Expenses({ allPageHostel_Id }) {
                         )}
                       </ListGroup.Item>
 
-                    
-                    
+
                       <ListGroup.Item
                         active={showAmount}
                         onMouseEnter={() => setShowAmount(true)}
@@ -1308,8 +1306,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
               }}
             >
 
-            
-            
+
               <div>
                 <select className="selectoption"
                   value={itemsPerPage}
@@ -1332,8 +1329,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                 </select>
               </div>
 
-             
-             
+
               <ul className="selectoption"
                 style={{
                   display: "flex",
@@ -1343,8 +1339,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   padding: 0,
                 }}
               >
-                
-                
+
                 <li style={{ margin: "0 10px" }}>
                   <button
                     style={{
@@ -1369,8 +1364,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   </button>
                 </li>
 
-              
-              
+
                 <li
                   style={{
                     margin: "0 10px",
@@ -1381,8 +1375,6 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   {currentPage} of {totalPages}
                 </li>
 
-               
-               
                 <li style={{ margin: "0 10px" }}>
                   <button
                     style={{
@@ -1417,7 +1409,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
         <AddExpenses
           hostelId={allPageHostel_Id}
           show={showModal}
-          currentItem={currentItem}
+          currentItem={currentItem}   
           setShowModal={setShowModal}
         />
       )}
@@ -1444,8 +1436,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
           >
             Delete expense?
           </Modal.Title>
-       
-       
+
         </Modal.Header>
 
         <Modal.Body

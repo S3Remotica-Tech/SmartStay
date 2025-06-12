@@ -385,9 +385,6 @@ dayjs.extend(isSameOrBefore);
 
 
 
-
- 
-
   const skeletonStyle = {
     backgroundColor: '#dcdcdc',
     borderRadius: '10px',
