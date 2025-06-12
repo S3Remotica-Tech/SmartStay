@@ -13,9 +13,7 @@ import RightArrow from "../Assets/Images/landingpageimages/rightarr.png"
 const TestimonialSlider = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  const paginationRef = useRef(null);
-
-
+  const paginationRef = useRef(null); 
 
   const testimonials = [
     {
