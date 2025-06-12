@@ -229,6 +229,22 @@ dayjs.extend(isSameOrBefore);
       });
     }
   }, [state.login.selectedHostel_Id]);
+
+
+  
+  const [RoomElect,setRoomElect] = useState("")
+  
+  
+   useEffect(() => {
+      if (state.PgList?.statusCodeForEbRoomList === 200) {
+       
+        setRoomElect(state.PgList?.EB_startmeterlist);
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+        }, 1000);
+      }
+    }, [state.PgList.statusCodeForEbRoomList])
   useEffect(() => {
     if (selectedHostel && value === "3") {
       setLoader(true);
@@ -569,7 +585,9 @@ dayjs.extend(isSameOrBefore);
       setSortConfig({ key, direction });
     };
 
-
+const [originalElec, setOriginalElec] = useState("");
+const [originalRoomElec,setOriginalRoomElec] = useState("")
+const [originalHostelElec,setOriginalHostelElec] = useState("")
    
 
 
@@ -621,12 +639,86 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
   setelectricitycurrentPage(1);
 };
 
-  const [originalElec, setOriginalElec] = useState("");
+
+const [roomBasedFilter,setRoomBasedFilter] = useState("")
+
+ const handleDateRoomRangeChangeEb = (dates) => {
+ 
+  setRoomBasedFilter(dates);
+ 
+  if (!dates || dates?.length !== 2) {
+    setFilterStatus(false);
+    setRoomElect(originalRoomElec);
+    return;
+  }
+
+  const [start, end] = dates;
+
+  const filtered = originalRoomElec?.filter((item) => {
+    
+    if (!item.date || typeof item.date !== 'string') {
+      return false; 
+    }
+
+    const itemDate = dayjs(item.date);
+
+    
+    if (!itemDate.isValid()) {
+      return false; 
+    }
+
+    return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+  });
+
+  setRoomElect(filtered);
+  setFilterStatus(true);
+};
+
+
+const [hostelBasedFilter,setHostelBasedFilter] = useState("")
+  
+
+
+const handleDateHostelRangeChangeEb = (dates) => {
+ 
+  setHostelBasedFilter(dates);
+ 
+
+  if (!dates || dates?.length !== 2) {
+    setFilterStatus(false);
+    setelectricityHostel(originalHostelElec);
+    return;
+  }
+
+  const [start, end] = dates;
+
+  const filtered = originalHostelElec?.filter((item) => {
+    
+    if (!item.date || typeof item.date !== 'string') {
+      return false; 
+    }
+
+    const itemDate = dayjs(item.date);
+
+    
+    if (!itemDate.isValid()) {
+      return false; 
+    }
+
+    return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+  });
+
+  setelectricityHostel(filtered);
+  setFilterStatus(true);
+};
 
 
   const handleUserSelect = (user) => {
     setFilterInput(user.Name);
-    setelectricityFilterddata([user]);
+    
+     setelectricityFilterddata(
+    originalElec.filter((item) => item.Name === user.Name)
+  );
 
     setDropdownVisible(false);
   };
@@ -656,6 +748,21 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
     }
   }, [electricityFilterddata]);
 
+
+  useEffect(() => {
+    if (RoomElect?.length > 0 && originalRoomElec?.length === 0) {
+      setOriginalRoomElec(RoomElect);
+    }
+  }, [RoomElect]);
+
+
+
+   useEffect(() => {
+    if (electricityHostel?.length > 0 && originalHostelElec?.length === 0) {
+      setOriginalHostelElec(electricityHostel);
+    }
+  }, [electricityHostel]);
+
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("");
@@ -680,7 +787,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
   className="d-flex flex-wrap justify-content-between align-items-center"
   style={{ paddingLeft: 13, paddingTop: value === "2" ? "22px" : "19px" }}
 >
-  
+
   <div className="me-3" style={{ minWidth: "100px" }}>
     <label
       style={{
@@ -804,8 +911,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
       )
     )}
 
-   
-    {value === "1" && (
+
       <div className="me-2">
         <Image
           src={Filters}
@@ -814,7 +920,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
           onClick={handleFilterd}
         />
       </div>
-    )}
+
 
    
     {filterStatus && value === "1" && (
@@ -822,6 +928,26 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
         <RangePicker
           value={customerDateRange}
           onChange={handleDateRangeChangeEb}
+          format="DD/MM/YYYY"
+          style={{ height: 40,cursor:"pointer" }}
+        />
+      </div>
+    )}
+     {filterStatus && value === "2" && (
+      <div className="me-2">
+        <RangePicker
+          value={roomBasedFilter}
+          onChange={handleDateRoomRangeChangeEb}
+          format="DD/MM/YYYY"
+          style={{ height: 40,cursor:"pointer" }}
+        />
+      </div>
+    )}
+     {filterStatus && value === "3" && (
+      <div className="me-2">
+        <RangePicker
+          value={hostelBasedFilter}
+          onChange={handleDateHostelRangeChangeEb}
           format="DD/MM/YYYY"
           style={{ height: 40,cursor:"pointer" }}
         />
@@ -955,6 +1081,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
               editeb={editeb}
               setEditEb={setEditEb}
               electricityHostel={electricityHostel}
+              filterStatus = {filterStatus}
               setLoader={setLoader}
               loading={loader}
             />
@@ -1018,7 +1145,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                      style={{
                                       
 
-                                       height: sortedData.length >= 5 || sortedData.length >= 5 ? "350px" : "auto",
+                                       height: sortedData.length >= 5 || sortedData.length >= 5 ? "340px" : "auto",
 
                                        overflow: "auto",
                                        marginBottom: 20,
@@ -1336,7 +1463,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 
                 {!customerLoader &&
                   !loader &&
-                  currentRoomelectricity.length === 0 && (
+                  currentRoomelectricity?.length === 0 && (
                     <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img
@@ -1902,6 +2029,9 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             electricityFilterd={electricityFilterd}
             loading={loader}
             value={value}
+            RoomElect = {RoomElect}
+            filterStatus= {filterStatus}
+
           />
         </TabPanel>
 
@@ -1918,6 +2048,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             editeb={editeb}
             setEditEb={setEditEb}
             electricityHostel={electricityHostel}
+            filterStatus = {filterStatus}
             loading={loader}
             setLoader={setLoader}
           />

@@ -355,10 +355,15 @@ const [hostelEbList,setHostelEbList] = useState("")
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = hostelEbList?.slice(
-    indexOfFirstRowelectricity,
-    indexOfLastRowelectricity
-  );
+ 
+  const dataSource =
+  props.value === "3" && props.filterStatus ? props.electricityHostel : hostelEbList;
+
+const currentRowelectricity = dataSource?.slice(
+  indexOfFirstRowelectricity,
+  indexOfLastRowelectricity
+);
+
 
  
   const handlePageChange = (pageNumber) => {

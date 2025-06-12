@@ -366,10 +366,13 @@ useEffect(() => {
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = roomelectricity?.slice(
-    indexOfFirstRowelectricity,
-    indexOfLastRowelectricity
-  );
+
+  const dataSource = props.filterStatus ? props.RoomElect : roomelectricity;
+
+const currentRowelectricity = dataSource?.slice(
+  indexOfFirstRowelectricity,
+  indexOfLastRowelectricity
+);
  
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);

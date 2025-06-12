@@ -416,7 +416,6 @@ const handleCloseSElfTransfer=()=>{
 
   const handlePageChange = (pageNumber) => {
     settransactioncurrentPage(pageNumber);
-    settransactioncurrentPage(1)
   };
   
 
@@ -452,6 +451,7 @@ const handleCloseSElfTransfer=()=>{
         };
   const handleItemsPerPageChange = (event) => {
     setTransactionrowsPerPage(Number(event.target.value));
+    settransactioncurrentPage(1)
   };
 
   const totalPagesTransaction = Math.ceil(
@@ -492,7 +492,7 @@ const handleCloseSElfTransfer=()=>{
   const handleUserSelect = (user) => {
   setFilterInput(user.benificiary_name); 
   const selected = transactionFilterddata.filter(
-    (item) => String(item.id) === String(user.id)
+    (item) => String(item.benificiary_name) === String(user.benificiary_name)
   );
   settransactionFilterddata(selected);
   setDropdownVisible(false);
@@ -1468,6 +1468,7 @@ whiteSpace: "nowrap"
                               fontFamily: "Gilroy",
                               marginTop: 10,
                               whiteSpace: "nowrap",
+                              
                             }}
                           >
                             <span
@@ -1481,6 +1482,7 @@ whiteSpace: "nowrap"
                                 fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
+                                 backgroundColor: "#EBEBEB",
                               }}
                             >
                               {formattedDate}
