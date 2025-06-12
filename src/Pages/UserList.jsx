@@ -431,7 +431,7 @@ function UserList(props) {
       setCustomerErrmsg("Please Select Customer");
       hasError = true;
     } else {
-      setCustomerErrmsg(""); 
+      setCustomerErrmsg("");
     }
 
     if (!invoicedate) {
@@ -613,7 +613,7 @@ function UserList(props) {
       }
 
       if (currentView.Date) {
-        const parsedDate = new Date(currentView.Date); 
+        const parsedDate = new Date(currentView.Date);
         if (!isNaN(parsedDate.getTime())) {
           setInvoiceDate(parsedDate);
         }
@@ -621,7 +621,7 @@ function UserList(props) {
 
       setTotalAmount(currentView.Amount);
 
-    
+
       if (currentView.amenity && Array.isArray(currentView.amenity)) {
         setNewRows(currentView.amenity);
 
@@ -715,7 +715,7 @@ function UserList(props) {
       dispatch({ type: "USERPROFILEBILLFALSE" });
     }
   }, [state.UsersList.userProfilebill]);
- 
+
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
@@ -925,10 +925,12 @@ function UserList(props) {
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     dispatch({
       type: "WALKINCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+  }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -950,10 +952,12 @@ function UserList(props) {
   }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
 
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     dispatch({
       type: "CHECKOUTCUSTOMERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+  }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -968,11 +972,16 @@ function UserList(props) {
   const [customerBooking, setCustomerBooking] = useState("");
 
   useEffect(() => {
-    dispatch({
-      type: "GET_BOOKING_LIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+
+
+    }
   }, [state.login.selectedHostel_Id]);
+
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
       setCustomerBooking(state.Booking.CustomerBookingList.bookings);
@@ -983,6 +992,7 @@ function UserList(props) {
   }, [state.Booking.statusCodeGetBooking]);
 
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     if (value === "1") {
       dispatch({
         type: "USERLIST",
@@ -1004,14 +1014,15 @@ function UserList(props) {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
+  }
   }, [value]);
 
   useEffect(() => {
     if (value === "1") {
       const FilterUser = Array.isArray(userListDetail)
         ? userListDetail.filter((item) =>
-            item.Name.toLowerCase().includes(filterInput.toLowerCase())
-          )
+          item.Name.toLowerCase().includes(filterInput.toLowerCase())
+        )
         : [];
 
       setFilteredUsers(FilterUser);
@@ -1020,12 +1031,11 @@ function UserList(props) {
     if (value === "2") {
       const FilterUsertwo = Array.isArray(customerBooking)
         ? customerBooking.filter((item) => {
-            const fullName = `${item.first_name || ""} ${
-              item.last_name || ""
+          const fullName = `${item.first_name || ""} ${item.last_name || ""
             }`.toLowerCase();
-            return fullName.includes(filterInput.toLowerCase());
-          })
-        : []; 
+          return fullName.includes(filterInput.toLowerCase());
+        })
+        : [];
 
       setFilteredUsers(FilterUsertwo);
     }
@@ -1033,8 +1043,8 @@ function UserList(props) {
     if (value === "3") {
       const FilterUsertwo = Array.isArray(checkOutCustomer)
         ? checkOutCustomer?.filter((item) => {
-            return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
-          })
+          return item.Name.toLowerCase().includes(filterInput?.toLowerCase());
+        })
         : [];
 
       setFilteredUsers(FilterUsertwo);
@@ -1042,10 +1052,10 @@ function UserList(props) {
     if (value === "4") {
       const FilterUsertwo = Array.isArray(walkingCustomer)
         ? walkingCustomer?.filter((item) => {
-            return item.first_name
-              ?.toLowerCase()
-              .includes(filterInput?.toLowerCase() || "");
-          })
+          return item.first_name
+            ?.toLowerCase()
+            .includes(filterInput?.toLowerCase() || "");
+        })
         : [];
 
       setFilteredUsers(FilterUsertwo);
@@ -1064,7 +1074,7 @@ function UserList(props) {
   ]);
 
   const handlefilterInput = (e) => {
-    const searchValue = e.target.value.toLowerCase().trim(); 
+    const searchValue = e.target.value.toLowerCase().trim();
     setFilterInput(searchValue);
 
     if (searchValue.length > 0) {
@@ -1080,9 +1090,9 @@ function UserList(props) {
 
       setFilteredUsers(filtered);
       setDropdownVisible(true);
-      setCurrentPage(1); 
+      setCurrentPage(1);
     } else {
-      setFilteredUsers(filteredUsers); 
+      setFilteredUsers(filteredUsers);
       setDropdownVisible(false);
     }
   };
@@ -1094,7 +1104,7 @@ function UserList(props) {
     } else if (value === "2") {
       setFilterInput(
         [user?.first_name, user?.last_name].filter(Boolean).join(" ")
-      ); 
+      );
     } else if (value === "3") {
       setFilterInput(user?.Name || "");
     } else if (value === "4") {
@@ -1358,7 +1368,7 @@ function UserList(props) {
     setStatusFilterCheckout(searchTerm);
 
     if (searchTerm !== "date") {
-      setCheckoutDateRange(null); 
+      setCheckoutDateRange(null);
     }
 
     if (searchTerm === "All") {
@@ -1624,7 +1634,7 @@ function UserList(props) {
     }
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
-  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false); 
+  const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
   useEffect(() => {
     if (state.UsersList?.exportDetails?.response?.fileUrl) {
@@ -1785,8 +1795,8 @@ function UserList(props) {
     }
   }, [state.UsersList?.statusCodeForExportCheckout]);
 
-  
- 
+
+
   const customInvoiceDateInput = (props) => {
     return (
       <div
@@ -2089,14 +2099,14 @@ function UserList(props) {
                                     {value === "1"
                                       ? user.Name
                                       : value === "2"
-                                      ? [user?.first_name, user?.last_name]
+                                        ? [user?.first_name, user?.last_name]
                                           .filter(Boolean)
                                           .join(" ")
-                                      : value === "3"
-                                      ? user.Name
-                                      : value === "4"
-                                      ? user.first_name
-                                      : ""}
+                                        : value === "3"
+                                          ? user.Name
+                                          : value === "4"
+                                            ? user.first_name
+                                            : ""}
                                   </span>
                                 </div>
                               </li>
@@ -2347,7 +2357,7 @@ function UserList(props) {
               textAlign: "left",
             }}
           >
-            <TabContext value={value} style={{marginLeft:"-10px"}}>
+            <TabContext value={value} style={{ marginLeft: "-10px" }}>
               <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
                 <TabList
                   orientation={isSmallScreen ? "vertical" : "horizontal"}
@@ -2471,8 +2481,8 @@ function UserList(props) {
                   <>
                     {sortedData && sortedData.length > 0 && (
                       <div
-                        className=" booking-table-userlist  booking-table"
-                        style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+                        className=" booking-table-userlist  booking-table  me-4"
+                        style={{ paddingBottom: "20px", marginLeft: "-14px" }}
                       >
                         <div
                           className="show-scrolls"
@@ -2770,7 +2780,7 @@ function UserList(props) {
                                   }}
                                 >
                                   Action
-     
+
                                 </th>
                               </tr>
                             </thead>
@@ -2787,7 +2797,7 @@ function UserList(props) {
                                           textAlign: "center",
                                         }}
                                       >
-                                     
+
                                         <td
                                           style={{
                                             border: "none",
@@ -2797,9 +2807,10 @@ function UserList(props) {
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
+                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                         >
                                           <span
-                                            className="Customer_Name_Hover ps-0 ps-sm-0 ps-md-3 ps-lg-2"
+                                            className="Customer_Name_Hover  ps-lg-3"
                                             style={{
                                               fontSize: "13px",
                                               fontWeight: 600,
@@ -2807,7 +2818,8 @@ function UserList(props) {
                                               color: "#1E45E1",
                                               cursor: "pointer",
                                               marginTop: 10,
-                                              paddingLeft:10
+                                              paddingLeft:10,
+                                              whiteSpace: "nowrap",
                                             }}
                                             onClick={() =>
                                               handleRoomDetailsPage(user)
@@ -2818,32 +2830,32 @@ function UserList(props) {
                                         </td>
 
                                         <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-  style={{
-    paddingTop: 15,
-    border: "none",
-    textAlign: "start",
-    fontSize: "13px",
-    fontWeight: 500,
-    fontFamily: "Gilroy",
-    verticalAlign: "middle",
-    borderBottom: "1px solid #E8E8E8",
-  }}
->
-  <span
-    style={{
-      padding: "3px 10px",
-      borderRadius: "60px",
-      backgroundColor: "#EBEBEB",
-      textAlign: "center",
-      fontSize: "11px",
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      display: "inline-block", 
-    }}
-  >
-        {moment(user.user_join_date).format("D MMMM YYYY")}
-  </span>
-</td>
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "13px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
+                                          }}
+                                        >
+                                          <span
+                                            style={{
+                                              padding: "3px 10px",
+                                              borderRadius: "60px",
+                                              backgroundColor: "#EBEBEB",
+                                              textAlign: "center",
+                                              fontSize: "11px",
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              display: "inline-block",
+                                            }}
+                                          >
+                                            {moment(user.user_join_date).format("D MMMM YYYY")}
+                                          </span>
+                                        </td>
 
                                         <td
                                           style={{
@@ -2853,17 +2865,21 @@ function UserList(props) {
                                             fontWeight: 500,
                                             fontFamily: "Gilroy",
                                             paddingTop: 15,
-                                            paddingLeft:20,
+                                            paddingLeft: 20,
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
+                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                                         >
-                                          {user.Email}
+                                          <div className="ps-2">
+                                            {user.Email}
+                                          </div>
+                                          
                                         </td>
                                         <td
                                           style={{
                                             paddingTop: 15,
-                                            paddingLeft:15,
+                                            paddingLeft: 15,
                                             border: "none",
                                             textAlign: "start",
                                             fontSize: "13px",
@@ -2874,6 +2890,7 @@ function UserList(props) {
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
+                                           className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
                                         >
                                           +
                                           {user &&
@@ -2888,7 +2905,7 @@ function UserList(props) {
                                         <td
                                           style={{
                                             paddingTop: 15,
-                                            paddingLeft:20,
+                                            paddingLeft: 20,
                                             border: "none",
                                             textAlign: "start",
                                             fontSize: "13px",
@@ -2897,6 +2914,7 @@ function UserList(props) {
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
+                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
                                         >
                                           {" "}
                                           {!user.Rooms ? "-" : user.Rooms}
@@ -3029,7 +3047,7 @@ function UserList(props) {
                                                   {user.Bed && (
                                                     <div
                                                       className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                   
+
                                                       onClick={() =>
                                                         handleCustomerCheckout(
                                                           user
@@ -3290,8 +3308,8 @@ function UserList(props) {
 
                 {
                   (search ? filteredUsers?.length : userListDetail?.length) >=
-                    5 && (
-                   
+                  5 && (
+
                     <nav
                       style={{
                         display: "flex",
@@ -3404,7 +3422,7 @@ function UserList(props) {
                     </nav>
                   )
 
-                  // )
+                 
                 }
 
                 {customerReassign === true ? (
@@ -3682,7 +3700,7 @@ function UserList(props) {
                   <Form.Select
                     aria-label="Default select example"
                     className="border"
-                
+
                     value={Floor}
                     onChange={(e) => handleFloor(e)}
                     style={{
@@ -3743,7 +3761,7 @@ function UserList(props) {
                   <Form.Select
                     aria-label="Default select example"
                     className="border"
-                  
+
                     value={Rooms}
                     onChange={(e) => handleRoom(e)}
                     style={{
@@ -3986,7 +4004,7 @@ function UserList(props) {
                     />
                   </Form.Group>
 
-             
+
                 </div>
 
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -4561,7 +4579,7 @@ function UserList(props) {
                   style={{ position: "relative", width: "100%" }}
                 >
                   <DatePicker
-  
+
                     style={{ width: "100%", height: 48, cursor: "pointer" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
@@ -4747,7 +4765,7 @@ function UserList(props) {
                               type="text"
                               placeholder="Enter total amount"
                               value={u.amount}
-                           
+
                               onChange={(e) => {
                                 const value = e.target.value;
                                 if (/^\d*\.?\d*$/.test(value)) {
@@ -4782,7 +4800,7 @@ function UserList(props) {
             </div>
           )}
 
-         
+
           <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
             <Form.Select
               className="border"

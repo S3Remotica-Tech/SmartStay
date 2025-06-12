@@ -510,10 +510,13 @@ function UserListAmenities(props) {
                 onChange={(e) => handleStatusAmnities(e)}
                 style={{
                   fontSize: 14,
-                  backgroundColor: "#f8f9fa",
+                  backgroundColor: "transparent",
                   height: 45,
                   borderRadius: 8,
                   opacity: 1,
+                  fontWeight: 530,
+                  fontFamily: "Gilroy",
+                  color:"grey"
                 }}
               >
                 <option
@@ -521,13 +524,26 @@ function UserListAmenities(props) {
                     fontSize: 14,
                     fontWeight: 530,
                     fontFamily: "Gilroy",
+                    opacity:1
                   }}
                 >
                   Select Status
                 </option>
 
-                <option value="1">Active</option>
-                <option value="0">In Active</option>
+                <option value="1"   style={{
+                    fontSize: 14,
+                    fontWeight: 530,
+                    fontFamily: "Gilroy",
+                    opacity:1,
+                    color: "gray",
+                  }}>Active</option>
+                <option value="0"  style={{
+                    fontSize: 14,
+                    fontWeight: 530,
+                    fontFamily: "Gilroy",
+                    opacity:1,
+                    color: "gray",
+                  }}>In Active</option>
               </Form.Select>
               {selectError && (
                 <div style={{ color: "red" }}>
@@ -881,13 +897,14 @@ function UserListAmenities(props) {
                           fontWeight: 500,
                           fontSize: "13px",
                           fontFamily: "Gilroy",
-                          paddingLeft:15, borderBottom: "1px solid #E8E8E8"
+                          paddingLeft:20, borderBottom: "1px solid #E8E8E8"
 
                         }}
+                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                       >
                         {v.Amnities_Name}
                       </td>
-                      <td style={{borderBottom: "1px solid #E8E8E8"}}>
+                      <td style={{borderBottom: "1px solid #E8E8E8"}} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
                         <span
                           style={{
                             backgroundColor: "#EBEBEB",
@@ -909,6 +926,7 @@ function UserListAmenities(props) {
                           fontSize: "13px",
                           fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
                         }}
+                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                       >
                         {v.month_name}
                       </td>
@@ -918,6 +936,7 @@ function UserListAmenities(props) {
                           fontSize: "13px",
                           fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
                         }}
+                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                       >
                         {v.Amount}
                       </td>
@@ -927,6 +946,7 @@ function UserListAmenities(props) {
                           fontSize: "13px",
                           fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
                         }}
+                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" 
                       >
                         <span
                           style={{

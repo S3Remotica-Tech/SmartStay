@@ -1896,4 +1896,67 @@ it('should handle REMOVE_KYC_VERIFY_NEW', () => {
 
 
 
+
+
+it('should handle KYC_CUSTOMER_DETAILS', () => {
+    const action = {
+        type: 'KYC_CUSTOMER_DETAILS',
+        payload: {
+            response: null, 
+            statusCode: 200
+        }
+    };
+    expect(UserListReducer(initialState, action)).toStrictEqual({
+        ...initialState,
+        KycCustomerDetails: null,
+        statusCodeForCustomerDetails: 200
+    });
+});
+
+
+
+it('should handle REMOVEKYC_CUSTOMER_DETAILS', () => {
+    const currentState = {
+        ...initialState,
+        statusCodeForCustomerDetails: 200
+    };
+    const action = { type: 'REMOVEKYC_CUSTOMER_DETAILS' };
+    expect(UserListReducer(currentState, action)).toStrictEqual({
+        ...initialState,
+        statusCodeForCustomerDetails: 0
+    });
+});
+
+
+it('should handle KYC_NOT_ADDED', () => {
+    const action = {
+        type: 'KYC_NOT_ADDED',
+        payload: {
+            response: null, 
+            statusCode: 201
+        }
+    };
+    expect(UserListReducer(initialState, action)).toStrictEqual({
+        ...initialState,
+        KycCustomerDetails: null,
+        KYCStatusCode: 201
+    });
+});
+
+
+it('should handle REMOVE_KYC_NOT_ADDED', () => {
+    const currentState = {
+        ...initialState,
+        KYCStatusCode: 201
+    };
+    const action = { type: 'REMOVE_KYC_NOT_ADDED' };
+    expect(UserListReducer(currentState, action)).toStrictEqual({
+        ...initialState,
+        KYCStatusCode: 0
+    });
+});
+
+
+
+
 })

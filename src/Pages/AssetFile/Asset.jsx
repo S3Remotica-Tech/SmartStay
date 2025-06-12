@@ -40,9 +40,7 @@ function Asset() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropDown, setShowDropDown] = useState(false)
   const [showFilterData, setShowFilterData] = useState(false)
-  const stateAccount = useSelector(state => state.createAccount)
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  // const [profile, setProfile] = useState(stateAccount.accountList[0]?.user_details.profile)
+   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
@@ -149,10 +147,7 @@ function Asset() {
     setCurrentItem('')
   }
 
-  // const handleClose = () => {
-  //   setShow(false);
-
-  // }
+ 
 
 
   useEffect(() => {
@@ -218,16 +213,6 @@ function Asset() {
 
 
 
-  // const customCheckboxStyle = {
-  //   appearance: 'none',
-  //   width: '20px',
-  //   height: '20px',
-  //   backgroundColor: '#fff',
-  //   border: '2px solid #DCDCDC',
-  //   borderRadius: '4px',
-  //   display: 'inline-block',
-  //   position: 'relative',
-  // };
   const [selectedDateRange, setSelectedDateRange] = useState([]);
   dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -243,13 +228,7 @@ dayjs.extend(isSameOrBefore);
       case '1000+':
         return data.filter(item => item.total_price > 1000);
       case 'date':
-        // if (selectedDateRange?.length === 2) {
-        //   const [start, end] = selectedDateRange;
-        //   return data.filter(item =>
-        //     dayjs(item.purchase_date).isAfter(start.subtract(1, 'day')) &&
-        //     dayjs(item.purchase_date).isBefore(end.add(1, 'day'))
-        //   );
-        // }
+       
         if (selectedDateRange?.length === 2) {
           const [start, end] = selectedDateRange;
           return data.filter(item =>
@@ -265,27 +244,6 @@ dayjs.extend(isSameOrBefore);
     }
   };
  
-  // const filterByPriceRange = (data) => {
-  //   switch (selectedPriceRange) {
-  //     case '0-100':
-  //       return data.filter(item => item.total_price <= 100);
-  //     case '100-500':
-  //       return data.filter(item => item.total_price > 100 && item.total_price <= 500);
-  //     case '500-1000':
-  //       return data.filter(item => item.total_price > 500 && item.total_price <= 1000);
-  //     case '1000+':
-  //       return data.filter(item => item.total_price > 1000);
-  //     case 'All':
-  //       return data
-  //     default:
-  //       return data;
-  //   }
-  // };
-
-  // const handlePriceRangeChange = (event) => {
-  //   setSelectedPriceRange(event.target.value);
-  //   setCurrentPage(1);
-  // };
   
   const handlePriceRangeChange = (event) => {
     const value = event.target.value;
@@ -308,7 +266,6 @@ dayjs.extend(isSameOrBefore);
 
 
 
-  //  pagination 
 
 
 
@@ -319,7 +276,6 @@ dayjs.extend(isSameOrBefore);
   const filteredData = filterByPriceRange(getData);
 
 
-  // const currentItems = filteredData?.slice(indexOfFirstItem, indexOfLastItem)
   const currentItems = searchQuery.length > 0 ? filteredData : filteredData?.slice(indexOfFirstItem, indexOfLastItem);
 
 
@@ -379,9 +335,6 @@ dayjs.extend(isSameOrBefore);
   }
 
 
-
-
-
   const handleShowSearch = () => {
     setShowFilterData(!showFilterData)
   }
@@ -431,16 +384,6 @@ dayjs.extend(isSameOrBefore);
 
 
 
-
-
-  useEffect(() => {
-    if (stateAccount.statusCodeForAccountList === 200) {
-      // const loginProfile = stateAccount.accountList[0].user_details.profile
-
-      // setProfile(loginProfile)
-    }
-
-  }, [stateAccount.statusCodeForAccountList])
 
   const skeletonStyle = {
     backgroundColor: '#dcdcdc',
@@ -498,14 +441,12 @@ dayjs.extend(isSameOrBefore);
                 height: "100vh",
               }}
             >
-              {/* Image */}
               <img
                 src={EmptyState}
                 alt="Empty State"
                 style={{ maxWidth: "100%", height: "auto" }}
               />
 
-              {/* Permission Error */}
               {assetpermissionError && (
                 <div
                   style={{
@@ -574,7 +515,6 @@ dayjs.extend(isSameOrBefore);
                             boxShadow: "none", 
                             borderColor: "lightgray", 
                             borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                            //  '::placeholder': { color: "#222", fontWeight: 500 } 
                           }}
                           placeholder="Search..."
                         />
@@ -587,16 +527,8 @@ dayjs.extend(isSameOrBefore);
 
                           <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
                             <ul className='show-scroll' style={{
-                              // position: 'absolute',
-                              // top: '50px',
-                              // left: 0,
                               width: 260,
                               backgroundColor: '#fff',
-                              // border: '1px solid #D9D9D9',
-                              // borderRadius: '4px',
-                              // maxHeight: 174,
-                              // minHeight: 100,
-                              // overflowY: 'auto',
                               maxHeight: "174px",
                               minHeight: getData?.length > 1 ? "100px" : "auto",
                               overflowY: getData?.length > 2 ? "auto" : "hidden",
@@ -675,16 +607,7 @@ dayjs.extend(isSameOrBefore);
                       </Form.Select>
                     </div>
                   }
-                  {/* {selectedPriceRange === 'date' && (
-  <div style={{ paddingRight: 30, marginTop: 10 }}>
-    <RangePicker
-      value={selectedDateRange}
-      onChange={(dates) => setSelectedDateRange(dates)}
-      format="YYYY-MM-DD"
-      style={{ height: 40 }}
-    />
-  </div>
-)} */}
+ 
 {showFilter && selectedPriceRange === 'date' && (
   <div style={{ paddingRight: 30, marginTop: 10 }}>
     <RangePicker
@@ -692,7 +615,7 @@ dayjs.extend(isSameOrBefore);
       onChange={(dates) => {
         if (!dates || dates.length === 0) {
           setSelectedDateRange([]);
-          setSelectedPriceRange('All'); // <-- Add this line to hide the DatePicker
+          setSelectedPriceRange('All'); 
         } else {
           setSelectedDateRange(dates);
         }
@@ -787,25 +710,17 @@ dayjs.extend(isSameOrBefore);
             {sortedData && sortedData.length > 0 && (
 
 <div
-className="p-0 booking-table-userlist  booking-table"
+className="p-0 booking-table-userlist  booking-table ms-2 me-4"
 style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
 
               <div
                 className='show-scrolls'
                 style={{
-                  // height: "400px",
-                  // height: currentItems.length >= 6 ? "380px" : "auto",
-                  // overflowY: currentItems.length >= 6 ? "auto" : "visible",
-                  // borderRadius: "24px",
-                  // border: "1px solid #DCDCDC",
-                  // borderBottom:"none"
                   height: currentItems.length >= 8 || sortedData.length >= 8 ? "430px" : "auto",
                   overflow: "auto",
-                  borderTop: "1px solid #E8E8E8",
                   marginBottom: 20,
                   marginTop: "20px"
-                  //  borderBottom:"1px solid #DCDCDC"
                 }}>
 
                 <Table
@@ -818,42 +733,42 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     zIndex: 1
                   }}>
                     <tr>
-                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center justify-content-center'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center '> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'desc')} style={{ cursor: "pointer" }} />
                       </div>  Product Name </div>  </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'desc')} style={{ cursor: "pointer" }} />
                       </div>  Serial Number </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'desc')} style={{ cursor: "pointer" }} />
                       </div> Brand </div> </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'desc')} style={{ cursor: "pointer" }} />
                       </div> Asset </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'desc')} style={{ cursor: "pointer" }} />
                       </div>  Price </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
                       </div> Purchase Date </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'desc')} style={{ cursor: "pointer" }} />
                       </div>  Assigned </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}></th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
                     </tr>
                   </thead>
 
@@ -916,24 +831,9 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 
 
 
-
-
-
-
-            {/* </div>  */}
-            {/*  Pagination code */}
+          
             {filteredData.length >= 5 &&
-              // <Pagination className="mt-4 d-flex justify-content-end align-items-center">
-              //   <Pagination.Prev style={{ visibility: "visible" }}
-              //     onClick={() => paginate(currentPage - 1)}
-              //     disabled={currentPage === 1}
-              //   />
-              //   {renderPagination()}
-              //   <Pagination.Next style={{ visibility: "visible" }}
-              //     onClick={() => paginate(currentPage + 1)}
-              //     disabled={currentPage === totalPages}
-              //   />
-              // </Pagination>
+          
 
               <nav
 
@@ -951,7 +851,6 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   zIndex: "1000",
                 }}
               >
-                {/* Dropdown for Items Per Page */}
                 <div>
                   <select
                     value={itemsPerPage}
@@ -975,7 +874,6 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   </select>
                 </div>
 
-                {/* Pagination Controls */}
                 <ul
                   style={{
                     display: "flex",
@@ -985,7 +883,6 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     padding: 0,
                   }}
                 >
-                  {/* Previous Button */}
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1007,12 +904,10 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     </button>
                   </li>
 
-                  {/* Current Page Indicator */}
                   <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                     {currentPage} of {totalPages}
                   </li>
 
-                  {/* Next Button */}
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1042,7 +937,6 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             }
 
 
-            {/* </div> */}
           </div>
       }
 

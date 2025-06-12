@@ -366,10 +366,13 @@ useEffect(() => {
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
-  const currentRowelectricity = roomelectricity?.slice(
-    indexOfFirstRowelectricity,
-    indexOfLastRowelectricity
-  );
+
+  const dataSource = props.filterStatus ? props.RoomElect : roomelectricity;
+
+const currentRowelectricity = dataSource?.slice(
+  indexOfFirstRowelectricity,
+  indexOfLastRowelectricity
+);
  
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
@@ -501,7 +504,7 @@ useEffect(() => {
  {sortedData && sortedData.length > 0 && (
 
 <div
-className="p-0 booking-table-userlist  booking-table"
+className="p-0 booking-table-userlist  booking-table ps-2 ms-0 me-4"
 style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 >
 
@@ -513,7 +516,6 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   height: currentRowelectricity.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
 
                   overflow: "auto",
-                  borderTop: "1px solid #E8E8E8",
                   marginBottom: 20,
                   marginTop: "20px"
                   
@@ -581,13 +583,13 @@ if (v.date && v.date !== '0000-00-00') {
   let day = Dated.getDate().toString().padStart(2, '0');
   let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
   let year = Dated.getFullYear();
-  formattedDate = `${day}/${month}/${year}`;
+  formattedDate = `${day}-${month}-${year}`;
 } else {
   let initialDate = new Date(v.initial_date);
   let day = initialDate.getDate().toString().padStart(2, '0');
   let month = (initialDate.getMonth() + 1).toString().padStart(2, '0');
   let year = initialDate.getFullYear();
-  formattedDate = `${day}/${month}/${year}`;
+  formattedDate = `${day}-${month}-${year}`;
 }
 
 
@@ -599,7 +601,7 @@ return (
 
 
     <td
-                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
                                           style={{
                                             paddingTop: 15,
                                             border: "none",
@@ -726,7 +728,7 @@ return (
         
       }}
     >
-      {v.total_amount}
+      ₹{v.total_amount}
     </td>
     <td  style={{
        fontSize: 13, 

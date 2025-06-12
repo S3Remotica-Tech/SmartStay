@@ -700,10 +700,10 @@ function SettingExpenses({ hostelid }) {
       {expensesFilterddata?.length >= 5 && (
         <nav 
       
-        className="container  bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
+        className="container  bottom-0 end-0 mt-3 me-3 d-flex justify-content-end align-items-center"
         style={{
           position: "fixed",
-          bottom: "16px",
+          bottom: "10px",
           right: "16px",
           left: "16px",
           zIndex: 995,

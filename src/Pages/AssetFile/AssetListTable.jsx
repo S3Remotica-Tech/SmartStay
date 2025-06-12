@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-// import Edit from '../Assets/Images/New_images/edit.png';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import moment from 'moment';
 import { useDispatch} from 'react-redux';
@@ -14,7 +13,6 @@ import PropTypes from "prop-types"
 function AssetListTable(props) {
 
 
-  // const state = useSelector(state => state)
   const dispatch = useDispatch();
 
   const popupRef = useRef(null);
@@ -64,69 +62,7 @@ function AssetListTable(props) {
       });
 
 
-      // toast(
-      //   ({ closeToast }) => (
-      //     <div>
-      //       <p style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-      //         Do you want to delete the asset?
-      //       </p>
-      //       <div className='w-100 d-flex justify-content-center'>
-      //         <button
-      //           style={{
-      //             marginRight: '10px',
-      //             backgroundColor: '#1E45E1',
-      //             color: '#fff',
-      //             border: 'none',
-      //             padding: '5px 10px',
-      //             borderRadius: '5px',
-      //             cursor: 'pointer',
-      //             fontSize: 14,
-      //             fontFamily: "Gilroy",
-      //             fontWeight: 500
-      //           }}
-      //           onClick={() => {
-      //             dispatch({
-      //               type: 'DELETEASSET',
-      //               payload: {
-      //                 asset_id: item.id,
-      //               },
-      //             });
-
-
-
-      //             closeToast(); // Close the confirmation toast after clicking 'Yes'
-      //           }}
-      //         >
-      //           Yes
-      //         </button>
-
-      //         {/* <button
-      //           style={{
-      //             backgroundColor: '#f44336',
-      //             color: '#fff',
-      //             border: 'none',
-      //             padding: '5px 10px',
-      //             borderRadius: '5px',
-      //             cursor: 'pointer',
-      //             fontSize: 14,
-      //             fontFamily: "Gilroy",
-      //             fontWeight: 500
-      //           }}
-      //           onClick={closeToast} 
-      //         >
-      //           No
-      //         </button> */}
-      //       </div>
-      //     </div>
-      //   ),
-      //   {
-      //     position: 'top-center',
-      //     autoClose: false,
-      //     closeOnClick: false,
-      //     hideProgressBar: true,
-      //     draggable: false,
-      //   }
-      // );
+    
     }
   };
 
@@ -173,43 +109,45 @@ function AssetListTable(props) {
   return (
     <>
       <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
-        <td className=''  title={props.item.product_name}  style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", paddingLeft: "20px" }}>{props.item.product_name}</td>
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"  title={props.item.product_name} 
+         style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", }}>{props.item.product_name}</td>
 
-        <td  title={props.item.serial_number} style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{props.item.serial_number}</td>
+        <td  title={props.item.serial_number} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">{props.item.serial_number}</td>
 
-        <td title={props.item.brand_name  || "-"} style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <div
-              style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", 
-                // backgroundColor: "#FFEFCF",
-                 fontWeight: 500, width: "120px", padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}
+        <td title={props.item.brand_name  || "-"} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+         
+            <div className='ps-2'
+              style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",  fontWeight: 500,  padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" , paddingLeft:20 }}
             >{props.item.brand_name ? props.item.brand_name : "-"}</div>
-          </div>
         </td>
 
-        <td title={props.item.asset_name} style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
-          <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <td title={props.item.asset_name} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+          <div style={{ width: "100%" }} className='ps-1'>
             <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
           </div>
         </td>
 
-        <td title={props.item.price} style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}</td>
+        <td title={props.item.price} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div className='ps-1'>
+          ₹{props.item.price ? props.item.price.toLocaleString('en-IN') : '0'}
+          </div>
+          </td>
 
-        <td title={moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}   style={{ textAlign: 'center', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
-          <div style={{ width: "100%", display: "flex", justifyContent: "center", }}>
-            <div style={{
-              //  backgroundColor: "#EBEBEB", 
-              fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
+        <td title={moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}   style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div style={{ width: "100%", }}>
+            <div style={{  fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} className='ps-1'>
               {moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}
             </div >
           </div>
         </td>
 
-        <td title={props.item.hostel_Name || "-"}  style={{ textAlign: 'center', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>{props.item.hostel_Name || "-"}</td>
+        <td title={props.item.hostel_Name || "-"}  style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",paddingLeft:20 }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          {props.item.hostel_Name || "-"}
+          </td>
 
 
         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-          <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <div style={{ width: "100%", display: "flex", justifyContent: "left" }}>
             <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 30, width: 30, 
               borderRadius: 100, border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
                position: "relative" }} onClick={(e) => handleShowDots(props.item.id, e)}  >
@@ -223,7 +161,6 @@ function AssetListTable(props) {
                     position: "fixed",
                     top: popupPosition.top -30,
                     left: popupPosition.left,
-// marginBottom:"40px",
                     width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", 
                     justifyContent: "start", padding: 10, alignItems: "center", zIndex: 1000
                   }}
@@ -354,7 +291,6 @@ function AssetListTable(props) {
               color: "#222222",
               flex: 1,
             }}>Delete asset?</Modal.Title>
-            {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteAsset}/> */}
           </Modal.Header>
 
 
@@ -363,7 +299,6 @@ function AssetListTable(props) {
           <Modal.Body 
            className="text-center"
           style={{
-            //  fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", textAlign: "center", padding: "0px"
             fontSize: 14,
             fontWeight: 500,
             fontFamily: "Gilroy",
@@ -376,9 +311,7 @@ function AssetListTable(props) {
 
 
           <Modal.Footer className='d-flex justify-content-center' 
-          style={{
-            //  border: "none" 
-            
+          style={{            
             borderTop: "none",
             marginTop: "-10px",
           }}>

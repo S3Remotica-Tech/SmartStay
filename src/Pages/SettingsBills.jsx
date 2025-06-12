@@ -608,7 +608,7 @@ function SettingsBills() {
 
                     <Select
                       options={billing_types}
-                      placeholder="Select"
+                      placeholder="Select the frequency of bill"
                       value={billing_types.find(
                         (opt) => opt.value === billing_frequency
                       )}
@@ -672,7 +672,7 @@ function SettingsBills() {
                   </p>
                 </div>
                 <div className="row">
-                  <div className="col-6 position-relative mb-4">
+                  <div className="col-6 position-relative mb-4" style={{ zIndex: isFromOpen ? 20 : 10 }}>
                     <label
                       style={{
                         fontFamily: "Gilroy",
@@ -744,7 +744,7 @@ function SettingsBills() {
                     )}
                   </div>
 
-                  <div className="col-6 position-relative">
+                  <div className="col-6 position-relative mb-4" style={{ zIndex: isFromOpen ? 20 : 10 }}>
                     <label
                       style={{
                         fontFamily: "Gilroy",
@@ -992,7 +992,7 @@ function SettingsBills() {
                   </label>
                   <Select
                     options={filteredOptions}
-                    placeholder="Select a Reminder date"
+                    placeholder="Select a Reminder Dates"
                     onChange={handleSelect}
                     value={null}
                     classNamePrefix="custom"
@@ -1115,6 +1115,7 @@ function SettingsBills() {
                       fontFamily: "Gilroy",
                       fontSize: "14px",
                       color: "rgba(75, 75, 75, 1)",
+                      backgroundColor:'white',
                       fontWeight: 600,
                       borderRadius: "12px",
                       width: 146,
@@ -1156,7 +1157,7 @@ function SettingsBills() {
               width: "100%",
             }}
           >
-            <Card.Body style={{ padding: 20 }}>
+            <Card.Body style={{ padding: 10 }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap mb-3">
                 <div className="d-flex align-items-center gap-3">
                   <img
