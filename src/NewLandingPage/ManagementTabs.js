@@ -29,7 +29,7 @@ const RoomManagement = () => {
   };
 
   return (
-    <div style={{ height: '800px', backgroundColor: 'white', paddingTop: '50px', paddingBottom: '100px' }}>
+    <div style={{ height: 'auto', backgroundColor: 'white', paddingTop: '50px', paddingBottom: '50px' }}>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
           <TabList
