@@ -110,8 +110,8 @@ const TestimonialSlider = () => {
           <SwiperSlide key={index} className="testimonial-slide">
             <div className="testimonial-content d-flex flex-column flex-md-row gap-3" style={{ alignItems: "flex-start" }}>
               <img src={testimonial.image} alt={testimonial.alt} className="testimonial-image" style={{ height: 158, width: 158 }} />
-              <div className="testimonial-text p-3">
-                <p className="mb-1" style={{ fontWeight: 500, fontFamily: "Montserrat", fontSize: 24 }}>{testimonial.text}</p>
+              <div className="testimonial-text p-0">
+                <p className="mb-1 mt-0" style={{ fontWeight: 500, fontFamily: "Montserrat", fontSize: 24 }}>{testimonial.text}</p>
                 <div className="testimonial-rating mb-2 gap-1">
                   {Array(testimonial.rating).fill().map((_, index) => (
                     <FaStar key={index} color="#FFD700" className="me-1" />
