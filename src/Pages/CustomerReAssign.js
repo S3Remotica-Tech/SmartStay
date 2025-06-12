@@ -1038,7 +1038,9 @@ function CustomerReAssign(props) {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          New Rent Amount
+                          New Rent Amount    <span style={{ color: "red", fontSize: "20px" }}>
+                            *
+                          </span>
                           <Form.Check
                             type="checkbox"
                             label={

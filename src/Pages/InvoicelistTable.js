@@ -106,15 +106,20 @@ const InvoiceTable = (props) => {
               fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",paddingTop:"15px",paddingLeft:5,
             }}
             onClick={()=>handleDownload(props.item)}
-            >{props.item.Name}</div>
+            >
+                 <div className="ps-1">{props.item.Name}</div>
+              
+              </div>
 
           </div>
         </td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'>{props.item.Invoices === null || props.item.Invoices === '' ? '0.00' : props.item.Invoices}</td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'>
+                <div className="ps-1">  {props.item.Invoices === null || props.item.Invoices === '' ? '0.00' : props.item.Invoices}</div>
+          </td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", textTransform: "capitalize",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-4'>{props.item.action === 'auto' ? "Recurring" : props.item.action}</td>
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-3'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDueDate}</span></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className='ps-2 ps-sm-2 ps-md-3 ps-lg-2'><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px", marginLeft:5 }}>{formattedDueDate}</span></td>
         <td
           style={{
             border: "none",
@@ -130,8 +135,6 @@ const InvoiceTable = (props) => {
           ₹{Number(props.item?.Amount || 0).toLocaleString('en-IN')}
         </td>
 
-        {/* <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} > ₹{props.item.Amount.toLocaleString('en-IN')}</td> */}
-        {/* <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }} >₹{props.item.BalanceDue.toLocaleString('en-IN')}</td> */}
         <td
           style={{
             border: "none",
@@ -161,7 +164,7 @@ const InvoiceTable = (props) => {
   {props.item.status === "Unpaid" ? (
     <span
       style={{
-        backgroundColor: "#FFD9D9", // Red background for Unpaid
+        backgroundColor: "#FFD9D9", 
         color: "#000",
         borderRadius: "14px",
         fontFamily: "Gilroy",
@@ -174,7 +177,7 @@ const InvoiceTable = (props) => {
     <span
       style={{
         cursor: "pointer",
-        backgroundColor: "#D9FFD9", // Green background for Paid
+        backgroundColor: "#D9FFD9", 
         fontFamily: "Gilroy",
         color: "#000",
         borderRadius: "14px",
@@ -198,8 +201,6 @@ const InvoiceTable = (props) => {
               {showDots && <>
                 <div ref={popupRef} style={{
                   cursor: "pointer", backgroundColor: "#F9F9F9",
-                  // position: "absolute", right: 50, top: 20, 
-
                   position: "fixed",
                   top: popupPosition.top,
                   left: popupPosition.left,
@@ -212,7 +213,6 @@ const InvoiceTable = (props) => {
                     <div
                       className={`mb-3 d-flex justify-content-start align-items-center gap-1 ${props.billEditPermission ? 'disabled' : ''}`}
                       style={{
-                        // backgroundColor: props.billEditPermission ? "#f9f9f9" : "#fff",
                         cursor: props.billEditPermission ? "not-allowed" : "pointer",
                       }}
                       onClick={() => {
@@ -226,7 +226,7 @@ const InvoiceTable = (props) => {
                         style={{
                           height: 16,
                           width: 16,
-                          filter: props.billEditPermission ? "grayscale(100%)" : "none", // Makes the icon appear disabled
+                          filter: props.billEditPermission ? "grayscale(100%)" : "none", 
                         }}
                         alt="Edit"
                       />
@@ -235,7 +235,7 @@ const InvoiceTable = (props) => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
-                          color: props.billEditPermission ? "#ccc" : "#222222", // Disabled color
+                          color: props.billEditPermission ? "#ccc" : "#222222", 
                           cursor: props.billEditPermission ? "not-allowed" : "pointer",
                         }}
                       >
@@ -263,7 +263,6 @@ const InvoiceTable = (props) => {
                           }
                         }}
                         style={{
-                          // backgroundColor: props.billAddPermission ? "#f9f9f9" : "#fff",
                           cursor: props.billAddPermission ? "not-allowed" : "pointer",marginTop:"-5px"
                         }}
                       >
@@ -272,7 +271,7 @@ const InvoiceTable = (props) => {
                           style={{
                             height: 16,
                             width: 16,
-                            filter: props.billAddPermission ? "grayscale(100%)" : "none", // Makes the icon appear disabled
+                            filter: props.billAddPermission ? "grayscale(100%)" : "none", 
                           }}
                           alt="Assign"
                         />
@@ -281,7 +280,7 @@ const InvoiceTable = (props) => {
                             fontSize: 14,
                             fontWeight: 500,
                             fontFamily: "Gilroy, sans-serif",
-                            color: props.billAddPermission ? "#ccc" : "#222222", // Disabled color
+                            color: props.billAddPermission ? "#ccc" : "#222222", 
                             cursor: props.billAddPermission ? "not-allowed" : "pointer",
                           }}
                         >
@@ -294,7 +293,6 @@ const InvoiceTable = (props) => {
                     <div
                       className={`mb-2 d-flex justify-content-start align-items-center gap-1 ${props.billDeletePermission ? 'disabled' : ''}`}
                       style={{
-                        // backgroundColor: props.billDeletePermission ? "#f9f9f9" : "#fff",
                         cursor: props.billDeletePermission ? "not-allowed" : "pointer",marginTop:"-5px"
                       }}
                       onClick={() => {

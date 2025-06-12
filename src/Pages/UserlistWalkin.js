@@ -563,6 +563,7 @@ function UserlistWalkin(props) {
                               fontSize: 12,
                               fontStyle: "normal",
                               fontWeight: 500,
+                              paddingBottom:10
                             }}
                           >
                             Action

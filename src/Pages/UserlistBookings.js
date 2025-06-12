@@ -1032,7 +1032,7 @@ function Booking(props) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                                                     }}
+                            paddingBottom:12}}
                         >
                           Action
                         </th>

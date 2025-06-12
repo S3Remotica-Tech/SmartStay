@@ -2774,9 +2774,10 @@ function UserList(props) {
                                   style={{
                                     textAlign: "start",
                                     fontFamily: "Gilroy",
-                                    color: "rgba(34, 34, 34, 1)",
+                                    color: "#939393",
                                     fontSize: 12,
                                     fontWeight: 500,
+                                    paddingBottom:12
                                   }}
                                 >
                                   Action
