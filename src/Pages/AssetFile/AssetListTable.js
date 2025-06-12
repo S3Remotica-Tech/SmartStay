@@ -110,19 +110,50 @@ function AssetListTable(props) {
     <>
       <tr style={{ fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} key={props.item.id}>
         <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"  title={props.item.product_name} 
-         style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", }}>{props.item.product_name}</td>
+         style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", lineHeight: 1, textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", }}>
+          <div className='ps-2'> {props.item.product_name}</div></td>
 
-        <td  title={props.item.serial_number} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">{props.item.serial_number}</td>
+        <td  title={props.item.serial_number} style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+         <div className='ps-1'>  {props.item.serial_number}</div>
+          </td>
 
-        <td title={props.item.brand_name  || "-"} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
-         
-            <div className='ps-2'
-              style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",  fontWeight: 500,  padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" , paddingLeft:20 }}
-            >{props.item.brand_name ? props.item.brand_name : "-"}</div>
-        </td>
+            <td
+            title={props.item.brand_name  || "-"} 
+            className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                            style={{
+                              paddingTop: 15,
+                              paddingLeft:20,
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              marginTop: 10,
+                              whiteSpace: "nowrap",
+                              
+                            }}
+                          >
+                            <span
+                              style={{  marginLeft:5, paddingTop: "3px",
+                                paddingLeft: "10px",
+                                paddingRight: "10px",
+                                paddingBottom: "3px",
+                                borderRadius: "60px",
+                                textAlign: "center",
+                                fontSize: "11px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                 backgroundColor: "#EBEBEB",
+                              }}
+                            >
+                             {props.item.brand_name ? props.item.brand_name : "-"}
+                            </span>
+                          </td>
+
+       
 
         <td title={props.item.asset_name} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
-          <div style={{ width: "100%" }} className='ps-1'>
+          <div style={{ width: "100%" }} className='ps-2'>
             <div style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, fontFamily: "Gilroy" }}>{props.item.asset_name ? props.item.asset_name : "-"}</div>
           </div>
         </td>
@@ -133,16 +164,45 @@ function AssetListTable(props) {
           </div>
           </td>
 
-        <td title={moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}   style={{ textAlign: 'start', verticalAlign: 'middle', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
-          <div style={{ width: "100%", }}>
-            <div style={{  fontWeight: 500, padding: 6, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} className='ps-1'>
-              {moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}
-            </div >
-          </div>
-        </td>
+            <td
+         title={moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()} 
+            className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                            style={{
+                              paddingTop: 15,
+                              paddingLeft:20,
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              marginTop: 10,
+                              whiteSpace: "nowrap",
+                              
+                            }}
+                          >
+                            <span
+                              style={{  marginLeft:5, paddingTop: "3px",
+                                paddingLeft: "10px",
+                                paddingRight: "10px",
+                                paddingBottom: "3px",
+                                borderRadius: "60px",
+                                textAlign: "center",
+                                fontSize: "11px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                 backgroundColor: "#EBEBEB",
+                              }}
+                            >
+                       {moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}
+                            </span>
+                          </td>
+
+      
 
         <td title={props.item.hostel_Name || "-"}  style={{ textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",paddingLeft:20 }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div className='ps-2'>
           {props.item.hostel_Name || "-"}
+          </div>
           </td>
 
 

@@ -591,7 +591,7 @@ setConformEdit(true)
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            
+                             paddingBottom:12
                           }}
                         >
                           Action

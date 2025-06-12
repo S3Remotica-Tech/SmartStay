@@ -768,7 +768,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'desc')} style={{ cursor: "pointer" }} />
                       </div>  Assigned </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, paddingBottom:10 }}>Action</th>
                     </tr>
                   </thead>
 

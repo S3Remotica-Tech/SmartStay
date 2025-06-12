@@ -199,7 +199,6 @@ const Compliance = () => {
 
   }, [hosId])
   useEffect(() => {
-    // Run whenever there's an update in statusCodeForAddCompliance or filterInput
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } });
 
@@ -228,7 +227,6 @@ const Compliance = () => {
   const options = {
     dateFormat: 'd/m/Y',
     defaultDate: null,
-    // defaultDate: selectedDate,
     maxDate: new Date(),
     minDate: null,
   };
@@ -244,22 +242,13 @@ const Compliance = () => {
 
 
 
-  // useEffect(() => {
-  //   if (state?.ComplianceList?.Compliance && filteredUsers.length === 0) {
-  //     setFilteredUsers(state.ComplianceList.Compliance);
-  //   }
-  // }, [state?.ComplianceList?.Compliance, filteredUsers]);
 
 
-
-
-  // const itemsPerPage = 7;
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
   const currentItems =
     filterInput.length > 0
       ? filteredUsers
@@ -273,7 +262,6 @@ const Compliance = () => {
     setItemsPerPage(Number(event.target.value));
   };
 
-  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -297,7 +285,6 @@ const Compliance = () => {
 
   const handleSearch = () => {
     setSearch(!search);
-    // setFilterStatus(false);
   };
 
   const handleFilterd = () => {
@@ -314,40 +301,27 @@ const Compliance = () => {
   const handleUserSelect = (user) => {
     setFilterInput(user.Name);
 
-    // Set filteredUsers to only the selected user's data
     const selectedUserData = state.ComplianceList.Compliance.filter(
       (item) => item.Name === user.Name
     );
     setFilteredUsers(selectedUserData);
 
-    setDropdownVisible(false);  // Close the dropdown after selection
+    setDropdownVisible(false);  
   };
 
 
  
 
-  // const handleStatusFilter = (event) => {
-  //   const searchTerm = event.target.value;
-  //   setStatusfilter(searchTerm)
-  //   if (searchTerm === "All") {
-  //     setFilteredUsers(state.ComplianceList.Compliance)
-  //   }
-  //   else {
-  //     const filteredItems = state.ComplianceList.Compliance.filter((user) =>
-  //       user.Status.toLowerCase().includes(searchTerm.toLowerCase()));
-  //     setFilteredUsers(filteredItems);
-
-  //   }
-  // }
+ 
   const handleStatusFilter = (event) => {
     const value = event.target.value;
     setStatusfilter(value);
   
     if (value === "All") {
       setFilteredUsers(state.ComplianceList?.Compliance || []);
-    } else if (value === "date") {
-      // Do nothing yet, wait for date selection
-    } else {
+    }
+    
+    else {
       const filtered = (state.ComplianceList?.Compliance || []).filter(item =>
         item.Status?.toLowerCase().includes(value.toLowerCase())
       );
@@ -360,8 +334,8 @@ const Compliance = () => {
   const handleDateChange = (dates) => {
     if (!dates || dates.length === 0) {
       setSelectedDateRange([]);
-      setStatusfilter("All"); // Hide the picker and reset to All
-      setFilteredUsers(state.ComplianceList?.Compliance); // Reset list
+      setStatusfilter("All"); 
+      setFilteredUsers(state.ComplianceList?.Compliance); 
     } else {
       setSelectedDateRange(dates);
       const filtered = state.ComplianceList?.Compliance.filter((item) =>
@@ -375,10 +349,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
-      // const uniqueOptions = Array.from(new Set(state.UsersList?.Users.map((item) => item.User_Id)));
-
-
-      // // setUsersId(uniqueOptions);
+    
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_USER' })
       }, 1000)
@@ -402,7 +373,6 @@ const Compliance = () => {
       )
       if (filteredDetails.length > 0) {
 
-        // setFilteredUserDetails(filteredDetails);
         const firstFilteredDetail = filteredDetails[0];
         setHostel_Id(firstFilteredDetail.Hostel_Id || '');
         setHostelName(firstFilteredDetail.HostelName || '');
@@ -414,7 +384,6 @@ const Compliance = () => {
         setFloorname(firstFilteredDetail.floor_name || '')
 
       } else {
-        // setFilteredUserDetails([]);
         setHostelName('');
         setBeds('')
         setFloor('');
@@ -422,7 +391,6 @@ const Compliance = () => {
         setFloorname('');
       }
     } else {
-      // setFilteredUserDetails([]);
       setHostelName('');
       setBeds('')
       setFloor('');
@@ -456,7 +424,6 @@ const Compliance = () => {
     setShow(true);
   }
   const handleClose = () => {
-    // setEdit(!edit)
     setShow(false);
     setSelectedUserName('');
     setComplainttype('');
@@ -510,36 +477,23 @@ const Compliance = () => {
 
 
 
-    //   if(!selectedUsername || !Complainttype || !selectedDate  ||  !Status){
-    //     setTotalErrmsg('Please Enter All field')
-    //     setTimeout(()=> {
-    //       setTotalErrmsg('')
-    //     },2000)
-    //     return;
-    // }
+    
 
     if (!selectedUsername) {
       setUserErrmsg('Please Select  Customer')
-      // return;
     }
 
     if (!Complainttype) {
       setComplaintTypeErrmsg('Please Select  Complaint Type')
-      // return;
     }
-
-
 
     if (!selectedDate) {
       setDateErrmsg('Please Select date')
-      // return;
     }
-
 
     setEdit(false)
 
     if (Complainttype && selectedDate && hostelname && beds && Rooms) {
-      // const formattedDate = moment(selectedDate).format('YYYY-MM-DD');
       const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
       if (id && hasChanges) {
         dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id} })
@@ -587,16 +541,13 @@ const Compliance = () => {
 
 
   const [editcomplainttype, setEditcomplainttype] = useState('')
-  // const [room_name, setRoomName] = useState('')
 
 
   const handleEditcomplaint = (Complaintdata) => {
 
     setEdit(true)
     if (Complaintdata) {
-      // setEditData(Complaintdata)
       setShow(true);
-      // setCheck('EDIT')
       setId(Complaintdata.ID)
       setSelectedUserName(Complaintdata.Name);
       setComplainttype(Complaintdata.Complainttype);
@@ -643,11 +594,7 @@ const Compliance = () => {
 
   const [complainttypelist, setComplainttypelist] = useState([])
 
-  // useEffect(() => {
-
-  //     dispatch({ type: 'GETUSERSTAFF', payload: { hostel_id: hosId}})
-
-  // }, [hosId])
+ 
   useEffect(() => {
     if (hosId) {
       dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
@@ -715,14 +662,12 @@ const Compliance = () => {
                 height: "100vh",
               }}
             >
-              {/* Image */}
               <img
                 src={Emptystate}
                 alt="Empty State"
                 style={{ maxWidth: "100%", height: "auto" }}
               />
 
-              {/* Permission Error */}
               {compliancepermissionError && (
                 <div
                   style={{
@@ -773,41 +718,19 @@ const Compliance = () => {
         </div>
 }
 
-                {/* <div className='d-flex justify-content-end align-items-center mb-4'>
-
-          <div>
-            <InputGroup>
-              <InputGroup.Text style={{ backgroundColor: "#ffffff", borderRight: "none" }}>
-                <CiSearch style={{ fontSize: 20 }} />
-              </InputGroup.Text>
-              <FormControl size="lg" style={{ boxShadow: "none", borderColor: "lightgray", borderLeft: "none", fontSize: 15, fontWeight: 600, '::placeholder': { color: "gray", fontWeight: 600 } }}
-                placeholder="Search..."
-              />
-            </InputGroup>
-          </div>
-          <div className="mr-3">
-            <img src={Notify} alt="notification" />
-          </div>
-
-          <div className="mr-3">
-            <Image src={Profile} roundedCircle style={{ height: "60px", width: "60px" }} />
-          </div>
-        </div> */}
+          
 
 <div
   className="container-fluid sticky-top bg-white py-2"
   style={{ zIndex: 1000, height: 'auto' }}
 >
   <div className="d-flex justify-content-between align-items-center flex-wrap" style={{paddingTop:11}}>
-    {/* Left Title */}
     <div className=" ms-2" >
       <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,marginTop:5,marginLeft:3 }}>Complaints</label>
     </div>
 
-    {/* Right Actions */}
     <div className="d-flex flex-wrap align-items-center gap-2">
 
-      {/* Search Input */}
       {search ? (
         <div className="position-relative" style={{ minWidth: 160 }}>
           <div className="input-group">
@@ -837,7 +760,6 @@ const Compliance = () => {
             </span>
           </div>
 
-          {/* Dropdown */}
           {isDropdownVisible && filteredUsers?.length > 0 && (
                             <div
                               style={{
@@ -898,7 +820,6 @@ const Compliance = () => {
                                           e.target.src = Profile;
                                         }}
                                       />
-                                      {/* <span>{user.Name}</span> */}
                                       <span>{user.Name}</span>
                                     </li>
                                   );
@@ -917,8 +838,7 @@ const Compliance = () => {
         </div>
       )}
 
-      {/* Filter Icon */}
-      <div className='me-2' style={{ cursor: "pointer" }}>
+=      <div className='me-2' style={{ cursor: "pointer" }}>
         <Image
           src={Filters}
           style={{ height: "50px", width: "50px" }}
@@ -926,7 +846,6 @@ const Compliance = () => {
         />
       </div>
 
-      {/* Filter Dropdown */}
       {
                           filterStatus &&
 
@@ -961,7 +880,6 @@ const Compliance = () => {
       </div>
     )}
 
-      {/* Excel Button */}
       <div className='me-2' style={{ cursor: "pointer" }}>
         <img
           src={excelimg}
@@ -972,7 +890,6 @@ const Compliance = () => {
         />
       </div>
 
-      {/* Complaint Button */}
       <div className='me-2' style={{paddingRight:4}}>
       <Button
                         disabled={complianceAddPermission}
@@ -1027,25 +944,15 @@ const Compliance = () => {
 
                 </div>
                 {filteredUsers?.length >= 5 && (
-                  // <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
-                  //  style={{ 
-                  //    display: "flex",
-                  //  alignItems: "center",
-                  //   justifyContent: "end", // Align dropdown and pagination
-                  //    padding: "10px",
-
-                  //  }}>
+              
                   <nav className="pagination-container mb-0"
                   style={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "end",
                     padding: "10px",
-                    // backgroundColor: "#fff",
                     borderRadius: "5px",
-                    // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                    // marginTop: "20px",
-                    position: "fixed", // or just remove this line
+                    position: "fixed",
                     zIndex: 1000,
                     width:'83%',
                     bottom:0,
@@ -1054,7 +961,6 @@ const Compliance = () => {
                   }}
                 >
                   
-                    {/* Dropdown for Items Per Page */}
                     <div>
                       <select
                         value={itemsPerPage}
@@ -1078,7 +984,6 @@ const Compliance = () => {
                       </select>
                     </div>
 
-                    {/* Pagination Controls */}
                     <ul
                       style={{
                         display: "flex",
@@ -1090,7 +995,6 @@ const Compliance = () => {
                         padding: 0,
                       }}
                     >
-                      {/* Previous Button */}
                       <li style={{ margin: "0 10px" }}>
                         <button
                           style={{
@@ -1112,12 +1016,10 @@ const Compliance = () => {
                         </button>
                       </li>
 
-                      {/* Current Page Indicator */}
                       <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                         {currentPage} of {totalPages}
                       </li>
 
-                      {/* Next Button */}
                       <li style={{ margin: "0 10px" }}>
                         <button
                           style={{
@@ -1164,19 +1066,17 @@ const Compliance = () => {
                       <Modal.Body>
                         <div>
 
-                          <Modal.Header style={{ marginBottom: "30px", position: "relative",marginTop:"-15px" }}>
+                          <Modal.Header style={{ marginBottom: "10px", position: "relative",marginTop:"-15px" }}>
                             <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
                            
                               <CloseCircle size="24" color="#000" onClick={handleClose} 
                                         style={{ cursor: 'pointer'}}/>
 
-                            {/* <Modal.Title style={{ fontSize: 20, color: "#222", fontFamily: "Gilroy", fontWeight: 600, fontStyle: 'normal', lineHeight: 'normal' }}>{edit ? "Edit Compliant" : ""}</Modal.Title> */}
                           </Modal.Header>
                         </div>
 
-                        <div className='row mt-1'>
+                        <div className='row '>
 
-                          {/* Customer */}
                           <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                               <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
@@ -1298,55 +1198,7 @@ const Compliance = () => {
                               Complaint Type <span style={{ color: "red", fontSize: "16px" }}>*</span>
                             </label>
 
-                            {/* <Dropdown>
-                              <Dropdown.Toggle
-                                style={{
-                                  fontSize: 16,
-                                  color: "#4B4B4B",
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  boxShadow: "none",
-                                  border: "1px solid #D9D9D9",
-                                  height: 50,
-                                  borderRadius: 8,
-                                  width: "100%",
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  padding: "0 15px",
-                                  backgroundColor: edit ? "#E7F1FF" : "#fff",
-                                }}
-                              >
-                                <span>
-                                  {edit && editcomplainttype
-                                    ? editcomplainttype
-                                    : Complainttype
-                                      ? complainttypelist.find((c) => c.id === Complainttype)?.complaint_name
-                                      : "Select a type"}
-                                </span>
-                                
-                              </Dropdown.Toggle>
-
-                              {!edit && (
-                                <Dropdown.Menu
-                                  style={{
-                                    maxHeight: "200px",
-                                    overflowY: "auto",
-                                    width: "100%",
-                                  }}
-                                >
-                                  {Array.isArray(complainttypelist) && complainttypelist.length > 0 ? (
-                                    complainttypelist.map((u, index) => (
-                                      <Dropdown.Item key={index} onClick={() => handleComplaintType({ target: { value: u.id } })}>
-                                        {u.complaint_name}
-                                      </Dropdown.Item>
-                                    ))
-                                  ) : (
-                                    <Dropdown.Item disabled>No complaint types available</Dropdown.Item>
-                                  )}
-                                </Dropdown.Menu>
-                              )}
-                            </Dropdown> */}
+                        
                         
   <Select
     options={
@@ -1439,31 +1291,11 @@ const Compliance = () => {
                             <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>*
                               Please add a &apos;ComplaintType&apos; option in Settings, accessible after  adding an Complaints.</label></>}
 
-                          {/* 
-                  <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label
-                        //  style={labelStyle}
-                        style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                      >
-                        Paying Guests<span style={{ color: 'red', fontSize: '20px' }}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Paying Guests"
-                        value={hostelname}
-                        readOnly
-                        style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                      // style={inputStyle}
-                      />
-                    </Form.Group>
-                  </div> */}
+                    
 
-                          {/* //floor  */}
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 '>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                               <Form.Label
-                                //  style={labelStyle}
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
                               >
                                 Floor<span style={{ color: 'red', fontSize: '20px' }}>*</span>
@@ -1474,11 +1306,9 @@ const Compliance = () => {
                                 value={floorname}
                                 readOnly
                                 style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                              // style={inputStyle}
                               />
                             </Form.Group>
                           </div>
-                          {/* Room  */}
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 '>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                               <Form.Label
@@ -1492,19 +1322,16 @@ const Compliance = () => {
                                 value={room_name}
                                 readOnly
                                 style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                              // style={inputStyle}
                               />
                             </Form.Group>
                           </div>
 
 
-                          {/* bed */}
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
-                              // style={labelStyle}
                               >
                                 Bed<span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
@@ -1514,7 +1341,6 @@ const Compliance = () => {
                                 value={beds}
                                 readOnly
                                 style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
-                              // style={inputStyle}
                               />
                             </Form.Group>
                           </div>
@@ -1558,7 +1384,7 @@ const Compliance = () => {
 
 
                           <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                               <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Description</Form.Label>
                               <Form.Control
                                 value={description} onChange={(e) => { setDescription(e.target.value) }}
@@ -1577,21 +1403,7 @@ const Compliance = () => {
 
 
 
-                          {/* <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                                <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-                                    <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy,sans-serif", fontWeight: 600 }}>Date</Form.Label>
-                                    <Form.Control className="custom-date-input"
-                                        value={date}
-                                        onChange={handleDatePicker}
-                                        type="date" placeholder="DD-MM-YYYY" style={{ fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-                                </Form.Group>
-                            </div> */}
-                          {/* <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "'Gilroy', sans-serif", fontWeight: 500 }}>Complaint date</Form.Label>
-                      <Form.Control
-                        //  value={address} onChange={(e) => handleAddressChange(e)}
-                        type="text" placeholder="Enter Address" style={{ fontSize: 14, color: "#4B4B4B", fontFamily: "Gilroy,sans-serif", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }} />
-                    </Form.Group> */}
+                          
 
 
 
@@ -1610,7 +1422,6 @@ const Compliance = () => {
                       <Modal.Footer style={{ border: "none" }}>
 
                         <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
-                          // disabled={edit && !hasChanges} 
                           onClick={handleAddcomplaint}
                         >
                           {edit ? "Save complaint" : "Add complaint"}
@@ -1653,13 +1464,7 @@ const Compliance = () => {
                                 <option value="">Select Assignee</option>
                                 <option>John</option>
                                 <option>Ruban</option>
-                                {/* {
-                          state.UsersList?.Users.map((u, index) => (
-                            <option key={index} value={u.id}>{u.Name}</option>
-                          )
-
-                          )
-                        } */}
+                         
 
 
                               </Form.Select>
@@ -1683,376 +1488,12 @@ const Compliance = () => {
                 </div>
               }
 
-
-
-
-
             </div>
           </>
       }
 
 
-
-
-
-
     </>
-
-
-    //     <div class=' ps-3 pe-3' style={{ marginTop: "20px" }} >
-    //       <div class="row g-0" style={{ width: "100%" }}>
-    //         <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12" >
-    //           <div class="pt-1 ps-0" >
-    //             <h6 style={{ fontSize: "16px" }}>Compliance</h6>
-    //           </div>
-    //         </div>
-    //         <div class="col-lg-6  offset-lg-4 col-md-6 col-sm-12 col-xs-12">
-    //           <div class="p-1 d-flex justify-content-end align-items-center"  >
-    //             {
-    //               searchicon &&
-    //               <>
-    //                 <input
-    //                   type="text"
-    //                   value={searchItem}
-    //                   onChange={(e) => handleInputChange(e)}
-    //                   placeholder='Type to search'
-    //                   class="form-control ps-4 pe-1   searchinput"
-    //                   style={{ marginRight: '20px', backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }}
-
-    //                 />
-    //               </>
-    //             }
-    //             <BsSearch class=" me-4" onClick={handleiconshow} />
-    //             {
-    //               filtericon &&
-    //               <>
-    //                 <select value={statusfilter} onChange={(e) => handleStatusFilter(e)} class="form-control ps-4   searchinput" style={{ marginRight: '20px', fontSize: "12px", fontWeight: "700", width: "100px", borderRadius: "10px", padding: "2px", border: "1px Solid #2E75EA", height: "30px" }}
-    //                 >
-    //                   <option selected value="ALL"> ALL</option>
-    //                   <option value="Success">Success</option>
-    //                   <option value="Hold">Hold</option>
-    //                   <option value="Pending">Pending</option>
-    //                 </select>
-    //               </>
-    //             }
-    //             <IoFilterOutline class=" me-4" onClick={handleFiltershow} />
-    //             <button type="button" class="" onClick={handleShow} style={{ backgroundColor: "white", fontSize: "12px", fontWeight: "700", width: "150px", borderRadius: "15px", padding: "2px", border: "1px Solid #2E75EA", height: "30px", color: "#2E75EA" }} ><img src={Plus} height="12" width="12" /> Add Compliance</button>
-    //           </div>
-    //         </div>
-    //         <div>
-
-    //         </div>
-    //         <Offcanvas placement="end" show={showMenu} onHide={handleClose} style={{ width: '69vh' }}>
-    //           <Offcanvas.Title className="d-flex align-items-center" style={{ background: '#2F74EB', color: 'white', padding: '5px 20px', height: '40px', fontSize: 15 }}>
-    //             {editbtn ? "Edit Compliance" : "Add Compliance"}
-    //           </Offcanvas.Title>
-    //           <Offcanvas.Body>
-    //             <div class="d-flex flex-row bd-highlight mb-3 item" style={{ marginTop: '-20px' }}>
-    //               <div class="p-1 bd-highlight user-menu">
-    //                 <ul className={isUserClicked ? 'active' : ''} onClick={handleMenuClick}>
-    //                   Compliance Details
-    //                 </ul>
-    //               </div>
-
-    //             </div>
-
-    //             {showForm && (
-    //               <Form>
-    //                 <p style={{ textAlign: 'center', marginTop: '-20px', marginBottom: 2 }}>Upload Profile</p>
-    //                 <div className="d-flex justify-content-center mt-0" style={{ position: 'relative' }}>
-    //                   {file ? <>
-    //                     <img src={URL.createObjectURL(file)} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
-    //                   </> :
-    //                     <img src={Profile} alt='user1' style={{ width: '80px', marginBottom: '-15px' }} />
-    //                   }
-    //                   <label htmlFor="imageInput" className=''>
-    //                     <img src={Plus} style={{ color: 'blue', position: 'absolute', bottom: '-5px', left: '48%', height: 20, width: 20 }} />
-    //                   </label>
-
-    //                   <input
-    //                     type="file"
-    //                     accept="image/*"
-    //                     multiple
-    //                     className="sr-only"
-    //                     id="imageInput"
-    //                     onChange={handleImageChange}
-    //                     style={{ display: "none" }} />
-    //                 </div>
-    //                 <Box
-    //                   component="form"
-    //                   sx={{
-    //                     '& > :not(style)': { m: 0.6, width: '22ch' },
-    //                   }}
-    //                 >
-
-
-    //                   <div className='row d-flex justify-content-between w-100 g-1 row-gap-1' style={{ backgroundColor: "" }}>
-
-    //                       <div className='col-12 mb-3'>
-
-    //                         <Form.Label style={{ fontSize: "14px", marginBottom: 5, fontWeight: 600 }}>Select User ID</Form.Label>
-    //                         <Autocomplete
-    //                           value={selectedUserId}
-    //                           onChange={handleCheckoutChange}
-    //                           label='Amenities'
-    //                           id="free-solo-dialog-demo"
-    //                           options={usersId}
-    //                           selectOnFocus
-    //                           clearOnBlur
-    //                           disabled={editbtn}
-    //                           handleHomeEndKeys
-    //                           renderOption={(props, option) => (
-    //                             <li {...props}>
-    //                               {option}
-    //                             </li>
-    //                           )}
-
-    //                           style={{ fontSize: 13, fontWeight: 600, backgroundColor: "#f8f9fa", width: '97%', marginLeft: '1%' }}
-    //                           sx={{ width: 300 }}
-
-    //                           renderInput={(params) => <TextField {...params} label="" InputProps={{ ...params.InputProps, placeholder: 'Enter or Select UserId' }} />}
-    //                         />
-    //                       </div>
-    //                     {/* } */}
-
-    //                     <div className='col-6'>
-    //                       <TextField id="standard-basic" label="Name" value={Name} InputProps={{ readOnly: true }} onChange={(e) => { setName(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
-
-    //                     </div>
-    //                     <div className='col-6'>
-    //                       <TextField id="standard-basic" label="Phone Number" value={Phone} InputProps={{ readOnly: true }} onChange={(e) => { handlePhone(e) }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
-
-    //                     </div>
-
-
-
-
-
-    //                     <div className='col-6'>
-
-
-    //                       <TextField id="standard-basic" label="Hostel Name" value={hostelname} InputProps={{ readOnly: true }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
-
-
-    //                     </div>
-    //                     <div className='col-6'>
-
-    //                       <TextField id="standard-basic" label="Floor" value={Floor} InputProps={{ readOnly: true }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
-
-    //                     </div>
-    //                     <div className='col-6'>
-
-    //                       <TextField id="standard-basic" label="Room" value={Rooms} InputProps={{ readOnly: true }} variant="standard" style={{ m: 1, width: '20ch' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
-
-    //                     </div>
-    //                     <div className='col-6'>
-    //                       <TextField id="standard-basic" type='date'
-    //                         value={date}
-    //                         disabled={editbtn}
-    //                         onChange={(e) => { handleDatePicker(e) }}
-    //                         variant="standard" style={{ width: '20ch', marginTop: "18px" }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold" } }}
-    //                       />
-    //                     </div>
-    //                     <div className='col-6'>
-    //                       <FormControl variant="standard" sx={{ m: 1, width: "20ch" }}>
-    //                         <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Complaint Type</InputLabel>
-    //                         <Select
-    //                           labelId="demo-simple-select-standard-label"
-    //                           id="demo-simple-select-standard"
-    //                           label="Select Room No"
-    //                           value={Complainttype}
-    //                           onChange={(e) => { setComplainttype(e.target.value) }}
-    //                           style={{ fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" }}
-    //                         >
-    //                           <MenuItem value="none">
-    //                             <em>None</em>
-    //                           </MenuItem>
-
-    //                           <MenuItem value="Invoice">
-    //                             Invoice
-
-    //                           </MenuItem>
-    //                           <MenuItem value="Others">
-    //                             Others
-
-    //                           </MenuItem>
-
-    //                         </Select>
-    //                       </FormControl>
-    //                     </div>
-    //                     <div className='col-6'>
-    //                       <TextField
-    //                         id="standard-multiline-flexible"
-    //                         label="Description"
-    //                         multiline
-    //                         maxRows={4}
-    //                         variant="standard"
-    //                         sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }}
-    //                         style={{ m: 1, width: "20ch", marginTop: '4px' }}
-    //                         value={description} onChange={(e) => { setDescription(e.target.value) }}
-    //                       />
-    //                     </div>
-    //                     <div className='col-6'>
-    //                       <TextField id="standard-basic" label="Assign" value={Assign} onChange={(e) => { setAssign(e.target.value) }} variant="standard" style={{ m: 1, width: '20ch', marginTop: '4px' }} sx={{ '& > :not(style)': { fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" } }} />
-
-    //                     </div>
-
-    //                     <div className='col-6'>
-    //                       <FormControl variant="standard" sx={{ width: "20ch" }}>
-    //                         <InputLabel id="demo-simple-select-standard-label" style={{ fontSize: '0.8rem', fontWeight: "bold" }}>Status</InputLabel>
-    //                         <Select
-    //                           labelId="demo-simple-select-standard-label"
-    //                           id="demo-simple-select-standard"
-    //                           label="Status"
-    //                           value={Status}
-    //                           onChange={(e) => { setStatus(e.target.value) }}
-    //                           style={{ fontSize: "0.8rem", fontWeight: "bold", color: "#000000DE" }}
-    //                         >
-    //                           <MenuItem value="none">
-
-    //                           </MenuItem>
-    //                           <MenuItem value="Pending">Pending</MenuItem>
-    //                           <MenuItem value="Success">Success</MenuItem>
-
-    //                         </Select>
-    //                       </FormControl>
-    //                     </div>
-
-    //                   </div>
-    //                 </Box>
-
-    //                 <div class="d-flex justify-content-end" style={{ marginTop: '20px' }}>
-    //                   <Button variant="outline-secondary" size="sm" onClick={handleFormclose} style={{ borderRadius: '20vh', width: '100px', marginRight: '15px' }}>
-    //                     Cancel
-    //                   </Button>
-    //                   <Button variant="outline-primary" size="sm" style={{ borderRadius: '20vh', width: '100px' }} onClick={handleSubmit}>
-    //                     {editbtn ? "Update" : "Save"}
-    //                   </Button>
-    //                 </div>
-
-
-
-    //               </Form>
-    //             )}
-    //           </Offcanvas.Body>
-    //         </Offcanvas>
-    //       </div>
-    //       <Table responsive>
-    //         <thead style={{ backgroundColor: "#F6F7FB", color: "#91969E", fontSize: "10px" }}>
-    //           <tr >
-    //             <th style={{ color: "#91969E" }}>Date</th>
-    //             <th style={{ color: "#91969E" }}>Request ID</th>
-    //             <th style={{ color: "#91969E" }}>Name & Phone</th>
-    //             <th style={{ color: "#91969E" }}>Hostel Name</th>
-    //             <th style={{ color: "#91969E" }}>Floor No</th>
-    //             <th style={{ color: "#91969E" }}>Room No </th>
-    //             <th style={{ color: "#91969E" }}>Compliant Type</th>
-    //             <th style={{ color: "#91969E" }}>Description</th>
-    //             <th style={{ color: "#91969E" }}>Assign</th>
-    //             <th style={{ color: "#91969E" }}>Status</th>
-    //             <th style={{ color: "#91969E" }}>Action</th>
-    //           </tr>
-    //         </thead>
-    //         <tbody style={{ fontSize: "10px" }}>
-    //         {loading ? (
-
-    //           Array.from({ length: state?.ComplianceList?.Compliance.length || 5 }).map((_, index) => (
-    //             <tr key={index}>
-    //               <td><Skeleton width={80} /></td>
-    //               <td><Skeleton width={120} /></td>
-    //               <td>
-    //                 <div className="d-flex">
-    //                   <span className="i-circle">
-    //                     <Skeleton circle width={24} height={24} />
-    //                   </span>
-    //                   <div className="ms-2">
-    //                     <Skeleton width={80} /><br />
-    //                     <Skeleton width={100} />
-    //                   </div>
-    //                 </div>
-    //               </td>
-    //               <td><Skeleton width={120} /></td>
-    //               <td><Skeleton width={50} /></td>
-    //               <td><Skeleton width={50} /></td>
-    //               <td><Skeleton width={100} /></td>
-    //               <td><Skeleton width={150} /></td>
-    //               <td><Skeleton width={100} /></td>
-    //               <td><Skeleton width={60} /></td>
-    //               <td><Skeleton width={40} /></td>
-    //             </tr>
-    //           ))
-    //         ) : (
-    //           currentItems.map((item) => (
-    //             <tr key={item.ID}>
-    //               <td style={{ color: "black", fontWeight: 500 }}>{moment(item.date).format('DD-MM-YYYY')}</td>
-    //               <td style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Requestid}</td>
-    //               <td>
-    //                 <div className="d-flex">
-    //                   {item.Name && (
-    //                     <span className="i-circle">
-    //                       <p className="mb-0" style={{ fontSize: 12, color: "black" }}>{item.Name.match(/(^\S\S?|\s\S)?/g).map(v => v.trim()).join("").match(/(^\S|\S$)?/g).join("").toLocaleUpperCase()}</p>
-    //                     </span>
-    //                   )}
-    //                   <div className="ms-2">
-    //                     <label style={{ color: "#0D99FF", fontWeight: 600 }}>{item.Name}</label><br />
-    //                     <label style={{ color: "#9DA9BC", fontWeight: 600 }}>+91 {item.Phone}</label>
-    //                   </div>
-    //                 </div>
-    //               </td>
-    //               <td style={{ color: "#91969E" }}>{item.hostelname}</td>
-    //               <td style={{ color: "black", fontWeight: 500 }}>{item.Floor_id}</td>
-    //               <td style={{ color: "black", fontWeight: 500 }}>{item.Room}</td>
-    //               <td style={{ color: "black", fontWeight: 500 }}>{item.Complainttype}</td>
-    //               <td style={{ color: "black", fontWeight: 500 }}>{item.Description}</td>
-    //               <td style={{ color: "black", fontWeight: 500 }}>{item.Assign}</td>
-    //               <td style={(item.Status && item.Status.toUpperCase() === "SUCCESS") ? { color: "green" } : { color: "red" }}>{item.Status}</td>
-    //               <td className=""><img src={List} height="20" width="20" />
-    //                 <img className="ms-1" src={Edit} height="20" width="20" onClick={() => handleEdit(item)} style={{ cursor: 'pointer' }} /></td>
-    //             </tr>
-    //           ))
-    // )}
-
-
-    //         </tbody>
-    //       </Table>
-
-    //       <div className="d-flex justify-content-center" style={{width:"100%"}}>
-    // {currentItems.length === 0 && !loading && <h5 style={{fontSize: 12, color: "red"}}>No Data Found</h5>}
-    // </div>
-    //       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-
-    //         <div style={{ display: "flex", flexDirection: "row" }}>
-    //           <div>
-    //             <p style={{ fontSize: 13, marginTop: "5px" }}>Results:</p>
-    //           </div>
-    //           <Dropdown onSelect={(eventKey) => handlePageSelect(eventKey)}>
-    //             <Dropdown.Toggle variant="secondary" style={{ backgroundColor: "#F6F7FB", color: "black", border: "none", fontSize: "10px", marginLeft: "10px" }}>
-    //               {currentPage} - {currentPage}
-    //             </Dropdown.Toggle>
-    //             <Dropdown.Menu>
-    //               {generatePageNumbers().map((page) => (
-    //                 <Dropdown.Item key={page} eventKey={page}>
-    //                   {currentPage} - {page}
-    //                 </Dropdown.Item>
-    //               ))}
-    //             </Dropdown.Menu>
-    //           </Dropdown>
-    //           <div style={{ fontSize: "10px", marginTop: "7px", marginLeft: "10px" }}>
-    //             of <label>{currentPage}</label>
-    //           </div>
-    //         </div>
-    //         <div style={{ display: "flex", flexDirection: "row" }}>
-
-    //           <div onClick={handlePreviousClick} disabled={currentPage === 1} style={{ border: "none", fontSize: "10px", marginTop: "10px", cursor: 'pointer' }}>
-    //             Prev
-    //           </div>
-    //           <span class="i-circle" style={{ margin: '0 10px', fontSize: "8px", borderColor: "none", backgroundColor: '#0D6EFD' }}> {currentPage} </span>
-    //           <div onClick={handleNextClick} disabled={currentPage === 10} style={{ fontSize: "10px", border: "none", marginTop: "10px", cursor: 'pointer' }}>
-    //             Next
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
   );
 };
 

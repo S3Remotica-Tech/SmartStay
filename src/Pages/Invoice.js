@@ -3617,7 +3617,7 @@ useEffect(()=>{
                               {sortedData && sortedData.length > 0 ? (
 
                                 <div
-                                                      className=" booking-table-userlist  booking-table ps-2"
+                                                      className=" booking-table-userlist  booking-table   ms-2 me-4"
                                                       style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                                     >
                                                        <div
@@ -4160,12 +4160,12 @@ useEffect(()=>{
 
                   {sortedDataRecure && sortedDataRecure.length > 0 && (
                      <div
-                                         className=" booking-table-userlist  booking-table ps-2"
+                                         className=" booking-table-userlist  booking-table ms-2 me-4 mt-4"
                                          style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                        >
                                           <div
                                            
-                                            className='show-scrolls'
+                                            className='show-scrolls '
                                             style={{
                                              
                                               height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "350px" : "auto",
@@ -4179,6 +4179,7 @@ useEffect(()=>{
                                             }}
                                           >
                                             <Table
+                                           
                                               responsive="md"
                                              
                                               style={{
@@ -4654,7 +4655,7 @@ useEffect(()=>{
                             {sortedDataReceipt &&
                               sortedDataReceipt.length > 0 && (
                                <div
-                                                     className=" booking-table-userlist  booking-table ps-2"
+                                                     className=" booking-table-userlist  booking-table ms-2 me-4"
                                                      style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                                    >
                                                       <div

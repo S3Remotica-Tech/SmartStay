@@ -219,7 +219,6 @@ function UserListAmenities(props) {
     setSortConfig({ key, direction });
   };
 
-  console.log(" amnitiesFilterddata", amnitiesFilterddata);
 
   const handleAmnitiesPageChange = (amnitiespageNumber) => {
     setAmnitycurrentPage(amnitiespageNumber);
@@ -269,7 +268,6 @@ function UserListAmenities(props) {
           Amenities
         </Form.Label>
         <Select
-          // isDisabled={edit} // if you want to disable based on a flag
           placeholder="Select an Amenities"
           value={
             state.UsersList?.customerdetails?.all_amenities?.find(
@@ -357,7 +355,6 @@ function UserListAmenities(props) {
         <Modal.Header style={{ position: "relative" }}>
           <div
             style={{
-              // marginTop: -20,
               fontSize: 18,
               fontWeight: 600,
               fontFamily: "Gilroy",
@@ -366,37 +363,7 @@ function UserListAmenities(props) {
           >
             Add Amenities
           </div>
-          {/* <button
-                            type="button"
-                            className="close"
-                            aria-label="Close"
-                            onClick={handleFormClose}
-                            style={{
-                              position: "absolute",
-                              right: "15px",
-                              marginTop: -10,
-                              border: "1px solid black",
-                              background: "transparent",
-                              cursor: "pointer",
-                              padding: "0",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              width: "24px",
-                              height: "24px",
-                              borderRadius: "50%",
-                            }}
-                          >
-                            <span
-                              aria-hidden="true"
-                              style={{
-                                fontSize: "30px",
-                                paddingBottom: "6px",
-                              }}
-                            >
-                              &times;
-                            </span>
-                          </button> */}
+        
           <CloseCircle
             size="24"
             color="#000"
@@ -577,7 +544,6 @@ function UserListAmenities(props) {
               fontFamily: "Gilroy",
               marginTop: 20,
             }}
-            // onClick={handleAddUserAmnities}
             onClick={() => {
               if (statusShow) {
                 handleAmnitiesSelect();
@@ -642,12 +608,10 @@ function UserListAmenities(props) {
             marginBottom: 20,
             paddingRight: 0,
             paddingLeft: 0,
-            //  borderBottom:"1px solid #DCDCDC"
           }}
         >
           <Table
             responsive="md"
-            // className="Table_Design"
             style={{
               fontFamily: "Gilroy",
               color: "rgba(34, 34, 34, 1)",
@@ -686,7 +650,6 @@ function UserListAmenities(props) {
                     paddingBottom: "10px",
                   }}
                 >
-                  {/* Amenities */}
                   <div className="d-flex gap-1 align-items-center justify-content-start">
                     <div
                       style={{
@@ -761,7 +724,6 @@ function UserListAmenities(props) {
                     paddingBottom: "10px",
                   }}
                 >
-                  {/* Subscription */}
                   <div className="d-flex gap-1 align-items-center justify-content-start">
                     <div
                       style={{
@@ -902,7 +864,8 @@ function UserListAmenities(props) {
                         }}
                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                       >
-                        {v.Amnities_Name}
+                        <div className="ps-1">{v.Amnities_Name}</div>
+                     
                       </td>
                       <td style={{borderBottom: "1px solid #E8E8E8"}} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
                         <span
@@ -928,7 +891,7 @@ function UserListAmenities(props) {
                         }}
                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                       >
-                        {v.month_name}
+                        <div className="ps-1">{v.month_name}</div>
                       </td>
                       <td
                         style={{
@@ -938,7 +901,7 @@ function UserListAmenities(props) {
                         }}
                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                       >
-                        {v.Amount}
+                         <div className="ps-1">{v.Amount}</div>
                       </td>
                       <td
                         style={{
@@ -946,18 +909,19 @@ function UserListAmenities(props) {
                           fontSize: "13px",
                           fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
                         }}
-                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" 
+                        className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" 
                       >
                         <span
                           style={{
                             color: "black",
                             backgroundColor:
-                              v.status === 1 ? "#D9FFD9" : "#FFD9D9", // or any colors you prefer
+                              v.status === 1 ? "#D9FFD9" : "#FFD9D9", 
                             paddingTop: "2px",
                             paddingLeft: "10px",
                             paddingRight: "10px",
                             paddingBottom: "2px",
                             borderRadius: "5px",
+                            marginLeft:5
                           }}
                         >
                           {v.status === 1 ? "Active" : "Inactive"}
@@ -977,8 +941,7 @@ function UserListAmenities(props) {
                             alignItems: "center",
                             position: "relative",
                             backgroundColor: activeDotsId === v.id ? "#E7F1FF" : "white", 
-                            // color: activeDotsId === v.id ? "white" : "black", 
-                            // zIndex: 1000,
+
                           }}
                         >
                           <PiDotsThreeOutlineVerticalFill
@@ -986,7 +949,6 @@ function UserListAmenities(props) {
                           />
                         </div>
 
-                        {/* <img src={dottt} style={{ height: 40, width: 40,cursor:"pointer" }}  alt="edit" /> */}
                       </td>
                     </tr>
                   );
@@ -1036,7 +998,6 @@ function UserListAmenities(props) {
               </select>
             </div>
 
-            {/* Pagination Controls */}
             <ul
               style={{
                 display: "flex",
@@ -1046,7 +1007,6 @@ function UserListAmenities(props) {
                 padding: 0,
               }}
             >
-              {/* Previous Button */}
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{
@@ -1074,7 +1034,6 @@ function UserListAmenities(props) {
                 </button>
               </li>
 
-              {/* Current Page Indicator */}
               <li
                 style={{
                   margin: "0 10px",
@@ -1085,7 +1044,6 @@ function UserListAmenities(props) {
                 {amnitiescurrentPage} of {totalPagesAmnities}
               </li>
 
-              {/* Next Button */}
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{
