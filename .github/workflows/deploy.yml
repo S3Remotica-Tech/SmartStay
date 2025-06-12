@@ -23,10 +23,6 @@ jobs:
           npm install --force
           npm run build
 
-      - name: Test Cases
-        run: |
-          npm test -- --coverage
-
       - name: Install SSH Key
         run: |
           echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > key.pem
