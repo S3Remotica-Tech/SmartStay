@@ -467,7 +467,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
 
   return (
     <>
-      <div className="cotainer">
+      <div className="cotainer px-3 py-3">
         <Marquee>
         
           {showWarning && (
@@ -502,13 +502,12 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
         </Marquee>
         <TabContext value={value}>
           <div
-            className="container-fluid px-2"
+            className="container-fluid "
             style={{
               position: "sticky",
               top: 0,
               zIndex: 1000,
               backgroundColor: "#FFFFFF",
-              width: "100%",
             }}
           >
             <Box sx={{ borderBottom: 0, borderColor: "divider" }}>
@@ -564,7 +563,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
 
           {loading && <LoaderComponent />}
 
-          <div style={{ maxHeight: "calc(100vh - 83px)", overflowY: "auto" }}>
+          <div >
             <TabPanel value="1">
               {permissionError ? (
                 <div
@@ -735,7 +734,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                       </div>
                     </div>
       
-  <div className="container">
+ 
     <div className="row g-3">
 
      
@@ -804,7 +803,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
       </div>
 
     </div>
-  </div>
+ 
 
                     <div className="circulardes">
                       <div className="animated-text" style={{ flex: 1 }}>
@@ -838,7 +837,6 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
       flex: "1 1 60%",
       minWidth: "200px",
       paddingLeft: 15,
-      marginBottom: 10,
     }}
   >
     <p
@@ -1008,41 +1006,87 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                         </div>
 
                         <Card
-                          className="animated-text"
+                          className="animated-text mt-4"
                           style={{
-                            marginTop: 15,
-                            height: "auto",
+                            
+                            height: "30%",
                             width: "97%",
                             borderRadius: "20px",
                           }}
                         >
                           <Card.Body>
-                            <div className="d-flex justify-content-between flex-wrap align-items-center">
-                              <p
-                                style={{
-                                  fontFamily: "Montserrat",
-                                  fontSize: 18,
-                                  fontWeight: 600,
-                                  whiteSpace: "nowrap",
-                                }}
-                              >
-                                Receivable vs Pending
-                              </p>
-                              <div>
-                                <select
-                                  onChange={(e) => handleSelectedReceived(e)}
-                                  value={selectCashback}
-                                  className="form-select rounded-pill border-secondary"
-                                  style={{
-                                    width: "150px",
-                                    backgroundImage: `url(${drop})`,
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "right 10px center",
-                                    backgroundSize: "16px 16px",
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  <option value="this_month">This month</option>
+                                                  <div
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "10px 10px",
+    marginTop: "-15px",
+  }}
+>
+ 
+  <div
+    style={{
+      flex: "1 1 60%",
+      minWidth: "200px",
+      paddingLeft: 10,
+      marginBottom: 10,
+    }}
+  >
+    <p
+      style={{
+        fontFamily: "Montserrat",
+        fontSize: 18,
+        fontWeight: 600,
+        margin: 12,
+       whiteSpace:"nowrap"
+      }}
+    >
+      Total Cashback
+    </p>
+  </div>
+
+  
+  <div
+    style={{
+      flex: "1 1 40%",
+      minWidth: "150px",
+      display: "flex",
+      justifyContent: "flex-end",
+      marginTop:"-10px"
+    }}
+  >
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        maxWidth: 250,
+        height: 36,
+        
+      }}
+    >
+      <select
+        value={selectCashback}
+        onChange={(e) => handleSelectedReceived(e)}
+        style={{
+          fontSize: 12,
+          color: "#4B4B4B",
+          fontFamily: "Gilroy",
+          fontWeight: 600,
+          boxShadow: "none",
+          border: "1px solid #D9D9D9",
+          height: 36,
+          width: "100%",
+          borderRadius: 60,
+          padding: "6px 10px",
+          appearance: "none",
+          background: `url(${drop}) no-repeat right 10px center`,
+          backgroundSize: "16px 16px",
+          cursor: "pointer",
+        }}
+      >
+        <option value="this_month">This month</option>
                                   <option value="last_month">Last month</option>
                                   <option value="last_three_months">
                                     Last 3 months
@@ -1051,9 +1095,10 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                                     Last 6 months
                                   </option>
                                   <option value="this_year">Last 1 year</option>
-                                </select>
-                              </div>
-                            </div>
+      </select>
+    </div>
+  </div>
+</div>
 
                             <div className="d-flex flex-wrap align-items-center">
                              
@@ -1074,7 +1119,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                                     pathColor: pathColor,
                                     trailColor: trailColor,
                                     textColor: "#000",
-                                    textSize: 15,
+                                    textSize: 9,
                                     text: {
                                       fill: "#000",
                                       transform: "rotate(80deg)",
@@ -1087,24 +1132,29 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                                 />
                               </div>
 
-                              <div className="d-flex flex-column ms-auto pe-5">
-                                <div className="d-flex align-items-center mb-2">
+                              <div className="d-flex flex-column ms-auto pe-5" style={{marginTop:"-50px"}}>
+                                <div className="d-flex align-items-center ">
                                   <div
                                     className="bg-success rounded-circle me-2"
-                                    style={{ width: "15px", height: "15px" }}
+                                    style={{ width: "15px", height: "15px", marginTop:"-25px" }}
                                   ></div>
                                   <div>
                                     <p
                                       className="m-0 "
                                       style={{
-                                        fontSize: 16,
-                                        fontWeight: 600,
-                                        fontFamily: "Montserrat",
+                                        fontSize: 12,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
                                       }}
                                     >
                                       Received
                                     </p>
-                                    <p className="m-0 fw-semibold fs-6">
+                                    <p style={{
+                                        fontSize: 13,
+                                        fontWeight: 600,
+                                        fontFamily: "Montserrat",
+                                        marginTop:2
+                                      }}>
                                       ₹{cashBackData?.[0]?.Revenue || 0}
                                     </p>
                                   </div>
@@ -1116,20 +1166,26 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                                       width: "15px",
                                       height: "15px",
                                       backgroundColor: "#EBEBEB",
+                                      marginTop:"-25px"
                                     }}
                                   ></div>
                                   <div>
                                     <p
                                       className="m-0 "
                                       style={{
-                                        fontSize: 16,
-                                        fontWeight: 600,
-                                        fontFamily: "Montserrat",
+                                        fontSize: 12,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
                                       }}
                                     >
-                                      Receivable
+                                      Pending
                                     </p>
-                                    <p className="m-0 fw-semibold fs-6">
+                                    <p  style={{
+                                        fontSize: 13,
+                                        fontWeight: 600,
+                                        fontFamily: "Montserrat",
+                                        marginTop:2
+                                      }}>
                                       ₹{cashBackData?.[0]?.overdue || 0}
                                     </p>
                                   </div>
@@ -1143,7 +1199,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
                       <div style={{ flex: 1 }}>
                       <div
                           className="bg-white rounded-2xl  p-4 md:p-6 w-full max-w-4xl mx-auto overflow-x-auto card rounded-full mt-2"
-                          style={{ flex: 1,height:"auto",width:"97%",borderRadius:"24px" }}
+                          style={{ flex: 1,height:"auto",width:"99%",borderRadius:"24px" }}
                         >
      <div
                             style={{
@@ -1260,7 +1316,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
     />
     <Line
       type="monotone"
-      dataKey="AdvanceReturn"
+      dataKey="Advance Return"
       stroke="#FF5733"
       strokeWidth={2}
       dot={{ r: 4 }}
@@ -1272,7 +1328,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
 
 
                         </div>
-                        <div className="expenses-container animated-text">
+                        <div className="expenses-container animated-text mt-4">
                           <div className="dropp d-flex justify-content-between align-items-center flex-wrap py-2 px-3">
                            
                             <div className="d-flex text-start mb-2">
