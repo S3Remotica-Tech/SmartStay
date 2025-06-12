@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */ 
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SettingGeneral from "./SettingGeneral";
@@ -6,7 +6,7 @@ import SettingManage from "./SettingManage";
 import blueArrow from "../Assets/Images/New_images/arrow-leftblue.png";
 import blackArrow from "../Assets/Images/New_images/arrow-leftblack.png";
 import SettingSecurity from "./SettingSecurityPage";
-import SettingSubscription from "../../src/Pages/SubscriptionFile/SettingSubscription";
+import SettingSubscription from "./SubscriptionFile/SettingSubscription";
 import SettingIntergration from "./SettingIntergration";
 import SettingElectricity from "./SettingElectricity";
 import SettingInvoice from "./SettingInvoice";
@@ -18,14 +18,15 @@ import SettingNewRole from "./SettingNewRole";
 import "./Settings.css";
 import './SettingAll.css';
 import { useSelector } from 'react-redux';
-import {  ArrowRight2, ArrowLeft2 } from 'iconsax-react'
+import { ArrowRight2, ArrowLeft2 } from 'iconsax-react'
 import SettingsBills from "./SettingsBills";
+import SettingsNotifications from "./SettingsNotifications";
 import SettingAgreement from "./SettingAgreement";
 
 
 function SettingAllPages() {
 
- 
+
   const state = useSelector(state => state);
   const [hostel_Id, setHostel_Id] = useState('')
   const [activePage, setActivePage] = useState("General");
@@ -33,7 +34,7 @@ function SettingAllPages() {
 
 
   useEffect(() => {
-    if ( state.login.selectedHostel_Id) {
+    if (state.login.selectedHostel_Id) {
       setHostel_Id(state.login.selectedHostel_Id)
     }
 
@@ -46,9 +47,9 @@ function SettingAllPages() {
     if (state.PgList.isManageEnable) {
       setActivePage('Manage PG');
     }
-    
+
   }, [state.PgList.isManageEnable]);
-  
+
 
   // useEffect(() => {
   //   if (state.PgList.isManageEnable) {
@@ -59,25 +60,25 @@ function SettingAllPages() {
   // }, [state.PgList.isManageEnable])
 
 
- 
-
-
- 
- 
-  
-  
-
-  
-
-
-
- 
 
 
 
 
 
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -106,14 +107,14 @@ function SettingAllPages() {
 
   // console.log("isSidebarOpen", isSidebarOpen)
 
- 
+
 
 
   const handleTabClick = (itemName) => {
     // setActiveItemS(itemName);
     setActivePage(itemName);
     if (window.innerWidth < 768) {
-      setIsSidebarOpen(false); 
+      setIsSidebarOpen(false);
     }
   };
 
@@ -134,18 +135,18 @@ function SettingAllPages() {
               // backgroundColor: "#f8f9fa",
             }}
           >
-            <button 
-            // onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
-            onClick={handleToggleSidebar}
-            className="" 
-            style={{ backgroundColor: "#1E45E1", border: "1px solid #1E45E1", borderRadius: "50%", color: "white", padding: 5 }}
+            <button
+              // onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+              onClick={handleToggleSidebar}
+              className=""
+              style={{ backgroundColor: "#1E45E1", border: "1px solid #1E45E1", borderRadius: "50%", color: "white", padding: 5 }}
             >
-              {isSidebarOpen ? 
-              <ArrowRight2 
-                size="22"
-                color="#FFF"
-              /> :
-                <ArrowLeft2   
+              {isSidebarOpen ?
+                <ArrowRight2
+                  size="22"
+                  color="#FFF"
+                /> :
+                <ArrowLeft2
                   size="22"
                   color="#FFF"
                 />
@@ -159,13 +160,13 @@ function SettingAllPages() {
             style={{
               // overflowY: "auto",
               // height: "100vh",
-              height:600,
+              height: 600,
               position: "sticky",
               marginLeft: 'auto',
               top: 0,
               left: 0, transition: "all 0.3s ease-in-out",
-              zIndex: 10,  
-              backgroundColor: isSidebarOpen ? 'white' : 'transparent', 
+              zIndex: 10,
+              backgroundColor: isSidebarOpen ? 'white' : 'transparent',
             }}
           >
             <div className="show-scrolls"
@@ -325,8 +326,10 @@ function SettingAllPages() {
 
             <div>
 
-              <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", 
-                textAlign: "start", marginLeft: 30 }}>PG Based Setting</div>
+              <div style={{
+                fontSize: 16, fontWeight: 600, fontFamily: "Gilroy",
+                textAlign: "start", marginLeft: 30
+              }}>PG Based Setting</div>
 
 
               <div
@@ -360,7 +363,7 @@ function SettingAllPages() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    color: activePage === "Electricity" ? "#4a90e2" : "#000000", 
+                    color: activePage === "Electricity" ? "#4a90e2" : "#000000",
                     cursor: "pointer",
                   }}
                 >
@@ -395,6 +398,30 @@ function SettingAllPages() {
                   Bills
                   <img
                     src={activePage === "Bills" ? blueArrow : blackArrow}
+                    width={16}
+                    height={16}
+                    alt="Arrow Icon"
+                  />
+                </p>
+                <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+
+                <p
+                  onClick={() => handleTabClick('SettingsNotifications')}
+                  style={{
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    fontSize: 15,
+                    marginTop: "-8px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    color: activePage === "SettingsNotifications" ? "#4a90e2" : "#000000",
+                    cursor: "pointer",
+                  }}
+                >
+                  Notifications
+                  <img
+                    src={activePage === "SettingsNotifications" ? blueArrow : blackArrow}
                     width={16}
                     height={16}
                     alt="Arrow Icon"
@@ -577,7 +604,7 @@ function SettingAllPages() {
 
 
 
-                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
+                <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                 <p
                   // onClick={() => setActiveItem("Integration")}
                   // onClick={() => {
@@ -615,9 +642,9 @@ function SettingAllPages() {
 
 
 
-          <div 
-          // className={`col-9   ${isSidebarOpen ? 'col-9' : ''}   `}
-          className={`col-12 col-md-9 ${isSidebarOpen ? 'd-none d-md-block' : ''}`}
+          <div
+            // className={`col-9   ${isSidebarOpen ? 'col-9' : ''}   `}
+            className={`col-12 col-md-9 ${isSidebarOpen ? 'd-none d-md-block' : ''}`}
             style={{
               overflowY: "auto",
               height: "100vh",
@@ -635,21 +662,22 @@ function SettingAllPages() {
             {amnitiesPageShow && <SettingAmenities hostelid={hostel_Id} />}
             {userPageShow && <SettingNewUser hostelid={hostel_Id} />}
             {rolePageShow && <SettingNewRole hostelid={hostel_Id} />} */}
-             {activePage === 'General' && <SettingGeneral />}
-             
-          {activePage === 'Manage PG' && <SettingManage />}
-          {activePage === 'Security' && <SettingSecurity />}
-          {activePage === 'Subscription' && <SettingSubscription />}
-          {activePage === 'Integration' && <SettingIntergration />}
-          {activePage === 'Electricity' && <SettingElectricity hostelid={hostel_Id} />}
-          {activePage === 'Bills' && <SettingsBills  hostelid={hostel_Id}/>}
-          {activePage === 'Invoice' && <SettingInvoice hostelid={hostel_Id} />}
-          {activePage === 'Expenses' && <SettingExpenses hostelid={hostel_Id} />}
-          {activePage === 'Complaints' && <SettingCompliance hostelid={hostel_Id} />}
-          {activePage === 'Amenities' && <SettingAmenities hostelid={hostel_Id} />}
-          {activePage === 'User' && <SettingNewUser hostelid={hostel_Id} />}
-          {activePage === 'Role' && <SettingNewRole hostelid={hostel_Id} />}
-           {activePage === 'acrement' && <SettingAgreement hostelid={hostel_Id} />}
+            {activePage === 'General' && <SettingGeneral />}
+
+            {activePage === 'Manage PG' && <SettingManage />}
+            {activePage === 'Security' && <SettingSecurity />}
+            {activePage === 'Subscription' && <SettingSubscription />}
+            {activePage === 'Integration' && <SettingIntergration />}
+            {activePage === 'Electricity' && <SettingElectricity hostelid={hostel_Id} />}
+            {activePage === 'Bills' && <SettingsBills hostelid={hostel_Id} />}  
+            {activePage === 'SettingsNotifications' && <SettingsNotifications hostelid={hostel_Id} />}
+            {activePage === 'Invoice' && <SettingInvoice hostelid={hostel_Id} />}
+            {activePage === 'Expenses' && <SettingExpenses hostelid={hostel_Id} />}
+            {activePage === 'Complaints' && <SettingCompliance hostelid={hostel_Id} />}
+            {activePage === 'Amenities' && <SettingAmenities hostelid={hostel_Id} />}
+            {activePage === 'User' && <SettingNewUser hostelid={hostel_Id} />}
+            {activePage === 'Role' && <SettingNewRole hostelid={hostel_Id} />}
+            {activePage === 'acrement' && <SettingAgreement hostelid={hostel_Id} />}
           </div>
         </div>
       </div>
