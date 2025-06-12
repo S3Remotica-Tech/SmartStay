@@ -510,10 +510,13 @@ function UserListAmenities(props) {
                 onChange={(e) => handleStatusAmnities(e)}
                 style={{
                   fontSize: 14,
-                  backgroundColor: "#f8f9fa",
+                  backgroundColor: "transparent",
                   height: 45,
                   borderRadius: 8,
                   opacity: 1,
+                  fontWeight: 530,
+                  fontFamily: "Gilroy",
+                  color:"grey"
                 }}
               >
                 <option
@@ -521,13 +524,26 @@ function UserListAmenities(props) {
                     fontSize: 14,
                     fontWeight: 530,
                     fontFamily: "Gilroy",
+                    opacity:1
                   }}
                 >
                   Select Status
                 </option>
 
-                <option value="1">Active</option>
-                <option value="0">In Active</option>
+                <option value="1"   style={{
+                    fontSize: 14,
+                    fontWeight: 530,
+                    fontFamily: "Gilroy",
+                    opacity:1,
+                    color: "gray",
+                  }}>Active</option>
+                <option value="0"  style={{
+                    fontSize: 14,
+                    fontWeight: 530,
+                    fontFamily: "Gilroy",
+                    opacity:1,
+                    color: "gray",
+                  }}>In Active</option>
               </Form.Select>
               {selectError && (
                 <div style={{ color: "red" }}>

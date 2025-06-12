@@ -200,14 +200,15 @@ dayjs.extend(isSameOrBefore);
   const [electricityFilterd, setelectricityFilterd] = useState([]);
   const [electricityHostel, setelectricityHostel] = useState([]);
   useEffect(() => {
-    
+    if(state.login.selectedHostel_Id){
     setCustomerLoader(true);
     dispatch({
       type: "CUSTOMEREBLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
-    
-  }, []);
+  }
+      }, [state.login.selectedHostel_Id]);
+
   useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
       setLoader(false);
@@ -228,6 +229,22 @@ dayjs.extend(isSameOrBefore);
       });
     }
   }, [state.login.selectedHostel_Id]);
+
+
+  
+  const [RoomElect,setRoomElect] = useState("")
+  
+  
+   useEffect(() => {
+      if (state.PgList?.statusCodeForEbRoomList === 200) {
+       
+        setRoomElect(state.PgList?.EB_startmeterlist);
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+        }, 1000);
+      }
+    }, [state.PgList.statusCodeForEbRoomList])
   useEffect(() => {
     if (selectedHostel && value === "3") {
       setLoader(true);
@@ -343,9 +360,7 @@ dayjs.extend(isSameOrBefore);
     if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
       setHostelBased(FilterHostelBased[0]?.hostel_based);
       setHostelName(FilterHostelBased[0]?.Name);
-    } else {
-      console.log("unitAmount is not a valid array or is empty.");
-    }
+    } 
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
 
   useEffect(() => {
@@ -570,7 +585,9 @@ dayjs.extend(isSameOrBefore);
       setSortConfig({ key, direction });
     };
 
-
+const [originalElec, setOriginalElec] = useState("");
+const [originalRoomElec,setOriginalRoomElec] = useState("")
+const [originalHostelElec,setOriginalHostelElec] = useState("")
    
 
 
@@ -611,8 +628,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
 
     
     if (!itemDate.isValid()) {
-      console.warn(`Invalid date found for item:`, item.reading_date);
-      return false; 
+           return false; 
     }
 
     return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
@@ -623,12 +639,86 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
   setelectricitycurrentPage(1);
 };
 
-  const [originalElec, setOriginalElec] = useState("");
+
+const [roomBasedFilter,setRoomBasedFilter] = useState("")
+
+ const handleDateRoomRangeChangeEb = (dates) => {
+ 
+  setRoomBasedFilter(dates);
+ 
+  if (!dates || dates?.length !== 2) {
+    setFilterStatus(false);
+    setRoomElect(originalRoomElec);
+    return;
+  }
+
+  const [start, end] = dates;
+
+  const filtered = originalRoomElec?.filter((item) => {
+    
+    if (!item.date || typeof item.date !== 'string') {
+      return false; 
+    }
+
+    const itemDate = dayjs(item.date);
+
+    
+    if (!itemDate.isValid()) {
+      return false; 
+    }
+
+    return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+  });
+
+  setRoomElect(filtered);
+  setFilterStatus(true);
+};
+
+
+const [hostelBasedFilter,setHostelBasedFilter] = useState("")
+  
+
+
+const handleDateHostelRangeChangeEb = (dates) => {
+ 
+  setHostelBasedFilter(dates);
+ 
+
+  if (!dates || dates?.length !== 2) {
+    setFilterStatus(false);
+    setelectricityHostel(originalHostelElec);
+    return;
+  }
+
+  const [start, end] = dates;
+
+  const filtered = originalHostelElec?.filter((item) => {
+    
+    if (!item.date || typeof item.date !== 'string') {
+      return false; 
+    }
+
+    const itemDate = dayjs(item.date);
+
+    
+    if (!itemDate.isValid()) {
+      return false; 
+    }
+
+    return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+  });
+
+  setelectricityHostel(filtered);
+  setFilterStatus(true);
+};
 
 
   const handleUserSelect = (user) => {
     setFilterInput(user.Name);
-    setelectricityFilterddata([user]);
+    
+     setelectricityFilterddata(
+    originalElec.filter((item) => item.Name === user.Name)
+  );
 
     setDropdownVisible(false);
   };
@@ -658,6 +748,21 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
     }
   }, [electricityFilterddata]);
 
+
+  useEffect(() => {
+    if (RoomElect?.length > 0 && originalRoomElec?.length === 0) {
+      setOriginalRoomElec(RoomElect);
+    }
+  }, [RoomElect]);
+
+
+
+   useEffect(() => {
+    if (electricityHostel?.length > 0 && originalHostelElec?.length === 0) {
+      setOriginalHostelElec(electricityHostel);
+    }
+  }, [electricityHostel]);
+
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("");
@@ -682,7 +787,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
   className="d-flex flex-wrap justify-content-between align-items-center"
   style={{ paddingLeft: 13, paddingTop: value === "2" ? "22px" : "19px" }}
 >
-  {/* Title */}
+
   <div className="me-3" style={{ minWidth: "100px" }}>
     <label
       style={{
@@ -697,10 +802,9 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
     </label>
   </div>
 
-  {/* Actions */}
   <div className="d-flex flex-wrap align-items-center gap-2">
 
-    {/* Search Field */}
+   
     {search && value === "1" ? (
       <div className="position-relative" style={{ maxWidth: "300px", minWidth: "180px" }}>
         <div className="input-group">
@@ -724,7 +828,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
             />
           </span>
         </div>
-        {/* Dropdown List */}
+     
         {value === "1" &&
           isDropdownVisible &&
           electricityFilterddata?.length > 0 && (
@@ -807,8 +911,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
       )
     )}
 
-    {/* Filter Icon */}
-    {value === "1" && (
+
       <div className="me-2">
         <Image
           src={Filters}
@@ -817,9 +920,9 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
           onClick={handleFilterd}
         />
       </div>
-    )}
 
-    {/* Date Picker */}
+
+   
     {filterStatus && value === "1" && (
       <div className="me-2">
         <RangePicker
@@ -830,8 +933,28 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
         />
       </div>
     )}
+     {filterStatus && value === "2" && (
+      <div className="me-2">
+        <RangePicker
+          value={roomBasedFilter}
+          onChange={handleDateRoomRangeChangeEb}
+          format="DD/MM/YYYY"
+          style={{ height: 40,cursor:"pointer" }}
+        />
+      </div>
+    )}
+     {filterStatus && value === "3" && (
+      <div className="me-2">
+        <RangePicker
+          value={hostelBasedFilter}
+          onChange={handleDateHostelRangeChangeEb}
+          format="DD/MM/YYYY"
+          style={{ height: 40,cursor:"pointer" }}
+        />
+      </div>
+    )}
 
-    {/* Excel Icon */}
+   
     {value === "1" && (
       <div className="me-2" style={{ cursor: "pointer" }}>
         <img
@@ -844,7 +967,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
       </div>
     )}
 
-    {/* Action Button */}
+   
     <div className="me-2" style={{ paddingRight: 4 }}>
       {hostelBased === 1 ? (
         <Button
@@ -958,6 +1081,7 @@ const [customerDateRange, setCustomerDateRange] = useState([]);
               editeb={editeb}
               setEditEb={setEditEb}
               electricityHostel={electricityHostel}
+              filterStatus = {filterStatus}
               setLoader={setLoader}
               loading={loader}
             />
@@ -1021,7 +1145,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                                      style={{
                                       
 
-                                       height: sortedData.length >= 5 || sortedData.length >= 5 ? "350px" : "auto",
+                                       height: sortedData.length >= 5 || sortedData.length >= 5 ? "340px" : "auto",
 
                                        overflow: "auto",
                                        marginBottom: 20,
@@ -1339,7 +1463,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 
                 {!customerLoader &&
                   !loader &&
-                  currentRoomelectricity.length === 0 && (
+                  currentRoomelectricity?.length === 0 && (
                     <div style={{ marginTop: 40 }}>
                       <div style={{ textAlign: "center" }}>
                         <img
@@ -1393,7 +1517,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       zIndex: 1000,
                     }}
                   >
-                    {/* Dropdown for Items Per Page */}
+                   
                     <div>
                       <select
                         value={electricityrowsPerPage}
@@ -1416,7 +1540,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       </select>
                     </div>
 
-                    {/* Pagination Controls */}
+                   
                     <ul
                       style={{
                         display: "flex",
@@ -1426,7 +1550,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                         padding: 0,
                       }}
                     >
-                      {/* Previous Button */}
+                      
                       <li style={{ margin: "0 10px" }}>
                         <button
                           style={{
@@ -1459,7 +1583,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                         </button>
                       </li>
 
-                      {/* Current Page Indicator */}
+                     
                       <li
                         style={{
                           margin: "0 10px",
@@ -1470,7 +1594,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                         {electricitycurrentPage} of {totalPagesinvoice}
                       </li>
 
-                      {/* Next Button */}
+                     
                       <li style={{ margin: "0 10px" }}>
                         <button
                           style={{
@@ -1531,37 +1655,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             >
               Add a Reading
             </div>
-            {/* <button
-              type="button"
-              className="close"
-              aria-label="Close"
-              onClick={handleClose}
-              style={{
-                position: "absolute",
-                right: "10px",
-                top: "16px",
-                border: "1px solid black",
-                background: "transparent",
-                cursor: "pointer",
-                padding: "0",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "25px",
-                height: "25px",
-                borderRadius: "50%",
-              }}
-            >
-              <span
-                aria-hidden="true"
-                style={{
-                  fontSize: "30px",
-                  paddingBottom: "6px",
-                }}
-              >
-                &times;
-              </span>
-            </button> */}
+           
             <CloseCircle size="24" color="#000" onClick={handleClose} 
             style={{ cursor: 'pointer'}}/>
           </Modal.Header>
@@ -1579,38 +1673,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   Floor{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                {/* <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  value={Floor}
-                  onChange={(e) => handleFloor(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                >
-                  <option
-                    style={{ fontSize: 14, fontWeight: 600 }}
-                    selected
-                    value=""
-                  >
-                    Select Floor
-                  </option>
-                  {state?.UsersList?.hosteldetailslist &&
-                    state?.UsersList?.hosteldetailslist.map((item) => (
-                      <>
-                        <option key={item.floor_id} value={item.floor_id}>
-                          {item.floor_name}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select> */}
+                
 
                 <Select
                   options={
@@ -1717,32 +1780,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   Room{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                {/* <Form.Select
-                  aria-label="Default select example"
-                  className="border"
-                  value={Rooms}
-                  onChange={(e) => handleRoom(e)}
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: 8,
-                  }}
-                >
-                  <option>Select a Room</option>
-                  {state.UsersList?.roomdetails &&
-                    state.UsersList?.roomdetails.map((item) => (
-                      <>
-                        <option key={item.Room_Id} value={item.Room_Id}>
-                          {item.Room_Name}
-                        </option>
-                      </>
-                    ))}
-                </Form.Select> */}
+               
 
                 <Select
                   options={
@@ -1991,6 +2029,9 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             electricityFilterd={electricityFilterd}
             loading={loader}
             value={value}
+            RoomElect = {RoomElect}
+            filterStatus= {filterStatus}
+
           />
         </TabPanel>
 
@@ -2007,6 +2048,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             editeb={editeb}
             setEditEb={setEditEb}
             electricityHostel={electricityHostel}
+            filterStatus = {filterStatus}
             loading={loader}
             setLoader={setLoader}
           />

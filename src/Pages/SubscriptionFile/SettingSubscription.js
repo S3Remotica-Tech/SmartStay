@@ -77,7 +77,7 @@ function SettingSubscription() {
 
  
 
- 
+
 
   const handleHostelSelect = (selectedOption) => {
     if (!selectedOption) {

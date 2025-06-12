@@ -130,8 +130,10 @@ dayjs.extend(isSameOrBefore);
   }, [bankingrolePermission]);
 
   useEffect(() => {
+    if(hostel_id){
     setLoader(true);
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
+    }
   }, [hostel_id]);
 
   useEffect(() => {
@@ -414,7 +416,6 @@ const handleCloseSElfTransfer=()=>{
 
   const handlePageChange = (pageNumber) => {
     settransactioncurrentPage(pageNumber);
-    settransactioncurrentPage(1)
   };
   
 
@@ -450,6 +451,7 @@ const handleCloseSElfTransfer=()=>{
         };
   const handleItemsPerPageChange = (event) => {
     setTransactionrowsPerPage(Number(event.target.value));
+    settransactioncurrentPage(1)
   };
 
   const totalPagesTransaction = Math.ceil(
@@ -490,7 +492,7 @@ const handleCloseSElfTransfer=()=>{
   const handleUserSelect = (user) => {
   setFilterInput(user.benificiary_name); 
   const selected = transactionFilterddata.filter(
-    (item) => String(item.id) === String(user.id)
+    (item) => String(item.benificiary_name) === String(user.benificiary_name)
   );
   settransactionFilterddata(selected);
   setDropdownVisible(false);
@@ -1447,6 +1449,7 @@ whiteSpace: "nowrap"
                               fontFamily: "Gilroy",
                               marginTop: 10,
                               whiteSpace: "nowrap",
+                              
                             }}
                           >
                             <span
@@ -1460,6 +1463,7 @@ whiteSpace: "nowrap"
                                 fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
+                                 backgroundColor: "#EBEBEB",
                               }}
                             >
                               {formattedDate}
@@ -1507,13 +1511,16 @@ whiteSpace: "nowrap"
                               style={{
                                 padding: "3px 10px",
                                 borderRadius: "60px",
+
                                 backgroundColor: "#EBEBEB",                             
+
                                 textAlign: "start",
                                 fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
                               }}
                             >
+
                               {user.desc === "Invoice"
                                 ? "Credit":"Debit"
                               }

@@ -22,7 +22,7 @@ function DashboardAnnouncement() {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6); 
-  // const [currentItem, setCurrentItem] = useState("");
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -43,7 +43,7 @@ function DashboardAnnouncement() {
 
   const state = useSelector((state) => state);
 
-  console.log("state", state)
+ 
 
   const dispatch = useDispatch();
   const [showMainModal, setShowMainModal] = useState(false);
@@ -93,7 +93,7 @@ function DashboardAnnouncement() {
     
     setComments(""); 
   setShowCommentModal(false);
-   setCommentsList([]); // Clear previous comments after sending
+   setCommentsList([]);  
 
   }
 
@@ -101,12 +101,6 @@ function DashboardAnnouncement() {
 
   
 
-//   const handleOpenCommentModal = (cardId) => {
-//   setSelectedCard(cardId); // Set the current card ID
-//   setShowCommentModal(true);
-//   setCommentsList([]); // Reset comments before fetching new ones
-//   dispatch({ type: 'FETCH_COMMENTS', payload: { an_id: cardId } }); // Fetch new comments for the selected card
-// };
 
 
   const handleShowAnnouncement = () => {
@@ -161,10 +155,12 @@ function DashboardAnnouncement() {
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
     setLoading(true)
+    if(hostel_id){
     dispatch({
       type: "ANNOUNCEMENTLIST",
       payload: { hostel_id: hostel_id },
     });
+  }
   }, [hostel_id]);
 
 
@@ -178,18 +174,15 @@ function DashboardAnnouncement() {
     }
   }, [state.PgList.statuscodeForAnnounceMentList]);
 
-  //  modal close
+ 
   const handleCloseMain = () => setShowMainModal(false);
   const handleCloseLike = () => setShowLikeModal(false);
 
   const handleCloseComment = () => {
     setDisplayError('')
     setShowCommentModal(false)
-    // setSubCommentModal(true)
-    // setSelectedCommentId(null);
-    // setCommentsList(false);
-    // setSubCommentModal(false);
-     setCommentsList([]); // Reset comments when closing the modal
+   
+     setCommentsList([]);
   }
 
   const handleCloseTittle = () => setshowTittleModal(false);
@@ -197,7 +190,7 @@ function DashboardAnnouncement() {
  
 
   const handleCommentClick = (card) => {
-    console.log("card comments", card)
+   
     if (card.id) {
       dispatch({ type: 'GETCOMMENTS', payload: { an_id: card.id } })
     }
@@ -363,7 +356,7 @@ function DashboardAnnouncement() {
 
 
   const handleEdit = (editedItem) => {
-    console.log("editedItem", editedItem)
+    
     setShowAnnouncement(true);
     setEditDetails(editedItem)
 
@@ -371,7 +364,7 @@ function DashboardAnnouncement() {
   }
 
   const handleDelete = (DeletedItem) => {
-    console.log("DeletedItem", DeletedItem)
+ 
     setDeletedID(DeletedItem.id)
     setDisplayDeletePopUP(true)
 
@@ -417,7 +410,6 @@ useEffect(() => {
             }
           }, [filteredData])
 
-console.log("state.PgList?.announcementList?.announcements",state.PgList?.announcementList?.announcements)
 
 
   return (
@@ -453,82 +445,13 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
           +  Announcement
         </Button>
       </div>
-      {/* {loading && ( */}
+     
       {loading ? (
         <LoaderComponent />
-                // <div
-                //   style={{
-                //     position: 'absolute',
-                //     top: 100,
-                //     right: 0,
-                //     bottom: 0,
-                //     left: "200px",
-                //     // width: '100%',
-                //     // height: '100%',
-                //     display: 'flex',
-                //     alignItems: 'center',
-                //     justifyContent: 'center',
-                //     backgroundColor: 'transparent',
-                //     opacity: 0.75,
-                //     zIndex: 10,
-                //   }}
-                // >
-                //   {/* <div
-                //     style={{
-                //       borderTop: '4px solid #1E45E1',
-                //       borderRight: '4px solid transparent',
-                //       borderRadius: '50%',
-                //       width: '40px',
-                //       height: '40px',
-                //       animation: 'spin 1s linear infinite',
-                //     }}
-                //   ></div> */}
-                // </div>
-              // )}
+              
             ) : currentItems?.length > 0 ? (
 
-      // {props.announcePermissionError ? (
-      //   <div
-      //     style={{
-      //       display: "flex",
-      //       flexDirection: "column",
-      //       alignItems: "center",
-      //       justifyContent: "center",
-      //     }}
-      //   >
-      //     {/* Image */}
-      //     <img
-      //       src={Emptystate}
-      //       alt="Empty State"
-      //       style={{ maxWidth: "100%", height: "auto" }}
-      //     />
-
-      //     {/* Permission Error */}
-      //     {props.announcePermissionError && (
-      //       <div
-      //         style={{
-      //           color: "red",
-      //           display: "flex",
-      //           alignItems: "center",
-      //           gap: "0.5rem",
-      //           marginTop: "1rem",
-      //         }}
-      //       >
-      //         <MdError />
-      //         <span
-      //           style={{
-      //             fontSize: "12px",
-      //             color: "red",
-      //             fontFamily: "Gilroy",
-      //             fontWeight: 500,
-      //           }}
-      //         >
-      //           {props.announcePermissionError}
-      //         </span>
-      //       </div>
-      //     )}
-      //   </div>
-      // ) : (
+     
       <div 
        style={{ maxHeight: "400px", overflowY: "auto" }}
       >
@@ -543,15 +466,12 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                   style={{
                     borderRadius: "16px",
                     borderColor: "#DCDCDC",
-                    // marginBottom: "20px",
-                    cursor: "pointer",
+                                      cursor: "pointer",
                   
                   }}
                 >
                   <Card.Body>
-                    {/* <div className="d-flex bd-highlight align-items-center"> */}
-                     {/* <div className="p-2 flex-grow-1 bd-highlight"> */}
-                    <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center"> 
+                                       <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center"> 
                      
                       <div className="flex-grow-1 mb-2 mb-sm-0"> 
                         <p
@@ -563,8 +483,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                             marginBottom: "0px",
                           }}
                         >
-                          {/* {data.createdat} */}
-                          {new Date(data.createdat).toLocaleDateString("en-GB", {
+                                                  {new Date(data.createdat).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "long",
                             year: "numeric",
@@ -595,8 +514,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                             alt="Ellipse5"
                             width={25}
                             height={25}
-                          // onClick={() => handleCardClick(data)}
-                          />
+                                                   />
                           <span
                             style={{
                               fontFamily: "Gilroy",
@@ -611,24 +529,16 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                         </p>
                       </div>
                       <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0"> 
-                   {/* like */}
-                      <div
-                        // className="bd-highlight"
-                                    className="bd-highlight mb-2 mb-sm-0 me-sm-2"
+                                    <div
+                                                           className="bd-highlight mb-2 mb-sm-0 me-sm-2"
                         style={{
                           border: "1px solid #DCDCDC",
                           borderRadius: "60px",
                           height: "36px",
                           width: "83px",
-                          // marginTop: "6px",
-                          // marginRight: "6px",
-                          cursor: "pointer",
+                                                   cursor: "pointer",
                         }}
-                      // onClick={(e) => {
-                      //   e.stopPropagation();
-                      //   handleLikeClick(data);
-                      // }}
-                      >
+                                          >
                         <p style={{ padding: "4px 10px" }}>
                           <img src={like} alt="like" width={20} height={20} />
                           <span
@@ -647,14 +557,14 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
 
                       <div
-                        // className="bd-highlight"
+                        
                         className="bd-highlight mb-2 mb-sm-0 me-sm-2" 
                         style={{
                           border: "1px solid #DCDCDC",
                           borderRadius: "60px",
                           height: "36px",
                           width: "72px",
-                          // marginTop: "6px",
+                          
                           cursor: "pointer",
                         }}
                         onClick={(e) => {
@@ -682,8 +592,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
                       <div 
                        className="ms-sm-0 ms-md-2 card-popup-container" 
-                      // className="ms-2 me-2" 
-                      style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, 
+                                            style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100, 
                         border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center", 
                         position: "relative", zIndex: showDots ? 1000 : 'auto'
                         ,  backgroundColor: showDots === data.id ? "#E7F1FF" : "white",
@@ -718,14 +627,11 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                                 gap: "20px",
                                 cursor: "pointer",
                                 pointerEvents: "auto",
-                                // cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
-                                // pointerEvents: props.vendorEditPermission ? "none" : "auto",
-                                // opacity: props.vendorEditPermission ? 0.5 : 1,
-                              }}
+                                                             }}
                               onClick={() => {
-                                // if (!props.vendorEditPermission) {
+                               
                                 handleEdit(data);
-                                // }
+                               
                               }}
                             >
                               <Edit size="16" color="#1E45E1" />
@@ -736,8 +642,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                                   fontFamily: "Gilroy",
                                   color: "#222222",
                                   cursor: "pointer",
-                                  // cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
-                                }}
+                                                                  }}
                               >
                                 Edit
                               </label>
@@ -753,14 +658,11 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                                 cursor: "pointer",
                                 pointerEvents: "auto",
 
-                                // cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
-                                // pointerEvents: props.vendorDeletePermission ? "none" : "auto",
-                                // opacity: props.vendorDeletePermission ? 0.5 : 1,
-                              }}
+                                                             }}
                               onClick={() => {
-                                // if (!props.vendorDeletePermission) {
+                               
                                 handleDelete(data);
-                                // }
+                               
                               }}
                             >
                               <img
@@ -841,10 +743,10 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
         </div>
         </div>
-      // )}
+     
 
     ) : (
-  // Show Empty State if no data is available
+  
   <div
     style={{
       display: "flex",
@@ -911,7 +813,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             </select>
           </div>
 
-          {/* Pagination Controls */}
+          
           <ul
             style={{
               display: "flex",
@@ -921,7 +823,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               padding: 0,
             }}
           >
-            {/* Previous Button */}
+            
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -943,12 +845,12 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               </button>
             </li>
 
-            {/* Current Page Indicator */}
+           
             <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
               {currentPage} of {totalPages}
             </li>
 
-            {/* Next Button */}
+           
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -1242,7 +1144,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                 </p>
               </div>
             </div>
-            {/* --- */}
+         
             <div className="">
               <p style={{ marginBottom: "0px" }}>
                 <img
@@ -1361,14 +1263,14 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
       </Modal>
 
 
-      {/* Comment Modal  */}
+     
       {
         showCommentModal &&
 
         <Modal show={showCommentModal} onHide={handleCloseComment} centered backdrop="static">
             <Modal.Header className="d-flex justify-content-between align-items-center" style={{ borderBottom: "none" }}>
                 <div className="d-flex align-items-center">
-                    {/* <img src={Profile} alt="User Profile" width={40} height={40} className="rounded-circle" /> */}
+                  
                     <div className="ms-2">
                         <p className="mb-0 fw-bold">Monthly</p>
                         
@@ -1411,32 +1313,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
                 )}
             </Modal.Body>
 
-            {/* <Modal.Footer className="border-top-0">
-                <div className="w-100 position-relative">
-                    <textarea
-                        placeholder="Post your reply here..."
-                        value={Comments}
-                        onChange={handleCommentsChange}
-                        style={{ width: "100%", padding: "10px 40px 10px 10px", borderRadius: "8px", border: "1px solid #DCDCDC", outline: "none", resize: "none" }}
-                    />
-                   
-                   <img
-    src={send}
-    alt="Send"
-    style={{
-        width: "24px",
-        height: "24px",
-        position: "absolute",
-        right: "15px",
-        top: "50%",
-        transform: "translateY(-50%)",
-        cursor: "pointer",
-    }}
-    onClick={handleSendComments}
-/>
-
-                </div>
-            </Modal.Footer> */}
+           
 
 
 <Modal.Footer style={{ border: "none" }}>
@@ -1584,89 +1461,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
 
 
-      {/* 
-      {subCommentModal &&
-        <Modal show={subCommentModal} onHide={handleCloseSubComment} centered backdrop="static">
-          <Modal.Header
-            className="d-flex justify-content-between align-items-center"
-            style={{ border: "none" }}
-          >
-            <p
-              style={{
-                fontFamily: "Gilroy",
-                fontWeight: 600,
-                fontSize: "18px",
-                marginBottom: "0px",
-              }}
-            >
-              Monthly
-            </p>
-            <CloseCircle
-              size="32"
-              color="#222222"
-              onClick={handleCloseSubComment}
-              style={{ cursor: "pointer" }}
-            />
-          </Modal.Header>
-          <Modal.Body>
-            <div>
-
-
-              {displaySubError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displaySubError}</span>
-                </div>
-              )}
-
-              <div
-                style={{
-                  marginTop: "10px",
-                  position: "relative",
-                  paddingLeft: "25px",
-                }}
-              >
-                <textarea
-                  type="text"
-                  placeholder="Post your reply here..."
-                  value={subComment}
-                  onChange={(e) => handleSubCommentsChange(e)}
-
-                  style={{
-                    width: "100%",
-                    padding: "8px 40px 8px 8px",
-                    borderRadius: "8px",
-                    border: "1px solid #DCDCDC",
-                    fontFamily: "Gilroy",
-                    fontSize: "14px",
-                    outline: "none",
-                  }}
-                  row={0}
-                />
-                <img
-                  onClick={handleSendSubComments}
-                  src={Search_Team}
-                  alt="Search_Team"
-                  style={{
-                    cursor: "pointer",
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    width: "30px",
-                    height: "30px",
-                  }}
-                />
-              </div>
-
-
-
-            </div>
-          </Modal.Body>
-        </Modal>
-
-      } */}
-
+    
 
 
 
@@ -1676,8 +1471,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         show={showAnnouncement}
         onHide={handleCloseAnnouncement}
         centered
-        // dialogClassName="custom-modal"
-        backdrop="static"
+              backdrop="static"
       >
 
 
@@ -1730,8 +1524,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
 
           <div className="row">
-            {/* Title Field */}
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{marginTop:-20}}>
+                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" style={{marginTop:-20}}>
 
               <Form.Label
                 style={{
@@ -1794,7 +1587,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
 
             </div>
 
-            {/* Description Field */}
+         
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
               <Form.Label
                 style={{
@@ -1869,8 +1662,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
         centered
         backdrop="static"
          dialogClassName="custom-delete-modal"
-        // style={{ width: 388, height: 250, marginLeft: '500px', marginTop: '200px' }}
-      >
+             >
         <Modal.Header style={{ borderBottom: 'none' }}>
           <Modal.Title
           className="w-100 text-center delete-card"
@@ -1880,8 +1672,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               
               fontWeight: 600,
               color: '#222222',
-              // flex: 1
-            }}
+                         }}
           >
             Delete Announcement?
           </Modal.Title>
@@ -1894,7 +1685,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             fontWeight: 500,
             fontFamily: 'Gilroy',
             color: '#646464',
-            // textAlign: 'center',
+            
             marginTop: '-30px'
           }}
         >
@@ -1909,8 +1700,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             style={{
               width: "100%",
               maxWidth: 160,
-              // width: 160,
-              height: 52,
+                           height: 52,
               borderRadius: 8,
               padding: '12px 20px',
               background: '#fff',
@@ -1919,8 +1709,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
               fontWeight: 600,
               fontFamily: 'Gilroy',
               fontSize: '14px',
-              // marginRight: 10
-            }}
+                          }}
             onClick={handleCloseDeletePopUP}
           >
             Cancel
@@ -1929,8 +1718,7 @@ console.log("state.PgList?.announcementList?.announcements",state.PgList?.announ
             style={{
               width: "100%",
               maxWidth: 160,
-              // width: 160,
-              height: 52,
+                            height: 52,
               borderRadius: 8,
               padding: '12px 20px',
               background: '#1E45E1',

@@ -32,7 +32,6 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 import BillPdfModal from "../Pages/BillPdfModal";
 import "react-toastify/dist/ReactToastify.css";
 import Closebtn from "../Assets/Images/CloseCircle.png";
-// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import RecurringBill from "../Pages/RecurringBills";
 import RecurringBillList from "../Pages/RecurringBillList";
@@ -64,7 +63,6 @@ const InvoicePage = () => {
   const [loading, setLoading] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [bankking, setBanking] = useState("");
-  // const d = new Date();
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
     lastName: "",
@@ -75,8 +73,7 @@ const InvoicePage = () => {
     FloorNo: "",
     RoomNo: "",
     date: "",
-    // total_amount: '',
-    paymentType: "",
+      paymentType: "",
     amount: "",
     balanceDue: "",
     dueDate: "",
@@ -106,9 +103,7 @@ const InvoicePage = () => {
   const [newRows, setNewRows] = useState([])
   const [customererrmsg, setCustomerErrmsg] = useState("");
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
-  // const [startdateerrmsg, setStartdateErrmsg] = useState("");
-  // const [enddateerrmsg, setEnddateErrmsg] = useState("");
-  const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
+    const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
   const [amenityArray, setamenityArray] = useState([]);
@@ -171,14 +166,13 @@ const InvoicePage = () => {
   const [startDate, endDate] = dateRange;
 
   useEffect(() => {
-    // setLoading(true); 
+ 
     if (state.login.selectedHostel_Id) {
       setHostelId(state.login.selectedHostel_Id);
     }
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
-    // setLoading(true);
-    if (hostelId) {
+      if (hostelId) {
       setLoading(true)
       dispatch({
         type: "MANUALINVOICESLIST",
@@ -220,7 +214,7 @@ const InvoicePage = () => {
   }, [state.InvoiceList.NodataRecurringStatusCode]);
 
 
-console.log("container",receiptdata)
+
 
   useEffect(() => {
     if (state.InvoiceList.NodataReceiptStatusCode === 201) {
@@ -269,11 +263,7 @@ console.log("container",receiptdata)
     dispatch({ type: "GET_REFERENCE_ID" });
   };
 
-  // const handleAccount = (e) => {
-  //   setAccount(e.target.value);
-  //   setAccountError("");
-  //   // setIsChangedError("");
-  // };
+  
   const handleAccount = (selectedOption) => {
     setAccount(selectedOption?.value || "");
     setAccountError("");
@@ -286,13 +276,7 @@ console.log("container",receiptdata)
     setPaymodeErrmsg("");
     setAccount("");
   };
-  // const staticOptions = [
-  //   { value: "bank", label: "Cash" },
-  //   { value: "upi", label: "UPI" },
-  //   { value: "card", label: "Card" },
-  //   { value: "cash", label: "Cash" },
-  //   // { value: "Net Banking", label: "Banking" },
-  // ];
+  
   
   const bankingOptions = Array.isArray(state.bankingDetails?.bankingList?.banks)
   ? state.bankingDetails.bankingList.banks.map((item) => {
@@ -315,8 +299,7 @@ console.log("container",receiptdata)
 
 
   const handleInvoiceDetail = (item) => {
-    // setSelectedItems(item);
-
+   
     if (item.User_Id) {
       const originalDate = new Date(item.Date);
       const year = originalDate.getFullYear();
@@ -363,10 +346,10 @@ console.log("container",receiptdata)
       setShowLoader(true);
     }
   };
-  console.log("bills",bills)
+
 
   const handleReceiptDetail = (item) => {
-    console.log("item", item);
+   
     
     if (item.user_id) {
 
@@ -394,36 +377,18 @@ console.log("container",receiptdata)
     }
   }, [bills]);
 
-  // const handleStatusFilter = (event) => {
-  //   const searchTerm = event.target.value;
-  //   setStatusfilter(searchTerm);
-  //    };
+  
   const handleStatusFilter = (event) => {
     const selected = event.target.value;
     setStatusfilter(selected);
 
-    // Clear date range if not 'date'
+    
     if (selected !== "date") {
       setDateRange([null, null]);
     }
   };
 
-  // useEffect(()=>{
-  //   if (statusfilter === "All") {
-  //     setBills(originalBillsFilter);
-  //   } else {
-  //     const filteredItems = originalBillsFilter.filter((user) =>
-  //         user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
-  //     );
-
-
-  //     setBills(filteredItems);
-  //   }
-
-
-  //   setCurrentPage(1);
-
-  // },[statusfilter])
+ 
 
   useEffect(() => {
     let filtered = originalBillsFilter;
@@ -437,7 +402,7 @@ console.log("container",receiptdata)
       );
     } else if (statusfilter === "date" && startDate && endDate) {
       filtered = filtered.filter((user) => {
-        const invoiceDate = new Date(user.Date); // or user.invoiceDate
+        const invoiceDate = new Date(user.Date); 
         return (
           invoiceDate >= startDate &&
           invoiceDate <= endDate
@@ -477,7 +442,7 @@ console.log("container",receiptdata)
   const handleDateRangeChangeReceipt = (dates) => {
     setReceiptDateRange(dates);
 
-    // If cleared or not fully selected
+   
     if (!dates || dates.length !== 2) {
       setStatusFilterReceipt("All");
       setReceiptData(originalBillsFilterReceipt);
@@ -604,8 +569,7 @@ console.log("container",receiptdata)
 
 
   useEffect(() => {
-    // if (invoiceDetails ) {
-
+    
     if (invoiceDetails?.ID) {
       setCustomerName(invoiceDetails?.ID);
     }
@@ -684,9 +648,7 @@ console.log("container",receiptdata)
       ];
     }
 
-    // if (newRows.length === 0) {
-    //   newRows = [{ "S.No": 1, am_name: "Room Rent", amount: 0 }];
-    // }
+   
 
     setNewRows(newRows);
     const types = [];
@@ -695,7 +657,7 @@ console.log("container",receiptdata)
       if (row.am_name === "EB") types.push("EB");
     });
     setSelectedTypes(types);
-    // }
+   
   }, [invoiceDetails]);
 
 
@@ -719,46 +681,32 @@ console.log("container",receiptdata)
     let isValid = true;
     let hasError = false;
 
-    // Reset all error messages
+   
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
-    // setStartdateErrmsg("");
-    // setEnddateErrmsg("");
-    setInvoiceDateErrmsg("");
+        setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
 
-    // Validate Customer
+    
     if (!customername) {
       setCustomerErrmsg("Customer is Required");
       isValid = false;
     }
 
-    // Validate Invoice Number
+    
     if (!invoicenumber) {
       setInvoicenumberErrmsg("Invoice Number is Required");
       isValid = false;
     }
 
-    // Validate Start & End Date only if NOT advance invoice
-    // if (invoiceDetails?.action !== "advance") {
-    //   if (!startdate) {
-    //     setStartdateErrmsg("Start Date is Required");
-    //     isValid = false;
-    //   }
-    //   if (!enddate) {
-    //     setEnddateErrmsg("End Date is Required");
-    //     isValid = false;
-    //   }
-    // }
-
-    // Validate Invoice Date
+   
     if (!invoicedate) {
       setInvoiceDateErrmsg("Invoice Date is Required");
       isValid = false;
     }
 
-    // Validate Due Date
+   
     if (!invoiceduedate) {
       setInvoiceDueDateErrmsg("Due Date is Required");
       isValid = false;
@@ -786,33 +734,30 @@ console.log("container",receiptdata)
     if (hasError) {
       return;
     }
-    // Global required field check again
+   
     let isValiding = true;
     if (
       !customername ||
       !invoicenumber ||
       !invoicedate ||
       !invoiceduedate 
-    //   (invoiceDetails?.action !== "advance" && (!startdate || !enddate)
-    // )
+    
     ) {
       setAllFieldErrmsg("Please Fill Out All Required Fields");
       isValiding = false;
     }
 
-    // Format functions
+    
     const formatDate = (date) => {
       if (!date) return "";
       const d = new Date(date);
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
     };
 
-    // Check if any value has changed
+    
     const isChanged = (() => {
       const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
-      // const startDateChanged = formatDate(invoiceDetails?.start_date) !== formatDate(startdate);
-      // const endDateChanged = formatDate(invoiceDetails?.end_date) !== formatDate(enddate);
-      const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
+           const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
       const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
       const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
       const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
@@ -827,25 +772,22 @@ console.log("container",receiptdata)
         invoiceChanged ||
         invoiceDateChanged ||
         dueDateChanged ||
-        // (invoiceDetails?.action !== "advance" && (startDateChanged || endDateChanged)) ||
-        rowsCountChanged ||
+                rowsCountChanged ||
         amenitiesChanged
       );
     })();
 
-    // If no changes
+    
     if (!isChanged) {
       setAllFieldErrmsg("No Changes Detected");
       return;
     }
 
-    // Final Save Condition
+   
     if (isValid && isValiding && isChanged) {
       const formattedInvoiceDate = formatDate(invoicedate);
       const formattedDueDate = formatDate(invoiceduedate);
-      // const formattedStartDate = formatDate(startdate);
-      // const formattedEndDate = formatDate(enddate);
-
+     
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
         payload: {
@@ -854,12 +796,10 @@ console.log("container",receiptdata)
           due_date: formattedDueDate,
           id: invoiceDetails.id,
           amenity: amenityArray.length > 0 ? amenityArray : [],
-          // start_date: invoiceDetails?.action === "advance" ? null : formattedStartDate,
-          // end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
-        },
+                 },
       });
 
-      // Reset Form State
+     
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
@@ -873,8 +813,7 @@ console.log("container",receiptdata)
       setTotalAmount("");
       setNewRows([]);
       setCustomerErrmsg("");
-      // setStartdateErrmsg("");
-      setInvoiceDateErrmsg("");
+           setInvoiceDateErrmsg("");
       setInvoiceDueDateErrmsg("");
       setAllFieldErrmsg("");
     }
@@ -887,7 +826,7 @@ console.log("container",receiptdata)
 
 
     if (props.item.id !== undefined) {
-      // setEditOption("Edit");
+      
       const dateObject = new Date(props.item.Date);
       const year = dateObject.getFullYear();
       const month = dateObject.getMonth() + 1;
@@ -900,8 +839,7 @@ console.log("container",receiptdata)
 
 
 
-      // setShowMenu(true);
-      // setShowForm(true);
+      
       let value = props.item.Name.split(" ");
       setSelectedUserId(props.item.User_Id);
       const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
@@ -918,27 +856,21 @@ console.log("container",receiptdata)
         FloorNo: props.item.Floor_Id,
         RoomNo: props.item.Room_No,
         date: formattedDate,
-        // total_amount: Number(item.Amount)+Number(item.AmnitiesAmount)+Number(item.EbAmount),
-        amount: props.item.Amount,
+                amount: props.item.Amount,
         paidAmount: props.item.PaidAmount,
         balanceDue: props.item.BalanceDue === 0 ? "00" : props.item.BalanceDue,
         dueDate: formattedDueDate,
         InvoiceId: props.item.Invoices,
         invoice_type: props.item.invoice_type,
       });
-      // }
+      
     } else {
-      // setEditOption("Add");
-      setSelectedUserId("");
-      // setShowForm(true);
-      // setUserClicked(true);
-      // setShowMenu(true);
-    }
+           setSelectedUserId("");
+         }
   };
 
-  console.log("props", invoiceList.balanceDue);
   const handleCloseForm = () => {
-    // setEdit(!edit)
+    
     setPaymodeErrmsg("")
     setAccountError("")
     setDateErrmsg("")
@@ -956,8 +888,7 @@ console.log("container",receiptdata)
       amount: "",
       balanceDue: "",
       dueDate: "",
-      // total_amount:'',
-      transaction: "",
+           transaction: "",
       paymentType: "",
     });
     setSelectedDate(null);
@@ -996,8 +927,7 @@ console.log("container",receiptdata)
       !formatpaiddate ||
       !invoiceList.transaction
     ) {
-      // setTotalErrmsg("Please enter All field");
-      setTimeout(() => {
+            setTimeout(() => {
         setTotalErrmsg("");
       }, 1000);
       return;
@@ -1036,22 +966,12 @@ console.log("container",receiptdata)
   const options = {
     dateFormat: "d/m/Y",
     defaultDate: null,
-    // defaultDate: selectedDate,
-    maxDate: new Date(),
+        maxDate: new Date(),
     minDate: null,
   };
 
 
-  // const handleAddColumn = () => {
-  //   const newRow = {
-  //     am_name: "",
-  //     used_unit: "",
-  //     per_unit_amount: "",
-  //     total_amount: "",
-  //     amount: "",
-  //   };
-  //   setNewRows([...newRows, newRow]);
-  // };
+  
 
   const handleCustomerName = (selectedOption) => {
     setCustomerName(selectedOption?.value || '');
@@ -1063,8 +983,7 @@ console.log("container",receiptdata)
     }
     setStartDate("");
     setEndDate("");;
-    // setBillAmounts("");
-    setTotalAmount("");
+       setTotalAmount("");
   };
 
   const handleBackBill = () => {
@@ -1080,50 +999,24 @@ console.log("container",receiptdata)
     setEndDate("");
     setInvoiceDate("");
     setInvoiceDueDate("");
-    // setBillAmounts("");
-    setTotalAmount("");
+        setTotalAmount("");
     setCustomerErrmsg("");
-    // setStartdateErrmsg("");
-    setInvoiceDateErrmsg("");
+        setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
     setTableErrmsg("");
-    // setEnddateErrmsg("");
-    setamenityArray([]);
+        setamenityArray([]);
     setNewRows([]);
     setDropdownValue("")
   };
 
   const formatDateForPayloadmanualinvoice = (date) => {
-    return dayjs(date).format("YYYY-MM-DD"); // Change format if needed
+    return dayjs(date).format("YYYY-MM-DD"); 
   };
 
 
 
-  // const handlestartDate = (selectedDates) => {
-  //   setAllFieldErrmsg("");
-  //   const date = selectedDates;
-  //   setStartDate(date);
-
-  //   if (!selectedDates) {
-  //     setStartdateErrmsg("Please Select Date");
-  //   } else {
-  //     setStartdateErrmsg("");
-  //   }
-
-  // };
-
-  // const handleEndDate = (selectedDates) => {
-  //   setAllFieldErrmsg("");
-  //   const date = selectedDates;
-  //   setEndDate(date);
-  //   if (!selectedDates) {
-  //     setEnddateErrmsg("Please Select Date");
-  //   } else {
-  //     setEnddateErrmsg("");
-  //   }
-
-  // };
+  
 
   const handleInvoiceDate = (selectedDate) => {
     setAllFieldErrmsg("");
@@ -1136,30 +1029,14 @@ console.log("container",receiptdata)
 
     setInvoiceDate(selectedDate);
     setInvoiceDateErrmsg("");
-    // setEnddateErrmsg("");
-    // setStartdateErrmsg("");
-
+    
     const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
     setFormatInvoiceDate(formattedDate);
   };
 
 
 
-  // const handleInvoiceDate = (selectedDates) => {
-  //   setAllFieldErrmsg("");
-  //   const date = selectedDates;
-  //   setInvoiceDate(date);
-  //   if (!selectedDates) {
-  //     setInvoiceDateErrmsg("Please Select Date");
-  //   } else {
-  //     setInvoiceDateErrmsg("");
-  //     setEnddateErrmsg("");
-  //     setStartdateErrmsg("");
-  //   }
-
-  //   const formattedDate = formatDateForPayloadmanualinvoice(date);
-  //   setFormatInvoiceDate(formattedDate);
-  // };
+  
 
   const handleDueDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -1268,8 +1145,7 @@ console.log("container",receiptdata)
             transform: "translateY(-50%)",
           }}
           alt="Calendar"
-          onClick={onClick} // Opens date picker when clicking the icon
-        />
+          onClick={onClick}         />
       </div>
     );
   });
@@ -1317,7 +1193,7 @@ console.log("container",receiptdata)
             transform: "translateY(-50%)",
           }}
           alt="Calendar"
-          onClick={onClick} // Open date picker on icon click
+          onClick={onClick} 
         />
       </div>
     );
@@ -1364,7 +1240,7 @@ console.log("container",receiptdata)
             transform: "translateY(-50%)",
           }}
           alt="Calendar"
-          onClick={onClick} // Open date picker when clicking the icon
+          onClick={onClick} 
         />
       </div>
     );
@@ -1374,14 +1250,7 @@ console.log("container",receiptdata)
 
 
 
-  // const handleNewRowChange = (index, field, value) => {
-  //   setAllFieldErrmsg("");
-  //   const updatedRows = [...newRows];
-  //   updatedRows[index][field] = value;
-
-  //   setNewRows(updatedRows);
-  //   setTableErrmsg("")
-  // };
+ 
   const handleNewRowChange = (index, field, value) => {
     setNewRows((prevRows) =>
       prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
@@ -1401,16 +1270,16 @@ console.log("container",receiptdata)
 
     setNewRows((prev) => [...prev, newRow]);
 
-    // Add to selectedTypes only if not already added
+   
     if (type !== "Other" && !selectedTypes.includes(type)) {
       setSelectedTypes((prev) => [...prev, type]);
     }
 
-    // Clear error messages
+   
     setAllFieldErrmsg("");
     setTableErrmsg("");
 
-    // ✅ Reset dropdown cleanly using state
+   
     setDropdownValue("");
   };
 
@@ -1421,7 +1290,7 @@ console.log("container",receiptdata)
       const deletedRow = prevRows[index];
       const updatedRows = prevRows.filter((_, i) => i !== index);
 
-      // Remove RoomRent or EB from selectedTypes if that row was deleted
+      
       if (deletedRow.am_name === "Room Rent") {
         setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "RoomRent"));
       } else if (deletedRow.am_name === "EB") {
@@ -1447,27 +1316,15 @@ console.log("container",receiptdata)
   const handleCreateBill = () => {
     let hasError = false;
 
-    // Check required fields and set error messages only if empty
+   
     if (!customername) {
       setCustomerErrmsg("Please Select Customer");
       hasError = true;
     } else {
-      setCustomerErrmsg(""); // Clear error when field is filled
+      setCustomerErrmsg("");
     }
 
-    // if (!startdate) {
-    //   setStartdateErrmsg("Please Select Start Date");
-    //   hasError = true;
-    // } else {
-    //   setStartdateErrmsg("");
-    // }
-
-    // if (!enddate) {
-    //   setEnddateErrmsg("Please Select End Date");
-    //   hasError = true;
-    // } else {
-    //   setEnddateErrmsg("");
-    // }
+   
 
     if (!invoicedate) {
       setInvoiceDateErrmsg("Please Select Invoice Date");
@@ -1483,15 +1340,7 @@ console.log("container",receiptdata)
       setInvoiceDueDateErrmsg("");
     }
 
-    // Check if any row in the table is incomplete
-    // if (newRows.some((row) => !row.am_name || !row.amount)) {
-    //   setTableErrmsg(
-    //     "Please fill all details in the table before generating the bill"
-    //   );
-    //   hasError = true;
-    // } else {
-    //   setTableErrmsg("");
-    // }
+    
     if (!Array.isArray(newRows) || newRows.length === 0) {
       setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
       hasError = true;
@@ -1513,25 +1362,24 @@ console.log("container",receiptdata)
     }
 
 
-    // Stop execution if there are errors
+    
     if (hasError) {
       return;
     }
 
-    // Format dates
+    
     const formattedStartDate = startdate ? dayjs(startdate).format("YYYY-MM-DD") : "";
 
     const formattedEndDate = enddate ? dayjs(enddate).format("YYYY-MM-DD") : "";
 
-    // Dispatch only if all fields are filled
+   
     dispatch({
       type: "MANUAL-INVOICE-ADD",
       payload: {
         user_id: customername,
         date: formatinvoicedate,
         due_date: formatduedate,
-        // start_date: formattedStartDate,
-        // end_date: formattedEndDate,
+       
         start_date: invoiceDetails?.action === "advance" ? null : formattedStartDate,
         end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
         invoice_id: invoicenumber,
@@ -1545,7 +1393,7 @@ console.log("container",receiptdata)
     setReceiptFormShow(false);
     setShowAllBill(true);
 
-    // Reset form fields
+   
     setCustomerName("");
     setInvoiceNumber("");
     setStartDate("");
@@ -1553,7 +1401,7 @@ console.log("container",receiptdata)
     setInvoiceDate("");
     setInvoiceDueDate("");
     setTotalAmount("");
-    // setBillAmounts([]);
+   
     setNewRows([]);
   };
 
@@ -1563,7 +1411,7 @@ console.log("container",receiptdata)
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = bills.slice(indexOfFirstItem, indexOfLastItem);
+  
   const currentItems =
     filterInput.length > 0
       ? bills
@@ -1607,16 +1455,13 @@ console.log("container",receiptdata)
           setSortConfig({ key, direction });
         };
 
-  //recurring pagination
+
   const [currentRecurePage, setCurrentRecurePage] = useState(1);
   const [itemsPage, setItemsPage] = useState(10);
   const indexOfLastItemRecure = currentRecurePage * itemsPage;
   const indexOfFirstItemRecure = indexOfLastItemRecure - itemsPage;
 
-  // const currentItem = recurringbills?.slice(
-  //   indexOfFirstItemRecure,
-  //   indexOfLastItemRecure
-  // );
+ 
   const currentItem =
     filterInput.length > 0
       ? recurringbills
@@ -1659,9 +1504,8 @@ console.log("container",receiptdata)
   const handleSortRecure = (key, direction) => {
     setSortConfigRecure({ key, direction });
   };
-  const totalPage = Math.ceil(recurringbills.length / itemsPage); //recurring pagination
-
-  //Receipt pagination
+  const totalPage = Math.ceil(recurringbills.length / itemsPage); 
+  
   const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
   const [itemsperPage, setItemsPERPage] = useState(10);
   const indexOfLastItemReceipt = currentreceiptPage * itemsperPage;
@@ -1704,7 +1548,7 @@ console.log("container",receiptdata)
 
     return sorted;
   }, [currentReceiptData, sortConfigReceipt]);
-  console.log("sortedDataReceipt",receiptdata)
+  
   const handleSortReceipt = (key, direction) => {
     setSortConfigReceipt({ key, direction });
   };
@@ -1712,55 +1556,9 @@ console.log("container",receiptdata)
     setItemsPERPage(Number(event.target.value));
     setCurrentReceiptPage(1);
   };
-  const ReceipttotalPages = Math.ceil(receiptdata.length / itemsperPage); //Receipt pagination
+  const ReceipttotalPages = Math.ceil(receiptdata.length / itemsperPage); 
 
-  //  const renderPageNumbers = () => {
-  //    const pageNumbers = [];
-  //    for (let i = 1; i <= totalPages; i++) {
-  //      pageNumbers.push(
-  //        <li key={i} style={{ margin: "0 5px" }}>
-  //          <button
-  //            style={{
-  //              padding: "5px 10px",
-  //              color: i === currentPage ? "#007bff" : "#000",
-  //              cursor: "pointer",
-  //              border: i === currentPage ? "1px solid #ddd" : "none",
-  //              backgroundColor:
-  //                i === currentPage ? "transparent" : "transparent",
-  //            }}
-  //            onClick={() => handlePageChange(i)}
-  //          >
-  //            {i}
-  //          </button>
-  //        </li>
-  //      );
-  //    }
-  //    return pageNumbers;
-  //  };
-
-  //  const renderPageNumber = () => {
-  //    const pageNumbers = [];
-  //    for (let i = 1; i <= totalPage; i++) {
-  //      pageNumbers.push(
-  //        <li key={i} style={{ margin: "0 5px" }}>
-  //          <button
-  //            style={{
-  //              padding: "5px 10px",
-  //              color: i === currentPage ? "#007bff" : "#000",
-  //              cursor: "pointer",
-  //              border: i === currentPage ? "1px solid #ddd" : "none",
-  //              backgroundColor:
-  //                i === currentPage ? "transparent" : "transparent",
-  //            }}
-  //            onClick={() => handlePageChange(i)}
-  //          >
-  //            {i}
-  //          </button>
-  //        </li>
-  //      );
-  //    }
-  //    return pageNumbers;
-  //  };
+  
 
   const handleDeleteRecurringbills = (item) => {
     if (item) {
@@ -1838,20 +1636,19 @@ useEffect(()=>{
     
   },[state.InvoiceList.statusCodeNewReceiptStatusCode])
 
-// Usage in a component
+
 
 
   const handleClosePdfReceipt = () => {
     setDownloadReceipt(false);
   };
-console.log("DownloadReceipt",receiptdata)
+
   const handleClosePdfModal = () => {
     setDownloadInvoice(false);
   };
 
   useEffect(() => {
-    // setLoading(true);
-    if (hostelId) {
+      if (hostelId) {
       dispatch({
         type: "BANKINGLIST",
         payload: { hostel_id: hostelId },
@@ -1951,16 +1748,7 @@ console.log("DownloadReceipt",receiptdata)
     }
   }, [billrolePermission]);
 
-  // useEffect(() => {
-  //   if (
-  //     billrolePermission[0]?.is_owner == 1 ||
-  //     billrolePermission[0]?.role_permissions[10]?.per_delete == 1
-  //   ) {
-  //     setReceiptDeletePermission("");
-  //   } else {
-  //     setReceiptDeletePermission("Permission Denied");
-  //   }
-  // }, [billrolePermission]);
+ 
 
   useEffect(() => {
     if (hostelId) {
@@ -2025,20 +1813,17 @@ console.log("DownloadReceipt",receiptdata)
     state.InvoiceList.statusCodeForReceiptPDf,
   ]);
 
-  // useEffect(() => {
-  //   dispatch({ type: "ALL-NOTIFICATION-LIST" });
-  //   setNotification(state.login.Notification);
-  // }, []);
+  
 
   useEffect(() => {
     if (
       state.login.UpdateNotificationMessage !== null &&
       state.login.UpdateNotificationMessage !== ""
     ) {
-      // dispatch({ type: "ALL-NOTIFICATION-LIST" });
+     
       setTimeout(() => {
         dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
-        // newNotificationIDs = [];
+        
       }, 100);
     }
   }, [state.login.UpdateNotificationMessage]);
@@ -2052,13 +1837,12 @@ console.log("DownloadReceipt",receiptdata)
       if (pdfUrl) {
         setShowLoader(false);
 
-        // Pre-open the tab
+       
         const pdfWindow = window.open("", "_blank");
         if (pdfWindow) {
-          pdfWindow.location.href = pdfUrl; // Update URL to the PDF
+          pdfWindow.location.href = pdfUrl; 
           dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
-          // setTimeout(() => dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" }), 100);
-        }
+                  }
       }
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
@@ -2070,10 +1854,10 @@ console.log("DownloadReceipt",receiptdata)
       if (pdfUrl) {
         setShowLoader(false);
 
-        // Pre-open the tab
+       
         const pdfWindow = window.open("", "_blank");
         if (pdfWindow) {
-          pdfWindow.location.href = pdfUrl; // Update URL to the PDF
+          pdfWindow.location.href = pdfUrl; 
           dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
         }
 
@@ -2081,22 +1865,7 @@ console.log("DownloadReceipt",receiptdata)
     }
   }, [state.InvoiceList?.statusCodeForReceiptPDf]);
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "HOSTELDETAILLIST",
-  //     payload: { hostel_Id: invoiceList.hostel_Id },
-  //   });
-  // }, [invoiceList.hostel_Id]);
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "ROOMDETAILS",
-  //     payload: {
-  //       hostel_Id: invoiceList.hostel_Id,
-  //       floor_Id: invoiceList.FloorNo,
-  //     },
-  //   });
-  // }, [invoiceList.FloorNo]);
+ 
 
   useEffect(() => {
     if (selectedUserId) {
@@ -2104,7 +1873,7 @@ console.log("DownloadReceipt",receiptdata)
         (item) => item.User_Id === selectedUserId
       );
       if (filteredDetails) {
-        // setFilteredUserDetails([filteredDetails]);
+       
         setInvoiceList({
           ...invoiceList,
           firstName: filteredDetails.Name.split(" ")[0] || "",
@@ -2149,14 +1918,20 @@ console.log("DownloadReceipt",receiptdata)
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
         setLoading(false);
-
-        setBills(state.InvoiceList.ManualInvoices);
+      
       }, 1000);
     }
-  }, [
-    state.InvoiceList.manualInvoiceAddStatusCode,
-    state.InvoiceList.ManualInvoices,
-  ]);
+  }, [state.InvoiceList.manualInvoiceAddStatusCode]);
+
+  useEffect(()=>{
+ setBills(state.InvoiceList.ManualInvoices);
+  },[state.InvoiceList.ManualInvoices,])
+
+
+
+
+
+
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
@@ -2187,8 +1962,7 @@ console.log("DownloadReceipt",receiptdata)
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
-        // setLoading(false);
-
+       
         setBills(state.InvoiceList.ManualInvoices);
       }, 1000);
     }
@@ -2200,10 +1974,7 @@ console.log("DownloadReceipt",receiptdata)
   useEffect(() => {
     if (state.InvoiceList?.InvoiceListStatusCode === 200) {
       setLoading(false);
-      // dispatch({
-      //   type: "MANUALINVOICESLIST",
-      //   payload: { hostel_id: hostelId },
-      // });
+     
       setBills(state.InvoiceList.ManualInvoices);
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_LIST" });
@@ -2266,82 +2037,10 @@ console.log("DownloadReceipt",receiptdata)
     state.InvoiceList.Manulainvoicenumberstatuscode,
   ]);
 
-  // useEffect(() => {
-  //   if (!dataFetched) {
-  //     dispatch({
-  //       type: 'GET-MANUAL-INVOICE-AMOUNTS',
-  //       payload: {
-  //         user_id: customername,
-  //         start_date: formatstartdate,
-  //         end_date: formatenddate
-  //       }
-  //     });
-
-  //     if (state.InvoiceList.manualInvoiceStatusCode === 200) {
-  //       const totalArray = state?.InvoiceList?.ManualInvoice?.total_array;
-
-  //       if (totalArray) {
-  //         setInvoiceTotalAmount(totalArray);
-  //       }
-  //       setDataFetched(true);
-  //       setTimeout(() => {
-  //         dispatch({ type: 'REMOVE_STATUS_CODE_MANUAL_INVOICE_AMOUNT_GET' });
-  //       }, 1000);
-  //     }
-  //   }
-  // }, [customername, formatstartdate, formatenddate, dataFetched, state.InvoiceList.manualInvoiceStatusCode , state.InvoiceList.ManualInvoice.total_array]);
-
-  // useEffect(() => {
-  //   if (invoicetotalamounts && invoicetotalamounts.length > 0) {
-  //     setBillAmounts(invoicetotalamounts);
-  //   }
-  // }, [invoicetotalamounts]);
+ 
 
   useEffect(() => {
-    //future purpose commenting this lines ==>
-
-    //   if(billamounts && billamounts.length > 0){
-
-    //   const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 10);// EB Amount with id 10
-    //   const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 50); // Room Rent with id 50
-
-    //   setEBAmount(EbAmount)
-    //   setRentAmount(RoomRentItem)
-
-    //   var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 10 && item.id != 50);
-
-    //  const AmenityDetails = amenities.map(item => ({
-    //     am_name: item.description,
-    //     amount: item.amount
-    //     }));
-
-    //     setAmenityDetails(AmenityDetails)
-
-    //     const allRows = newRows.map(detail => ({
-    //       am_name: detail.am_name,
-    //       amount: Number(detail.amount)
-    //     })).filter(detail => detail.am_name && detail.amount);
-
-    //     const amenityArray = AmenityDetails.map(detail => ({
-    //       am_name: detail.am_name,
-    //       amount: detail.amount
-    //     })).filter(detail => detail.am_name && detail.amount);
-
-    //     // Combine allRows and amenityArray
-    //     const combinedRows = [...amenityArray, ...allRows];
-
-    //     setamenityArray(combinedRows)
-
-    //     const totalAmount = (
-    //       parseFloat(EbAmount?.amount || 0) +         // Add EB Amount
-    //       parseFloat(RoomRentItem?.amount || 0) +     // Add Room Rent
-    //       combinedRows.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0) // Sum amounts from combinedRows
-    //     );
-
-    //     setTotalAmount(totalAmount);  // Set the total amount in the state
-
-    //           }
-
+  
     if (newRows) {
       const allRows = newRows
         .map((detail) => ({
@@ -2444,7 +2143,7 @@ console.log("DownloadReceipt",receiptdata)
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value.length > 0);
-    // setDropdownVisible(value.trim().length > 0); 
+    
     setBills(originalBills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
@@ -2471,7 +2170,7 @@ console.log("DownloadReceipt",receiptdata)
     });
   };
 
-  // Set initial data when component mounts
+ 
   useEffect(() => {
     if (receiptdata?.length > 0 && originalReceipt?.length === 0) {
       setOriginalReceipt(receiptdata);
@@ -2490,7 +2189,7 @@ console.log("DownloadReceipt",receiptdata)
   }, [recurringbills]);
   const handleSearch = () => {
     setSearch(!search);
-    // setFilterStatus(false);
+   
   };
 
   const handleUserRecuire = (user) => {
@@ -2508,31 +2207,13 @@ console.log("DownloadReceipt",receiptdata)
     setDropdownVisible(false);
   };
 
-  // useEffect(() => {
-  //    if (value === "1") {
-  //      const FilterUser = Array.isArray(bills)
-  //          ? bills.filter((item) =>
-  //              item.Name.toLowerCase().includes(filterInput.toLowerCase())
-  //            )
-  //          : [];
-
-  //      setBills(FilterUser);
-  //  }
-
-  //    if (value === "2") {
-  //      const FilterUsertwo = Array.isArray(recurringbills) ? recurringbills?.filter((item) =>
-  //       item.user_name.toLowerCase().includes(filterInput.toLowerCase())
-  //        ) :[];
-  //      setRecurringBills(FilterUsertwo);
-  //    }
-
-  //  }, [filterInput,value,]);
+  
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
   };
 
-  //Receipt  
+ 
   useEffect(() => {
 
     if (hostelId) {
@@ -2566,7 +2247,7 @@ console.log("DownloadReceipt",receiptdata)
       state.InvoiceList.ReceiptDeletesuccessStatuscode === 200 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
-      // setReceiptLoader(true);
+     
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
@@ -2675,54 +2356,7 @@ console.log("DownloadReceipt",receiptdata)
                                 width: "100%",
                               }}
                             >
-                              {/* <ul
-                              className="show-scroll p-0"
-                              style={{
-                                backgroundColor: "#fff",
-                                borderRadius: "4px",
-                                minHeight: 50,
-                                maxHeight: bills?.length > 1 ? "100px" : "auto",
-                                overflowY: bills?.length > 3 ? "auto" : "hidden",
-                                margin: "0",
-                                listStyleType: "none",
-                                boxSizing: "border-box",
-                              }}
-                            >
-                              {bills?.map((user, index) => {
-                                const imagedrop = user.profile || Profile;
-                                return (
-                                  <li
-                                    key={index}
-                                    className="list-group-item d-flex align-items-center"
-                                    style={{
-                                      cursor: "pointer",
-                                      padding: "10px 5px",
-                                      borderBottom:
-                                        index !== bills?.length - 1
-                                          ? "1px solid #eee"
-                                          : "none",
-                                    }}
-                                    onClick={() => handleUserSelect(user)}
-                                  >
-                                    <Image
-                                      src={imagedrop}
-                                      alt={user.Name || "Default Profile"}
-                                      roundedCircle
-                                      style={{
-                                        height: "30px",
-                                        width: "30px",
-                                        marginRight: "10px",
-                                      }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
-                                      }}
-                                    />
-                                    <span>{user.Name}</span>
-                                  </li>
-                                );
-                              })}
-                            </ul> */}
+                             
                               <ul
                                 className="show-scroll p-0"
                                 style={{
@@ -2782,12 +2416,12 @@ console.log("DownloadReceipt",receiptdata)
                               position: "absolute",
                               top: 80,
                               left: 0,
-                              zIndex: 9999, // Increased zIndex
+                              zIndex: 9999, 
                               padding: 10,
                               borderRadius: 8,
                               backgroundColor: "#fff",
                               width: "100%",
-                              pointerEvents: "auto", // Ensure clicks are registered
+                              pointerEvents: "auto", 
                             }}
                           >
                             <ul
@@ -2818,8 +2452,7 @@ console.log("DownloadReceipt",receiptdata)
                                     onClick={(e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
-                                      console.log(`Clicked on: ${user.user_name}`);
-                                      handleUserRecuire(user);
+                                                                           handleUserRecuire(user);
                                     }}
                                   >
                                     <Image
@@ -2885,7 +2518,7 @@ console.log("DownloadReceipt",receiptdata)
                                       onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
-                                        console.log(`Clicked on: ${user.Name}`); // Debug line
+                                       
                                         handleUserReceipt(user);
                                       }}
                                     >
@@ -3041,11 +2674,7 @@ console.log("DownloadReceipt",receiptdata)
                     </div>
                   )}
 
-                  {/* <BsSearch class=" me-4" onClick={handleiconshow} /> 
-
-<div className='me-3'>
-<Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} onClick={handleFiltershow} />
-</div> */}
+                 
 
                   <div className="text-center" style={{ paddingRight: 18 }} >
                     {value === "1" && (
@@ -3074,19 +2703,7 @@ console.log("DownloadReceipt",receiptdata)
                       <Button
                         disabled={recuringbillAddPermission}
                         onClick={handleRecurrBillShow}
-                        // style={{
-                        //   fontSize: 14,
-                        //   backgroundColor: "#1E45E1",
-                        //   color: "white",
-                        //   height: 52,
-                        //   fontWeight: 600,
-                        //   borderRadius: 8,
-                        //   width: 200,
-                        //   padding: "12px, 16px, 12px, 16px",
-                        //   color: "#FFF",
-                        //   fontFamily: "Montserrat",
-                        //   whiteSpace: "nowrap",
-                        // }}
+                       
                         style={{
                           fontFamily: "Gilroy",
                           fontSize: "14px",
@@ -3098,8 +2715,7 @@ console.log("DownloadReceipt",receiptdata)
                           paddingLeft: 25,
                           marginTop: 18,
                           whiteSpace: "nowrap",
-                          // width: "170px",
-                        }}
+                                                 }}
                       >
                         {" "}
                         + Recurring Bill
@@ -3110,19 +2726,7 @@ console.log("DownloadReceipt",receiptdata)
                       <Button
                         disabled={receiptaddPermission}
                         onClick={handleReceiptShow}
-                        // style={{
-                        //   fontSize: 14,
-                        //   backgroundColor: "#1E45E1",
-                        //   color: "white",
-                        //   height: 52,
-                        //   fontWeight: 600,
-                        //   borderRadius: 8,
-                        //   width: 180,
-                        //   padding: "12px, 16px, 12px, 16px",
-                        //   color: "#FFF",
-                        //   fontFamily: "Montserrat",
-                        //   whiteSpace: "nowrap",
-                        // }}
+                       
                         style={{
                           fontFamily: "Gilroy",
                           fontSize: "14px",
@@ -3175,8 +2779,7 @@ console.log("DownloadReceipt",receiptdata)
                     label="Bills"
                     value="1"
                     style={{
-                      // marginTop: 0,
-                      fontSize: 16,
+                                           fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
                       lineHeight: "normal",
@@ -3189,8 +2792,7 @@ console.log("DownloadReceipt",receiptdata)
                     label="Recurring Bills"
                     value="2"
                     style={{
-                      // marginTop: 0,
-                      fontSize: 16,
+                                           fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
                       lineHeight: "normal",
@@ -3203,8 +2805,7 @@ console.log("DownloadReceipt",receiptdata)
                     label="Receipt"
                     value="3"
                     style={{
-                      // marginTop: 0,
-                      fontSize: 16,
+                                          fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
                       lineHeight: "normal",
@@ -3227,17 +2828,16 @@ console.log("DownloadReceipt",receiptdata)
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
-                        // height: "100vh",
-                      }}
+                                              }}
                     >
-                      {/* Image */}
+                     
                       <img
                         src={Emptystate}
                         alt="Empty State"
                         style={{ maxWidth: "100%", height: "auto" }}
                       />
 
-                      {/* Permission Error */}
+                     
                       {billpermissionError && (
                         <div
                           style={{
@@ -3377,40 +2977,7 @@ console.log("DownloadReceipt",receiptdata)
 
                             className="m-0 p-0"
                           >
-                            {/* <Modal.Header
-                              closeButton
-                              closeLabel="close-button"
-                              style={{ border: "1px solid #E7E7E7" }}
-                            >
-                              <Modal.Title
-                                style={{
-                                  fontSize: 20,
-                                  color: "#222222",
-                                  fontFamily: "Gilroy,sans-serif",
-                                  fontWeight: 600,
-                                }}
-                              >
-                                {`Record payment `}
-                                {invoiceValue?.Name && (
-                                  <span>
-                                    -
-                                    <span style={{ color: "#1E45E1" }}>
-                                      {" "}
-                                      {invoiceValue.Name}
-                                    </span>{" "}
-                                  </span>
-                                )}
-                                {invoiceValue?.Invoices && (
-                                  <span>
-                                    -
-                                    <span style={{ color: "#1E45E1" }}>
-                                      {" "}
-                                      {invoiceValue.Invoices}
-                                    </span>{" "}
-                                  </span>
-                                )}
-                              </Modal.Title>
-                            </Modal.Header> */}
+                           
 
 
                             <Modal.Header
@@ -3498,14 +3065,7 @@ console.log("DownloadReceipt",receiptdata)
                                         *
                                       </span>
                                     </Form.Label>
-                                    {/* <Form.Control
-                                      type="text"
-                                      placeholder="Enter Amount"
-                                      value={invoiceList.payableAmount}
-                                      onChange={(e) => {
-                                        handleAmount(e);
-                                      }}
-                                    /> */}
+                                   
                                     <Form.Control
                                       type="number"
                                       min="0"
@@ -3577,24 +3137,7 @@ console.log("DownloadReceipt",receiptdata)
                                         width: "100%",
                                       }}
                                     >
-                                      {/* <DatePicker
-                                        style={{ height: "40px" }}
-                                        selected={selectedDate}
-                                        onChange={(date) => {
-                                          setDateErrmsg("");
-                                          setAccountError("");
-                                          setSelectedDate(date);
-                                        }}
-                                        dateFormat="dd/MM/yyyy"
-                                        maxDate={null}
-                                        customInput={customDateInput({
-                                          value: selectedDate
-                                            ? selectedDate.toLocaleDateString(
-                                              "en-GB"
-                                            )
-                                            : "",
-                                        })}
-                                      /> */}
+                                      
                                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                         <DatePicker
                                           style={{ width: "100%", height: 48, cursor: "pointer" }}
@@ -3612,50 +3155,7 @@ console.log("DownloadReceipt",receiptdata)
                                     </div>
                                   </Form.Group>
 
-                                  {/* <div style={{ position: 'relative' }}>
-                    <label
-                      htmlFor="date-input"
-                      style={{
-                        border: "1px solid #D9D9D9",
-                        borderRadius: 8,
-                        padding: 7,
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "rgba(75, 75, 75, 1)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                      onClick={() => {
-                        if (calendarRef.current) {
-                          calendarRef.current.flatpickr.open();
-                        }
-                      }}
-                    >
-                      {selectedDate instanceof Date && !isNaN(selectedDate) ? selectedDate.toLocaleDateString('en-GB') : 'DD/MM/YYYY'}
-                      <img src={Calendars} style={{ height: 24, width: 24, marginLeft: 10 }} alt="Calendar" />
-                    </label>
-                    <Flatpickr
-                      ref={calendarRef}
-                      options={options}
-                      placeholder="Select Date"
-                      value={selectedDate}
-                      onChange={handleDateChange}
-                      style={{
-                        padding: 10,
-                        fontSize: 16,
-                        width: "100%",
-                        borderRadius: 8,
-                        border: "1px solid #D9D9D9",
-                        position: 'absolute',
-                        top: 100,
-                        left: 100,
-                        zIndex: 1000,
-                        display: "none"
-                      }}
-                    />
-                  </div> */}
+                                 
 
                                   {dateerrmsg.trim() !== "" && (
                                     <div>
@@ -3796,7 +3296,7 @@ console.log("DownloadReceipt",receiptdata)
                                   </Form.Group>
                                 </div>
 
-                                {/* {modeOfPayment === "Net Banking" && ( */}
+                              
                                 {invoiceList.transaction === "Net Banking" && (
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Label
@@ -3878,7 +3378,7 @@ console.log("DownloadReceipt",receiptdata)
                                           color: "#000",
                                         }),
                                       }}
-                                      //  isDisabled={currentItem}
+                                     
                                       noOptionsMessage={() =>
                                         bankking?.length === 0
                                           ? "No accounts available"
@@ -3911,7 +3411,7 @@ console.log("DownloadReceipt",receiptdata)
                                     )}
                                   </div>
                                 )}
-                                {/* )} */}
+                               
                               </div>
                               {totalErrormsg.trim() !== "" && (
                                 <div>
@@ -3959,8 +3459,7 @@ console.log("DownloadReceipt",receiptdata)
                       </div>
                     )}
 
-                    {/* {currentItems.length > 0 && */}
-                    {/* <> */}
+                   
 
                     <Container fluid className="p-0 table-bills mt-2">
                       <Row
@@ -3983,50 +3482,7 @@ console.log("DownloadReceipt",receiptdata)
                               {bills &&
                                 bills.map((item) => (
                                   <>
-                                    {/* <div className="" style={{}}>
-                          <div className="d-flex  align-items-center justify-content-evenly w-100 "  >
-
-
-                            <div >
-                              <span ><img src={User} style={{ height: 40, width: 40, }} /></span>
-                            </div>
-
-
-                            <div className=''>
-
-                              <div className="d-flex justify-content-between  align-items-center w-100 mb-2">
-
-                                <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '14px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer" }} onClick={() => handleDisplayInvoiceDownload(true, item)} >{item.Name}</div>
-                                <div style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>{item.Amount}</div>
-
-                              </div>
-
-                              <div className="d-flex justify-content-between gap-3 align-items-center w-100 mb-2 mt-2" style={{ backgroundColor: "" }}>
-
-                                <div style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>#{item.Invoices == null || item.Invoices == '' ? '0.00' : item.Invoices}</div>
-                                <div className="" style={{ fontFamily: 'Gilroy', fontSize: '12px', wordWrap: 'break-word', color: "#222", fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600 }}>{moment(item.Date).format("DD MMM YYYY")}</div>
-
-                              </div>
-
-                              <div className='mb-2 mt-2'>
-                                {item.BalanceDue === 0 ? <span style={{ fontSize: '10px',backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> : <span
-
-                                  style={{ cursor: 'pointer',fontSize: '10px', backgroundColor: '#FFD9D9', fontFamily: 'Gilroy', color: '#000', borderRadius: '14px', padding: "8px 12px" }}>Unpaid</span>}
-                              </div>
-
-                            </div>
-
-                          </div>
-                        </div> */}
-                                 {/* <div
-                                  className="invoice-list-container"
-                                        style={{
-                                        height: '100%', // fallback
-                                        maxHeight: window.innerWidth < 768 ? '150px' : '250px',
-                                        overflowY: 'auto',
-                                        paddingRight: '10px',
-                                        }}
-                                       > */}
+                                   
                                    <div
   className="mb-3 bg-white shadow-sm rounded"
   style={{ padding: "12px 16px" }}
@@ -4152,8 +3608,7 @@ console.log("DownloadReceipt",receiptdata)
                                         </div>
                                       </div>
                                     </div>
-                                    {/* </div> */}
-                                    {/* <hr /> */}
+                                   
                                   </>
                                 ))}
                             </div>
@@ -4177,12 +3632,12 @@ console.log("DownloadReceipt",receiptdata)
                                                            marginTop: "20px",
                                                            paddingRight:0,
                                                            paddingLeft:0
-                                                           //  borderBottom:"1px solid #DCDCDC"
+                                                           
                                                          }}
                                                        >
                                                          <Table
                                                            responsive="md"
-                                                           // className="Table_Design"
+                                                          
                                                            style={{
                                                              fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                                                              top: 0,
@@ -4204,8 +3659,7 @@ console.log("DownloadReceipt",receiptdata)
                                             color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontWeight: 500,
-                                            // borderTopLeftRadius: 24,
-                                          }}
+                                                                                     }}
                                         >
                                           <div className='d-flex gap-1 align-items-center justify-content-start'>
                                                                                                                       <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
@@ -4340,8 +3794,7 @@ console.log("DownloadReceipt",receiptdata)
                                             color: "rgb(147, 147, 147)",
                                             fontSize: 14,
                                             fontWeight: 500,
-                                            // borderTopRightRadius: 24,
-                                          }}
+                                                                                      }}
                                         > Action</th>
                                       </tr>
                                     </thead>
@@ -4439,7 +3892,7 @@ console.log("DownloadReceipt",receiptdata)
                                   }}
                                 >
                                 
-                                  {/* Dropdown for Items Per Page */}
+                                  
                                   <div>
                                     <select
                                       value={itemsPerPage}
@@ -4462,7 +3915,7 @@ console.log("DownloadReceipt",receiptdata)
                                     </select>
                                   </div>
 
-                                  {/* Pagination Controls */}
+                                 
                                   <ul
                                     style={{
                                       display: "flex",
@@ -4472,7 +3925,7 @@ console.log("DownloadReceipt",receiptdata)
                                       padding: 0,
                                     }}
                                   >
-                                    {/* Previous Button */}
+                                    
                                     <li style={{ margin: "0 10px" }}>
                                       <button
                                         style={{
@@ -4509,7 +3962,7 @@ console.log("DownloadReceipt",receiptdata)
                                       </button>
                                     </li>
 
-                                    {/* Current Page Indicator */}
+                                    
                                     <li
                                       style={{
                                         margin: "0 10px",
@@ -4520,7 +3973,7 @@ console.log("DownloadReceipt",receiptdata)
                                       {currentPage} of {totalPages}
                                     </li>
 
-                                    {/* Next Button */}
+                                   
                                     <li style={{ margin: "0 10px" }}>
                                       <button
                                         style={{
@@ -4583,32 +4036,16 @@ console.log("DownloadReceipt",receiptdata)
                                 rowData={rowData}
                               />
 
-                              {/* <label className=" m-5" onClick={handleBackClose}>Back</label> */}
+                             
                             </Col>
                           </>
                         )}
                       </Row>
                     </Container>
 
-                    {/* </> */}
-                    {/* } */}
+                   
 
-                    {/* {!loading && currentItems.length === 0 && (
-      <div  >
-        <div>
-          <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
-          <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No bills available </div>
-          <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no bills added </div>
-
-          <div style={{ textAlign: "center" }} className='mt-2'>
-            <Button
-              style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment</Button>
-          </div>
-        </div>
-
-      </div>
-
-    )} */}
+                   
                   </div>
                 )}
               </>
@@ -4623,17 +4060,17 @@ console.log("DownloadReceipt",receiptdata)
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                      // height: "100vh",
+                     
                     }}
                   >
-                    {/* Image */}
+                    
                     <img
                       src={Emptystate}
                       alt="Empty State"
                       style={{ maxWidth: "100%", height: "auto" }}
                     />
 
-                    {/* Permission Error */}
+                    
                     {recurringPermission && (
                       <div
                         style={{
@@ -4738,12 +4175,12 @@ console.log("DownloadReceipt",receiptdata)
                                               marginTop: "20px",
                                               paddingRight:0,
                                               paddingLeft:0
-                                              //  borderBottom:"1px solid #DCDCDC"
+                                            
                                             }}
                                           >
                                             <Table
                                               responsive="md"
-                                              // className="Table_Design"
+                                             
                                               style={{
                                                 fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                                                 top: 0,
@@ -4760,13 +4197,13 @@ console.log("DownloadReceipt",receiptdata)
                             <th
                               style={{
                                 textAlign: "start",
-                                // verticalAlign:'middle',
+                               
                                 paddingLeft: "20px",
                                 fontFamily: "Gilroy",
                                 color: "rgb(147, 147, 147)",
                                 fontSize: 12,
                                 fontWeight: 500,
-                                // borderTopLeftRadius: 24,
+                               
                               }}
                             >
                               <div className='d-flex gap-1 align-items-center justify-content-start'>
@@ -4855,8 +4292,7 @@ console.log("DownloadReceipt",receiptdata)
                                 color: "rgb(147, 147, 147)",
                                 fontSize: 12,
                                 fontWeight: 500,
-                                // borderTopRightRadius: 24,
-                              }}
+                                                             }}
                             > Action</th>
                           </tr>
                         </thead>
@@ -4879,9 +4315,7 @@ console.log("DownloadReceipt",receiptdata)
                                 }
                                 billrolePermission={billrolePermission}
                                 OnHandleshowform={handleShowForm}
-                              // OnHandleshowInvoicePdf={handleInvoiceDetail}
-                              // DisplayInvoice={handleDisplayInvoiceDownload}
-                              // RecuringInvoice={handleDisplayInvoiceDownload}
+                            
                               />
                             ))
                           }
@@ -4913,7 +4347,7 @@ console.log("DownloadReceipt",receiptdata)
                       }}
                     >
                     
-                      {/* Dropdown for Items Per Page */}
+                      
                       <div>
                         <select
                           value={itemsPage}
@@ -4936,7 +4370,7 @@ console.log("DownloadReceipt",receiptdata)
                         </select>
                       </div>
 
-                      {/* Pagination Controls */}
+                     
                       <ul
                         style={{
                           display: "flex",
@@ -4946,7 +4380,7 @@ console.log("DownloadReceipt",receiptdata)
                           padding: 0,
                         }}
                       >
-                        {/* Previous Button */}
+                       
                         <li style={{ margin: "0 10px" }}>
                           <button
                             style={{
@@ -4979,7 +4413,7 @@ console.log("DownloadReceipt",receiptdata)
                           </button>
                         </li>
 
-                        {/* Current Page Indicator */}
+                       
                         <li
                           style={{
                             margin: "0 10px",
@@ -4990,7 +4424,7 @@ console.log("DownloadReceipt",receiptdata)
                           {currentRecurePage} of {totalPage}
                         </li>
 
-                        {/* Next Button */}
+                       
                         <li style={{ margin: "0 10px" }}>
                           <button
                             style={{
@@ -5030,29 +4464,7 @@ console.log("DownloadReceipt",receiptdata)
                     </nav>
                   )}
 
-                  {/* <div>
-    <div>
-      <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
-      <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No recurring bills available </div>
-      <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no recurring bills added </div>
-
-      <div style={{ textAlign: "center" }} className='mt-2'>
-        <Button
-          style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", height: 56, fontWeight: 600, borderRadius: 12, width: 200, padding: "18px, 20px, 18px, 20px", color: '#FFF', fontFamily: 'Montserrat' }}> + Record Payment</Button>
-      </div>
-    </div>
-
-  </div> */}
-                  {/* {DownloadInvoice && (
-                          <>
-            
-                              <BillPdfModal
-                                show={showPdfModal}
-                                handleClosed={handleClosePdfModal}
-                                rowData={rowData}
-                              />
-                          </>
-                        )} */}
+                  
                 </>
               )}
             </TabPanel>
@@ -5066,17 +4478,17 @@ console.log("DownloadReceipt",receiptdata)
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                      // height: "100vh",
+                     
                     }}
                   >
-                    {/* Image */}
+                   
                     <img
                       src={Emptystate}
                       alt="Empty State"
                       style={{ maxWidth: "100%", height: "auto" }}
                     />
 
-                    {/* Permission Error */}
+                   
                     {receiptPermission && (
                       <div
                         style={{
@@ -5098,292 +4510,7 @@ console.log("DownloadReceipt",receiptdata)
                 </>
               ) : (
                 <>
-                  {/* 
-
-                  {currentReceiptData && currentReceiptData.length > 0 && (
-                    <div
-                      style={{
-                        // height: "400px",
-                        height: currentReceiptData.length >= 6 ? "380px" : "auto",
-                        overflowY: currentReceiptData.length >= 6 ? "auto" : "visible",
-                        borderRadius: "24px",
-                        border: "1px solid #DCDCDC",
-                        // borderBottom:"none"
-                      }}
-                    >
-                      <Table
-                        responsive="md"
-                        className="Table_Design"
-                        style={{
-                          border: "1px solid #DCDCDC",
-                          borderBottom: "1px solid transparent",
-                          borderEndStartRadius: 0,
-                          borderEndEndRadius: 0,
-                        }}
-                      >
-                        <thead
-                          style={{
-                            backgroundColor: "#E7F1FF",
-                            position: "sticky",
-                            top: 0,
-                            zIndex: 1,
-                          }}
-                        >
-                          <tr>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                // verticalAlign:'middle',
-                                paddingLeft: "20px",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontWeight: 600,
-                                borderTopLeftRadius: 24,
-                              }}
-                            >
-                              Name
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Invoice Number
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Reference_Id
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Payment Mode
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Amount
-                            </th>
-
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgba(34, 34, 34, 1)",
-                                fontSize: 14,
-                                fontWeight: 600,
-                                borderTopRightRadius: 24,
-                              }}
-                            ></th>
-                          </tr>
-                        </thead>
-                        <tbody style={{ fontSize: "10px" }}>
-                          {receiptLoader ?
-
-                            <div
-                              style={{
-                                position: 'absolute',
-                                top: 0,
-                                right: 0,
-                                bottom: 0,
-                                left: '50%',
-                                display: 'flex',
-                                height: "50vh",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: 'transparent',
-                                opacity: 0.75,
-                                zIndex: 10,
-                              }}
-                            >
-                              <div
-                                style={{
-                                  borderTop: '4px solid #1E45E1',
-                                  borderRight: '4px solid transparent',
-                                  borderRadius: '50%',
-                                  width: '40px',
-                                  height: '40px',
-                                  animation: 'spin 1s linear infinite',
-                                }}
-                              ></div>
-                            </div>
-                            : currentReceiptData &&
-                            currentReceiptData.length > 0 &&
-                            currentReceiptData.map((item) => (
-
-                                <Receipt
-                                  key={item.id}
-                                  item={item}
-                                 
-                                  receiptaddPermission={
-                                    receiptaddPermission
-                                  }
-                                  billrolePermission={billrolePermission}
-                                  OnHandleshowform={handleShowForm}
-                                 
-                                />
-                              ))}
-
-                        </tbody>
-                      </Table>
-                    </div>
-                  )}
-
-                  {receiptdata.length > itemsPage && (
-                    <nav
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed",
-                        bottom: "10px",
-                        right: "10px",
-                        backgroundColor: "#fff",
-                        borderRadius: "5px",
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                        zIndex: 1000,
-                      }}
-                    >
-                      <div>
-                        <select
-                          value={itemsPage}
-                          onChange={handleItemsPerPage}
-                          style={{
-                            padding: "5px",
-                            border: "1px solid #1E45E1",
-                            borderRadius: "5px",
-                            color: "#1E45E1",
-                            fontWeight: "bold",
-                            cursor: "pointer",
-                            outline: "none",
-                            boxShadow: "none",
-                          }}
-                        >
-                          <option value={5}>5</option>
-                          <option value={10}>10</option>
-                          <option value={50}>50</option>
-                          <option value={100}>100</option>
-                        </select>
-                      </div>
-
-                      <ul
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          listStyleType: "none",
-                          margin: 0,
-                          padding: 0,
-                        }}
-                      >
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color:
-                                currentRecurePage === 1 ? "#ccc" : "#1E45E1",
-                              cursor:
-                                currentRecurePage === 1
-                                  ? "not-allowed"
-                                  : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() =>
-                              handlePageChangeRecure(currentRecurePage - 1)
-                            }
-                            disabled={currentRecurePage === 1}
-                          >
-                            <ArrowLeft2
-                              size="16"
-                              color={
-                                currentRecurePage === 1 ? "#ccc" : "#1E45E1"
-                              }
-                            />
-                          </button>
-                        </li>
-
-                        <li
-                          style={{
-                            margin: "0 10px",
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {currentRecurePage} of {totalPage}
-                        </li>
-
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color:
-                                currentRecurePage === totalPage
-                                  ? "#ccc"
-                                  : "#1E45E1",
-                              cursor:
-                                currentRecurePage === totalPage
-                                  ? "not-allowed"
-                                  : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() =>
-                              handlePageChangeRecure(currentRecurePage + 1)
-                            }
-                            disabled={currentRecurePage === totalPage}
-                          >
-                            <ArrowRight2
-                              size="16"
-                              color={
-                                currentRecurePage === totalPage
-                                  ? "#ccc"
-                                  : "#1E45E1"
-                              }
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                  )} */}
+                 
 
                   {!loading && receiptLoader &&
                     <div
@@ -5453,9 +4580,7 @@ console.log("DownloadReceipt",receiptdata)
         style={{
           height: 40,
           width: 40,
-          // borderRadius: "8px",
-          // objectFit: "cover",
-          // boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+        
         }}
       />
     </div>
@@ -5520,7 +4645,7 @@ console.log("DownloadReceipt",receiptdata)
 </div>
 
 
-                                  {/* <hr /> */}
+                                
                                 </>
                               ))}
                           </div>
@@ -5544,12 +4669,12 @@ console.log("DownloadReceipt",receiptdata)
                                                           marginTop: "20px",
                                                           paddingRight:0,
                                                           paddingLeft:0
-                                                          //  borderBottom:"1px solid #DCDCDC"
+                                                         
                                                         }}
                                                       >
                                                         <Table
                                                           responsive="md"
-                                                          // className="Table_Design"
+                                                          
                                                           style={{
                                                             fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                                                             top: 0,
@@ -5566,13 +4691,13 @@ console.log("DownloadReceipt",receiptdata)
                                         <th
                                           style={{
                                             textAlign: "start",
-                                            // verticalAlign:'middle',
+                                           
                                             paddingLeft: "20px",
                                             fontFamily: "Gilroy",
                                             color: "rgb(147, 147, 147)",
                                             fontSize: 12,
                                             fontWeight: 500,
-                                            // borderTopLeftRadius: 24,
+                                           
                                           }}
                                         >
                                           <div className='d-flex gap-1 align-items-center justify-content-start'>
@@ -5700,7 +4825,7 @@ console.log("DownloadReceipt",receiptdata)
                                             color: "rgb(147, 147, 147)",
                                             fontSize: 12,
                                             fontWeight: 500,
-                                            // borderTopRightRadius: 24,
+                                            
                                           }}
                                         >Action</th>
                                       </tr>
@@ -5725,9 +4850,7 @@ console.log("DownloadReceipt",receiptdata)
                                               handleReceiptDetail
                                             }
                                             onhandleEdit={handleEditReceipt}
-                                            // DisplayInvoice={
-                                            //   handleDisplayReceiptDownload
-                                            // }
+                                           
                                             DisplayInvoice={handleDisplayReceiptDownload}
                                           />
                                         ))
@@ -5918,15 +5041,7 @@ console.log("DownloadReceipt",receiptdata)
 
                       {DownloadReceipt && (
                         <>
-                          {/* <Col lg={1} md={1} sm={12} xs={12} style={{ display: "flex", alignItems: "stretch", justifyContent: "end" }}>
-                  <div
-                    style={{
-                      borderLeft: "1px solid rgba(225, 225, 225, 1)",
-                      height: "100%",
-
-                    }}
-                  ></div>
-                </Col> */}
+                         
 
                           <Col
                             lg={9}
@@ -5945,7 +5060,7 @@ console.log("DownloadReceipt",receiptdata)
                               rowData={rowData}
                             />
 
-                            {/* <label className=" m-5" onClick={handleBackClose}>Back</label> */}
+                           
                           </Col>
                         </>
                       )}
@@ -5986,8 +5101,7 @@ console.log("DownloadReceipt",receiptdata)
                 style={{
                   fontWeight: 500,
                   fontSize: "18px",
-                  // marginLeft: 15,
-                  fontFamily: "Gilroy",
+                                    fontFamily: "Gilroy",
                   paddingLeft: "10px"
                 }}
               >
@@ -6010,43 +5124,7 @@ console.log("DownloadReceipt",receiptdata)
               >
                 Customer<span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
-              {/* <Form.Select
-                aria-label="Default select example"
-                value={customername}
-                onChange={handleCustomerName}
-                disabled={isEditing}
-                className="border"
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  lineHeight: "18.83px",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 38,
-                  borderRadius: 8,
-                }}
-              >
-                <option value="">Select Customer</option>
-                {state.UsersList?.Users &&
-                  state.UsersList?.Users?.length > 0 &&
-                  state?.UsersList?.Users?.filter(
-                    (u) =>
-                      u.Bed !== "undefined" &&
-                      u.Bed !== "0" &&
-                      typeof u.Bed === "string" &&
-                      u.Bed.trim() !== "" &&
-                      u.Rooms !== "undefined" &&
-                      u.Rooms !== "0" &&
-                      typeof u.Rooms === "string" &&
-                      u.Rooms.trim() !== ""
-                  ).map((u) => (
-                    <option value={u.ID} key={u.ID}>
-                      {u.Name}
-                    </option>
-                  ))}
-              </Form.Select> */}
+            
 
               <Select
                 options={
@@ -6210,102 +5288,7 @@ console.log("DownloadReceipt",receiptdata)
               )}
             </Form.Group>
           </div>
-          {/* {invoiceDetails?.action !== "advance" && (
-            <div style={{ display: "flex", flexDirection: "row" ,height:"100px"}}>
-              <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
-                <p className="mt-1 mb-1" style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}>
-                  Start Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </p>
-          
-                <div
-                  className="datepicker-wrapper"
-                  style={{ position: "relative", width: "100%" }}
-                >
-                <DatePicker
-  style={{ width: "100%", height: 48, cursor: "pointer" }}
-  format="DD/MM/YYYY"
-  placeholder="DD/MM/YYYY"
-  value={startdate ? dayjs(startdate) : null}
-  onChange={(date) => handlestartDate(date)}
-  
-  getPopupContainer={() => document.body}
-/>
-
-                </div>
-                {startdateerrmsg.trim() !== "" && (
-                  <div>
-                    <p style={{
-                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}>
-                      <MdError
-                        style={{
-                          fontSize: "14px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-
-                        }}
-                      />
-                      {startdateerrmsg}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <p className="mt-1 mb-1" style={{
-                  fontSize: 14,
-                  color: "#222222",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}>
-                  End Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </p>
-
-
-                <div
-                  className="datepicker-wrapper"
-                  style={{ position: "relative", width: "100%" }}
-                >
-                  <DatePicker
-                    style={{ width: "100%", height: 48, cursor: "pointer" }}
-                    format="DD/MM/YYYY"
-                    placeholder="DD/MM/YYYY"
-                    value={enddate ? dayjs(enddate) : null}
-                    onChange={(date) => handleEndDate(date)}
-                   
-                    getPopupContainer={() => document.body}
-                  />
-                </div>
-
-                {enddateerrmsg.trim() !== "" && (
-                  <div>
-                    <p style={{
-                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}>
-                      <MdError
-                        style={{
-                          fontSize: "14px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-
-                        }}
-                      />
-                      {enddateerrmsg}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )} */}
+         
           <div style={{ display: "flex", flexDirection: "row",height:"100px" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
 
@@ -6401,7 +5384,7 @@ console.log("DownloadReceipt",receiptdata)
             </div>
           </div>
 
-          {/* Table */}
+       
           {Array.isArray(newRows) && newRows.length > 0 && (
   <div className="row ">
     <div className="col-lg-11 col-md-11 col-12 ">
@@ -6534,22 +5517,7 @@ console.log("DownloadReceipt",receiptdata)
               </div>
             )}
           </div>
-          {/* <div>
-            <p
-              style={{
-                color: "#1E45E1",
-                fontSize: "14px",
-                fontWeight: 600,
-                cursor: "pointer",
-                fontFamily: "Gilroy",
-                width: "fit-content",
-              }}
-              onClick={handleAddColumn}
-            >
-              {" "}
-              + Add new columns
-            </p>
-          </div> */}
+        
 
           <div>
             {allfielderrmsg.trim() !== "" && (

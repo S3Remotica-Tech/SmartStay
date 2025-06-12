@@ -186,13 +186,13 @@ function Expenses({ allPageHostel_Id }) {
           hostel_id: state.login.selectedHostel_Id,
         },
       });
-    } else if (dates?.length === 0) {
+    } else if (dates?.length === 0 && state.login.selectedHostel_Id) {
       dispatch({
         type: "EXPENSELIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [dates, dispatch, state.login.selectedHostel_Id]);
+  }, [dates,  state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (selectedValue === "All") {
@@ -310,10 +310,12 @@ function Expenses({ allPageHostel_Id }) {
   ]);
 
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     dispatch({
       type: "BANKINGLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+  }
   }, [state.login.selectedHostel_Id]);
 
   const handleShow = () => {
@@ -366,6 +368,7 @@ function Expenses({ allPageHostel_Id }) {
   const [currentItem, setCurrentItem] = useState("");
 
   useEffect(() => {
+    if(state.login.selectedHostel_Id){
     setLoading(true);
     dispatch({
       type: "ASSETLIST",
@@ -383,6 +386,7 @@ function Expenses({ allPageHostel_Id }) {
       type: "EXPENSELIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+  }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -715,6 +719,7 @@ function Expenses({ allPageHostel_Id }) {
 
               </div>
 
+
               <div className="col-12 col-md d-flex flex-wrap justify-content-md-end align-items-center">
 
                 {!showFilterExpense && (
@@ -759,6 +764,7 @@ function Expenses({ allPageHostel_Id }) {
                         All
                       </ListGroup.Item>
 
+
                       <ListGroup.Item
                         active={showCategory}
                         onMouseEnter={() => setShowCategory(true)}
@@ -793,6 +799,7 @@ function Expenses({ allPageHostel_Id }) {
                           </ListGroup>
                         )}
                       </ListGroup.Item>
+
 
                       <ListGroup.Item
                         active={showPaymentMode}
@@ -833,6 +840,7 @@ function Expenses({ allPageHostel_Id }) {
                           </ListGroup>
                         )}
                       </ListGroup.Item>
+
 
                       <ListGroup.Item
                         active={showAmount}
@@ -1298,6 +1306,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
               }}
             >
 
+
               <div>
                 <select className="selectoption"
                   value={itemsPerPage}
@@ -1320,6 +1329,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                 </select>
               </div>
 
+
               <ul className="selectoption"
                 style={{
                   display: "flex",
@@ -1329,6 +1339,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   padding: 0,
                 }}
               >
+
                 <li style={{ margin: "0 10px" }}>
                   <button
                     style={{
@@ -1352,6 +1363,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     />
                   </button>
                 </li>
+
 
                 <li
                   style={{
@@ -1424,6 +1436,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
           >
             Delete expense?
           </Modal.Title>
+
         </Modal.Header>
 
         <Modal.Body
