@@ -62,6 +62,8 @@ function SettingInvoice() {
   const [loading, setLoading] = useState(false)
 
   const [InvoiceList, setInvoiceList] = useState([]);
+  console.log("invoicelist",InvoiceList );
+  
 
   const [isVisible, setIsVisible] = useState(true);
   const cardRef = useRef(null);
@@ -77,7 +79,6 @@ function SettingInvoice() {
   const [notes_errmsg , setNotesErrMsg] = useState('')
   const [terms_errmsg , setTermsErrMsg] = useState('')
   const [signature_errmsg , setSignatureErrMsg] = useState('')
-  const [paymenttype_errmsg , setPaymentTypeErrMsg] = useState('')
 
   const CardItems = [
     {
@@ -134,20 +135,6 @@ function SettingInvoice() {
 
  
 
- const [inputValue, setInputValue] = useState("");
- const [paymentTypes, setPaymentTypes] = useState([]);
-  
- const paymentTypeOptions = [
-  { id: 1, name: "credit card" },
-  { id: 2, name: "debit card" },
-  { id: 3, name: "upi" },
-  { id: 4, name: "cash" },
-];
-
-
-const paymentTypeIds = paymentTypes.map(
-  (type) => paymentTypeOptions.find((opt) => opt.name === type)?.id
-).filter(Boolean); 
 
 
 
@@ -229,23 +216,10 @@ const handleTermsChange = (e) => {
 
 
 
-  const handleAdd = () => {
-  const trimmed = inputValue.trim().toLowerCase();
-  const match = paymentTypeOptions.find((opt) => opt.name === trimmed);
-
-  if (match && !paymentTypes.includes(match.name)) {
-    setPaymentTypes([...paymentTypes, match.name]);
-    setInputValue("");
-    setPaymentTypeErrMsg("");
-  } else if (!match) {
-    setPaymentTypeErrMsg("Invalid payment type");
-  }
-};
+  
 
 
-  const handleDelete = (type) => {
-    setPaymentTypes(paymentTypes.filter((item) => item !== type));
-  };
+  
 
 
 
@@ -304,7 +278,6 @@ const handleTermsChange = (e) => {
     setTaxErrMsg("");
     setNotesErrMsg("");
     setTermsErrMsg("");
-    setPaymentTypeErrMsg('') 
     setAccount_Number("")
     setSignatureErrMsg("")
     setIfscCode("")
@@ -312,7 +285,6 @@ const handleTermsChange = (e) => {
     setPrefix("")
     setSuffix("")
     setTax("")
-    setPaymentTypes([])
 
   }
 
@@ -322,8 +294,8 @@ const handleTermsChange = (e) => {
       !account_number || !ifsccode || !bank_name ||  !prefix ||  !suffix || !tax ||
       !notes ||
       !terms ||
-      !signature ||
-      paymentTypes.length === 0 
+      !signature 
+    
     ) {
       if (!account_number) {
        setAccNumberErrMsg("Please Enter Account No");
@@ -334,9 +306,7 @@ const handleTermsChange = (e) => {
       if (!bank_name) {
         setBankErrMsg("Please Select Date");
       }
-       if (paymentTypes.length === 0) {
-        setPaymentTypeErrMsg("Please Enter Payment");
-      }
+      
       if (!prefix) {
         setPrefixErrMsg("Please Enter Prefix");
       }
@@ -367,7 +337,6 @@ const handleTermsChange = (e) => {
         bankName: bank_name,
         accountNo: account_number,
         ifscCode: ifsccode,
-        paymentMethods: paymentTypeIds,
         bankingId: '',
         prefix: prefix,
         suffix: suffix,

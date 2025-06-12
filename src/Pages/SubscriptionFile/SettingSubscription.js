@@ -77,13 +77,7 @@ function SettingSubscription() {
 
  
 
-  const handleDownloadPdf = (item) => {
-    const id = item.invoice_id;
-
-    if (id) {
-      dispatch({ type: "SUBSCRIPTIONPDF", payload: id });
-    }
-  };
+ 
 
   const handleHostelSelect = (selectedOption) => {
     if (!selectedOption) {
