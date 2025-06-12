@@ -1546,5 +1546,7 @@ EBRoomReading.propTypes = {
   ebpermissionError: PropTypes.func.isRequired,
   loading: PropTypes.func.isRequired,
   ebDeletePermission: PropTypes.func.isRequired,
+  filterStatus: PropTypes.func.isRequired,
+  RoomElect: PropTypes.func.isRequired,
 };
 export default EBRoomReading;

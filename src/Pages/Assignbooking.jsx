@@ -197,9 +197,13 @@ function AssignBooking(props) {
   const handleFloor = (floorId) => {
     if (!floorId) {
       setfloorError("Please select a valid floor.");
+      setBed("");
       return;
     }
     setFloor(floorId);
+    setRoom("")
+    setBed("");
+    setRentAmount("");
     setfloorError("");
     dispatch({
       type: "ROOMDETAILS",

@@ -16,10 +16,8 @@ import Emptystate from "../Assets/Images/Empty-State.jpg";
 
 function UserListInvoice(props) {
   const state = useSelector((state) => state);
-  console.log(state,"statuss");
   
   const dispatch = useDispatch();
-console.log("propss",props);
 
   const popupRef = useRef(null);
   const [invoicerowsPerPage, setInvoicerowsPerPage] = useState(4);
@@ -91,8 +89,6 @@ console.log("propss",props);
     } else {
       setActiveId(item.id);
     }
-    console.log("ClickedID:", item); // Debugging
-    // setActiveId((prevId) => (prevId === item.id ? null : item.id)); // Toggle logic
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 150;
@@ -112,16 +108,12 @@ console.log("propss",props);
     const [BillsForm,setBillsForm] = useState(false)
    
   const handleEditBill = (item) => {
-    console.log(item,"items");
     
   props.handleEditItem(item)
   setBillsForm(false)
     
     dispatch({ type: 'USERROOMAVAILABLETRUE' });
-  
-  
-  
-    // props.setRoomDetail(false)
+    
   };
   
   const handleAddBill = () => { 
@@ -134,62 +126,14 @@ console.log("propss",props);
   
   
   
-    // props.setRoomDetail(false)
   };
   
 
  
-  // useEffect(() => {
-  //   if (currentView) {
-  //    console.log(currentView,"current");
-     
-  //     setCustomerName (currentView.hos_user_id);
-  //     setInvoiceNumber(currentView.Invoices)
-  //     if (currentView.DueDate) {
-  //       const parsedDate = new Date(currentView.DueDate); // Convert to Date object
-  //       if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
-  //         setInvoiceDueDate(parsedDate); // Set the date object in state
-  //       } else {
-  //         console.error('Invalid DueDate:', currentView.DueDate);
-  //       }
-  //     }
-     
-  //     if (currentView.Date) {
-  //       const parsedDate = new Date(currentView.Date); // Convert to Date object
-  //       if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
-  //         setInvoiceDate(parsedDate); // Set the date object in state
-  //       } else {
-  //         console.error('Invalid DueDate:', currentView.Date);
-  //       }
-  //     }
-  //     if (currentView.start_date ) {
-  //       console.log("StartDate", currentView.start_date);
-  //       const parsedDate = new Date(currentView.start_date); // Convert to Date object
-  //       if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
-  //         setStartDate(parsedDate); // Set the date object in state
-  //       } else {
-  //         console.error('Invalid startDate:', currentView.start_date);
-  //       }
-  //     }
-  //     if (currentView.end_date ) {
-  //       console.log("Enddate", currentView.end_date);
-  //       const parsedDate = new Date(currentView.end_date); // Convert to Date object
-  //       if (!isNaN(parsedDate.getTime())) { // Check if it's a valid date
-  //         setEndDate(parsedDate); // Set the date object in state
-  //       } else {
-  //         console.error('Invalid endDate:', currentView.end_date);
-  //       }
-  //     }
-      
-  //   setTotalAmount(currentView.Amount)
-  // setNewRows(currentView.amenity)
-    
-  //   }
-  // }, [currentView]);
+ 
 
  
 
-  console.log("props",props)
 
     
   useEffect(()=>{
@@ -202,13 +146,10 @@ console.log("propss",props);
    
     
   },[BillsForm])
+
+
 const handleDeleteBill = (user) => {
-  
-    console.log(user,'users');
     props.handleDeleteItem(user.id)
-    
-    
-    
     dispatch({ type: 'USERPROFILEBILLTRUE' });
     
   };
@@ -255,12 +196,10 @@ const handleDeleteBill = (user) => {
                                                      marginTop: "20px",
                                                      paddingRight:0,
                                                      paddingLeft:0
-                                                     //  borderBottom:"1px solid #DCDCDC"
                                                    }}
                                                  >
                                                    <Table
                                                      responsive="md"
-                                                     // className="Table_Design"
                                                      style={{
                                                        fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                                                        top: 0,
@@ -562,7 +501,7 @@ const handleDeleteBill = (user) => {
               let Dated = new Date(view.Date);
 
               let day = Dated.getDate();
-              let month = Dated.getMonth() + 1; // Months are zero-based
+              let month = Dated.getMonth() + 1; 
               let year = Dated.getFullYear();
 
               let formattedDate = `${day}/${month}/${year}`;
@@ -570,7 +509,7 @@ const handleDeleteBill = (user) => {
               let dueDated = new Date(view.DueDate);
 
               let daydue = dueDated.getDate();
-              let monthdue = dueDated.getMonth() + 1; // Months are zero-based
+              let monthdue = dueDated.getMonth() + 1; 
               let yeardue = dueDated.getFullYear();
 
               let DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
@@ -585,9 +524,10 @@ const handleDeleteBill = (user) => {
                       fontFamily: "Gilroy",
                       borderBottom: "1px solid #E8E8E8",
                     }}
-                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-5" 
+                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-3" 
                   >
-                    {view.Invoices}
+                    <div className="ps-3">  {view.Invoices}</div>
+                   
                   </td>
                   <td
                     style={{
@@ -597,9 +537,12 @@ const handleDeleteBill = (user) => {
                       fontFamily: "Gilroy",
                       paddingLeft:"20px", borderBottom: "1px solid #E8E8E8"
                     }}
-                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-4" 
+                      className="ps-4 ps-sm-2 ps-md-3 ps-lg-3" 
                   >
-                    {view.action}
+                    <div className="ps-1">
+                      {view.action}
+                    </div>
+                    
                   </td>
                   <td style={{textAlign:"start", borderBottom: "1px solid #E8E8E8"}}   className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" >
                     <span
@@ -662,7 +605,7 @@ const handleDeleteBill = (user) => {
                       textAlign:"start",
                       borderBottom: "1px solid #E8E8E8"
                     }}
-                         className="ps-4 ps-sm-2 ps-md-3 ps-lg-3" 
+                         className="ps-4 ps-sm-2 ps-md-3 ps-lg-4" 
                   >
                     ₹{view.BalanceDue}
                   </td>
@@ -682,7 +625,6 @@ const handleDeleteBill = (user) => {
                       {view.Status === "Success" ? "Paid" : "Unpaid"}
                     </span>
                   </td>
-                  {/* <td style={view.Status === "Paid" ? { color: "green", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"} : { color: "red", fontWeight: 700 ,fontWeight:500,fontSize:"16px",font:"Gilroy"}}>{view.Status == Paid ? 'Paid' : 'UnPaid'}</td> */}
                   <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>
                   <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
                     <div
@@ -696,7 +638,6 @@ const handleDeleteBill = (user) => {
                         justifyContent: "center",
                         alignItems: "center",
                         position: "relative",
-                        // zIndex: 1000,
                         zIndex:
                         activeId === view.id
                           ? 1000
@@ -722,9 +663,6 @@ const handleDeleteBill = (user) => {
                                           position: "fixed",
                                           top: popupPosition.top,
                                           left: popupPosition.left,
-                                          // position: "absolute",
-                                          // right: 50,
-                                          // top: 20,
                                           width: 120,
                                           height: "auto",
                                           border: "1px solid #EBEBEB",
@@ -816,7 +754,6 @@ const handleDeleteBill = (user) => {
                     </div>
 </div>
       
-                    {/* <img src={dottt} style={{ height: 40, width: 40, cursor:"pointer" }} /> */}
                   </td>
                 </tr>
               );
@@ -896,7 +833,6 @@ const handleDeleteBill = (user) => {
                                        </select>
                                      </div>
                                    
-                                     {/* Pagination Controls */}
                                      <ul
                                        style={{
                                          display: "flex",
@@ -906,7 +842,6 @@ const handleDeleteBill = (user) => {
                                          padding: 0,
                                        }}
                                      >
-                                       {/* Previous Button */}
                                        <li style={{ margin: "0 10px" }}>
                                          <button
                                            style={{
@@ -928,12 +863,10 @@ const handleDeleteBill = (user) => {
                                          </button>
                                        </li>
                                    
-                                       {/* Current Page Indicator */}
                                        <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                                          {invoicecurrentPage} of {totalPagesinvoice}
                                        </li>
                                    
-                                       {/* Next Button */}
                                        <li style={{ margin: "0 10px" }}>
                                          <button
                                            style={{
@@ -962,11 +895,7 @@ const handleDeleteBill = (user) => {
       )}
   
 
-{/* {
-  viewdata == true ?(
-<UserList setCurrentView={setCurrentView} currentView={currentView}/>
-  ):null
-} */}
+
 
     </>
   );

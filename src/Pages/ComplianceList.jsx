@@ -460,10 +460,10 @@ const ComplianceList = (props) => {
       ) : (
         <div>
           <Card
-            className="h-100 "
-            style={{ borderRadius: 16, border: "1px solid #E6E6E6" }}
+            // className="h-100 "
+            style={{ borderRadius: 16, border: "1px solid #E6E6E6" , height:330}}
           >
-            <Card.Body style={{ padding: 20 }}>
+            <Card.Body style={{ padding:15 }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className="d-flex flex-wrap gap-2 align-items-start">
                
@@ -797,7 +797,7 @@ const ComplianceList = (props) => {
                   </div>
                 </div>
 
-                <div className="mb-2">
+                <div className="mb-1">
                   <div className="mb-1">
                     <label
                       style={{
@@ -813,32 +813,34 @@ const ComplianceList = (props) => {
                     </label>
                   </div>
                   <div>
-                    <label
-                      style={{
-                        color: "#222222",
-                        fontSize: 16,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      {props.complaints.assigner_name === "" ||
-                        props.complaints.assigner_name === null ? (
-                        <p
-                          style={{
-                            color: "#1E45E1",
-                            fontSize: "16px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => handleAssignOpenClose(props.complaints)}
-                        >
-                          + Assign
-                        </p>
-                      ) : (
-                        props.complaints.assigner_name
-                      )}
-                    </label>{" "}
+                   <label
+  style={{
+    color: "#222222",
+    fontSize: 16,
+    fontWeight: 600,
+    fontFamily: "Gilroy",
+    fontStyle: "normal",
+    lineHeight: "normal",
+  }}
+>
+  {props.complaints.assigner_name === "" ||
+  props.complaints.assigner_name === null ? (
+    <span
+      style={{
+        color: "#1E45E1",
+        fontSize: "16px",
+        cursor: "pointer",
+        textDecoration: "none",
+      }}
+      onClick={() => handleAssignOpenClose(props.complaints)}
+    >
+      + Assign
+    </span>
+  ) : (
+    props.complaints.assigner_name
+  )}
+</label>
+
                   </div>
                 </div>
               </div>
@@ -850,7 +852,7 @@ const ComplianceList = (props) => {
                   justifyContent: "space-between",
                 }}
               >
-                <div className="mb-2">
+                <div className="">
                   <div className="mb-1">
                     <label
                       style={{
@@ -878,6 +880,7 @@ const ComplianceList = (props) => {
                         lineHeight: "normal",
                         display: "block",
                       }}
+                      title={props.complaints.complaint_name}
                     >
                       {props.complaints && props.complaints.complaint_name}{" "}
                       <span title={props.complaints.Description} style={{
@@ -888,13 +891,13 @@ const ComplianceList = (props) => {
                         textOverflow: "ellipsis",
                         verticalAlign: "middle",
                         marginTop: "-6px"
-                      }}> {props.complaints && props.complaints.Description}</span>
+                      }}> - {props.complaints && props.complaints.Description}</span>
 
                     </label>
                   </div>
                 </div>
 
-                <div className="mb-2">
+                <div className="">
                   <div className="mb-1">
                     <label
                       style={{
@@ -927,77 +930,94 @@ const ComplianceList = (props) => {
               </div>
 
               <hr style={{ border: "1px solid #E7E7E7" }} />
+<div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    minHeight: 32, 
+  }}
+>
+  <div style={{ display: "flex", alignItems: "center" }}>
+    {props.complaints.Assign === "" || props.complaints.Assign === null ? (
+      <>
+        <img
+          src={Profile_add}
+          alt="Add Profile"
+          style={{ marginRight: 8, height: 16, width: 16 }}
+        />
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            color: "#222",
+            fontFamily: "Gilroy",
+            lineHeight: "16px",
+          }}
+        >
+          Yet to assign the complaint
+        </span>
+      </>
+    ) : (
+      <>
+        <img
+          src={Tickicon}
+          alt="Success"
+          style={{ marginRight: 8, height: 16, width: 16 }}
+        />
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            color: "#222",
+            fontFamily: "Gilroy",
+            lineHeight: "16px",
+          }}
+        >
+          successfully attended on{" "}
+          {moment(props.complaints.date).format("DD-MM-YYYY")}
+        </span>
+      </>
+    )}
+  </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <label
-                  style={{
-                    color: "#222222",
-                    fontSize: 16,
-                    fontWeight: 600,
-                    fontFamily: "Gilroy, sans-serif",
-                  }}
-                >
-                  {props.complaints.Assign === "" ||
-                    props.complaints.Assign === null ? (
-                    <p
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: 600,
-                        color: "#222",
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      <img src={Profile_add} className="me-2" alt="Add Profile" />
-                      Yet to assign the complaint
-                    </p>
-                  ) : (
-                    <p
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: 600,
-                        color: "#222",
-                        fontFamily: "Gilroy",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      <img src={Tickicon} className="me-2" alt="Success" />
-                      successfully attended on{" "}
-                      {moment(props.complaints.date).format("DD-MM-YYYY")}
-                    </p>
-                  )}
-                </label>
+  <div
+    onClick={() => handleIconClick(props.complaints)}
+    style={{
+      border: "1px solid #DCDCDC",
+      borderRadius: "50px",
+      padding: "6px 10px",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      gap: "6px",
+    }}
+  >
+    <img
+      src={CommentIcon}
+      alt="Comments"
+      height={14}
+      width={14}
+    />
+    <span
+      style={{
+        fontSize: 12,
+        color: "#333",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+      }}
+    >
+      {props.complaints.comment_count}
+    </span>
+  </div>
+
+
+
+
+           
 
                 
-                <div>
-                  <div
-                    onClick={() => handleIconClick(props.complaints)}
-                    style={{
-                      border: "1px solid #DCDCDC",
-                      borderRadius: 60,
-                      padding: "8px 12px",
-                      cursor: "pointer",
-                    }}
-                 
-                  >
-                    <label style={{ cursor: "pointer" }}>
-                      <img
-
-                        src={CommentIcon}
-                        alt="Comments"
-
-                      />{" "}
-                      {props.complaints.comment_count}
-                    </label>
-                  </div>
+                
 
                   <Modal
                     show={showCard}
@@ -1267,7 +1287,6 @@ const ComplianceList = (props) => {
                       </Modal.Footer>
                     </Modal.Dialog>
                   </Modal>
-                </div>
 
                 <Modal
                   show={showChangeStatus}

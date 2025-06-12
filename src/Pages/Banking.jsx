@@ -1371,6 +1371,7 @@ whiteSpace: "nowrap"
                           fontSize: "12px",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
+                          paddingBottom:12
                         }}
                       >Action</th>
                       <th

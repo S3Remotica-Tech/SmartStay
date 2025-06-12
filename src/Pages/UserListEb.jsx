@@ -12,7 +12,6 @@ function UserEb(props) {
   
  const dispatch = useDispatch();
 
-  // const EbrowsPerPage = 10;
   const [EbrowsPerPage, setEbrowsPerPage] = useState(6);
   const [EbcurrentPage, setEbCurrentPage] = useState(1);
   const [EbFilterddata, setEbFilterddata] = useState([]);
@@ -20,7 +19,6 @@ function UserEb(props) {
   const indexOfFirstRowEb = indexOfLastRowEb - EbrowsPerPage;
   const currentRowsEb = EbFilterddata?.slice(indexOfFirstRowEb, indexOfLastRowEb);
   const [selectedHostel, setSelectedHostel] = useState("");
-// const popupRef = useRef(null);
 
   const handleEbPageChange = (EbpageNumber) => {
     setEbCurrentPage(EbpageNumber);
@@ -86,49 +84,8 @@ function UserEb(props) {
              });
            }
          }, [selectedHostel]);
-        // useEffect(() => {
-        //    const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
-        //      (item) => item.hostel_id == selectedHostel
-        //    );
-       
-        //    if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
-        //      setHostelBased(FilterHostelBased[0]?.hostel_based);
-        //      setHostelName(FilterHostelBased[0]?.Name);
-        //    } else {
-        //      console.log("unitAmount is not a valid array or is empty.");
-        //    }
-        //  }, [state.Settings.EBBillingUnitlist, selectedHostel]);
 
-        // useEffect(() => {
-        //   if (selectedHostel) {
-        //     console.log("selectedHostel", selectedHostel);
-        //     const FilterRoomBased = state.Settings.EBBillingUnitlist?.filter(
-        //       (item) => item.hostel_id == selectedHostel
-        //     );
-        
-        //     if (Array.isArray(FilterRoomBased) && FilterRoomBased.length > 0) {
-        //       const roomValue = Number(FilterRoomBased[0]?.room_based);
-        //       console.log("Setting roomBased to:", roomValue);
-        //       setRoomBased(roomValue);
-        //     }
-        //   }
-        // }, [selectedHostel, state.Settings.EBBillingUnitlist]);
-        
-
-        //  useEffect(() => {
-        //   if (selectedHostel) {
-        //     console.log("selectedHostel", selectedHostel);
-        //     const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
-        //       (item) => item.hostel_id == selectedHostel
-        //     );
-        
-        //     if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
-        //       console.log("hostelBased updated to:", FilterHostelBased[0]?.hostel_based);
-        //       setHostelBased(FilterHostelBased[0]?.hostel_based);
-        //       setHostelName(FilterHostelBased[0]?.Name);
-        //     }
-        //   }
-        // }, [selectedHostel, state.Settings.EBBillingUnitlist]);
+     
         
         useEffect(() => {
           setSelectedHostel(state.login.selectedHostel_Id);
@@ -141,59 +98,7 @@ function UserEb(props) {
        
   
   const totalPagesEb = Math.ceil(EbFilterddata?.length / EbrowsPerPage);
-  // const renderPageNumbersEb = () => {
-  //   const pageNumbersEb = [];
-  //   let startPageEb = EbcurrentPage - 1;
-  //   let endPageEb = EbcurrentPage + 1;
 
-  //   if (EbcurrentPage === 1) {
-  //     startPageEb = 1;
-  //     endPageEb = 3;
-  //   }
-
-  //   if (EbcurrentPage === totalPagesEb) {
-  //     startPageEb = totalPagesEb - 2;
-  //     endPageEb = totalPagesEb;
-  //   }
-
-  //   if (EbcurrentPage === 2) {
-  //     startPageEb = 1;
-  //     endPageEb = 3;
-  //   }
-
-  //   if (EbcurrentPage === totalPagesEb - 1) {
-  //     startPageEb = totalPagesEb - 2;
-  //     endPageEb = totalPagesEb;
-  //   }
-
-  //   for (let i = startPageEb; i <= endPageEb; i++) {
-  //     if (i > 0 && i <= totalPagesEb) {
-  //       pageNumbersEb.push(
-  //         <li key={i} style={{ margin: '0 5px' }}>
-  //           <button
-  //             style={{
-  //               padding: '5px 10px',
-  //               textDecoration: 'none',
-  //               color: i === EbcurrentPage ? '#007bff' : '#000000',
-  //               cursor: 'pointer',
-  //               borderRadius: '5px',
-  //               display: 'inline-block',
-  //               minWidth: '30px',
-  //               textAlign: 'center',
-  //               backgroundColor: i === EbcurrentPage ? 'transparent' : 'transparent',
-  //               border: i === EbcurrentPage ? '1px solid #ddd' : 'none'
-  //             }}
-  //             onClick={() => handleEbPageChange(i)}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //   }
-
-  //   return pageNumbersEb;
-  // };
 
   useEffect(() => {
     setEbFilterddata(state?.UsersList?.customerdetails?.eb_data)
@@ -219,12 +124,10 @@ function UserEb(props) {
                                                           marginTop: "20px",
                                                           paddingRight:0,
                                                           paddingLeft:0
-                                                          //  borderBottom:"1px solid #DCDCDC"
                                                         }}
                                                       >
                                                         <Table
                                                           responsive="md"
-                                                          // className="Table_Design"
                                                           style={{
                                                             fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                                                             top: 0,
@@ -390,7 +293,6 @@ function UserEb(props) {
                                                     </div>
                                                    Unit
                                                   </div></th>
-                {/* <th style={{ color: "#939393", fontWeight: 500, fontSize: "14px", fontFamily: "Gilroy", padding: "10px" }}>Units used</th> */}
                 <th style={{ color: "#939393", fontWeight: 500, fontSize: "12px", fontFamily: "Gilroy", padding: "10px" }}> <div className="d-flex gap-1 align-items-center justify-content-start">
                                                     <div
                                                       style={{
@@ -424,7 +326,7 @@ function UserEb(props) {
                 let Dated = new Date(u.reading_date);
 
                 let day = Dated.getDate();
-                let month = Dated.getMonth() + 1; // Months are zero-based
+                let month = Dated.getMonth() + 1; 
                 let year = Dated.getFullYear();
 
                 let formattedDate = `${day}/${month}/${year}`;
@@ -432,13 +334,16 @@ function UserEb(props) {
                   <tr key={u.id} style={{ lineHeight: "20px" }}>
 
                     <td style={{  fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8",paddingTop:10 }}
-                     className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "  >{u.floor_name}</td>
-                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.Room_Id}</td>
+                     className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"  >
+                     <div className="ps-1">{u.floor_name}</div> 
+                      </td>
+                    <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}} className="ps-4 ps-sm-2 ps-md-3 ps-lg-3" >
+                       <div className="ps-1">{u.Room_Id}</div> 
+                     </td>
                     <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >₹{u.start_meter}</td>
                     <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.end_meter}</td>
-                    <td style={{borderBottom: "1px solid #E8E8E8"}}> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "11px", fontWeight: 500, fontFamily: "Gilroy" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{formattedDate}</span></td>
+                    <td style={{borderBottom: "1px solid #E8E8E8"}}> <span style={{ backgroundColor: "#EBEBEB", paddingTop: "3px", paddingLeft: "10px", paddingRight: "10px", paddingBottom: "3px", borderRadius: "10px", lineHeight: "1.5em", margin: "0", fontSize: "11px", fontWeight: 500, fontFamily: "Gilroy" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-3" >{formattedDate}</span></td>
                     <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.unit}</td>
-                    {/* <td style={{ fontWeight: 500, fontSize: "16px", fontFamily: "Gilroy" }}>{u.Eb_Unit}</td> */}
                     <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.amount}</td>
                    
 
@@ -515,7 +420,6 @@ style={{
                                  </select>
                                </div>
                              
-                               {/* Pagination Controls */}
                                <ul
                                  style={{
                                    display: "flex",
@@ -525,7 +429,6 @@ style={{
                                    padding: 0,
                                  }}
                                >
-                                 {/* Previous Button */}
                                  <li style={{ margin: "0 10px" }}>
                                    <button
                                      style={{
@@ -547,12 +450,10 @@ style={{
                                    </button>
                                  </li>
                              
-                                 {/* Current Page Indicator */}
                                  <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                                    {EbcurrentPage} of {totalPagesEb}
                                  </li>
                              
-                                 {/* Next Button */}
                                  <li style={{ margin: "0 10px" }}>
                                    <button
                                      style={{
