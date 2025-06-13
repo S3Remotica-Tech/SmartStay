@@ -911,18 +911,7 @@ const indianStates = [
                     >
                       Change Password
                     </p>
-                    {/* <img
-                      src={round}
-                      width="30"
-                      height="30"
-                      alt="icon"
-                      onClick={() => handlegeneralform(item.id)}
-                      style={{
-                        cursor: "pointer",
-                        borderRadius: "50%",
-                     
-                      }}
-                    /> */}
+                  
                     <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100,
                                             border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
                                             position: "relative", zIndex: generalEdit ? 1000 : 'auto'
@@ -1147,7 +1136,6 @@ const indianStates = [
             </select>
           </div>
 
-          {/* Pagination Controls */}
           <ul
             style={{
               display: "flex",
@@ -1182,14 +1170,12 @@ const indianStates = [
               </button>
             </li>
 
-            {/* Current Page Indicator */}
             <li
               style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
             >
               {generalcurrentPage} of {totalPagesGeneral}
             </li>
 
-            {/* Next Button */}
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -1234,11 +1220,7 @@ const indianStates = [
         centered
          dialogClassName="custom-modal"
       >
-        {/* <Modal.Header closeButton className="text-center">
-            <Modal.Title style={{ fontSize: 18,fontFamily:"Gilroy",fontWeight:600 }} className="text-center">
-              Add a Reading
-            </Modal.Title>
-          </Modal.Header> */}
+       
 
         <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
           <div
@@ -1250,37 +1232,7 @@ const indianStates = [
           >
             {edit ? "Edit General" : "Add General"}
           </div>
-          {/* <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleClose}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "16px",
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "32px",
-              height: "32px",
-              borderRadius: "50%",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{
-                fontSize: "30px",
-                paddingBottom: "6px",
-              }}
-            >
-              &times;
-            </span>
-          </button> */}
+        
           <CloseCircle size="24" color="#000" onClick={handleClose} 
             style={{ cursor: 'pointer' }}/>
 			
@@ -1353,7 +1305,7 @@ const indianStates = [
             </div>
           </div>
         </div>
-        <Modal.Body>
+        <Modal.Body style={{maxHeight:"380px", overflowY:"scroll"}} className="show-scroll mt-3 me-3">
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
               <Form.Group>
@@ -1425,12 +1377,7 @@ const indianStates = [
                   }}
                 />
               </Form.Group>
-              {/* {lastNameError && (
-                  <div style={{ color: "red" }}>
-                    <MdError />
-                    {lastNameError}
-                  </div>
-                )} */}
+             
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
@@ -1471,7 +1418,7 @@ const indianStates = [
                     width: "100%",
                   }}
                 />
-                {/* </InputGroup> */}
+            
                 <p
                   id="MobileNumberError"
                   style={{ color: "red" }}
@@ -1935,21 +1882,7 @@ const indianStates = [
               <span style={{ fontSize: '13px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
             </div>
           )}
-          {/* <Button
-            className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-            style={{
-              backgroundColor: "#1E45E1",
-              fontWeight: 600,
-              height: 50,
-              borderRadius: 12,
-              fontSize: 14,
-              fontFamily: "Montserrat, sans-serif",
-              marginTop: 5,
-            }}
-            onClick={handleSave}
-          >
-            {edit ? "Save changes" : "Add General"}
-          </Button> */}
+        
           <Button
   className="col-lg-12 col-md-12 col-sm-12 col-xs-12 w-sm-full"
   style={{
