@@ -185,33 +185,100 @@ const CheckOutForm = ({
       ];
     });
   }, [dueamount]);
-
-
-
   useEffect(() => {
-    if (data?.amenities?.length > 0) {
-      let outstandingDueAmount = "";
-      const amenityFields = data.amenities
-        .filter(item => {
-          if (item.reason === "Outstanding Due") {
-            outstandingDueAmount = String(item.amount || "");
-            return false;
-          }
-          return true;
-        })
-        .map(item => ({
-          reason: item.reason || "",
-          amount: String(item.amount || ""),
-        }));
+  if (data?.amenities?.length > 0) {
+    let outstandingDueAmount = "";
+    const amenityFields = data.amenities
+      .filter(item => {
+        if (item.reason === "Outstanding Due") {
+          outstandingDueAmount = String(item.amount ?? "");
+          return false;
+        }
+        return true;
+      })
+      .map(item => ({
+        reason: item.reason || "",
+        amount: String(item.amount ?? ""),
+      }));
 
-      const dueAmountValue = outstandingDueAmount || String(dueamount || "");
+    const dueAmountValue = outstandingDueAmount !== "" ? outstandingDueAmount : String(dueamount ?? "0");
 
-      setFields([
-        { reason: "DueAmount", amount: dueAmountValue },
-        ...amenityFields,
-      ]);
-    }
-  }, [data?.amenities, dueamount]);
+    setFields([
+      { reason: "DueAmount", amount: dueAmountValue },
+      ...amenityFields,
+    ]);
+  } else {
+    setFields(prevFields => {
+      const otherFields = prevFields.filter((_, i) => i !== 0);
+      return [
+        { reason: "DueAmount", amount: String(dueamount ?? "0") },
+        ...otherFields,
+      ];
+    });
+  }
+}, [data?.amenities, dueamount]);
+
+
+
+// useEffect(() => {
+//   if (data?.amenities?.length > 0) {
+//     let outstandingDueAmount = "";
+//     const amenityFields = data.amenities
+//       .filter(item => {
+//         if (item.reason === "Outstanding Due") {
+//           outstandingDueAmount = String(item.amount || "");
+//           return false;
+//         }
+//         return true;
+//       })
+//       .map(item => ({
+//         reason: item.reason || "",
+//         amount: String(item.amount || ""),
+//       }));
+
+//     const dueAmountValue = outstandingDueAmount || String(dueamount || "");
+
+//     setFields([
+//       { reason: "DueAmount", amount: dueAmountValue },
+//       ...amenityFields,
+//     ]);
+//   } else {
+//     // If no amenities, fallback to default DueAmount only
+//     setFields(prevFields => {
+//       const otherFields = prevFields.filter((_, i) => i !== 0);
+//       return [
+//         { reason: "DueAmount", amount: String(dueamount || "") },
+//         ...otherFields,
+//       ];
+//     });
+//   }
+// }, [data?.amenities, dueamount]);
+
+
+  // useEffect(() => {
+  //   if (data?.amenities?.length > 0) {
+  //     let outstandingDueAmount = "";
+  //     const amenityFields = data.amenities
+  //       .filter(item => {
+  //         if (item.reason === "Outstanding Due") {
+  //           outstandingDueAmount = String(item.amount || "");
+  //           return false;
+  //         }
+  //         return true;
+  //       })
+  //       .map(item => ({
+  //         reason: item.reason || "",
+  //         amount: String(item.amount || ""),
+  //       }));
+
+  //     const dueAmountValue = outstandingDueAmount || String(dueamount || "");
+
+  //     setFields([
+  //       { reason: "DueAmount", amount: dueAmountValue },
+  //       ...amenityFields,
+  //     ]);
+  //   }
+  // }, [data?.amenities, dueamount]);
 
   useEffect(() => {
 
@@ -712,12 +779,20 @@ const CheckOutForm = ({
   }, [state.UsersList.conformChekoutEditError])
   
 
-  useEffect(() => {
-    const advance = parseFloat(advanceamount) || 0;
-    const due = parseFloat(dueamount) || 0;
+useEffect(() => {
+  const advance = parseFloat(advanceamount) || 0;
+  const due = parseFloat(dueamount) || 0;
 
-    const relevantFields = conformEdit ? fields : fields.slice(1);
+  const relevantFields = conformEdit ? fields : fields.slice(1);
 
+  const advanceReturnField = relevantFields.find(
+    (item) => item.reason?.toLowerCase() === "advance return"
+  );
+
+  if (advanceReturnField) {
+    const advanceReturnAmount = parseFloat(advanceReturnField.amount) || 0;
+    setReturnAmount(advanceReturnAmount);
+  } else {
     const totalExtra = relevantFields.reduce((acc, curr) => {
       const amt = parseFloat(curr.amount);
       return acc + (isNaN(amt) ? 0 : amt);
@@ -725,7 +800,32 @@ const CheckOutForm = ({
 
     const result = advance - (due + totalExtra);
     setReturnAmount(result);
-  }, [advanceamount, dueamount, fields, conformEdit]);
+  }
+}, [advanceamount, dueamount, fields, conformEdit]);
+
+// useEffect(() => {
+//   const advance = parseFloat(advanceamount) || 0;
+//   const due = parseFloat(dueamount) || 0;
+
+//   const relevantFields = conformEdit ? fields : fields.slice(1);
+
+//   const advanceReturnField = relevantFields.find(
+//     (item) => item.reason === "Advance Return"
+//   );
+
+//   if (advanceReturnField) {
+//     const advanceReturnAmount = parseFloat(advanceReturnField.amount) || 0;
+//     setReturnAmount(advanceReturnAmount);
+//   } else {
+//     const totalExtra = relevantFields.reduce((acc, curr) => {
+//       const amt = parseFloat(curr.amount);
+//       return acc + (isNaN(amt) ? 0 : amt);
+//     }, 0);
+
+//     const result = advance - (due + totalExtra);
+//     setReturnAmount(result);
+//   }
+// }, [advanceamount, dueamount, fields, conformEdit]);
 
 
 
@@ -745,9 +845,12 @@ const CheckOutForm = ({
 
 
 
+  // const handleAddField = () => {
+  //   setFields([...fields, { reason: "", amount: "" }]);
+  // };
   const handleAddField = () => {
-    setFields([...fields, { reason: "", amount: "" }]);
-  };
+  setFields((prev) => [...prev, { reason: "", amount: "" }]);
+}
 
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
@@ -774,6 +877,7 @@ const CheckOutForm = ({
   };
 
 
+const lastVisibleIndex = fields.findLastIndex((item) => item.reason?.toLowerCase() !== "advance return");
 
 
   return (
@@ -1362,7 +1466,7 @@ const CheckOutForm = ({
             <h6>Advance Deduction</h6>
 
             <div className="row align-items-center">
-              {fields.map((item, index) => (
+              {/* {fields.map((item, index) => (
                 <React.Fragment key={index}>
                   <div className="col-lg-5 col-md-6 col-sm-12">
                     <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
@@ -1421,7 +1525,64 @@ const CheckOutForm = ({
                     )}
                   </div>
                 </React.Fragment>
-              ))}
+              ))} */}
+  {fields.map((item, index) => {
+  // Skip rendering "Advance Return" rows
+  if (item.reason?.toLowerCase() === "advance return") {
+    return null;
+  }
+
+  return (
+    <React.Fragment key={index}>
+      <div className="col-lg-5 col-md-6 col-sm-12">
+        <label className="form-label"> {index === 0 ? 'DueAmount' : 'Reason'} </label>
+        <input
+          type="text"
+          value={item.reason}
+          onChange={(e) => handleInputChange(index, "reason", e.target.value)}
+          className="form-control"
+          disabled={index === 0}
+        />
+      </div>
+
+      <div className="col-lg-5 col-md-6 col-sm-12">
+        <label className="form-label">Amount</label>
+        <input
+          type="text"
+          value={item.amount}
+          onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+          className="form-control"
+          disabled={index === 0}
+        />
+      </div>
+
+      <div className="col-lg-2 col-md-12 d-flex justify-content-center align-items-center gap-2" style={{ marginTop: 30 }}>
+        {index === lastVisibleIndex && (
+          <img
+            src={PlusIcon}
+            alt="plus"
+            width={25}
+            height={25}
+            style={{ cursor: "pointer" }}
+            onClick={handleAddField}
+          />
+        )}
+        {fields.length > 1 && index !== 0 && (
+          <img
+            src={Delete}
+            alt="remove"
+            width={20}
+            height={20}
+            style={{ cursor: "pointer" }}
+            onClick={() => handleRemoveField(index)}
+          />
+        )}
+      </div>
+    </React.Fragment>
+  );
+})}
+
+
             </div>
 
             {(conformEdit) && (
