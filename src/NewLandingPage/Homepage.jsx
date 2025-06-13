@@ -1,25 +1,22 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-// import { BsArrowRight } from "react-icons/bs";
 import dashboardImg from "../Assets/Images/landingpageimages/sm_homepage.png";
-// import Men from "../Assets/Images/landingpageimages/men.svg";
-// import peopleonboard from "../Assets/Images/landingpageimages/peopleonboard.png";
 import TopLeftCurve from "../Assets/Images/landingpageimages/topleftcurve.png";
 import HomebgImage from "../Assets/Images/landingpageimages/home_bg_image.png";
-// import HostelTopBlackImage from "../Assets/Images/landingpageimages/hosteltopimage.png";
-// import Elippsered from "../Assets/Images/landingpageimages/Ellipse_red.png";
-// import Elippseblue from "../Assets/Images/landingpageimages/Ellipse_blue.png";
-// import Elippseyellow from "../Assets/Images/landingpageimages/Ellipse_yellow.png";
-// import Line from "../Assets/Images/landingpageimages/line.png";
-// import hostelBackround from "../Assets/Images/landingpageimages/Rectangle 34625101.png"
-// import RightArrow from "../Assets/Images/landingpageimages/right_arrow.png";
+
 import "./Homepage.css"
 
 const HomePage = () => {
 
 
+
   let navigate = useNavigate();
+
+ useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
 
   const handleSignIn = () => {
     navigate("/login-Page");
@@ -31,13 +28,13 @@ const HomePage = () => {
 
   return (
     <>
-      {/* Background Image */}
+      
       <>
-        {/* Background Image */}
+       
         <div
           className="position-relative w-100 "
           style={{
-            // minHeight: "100vh",
+            
             backgroundImage: `url(${HomebgImage})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -54,8 +51,7 @@ const HomePage = () => {
           <Container fluid className="py-5">
             <Container fluid>
               <Row className="align-items-center flex-column flex-md-row">
-                {/* Left Side Content */}
-                <Col md={6} className="d-flex flex-column align-items-start justify-content-center text-start">
+                               <Col md={6} className="d-flex flex-column align-items-start justify-content-center text-start">
                   <Col md={11} className="mt-5 ms-5 responsive-home-text">
                     <h1 className="responsive-title"
                       style={{

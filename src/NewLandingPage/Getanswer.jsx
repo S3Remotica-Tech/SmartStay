@@ -15,7 +15,7 @@ const Getanswer = () => {
   };
 
   return (
-    <Container fluid className="d-flex align-items-center justify-content-center mt-2 mb-5 pt-5">
+    <Container fluid className="d-flex align-items-center justify-content-center mt-2 mb-5 pt-2">
       <Row className="w-100">
         <Col lg={10} md={10} sm={12} xs={12} className="mx-auto">
           <Card className="text-center position-relative p-4 rounded-4 shadow-lg"
@@ -24,25 +24,32 @@ const Getanswer = () => {
               width: "100%",
               minHeight: "450px",
               backgroundColor: "rgba(30, 69, 225, 1)",
+              overflow:"hidden"
             }}
           >
             <Card.Body>
-              {/* Circles (Responsive Tweaks) */}
-              <div className="position-absolute d-none d-md-block rounded-circle border border-white"
-                style={{ width: "8vw", height: "8vw", top: "-5%", left: "-7%" }}
-              ></div>
-              <div className="position-absolute d-none d-md-block rounded-circle border border-white"
-                style={{ width: "12vw", height: "12vw", top: "-10%", left: "-5%" }}
-              ></div>
+                       <div
+                  className="position-absolute d-none d-md-block"
+                  style={{ border: "1px solid rgba(255, 255, 255, 1)", width: 150, height: 100, borderRadius: 90, position: "absolute", top: -20, left: -100 }}
 
-              <div className="position-absolute d-none d-md-block rounded-circle border border-white"
-                style={{ width: "8vw", height: "8vw", bottom: "-5%", right: "-7%" }}
-              ></div>
-              <div className="position-absolute d-none d-md-block rounded-circle border border-white"
-                style={{ width: "12vw", height: "12vw", bottom: "-10%", right: "-5%" }}
-              ></div>
+                ></div>
+                <div
+                  className="position-absolute d-none d-md-block"
+                  style={{ border: "1px solid rgba(255, 255, 255, 1)", width: 200, height: 200, borderRadius: 70, position: "absolute", top: -80, left: -100 }}
+                ></div>
 
-              {/* Logo and Title */}
+
+                <div
+                  className="position-absolute d-none d-md-block"
+                  style={{ border: "1px solid rgba(255, 255, 255, 1)", width: 150, height: 100, borderRadius: 90, position: "absolute", bottom: -20, right: -100 }}
+                ></div>
+
+                <div className="position-absolute d-none d-md-block"
+                  style={{ border: "1px solid rgba(255, 255, 255, 1)", width: 200, height: 200, borderRadius: 70, position: "absolute", bottom: -80, right: -100 }}>
+
+                </div>
+
+          
               <div className="d-flex justify-content-center align-items-center gap-2 mb-2">
                 <img src={Smart} alt="SmartStay hostel management software logo for PG and hostel booking platform" style={{ width: "40px" }} />
                 <h5 className="text-white fw-bold m-0">Smartstay</h5>
@@ -69,7 +76,6 @@ const Getanswer = () => {
                 Join now and be part of a new era of PG management.
               </p>
 
-              {/* Responsive Button */}
               <Button onClick={handleSignUp}
                 className="mt-3 fw-bold"
                 style={{
