@@ -69,8 +69,7 @@ function SettingAllPages() {
             style={{
               height: "auto",
               padding: "10px",
-
-            }}
+}}
           >
             <button
 
