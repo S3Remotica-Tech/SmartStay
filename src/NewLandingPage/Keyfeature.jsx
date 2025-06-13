@@ -42,17 +42,18 @@ const KeyFeatures = () => {
   }, []);
 
 
-  const handleScrollToFeature = (id) => {
-    setActiveFeature(id);
-    setHideHeaderContent(true);
+ const handleScrollToFeature = (index) => {
+  setActiveFeature(index);
+  setHideHeaderContent(true);
 
+  const element = sectionRefs.current[index];  
+ 
+  if (element) {
+    const topOffset = element.getBoundingClientRect().top + window.scrollY - 350;
+    window.scrollTo({ top: topOffset, behavior: "smooth" });
+  }
+};
 
-    const element = sectionRefs.current[id - 1];
-    if (element) {
-      const topOffset = element.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: topOffset, behavior: "smooth" });
-    }
-  };
 
 
 
@@ -98,18 +99,18 @@ const KeyFeatures = () => {
 
         <div className={`position-sticky top-10 w-100  p-4 ${hideTopbar ? "d-none" : "d-block"}`} style={{ zIndex: 1000, transition: "0.3s ease-in-out" }}>
           <Row className="justify-content-center ms-2 me-2 g-2">
-            {features.map((feature) => (
-              <Col xs={12} sm={6} md={3} key={feature.id} className="d-flex">
+            {features.map((feature, index) => (
+              <Col xs={12} sm={6} md={3} key={feature.index} className="d-flex">
                 <div className="w-100">
                   <Button
                     variant="light"
                     className="d-flex flex-row align-items-center gap-2 px-4 py-3 w-100 shadow-sm fw-medium mb-2 mb-sm-0"
                     style={{
                       borderRadius: "20px",
-                      border: activeFeature === feature.id ? "2px solid rgba(30, 69, 225, 1)" : "2px solid transparent",
-                      color: activeFeature === feature.id ? "rgba(30, 69, 225, 1)" : "#6c757d",
+                      border: activeFeature === feature.index ? "2px solid rgba(30, 69, 225, 1)" : "2px solid transparent",
+                      color: activeFeature === feature.index ? "rgba(30, 69, 225, 1)" : "#6c757d",
                     }}
-                    onClick={() => handleScrollToFeature(feature.id)}
+                    onClick={() => handleScrollToFeature(index)}
                   >
                     <div
                       className="d-flex align-items-center justify-content-center"
@@ -131,7 +132,7 @@ const KeyFeatures = () => {
 
         </div>
 
-        <div className="mt-2 pb-4 me-0" style={{ backgroundColor: "white" }}>
+        <div className="mt-2 pt-2 pb-4 me-0" style={{ backgroundColor: "white" }}>
           {features.map((feature, index) => (
             <Row
               key={feature.id}
