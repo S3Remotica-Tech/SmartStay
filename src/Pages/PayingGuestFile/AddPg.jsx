@@ -42,8 +42,10 @@ function AddPg({ show, handleClose, currentItem }) {
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
+  const [hostel_Id, setHostel_Id] = useState("");
 
   const indianStates = [
+    { value: "Tamil Nadu", label: "Tamil Nadu" },
     { value: "Andhra Pradesh", label: "Andhra Pradesh" },
     { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
     { value: "Assam", label: "Assam" },
@@ -66,7 +68,6 @@ function AddPg({ show, handleClose, currentItem }) {
     { value: "Punjab", label: "Punjab" },
     { value: "Rajasthan", label: "Rajasthan" },
     { value: "Sikkim", label: "Sikkim" },
-    { value: "Tamil Nadu", label: "Tamil Nadu" },
     { value: "Telangana", label: "Telangana" },
     { value: "Tripura", label: "Tripura" },
     { value: "Uttar Pradesh", label: "Uttar Pradesh" },
@@ -374,7 +375,7 @@ function AddPg({ show, handleClose, currentItem }) {
     setStateName("");
   };
 
-  const [hostel_Id, setHostel_Id] = useState("");
+
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
@@ -415,8 +416,8 @@ function AddPg({ show, handleClose, currentItem }) {
         state: currentItem.state || "",
         file:
           currentItem.profile &&
-          typeof currentItem.profile === "string" &&
-          currentItem.profile !== "0"
+            typeof currentItem.profile === "string" &&
+            currentItem.profile !== "0"
             ? currentItem.profile
             : null,
       };
@@ -562,7 +563,7 @@ function AddPg({ show, handleClose, currentItem }) {
           </div>
         )}
 
-        <Modal.Body>
+        <Modal.Body style={{ maxHeight: "420px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
           <div className="d-flex align-items-center">
             <div
               className=""
@@ -1172,6 +1173,7 @@ function AddPg({ show, handleClose, currentItem }) {
                       ...base,
                       backgroundColor: "#f8f9fa",
                       border: "1px solid #ced4da",
+                      fontFamily: "Gilroy",
                     }),
                     menuList: (base) => ({
                       ...base,
