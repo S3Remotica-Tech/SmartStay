@@ -712,24 +712,36 @@ const CheckOutForm = ({
   }, [state.UsersList.conformChekoutEditError])
   
 
-  useEffect(() => {
-    const advance = parseFloat(advanceamount) || 0;
-    const due = parseFloat(dueamount) || 0;
-
-    const relevantFields = conformEdit ? fields : fields.slice(1);
-
-    const totalExtra = relevantFields.reduce((acc, curr) => {
-      const amt = parseFloat(curr.amount);
-      return acc + (isNaN(amt) ? 0 : amt);
-    }, 0);
-
-    const result = advance - (due + totalExtra);
-    setReturnAmount(result);
-  }, [advanceamount, dueamount, fields, conformEdit]);
 
 
 
+useEffect(() => {
 
+  const advanceReturnField = fields.find(
+    (item) => item.reason?.toLowerCase() === "advance return"
+  );
+
+ 
+  const advance = parseFloat(advanceReturnField?.amount || advanceamount) || 0;
+  const due = parseFloat(dueamount) || 0;
+  const relevantFields = conformEdit ? fields : fields.slice(1);
+  const totalExtra = relevantFields.reduce((acc, curr) => {   
+    if (curr.reason?.toLowerCase() === "advance return") return acc;
+    const amt = parseFloat(curr.amount);
+    return acc + (isNaN(amt) ? 0 : amt);
+  }, 0); 
+  const result = advance - (due + totalExtra);
+  setReturnAmount(result);
+}, [advanceamount, dueamount, fields, conformEdit]);
+
+let visibleIndex = -1;
+const hasAdvanceReturn = fields.some(
+  (item) => item.reason?.toLowerCase() === "advance return"
+);
+
+const visibleFields = hasAdvanceReturn
+  ? fields.filter((item) => item.reason?.toLowerCase() === "advance return")
+  : fields;
 
 
 
@@ -1362,66 +1374,82 @@ const CheckOutForm = ({
             <h6>Advance Deduction</h6>
 
             <div className="row align-items-center">
-              {fields.map((item, index) => (
-                <React.Fragment key={index}>
-                  <div className="col-lg-5 col-md-6 col-sm-12">
-                    <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
-                      {index === 0 ? 'DueAmount ' : 'Reason'}
-                    </label>
-                    <input
-                      type="text"
-                      id={`reason-${index}`}
-                      name={`reason-${index}`}
-                      placeholder={index === 0 ? 'Due Reason' : 'Enter Reason'}
-                      value={item.reason}
-                      onChange={(e) => handleInputChange(index, "reason", e.target.value)}
-                      className="form-control"
-                      style={inputStyle}
-                      disabled={index === 0} 
-                    />
-                  </div>
+            
+ {fields.map((item, index) => {
+  const isHidden = index !== 0 && item.reason?.toLowerCase() === 'advance return';
+  if (isHidden) return null;
 
-                  <div className="col-lg-5 col-md-6 col-sm-12">
-                    <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
-                      Amount
-                    </label>
-                    <input
-                      type="text"
-                      id={`amount-${index}`}
-                      name={`amount-${index}`}
-                      placeholder={index === 0 ? `₹${dueamount || 0}` : 'Enter Amount'}
-                      value={index === 0 ? (fields[0].amount || dueamount || "") : item.amount}
-                      onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                      className="form-control"
-                      style={inputStyle}
-                      disabled={index === 0} 
-                    />
-                  </div>
+  visibleIndex++;
 
-                  <div className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-center align-items-center gap-2" style={{ marginTop: 30 }}>
-                    {index === fields.length - 1 && (
-                      <img
-                        src={PlusIcon}
-                        alt="plus"
-                        width={25}
-                        height={25}
-                        style={{ cursor: "pointer" }}
-                        onClick={handleAddField}
-                      />
-                    )}
-                    {fields.length > 1 && index !== 0 && (
-                      <img
-                        src={Delete}
-                        alt="remove"
-                        width={20}
-                        height={20}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => handleRemoveField(index)}
-                      />
-                    )}
-                  </div>
-                </React.Fragment>
-              ))}
+  const isLastVisible = visibleIndex === fields.filter(f => f.reason?.toLowerCase() !== 'advance return' || fields.indexOf(f) === 0).length - 1;
+
+  return (
+    <React.Fragment key={index}>
+      <div className="col-lg-5 col-md-6 col-sm-12">
+        <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
+          {index === 0 ? 'DueAmount ' : 'Reason'}
+        </label>
+        <input
+          type="text"
+          id={`reason-${index}`}
+          name={`reason-${index}`}
+          placeholder={index === 0 ? 'Due Reason' : 'Enter Reason'}
+          value={item.reason}
+          onChange={(e) => handleInputChange(index, "reason", e.target.value)}
+          className="form-control"
+          style={inputStyle}
+          disabled={index === 0}
+        />
+      </div>
+
+      <div className="col-lg-5 col-md-6 col-sm-12">
+        <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
+          Amount
+        </label>
+        <input
+          type="text"
+          id={`amount-${index}`}
+          name={`amount-${index}`}
+          placeholder={index === 0 ? `₹${dueamount || 0}` : 'Enter Amount'}
+          value={index === 0 ? (fields[0].amount || dueamount || "") : item.amount}
+          onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+          className="form-control"
+          style={inputStyle}
+          disabled={index === 0}
+        />
+      </div>
+
+      <div
+        className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-center align-items-center gap-2"
+        style={{ marginTop: 30 }}
+      >
+        {isLastVisible && (
+          <img
+            src={PlusIcon}
+            alt="plus"
+            width={25}
+            height={25}
+            style={{ cursor: "pointer" }}
+            onClick={handleAddField}
+          />
+        )}
+        {fields.length > 1 && index !== 0 && (
+          <img
+            src={Delete}
+            alt="remove"
+            width={20}
+            height={20}
+            style={{ cursor: "pointer" }}
+            onClick={() => handleRemoveField(index)}
+          />
+        )}
+      </div>
+    </React.Fragment>
+  );
+})}
+
+
+              
             </div>
 
             {(conformEdit) && (
