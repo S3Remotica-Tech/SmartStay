@@ -48,13 +48,11 @@ export async function UpdateInvoice(datum) {
     })
   }
   export async function EditManualInvoiceBill(manualinvoice) {
-    console.log("Sending", manualinvoice);
     return await AxiosConfig.post('/edit_manual_invoice', manualinvoice, { // edit new bill
       data: manualinvoice
     })
   }
   export async function DeleteManualInvoiceBill(manualinvoice) {
-    console.log("Sending", manualinvoice);
     return await AxiosConfig.post('/delete_manual_invoice', manualinvoice, { // delete new bill
       data: manualinvoice
     })

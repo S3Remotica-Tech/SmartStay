@@ -1,22 +1,22 @@
-import {React ,useState,useEffect}from "react";
+import { React, useState, useEffect } from "react";
 
-function RecuringBillPDF(selectedItem){
-            const [isVisible, setIsVisible] = useState(true);
-            // const cardRef = useRef(null);
-        
-            useEffect(() => {
-                setIsVisible(true)
-            }, [selectedItem])
-    
-    return(
+function RecuringBillPDF(selectedItem) {
+    const [isVisible, setIsVisible] = useState(true);
+    // const cardRef = useRef(null);
+
+    useEffect(() => {
+        setIsVisible(true)
+    }, [selectedItem])
+
+    return (
         <>
-        <div>
-        {isVisible &&
-        <div>
-<p>{selectedItem.Invoices}</p>
-</div>
+            <div>
+                {isVisible &&
+                    <div>
+                        <p>{selectedItem.Invoices}</p>
+                    </div>
                 }
-            </div> 
+            </div>
         </>
     )
 }
