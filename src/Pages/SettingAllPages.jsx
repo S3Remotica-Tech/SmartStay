@@ -40,9 +40,6 @@ function SettingAllPages() {
 
   }, [state?.login?.selectedHostel_Id]);
 
-
-
-
   useEffect(() => {
     if (state.PgList.isManageEnable) {
       setActivePage('Manage PG');
@@ -51,67 +48,7 @@ function SettingAllPages() {
   }, [state.PgList.isManageEnable]);
 
 
-  // useEffect(() => {
-  //   if (state.PgList.isManageEnable) {
-  //     setActivePage("Manage PG")
-  //     handleShowManagePage()
-
-  //   }
-  // }, [state.PgList.isManageEnable])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // const handleHostelId = (e) => {
-  //   setHostel_Id(e.target.value)
-  //   setDisplayError('')
-  // }
-
-  // useEffect(() => {
-  //   if (hostel_Id) {
-  //     dispatch(SettingsStoreSelectedHostelAction(hostel_Id))
-  //   }
-
-  // }, [hostel_Id])
-
-
-
-
-
-  // useEffect(() => {
-  //   dispatch({ type: 'HOSTELLIST' })
-  // }, [])
-
-  // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  // console.log("isSidebarOpen", isSidebarOpen)
-
-
-
-
   const handleTabClick = (itemName) => {
-    // setActiveItemS(itemName);
     setActivePage(itemName);
     if (window.innerWidth < 768) {
       setIsSidebarOpen(false);
@@ -132,11 +69,11 @@ function SettingAllPages() {
             style={{
               height: "auto",
               padding: "10px",
-              // backgroundColor: "#f8f9fa",
+
             }}
           >
             <button
-              // onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+
               onClick={handleToggleSidebar}
               className=""
               style={{ backgroundColor: "#1E45E1", border: "1px solid #1E45E1", borderRadius: "50%", color: "white", padding: 5 }}
@@ -158,8 +95,6 @@ function SettingAllPages() {
 
           <div className={`col-12 col-md-3    ${isSidebarOpen ? "d-block col-3" : "d-none  d-md-block"}`}
             style={{
-              // overflowY: "auto",
-              // height: "100vh",
               height: 600,
               position: "sticky",
               marginLeft: 'auto',
@@ -183,10 +118,7 @@ function SettingAllPages() {
               }}
             >
               <p
-                // onClick={() => {
-                //   setActiveItem("General");
-                //   handleShowGeneralPage();
-                // }}
+
                 onClick={() => handleTabClick('General')}
                 style={{
                   fontWeight: 500,
@@ -210,10 +142,7 @@ function SettingAllPages() {
               </p>
               <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
               <p
-                // onClick={() => {
-                //   setActiveItem("Manage PG");
-                //   handleShowManagePage();
-                // }}
+
                 onClick={() => handleTabClick('Manage PG')}
                 style={{
                   fontWeight: 500,
@@ -238,11 +167,7 @@ function SettingAllPages() {
               <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
 
               <p
-                // onClick={() => setActiveItem("Security")}
-                // onClick={() => {
-                //   setActiveItem("Security");
-                //   handleShowSecurityPage();
-                // }}
+
                 onClick={() => handleTabClick('Security')}
                 style={{
                   fontWeight: 500,
@@ -266,11 +191,7 @@ function SettingAllPages() {
               </p>
               <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
               <p
-                // onClick={() => setActiveItem("Subscription")}
-                // onClick={() => {
-                //   setActiveItem("Subscription");
-                //   handleShowSubscriptionPage();
-                // }}
+
                 onClick={() => handleTabClick('Subscription')}
                 style={{
                   fontWeight: 500,
@@ -294,11 +215,7 @@ function SettingAllPages() {
               </p>
               <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
               <p
-                // onClick={() => setActiveItem("Integration")}
-                // onClick={() => {
-                //   setActiveItem("Integration");
-                //   handleShowIntgrationPage();
-                // }}
+
 
                 onClick={() => handleTabClick('Integration')}
                 style={{
@@ -345,15 +262,10 @@ function SettingAllPages() {
                   marginLeft: 30,
                   maxWidth: '201px',
                   maxHeight: '250px',
-                  // height: "100%",
-                  // overflowY: "auto",
-                  // WebkitOverflowScrolling: 'touch'
+
                 }} >
                 <p
-                  // onClick={() => {
-                  //   setActiveItem("Electricity");
-                  //   handleShowElectricityPage();
-                  // }}
+
                   onClick={() => handleTabClick('Electricity')}
                   style={{
                     fontWeight: 500,
@@ -378,10 +290,7 @@ function SettingAllPages() {
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
 
                 <p
-                  // onClick={() => {
-                  //   setActiveItem("Invoice");
-                  //   handleShowInvoicePage();
-                  // }}
+
                   onClick={() => handleTabClick('Bills')}
                   style={{
                     fontWeight: 500,
@@ -429,10 +338,7 @@ function SettingAllPages() {
                 </p>
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                 <p
-                  // onClick={() => {
-                  //   setActiveItem("Invoice");
-                  //   handleShowInvoicePage();
-                  // }}
+
                   onClick={() => handleTabClick('Invoice')}
                   style={{
                     fontWeight: 500,
@@ -457,11 +363,7 @@ function SettingAllPages() {
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
 
                 <p
-                  // onClick={() => setActiveItem("Security")}
-                  // onClick={() => {
-                  //   setActiveItem("Expenses");
-                  //   handleShowExpensesPage();
-                  // }}
+
                   onClick={() => handleTabClick('Expenses')}
                   style={{
                     fontWeight: 500,
@@ -485,11 +387,7 @@ function SettingAllPages() {
                 </p>
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                 <p
-                  // onClick={() => setActiveItem("Subscription")}
-                  // onClick={() => {
-                  //   setActiveItem("Complaints");
-                  //   handleShowCompliancePage();
-                  // }}
+
                   onClick={() => handleTabClick('Complaints')}
                   style={{
                     fontWeight: 500,
@@ -513,11 +411,7 @@ function SettingAllPages() {
                 </p>
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                 <p
-                  // onClick={() => setActiveItem("Integration")}
-                  // onClick={() => {
-                  //   setActiveItem("Amenities");
-                  //   handleShowAmnitiesPage();
-                  // }}
+
                   onClick={() => handleTabClick('Amenities')}
                   style={{
                     fontWeight: 500,
@@ -544,11 +438,7 @@ function SettingAllPages() {
 
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                 <p
-                  // onClick={() => setActiveItem("Integration")}
-                  // onClick={() => {
-                  //   setActiveItem("User");
-                  //   handleShowUserPage();
-                  // }}
+
                   onClick={() => handleTabClick('User')}
                   style={{
                     fontWeight: 500,
@@ -574,11 +464,7 @@ function SettingAllPages() {
 
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                 <p
-                  // onClick={() => setActiveItem("Integration")}
-                  // onClick={() => {
-                  //   setActiveItem("Role");
-                  //   handleShowRolePage();
-                  // }}
+
                   onClick={() => handleTabClick('Role')}
                   style={{
                     fontWeight: 500,
@@ -606,11 +492,7 @@ function SettingAllPages() {
 
                 <hr style={{ width: "auto", border: "1px solid white", marginTop: "-6px" }} />
                 <p
-                  // onClick={() => setActiveItem("Integration")}
-                  // onClick={() => {
-                  //   setActiveItem("Role");
-                  //   handleShowRolePage();
-                  // }}
+
                   onClick={() => handleTabClick('acrement')}
                   style={{
                     fontWeight: 500,
@@ -634,8 +516,7 @@ function SettingAllPages() {
 
                 </p>
               </div>
-              {/* </div> */}
-              {/* } */}
+
             </div>
           </div>
 
@@ -643,33 +524,20 @@ function SettingAllPages() {
 
 
           <div
-            // className={`col-9   ${isSidebarOpen ? 'col-9' : ''}   `}
             className={`col-12 col-md-9 ${isSidebarOpen ? 'd-none d-md-block' : ''}`}
             style={{
               overflowY: "auto",
               height: "100vh",
             }}
           >
-            {/* {generalPageShow && <SettingGeneral />}
-            {managePageShow && <SettingManage />}
-            {securityPageShow && <SettingSecurity />}
-            {subscriptionPageShow && <SettingSubscription />}
-            {intgrationPageShow && <SettingIntergration />}
-            {electricityPageShow && <SettingElectricity hostelid={hostel_Id} />}
-            {invoicePageShow && <SettingInvoice hostelid={hostel_Id} />}
-            {expensesPageShow && <SettingExpenses hostelid={hostel_Id} />}
-            {compliancePageShow && <SettingCompliance hostelid={hostel_Id} />}
-            {amnitiesPageShow && <SettingAmenities hostelid={hostel_Id} />}
-            {userPageShow && <SettingNewUser hostelid={hostel_Id} />}
-            {rolePageShow && <SettingNewRole hostelid={hostel_Id} />} */}
-            {activePage === 'General' && <SettingGeneral />}
 
+            {activePage === 'General' && <SettingGeneral />}
             {activePage === 'Manage PG' && <SettingManage />}
             {activePage === 'Security' && <SettingSecurity />}
             {activePage === 'Subscription' && <SettingSubscription />}
             {activePage === 'Integration' && <SettingIntergration />}
             {activePage === 'Electricity' && <SettingElectricity hostelid={hostel_Id} />}
-            {activePage === 'Bills' && <SettingsBills hostelid={hostel_Id} />}  
+            {activePage === 'Bills' && <SettingsBills hostelid={hostel_Id} />}
             {activePage === 'SettingsNotifications' && <SettingsNotifications hostelid={hostel_Id} />}
             {activePage === 'Invoice' && <SettingInvoice hostelid={hostel_Id} />}
             {activePage === 'Expenses' && <SettingExpenses hostelid={hostel_Id} />}
