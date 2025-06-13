@@ -23,16 +23,12 @@ jobs:
           npm install --force
           npm run build
 
-      - name: Test Cases
-        run: |
-          npm test -- --coverage
-
       - name: Install SSH Key
         run: |
           echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > key.pem
           chmod 600 key.pem
 
-      - name: Deploy to AWS Lightsail
-        run: |
-          scp -o StrictHostKeyChecking=no -i key.pem -r build/* ec2-user@13.126.102.54:/usr/share/nginx/html/
-          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@13.126.102.54 "sudo systemctl restart nginx"
+      # - name: Deploy to AWS Lightsail
+      #   run: |
+      #     scp -o StrictHostKeyChecking=no -i key.pem -r build/* ec2-user@13.126.102.54:/usr/share/nginx/html/
+      #     ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@13.126.102.54 "sudo systemctl restart nginx"

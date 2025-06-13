@@ -374,10 +374,8 @@ export async function handleKycVerify(datum){
   })
 }
 
-
-
-export async function handlegetCustomerDetails(datum){
-  return await AxiosConfig.post('/getCustomerDetails',datum,{
-    data:datum
-  })
+export async function handlegetCustomerDetailsKyc(kyc) {
+  return await AxiosConfig.post('/getCustomerDetails', kyc);
 }
+
+
