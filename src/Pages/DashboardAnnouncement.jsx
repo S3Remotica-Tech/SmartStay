@@ -627,7 +627,7 @@ style={{ maxHeight: "400px", overflowY: "auto"}}
                                 }}
                               >
                                 <div
-                                  className="mb-2 gap-2"
+                                  className="gap-2 popup-option"
                                   style={{
                                     display: "flex",
                                     alignItems: "center",
@@ -635,7 +635,7 @@ style={{ maxHeight: "400px", overflowY: "auto"}}
                                     cursor: "pointer",
                                     pointerEvents: "auto",
                                     width: "100%",
-                                    padding: "5px 10px",
+                                    padding: "10px 10px",
 
 
                                   }}
@@ -660,7 +660,7 @@ style={{ maxHeight: "400px", overflowY: "auto"}}
 
 
                                 <div
-                                  className="mb-2 gap-2"
+                                  className="gap-2 popup-option"
                                   style={{
                                     display: "flex",
                                     alignItems: "center",
@@ -668,7 +668,7 @@ style={{ maxHeight: "400px", overflowY: "auto"}}
                                     cursor: "pointer",
                                     pointerEvents: "auto",
                                      width: "100%",
-                                     padding: "5px 10px",
+                                     padding: "10px 10px",
                                      
                                   }}
                                   onClick={() => {
