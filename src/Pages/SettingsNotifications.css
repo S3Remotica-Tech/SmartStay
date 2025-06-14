@@ -1,0 +1,29 @@
+.custom-switch .form-check-input {
+  width: 40px;
+  height: 20px;
+  background-color: #ccc;
+  border: none;
+  box-shadow: none;
+  transition: background-color 0.3s ease;
+}
+
+.custom-switch .form-check-input:checked {
+  background-color: #3b82f6; 
+}
+
+.custom-switch .form-check-input::before {
+  content: '✕';
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  font-size: 11px;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.custom-switch .form-check-input:checked::before {
+  content: '✔';
+  left: 15px;
+  top: 7px;
+  font-size: 10px;
+}
