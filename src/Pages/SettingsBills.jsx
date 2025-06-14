@@ -606,29 +606,42 @@ function SettingsBills() {
                       Billing Frequency
                     </Form.Label>
 
-                    <Select
-                      options={billing_types}
-                      placeholder="Select the frequency of bill"
-                      value={billing_types.find(
-                        (opt) => opt.value === billing_frequency
-                      )}
-                      onChange={(selected) => {
-                        setBilling_Frequency(selected.value);
-                        setBillingFrequencyErrmsg("");
-                      }}
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          padding: "2px",
-                          marginTop: "5px",
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          color: "#4B4B4B",
-                          borderColor: "#ced4da",
-                        }),
-                      }}
-                    />
+                                    <Select
+  options={billing_types}
+  placeholder="Select the frequency of bill"
+  value={billing_types.find((opt) => opt.value === billing_frequency)}
+  onChange={(selected) => {
+    setBilling_Frequency(selected.value);
+    setBillingFrequencyErrmsg("");
+  }}
+  styles={{
+    control: (base) => ({
+      ...base,
+      padding: "2px",
+      marginTop: "5px",
+      fontSize: "14px",
+      fontFamily: "Gilroy",
+      fontWeight: 500,
+      color: "#4B4B4B",
+      borderColor: "#ced4da",
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? "#1e40af" 
+        : state.isFocused
+        ? "#e6f0ff" 
+        : "#fff",   
+      color: state.isSelected ? "#fff" : "#000",
+      fontSize: "14px",
+      fontFamily: "Gilroy",
+    }),
+    menu: (base) => ({
+      ...base,
+      zIndex: 9999, 
+    }),
+  }}
+/>
 
                     {billingfreuencyerrormsg.trim() !== "" && (
                       <div>

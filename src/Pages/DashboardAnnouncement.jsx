@@ -453,7 +453,7 @@ useEffect(() => {
 
      
       <div 
-       style={{ maxHeight: "400px", overflowY: "auto" }}
+       style={{ maxHeight: "400px", overflowY: "auto", overflowX:'hidden' }}
       >
         <div className="row announcement-card" >
           {currentItems?.length > 0 ? (

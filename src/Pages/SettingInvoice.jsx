@@ -57,7 +57,7 @@ function SettingInvoice() {
   const [suffix, setSuffix] = useState("");
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([])
- 
+  const [selectedBankId, setSelectedBankId] = useState(null);
 
   const [showform, setShowForm] = useState(false);
 
@@ -66,7 +66,8 @@ function SettingInvoice() {
   const [loading, setLoading] = useState(false)
 
   const [InvoiceList, setInvoiceList] = useState([]);
-  console.log("invoicelist",InvoiceList );
+  console.log("invoicelist", InvoiceList);
+  
   
 
   const [isVisible, setIsVisible] = useState(true);
@@ -74,9 +75,6 @@ function SettingInvoice() {
   const innerScrollRef = useRef(null);
 
   const [accountNameError, setaccountnameError] = useState("");
-  const [accno_errmsg , setAccNumberErrMsg] = useState('')
-  const [ifsccode_errmsg , setIfscCodeErrMsg] = useState('')
-  const [bank_name_errmsg , setBankErrMsg] = useState('')
   const [prefix_errmsg , setPrefixErrMsg] = useState('')
   const [suffix_errmsg , setSuffixErrMsg] = useState('')
   const [tax_errmsg , setTaxErrMsg] = useState('')
@@ -326,21 +324,14 @@ const handleTermsChange = (e) => {
 
    const handleSaveInvoice = () => {
     if (
-      !account_number || !ifsccode || !bank_name ||  !prefix ||  !suffix || !tax ||
+       !prefix ||  !suffix || !tax ||
       !notes ||
       !terms ||
       !signature 
     
     ) {
-      if (!account_number) {
-       setAccNumberErrMsg("Please Enter Account No");
-      }
-      if (!ifsccode) {
-        setIfscCodeErrMsg("Please Enter Ifsc Code");
-      }
-      if (!bank_name) {
-        setBankErrMsg("Please Select Date");
-      }
+     
+     
       
       if (!prefix) {
         setPrefixErrMsg("Please Enter Prefix");
@@ -369,10 +360,7 @@ const handleTermsChange = (e) => {
       type: "ADD_INVOICE_SETTINGS",
       payload: {
         hostelId  : Number(state.login.selectedHostel_Id),
-        bankName: bank_name,
-        accountNo: account_number,
-        ifscCode: ifsccode,
-        bankingId: '',
+        bank_id: Number(selectedBankId),
         prefix: prefix,
         suffix: suffix,
         tax: tax ,
@@ -428,6 +416,8 @@ const handleTermsChange = (e) => {
       }, 1000);
     }
   }, [state.Settings.settingsInvoicegetSucesscode]);
+
+
 
 
   
@@ -541,15 +531,13 @@ const handleTermsChange = (e) => {
 
 
 
-  const [selectedBankId, setSelectedBankId] = useState(null);
 
 
-  console.log("banks", banking);
+
   
 
   const handleBankClick = (id) => {
     setSelectedBankId(id);
-    console.log("Selected Bank ID:", id);
   };
 
     useEffect(() => {
@@ -575,26 +563,28 @@ const handleTermsChange = (e) => {
 
 
 
-  useEffect(() => {
-    if (state?.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-      setInvoiceList(state?.UsersList?.hotelDetailsinPg)
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE' })
-      }, 1000)
+ 
+
+
+         useEffect(()=> {
+             if(InvoiceList?.invoiceSettings){
+                   setPrefix(InvoiceList.invoiceSettings.prefix)
+                   setSuffix(InvoiceList.invoiceSettings.suffix)
+                   setNotes(InvoiceList.invoiceSettings.notes)
+                   setTax(InvoiceList.invoiceSettings.tax)
+                   setTerms(InvoiceList.invoiceSettings.privacyPolicyHtml)
+                   setSignature(InvoiceList.invoiceSettings.signatureFile)
+                   setSignaturePreview(InvoiceList.invoiceSettings.signatureFile)
+                  setNotes(InvoiceList.invoiceSettings.notes?.replace(/"/g, "") || "");
+
+    if (InvoiceList.invoiceSettings.bankingId) {
+      setSelectedBankId(InvoiceList.invoiceSettings.bankingId);
+    } else if (banking.length > 0) {
+      setSelectedBankId(banking[0].id); 
     }
+             }
+     },[InvoiceList ,banking])
 
-  }, [state?.UsersList?.statuscodeForhotelDetailsinPg])
-
-
-  useState(()=>{
-    if(state.UsersList.noAllHosteListStatusCode === 201){
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
-      }, 1000);
-    }
-  },[state.UsersList.noAllHosteListStatusCode])
 
 
 
