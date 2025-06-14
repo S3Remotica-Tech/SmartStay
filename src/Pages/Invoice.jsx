@@ -2247,6 +2247,8 @@ useEffect(()=>{
       state.InvoiceList.ReceiptDeletesuccessStatuscode === 200 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
+
+      handleBackBill()
      
       dispatch({
         type: "RECEIPTSLIST",
