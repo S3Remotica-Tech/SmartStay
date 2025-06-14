@@ -452,24 +452,11 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
       </div>
 
       {loading ? (
+        <>
         <LoaderComponent />
 
-<<<<<<< HEAD
-     
-      <div 
-       style={{ maxHeight: "400px", overflowY: "auto", overflowX:'hidden' }}
-      >
-        <div className="row announcement-card" >
-          {currentItems?.length > 0 ? (
-            currentItems?.map((data) => (
-              <div key={data.id}  className="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12 mb-3">
-=======
-      ) : currentItems?.length > 0 ? (
->>>>>>> 8652e795ceb7fdac128376fe7807c97491a2cdab
-
-
         <div
-style={{ maxHeight: "400px", overflowY: "auto"}}
+style={{ maxHeight: "400px", overflowY: "auto" , overflowX:'hidden'}}
         >
           <div className="row announcement-card"  >
             {currentItems?.length > 0 ? (
@@ -768,7 +755,7 @@ style={{ maxHeight: "400px", overflowY: "auto"}}
 
           </div>
         </div>
-
+</>
 
       ) : (
 
