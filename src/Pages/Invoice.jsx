@@ -2583,10 +2583,10 @@ const InvoicePage = () => {
                                         borderRadius: 8,
                                         padding: "10px 5px",
                                         borderBottom: index !== receiptdata?.length - 1 ? "1px solid #eee" : "none",
-                                         backgroundColor:
-                                        hoveredIndex === index ? "#1E45E1" : "transparent",
-                                      color:
-                                        hoveredIndex === index ? "white" : "black",
+                                        backgroundColor:
+                                          hoveredIndex === index ? "#1E45E1" : "transparent",
+                                        color:
+                                          hoveredIndex === index ? "white" : "black",
                                       }}
                                       onClick={(e) => {
                                         e.preventDefault();
@@ -2594,8 +2594,8 @@ const InvoicePage = () => {
 
                                         handleUserReceipt(user);
                                       }}
-                                       onMouseEnter={() => setHoveredIndex(index)}
-                                    onMouseLeave={() => setHoveredIndex(null)}
+                                      onMouseEnter={() => setHoveredIndex(index)}
+                                      onMouseLeave={() => setHoveredIndex(null)}
                                     >
                                       <Image
                                         src={imagedrop}
@@ -5188,7 +5188,7 @@ const InvoicePage = () => {
             </div>
           </div>
 
-          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
               <Form.Label
                 style={{
@@ -5263,6 +5263,7 @@ const InvoicePage = () => {
                     padding: 0,
                     scrollbarWidth: "thin",
                     overflowY: "auto",
+                    fontFamily: "Gilroy"
                   }),
                   placeholder: (base) => ({
                     ...base,
@@ -5464,29 +5465,34 @@ const InvoicePage = () => {
 
 
           {Array.isArray(newRows) && newRows.length > 0 && (
-            <div className="row ">
-              <div className="col-lg-11 col-md-11 col-12 ">
-                <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-                  <Table className="ebtable mt-3" responsive>
+            <div className="row mt-3" style={{ width: "100%" }}>
+              <div className="col-lg-12 col-md-12 col-12">
+                <div  style={{ maxHeight: "150px", overflowY: "auto", width: "80%", borderRadius: "10px",border:"1px solid #DCDCDC" }}>
+                  <Table
+                    className="w-100"
+                    responsive
+                    style={{ width: "100%", backgroundColor: "", borderRadius: "10px",}}
+                  >
                     <thead
                       style={{
                         backgroundColor: "#E7F1FF",
                         position: "sticky",
                         top: 0,
                         zIndex: 1,
+                        borderRadius: 10,
                       }}
                     >
-                      <tr>
-                        <th className="text-center" style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                      <tr style={{ borderRadius: 10 }}>
+                        <th className="text-center" style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily:"Gilroy" }}>
                           S.No
                         </th>
-                        <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500 ,fontFamily:"Gilroy"}}>
                           Description
                         </th>
-                        <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500 ,fontFamily:"Gilroy"}}>
                           Total Amount
                         </th>
-                        <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500,fontFamily:"Gilroy" }}>
                           Action
                         </th>
                       </tr>
@@ -5544,9 +5550,10 @@ const InvoicePage = () => {
                 </div>
               </div>
             </div>
+
           )}
 
-          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-3">
+          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3">
             <Form.Select
               className="border"
               style={{
@@ -5638,7 +5645,7 @@ const InvoicePage = () => {
             )}
             <Button
               onClick={isEditing ? handleEditBill : handleCreateBill}
-              className="w-100 mt-3 mb-5"
+              className="w-100 mt-3 mb-2"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 500,
