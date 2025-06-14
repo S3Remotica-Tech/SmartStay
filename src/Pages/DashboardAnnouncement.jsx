@@ -452,13 +452,11 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
       </div>
 
       {loading ? (
+        <>
         <LoaderComponent />
 
-      ) : currentItems?.length > 0 ? (
-
-
         <div
-style={{ maxHeight: "400px", overflowY: "auto"}}
+style={{ maxHeight: "400px", overflowY: "auto" , overflowX:'hidden'}}
         >
           <div className="row announcement-card"  >
             {currentItems?.length > 0 ? (
@@ -757,7 +755,7 @@ style={{ maxHeight: "400px", overflowY: "auto"}}
 
           </div>
         </div>
-
+</>
 
       ) : (
 
