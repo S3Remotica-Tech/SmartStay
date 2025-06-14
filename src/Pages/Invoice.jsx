@@ -2302,6 +2302,10 @@ const InvoicePage = () => {
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
 
+
+      handleBackBill()
+     
+
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },

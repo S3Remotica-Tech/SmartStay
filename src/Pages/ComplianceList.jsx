@@ -514,7 +514,7 @@ const ComplianceList = (props) => {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {props.complaints?.room_name} - B{props.complaints?.Bed}
+                          {props.complaints?.room_name} - B{props.complaints?.bedName}
                         </div>
 
                   

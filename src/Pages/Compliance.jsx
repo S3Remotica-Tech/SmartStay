@@ -32,10 +32,8 @@ const Compliance = () => {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch()
- const { RangePicker } = DatePicker;
+  const { RangePicker } = DatePicker;
   const initialValuesRef = useRef({});
-
-
 
   const [id, setId] = useState('')
   const [Complainttype, setComplainttype] = useState('');
@@ -47,6 +45,7 @@ const Compliance = () => {
   const [Rooms, setRooms] = useState('')
   const [room_name, setRoomName] = useState('')
   const [beds, setBeds] = useState('');
+  const [bed_name, setBedName] = useState('');
   const [userid, setUser_Id] = useState('')
   const [hosId, setHosId] = useState("")
   const [floorname, setFloorname] = useState('')
@@ -372,12 +371,13 @@ const Compliance = () => {
       }
       )
       if (filteredDetails.length > 0) {
-
+        
         const firstFilteredDetail = filteredDetails[0];
         setHostel_Id(firstFilteredDetail.Hostel_Id || '');
         setHostelName(firstFilteredDetail.HostelName || '');
         setFloor(firstFilteredDetail.Floor || '');
-        setBeds(firstFilteredDetail.Bed || '');
+        setBeds(firstFilteredDetail.hstl_Bed || '');
+        setBedName(firstFilteredDetail.Bed || '')
         setRooms(firstFilteredDetail.room_id || '');
         setUser_Id(firstFilteredDetail.User_Id || '');
         setRoomName(firstFilteredDetail.Rooms || '')
@@ -386,6 +386,7 @@ const Compliance = () => {
       } else {
         setHostelName('');
         setBeds('')
+        setBedName('')
         setFloor('');
         setRooms('');
         setFloorname('');
@@ -393,6 +394,7 @@ const Compliance = () => {
     } else {
       setHostelName('');
       setBeds('')
+      setBedName('')
       setFloor('');
       setRooms('');
       setFloorname('')
@@ -431,6 +433,7 @@ const Compliance = () => {
     setDescription('');
     setSelectedDate('')
     setBeds('')
+    setBedName('')
     setFloor('');
     setRooms('');
     setHostelName('');
@@ -496,7 +499,7 @@ const Compliance = () => {
     if (Complainttype && selectedDate && hostelname && beds && Rooms) {
       const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
       if (id && hasChanges) {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id} })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: Number(beds), Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id} })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -504,6 +507,7 @@ const Compliance = () => {
         setDescription('');
         setSelectedDate('')
         setBeds('')
+        setBedName('')
         setFloor('');
         setRooms('');
         setHostelName('');
@@ -520,6 +524,7 @@ const Compliance = () => {
         setDescription('');
         setSelectedDate('')
         setBeds('')
+        setBedName('')
         setFloor('');
         setRooms('');
         setHostelName('');
@@ -547,6 +552,7 @@ const Compliance = () => {
 
     setEdit(true)
     if (Complaintdata) {
+      
       setShow(true);
       setId(Complaintdata.ID)
       setSelectedUserName(Complaintdata.Name);
@@ -557,6 +563,7 @@ const Compliance = () => {
       setSelectedDate(new Date(Complaintdata.date)); 
       setHostel_Id(Complaintdata.Hostel_id)
       setBeds(Complaintdata.Bed)
+      setBedName(Complaintdata.bedName)
       setFloor(Complaintdata.Floor_id);
       setRooms(Complaintdata.Room);
       setHostelName(Complaintdata.hostelname);
@@ -838,7 +845,7 @@ const Compliance = () => {
         </div>
       )}
 
-=      <div className='me-2' style={{ cursor: "pointer" }}>
+     <div className='me-2' style={{ cursor: "pointer" }}>
         <Image
           src={Filters}
           style={{ height: "50px", width: "50px" }}
@@ -1338,7 +1345,7 @@ const Compliance = () => {
                               <Form.Control
                                 type="text"
                                 placeholder="Beds"
-                                value={beds}
+                                value={bed_name}
                                 readOnly
                                 style={{ backgroundColor: "#E7F1FF", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", fontWeight: 500, boxShadow: "none", border: "1px solid #D9D9D9", height: 50, borderRadius: 8 }}
                               />
