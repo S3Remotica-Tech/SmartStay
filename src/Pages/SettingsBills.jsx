@@ -397,68 +397,14 @@ function SettingsBills() {
 }, [edit, recurring_bills , checkboxOptions]);
 
 
- useEffect(() => {
-
-  if (isChecked && recurring_bills) {
-    setRecurringName(recurring_bills.recurringName || '');
-    setBilling_Frequency(recurring_bills.billFrequency || '');
-    setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? recurring_bills.calculationFromDate : '');
-    setSelectedTo(recurring_bills.calculationToDate !== "0000-00-00" ? recurring_bills.calculationToDate : '');
-    setInvoiceDate(recurring_bills.billingDateOfMonth || '');
-    setInvoiceDueDate(recurring_bills.dueDateOfMonth || '');
-    setIsOn(recurring_bills.isAutoSend === 1); 
-
-    const selected = recurring_bills.billDeliveryChannels || []; 
-
-    const updatedState = {};
-    checkboxOptions.forEach((opt) => {
-      updatedState[opt.key] = selected.includes(opt.key);
-    });
-
-    setNotifications(updatedState);
-    
-    const selectedRemainderDays = recurring_bills.remainderDates.map(Number);
-
-    const matchedOptions = initialOptions.filter(option =>
-      selectedRemainderDays.includes(option.value)
-    );
-
-    setSelectedDays(matchedOptions);
 
 
-    
 
-    const reminderDays = matchedOptions.length > 0 && matchedOptions.map((item) => item.value);
-    const selectedNotificationIds = Object.keys(updatedState).filter((key) => updatedState[key]).map(Number);
-    if(isChecked){ 
-    dispatch({
-      type: "SETTINGSADD_RECURRING",
-      payload: {
-        hostel_id: Number(state.login.selectedHostel_Id),
-        isActive: isChecked === true ? 1 : 0,
-        recurringName: recurring_bills.recurringName,
-        billFrequency: recurring_bills.billFrequency,
-        calculationFromDate: recurring_bills.calculationFromDate,
-        calculationToDate: recurring_bills.calculationToDate,
-        billingDateOfMonth: recurring_bills.billingDateOfMonth,
-        dueDateOfMonth: recurring_bills.dueDateOfMonth,
-        isAutoSend: isOn === true ? 1 : 0,
-        remainderDates: reminderDays,
-        billDeliveryChannels: selectedNotificationIds,
-        recure_id: recurring_bills ? recurring_bills.recure_id : ''
-      },
-    });
-  }
-  }
-  
-}, [isChecked , recurring_bills ]);
-
-
-  const handleToggleStatus = () => {
+ const handleToggleStatus = () => {
   const newStatus = !isChecked;
-  setIsChecked(newStatus);
+  setIsChecked(newStatus); 
 
-if (isChecked && recurring_bills) {
+  if (recurring_bills) {
     setRecurringName(recurring_bills.recurringName || '');
     setBilling_Frequency(recurring_bills.billFrequency || '');
     setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? recurring_bills.calculationFromDate : '');
@@ -468,48 +414,43 @@ if (isChecked && recurring_bills) {
     setIsOn(recurring_bills.isAutoSend === 1); 
 
     const selected = recurring_bills.billDeliveryChannels || []; 
-
     const updatedState = {};
     checkboxOptions.forEach((opt) => {
       updatedState[opt.key] = selected.includes(opt.key);
     });
-
     setNotifications(updatedState);
-    
-    const selectedRemainderDays = recurring_bills.remainderDates.map(Number);
 
+    const selectedRemainderDays = recurring_bills.remainderDates.map(Number);
     const matchedOptions = initialOptions.filter(option =>
       selectedRemainderDays.includes(option.value)
     );
-
     setSelectedDays(matchedOptions);
 
+    const reminderDays = matchedOptions.map((item) => item.value);
+    const selectedNotificationIds = Object.keys(updatedState)
+      .filter((key) => updatedState[key])
+      .map(Number);
 
-    
-
-    const reminderDays = matchedOptions.length > 0 && matchedOptions.map((item) => item.value);
-    const selectedNotificationIds = Object.keys(updatedState).filter((key) => updatedState[key]).map(Number);
-    if(isChecked){ 
     dispatch({
       type: "SETTINGSADD_RECURRING",
       payload: {
         hostel_id: Number(state.login.selectedHostel_Id),
-        isActive: isChecked === true ? 1 : 0,
+        isActive: newStatus ? 1 : 0, 
         recurringName: recurring_bills.recurringName,
         billFrequency: recurring_bills.billFrequency,
         calculationFromDate: recurring_bills.calculationFromDate,
         calculationToDate: recurring_bills.calculationToDate,
         billingDateOfMonth: recurring_bills.billingDateOfMonth,
         dueDateOfMonth: recurring_bills.dueDateOfMonth,
-        isAutoSend: isOn === true ? 1 : 0,
+        isAutoSend: recurring_bills.isAutoSend,
         remainderDates: reminderDays,
         billDeliveryChannels: selectedNotificationIds,
-        recure_id: recurring_bills ? recurring_bills.recure_id : ''
+        recure_id: recurring_bills.recure_id || ''
       },
     });
-  }
   }
 };
+
 
 
   useEffect(() => {
