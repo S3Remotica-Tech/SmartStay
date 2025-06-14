@@ -2375,7 +2375,7 @@ function UserListRoomDetail(props) {
                                       ?.contact_details?.length > 0 ? (
                                       state.UsersList.customerAllDetails
                                         .contact_details.length > 1 ? (
-                                        <Carousel interval={null} indicators>
+                                        <Carousel interval={null} indicators  className="custom-carousel">
                                           {state.UsersList.customerAllDetails.contact_details.map(
                                             (v, index) => (
                                               <Carousel.Item key={index}>
