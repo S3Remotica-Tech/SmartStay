@@ -13,7 +13,7 @@
 
 
 .list-group-item {
-  width: 250px !important;
+  width: 200px !important;
 }
 
 .list-group-item:hover {
@@ -28,7 +28,7 @@
 
 
 .list-group-item .sub_item {
-  width: 200px !important;
+  width: 150px !important;
   /* background-color: #E7F1FF;  */
   color: #000;
 }
@@ -51,7 +51,7 @@
   --bs-list-group-border-color: var(--bs-border-color);
   --bs-list-group-border-width: var(--bs-border-width);
   --bs-list-group-border-radius: var(--bs-border-radius);
-  --bs-list-group-item-padding-x: 1rem;
+  /* --bs-list-group-item-padding-x: 1rem; */
   --bs-list-group-item-padding-y: 0.5rem;
   --bs-list-group-action-color: var(--bs-secondary-color);
   --bs-list-group-action-hover-color: var(--bs-emphasis-color);
@@ -101,6 +101,9 @@
   /* border-radius: 8px; */
   min-height: 20px !important;
 }
+
+
+ 
 
 @media (max-width: 768px) {
   .show-scroll-category {

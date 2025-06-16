@@ -517,9 +517,14 @@ function UserListRoomDetail(props) {
   };
 
   const handleCity = (e) => {
-    setCity(e.target.value);
-    setCityError("");
-    setFormError("");
+    
+        const value = e.target.value;
+      const regex = /^[a-zA-Z\s]*$/;
+      if (regex.test(value)) {
+        setCity(value);
+        setCityError("");
+        setFormError("");
+      }
   };
 
   const aadharInputRef = useRef(null);
@@ -3359,6 +3364,16 @@ function UserListRoomDetail(props) {
                                         onChange={(selectedOption) => {
                                           setStateName(selectedOption?.value);
                                         }}
+                                           onInputChange={(inputValue, { action }) => {
+                        if (action === "input-change") {
+                      const lettersOnly = inputValue.replace(
+                        /[^a-zA-Z\s]/g,
+                        ""
+                      );
+                      return lettersOnly;
+                    }
+                    return inputValue;
+                  }}
                                         value={
                                           state_name
                                             ? {

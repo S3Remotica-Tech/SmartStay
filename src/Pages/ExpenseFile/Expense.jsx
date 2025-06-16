@@ -777,7 +777,7 @@ function Expenses({ allPageHostel_Id }) {
                             className="show-scroll-category submenu"
                             style={{
                               position: "absolute",
-                              right: 250,
+                              right: 200,
                               top: 0,
                               borderRadius: "8px",
                               maxHeight: "200px",
@@ -813,7 +813,7 @@ function Expenses({ allPageHostel_Id }) {
                             className="show-scroll-category"
                             style={{
                               position: "absolute",
-                              right: 250,
+                              right: 200,
                               top: 0,
                               borderRadius: "8px",
                               maxHeight: "200px",
@@ -854,7 +854,7 @@ function Expenses({ allPageHostel_Id }) {
                             className="show-scroll-category"
                             style={{
                               position: "absolute",
-                              right: 250,
+                              right: 200,
                               top: 0,
                               borderRadius: "8px",
                               maxHeight: "200px",

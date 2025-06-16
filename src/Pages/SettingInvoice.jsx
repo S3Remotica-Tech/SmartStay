@@ -662,24 +662,63 @@ const handleTermsChange = (e) => {
 <div className="col-12 col-md-6 d-flex justify-content-md-end mt-2 mt-md-0">
       <div className="me-3" style={{ width: "60%" }}>
         <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-          <Select
-            placeholder="Select"
-           options={PdfOptions}
-           value={PdfOptions.find(opt => opt.value === selectedcard)}
-           onChange={(selected) => handleselectPdf(selected)}
-            styles={{
-              control: (base) => ({
-                ...base,
-                padding: "2px",
-                marginTop: "5px",
-                fontSize: "14px",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                color: "#4B4B4B",
-                borderColor: "#ced4da",
-              }),
-            }}
-          />
+         <Select
+  placeholder="Select"
+  options={PdfOptions}
+  value={PdfOptions.find(opt => opt.value === selectedcard)}
+  onChange={(selected) => handleselectPdf(selected)}
+
+ styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        borderColor: "#D1D5DB",
+                                        borderRadius: "8px",
+                                        padding: "4px",
+                                        boxShadow: "none",
+                                        cursor: "pointer",
+                                        "&:hover": { borderColor: "#666" },
+                                    }),
+                                    menu: (base) => ({
+                                        ...base,
+                                        maxHeight: PdfOptions.length > 3 ? "150px" : "auto",
+                                        overflowY: PdfOptions.length > 3 ? "auto" : "hidden",
+                                        borderRadius: "8px",
+                                        zIndex: 100,
+                                    }),
+                                    menuList: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                        padding: 0,
+                                        scrollbarWidth: "thin",
+                                        "&::-webkit-scrollbar": {
+                                            width: "6px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb": {
+                                            backgroundColor: "#888",
+                                            borderRadius: "4px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb:hover": {
+                                            backgroundColor: "#555",
+                                        },
+                                    }),
+                                    option: (base, state) => ({
+                                        ...base,
+                                        backgroundColor: state.isSelected
+                                            ? '#2563EB'
+                                            : state.isFocused
+                                                ? '#E0ECFF'
+                                                : '#FFFFFF',
+                                        color: state.isSelected ? '#FFFFFF' : '#000000',
+                                        padding: '12px 16px',
+                                        margin: 0,
+                                        borderRadius: 0,
+                                        cursor:'pointer'
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
+                                }}
+/>
+
         </Form.Group>
       </div>
 <button

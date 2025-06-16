@@ -141,6 +141,8 @@ function SettingsBills() {
     setIsOn(false);
     setSelectedDays([]);
     setNotifications({});
+    setIsFromOpen(false);
+    setIsToOpen(false);
   };
 
   const handleRecurrName = (e) => {
@@ -351,6 +353,8 @@ function SettingsBills() {
   };
   const handleInvoiceEndDateChange = (selectedOption) => {
     setInvoiceDueDate(selectedOption?.value);
+    setDueDateErrmsg("");
+    
   };
 
   const labelStyle = {
@@ -799,7 +803,7 @@ function SettingsBills() {
                         </div>
                       </div>
                     )}
-                    {selectedFromerrmsg.trim() !== "" && (
+                    { !selectedFrom && selectedFromerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
                         <MdError
                           style={{
@@ -873,7 +877,7 @@ function SettingsBills() {
                       </div>
                     )}
 
-                    {selectedToerrmsg.trim() !== "" && (
+                    {!selectedTo &&  selectedToerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
                         <MdError
                           style={{
@@ -1101,7 +1105,7 @@ function SettingsBills() {
                   </label>
                   <Select
                     options={filteredOptions}
-                    placeholder="Select a Reminder Dates"
+                    placeholder="Select a Remainder Dates"
                     onChange={handleSelect}
                     value={null}
                     classNamePrefix="custom"

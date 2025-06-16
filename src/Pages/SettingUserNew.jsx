@@ -294,6 +294,7 @@ function SettingNewUser() {
                     ? "400px"
                     : "auto",
                 overflow: "auto",
+                overflowX:'hidden',
                 borderTop: "1px solid #E8E8E8",
                 marginBottom: 20,
                 marginTop: "20px",
