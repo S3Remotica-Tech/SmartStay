@@ -1183,7 +1183,7 @@ function UserList(props) {
     filterStatus || filterInput.length > 0
       ? filteredUsers
       : userListDetail?.slice(indexOfFirstItem, indexOfLastItem);
-  
+
   const totalPages = Math.ceil(
     (search ? filteredUsers?.length : userListDetail?.length) / itemsPerPage
   );
@@ -1366,31 +1366,31 @@ function UserList(props) {
   };
 
   const handleDateRangeChangeCheckIn = (dates) => {
-  setCheckInDateRange(dates);
+    setCheckInDateRange(dates);
 
-  if (!dates || dates.length !== 2) {
-    setFilterStatus(false);
-    setFilteredUsers(state.UsersList.Users);
-    return;
-  }
+    if (!dates || dates.length !== 2) {
+      setFilterStatus(false);
+      setFilteredUsers(state.UsersList.Users);
+      return;
+    }
 
-  const [start, end] = dates.map((d) => dayjs(d)); 
+    const [start, end] = dates.map((d) => dayjs(d));
 
-  const filtered = state.UsersList.Users?.filter((item) => {
-    if (!item.joining_Date) return false;
+    const filtered = state.UsersList.Users?.filter((item) => {
+      if (!item.joining_Date) return false;
 
-    const itemDate = dayjs(item.joining_Date).startOf("day");
+      const itemDate = dayjs(item.joining_Date).startOf("day");
 
-    return (
-      itemDate.isSameOrAfter(start.startOf("day")) &&
-      itemDate.isSameOrBefore(end.endOf("day"))
-    );
-  });
+      return (
+        itemDate.isSameOrAfter(start.startOf("day")) &&
+        itemDate.isSameOrBefore(end.endOf("day"))
+      );
+    });
 
-   setFilteredUsers(filtered);
-  setFilterStatus(true);
-  setResetPage(true);
-};
+    setFilteredUsers(filtered);
+    setFilterStatus(true);
+    setResetPage(true);
+  };
 
 
 
@@ -3026,233 +3026,203 @@ function UserList(props) {
                                                   position: "fixed",
                                                   top: popupPosition.top - 25,
                                                   left: popupPosition.left,
-
-                                                  width: "163px",
+                                                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                                  width: 140,
                                                   backgroundColor: "#F9F9F9",
                                                   border: "1px solid #EBEBEB",
                                                   borderRadius: "10px",
                                                   zIndex: 1000,
-                                                  padding: "10px",
-                                                  display: "flex",
-                                                  justifyContent: "start",
-                                                  alignItems: "center",
-                                                }}
+                                                                                                  }}
                                               >
                                                 <div>
                                                   {!user.Bed && (
                                                     <div
-                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                      className="d-flex align-items-center gap-2"
                                                       onClick={() => {
-                                                        if (
-                                                          !customerAddPermission
-                                                        ) {
-                                                          handleShowAddBed(
-                                                            user
-                                                          );
+                                                        if (!customerAddPermission) {
+                                                          handleShowAddBed(user);
                                                         }
                                                       }}
                                                       style={{
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                        opacity:
-                                                          customerAddPermission
-                                                            ? 0.6
-                                                            : 1,
+                                                        padding: "8px 12px",
+                                                        width: "100%",
+                                                        borderRadius: 6,
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerAddPermission ? 0.6 : 1,
+                                                        pointerEvents: customerAddPermission ? "none" : "auto",
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerAddPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
                                                       }}
                                                     >
                                                       <img
                                                         src={addcircle}
-                                                        alt="addcircle"
+                                                        alt="Assign Bed"
                                                         style={{
                                                           height: 16,
                                                           width: 16,
-                                                          filter:
-                                                            customerAddPermission
-                                                              ? "grayscale(100%)"
-                                                              : "none",
+                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
                                                         }}
                                                       />
                                                       <label
                                                         style={{
                                                           fontSize: 14,
                                                           fontWeight: 500,
-                                                          fontFamily:
-                                                            "Gilroy, sans-serif",
-                                                          color:
-                                                            customerAddPermission
-                                                              ? "#888888"
-                                                              : "#222222",
-                                                          cursor:
-                                                            customerAddPermission
-                                                              ? "not-allowed"
-                                                              : "pointer",
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          color: customerAddPermission ? "#888888" : "#222222",
+                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
                                                         }}
                                                       >
                                                         Assign Bed
                                                       </label>
                                                     </div>
+
                                                   )}
 
                                                   {user.Bed && (
                                                     <div
-                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
-
-                                                      onClick={() =>
-                                                        handleCustomerCheckout(
-                                                          user
-                                                        )
-                                                      }
+                                                      className="d-flex align-items-center gap-2"
+                                                      onClick={() => handleCustomerCheckout(user)}
                                                       style={{
-                                                        backgroundColor:
-                                                          "#F9F9F9",
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                        opacity:
-                                                          customerAddPermission
-                                                            ? 0.6
-                                                            : 1,
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerAddPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                        pointerEvents: customerAddPermission ? "none" : "auto",
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerAddPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#F0FFF4";
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
                                                       }}
                                                     >
                                                       <img
                                                         src={addcircle}
-                                                        alt="addcircle"
+                                                        alt="Check-Out"
                                                         style={{
-                                                          height: 16,
                                                           width: 16,
-                                                          filter:
-                                                            customerAddPermission
-                                                              ? "grayscale(100%)"
-                                                              : "none",
+                                                          height: 16,
+                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
                                                         }}
                                                       />
                                                       <label
                                                         style={{
                                                           fontSize: 14,
                                                           fontWeight: 500,
-                                                          fontFamily:
-                                                            "Gilroy, sans-serif",
-                                                          color:
-                                                            customerAddPermission
-                                                              ? "#888888"
-                                                              : "#222222",
-                                                          cursor:
-                                                            customerAddPermission
-                                                              ? "not-allowed"
-                                                              : "pointer",
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          color: customerAddPermission ? "#888888" : "#222222",
+                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
                                                         }}
                                                       >
                                                         Check-Out
                                                       </label>
                                                     </div>
+
                                                   )}
+                                                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
                                                   {user.Bed && (
                                                     <div
-                                                      className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                                      onClick={() =>
-                                                        handleCustomerReAssign(
-                                                          user
-                                                        )
-                                                      }
+                                                      className="d-flex align-items-center gap-2"
+                                                      onClick={() => { handleCustomerReAssign(user); }}
+
                                                       style={{
-                                                        backgroundColor:
-                                                          "#F9F9F9",
-                                                        cursor:
-                                                          customerAddPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
-                                                        opacity:
-                                                          customerAddPermission
-                                                            ? 0.6
-                                                            : 1,
+                                                        backgroundColor: "#F9F9F9",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        opacity: customerAddPermission ? 0.6 : 1,
+                                                        padding: "8px 12px",
+                                                        borderRadius: 6,
+                                                        transition: "background 0.2s ease-in-out",
+                                                      }}
+                                                      onMouseEnter={(e) => {
+                                                        if (!customerAddPermission) {
+                                                          e.currentTarget.style.backgroundColor = "#FFFBEF"; 
+                                                        }
+                                                      }}
+                                                      onMouseLeave={(e) => {
+                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
                                                       }}
                                                     >
                                                       <img
                                                         src={addcircle}
-                                                        alt="addcircle"
+                                                        alt="Re-Assign"
                                                         style={{
-                                                          height: 16,
                                                           width: 16,
-                                                          filter:
-                                                            customerAddPermission
-                                                              ? "grayscale(100%)"
-                                                              : "none",
+                                                          height: 16,
+                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
                                                         }}
                                                       />
                                                       <label
                                                         style={{
                                                           fontSize: 14,
                                                           fontWeight: 500,
-                                                          fontFamily:
-                                                            "Gilroy, sans-serif",
-                                                          color:
-                                                            customerAddPermission
-                                                              ? "#888888"
-                                                              : "#222222",
-                                                          cursor:
-                                                            customerAddPermission
-                                                              ? "not-allowed"
-                                                              : "pointer",
+                                                          fontFamily: "Gilroy, sans-serif",
+                                                          color: customerAddPermission ? "#888888" : "#222222",
+                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                          margin: 0,
                                                         }}
                                                       >
                                                         Re Assign
                                                       </label>
                                                     </div>
+
                                                   )}
+                                                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
 
                                                   <div
-                                                    className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                                    className="d-flex align-items-center gap-2"
                                                     style={{
-                                                      backgroundColor:
-                                                        "#F9F9F9",
-                                                      cursor:
-                                                        customerEditPermission
-                                                          ? "not-allowed"
-                                                          : "pointer",
-                                                      opacity:
-                                                        customerEditPermission
-                                                          ? 0.6
-                                                          : 1,
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerEditPermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
                                                     }}
                                                     onClick={() => {
-                                                      if (
-                                                        !customerEditPermission
-                                                      ) {
-                                                        handleRoomDetailsPage(
-                                                          user
-                                                        );
+                                                      if (!customerEditPermission) {
+                                                        handleRoomDetailsPage(user);
                                                       }
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerEditPermission) {
+                                                        e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
                                                     }}
                                                   >
                                                     <img
                                                       src={Edit}
-                                                      alt="edit"
+                                                      alt="Edit"
                                                       style={{
-                                                        height: 16,
                                                         width: 16,
-                                                        filter:
-                                                          customerEditPermission
-                                                            ? "grayscale(100%)"
-                                                            : "none",
+                                                        height: 16,
+                                                        filter: customerEditPermission ? "grayscale(100%)" : "none",
                                                       }}
                                                     />
                                                     <label
                                                       style={{
                                                         fontSize: 14,
                                                         fontWeight: 500,
-                                                        fontFamily:
-                                                          "Gilroy, sans-serif",
-                                                        color:
-                                                          customerEditPermission
-                                                            ? "#888888"
-                                                            : "#222222",
-                                                        cursor:
-                                                          customerEditPermission
-                                                            ? "not-allowed"
-                                                            : "pointer",
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerEditPermission ? "#888888" : "#1E45E1",
+                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
                                                       }}
                                                     >
                                                       Edit
@@ -3260,47 +3230,44 @@ function UserList(props) {
                                                   </div>
 
 
+                                                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
                                                   <div
-                                                    className={
-                                                      "mb-2 d-flex justify-content-start align-items-center gap-2"
-                                                    }
+                                                    className="d-flex align-items-center gap-2"
                                                     style={{
-                                                      backgroundColor:
-                                                        "#F9F9F9",
-                                                      cursor:
-                                                        customerDeletePermission
-                                                          ? "not-allowed"
-                                                          : "pointer",
-                                                      opacity:
-                                                        customerDeletePermission
-                                                          ? 0.6
-                                                          : 1,
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerDeletePermission ? "not-allowed" : "pointer",
+                                                      opacity: customerDeletePermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
                                                     }}
-                                                    onClick={() =>
-                                                      !customerDeletePermission
-                                                        ? handleDeleteShow(user)
-                                                        : null
-                                                    }
+                                                    onClick={() => {
+                                                      if (!customerDeletePermission) {
+                                                        handleDeleteShow(user);
+                                                      }
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerDeletePermission) {
+                                                        e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
                                                   >
                                                     <img
                                                       src={Delete}
-                                                      style={{
-                                                        height: 16,
-                                                        width: 16,
-                                                      }}
                                                       alt="Delete Icon"
-                                                    />{" "}
+                                                      style={{ width: 16, height: 16 }}
+                                                    />
                                                     <label
                                                       style={{
                                                         fontSize: 14,
                                                         fontWeight: 500,
-                                                        fontFamily:
-                                                          "Gilroy, sans-serif",
-                                                        cursor: "pointer",
-                                                        color:
-                                                          customerDeletePermission
-                                                            ? "#888888"
-                                                            : "#FF0000",
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerDeletePermission ? "#888888" : "#FF0000",
+                                                        cursor: customerDeletePermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
                                                       }}
                                                     >
                                                       Delete

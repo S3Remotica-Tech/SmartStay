@@ -122,8 +122,8 @@ function PayingGuestMap(props) {
           border: hoverPgCard
             ? " 1px solid #1E45E1"
             : hoverPgCard
-            ? "1px solid #9C9C9C"
-            : "1px solid #E6E6E6",
+              ? "1px solid #9C9C9C"
+              : "1px solid #E6E6E6",
           transition: "border 0.3s ease",
           height: "auto",
         }}
@@ -137,9 +137,9 @@ function PayingGuestMap(props) {
                 <Image
                   src={
                     props.hostel &&
-                    props.hostel.profile !== undefined &&
-                    props.hostel.profile !== null &&
-                    props.hostel.profile !== "0"
+                      props.hostel.profile !== undefined &&
+                      props.hostel.profile !== null &&
+                      props.hostel.profile !== "0"
                       ? props.hostel.profile
                       : Vendors
                   }
@@ -211,122 +211,116 @@ function PayingGuestMap(props) {
                       ref={popupRef}
                       style={{
                         cursor: "pointer",
-                        backgroundColor: "#F9F9F9",
+                        backgroundColor: "#fff",
                         position: "absolute",
                         right:
-                          window.innerWidth <= 420
-                            ? 50
-                            : window.innerWidth <= 576
-                            ? 30
-                            : 50,
-
+                          window.innerWidth <= 331
+                            ? "auto"
+                            : window.innerWidth <= 420
+                              ? 50
+                              : window.innerWidth <= 576
+                                ? 30
+                                : 50,
                         left: window.innerWidth <= 331 ? 10 : "auto",
-
                         top: 0,
-                        width: 120,
-
-
-                        border: "1px solid #EBEBEB",
+                        width: 140,
+                        border: "1px solid #E0E0E0",
                         borderRadius: 10,
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                         display: "flex",
-                        justifyContent: "start",
-                        padding: 1,
-                        alignItems: "center",
                         flexDirection: "column",
+                        alignItems: "flex-start",
                         zIndex: 1050,
-                      }}
+                                             }}
                     >
-                      <div>
-                 
-                        <div
-                          className="d-flex gap-2  align-items-center"
-                          onClick={
-                            !props.editPermissionError
-                              ? () => handleEdit(props.hostel)
-                              : undefined
-                          }
+
+                      <div
+                        className="d-flex gap-2 align-items-center w-100"
+                        onClick={
+                          !props.editPermissionError
+                            ? () => handleEdit(props.hostel)
+                            : undefined
+                        }
+                        style={{
+                          padding: "8px 12px",
+                          width: "100%",
+                          pointerEvents: props.editPermissionError ? "none" : "auto",
+                          opacity: props.editPermissionError ? 0.5 : 1,
+                          cursor: props.editPermissionError ? "not-allowed" : "pointer",
+                          transition: "background 0.2s ease-in-out",
+                        }}
+                        onMouseEnter={(e) =>
+                          !props.editPermissionError &&
+                          (e.currentTarget.style.backgroundColor = "#F0F4FF")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.backgroundColor = "transparent")
+                        }
+                      >
+                        <Edit
+                          size="16"
+                          color={props.editPermissionError ? "#A0A0A0" : "#1E45E1"}
+                        />
+                        <label
                           style={{
-                            pointerEvents: props.editPermissionError
-                              ? "none"
-                              : "auto", 
-                            opacity: props.editPermissionError ? 0.5 : 1, 
-                            cursor: props.editPermissionError
-                              ? "not-allowed"
-                              : "pointer", 
+                            fontSize: 14,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            color: props.editPermissionError ? "#A0A0A0" : "#1E45E1",
+                            cursor: "pointer",
+                            marginBottom: 0,
                           }}
                         >
-                          <div>
-                            <Edit
-                              size="16"
-                              color={
-                                props.editPermissionError
-                                  ? "#A0A0A0"
-                                  : "#1E45E1"
-                              }
-                            />
-                          </div>
-                          <div>
-                            <label
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                color: props.editPermissionError
-                                  ? "#A0A0A0"
-                                  : "#222222",
-                                cursor: "pointer",
-                              }}
-                            >
-                              Edit
-                            </label>
-                          </div>
-                        </div>
+                          Edit
+                        </label>
+                      </div>
 
-                    
-                        <div
-                          className="d-flex gap-2 mb-3 align-items-center"
-                          onClick={
-                            !props.editPermissionError
-                              ? () => handleDelete(props.hostel)
-                              : undefined
-                          }
+
+                      <div style={{ height: 1, backgroundColor: "#F0F0F0", width: "100%" }} />
+
+
+                      <div
+                        className="d-flex gap-2 align-items-center w-100"
+                        onClick={
+                          !props.editPermissionError
+                            ? () => handleDelete(props.hostel)
+                            : undefined
+                        }
+                        style={{
+                          padding: "8px 12px",
+                          width: "100%",
+                          pointerEvents: props.editPermissionError ? "none" : "auto",
+                          opacity: props.editPermissionError ? 0.5 : 1,
+                          cursor: props.editPermissionError ? "not-allowed" : "pointer",
+                          transition: "background 0.2s ease-in-out",
+                        }}
+                        onMouseEnter={(e) =>
+                          !props.editPermissionError &&
+                          (e.currentTarget.style.backgroundColor = "#FFF3F3")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.backgroundColor = "transparent")
+                        }
+                      >
+                        <Trash
+                          size="16"
+                          color={props.editPermissionError ? "#A0A0A0" : "#FF0000"}
+                        />
+                        <label
                           style={{
-                            pointerEvents: props.editPermissionError
-                              ? "none"
-                              : "auto", 
-                            opacity: props.editPermissionError ? 0.5 : 1, 
-                            cursor: props.editPermissionError
-                              ? "not-allowed"
-                              : "pointer", 
+                            fontSize: 14,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            color: props.editPermissionError ? "#A0A0A0" : "#FF0000",
+                            cursor: "pointer",
+                            marginBottom: 0,
                           }}
                         >
-                          <div>
-                            <Trash
-                              size="16"
-                              color={
-                                props.editPermissionError ? "#A0A0A0" : "red"
-                              } 
-                            />
-                          </div>
-
-                          <div>
-                            <label
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                color: props.editPermissionError
-                                  ? "#A0A0A0"
-                                  : "#FF0000", 
-                                cursor: "pointer",
-                              }}
-                            >
-                              Delete
-                            </label>
-                          </div>
-                        </div>
+                          Delete
+                        </label>
                       </div>
                     </div>
+
                   </>
                 )}
               </div>
@@ -461,7 +455,7 @@ function PayingGuestMap(props) {
                   }}
                 >
                   {props.hostel.email_id &&
-                  props.hostel.email_id !== "undefined"
+                    props.hostel.email_id !== "undefined"
                     ? props.hostel.email_id
                     : "N/A"}
                 </label>
@@ -563,11 +557,10 @@ function PayingGuestMap(props) {
                         ${props.hostel?.Address || ""}
                         ${props.hostel?.area ? ", " + props.hostel.area : ""}
                         ${props.hostel?.city ? ", " + props.hostel.city : ""}
-                        ${
-                          props.hostel?.pincode
-                            ? " - " + props.hostel.pincode
-                            : ""
-                        }
+                        ${props.hostel?.pincode
+                  ? " - " + props.hostel.pincode
+                  : ""
+                }
                         ${props.hostel?.state ? ", " + props.hostel.state : ""}
                       `}
             >
@@ -576,17 +569,17 @@ function PayingGuestMap(props) {
                 props.hostel?.city ||
                 props.hostel?.pincode ||
                 props.hostel?.state) && (
-                <>
-                  {props.hostel?.Address ? props.hostel.Address + ", " : ""}
-                  {props.hostel?.area || ""}
-                  {props.hostel?.city ? ", " + props.hostel.city : ""}
-                  {props.hostel?.pin_code
-                    ? " - " + props.hostel.pin_code
-                    : ""}{" "}
-                  <br></br>
-                  {props.hostel?.state ? props.hostel.state : ""}
-                </>
-              )}
+                  <>
+                    {props.hostel?.Address ? props.hostel.Address + ", " : ""}
+                    {props.hostel?.area || ""}
+                    {props.hostel?.city ? ", " + props.hostel.city : ""}
+                    {props.hostel?.pin_code
+                      ? " - " + props.hostel.pin_code
+                      : ""}{" "}
+                    <br></br>
+                    {props.hostel?.state ? props.hostel.state : ""}
+                  </>
+                )}
             </div>
           </div>
         </Card.Body>
@@ -599,7 +592,7 @@ function PayingGuestMap(props) {
           centered
           backdrop="static"
           dialogClassName="custom-delete-modal"
-   
+
         >
           <Modal.Header
             style={{

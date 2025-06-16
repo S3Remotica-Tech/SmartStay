@@ -298,37 +298,79 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
               style={{ height: "20px", width: "20px" }} 
             />
             {showDots === index && (
-              <div
-                ref={popupRef}
-                className=" bg-light border rounded p-2"
-                style={{
-                  position: "fixed",
-                  top: popupPosition.top,
-                  left: popupPosition.left,
-                  width: 120,
-                  height: 70,
-                  zIndex: 1000,
-                }}
-              >
-                <div
-                  className="mb-2 d-flex align-items-center gap-2"
-                  onClick={() => handleEditForm(view)}
-                >
-                  <img src={Edit} width={16} height={16} alt="Edit" />
-                  <label className="text-dark fw-medium" style={{ fontSize: 14, cursor: "pointer" }}>
-                    Edit
-                  </label>
-                </div>
-                <div
-                  className="d-flex align-items-center gap-2"
-                  onClick={() => handleDeleteForm(view)}
-                >
-                  <img src={Delete} width={16} height={16} alt="Delete" />
-                  <label className="text-danger fw-medium" style={{ fontSize: 14, cursor: "pointer" }}>
-                    Delete
-                  </label>
-                </div>
-              </div>
+             <div
+  ref={popupRef}
+  className="pg-card"
+  style={{
+    backgroundColor: "#fff",
+    position: "fixed",
+    top: popupPosition.top,
+    left: popupPosition.left,
+    border: "1px solid #E0E0E0",
+    borderRadius: 10,
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+    width: 140,
+    zIndex: 1000,
+  }}
+>
+  <div>
+    {/* Edit Option */}
+    <div
+      className="d-flex gap-2 align-items-center"
+      onClick={() => handleEditForm(view)}
+      style={{
+        padding: "8px 12px",
+        width: "100%",
+        cursor: "pointer",
+        transition: "background 0.2s ease-in-out",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
+      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+    >
+      <img src={Edit} width={16} height={16} alt="Edit" />
+      <span
+        style={{
+          fontSize: 14,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          color: "#1E45E1",
+        }}
+      >
+        Edit
+      </span>
+    </div>
+
+    {/* Divider */}
+    <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+    {/* Delete Option */}
+    <div
+      className="d-flex gap-2 align-items-center"
+      onClick={() => handleDeleteForm(view)}
+      style={{
+        padding: "8px 12px",
+        width: "100%",
+        cursor: "pointer",
+        transition: "background 0.2s ease-in-out",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF3F3")}
+      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+    >
+      <img src={Delete} width={16} height={16} alt="Delete" />
+      <span
+        style={{
+          fontSize: 14,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          color: "#FF0000",
+        }}
+      >
+        Delete
+      </span>
+    </div>
+  </div>
+</div>
+
             )}
           </div>
         </div>
