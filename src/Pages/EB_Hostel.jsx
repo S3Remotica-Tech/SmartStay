@@ -1068,7 +1068,7 @@ const handleDateHostelRangeChangeEb = (dates) => {
           </Box>
         </div>
 
-        <TabPanel value="1">
+       <TabPanel value="1">
           <>
             <EBHostelReading
               hostelBasedForm={hostelBasedForm}
@@ -1251,8 +1251,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       }}
                       className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
-                      <div style={{marginLeft:5}}> {v.Name}</div>
-                     
+                      {v.Name}
                     </td>
 
 
@@ -1266,7 +1265,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     fontFamily: "Gilroy",
                     marginTop: 10,borderBottom: "1px solid #E8E8E8"
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                 >
                   <span
                     style={{
@@ -1275,7 +1274,6 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       paddingRight: "12px",
                       paddingBottom: "3px",
                       borderRadius: "60px",
-                      marginLeft:3,
                       backgroundColor: "#FFEFCF",
                       textAlign: "start",
                       fontSize: 13, 
@@ -1641,6 +1639,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             )}
           </>
         </TabPanel>
+
+
         <Modal
           show={addEbDetail}
           onHide={() => handleClose()}
