@@ -925,12 +925,12 @@ function UserList(props) {
   const [walkingCustomer, setWalkingCustomer] = useState([]);
 
   useEffect(() => {
-    if(state.login.selectedHostel_Id){
-    dispatch({
-      type: "WALKINCUSTOMERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "WALKINCUSTOMERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -952,12 +952,12 @@ function UserList(props) {
   }, [state.UsersList?.NoDataWalkInCustomerStatusCode]);
 
   useEffect(() => {
-    if(state.login.selectedHostel_Id){
-    dispatch({
-      type: "CHECKOUTCUSTOMERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "CHECKOUTCUSTOMERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -992,29 +992,29 @@ function UserList(props) {
   }, [state.Booking.statusCodeGetBooking]);
 
   useEffect(() => {
-    if(state.login.selectedHostel_Id){
-    if (value === "1") {
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    } else if (value === "2") {
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    } else if (value === "3") {
-      dispatch({
-        type: "CHECKOUTCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    } else if (value === "4") {
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+    if (state.login.selectedHostel_Id) {
+      if (value === "1") {
+        dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      } else if (value === "2") {
+        dispatch({
+          type: "GET_BOOKING_LIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      } else if (value === "3") {
+        dispatch({
+          type: "CHECKOUTCUSTOMERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      } else if (value === "4") {
+        dispatch({
+          type: "WALKINCUSTOMERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      }
     }
-  }
   }, [value]);
 
   useEffect(() => {
@@ -1180,10 +1180,10 @@ function UserList(props) {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems =
-    filterInput.length > 0
+    filterStatus || filterInput.length > 0
       ? filteredUsers
       : userListDetail?.slice(indexOfFirstItem, indexOfLastItem);
-
+  
   const totalPages = Math.ceil(
     (search ? filteredUsers?.length : userListDetail?.length) / itemsPerPage
   );
@@ -1332,12 +1332,15 @@ function UserList(props) {
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
   };
+  const [checkInDateRange, setCheckInDateRange] = useState([]);
   const [bookingDateRange, setBookingDateRange] = useState([]);
   const [checkoutDateRange, setCheckoutDateRange] = useState([]);
   const [walkinDateRange, setWalkinDateRange] = useState([]);
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const [resetPage, setResetPage] = useState(false);
+
+
   const handleDateRangeChangeBooking = (dates) => {
     setBookingDateRange(dates);
 
@@ -1361,6 +1364,39 @@ function UserList(props) {
     setFilterStatus(true);
     setResetPage(true);
   };
+
+  const handleDateRangeChangeCheckIn = (dates) => {
+  setCheckInDateRange(dates);
+
+  if (!dates || dates.length !== 2) {
+    setFilterStatus(false);
+    setFilteredUsers(state.UsersList.Users);
+    return;
+  }
+
+  const [start, end] = dates.map((d) => dayjs(d)); 
+
+  const filtered = state.UsersList.Users?.filter((item) => {
+    if (!item.joining_Date) return false;
+
+    const itemDate = dayjs(item.joining_Date).startOf("day");
+
+    return (
+      itemDate.isSameOrAfter(start.startOf("day")) &&
+      itemDate.isSameOrBefore(end.endOf("day"))
+    );
+  });
+
+   setFilteredUsers(filtered);
+  setFilterStatus(true);
+  setResetPage(true);
+};
+
+
+
+
+
+
   const [statusFilterCheckout, setStatusFilterCheckout] = useState("");
 
   const handleStatusFilterCheckout = (event) => {
@@ -2125,7 +2161,7 @@ function UserList(props) {
                     onClick={handleShowSearch}
                   />
                 )}
-                {(value === "2" || value === "3" || value === "4") && (
+                {(value === "1" || value === "2" || value === "3" || value === "4") && (
                   <div>
                     <Image
                       src={Filters}
@@ -2140,13 +2176,26 @@ function UserList(props) {
                   </div>
                 )}
 
+                {value === "1" && filterStatus && (
+                  <div style={{ width: 240 }}>
+                    <RangePicker
+                      value={checkInDateRange}
+                      onChange={handleDateRangeChangeCheckIn}
+                      format="DD/MM/YYYY"
+                      style={{ width: "100%", cursor: "pointer", fontFamily: "Gilroy" }}
+                    />
+                  </div>
+                )}
+
+
+
                 {value === "2" && filterStatus && (
                   <div style={{ width: 240 }}>
                     <RangePicker
                       value={bookingDateRange}
                       onChange={handleDateRangeChangeBooking}
                       format="DD/MM/YYYY"
-                      style={{ width: "100%", cursor: "pointer" }}
+                      style={{ width: "100%", cursor: "pointer", fontFamily: "Gilroy" }}
                     />
                   </div>
                 )}
@@ -2190,6 +2239,7 @@ function UserList(props) {
                         height: "38px",
                         borderRadius: 8,
                         cursor: "pointer",
+                        fontFamily: "Gilroy"
                       }}
                       allowClear
                     />
@@ -2202,7 +2252,7 @@ function UserList(props) {
                       value={walkinDateRange}
                       onChange={handleDateRangeChangeWalkin}
                       format="DD/MM/YYYY"
-                      style={{ width: "100%", cursor: "pointer" }}
+                      style={{ width: "100%", cursor: "pointer", fontFamily: "Gilroy" }}
                     />
                   </div>
                 )}
@@ -2777,7 +2827,7 @@ function UserList(props) {
                                     color: "#939393",
                                     fontSize: 12,
                                     fontWeight: 500,
-                                    paddingBottom:12
+                                    paddingBottom: 12
                                   }}
                                 >
                                   Action
@@ -2819,7 +2869,7 @@ function UserList(props) {
                                               color: "#1E45E1",
                                               cursor: "pointer",
                                               marginTop: 10,
-                                              paddingLeft:10,
+                                              paddingLeft: 10,
                                               whiteSpace: "nowrap",
                                             }}
                                             onClick={() =>
@@ -2875,7 +2925,7 @@ function UserList(props) {
                                           <div className="ps-2">
                                             {user.Email}
                                           </div>
-                                          
+
                                         </td>
                                         <td
                                           style={{
@@ -2891,7 +2941,7 @@ function UserList(props) {
                                             verticalAlign: "middle",
                                             borderBottom: "1px solid #E8E8E8",
                                           }}
-                                           className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
+                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
                                         >
                                           +
                                           {user &&
@@ -3308,8 +3358,7 @@ function UserList(props) {
                 )}
 
                 {
-                  (search ? filteredUsers?.length : userListDetail?.length) >=
-                  5 && (
+                  (search ? filteredUsers?.length : userListDetail?.length) >= 5 && (
 
                     <nav
                       style={{
@@ -3423,7 +3472,7 @@ function UserList(props) {
                     </nav>
                   )
 
-                 
+
                 }
 
                 {customerReassign === true ? (

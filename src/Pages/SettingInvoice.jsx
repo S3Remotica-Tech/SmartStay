@@ -1614,8 +1614,8 @@ const handleTermsChange = (e) => {
             </div>
 
             <div>
-              <div style={{ fontWeight: 600, fontSize: 16 }}>{title}</div>
-              <div style={{ fontSize: 12, color: "#888" }}>{description}</div>
+              <div style={{ fontWeight: 600, fontSize: 16, fontFamily:"Gilroy" }}>{title}</div>
+              <div style={{ fontSize: 12, color: "#888" , fontFamily:"Gilroy"}}>{description}</div>
             </div>
           </div>
 
@@ -1634,7 +1634,7 @@ const handleTermsChange = (e) => {
   <div>
 
     <div
-                                  className="container justify-content-start  d-flex align-items-start"
+                                  className="container justify-content-start  d-flex align-items-start "
                                   style={{
                                     position: "sticky",
                                     top: 0,
