@@ -1287,7 +1287,7 @@ function UserListRoomDetail(props) {
 const handleKycDownload = () => {
   const card = document.getElementById("kyc-download-card");
 
-  // Temporarily show the card to render it
+ 
   card.style.display = "block";
 
   html2canvas(card).then((canvas) => {
@@ -1296,7 +1296,7 @@ const handleKycDownload = () => {
     link.href = canvas.toDataURL("image/png");
     link.click();
 
-    // Hide again after download
+   
     card.style.display = "none";
   });
 };
@@ -2058,7 +2058,7 @@ const handleKycDownload = () => {
 <div
   id="kyc-download-card"
   style={{
-    // border: "1px solid #ddd",
+    
     borderRadius: 10,
     padding: 20,
     width: 400,
@@ -2144,8 +2144,7 @@ const handleKycDownload = () => {
                            id="form-controls"
                            placeholder="Enter First Name"
                            type="text"
-                          //  value={firstname}
-                          //  onChange={(e) => handleFirstName(e)}
+                         
                            style={{
                              fontSize: 16,
                              color: "#4B4B4B",
@@ -2184,8 +2183,7 @@ const handleKycDownload = () => {
                            id="form-controls"
                            placeholder="Enter First Name"
                            type="text"
-                          //  value={firstname}
-                          //  onChange={(e) => handleFirstName(e)}
+                        
                            style={{
                              fontSize: 16,
                              color: "#4B4B4B",
@@ -2224,8 +2222,7 @@ const handleKycDownload = () => {
                            id="form-controls"
                            placeholder="Enter First Name"
                            type="text"
-                          //  value={firstname}
-                          //  onChange={(e) => handleFirstName(e)}
+                         
                            style={{
                              fontSize: 16,
                              color: "#4B4B4B",
@@ -2265,7 +2262,7 @@ const handleKycDownload = () => {
                            placeholder="Enter First Name"
                            type="text"
                            value={'********8672'}
-                          //  onChange={(e) => handleFirstName(e)}
+                        
                            style={{
                              fontSize: 16,
                              color: "#4B4B4B",
