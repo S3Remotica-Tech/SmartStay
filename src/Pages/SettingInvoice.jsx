@@ -408,7 +408,7 @@ const handleTermsChange = (e) => {
 
       useEffect(() => {
     if (state.Settings?.settingsInvoicegetSucesscode === 200) {
-        
+        setLoading(false)
       setInvoiceList(state.Settings.SettingsInvoice)
 
       setTimeout(() => {

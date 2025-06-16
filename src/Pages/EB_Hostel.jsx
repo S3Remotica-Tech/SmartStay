@@ -1251,7 +1251,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       }}
                       className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
-                      {v.Name}
+                      <div style={{marginLeft:5}}> {v.Name}</div>
+                     
                     </td>
 
 
@@ -1265,7 +1266,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     fontFamily: "Gilroy",
                     marginTop: 10,borderBottom: "1px solid #E8E8E8"
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
                 >
                   <span
                     style={{
@@ -1274,6 +1275,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       paddingRight: "12px",
                       paddingBottom: "3px",
                       borderRadius: "60px",
+                      marginLeft:3,
                       backgroundColor: "#FFEFCF",
                       textAlign: "start",
                       fontSize: 13, 

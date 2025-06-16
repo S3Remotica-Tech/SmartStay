@@ -78,6 +78,7 @@ export const initialState = {
   planExpired:'',
   SettingsInvoice : [],
   settingsInvoicegetSucesscode : 0,
+  settingsInvoicegetErrorStatuscode : 0,
 };
 
 const SettingsReducer = (state = initialState, action) => {
@@ -464,7 +465,12 @@ case "PLAN-EXPIRED":
     case "SETTINGSGETINVOICE":
       return {...state, SettingsInvoice : action.payload.response, settingsInvoicegetSucesscode: action.payload.statusCode,};
     case "CLEAR_SETTINGSGETINVOICE_STATUS_CODE":
-      return { ...state, settingsInvoicegetSucesscode: 0 };    
+      return { ...state, settingsInvoicegetSucesscode: 0 };   
+      
+    case "ERROR_SETTINGS_GETINVOICE":
+      return {...state, settingsInvoicegetErrorStatuscode: action.payload.statusCode,};
+    case "CLEAR_ERROR_SETTINGS_GETINVOICE_STATUS_CODE":
+      return { ...state, settingsInvoicegetErrorStatuscode: 0 };    
 
     default:
       return state; 

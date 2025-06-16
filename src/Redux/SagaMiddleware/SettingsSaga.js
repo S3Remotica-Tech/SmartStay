@@ -1172,10 +1172,15 @@ function* handleAddInvoiceSettings(params) {
 
 function* handleGetSettingsInvoice(action) {
    const response = yield call(SettingsGetInvoice , action.payload );
+
+   
    
    if (response.status === 200 || response.data.statusCode  === 200) {
       yield put({ type: 'SETTINGSGETINVOICE', payload: { response: response.data.data, statusCode: response.status || response.statusCode, message: response.data.message } })
    } 
+   else if (response.status === 201 || response.data.statusCode  === 201){
+      yield put({ type: "ERROR_SETTINGS_GETINVOICE", payload: {message : response.data.message , statusCode: response.status || response.statusCode || response.data.statusCode }});
+   }
    else {
       yield put({ type: 'ERROR', payload: {statusCode: response.status || response.statusCode} })
    }
