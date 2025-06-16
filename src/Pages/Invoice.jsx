@@ -2304,7 +2304,7 @@ const InvoicePage = () => {
 
 
       handleBackBill()
-     
+
 
       dispatch({
         type: "RECEIPTSLIST",
@@ -2404,7 +2404,7 @@ const InvoicePage = () => {
                           bills?.length > 0 && (
                             <div
                               style={{
-                                border: "1px solid #d9d9d9 ",
+                                border: "1px solid #d9d9d9",
                                 position: "absolute",
                                 top: 80,
                                 left: 0,
@@ -2415,61 +2415,63 @@ const InvoicePage = () => {
                                 width: "100%",
                               }}
                             >
-
                               <ul
                                 className="show-scroll p-0"
                                 style={{
                                   listStyleType: "none",
                                   maxHeight: 174,
-                                  minHeight:
-                                    bills?.length > 1 ? "100px" : "auto",
-                                  overflowY:
-                                    bills?.length > 3 ? "auto" : "hidden",
+                                  minHeight: bills?.length > 1 ? "100px" : "auto",
+                                  overflowY: bills?.length > 3 ? "auto" : "hidden",
                                   margin: 0,
                                 }}
                               >
-                                {bills?.map((user, index) => (
-                                  <li
-                                    key={index}
-                                    className="d-flex align-items-center me-1"
-                                    style={{
-                                      padding: "10px 5px",
-                                      cursor: "pointer",
-                                      fontFamily: "Gilroy",
-                                      borderRadius: 8,
-                                      borderBottom:
-                                        index !== bills?.length - 1
-                                          ? "1px solid #eee"
-                                          : "none",
-                                      backgroundColor:
-                                        hoveredIndex === index ? "#1E45E1" : "transparent",
-                                      color:
-                                        hoveredIndex === index ? "white" : "black",
-                                    }}
-                                    onClick={() => handleUserSelect(user)}
-                                    onMouseEnter={() => setHoveredIndex(index)}
-                                    onMouseLeave={() => setHoveredIndex(null)}
-                                  >
-                                    <Image
-                                      src={user.profile || Profile}
-                                      alt={user.Name}
-                                      roundedCircle
+                                {bills
+                                  ?.filter(
+                                    (item, index, self) =>
+                                      index === self.findIndex((t) => t.Name === item.Name)
+                                  )
+                                  .map((user, index) => (
+                                    <li
+                                      key={index}
+                                      className="d-flex align-items-center me-1"
                                       style={{
-                                        height: "30px",
-                                        width: "30px",
-                                        marginRight: "10px",
+                                        padding: "10px 5px",
+                                        cursor: "pointer",
+                                        fontFamily: "Gilroy",
+                                        borderRadius: 8,
+                                        borderBottom:
+                                          index !== bills?.length - 1
+                                            ? "1px solid #eee"
+                                            : "none",
+                                        backgroundColor:
+                                          hoveredIndex === index ? "#1E45E1" : "transparent",
+                                        color: hoveredIndex === index ? "white" : "black",
                                       }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
-                                      }}
-                                    />
-                                    <span>{user.Name}</span>
-                                  </li>
-                                ))}
+                                      onClick={() => handleUserSelect(user)}
+                                      onMouseEnter={() => setHoveredIndex(index)}
+                                      onMouseLeave={() => setHoveredIndex(null)}
+                                    >
+                                      <Image
+                                        src={user.profile || Profile}
+                                        alt={user.Name}
+                                        roundedCircle
+                                        style={{
+                                          height: "30px",
+                                          width: "30px",
+                                          marginRight: "10px",
+                                        }}
+                                        onError={(e) => {
+                                          e.target.onerror = null;
+                                          e.target.src = Profile;
+                                        }}
+                                      />
+                                      <span>{user.Name}</span>
+                                    </li>
+                                  ))}
                               </ul>
                             </div>
                           )}
+
                         {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
                           <div
                             style={{
@@ -2496,54 +2498,59 @@ const InvoicePage = () => {
                                 margin: "0",
                                 listStyleType: "none",
                                 boxSizing: "border-box",
-
                               }}
-
                             >
                               {recurringbills?.length === 0 ? (
                                 <li style={{ padding: "10px" }}>No results found</li>
                               ) : (
-                                recurringbills?.map((user, index) => (
-                                  <li
-                                    key={index}
-                                    className="d-flex align-items-center me-1"
-                                    style={{
-                                      cursor: "pointer",
-                                      fontFamily: "Gilroy",
-                                      borderRadius: 8,
-                                      padding: "10px 5px",
-                                      borderBottom: index !== recurringbills.length - 1 ? "1px solid #eee" : "none",
-                                      backgroundColor:
-                                        hoveredIndex === index ? "#1E45E1" : "transparent",
-                                      color:
-                                        hoveredIndex === index ? "white" : "black",
-                                    }}
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      handleUserRecuire(user);
-                                    }}
-                                    onMouseEnter={() => setHoveredIndex(index)}
-                                    onMouseLeave={() => setHoveredIndex(null)}
-                                  >
-                                    <Image
-                                      src={user.profile || Profile}
-                                      alt={user.user_name || "Default Profile"}
-                                      roundedCircle
-                                      style={{ height: "30px", width: "30px", marginRight: "10px" }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
+                                recurringbills
+                                  ?.filter(
+                                    (item, index, self) =>
+                                      index === self.findIndex((t) => t.user_name === item.user_name)
+                                  )
+                                  .map((user, index) => (
+                                    <li
+                                      key={index}
+                                      className="d-flex align-items-center me-1"
+                                      style={{
+                                        cursor: "pointer",
+                                        fontFamily: "Gilroy",
+                                        borderRadius: 8,
+                                        padding: "10px 5px",
+                                        borderBottom:
+                                          index !== recurringbills.length - 1
+                                            ? "1px solid #eee"
+                                            : "none",
+                                        backgroundColor:
+                                          hoveredIndex === index ? "#1E45E1" : "transparent",
+                                        color: hoveredIndex === index ? "white" : "black",
                                       }}
-                                    />
-                                    <span>{user.user_name}</span>
-                                  </li>
-                                ))
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        handleUserRecuire(user);
+                                      }}
+                                      onMouseEnter={() => setHoveredIndex(index)}
+                                      onMouseLeave={() => setHoveredIndex(null)}
+                                    >
+                                      <Image
+                                        src={user.profile || Profile}
+                                        alt={user.user_name || "Default Profile"}
+                                        roundedCircle
+                                        style={{ height: "30px", width: "30px", marginRight: "10px" }}
+                                        onError={(e) => {
+                                          e.target.onerror = null;
+                                          e.target.src = Profile;
+                                        }}
+                                      />
+                                      <span>{user.user_name}</span>
+                                    </li>
+                                  ))
                               )}
                             </ul>
                           </div>
-
                         )}
+
 
                         {value === "3" &&
                           isDropdownVisible &&
@@ -2575,54 +2582,60 @@ const InvoicePage = () => {
                                   boxSizing: "border-box",
                                 }}
                               >
-                                {receiptdata?.map((user, index) => {
-                                  const imagedrop = user.profile || Profile;
-                                  return (
-                                    <li
-                                      key={index}
-                                      className="d-flex align-items-center me-1 "
-                                      style={{
-                                        cursor: "pointer",
-                                        fontFamily: "Gilroy",
-                                        borderRadius: 8,
-                                        padding: "10px 5px",
-                                        borderBottom: index !== receiptdata?.length - 1 ? "1px solid #eee" : "none",
-                                        backgroundColor:
-                                          hoveredIndex === index ? "#1E45E1" : "transparent",
-                                        color:
-                                          hoveredIndex === index ? "white" : "black",
-                                      }}
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-
-                                        handleUserReceipt(user);
-                                      }}
-                                      onMouseEnter={() => setHoveredIndex(index)}
-                                      onMouseLeave={() => setHoveredIndex(null)}
-                                    >
-                                      <Image
-                                        src={imagedrop}
-                                        alt={user.Name || "Default Profile"}
-                                        roundedCircle
+                                {receiptdata
+                                  ?.filter(
+                                    (item, index, self) =>
+                                      index === self.findIndex((t) => t.Name === item.Name)
+                                  )
+                                  .map((user, index) => {
+                                    const imagedrop = user.profile || Profile;
+                                    return (
+                                      <li
+                                        key={index}
+                                        className="d-flex align-items-center me-1 "
                                         style={{
-                                          height: "30px",
-                                          width: "30px",
-                                          marginRight: "10px",
+                                          cursor: "pointer",
+                                          fontFamily: "Gilroy",
+                                          borderRadius: 8,
+                                          padding: "10px 5px",
+                                          borderBottom:
+                                            index !== receiptdata?.length - 1
+                                              ? "1px solid #eee"
+                                              : "none",
+                                          backgroundColor:
+                                            hoveredIndex === index ? "#1E45E1" : "transparent",
+                                          color: hoveredIndex === index ? "white" : "black",
                                         }}
-                                        onError={(e) => {
-                                          e.target.onerror = null;
-                                          e.target.src = Profile;
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          handleUserReceipt(user);
                                         }}
-                                      />
-                                      <span>{user.Name}</span>
-                                    </li>
-                                  );
-                                })}
+                                        onMouseEnter={() => setHoveredIndex(index)}
+                                        onMouseLeave={() => setHoveredIndex(null)}
+                                      >
+                                        <Image
+                                          src={imagedrop}
+                                          alt={user.Name || "Default Profile"}
+                                          roundedCircle
+                                          style={{
+                                            height: "30px",
+                                            width: "30px",
+                                            marginRight: "10px",
+                                          }}
+                                          onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = Profile;
+                                          }}
+                                        />
+                                        <span>{user.Name}</span>
+                                      </li>
+                                    );
+                                  })}
                               </ul>
                             </div>
-
                           )}
+
                       </div>
                     </>
                   ) : (
@@ -5471,11 +5484,11 @@ const InvoicePage = () => {
           {Array.isArray(newRows) && newRows.length > 0 && (
             <div className="row mt-3" style={{ width: "100%" }}>
               <div className="col-lg-12 col-md-12 col-12">
-                <div  style={{ maxHeight: "150px", overflowY: "auto", width: "80%", borderRadius: "10px",border:"1px solid #DCDCDC" }}>
+                <div style={{ maxHeight: "150px", overflowY: "auto", width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
                   <Table
                     className="w-100"
                     responsive
-                    style={{ width: "100%", backgroundColor: "", borderRadius: "10px",}}
+                    style={{ width: "100%", backgroundColor: "", borderRadius: "10px", }}
                   >
                     <thead
                       style={{
@@ -5487,16 +5500,16 @@ const InvoicePage = () => {
                       }}
                     >
                       <tr style={{ borderRadius: 10 }}>
-                        <th className="text-center" style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily:"Gilroy" }}>
+                        <th className="text-center" style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                           S.No
                         </th>
-                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500 ,fontFamily:"Gilroy"}}>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                           Description
                         </th>
-                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500 ,fontFamily:"Gilroy"}}>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                           Total Amount
                         </th>
-                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500,fontFamily:"Gilroy" }}>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                           Action
                         </th>
                       </tr>
