@@ -41,6 +41,7 @@ import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../Assets/Images/New_images/time-half past.png";
 import { CiUser } from "react-icons/ci";
 import { MdOutlineLocalPhone } from "react-icons/md";
+import html2canvas from "html2canvas";
 
 
 function UserListRoomDetail(props) {
@@ -1282,7 +1283,29 @@ function UserListRoomDetail(props) {
       }, 500);
     }
   }, [state.UsersList.statusCodeForGenerateAdvance]);
+
+const handleKycDownload = () => {
+  const card = document.getElementById("kyc-download-card");
+
+ 
+  card.style.display = "block";
+
+  html2canvas(card).then((canvas) => {
+    const link = document.createElement("a");
+    link.download = "aadhaar_card.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+
+   
+    card.style.display = "none";
+  });
+};
+
+
+
+
   return (
+    
     <>
       {props.roomDetail && (
         <>
@@ -2012,24 +2035,257 @@ function UserListRoomDetail(props) {
                                     />
 
 
-                                    {state.UsersList?.KycCustomerDetails?.pic && (
-                                      <a
-                                        href={`data:image/jpeg;base64,${state.UsersList.KycCustomerDetails.pic}`}
-                                        download="aadhar_document.jpg"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        <img
-                                          src={docDown}
-                                          alt="Download Aadhar"
-                                          style={{
-                                            width: 20,
-                                            height: 20,
-                                            marginLeft: "10px",
-                                          }}
-                                        />
-                                      </a>
-                                    )}
+                                     {state.UsersList?.KycCustomerDetails?.pic && (
+<div >
+  <img
+    src={docDown}
+    alt="Download Aadhar"
+    onClick={handleKycDownload}
+    style={{ width: 20, height: 20, cursor: "pointer" ,marginLeft:200,marginTop:"-70px"}}
+  />
+</div>
+  )}
+
+
+
+
+
+
+
+
+
+
+<div
+  id="kyc-download-card"
+  style={{
+    
+    borderRadius: 10,
+    padding: 20,
+    width: 400,
+    backgroundColor: "#fff",
+    textAlign: "center",
+    display: "none", 
+    
+  }}
+>
+  
+  
+    
+                      <div className="d-flex align-items-center mt-1">
+                        <div
+                          className=""
+                          style={{ height: 100, width: 100, position: "relative" }}
+                        >
+                          <Image
+                            src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+                            roundedCircle
+                            style={{ height: 100, width: 100 }}
+                          />
+    
+                          <label htmlFor="imageInput" className="">
+                         
+                            <input
+                              type="file"
+                              accept="image/*"
+                              multiple
+                              className="sr-only"
+                              id="imageInput"
+                              onChange={handleImageChange}
+                              style={{ display: "none" }}
+                            />
+                          </label>
+                        </div>
+                        <div className="ps-3">
+                          <div>
+                            <label
+                              style={{
+                                fontSize: 16,
+                                fontWeight: 500,
+                                color: "#222222",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Profile Photo
+                            </label>
+                          </div>
+                          <div>
+                            <label
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 500,
+                                color: "#4B4B4B",
+                                fontFamily: "Gilroy",
+                              }}
+                            >
+                              Max size of image 10MB
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row mt-4">
+  
+  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                       <Form.Group className="mb-3">
+                        <Form.Label
+  style={{
+    fontSize: 14,
+    color: "#222222",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    textAlign: "left",        
+    display: "block",   
+  }}
+>
+  First Name{" "}
+  <span style={{ color: "red", fontSize: "20px" }}> *</span>
+</Form.Label>
+
+                         <FormControl
+                           id="form-controls"
+                           placeholder="Enter First Name"
+                           type="text"
+                         
+                           style={{
+                             fontSize: 16,
+                             color: "#4B4B4B",
+                             fontFamily: "Gilroy",
+                             fontWeight: 500,
+                             boxShadow: "none",
+                             border: "1px solid #D9D9D9",
+                             height: 42,
+                             borderRadius: 8,
+                           }}
+                         />
+                       </Form.Group>
+                     
+                     </div>
+
+
+                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                       <Form.Group className="mb-3">
+                         <Form.Label
+                          style={{
+    fontSize: 14,
+    color: "#222222",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    textAlign: "left",        
+    display: "block",   
+  }}
+                         >
+                           Last Name{" "}
+                           <span style={{ color: "red", fontSize: "20px" }}>
+                             {" "}
+                             *{" "}
+                           </span>
+                         </Form.Label>
+                         <FormControl
+                           id="form-controls"
+                           placeholder="Enter First Name"
+                           type="text"
+                        
+                           style={{
+                             fontSize: 16,
+                             color: "#4B4B4B",
+                             fontFamily: "Gilroy",
+                             fontWeight: 500,
+                             boxShadow: "none",
+                             border: "1px solid #D9D9D9",
+                             height: 42,
+                             borderRadius: 8,
+                           }}
+                         />
+                       </Form.Group>
+                     
+                     </div>
+
+
+                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                       <Form.Group className="mb-3">
+                         <Form.Label
+                          style={{
+    fontSize: 14,
+    color: "#222222",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    textAlign: "left",        
+    display: "block",   
+  }}
+                         >
+                           Adress{" "}
+                           <span style={{ color: "red", fontSize: "20px" }}>
+                             {" "}
+                             *{" "}
+                           </span>
+                         </Form.Label>
+                         <FormControl
+                           id="form-controls"
+                           placeholder="Enter First Name"
+                           type="text"
+                         
+                           style={{
+                             fontSize: 16,
+                             color: "#4B4B4B",
+                             fontFamily: "Gilroy",
+                             fontWeight: 500,
+                             boxShadow: "none",
+                             border: "1px solid #D9D9D9",
+                             height: 42,
+                             borderRadius: 8,
+                           }}
+                         />
+                       </Form.Group>
+                     
+                     </div>
+
+
+                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                       <Form.Group className="mb-3">
+                         <Form.Label
+                          style={{
+    fontSize: 14,
+    color: "#222222",
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    textAlign: "left",        
+    display: "block",   
+  }}
+                         >
+                           Aadhar{" "}
+                           <span style={{ color: "red", fontSize: "20px" }}>
+                             {" "}
+                             *{" "}
+                           </span>
+                         </Form.Label>
+                         <FormControl
+                           id="form-controls"
+                           placeholder="Enter First Name"
+                           type="text"
+                           value={'********8672'}
+                        
+                           style={{
+                             fontSize: 16,
+                             color: "#4B4B4B",
+                             fontFamily: "Gilroy",
+                             fontWeight: 500,
+                             boxShadow: "none",
+                             border: "1px solid #D9D9D9",
+                             height: 42,
+                             borderRadius: 8,
+                           }}
+                         />
+                       </Form.Group>
+                     
+                     </div>
+                     </div>
+ 
+ 
+
+ 
+</div>
+
+
+ 
 
 
 
