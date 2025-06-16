@@ -150,7 +150,7 @@ useEffect(() => {
         </div>
       </td>
 
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle',  fontSize: 13,  fontWeight: 50, fontFamily: "Gilroy", color: "#000000",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">{props.item.description || "-"}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle',  fontSize: 13,  fontWeight: 500, fontFamily: "Gilroy", color: "#000000",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.description || "-"}</td>
       <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" ,borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap"}}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_count}</td>
       <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_amount}</td>
 

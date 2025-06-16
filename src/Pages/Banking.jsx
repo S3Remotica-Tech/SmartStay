@@ -1452,19 +1452,21 @@ whiteSpace: "nowrap"
                               whiteSpace: "nowrap",
                               
                             }}
+                            className="ps-2 ps-lg-2"
                           >
                             <span
                               style={{
                                 paddingTop: "3px",
                                 paddingLeft: "10px",
                                 paddingRight: "10px",
+                                marginLeft:8,
                                 paddingBottom: "3px",
                                 borderRadius: "60px",
                                 textAlign: "center",
                                 fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                 backgroundColor: "#EBEBEB",
+                                backgroundColor: "#EBEBEB",
                               }}
                             >
                               {formattedDate}
@@ -1531,8 +1533,8 @@ whiteSpace: "nowrap"
                           <td
                             style={{
                               cursor: "pointer",
-                              height: 40,
-                              width: 40,
+                              height: 30,
+                              width: 30,
                               borderRadius: 100,
                               border: "1px solid #EFEFEF",
                               display: "flex",
@@ -1540,6 +1542,7 @@ whiteSpace: "nowrap"
                               alignItems: "center",
                               position: "relative",
                               marginTop: 10,
+                              marginLeft:5,
                               backgroundColor:
                                 EditTransaction === user.id
                                   ? "#E7F1FF"
@@ -1549,7 +1552,7 @@ whiteSpace: "nowrap"
                             onClick={(e) => handleEditTrans(user.id,e)}
                           >
                             <PiDotsThreeOutlineVerticalFill
-                              style={{ height: 20, width: 20 }}
+                              style={{ height: 17, width: 17 }}
                             />
                             {EditTransaction === user.id && (
                               <div

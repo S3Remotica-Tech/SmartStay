@@ -85,7 +85,7 @@ const RecurringBillList = (props) => {
   let nextinvoiceDated = new Date(props.item.next_invoice_date);
 
   let nextinvoiceday = nextinvoiceDated.getDate();
-  let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; // Months are zero-based
+  let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; 
   let nextinvoiceyear = nextinvoiceDated.getFullYear();
 
   let formattedNextInvoiceDate = `${nextinvoiceday}/${nextinvoicemonth}/${nextinvoiceyear}`;
@@ -105,31 +105,7 @@ const RecurringBillList = (props) => {
     };
   }, []);
 
-  //   const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
-  
-  //   const handleDownload = (item) => {
-  // console.log(item);
-  
-  //     // props.RecuringInvoice(true, item)
-  
-  //     setDownloadInvoiceTable(true)
-  
-  //   }
-  // const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
-  // const [selectedItem, setSelectedItem] = useState(null); 
 
-  // const handleDownload = (item) => {
-  //   console.log(item); 
-  //   setSelectedItem(item); 
-  //   setDownloadInvoiceTable(true); 
-  // };
-
-
-  // React.useEffect(() => {
-  //   if (selectedItem) {
-  //     console.log("Selected Item:", selectedItem);
-  //   }
-  // }, [selectedItem]);
 
     
   return (
@@ -141,26 +117,13 @@ const RecurringBillList = (props) => {
 
         <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap",paddingTop:'18px',textAlign:"center",whiteSpace:"nowrap",borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
-            {/* <div className="d-flex  align-items-center">
-              <span >
-                <img
-                  src={
-                    props.item.user_profile && props.item.user_profile !== "0"
-                      ? props.item.user_profile
-                      : User
-                  }
-                  style={{ height: 40, width: 40 }}
-                />
-              </span>
-            </div> */}
+         
             <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '15px', fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500, cursor: "pointer" }}
-            // onClick={()=>handleDownload(props.item)}
 
             >{props.item.user_name}</div><br />
 
           </div>
         </td>
-        {/* <td style={{   border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}  className=''>#{props.item.Invoices == null || props.item.Invoices == '' ? '0.00' : props.item.Invoices}</td> */}
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px" }}>{formattedDate}</span></td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px" }}>{formattedDueDate}</span></td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px" }}>{formattedNextInvoiceDate}</span></td>
@@ -177,23 +140,13 @@ const RecurringBillList = (props) => {
 
                   position: "fixed",
                   top: popupPosition.top,
-                  left: popupPosition.left,
-
-                  // position: "absolute", right: 50, top: 20, 
-                  
+                  left: popupPosition.left,                  
                   width: 120, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
                   <div style={{  }} className=''>
-
-                    {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                                style={{ backgroundColor: "#fff" }}>
-                                                <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Edit</label>
-                                            </div> */}
-                    
 
                     <div
                       className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${recurringBillDeletePermission ? 'disabled' : ''}`}
                       style={{
-                        // backgroundColor: recurringBillDeletePermission ? "#f9f9f9" : "#fff",
                         cursor: recurringBillDeletePermission ? "not-allowed" : "pointer",
                       }}
                       onClick={() => {

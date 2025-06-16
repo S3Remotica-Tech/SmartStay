@@ -670,7 +670,9 @@ return (
         verticalAlign: "middle",
        borderBottom: "1px solid #E8E8E8",
        paddingLeft:20,
-       whiteSpace:"nowrap"
+       whiteSpace:"nowrap",
+       marginLeft:11
+
       }}
     >
       {v.reading}
@@ -680,7 +682,7 @@ return (
         textAlign: "start",
         verticalAlign: "middle", 
         borderBottom: "1px solid #E8E8E8",
-        paddingRight:5,
+        // paddingRight:5,
         whiteSpace:"nowrap"
         
       }}
@@ -692,6 +694,7 @@ return (
           paddingLeft: "16px",
           paddingRight: "16px",
           paddingBottom: "5px",
+          marginLeft:-3,
           borderRadius: "60px",
           fontSize: 13, 
           fontWeight: 500,

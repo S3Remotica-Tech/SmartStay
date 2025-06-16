@@ -10,26 +10,18 @@ import Download from '../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types";
 
 const Receipt = (props) => {
-  console.log("propsR",props);
   
 
       const state = useSelector((state) => state);
-    console.log("Receipt",state)
       const dispatch = useDispatch();
 
       const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
+      const [receiptEditPermission, setReceiptEditPermission] = useState("")
+      const [deleteShow, setDeleteShow] = useState(false)
+      const [deleteitem, setDeleteItem] = useState('')
+      const [showDots, setShowDots] = useState('')
+      const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-  const [receiptEditPermission, setReceiptEditPermission] = useState("")
-  const [deleteShow, setDeleteShow] = useState(false)
-  const [deleteitem, setDeleteItem] = useState('')
-
-  //  const [hostelId, setHostelId] = useState("");
-
-  //  useEffect(() => {
-  //     if (state.login.selectedHostel_Id) {
-  //       setHostelId(state.login.selectedHostel_Id);
-  //     }
-  //   }, [state.login.selectedHostel_Id]);
 
   const handleDeleteForm = (item) => {
     setDeleteShow(true)
@@ -63,8 +55,7 @@ const Receipt = (props) => {
     }
   }, [props.billrolePermission]);
 
-  const [showDots, setShowDots] = useState('')
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
    
   const handleShowDots = (event) => {
     setShowDots(!showDots)
@@ -90,9 +81,7 @@ const Receipt = (props) => {
 
 
   const handleEdit = (item) => {
-    console.log("handleEdit",item)
-    props.onhandleEdit(item)
-    
+    props.onhandleEdit(item)  
   }
 
   
@@ -106,18 +95,10 @@ const Receipt = (props) => {
   let Dated = new Date(props.item.payment_date);
 
   let day = Dated.getDate();
-  let month = Dated.getMonth() + 1; // Months are zero-based
+  let month = Dated.getMonth() + 1; 
   let year = Dated.getFullYear();
 
   let formattedDate = `${day}/${month}/${year}`;
-
-  // let nextinvoiceDated = new Date(props.item.next_invoice_date);
-
-  // let nextinvoiceday = nextinvoiceDated.getDate();
-  // let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; // Months are zero-based
-  // let nextinvoiceyear = nextinvoiceDated.getFullYear();
-
-  // let formattedNextInvoiceDate = `${nextinvoiceday}/${nextinvoicemonth}/${nextinvoiceyear}`;
 
 
   const popupRef = useRef(null);
@@ -138,11 +119,7 @@ const Receipt = (props) => {
   const handleDownload = (item) => {
 
     props.DisplayInvoice(true, item)
-
     dispatch({type:"RECEIPTPDF_NEWCHANGES",id:item?.id})
-    // dispatch({ type: "RECEIPTPDF_NEWCHANGES", params: { receipt_id: item?.id } });
-    // setDownloadInvoiceTable(true)
-
   }
 
   useEffect(()=>{
@@ -154,29 +131,7 @@ const Receipt = (props) => {
     
   },[state.InvoiceList.statusCodeNewReceiptStatusCode])
   
-  //   const handleDownload = (item) => {
-  // console.log(item);
-  
-  //     // props.RecuringInvoice(true, item)
-  
-  //     setDownloadInvoiceTable(true)
-  
-  //   }
-  // const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
-  // const [selectedItem, setSelectedItem] = useState(null); 
-
-  // const handleDownload = (item) => {
-  //   console.log(item); 
-  //   setSelectedItem(item); 
-  //   setDownloadInvoiceTable(true); 
-  // };
-
-
-  // React.useEffect(() => {
-  //   if (selectedItem) {
-  //     console.log("Selected Item:", selectedItem);
-  //   }
-  // }, [selectedItem]);
+ 
 
    useEffect(() => {
       if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 200) {
@@ -188,7 +143,6 @@ const Receipt = (props) => {
       }
     }, [ state.InvoiceList.ReceiptDeletesuccessStatuscode,]);
 
-    console.log("props.item",props.item)
 
     
   return (
@@ -199,35 +153,11 @@ const Receipt = (props) => {
         lineHeight: "normal", alignItems: 'center', marginTop: '10px', flexWrap: "wrap" }} className='m-2' >
 
 
-      {/* <td className="table-cells" style={{ border: "none", flexWrap: "wrap" }}>
-  <div className="d-flex align-items-center">
-    <div
-      className="Invoice_Name"
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: "16px",
-        marginLeft: "8px",
-        color: "#1E45E1",
-        fontStyle: "normal",
-        lineHeight: "normal",
-        fontWeight: 600,
-        cursor: "pointer",
-        textAlign: "start", 
-        verticalAlign: "middle",
-      }}
-      onClick={() => handleDownload(props.item)}
-    >
-      {props.item.Name}
-    </div>
-    <br />
-  </div>
-</td> */}
-
-<td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap",whiteSpace:"nowrap",borderBottom: "1px solid #E8E8E8" }}>
+     <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap",whiteSpace:"nowrap",borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
         
             <div className="Invoice_Name" style={{
-              fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '15px', color: "#1E45E1",
+              fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', color: "#1E45E1",
               fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",paddingTop:"10px"
             }}
               onClick={() => handleDownload(props.item)}
@@ -237,18 +167,22 @@ const Receipt = (props) => {
           </div>
         </td>
          
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-4">{props.item.reference_id}</td>
-        {/* <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}> {props.item.invoice_number}</td> */}
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-4">{!props.item.invoice_number || props.item.invoice_number === "0" ? "-" : props.item.invoice_number}
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+           <div style={{marginLeft:7}}>{props.item.reference_id}</div></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div className="ps-0" style={{marginLeft:6}}>{!props.item.invoice_number || props.item.invoice_number === "0" ? "-" : props.item.invoice_number}</div>
         </td>
 
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-4">{props.item.type}
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div style={{marginLeft:6}}>{props.item.type}</div>
         </td>
 
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}>
+          <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" , marginLeft:3 }}>{formattedDate}</span></td>
         <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-4" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} > ₹{props.item.amount_received.toLocaleString('en-IN')}</td>
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{props.item.paymentMode}</span></td>
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}>
+          <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" , marginLeft:2}}>{props.item.paymentMode}</span></td>
 
 
         <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none",borderBottom: "1px solid #E8E8E8" }} className=''>
@@ -266,19 +200,13 @@ const Receipt = (props) => {
                   top: popupPosition.top,
                   left: popupPosition.left,
 
-                  // position: "absolute", right: 50, top: 20, 
                   
                   width: 123, height: "90px", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto' }}>
                   <div style={{ }} className=''>
 
-                    {/* <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                                                style={{ backgroundColor: "#fff" }}>
-                                                <img src={Edit} style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Edit</label>
-                                            </div> */}
                     <div
                       className={"mb-2 mt-2 d-flex justify-content-start align-items-center gap-2 "}
                       style={{
-                        // backgroundColor: receiptEditPermission ? "#f9f9f9" : "#fff",
                         cursor: receiptEditPermission ? "not-allowed" : "pointer",
                       }}
                       onClick={() => {
@@ -292,7 +220,7 @@ const Receipt = (props) => {
                         style={{
                           height: 16,
                           width: 16,
-                          filter: receiptEditPermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                          filter: receiptEditPermission ? "grayscale(100%)" : "none", 
                         }}
                         alt="Edit"
                       />
@@ -301,7 +229,7 @@ const Receipt = (props) => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
-                          color: receiptEditPermission ? "#ccc" : "#222222", // Change text color if disabled
+                          color: receiptEditPermission ? "#ccc" : "#222222", 
                           cursor: receiptEditPermission ? "not-allowed" : "pointer",
                         }}
                       >
@@ -312,7 +240,6 @@ const Receipt = (props) => {
                     <div
                       className={`mb-2 d-flex justify-content-start align-items-center gap-2 ${receiptdeletePermission ? 'disabled' : ''}`}
                       style={{
-                        // backgroundColor: receiptdeletePermission ? "#f9f9f9" : "#fff",
                         cursor: receiptdeletePermission ? "not-allowed" : "pointer",
                       }}
                       onClick={() => {
@@ -326,7 +253,7 @@ const Receipt = (props) => {
                         style={{
                           height: 16,
                           width: 16,
-                          filter: receiptdeletePermission ? "grayscale(100%)" : "none", // Dim the icon if disabled
+                          filter: receiptdeletePermission ? "grayscale(100%)" : "none", 
                         }}
                         alt="Delete"
                       />
@@ -335,7 +262,7 @@ const Receipt = (props) => {
                           fontSize: 14,
                           fontWeight: 500,
                           fontFamily: "Gilroy, sans-serif",
-                          color: receiptdeletePermission ? "#ccc" : "#FF0000", // Change text color if disabled
+                          color: receiptdeletePermission ? "#ccc" : "#FF0000", 
                           cursor: receiptdeletePermission ? "not-allowed" : "pointer",
                         }}
                       >
@@ -343,17 +270,9 @@ const Receipt = (props) => {
                       </label>
                     </div>
 
-                    <div className='mb-3 d-flex justify-content-start align-items-center gap-2'
-                      onClick={() => handleInvoicepdf(props.item)}
-
-                      // style={{ backgroundColor: "#fff" }}
-                    >
+                    <div className='mb-3 d-flex justify-content-start align-items-center gap-2'  onClick={() => handleInvoicepdf(props.item)}>
                       <img src={Download} alt="download" style={{ height: 16, width: 16 }} /> <label style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy,sans-serif", color: "#222222", cursor: 'pointer' }} >Download</label>
-                    </div>
-
-
-
-              
+                    </div>      
                   </div>
                 </div>
               </>}
@@ -454,15 +373,7 @@ const Receipt = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    {/* {
-      downLoadInvoiceTable == true ?(
-<> */}
-{/* <InvoiceCard/> */}
-{/* <RecuringBillPDF/> */}
-{/* <p>{selectedItem.Invoices}</p> */}
-{/* </>
-      ):null
-    } */}
+
 
     </>
   )

@@ -384,9 +384,14 @@ function SettingGeneral() {
   };
 
   const handleCity = (e) => {
-    setCity(e.target.value);
-    setCityError("");
+      const value = e.target.value;
+  const regex = /^[a-zA-Z\s]*$/;
+  if (regex.test(value)) {
+    setCity(value);
+     setCityError("");
     setFormError("");
+  }
+   
   }
 
 
@@ -1785,6 +1790,7 @@ function SettingGeneral() {
                   placeholder="Enter City"
                   value={city}
                   onChange={(e) => handleCity(e)}
+            
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -1805,92 +1811,102 @@ function SettingGeneral() {
               )}
             </div>
 
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                <Form.Label
-                  style={{
-                    fontFamily: "Gilroy",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: "#222",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                  }}
-                >
-                  State
-                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                </Form.Label>
 
-                <Select
-                  options={indianStates}
-                  onChange={(selectedOption) => {
-                    setStateName(selectedOption?.value);
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+             <Form.Group className="" controlId="exampleForm.ControlInput5">
+               <Form.Label
+                 style={{
+                   fontFamily: "Gilroy",
+                   fontSize: 14,
+                   fontWeight: 500,
+                   color: "#222",
+                   fontStyle: "normal",
+                   lineHeight: "normal",
+                 }}
+               >
+                 State
+                 <span style={{ color: "red", fontSize: "20px" }}>*</span>
+               </Form.Label>
+           
+               <Select
+                 options={indianStates}
+                 onChange={(selectedOption) => {
+                   setStateName(selectedOption?.value);
+                 }}
+                 value={
+                   state_name ? { value: state_name, label: state_name } : null
+                 }
+                  onInputChange={(inputValue, { action }) => {
+                    if (action === "input-change") {
+                      const lettersOnly = inputValue.replace(
+                        /[^a-zA-Z\s]/g,
+                        ""
+                      );
+                      return lettersOnly;
+                    }
+                    return inputValue;
                   }}
-                  value={
-                    state_name ? { value: state_name, label: state_name } : null
-                  }
-                  placeholder="Select State"
-                  classNamePrefix="custom"
-                  menuPlacement="auto"
-                  noOptionsMessage={() => "No state available"}
-                  styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: state_name ? 600 : 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily:"Gilroy"
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                       fontFamily:"Gilroy"
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
-                  }}
-                />
-              </Form.Group>
+                 placeholder="Select State"
+                 classNamePrefix="custom"
+                 menuPlacement="auto"
+                 noOptionsMessage={() => "No state available"}
+                 styles={{
+                   control: (base) => ({
+                     ...base,
+                     height: "50px",
+                     border: "1px solid #D9D9D9",
+                     borderRadius: "8px",
+                     fontSize: "16px",
+                     color: "#4B4B4B",
+                     fontFamily: "Gilroy",
+                     fontWeight: state_name ? 600 : 500,
+                     boxShadow: "none",
+                   }),
+                   menu: (base) => ({
+                     ...base,
+                     backgroundColor: "#f8f9fa",
+                     border: "1px solid #ced4da",
+                   }),
+                   menuList: (base) => ({
+                     ...base,
+                     backgroundColor: "#f8f9fa",
+                     maxHeight: "120px",
+                     padding: 0,
+                     scrollbarWidth: "thin",
+                     overflowY: "auto",
+                   }),
+                   placeholder: (base) => ({
+                     ...base,
+                     color: "#555",
+                   }),
+                   dropdownIndicator: (base) => ({
+                     ...base,
+                     color: "#555",
+                     cursor: "pointer",
+                   }),
+                   indicatorSeparator: () => ({
+                     display: "none",
+                   }),
+                   option: (base, state) => ({
+                     ...base,
+                     cursor: "pointer",
+                     backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                     color: "#000",
+                   }),
+                 }}
+               />
+             </Form.Group>
+           
+            {!state_name && state_nameError && (
+             <div style={{ color: "red" }}>
+               <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+               <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
+                 {state_nameError}
+               </span>
+             </div>
+           )}
+           </div>
 
-              {!state_name && state_nameError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                  <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {state_nameError}
-                  </span>
-                </div>
-              )}
-            </div>
 
 
 

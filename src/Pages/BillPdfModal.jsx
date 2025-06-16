@@ -341,6 +341,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                 style={{
                   maxHeight: 390,
                   overflowY: "auto",
+                  overflowX:'hidden',
                   borderBottomLeftRadius: "13px",
                   borderBottomRightRadius: "13px",
                 }}>
