@@ -20,11 +20,11 @@ import eye from "../Assets/Images/login-password.png";
 import eyeClosed from "../Assets/Images/Show_password.png";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
-import {ArrowLeft2,ArrowRight2,} from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import { MdError } from "react-icons/md";
 import './SettingAll.css'
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import './SettingGeneral.css';
 
 function SettingGeneral() {
@@ -39,7 +39,7 @@ function SettingGeneral() {
   const [countryCode, setCountryCode] = useState("91");
   const [Phone, setPhone] = useState("");
   const [emilId, setEmailId] = useState("");
- 
+
   const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
@@ -59,7 +59,7 @@ function SettingGeneral() {
   const [firstNameError, setFirstNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  
+
   const [house_noError, setHouse_NoError] = useState("");
   const [streetError, setStreetError] = useState("");
   const [landmarkError, setLandmarkError] = useState("");
@@ -81,51 +81,51 @@ function SettingGeneral() {
   const [conformShowPassword, setConFormShowPassword] = useState("");
   const [conformPasswordError, setConformPasswordError] = useState("");
   const [newPassError, setNewPassError] = useState("")
-   const [generalFilterddata, setGeneralFilterddata] = useState([]);
-  
- 
+  const [generalFilterddata, setGeneralFilterddata] = useState([]);
+
+
   const [loading, setLoading] = useState(true)
-const [generalDeleteError,setGeneralDeleteError] = useState("")
+  const [generalDeleteError, setGeneralDeleteError] = useState("")
 
 
-const indianStates = [
-  { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-  { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-  { value: "Assam", label: "Assam" },
-  { value: "Bihar", label: "Bihar" },
-  { value: "Chhattisgarh", label: "Chhattisgarh" },
-  { value: "Goa", label: "Goa" },
-  { value: "Gujarat", label: "Gujarat" },
-  { value: "Haryana", label: "Haryana" },
-  { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-  { value: "Jharkhand", label: "Jharkhand" },
-  { value: "Karnataka", label: "Karnataka" },
-  { value: "Kerala", label: "Kerala" },
-  { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-  { value: "Maharashtra", label: "Maharashtra" },
-  { value: "Manipur", label: "Manipur" },
-  { value: "Meghalaya", label: "Meghalaya" },
-  { value: "Mizoram", label: "Mizoram" },
-  { value: "Nagaland", label: "Nagaland" },
-  { value: "Odisha", label: "Odisha" },
-  { value: "Punjab", label: "Punjab" },
-  { value: "Rajasthan", label: "Rajasthan" },
-  { value: "Sikkim", label: "Sikkim" },
-  { value: "Tamil Nadu", label: "Tamil Nadu" },
-  { value: "Telangana", label: "Telangana" },
-  { value: "Tripura", label: "Tripura" },
-  { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-  { value: "Uttarakhand", label: "Uttarakhand" },
-  { value: "West Bengal", label: "West Bengal" },
-  { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
-  { value: "Chandigarh", label: "Chandigarh" },
-  { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
-  { value: "Delhi", label: "Delhi" },
-  { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-  { value: "Ladakh", label: "Ladakh" },
-  { value: "Lakshadweep", label: "Lakshadweep" },
-  { value: "Puducherry", label: "Puducherry" },
-];
+  const indianStates = [
+    { value: "Andhra Pradesh", label: "Andhra Pradesh" },
+    { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
+    { value: "Assam", label: "Assam" },
+    { value: "Bihar", label: "Bihar" },
+    { value: "Chhattisgarh", label: "Chhattisgarh" },
+    { value: "Goa", label: "Goa" },
+    { value: "Gujarat", label: "Gujarat" },
+    { value: "Haryana", label: "Haryana" },
+    { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+    { value: "Jharkhand", label: "Jharkhand" },
+    { value: "Karnataka", label: "Karnataka" },
+    { value: "Kerala", label: "Kerala" },
+    { value: "Madhya Pradesh", label: "Madhya Pradesh" },
+    { value: "Maharashtra", label: "Maharashtra" },
+    { value: "Manipur", label: "Manipur" },
+    { value: "Meghalaya", label: "Meghalaya" },
+    { value: "Mizoram", label: "Mizoram" },
+    { value: "Nagaland", label: "Nagaland" },
+    { value: "Odisha", label: "Odisha" },
+    { value: "Punjab", label: "Punjab" },
+    { value: "Rajasthan", label: "Rajasthan" },
+    { value: "Sikkim", label: "Sikkim" },
+    { value: "Tamil Nadu", label: "Tamil Nadu" },
+    { value: "Telangana", label: "Telangana" },
+    { value: "Tripura", label: "Tripura" },
+    { value: "Uttar Pradesh", label: "Uttar Pradesh" },
+    { value: "Uttarakhand", label: "Uttarakhand" },
+    { value: "West Bengal", label: "West Bengal" },
+    { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
+    { value: "Chandigarh", label: "Chandigarh" },
+    { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
+    { value: "Delhi", label: "Delhi" },
+    { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
+    { value: "Ladakh", label: "Ladakh" },
+    { value: "Lakshadweep", label: "Lakshadweep" },
+    { value: "Puducherry", label: "Puducherry" },
+  ];
 
 
   const handleNewPassword = (e) => {
@@ -158,14 +158,14 @@ const indianStates = [
     setChangePassword(false);
     setPassError("");
     setCheckPassword("")
-    
+
 
   };
 
   const handleCheckPassword = (e) => {
     setCheckPassword(e.target.value);
     setPassError("");
-    
+
     dispatch({ type: "CLEAR_PASSWORD_ERROR" });
   };
 
@@ -208,7 +208,7 @@ const indianStates = [
   const handleCloseDeleteFormShow = () => {
     setDeleteForm(false);
     setGeneralDeleteError("")
-    dispatch({type:"CLEAR_DELETE_GENERAL_ERROR"})
+    dispatch({ type: "CLEAR_DELETE_GENERAL_ERROR" })
   };
 
   const handleConformDelete = () => {
@@ -248,7 +248,7 @@ const indianStates = [
     setEmailError("")
     setEmailErrorMessage("")
     setEmailAlready('');
-    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR'})
+    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
   };
 
   const handleImageChange = async (event) => {
@@ -270,8 +270,8 @@ const indianStates = [
   };
 
   const handleFirstName = (e) => {
-   const value = e.target.value;
-   const pattern = /^[a-zA-Z\s]*$/;
+    const value = e.target.value;
+    const pattern = /^[a-zA-Z\s]*$/;
     if (!pattern.test(value)) {
       return;
     }
@@ -283,11 +283,11 @@ const indianStates = [
   const handlelastName = (e) => {
     const value = e.target.value;
     const pattern = /^[a-zA-Z\s]*$/;
-     if (!pattern.test(value)) {
-       return;
-     }
+    if (!pattern.test(value)) {
+      return;
+    }
     setLastName(value);
-    
+
     setFormError("");
   };
 
@@ -297,34 +297,34 @@ const indianStates = [
     if (!/^\d{0,10}$/.test(value)) {
       return;
     }
-  
+
     setPhone(value);
-  
+
     if (value === "") {
       setPhoneError("");
       setPhoneErrorMessage("");
       dispatch({ type: "CLEAR_MOBILE_ERROR" });
       return;
     }
-  
+
     const pattern = /^\d{10}$/;
     const isValidMobileNo = pattern.test(value);
-  
+
     if (isValidMobileNo) {
       setPhoneError("");
     } else {
       setPhoneError("Invalid Mobile Number");
     }
-  
+
     setPhoneErrorMessage("");
     dispatch({ type: "CLEAR_MOBILE_ERROR" });
   };
-  
-  
+
+
   const handleEmailId = (e) => {
     const emailValue = e.target.value.toLowerCase();
     setEmailId(emailValue);
-    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR'})
+    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     const isValidEmail = emailRegex.test(emailValue);
 
@@ -345,7 +345,7 @@ const indianStates = [
 
 
 
- 
+
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
@@ -365,22 +365,22 @@ const indianStates = [
     setFormError("");
   }
 
-  
+
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
     if (!/^\d{0,6}$/.test(value)) {
       return;
     }
-  
+
     setPincode(value);
     if (value.length > 0 && value.length < 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
     }
-  
-  
+
+
   };
 
   const handleCity = (e) => {
@@ -394,16 +394,16 @@ const indianStates = [
    
   }
 
- 
+
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setPasswordError("");
-    
+
   };
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEditGeneralUser = (user) => {
-    
+
     const phoneNumber = String(user.mobileNo || "");
     const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
     const mobileNumber = phoneNumber.slice(-10);
@@ -414,7 +414,7 @@ const indianStates = [
     setLastName(user.last_name);
     setPhone(mobileNumber);
     setCountryCode(countryCode);
-   
+
     setHouseNo(user.Address);
     setStreet(user.area);
     setLandmark(user.landmark)
@@ -431,12 +431,12 @@ const indianStates = [
       lastName: user.last_name || "",
       Phone: user.mobileNo || "",
       emilId: user.email_Id || "",
-      
+
       house_no: user.Address || '',
       street: user.area || '',
       city: user.city || '',
-      pincode:user.pin_code || '',
-      landmark:user.landmark || '',
+      pincode: user.pin_code || '',
+      landmark: user.landmark || '',
       state: user.state || '',
       file: user.profile === "0" ? null : user.profile || null,
     });
@@ -454,20 +454,20 @@ const indianStates = [
         case "Phone":
           setPhoneError("Phone Number Required");
           break;
-       
+
         case "password":
           setPasswordError("Password Required");
           break;
-      
-          case "City":
-            setCityError("Please Enter City");
-            break;
-          case "Pincode":
-            setPincodeError("Please Enter Pincode");
-            break;
-          case "state_name":
-            setStateNameError("Please Select State");
-            break;
+
+        case "City":
+          setCityError("Please Enter City");
+          break;
+        case "Pincode":
+          setPincodeError("Please Enter Pincode");
+          break;
+        case "state_name":
+          setStateNameError("Please Select State");
+          break;
         default:
           break;
       }
@@ -482,17 +482,17 @@ const indianStates = [
     Phone: "",
     emilId: "",
     address: "",
-    house_no:'',
-    street:'',
-    city:'',
-    pincode:'',
-    landmark:'',
-    state:'',
+    house_no: '',
+    street: '',
+    city: '',
+    pincode: '',
+    landmark: '',
+    state: '',
     countryCode: "",
     file: null,
   });
 
-  
+
   function isValidEmail(email) {
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     return emailRegex.test(email);
@@ -500,80 +500,80 @@ const indianStates = [
 
 
   const handleSave = () => {
-  let hasError = false;
-  const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
-  const normalize = (v) => (v ?? "");
+    let hasError = false;
+    const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
+    const normalize = (v) => (v ?? "");
 
 
-  const validations = [
-    validateField(firstName, "firstName"),
-    validateField(emilId,   "emilId"),
-    validateField(Phone,    "Phone"),
-    !edit ? validateField(password, "password") : true,
-    validateField(city,     "City"),
-    validateField(pincode,  "Pincode"),
-    validateField(state_name, "state_name"),
-  ];
-
- 
-  if (!Phone) {
-    setPhoneError("Mobile Number Required"); hasError = true;
-  } else if (!/^\d{10}$/.test(Phone)) {
-    setPhoneError("Please Enter Valid Mobile Number"); hasError = true;
-  } else setPhoneError("");
-
-  
-  if (emilId) {
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-    if (!emailRegex.test(emilId.toLowerCase())) {
-      setEmailError("Please Enter a Valid Email ID"); hasError = true;
-    } else setEmailError("");
-  }
-
-  if (hasError || validations.includes(false) || !isValidEmail(emilId)) return;
+    const validations = [
+      validateField(firstName, "firstName"),
+      validateField(emilId, "emilId"),
+      validateField(Phone, "Phone"),
+      !edit ? validateField(password, "password") : true,
+      validateField(city, "City"),
+      validateField(pincode, "Pincode"),
+      validateField(state_name, "state_name"),
+    ];
 
 
-  const payload = {
-    f_name : firstName,
-    l_name : lastName,
-    mob_no : normalizedPhoneNumber,
-    email_id : emilId,
-    address : house_no,
-    area    : street,
-    landmark: landmark,
-    city,
-    pin_code: pincode,
-    state   : state_name,
-    profile : file,
+    if (!Phone) {
+      setPhoneError("Mobile Number Required"); hasError = true;
+    } else if (!/^\d{10}$/.test(Phone)) {
+      setPhoneError("Please Enter Valid Mobile Number"); hasError = true;
+    } else setPhoneError("");
+
+
+    if (emilId) {
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+      if (!emailRegex.test(emilId.toLowerCase())) {
+        setEmailError("Please Enter a Valid Email ID"); hasError = true;
+      } else setEmailError("");
+    }
+
+    if (hasError || validations.includes(false) || !isValidEmail(emilId)) return;
+
+
+    const payload = {
+      f_name: firstName,
+      l_name: lastName,
+      mob_no: normalizedPhoneNumber,
+      email_id: emilId,
+      address: house_no,
+      area: street,
+      landmark: landmark,
+      city,
+      pin_code: pincode,
+      state: state_name,
+      profile: file,
+    };
+    if (!edit) payload.password = password;
+    if (edit && editId) payload.id = editId;
+
+
+    if (edit && editId) {
+      const isChanged =
+        firstName !== initialStateAssign.firstName ||
+        Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
+        normalize(lastName) !== normalize(initialStateAssign.lastName) ||
+        emilId !== initialStateAssign.emilId ||
+        normalize(house_no) !== normalize(initialStateAssign.house_no) ||
+        normalize(street) !== normalize(initialStateAssign.street) ||
+        normalize(landmark) !== normalize(initialStateAssign.landmark) ||
+        city !== initialStateAssign.city ||
+        String(pincode).trim() !== String(initialStateAssign.pincode ?? "").trim() ||
+        state_name !== initialStateAssign.state ||
+        file !== initialStateAssign.file ||
+        (!file && initialStateAssign.file);
+
+      if (!isChanged) { setFormError("No Changes Detected"); return; }
+      setFormError("");
+    }
+
+    /* ------------ 4. Dispatch --------------- */
+    dispatch({ type: "ADDGENERALSETTING", payload });
   };
-  if (!edit) payload.password = password;
-  if (edit && editId) payload.id = editId;
 
-  
-  if (edit && editId) {
-    const isChanged =
-      firstName !== initialStateAssign.firstName ||
-      Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
-      normalize(lastName) !== normalize(initialStateAssign.lastName) ||
-      emilId !== initialStateAssign.emilId ||
-      normalize(house_no) !== normalize(initialStateAssign.house_no) ||
-      normalize(street) !== normalize(initialStateAssign.street) ||
-      normalize(landmark) !== normalize(initialStateAssign.landmark) ||
-      city !== initialStateAssign.city ||
-      String(pincode).trim() !== String(initialStateAssign.pincode ?? "").trim() ||
-      state_name !== initialStateAssign.state ||
-      file !== initialStateAssign.file ||
-      (!file && initialStateAssign.file);
 
-    if (!isChanged) { setFormError("No Changes Detected"); return; }
-    setFormError("");
-  }
-
-  /* ------------ 4. Dispatch --------------- */
-  dispatch({ type: "ADDGENERALSETTING", payload });
-};
-
-  
   useEffect(() => {
     if (state.Settings.notmatchpass) {
       setPassError(state.Settings.notmatchpass);
@@ -588,12 +588,12 @@ const indianStates = [
 
   useEffect(() => {
     setLoading(true)
-   
-     dispatch({ type: "GETALLGENERAL" });
-     const timeout = setTimeout(() => {
+
+    dispatch({ type: "GETALLGENERAL" });
+    const timeout = setTimeout(() => {
       setLoading(false);
-    }, 2000); 
-  
+    }, 2000);
+
     return () => clearTimeout(timeout);
   }, []);
 
@@ -655,10 +655,10 @@ const indianStates = [
     }
   }, [state.Settings?.statusCodeForGeneralDelete]);
 
- 
- const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
+
+  const [generalrowsPerPage, setGeneralrowsPerPage] = useState(2);
   const [generalcurrentPage, setGeneralcurrentPage] = useState(1);
- 
+
 
   const indexOfLastRowGeneral = generalcurrentPage * generalrowsPerPage;
   const indexOfFirstRowGeneral = indexOfLastRowGeneral - generalrowsPerPage;
@@ -742,74 +742,74 @@ const indianStates = [
     }
   }, [state.Settings.StatusCodeforGeneralPassword]);
 
- 
- 
+
+
   return (
     <>
 
       <div
-       
-          className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-          
-        
-           style={{
+
+        className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+
+
+        style={{
           position: "sticky",
           top: 0,
           right: 0,
           left: 0,
           zIndex: 1000,
           backgroundColor: "#FFFFFF",
-        
+
           minHeight: 83,
           whiteSpace: "nowrap",
-          paddingRight:10,
-          paddingLeft:10,
-         
+          paddingRight: 10,
+          paddingLeft: 10,
+
 
         }}
       >
-  
-      <div  className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
-        <div>
-          <label
-            style={{
-              fontSize: 20,
-              color: "#000000",
-              fontWeight: 600,
-              fontFamily: "Gilroy", 
-              whiteSpace: "nowrap",
-              
-            }}
-          >
-            General
-          </label>
-        </div>
+
+        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
+          <div>
+            <label
+              style={{
+                fontSize: 20,
+                color: "#000000",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                whiteSpace: "nowrap",
+
+              }}
+            >
+              General
+            </label>
+          </div>
         </div>
         <div
-         className="d-flex justify-content-center justify-content-md-end w-100 mt-3 mt-md-0"
-      
-       >
-        
-          <div style={{marginTop:6}}
-           >
-            <Button
-            
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: "8px",
-              padding: "11px",
-            
-              height:45,
-              width:146,
-              whiteSpace:"nowrap",
-              marginTop:5
+          className="d-flex justify-content-center justify-content-md-end w-100 mt-3 mt-md-0"
 
-            }}
-            
+        >
+
+          <div style={{ marginTop: 6 }}
+          >
+            <Button
+
+              style={{
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+                backgroundColor: "#1E45E1",
+                color: "white",
+                fontWeight: 600,
+                borderRadius: "8px",
+                padding: "11px",
+
+                height: 45,
+                width: 146,
+                whiteSpace: "nowrap",
+                marginTop: 5
+
+              }}
+
               onClick={handleShowFormGreneral}
             >
               + Create Master
@@ -818,37 +818,39 @@ const indianStates = [
         </div>
       </div>
 
-      <div className="container scroll-issue" style={{ position: "relative" ,  
-      
-                  overflowY: "auto",}}>
+      <div className="container scroll-issue" style={{
+        position: "relative",
+
+        overflowY: "auto",
+      }}>
 
         {loading &&
-           <div
-           style={{
-             position: 'fixed',
-             top: '48%',
-             left: '68%',
-             transform: 'translate(-50%, -50%)',
-             width: '100vw',
-             height: '100vh',
-             display: 'flex',
-             alignItems: 'center',
-             justifyContent: 'center',
-             backgroundColor: 'transparent',
-             zIndex: 1050,
-           }}
-         >
-           <div
-             style={{
-               borderTop: '4px solid #1E45E1',
-               borderRight: '4px solid transparent',
-               borderRadius: '50%',
-               width: '40px',
-               height: '40px',
-               animation: 'spin 1s linear infinite',
-             }}
-           ></div>
-         </div>
+          <div
+            style={{
+              position: 'fixed',
+              top: '48%',
+              left: '68%',
+              transform: 'translate(-50%, -50%)',
+              width: '100vw',
+              height: '100vh',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              zIndex: 1050,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
         }
 
 
@@ -865,17 +867,17 @@ const indianStates = [
                 className="card p-3 settingGreneral mt-3 "
                 style={{
                   borderRadius: 16,
-                
+
                 }}
                 key={item.id}
               >
-                <div 
-                
-                className="d-flex flex-wrap justify-content-between align-items-center w-100"
+                <div
+
+                  className="d-flex flex-wrap justify-content-between align-items-center w-100"
                 >
                   <div className="d-flex align-items-center flex-wrap mt-2">
                     <Image
-                      src={imageUrl} 
+                      src={imageUrl}
                       alt={item.first_name || "Default Profile"}
                       roundedCircle
                       style={{
@@ -894,7 +896,7 @@ const indianStates = [
                           fontSize: 16,
                           fontWeight: 600,
                           fontFamily: "Gilroy",
-                          
+
                         }}
                       >
                         {item.first_name} {item.last_name}
@@ -916,85 +918,86 @@ const indianStates = [
                     >
                       Change Password
                     </p>
-                  
-                    <div className="ms-2 me-2" style={{ cursor: "pointer", height: 40, width: 40, borderRadius: 100,
-                                            border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
-                                            position: "relative", zIndex: generalEdit ? 1000 : 'auto'
-                                            ,      backgroundColor: generalEdit === item.id ? "#E7F1FF" : "transparent",
+
+                    <div className="ms-2 me-2" style={{
+                      cursor: "pointer", height: 40, width: 40, borderRadius: 100,
+                      border: "1px solid #EFEFEF", display: "flex", justifyContent: "center", alignItems: "center",
+                      position: "relative", zIndex: generalEdit ? 1000 : 'auto'
+                      , backgroundColor: generalEdit === item.id ? "#E7F1FF" : "transparent",
 
 
-                                            }} onClick={() => handlegeneralform(item.id)}>
-                                            <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
+                    }} onClick={() => handlegeneralform(item.id)}>
+                      <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
-                    {generalEdit === item.id && (
-                      <div
-                        ref={popupRef}
-                        style={{
-                          cursor: "pointer",
-                          backgroundColor: "#F9F9F9",
-                          position: "absolute",                         
-                          right: window.innerWidth <= 404 ? "auto" : 40,                         
-                          top: 40,                        
-                          width: window.innerWidth <= 404 ? 100 : 120,
-                          height: "auto",
-                          border: "1px solid #EBEBEB",
-                          borderRadius: 10,
-                          display: "flex",
-                          flexDirection: "column",
-                          padding: 10,
-                          alignItems: "start",
-                          zIndex: 1050, 
-                         
-                          fontSize: window.innerWidth <= 404 ? 13 : 14,
-                        }}
-                      >
+                      {generalEdit === item.id && (
                         <div
-                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleEditGeneralUser(item)}
-                        >
-                          <img
-                            src={Edit}
-                            style={{ height: 16, width: 16 }}
-                            alt="Edit"
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#000000",
-                              cursor: "pointer",
-                            }}
-                          >
-                            Edit
-                          </label>
-                        </div>
+                          ref={popupRef}
+                          style={{
+                            cursor: "pointer",
+                            backgroundColor: "#F9F9F9",
+                            position: "absolute",
+                            right: window.innerWidth <= 404 ? "auto" : 40,
+                            top: 40,
+                            width: window.innerWidth <= 404 ? 100 : 120,
+                            height: "auto",
+                            border: "1px solid #EBEBEB",
+                            borderRadius: 10,
+                            display: "flex",
+                            flexDirection: "column",
+                            padding: 10,
+                            alignItems: "start",
+                            zIndex: 1050,
 
-                        <div
-                          className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                          style={{ cursor: "pointer", pointerEvents: "auto" }}
-                          onClick={() => handleDelete(item)}
+                            fontSize: window.innerWidth <= 404 ? 13 : 14,
+                          }}
                         >
-                          <img
-                            src={Delete}
-                            style={{ height: 16, width: 16 }}
-                            alt="Delete"
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#FF0000",
-                              cursor: "pointer",
-                            }}
+                          <div
+                            className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleEditGeneralUser(item)}
                           >
-                            Delete
-                          </label>
+                            <img
+                              src={Edit}
+                              style={{ height: 16, width: 16 }}
+                              alt="Edit"
+                            />
+                            <label
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 500,
+                                fontFamily: "Gilroy, sans-serif",
+                                color: "#000000",
+                                cursor: "pointer",
+                              }}
+                            >
+                              Edit
+                            </label>
+                          </div>
+
+                          <div
+                            className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                            style={{ cursor: "pointer", pointerEvents: "auto" }}
+                            onClick={() => handleDelete(item)}
+                          >
+                            <img
+                              src={Delete}
+                              style={{ height: 16, width: 16 }}
+                              alt="Delete"
+                            />
+                            <label
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 500,
+                                fontFamily: "Gilroy, sans-serif",
+                                color: "#FF0000",
+                                cursor: "pointer",
+                              }}
+                            >
+                              Delete
+                            </label>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1069,9 +1072,9 @@ const indianStates = [
                         fontWeight: 600,
                       }}
                     >
-                      {item.Address ? item.Address : ''} {""}{" "} 
-                      {item.area ? item.area :''} {""} {item.city ? item.city :''} {""} {item.state ? item.state : ''} <br></br>
-                      {item.pin_code ? item.pin_code  : ''}
+                      {item.Address ? item.Address : ''} {""}{" "}
+                      {item.area ? item.area : ''} {""} {item.city ? item.city : ''} {""} {item.state ? item.state : ''} <br></br>
+                      {item.pin_code ? item.pin_code : ''}
                     </p>
                   </div>
                 </div>
@@ -1112,12 +1115,12 @@ const indianStates = [
         )}
       </div>
 
-      {generalFilterddata?.length >=3 && (
-        <nav 
-        className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
-       
+      {generalFilterddata?.length >= 3 && (
+        <nav
+          className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
+
         >
-      
+
           <div>
             <select
               value={generalrowsPerPage}
@@ -1223,9 +1226,9 @@ const indianStates = [
         onHide={() => handleClose()}
         backdrop="static"
         centered
-         dialogClassName="custom-modal"
+        dialogClassName="custom-modal"
       >
-       
+
 
         <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
           <div
@@ -1237,10 +1240,10 @@ const indianStates = [
           >
             {edit ? "Edit General" : "Add General"}
           </div>
-        
-          <CloseCircle size="24" color="#000" onClick={handleClose} 
-            style={{ cursor: 'pointer' }}/>
-			
+
+          <CloseCircle size="24" color="#000" onClick={handleClose}
+            style={{ cursor: 'pointer' }} />
+
         </Modal.Header>
         <div className="d-flex align-items-center" style={{ marginLeft: 10 }}>
           <div
@@ -1310,7 +1313,7 @@ const indianStates = [
             </div>
           </div>
         </div>
-        <Modal.Body style={{maxHeight:"380px", overflowY:"scroll"}} className="show-scroll mt-3 me-3">
+        <Modal.Body style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
               <Form.Group>
@@ -1345,11 +1348,11 @@ const indianStates = [
               </Form.Group>
               {firstNameError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '13px',marginRight:"5px"}} />
+                  <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError} </span>
                 </div>
               )}
-             </div>
+            </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
               <Form.Group className="">
@@ -1382,7 +1385,7 @@ const indianStates = [
                   }}
                 />
               </Form.Group>
-             
+
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-0">
@@ -1398,32 +1401,49 @@ const indianStates = [
                   Mobile Number{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-
-                <Form.Control
-                  value={Phone}
-                  onChange={handlePhone}
-                  type="text"
-                   autoComplete="off"
+                <InputGroup className="d-flex">
+                  <Form.Select
+                    value={countryCode}
+                    id="vendor-select-pg"
+                    // onChange={handleCountryCodeChange}
+                    style={{
+                      border: "1px solid #D9D9D9",
+                      borderRadius: "8px 0 0 8px",
+                      height: 50,
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: countryCode ? 600 : 500,
+                      boxShadow: "none",
+                      backgroundColor: "#fff",
+                      maxWidth: 90,
+                    }}
+                  >
+                    <option>+{countryCode}</option>
+                  </Form.Select>
+                  <Form.Control
+                    value={Phone}
+                    onChange={handlePhone}
+                    type="text"
+                    autoComplete="off"
                     autoCorrect="off"
-                  placeholder="9876543210"
-                  maxLength={10}
-                  style={{
-                    fontSize: 14,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: Phone ? 500 : 500,
-                    boxShadow: "none",
-                    borderLeft: "1px solid #D9D9D9",
-                    borderRight: "1px solid #D9D9D9",
-                    borderTop: "1px solid #D9D9D9",
-                    borderBottom: "1px solid #D9D9D9",
-                    height: 50,
-                    borderRadius: "8px 8px 8px 8px",
-                    paddingLeft: "12px",
-                    width: "100%",
-                  }}
-                />
-            
+                    placeholder="9876543210"
+                    maxLength={10}
+                    style={{
+                      fontSize: 14,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: Phone ? 500 : 500,
+                      boxShadow: "none",
+                     borderLeft: "unset",
+                        borderRight: "1px solid #D9D9D9",
+                        borderTop: "1px solid #D9D9D9",
+                        borderBottom: "1px solid #D9D9D9",
+                        height: 50,
+                        borderRadius: "0 8px 8px 0",
+                    }}
+                  />
+                </InputGroup>
                 <p
                   id="MobileNumberError"
                   style={{ color: "red" }}
@@ -1438,14 +1458,14 @@ const indianStates = [
               )}
               {phoneErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError  style={{ marginRight: "5px", marginBottom: "3px" }}/>
+                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
                 </div>
               )}
               {phoneAlready && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{marginRight:"5px", marginBottom: "3px"}}/>
-                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
+                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{phoneAlready} </span>
                 </div>
               )}
             </div>
@@ -1466,8 +1486,8 @@ const indianStates = [
                 <FormControl
                   type="text"
                   id="form-controls"
-                   autoComplete="off"
-                    autoCorrect="off"
+                  autoComplete="off"
+                  autoCorrect="off"
                   placeholder="Enter Email ID"
                   value={emilId}
                   onChange={(e) => handleEmailId(e)}
@@ -1491,14 +1511,14 @@ const indianStates = [
               )}
               {emailAlready && (
                 <div style={{ color: "red" }}>
-                  <MdError  style={{marginRight:"5px", marginBottom: "3px"}}/>
-                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailAlready}</span>
+                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailAlready}</span>
                 </div>
               )}
 
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{marginRight:"5px", marginBottom: "3px"}}/>
+                  <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{emailErrorMessage}</span>
                 </div>
               )}
@@ -1521,8 +1541,8 @@ const indianStates = [
                   </Form.Label>
                   <InputGroup>
                     <FormControl
-                     autoComplete="new-password"
-                    autoCorrect="off"
+                      autoComplete="new-password"
+                      autoCorrect="off"
                       id="form-controls"
                       placeholder="Enter Password"
                       type={showPassword ? "text" : "password"}
@@ -1535,7 +1555,7 @@ const indianStates = [
                         fontWeight: 500,
                         boxShadow: "none",
                         border: "1px solid #D9D9D9",
-                        borderRight: "none", 
+                        borderRight: "none",
                         height: "50px",
                         borderRadius: "8px 0 0 8px",
                       }}
@@ -1549,7 +1569,7 @@ const indianStates = [
                       style={{
                         backgroundColor: "#fff",
                         border: "1px solid #D9D9D9",
-                        borderLeft: "none", 
+                        borderLeft: "none",
                         cursor: "pointer",
                         borderRadius: "0 8px 8px 0",
                       }}
@@ -1573,9 +1593,9 @@ const indianStates = [
                   </InputGroup>
                 </Form.Group>
                 {!edit && passwordError && (
-                  <div style={{ color: "red"}}>
-                    <MdError style={{fontSize: '13px',marginRight:"5px",marginTop:"1px"}}/>
-                    <span style={{ fontSize: '12px',fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
+                  <div style={{ color: "red" }}>
+                    <MdError style={{ fontSize: '13px', marginRight: "5px", marginTop: "1px" }} />
+                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
                   </div>
                 )}
               </div>
@@ -1612,9 +1632,9 @@ const indianStates = [
                 />
               </Form.Group>
               {house_noError && (
-                <div style={{ color: "red"}}>
-                  <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                  <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
+                <div style={{ color: "red" }}>
+                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
                 </div>
               )}
             </div>
@@ -1650,9 +1670,9 @@ const indianStates = [
                 />
               </Form.Group>
               {streetError && (
-                <div style={{ color: "red"}}>
-                  <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                  <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
+                <div style={{ color: "red" }}>
+                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
                 </div>
               )}
             </div>
@@ -1688,68 +1708,68 @@ const indianStates = [
                 />
               </Form.Group>
               {landmarkError && (
-                <div style={{ color: "red"}}>
-                  <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                  <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
+                <div style={{ color: "red" }}>
+                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
                 </div>
               )}
             </div>
 
-             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <Form.Group
-                                                                                     className="mb-3"
-                                                                                     controlId="exampleForm.ControlInput1"
-                                                                                   >
-                                                                                     <Form.Label
-                                                                                       style={{
-                                                                                         fontSize: 14,
-                                                                                         color: "#222222",
-                                                                                         fontFamily: "Gilroy",
-                                                                                         fontWeight: 500,
-                                                                                       }}
-                                                                                     >
-                                                                                       Pincode
-                                                                                       <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                                                                                     </Form.Label>
-                                                                                     <Form.Control
-                                                                                       value={pincode}
-                                                                                       onChange={(e) => handlePinCodeChange(e)}
-                                                                                       type="tel"
-                                                                                       maxLength={6}
-                                                                                       inputMode="numeric" 
-                                                                                       pattern="[0-9]*" 
-                                                                                       placeholder="Enter Pincode"
-                                                                                       style={{
-                                                                                         fontSize: 16,
-                                                                                         color: "#4B4B4B",
-                                                                                         fontFamily: "Gilroy",
-                                                                                         fontWeight: pincode ? 600 : 500,
-                                                                                         boxShadow: "none",
-                                                                                         border: "1px solid #D9D9D9",
-                                                                                         height: 50,
-                                                                                         borderRadius: 8,
-                                                                                       }}
-                                                                                     />
-                                                                                     {pincodeError && (
-                                                                                       <div className="d-flex align-items-center p-1 mb-2">
-                                                                                         <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                                                         <label
-                                                                                           className="mb-0"
-                                                                                           style={{
-                                                                                             color: "red",
-                                                                                             fontSize: "12px",
-                                                                                             fontFamily: "Gilroy",
-                                                                                             fontWeight: 500,
-                                                                                           }}
-                                                                                         >
-                                                                                           {pincodeError}
-                                                                                         </label>
-                                                                                       </div>
-                                                                                     )}
-                                                                   
-                                                                   
-                                                                                   </Form.Group>
-                                                                                 </div>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label
+                  style={{
+                    fontSize: 14,
+                    color: "#222222",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Pincode
+                  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
+                <Form.Control
+                  value={pincode}
+                  onChange={(e) => handlePinCodeChange(e)}
+                  type="tel"
+                  maxLength={6}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  placeholder="Enter Pincode"
+                  style={{
+                    fontSize: 16,
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: pincode ? 600 : 500,
+                    boxShadow: "none",
+                    border: "1px solid #D9D9D9",
+                    height: 50,
+                    borderRadius: 8,
+                  }}
+                />
+                {pincodeError && (
+                  <div className="d-flex align-items-center p-1 mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {pincodeError}
+                    </label>
+                  </div>
+                )}
+
+
+              </Form.Group>
+            </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
               <Form.Group className="">
@@ -1785,11 +1805,12 @@ const indianStates = [
               </Form.Group>
               {cityError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '13px',marginRight:"5px"}} />
+                  <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                 </div>
               )}
             </div>
+
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
              <Form.Group className="" controlId="exampleForm.ControlInput5">
@@ -1888,32 +1909,33 @@ const indianStates = [
 
 
 
+
           </div>
         </Modal.Body>
 
         <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
           {formError && (
             <div style={{ color: "red" }}>
-              <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+              <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
               <span style={{ fontSize: '13px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
             </div>
           )}
-        
+
           <Button
-  className="col-lg-12 col-md-12 col-sm-12 col-xs-12 w-sm-full"
-  style={{
-    backgroundColor: "#1E45E1",
-    fontWeight: 600,
-    height: 50,
-    borderRadius: 12,
-    fontSize: 14,
-    fontFamily: "Montserrat, sans-serif",
-    marginTop: 5,
-  }}
-  onClick={handleSave}
->
-  {edit ? "Save changes" : "Add General"}
-</Button>
+            className="col-lg-12 col-md-12 col-sm-12 col-xs-12 w-sm-full"
+            style={{
+              backgroundColor: "#1E45E1",
+              fontWeight: 600,
+              height: 50,
+              borderRadius: 12,
+              fontSize: 14,
+              fontFamily: "Montserrat, sans-serif",
+              marginTop: 5,
+            }}
+            onClick={handleSave}
+          >
+            {edit ? "Save changes" : "Add General"}
+          </Button>
         </Modal.Footer>
       </Modal>
 
@@ -1923,16 +1945,16 @@ const indianStates = [
         centered
         backdrop="static"
         dialogClassName="custom-delete-modal"
-      
+
 
       >
         <Modal.Header style={{ borderBottom: "none" }}>
           <Modal.Title
-          className="w-100 text-center mt-1"
+            className="w-100 text-center mt-1"
             style={{
               fontSize: "18px",
               fontFamily: "Gilroy",
-              
+
               fontWeight: 600,
               color: "#222222",
               flex: 1,
@@ -1943,7 +1965,7 @@ const indianStates = [
         </Modal.Header>
 
         <Modal.Body
-        className="text-center"
+          className="text-center"
           style={{
             fontSize: 14,
             fontWeight: 500,
@@ -1955,34 +1977,34 @@ const indianStates = [
         >
           Are you sure you want to delete this General?
         </Modal.Body>
-               {generalDeleteError && (
-  <div className="d-flex justify-content-center align-items-center gap-2 ">
-    <MdError style={{ color: "red" }} />
-    <label
-      className="mb-0"
-      style={{
-        color: "red",
-        fontSize: "12px",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        textAlign: "center"
-      }}
-    >
-      {generalDeleteError}
-    </label>
-  </div>
-)}
+        {generalDeleteError && (
+          <div className="d-flex justify-content-center align-items-center gap-2 ">
+            <MdError style={{ color: "red" }} />
+            <label
+              className="mb-0"
+              style={{
+                color: "red",
+                fontSize: "12px",
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+                textAlign: "center"
+              }}
+            >
+              {generalDeleteError}
+            </label>
+          </div>
+        )}
         <Modal.Footer
-        className="d-flex justify-content-center"
+          className="d-flex justify-content-center"
           style={{
             borderTop: "none",
             marginTop: "-10px",
           }}
         >
           <Button
-          className="me-2"
+            className="me-2"
             style={{
-            
+
               width: "100%",
               maxWidth: 160,
               height: 52,
@@ -2025,12 +2047,13 @@ const indianStates = [
         onHide={() => handleCloseChangepassword()}
         backdrop="static"
         centered
-            dialogClassName="custom-modal"
-      
+        dialogClassName="custom-modal"
+
       >
-        <Modal.Header style={{ 
-          
-          position: "relative" }}>
+        <Modal.Header style={{
+
+          position: "relative"
+        }}>
           <div
             style={{
               fontSize: "1.25rem",
@@ -2040,85 +2063,85 @@ const indianStates = [
           >
             Current Password
           </div>
-         
-          <CloseCircle size="24" color="#000" onClick={handleCloseChangepassword} 
-            style={{ cursor: 'pointer' }}/>
-			
+
+          <CloseCircle size="24" color="#000" onClick={handleCloseChangepassword}
+            style={{ cursor: 'pointer' }} />
+
         </Modal.Header>
         <Modal.Body style={{ marginTop: '0px' }}>
-          
-            <Form.Group className="">
-              <Form.Label
+
+          <Form.Group className="">
+            <Form.Label
+              style={{
+                fontSize: 14,
+                color: "#222222",
+                fontFamily: "Gilroy",
+                fontWeight: 500,
+                marginTop: 0,
+                paddingTop: 0,
+              }}
+            >
+              Current Password{" "}
+              <span style={{ color: "red", fontSize: "20px" }}> * </span>
+            </Form.Label>
+            <InputGroup>
+              <FormControl
+                id="form-controls"
+                placeholder="Enter password"
+                type={showPassword ? "text" : "password"}
+                value={checkPassword}
+                onChange={(e) => handleCheckPassword(e)}
+                className="custom-input"
                 style={{
-                  fontSize: 14,
-                  color: "#222222",
+                  fontSize: 16,
+                  color: "#4B4B4B",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
-                  marginTop: 0,
-                  paddingTop: 0,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                  borderRight: "none",
+                  height: "50px",
+                  borderRadius: "8px 0 0 8px",
+                }}
+              />
+              <InputGroup.Text
+                className="border-start-0"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide Password" : "Show Password"}
+                style={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #D9D9D9",
+                  borderLeft: "none",
+                  cursor: "pointer",
+                  borderRadius: "0 8px 8px 0",
                 }}
               >
-                Current Password{" "}
-                <span style={{ color: "red", fontSize: "20px" }}> * </span>
-              </Form.Label>
-              <InputGroup>
-                <FormControl
-                  id="form-controls"
-                  placeholder="Enter password"
-                  type={showPassword ? "text" : "password"}
-                  value={checkPassword}
-                  onChange={(e) => handleCheckPassword(e)}
-                  className="custom-input"
-                  style={{
-                    fontSize: 16,
-                    color: "#4B4B4B",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                    borderRight: "none", 
-                    height: "50px",
-                    borderRadius: "8px 0 0 8px",
-                  }}
-                />
-                <InputGroup.Text
-                  className="border-start-0"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide Password" : "Show Password"}
-                  style={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #D9D9D9",
-                    borderLeft: "none", 
-                    cursor: "pointer",
-                    borderRadius: "0 8px 8px 0",
-                  }}
-                >
-                  {showPassword ? (
-                    <img src={eye} alt="Hide Password" width={20} height={20} />
-                  ) : (
-                    <img
-                      src={eyeClosed}
-                      alt="Show Password"
-                      width={20}
-                      height={20}
-                    />
-                  )}
-                </InputGroup.Text>
-              </InputGroup>
-            </Form.Group>
-            {passError && (
-              <div className="text-danger" style={{ color: "red" }}>
-                <MdError />
+                {showPassword ? (
+                  <img src={eye} alt="Hide Password" width={20} height={20} />
+                ) : (
+                  <img
+                    src={eyeClosed}
+                    alt="Show Password"
+                    width={20}
+                    height={20}
+                  />
+                )}
+              </InputGroup.Text>
+            </InputGroup>
+          </Form.Group>
+          {passError && (
+            <div className="text-danger" style={{ color: "red" }}>
+              <MdError />
 
-                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passError}</span>
-              </div>
-            )}
+              <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passError}</span>
+            </div>
+          )}
 
-         
+
         </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-center" style={{border:"none"}}>
+        <Modal.Footer className="d-flex justify-content-center" style={{ border: "none" }}>
           <Button
-           
+
             className="w-100 custom-button mt-2"
             style={{
               backgroundColor: "#1E45E1",
@@ -2136,15 +2159,15 @@ const indianStates = [
         </Modal.Footer>
       </Modal>
 
-      
+
       <Modal
         show={confirmPass}
         onHide={() => handleCloseConfirmPass()}
         backdrop="static"
         centered
-     
+
       >
-         
+
         <Modal.Header style={{ marginBottom: "", position: "relative" }}>
           <div
             style={{
@@ -2155,15 +2178,15 @@ const indianStates = [
           >
             Confirm Password
           </div>
-         
-          <CloseCircle size="24" color="#000" onClick={handleCloseConfirmPass} 
-            style={{ cursor: 'pointer' }}/>
+
+          <CloseCircle size="24" color="#000" onClick={handleCloseConfirmPass}
+            style={{ cursor: 'pointer' }} />
         </Modal.Header>
         <Modal.Body>
           <div className="col-lg-12 
            col-md-12 col-sm-12 col-xs-12"
           >
-          
+
             <Form.Group className="mb-3">
               <Form.Label
                 style={{
@@ -2203,7 +2226,7 @@ const indianStates = [
                   style={{
                     backgroundColor: "#fff",
                     border: "1px solid #D9D9D9",
-                    borderLeft: "none", 
+                    borderLeft: "none",
                     cursor: "pointer",
                     borderRadius: "0 8px 8px 0",
                   }}
@@ -2222,12 +2245,12 @@ const indianStates = [
               </InputGroup>
             </Form.Group>
             {newPassError && (
-              <div className="text-danger" style={{ color: "red" , fontSize:13, fontFamily:"Gilroy"}}>
+              <div className="text-danger" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy" }}>
                 <MdError /> {''}
                 {newPassError}
               </div>
             )}
-            
+
           </div>
           <div className="col-lg-12 
            col-md-12 col-sm-12 col-xs-12"
@@ -2258,7 +2281,7 @@ const indianStates = [
                     fontWeight: 500,
                     boxShadow: "none",
                     border: "1px solid #D9D9D9",
-                    borderRight: "none", 
+                    borderRight: "none",
                     height: "50px",
                     borderRadius: "8px 0 0 8px",
                   }}
@@ -2272,7 +2295,7 @@ const indianStates = [
                   style={{
                     backgroundColor: "#fff",
                     border: "1px solid #D9D9D9",
-                    borderLeft: "none", 
+                    borderLeft: "none",
                     cursor: "pointer",
                     borderRadius: "0 8px 8px 0",
                   }}
@@ -2291,12 +2314,12 @@ const indianStates = [
               </InputGroup>
             </Form.Group>
             {conformPasswordError && (
-              <div className="text-danger" style={{ color: "red" , fontSize:13, fontFamily:"Gilroy" }}>
+              <div className="text-danger" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy" }}>
                 <MdError /> {' '}
                 {conformPasswordError}
               </div>
             )}
-            
+
           </div>
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-center">
@@ -2309,14 +2332,14 @@ const indianStates = [
               borderRadius: "12px",
               fontSize: "14px",
               fontFamily: "Montserrat, sans-serif",
-             
+
             }}
             onClick={handleSavePassword}
           >
             Save Password
           </Button>
         </Modal.Footer>
-       
+
       </Modal>
     </>
   );
