@@ -347,7 +347,7 @@ function UserlistWalkin(props) {
                           position: "sticky",
                           top: 0,
                           zIndex: 1,
-                          borderRadius:0
+                          borderRadius: 0
                         }}
                       >
                         <tr>
@@ -360,7 +360,7 @@ function UserlistWalkin(props) {
                               fontSize: 12,
                               fontStyle: "normal",
                               fontWeight: 500,
-                              padding:10
+                              padding: 10
                             }}
                           >
                             {" "}
@@ -563,7 +563,7 @@ function UserlistWalkin(props) {
                               fontSize: 12,
                               fontStyle: "normal",
                               fontWeight: 500,
-                              paddingBottom:10
+                              paddingBottom: 10
                             }}
                           >
                             Action
@@ -586,7 +586,7 @@ function UserlistWalkin(props) {
                                       paddingLeft: "23px",
                                       borderBottom: "1px solid #E8E8E8",
                                     }}
-                                     className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                   >
                                     <div>
                                       <span
@@ -645,7 +645,7 @@ function UserlistWalkin(props) {
                                       verticalAlign: "middle",
                                       borderBottom: "1px solid #E8E8E8",
                                     }}
-                                     className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                                   >
                                     <span
                                       style={{
@@ -678,7 +678,7 @@ function UserlistWalkin(props) {
                                       verticalAlign: "middle",
                                       borderBottom: "1px solid #E8E8E8",
                                     }}
-                                     className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                                   >
                                     {v.total_amount}
                                     {v.comments || ""}
@@ -724,38 +724,35 @@ function UserlistWalkin(props) {
                                             position: "fixed",
                                             top: popupPosition.top - 15,
                                             left: popupPosition.left,
-                                            overflow: "visible ! important",
-                                            marginButtom: "30px",
-                                            width: 120,
-                                            height: 92,
+                                            width: 140,
                                             border: "1px solid #EBEBEB",
                                             borderRadius: 10,
                                             display: "flex",
                                             flexDirection: "column",
                                             justifyContent: "center",
-                                            padding: "8px",
-                                            boxShadow:
-                                              "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                            zIndex: 10,
                                           }}
                                         >
                                           <div
-                                            className="mb-2 d-flex align-items-center"
+                                            className="d-flex align-items-center"
                                             onClick={() => {
                                               if (!walkInEditPermissionError) {
                                                 handleEdit(v);
                                               }
                                             }}
                                             style={{
-                                              cursor: walkInEditPermissionError
-                                                ? "not-allowed"
-                                                : "pointer",
-                                              pointerEvents:
-                                                walkInEditPermissionError
-                                                  ? "none"
-                                                  : "auto",
-                                              opacity: walkInEditPermissionError
-                                                ? 0.5
-                                                : 1,
+                                              cursor: walkInEditPermissionError ? "not-allowed" : "pointer",
+                                              pointerEvents: walkInEditPermissionError ? "none" : "auto",
+                                              opacity: walkInEditPermissionError ? 0.5 : 1,
+                                              padding: "6px 8px",
+                                              borderRadius: 6,
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              if (!walkInEditPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor = "transparent";
                                             }}
                                           >
                                             <img
@@ -763,7 +760,7 @@ function UserlistWalkin(props) {
                                               style={{
                                                 height: 16,
                                                 width: 16,
-                                                marginRight: "8px",
+                                                marginRight: 8,
                                               }}
                                               alt="Edit icon"
                                             />
@@ -771,9 +768,8 @@ function UserlistWalkin(props) {
                                               style={{
                                                 fontSize: 14,
                                                 fontWeight: 500,
-                                                fontFamily: "Gilroy",
+                                                fontFamily: "Gilroy, sans-serif",
                                                 color: "#222222",
-                                                cursor: "pointer",
                                               }}
                                             >
                                               Edit
@@ -783,25 +779,22 @@ function UserlistWalkin(props) {
                                           <div
                                             className="d-flex align-items-center"
                                             onClick={() => {
-                                              if (
-                                                !walkInDeletePermissionError
-                                              ) {
+                                              if (!walkInDeletePermissionError) {
                                                 handleDelete(v);
                                               }
                                             }}
                                             style={{
-                                              cursor:
-                                                walkInDeletePermissionError
-                                                  ? "not-allowed"
-                                                  : "pointer",
-                                              pointerEvents:
-                                                walkInDeletePermissionError
-                                                  ? "none"
-                                                  : "auto",
-                                              opacity:
-                                                walkInDeletePermissionError
-                                                  ? 0.5
-                                                  : 1,
+                                              cursor: walkInDeletePermissionError ? "not-allowed" : "pointer",
+                                              pointerEvents: walkInDeletePermissionError ? "none" : "auto",
+                                              opacity: walkInDeletePermissionError ? 0.5 : 1,
+                                              padding: "6px 8px",
+                                              borderRadius: 6,
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              if (!walkInDeletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor = "transparent";
                                             }}
                                           >
                                             <img
@@ -809,7 +802,7 @@ function UserlistWalkin(props) {
                                               style={{
                                                 height: 16,
                                                 width: 16,
-                                                marginRight: "8px",
+                                                marginRight: 8,
                                               }}
                                               alt="Delete icon"
                                             />
@@ -817,15 +810,15 @@ function UserlistWalkin(props) {
                                               style={{
                                                 fontSize: 14,
                                                 fontWeight: 500,
-                                                fontFamily: "Gilroy",
+                                                fontFamily: "Gilroy, sans-serif",
                                                 color: "#FF0000",
-                                                cursor: "pointer",
                                               }}
                                             >
                                               Delete
                                             </label>
                                           </div>
                                         </div>
+
                                       )}
                                     </div>
                                   </td>
@@ -876,113 +869,113 @@ function UserlistWalkin(props) {
           {(props.search || props.filterStatus
             ? props.filteredUsers?.length
             : walkInCustomer?.length) >= 5 && (
-            <nav
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "end",
-                padding: "10px",
-                position: "fixed",
-                bottom: "10px",
-                right: "10px",
-                backgroundColor: "#fff",
-                borderRadius: "5px",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                zIndex: 1000,
-              }}
-            >
-              <div>
-                <select
-                  value={itemsPerPage}
-                  onChange={handleItemsPerPageChange}
-                  style={{
-                    padding: "5px",
-                    border: "1px solid #1E45E1",
-                    borderRadius: "5px",
-                    color: "#1E45E1",
-                    fontWeight: "bold",
-                    cursor: "pointer",
-                    outline: "none",
-                    boxShadow: "none",
-                  }}
-                >
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
-              </div>
-
-              <ul
+              <nav
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  listStyleType: "none",
-                  margin: 0,
-                  padding: 0,
+                  justifyContent: "end",
+                  padding: "10px",
+                  position: "fixed",
+                  bottom: "10px",
+                  right: "10px",
+                  backgroundColor: "#fff",
+                  borderRadius: "5px",
+                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                  zIndex: 1000,
                 }}
               >
-                <li style={{ margin: "0 10px" }}>
-                  <button
+                <div>
+                  <select
+                    value={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
                     style={{
                       padding: "5px",
-                      textDecoration: "none",
-                      color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                      cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
+                      border: "1px solid #1E45E1",
+                      borderRadius: "5px",
+                      color: "#1E45E1",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                      outline: "none",
+                      boxShadow: "none",
                     }}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
                   >
-                    <ArrowLeft2
-                      size="16"
-                      color={currentPage === 1 ? "#ccc" : "#1E45E1"}
-                    />
-                  </button>
-                </li>
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                  </select>
+                </div>
 
-                <li
+                <ul
                   style={{
-                    margin: "0 10px",
-                    fontSize: "14px",
-                    fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                    listStyleType: "none",
+                    margin: 0,
+                    padding: 0,
                   }}
                 >
-                  {currentPage} of {totalPages}
-                </li>
+                  <li style={{ margin: "0 10px" }}>
+                    <button
+                      style={{
+                        padding: "5px",
+                        textDecoration: "none",
+                        color: currentPage === 1 ? "#ccc" : "#1E45E1",
+                        cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      <ArrowLeft2
+                        size="16"
+                        color={currentPage === 1 ? "#ccc" : "#1E45E1"}
+                      />
+                    </button>
+                  </li>
 
-                <li style={{ margin: "0 10px" }}>
-                  <button
+                  <li
                     style={{
-                      padding: "5px",
-                      textDecoration: "none",
-                      color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                      cursor:
-                        currentPage === totalPages ? "not-allowed" : "pointer",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      minWidth: "30px",
-                      textAlign: "center",
-                      backgroundColor: "transparent",
-                      border: "none",
+                      margin: "0 10px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
                     }}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
                   >
-                    <ArrowRight2
-                      size="16"
-                      color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                    />
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
+                    {currentPage} of {totalPages}
+                  </li>
+
+                  <li style={{ margin: "0 10px" }}>
+                    <button
+                      style={{
+                        padding: "5px",
+                        textDecoration: "none",
+                        color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+                        cursor:
+                          currentPage === totalPages ? "not-allowed" : "pointer",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        minWidth: "30px",
+                        textAlign: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                      }}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      <ArrowRight2
+                        size="16"
+                        color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+                      />
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            )}
         </>
       )}
 

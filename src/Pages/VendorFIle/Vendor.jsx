@@ -23,8 +23,7 @@ function Vendor() {
   const dispatch = useDispatch();
   const [filteredData, setFilteredData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
-  // const [itemsPerPage] = useState(10);
-  const [itemsPerPage, setItemsPerPage] = useState(4)
+    const [itemsPerPage, setItemsPerPage] = useState(4)
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
 
@@ -140,7 +139,6 @@ function Vendor() {
     }
 
 
-    // setCheck(null)
   }, [state.ComplianceList.addVendorSuccessStatusCode, state.ComplianceList.deleteVendorStatusCode])
 
 
@@ -210,9 +208,7 @@ function Vendor() {
     setCurrentItem('')
 
   }
-  // const handleClose = () => {
-  //   setShow(false);
-  // }
+ 
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -229,43 +225,7 @@ function Vendor() {
 
   const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
 
-  // const renderPagination = () => {
-  //   const pageNumbers = [];
-  //   let startPage = Math.max(1, currentPage - 2);
-  //   let endPage = Math.min(totalPages, currentPage + 2);
-
-  //   if (startPage > 1) {
-  //     pageNumbers.push(
-  //       <Pagination.Item key={1} active={1 === currentPage} onClick={() => paginate(1)}>
-  //         1
-  //       </Pagination.Item>
-  //     );
-  //     if (startPage > 2) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="start-ellipsis" />);
-  //     }
-  //   }
-
-  //   for (let i = startPage; i <= endPage; i++) {
-  //     pageNumbers.push(
-  //       <Pagination.Item key={i} active={i === currentPage} onClick={() => paginate(i)}>
-  //         {i}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   if (endPage < totalPages) {
-  //     if (endPage < totalPages - 1) {
-  //       pageNumbers.push(<Pagination.Ellipsis key="end-ellipsis" />);
-  //     }
-  //     pageNumbers.push(
-  //       <Pagination.Item key={totalPages} active={totalPages === currentPage} onClick={() => paginate(totalPages)}>
-  //         {totalPages}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   return pageNumbers;
-  // };
+  
 
 
 
@@ -276,35 +236,6 @@ function Vendor() {
   };
 
 
-  //   const handleDeleteVendor = (item) =>{
-  //     console.log("delete item",item)
-  // if(item){
-  //     Swal.fire({
-  //       icon: 'warning',
-  //       title: 'Do you want to delete the Vendor ?',
-  //       confirmButtonText: 'Yes',
-  //       cancelButtonText: 'No',
-  //       showCancelButton: true,
-  //   }).then((result) => {
-  //       if (result.isConfirmed) {
-  //           dispatch({
-  //               type: 'DELETEVENDOR',
-  //               payload: {
-  //                   id: item.id,
-  //                   Status: 0
-  //               },
-  //           });
-  //           Swal.fire({
-  //               icon: 'success',
-  //               title: 'Vendor deleted Successfully',
-  //           })
-  //       }
-  //       setCurrentPage(1);
-  //   });
-
-  // }
-
-  //   }
 
   const [showDeleteVendor, setShowDeleteVendor] = useState(false)
   const [showDeleteVendorDetails, setShowDeleteVendorDetails] = useState('')
@@ -312,56 +243,7 @@ function Vendor() {
   const handleDeleteVendor = (item) => {
     setShowDeleteVendor(true)
     setShowDeleteVendorDetails(item)
-    // if (item) {
-    //   toast(
-    //     ({ closeToast }) => (
-    //       <div >
-    //         <p style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Do you want to delete the Vendor?</p>
-    //         <div className='w-100 d-flex justify-content-center'>
-    //           <button
-    //             style={{ marginRight: '10px', backgroundColor: '#1E45E1', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer', fontSize: 14, color: "#fff", fontFamily: "Gilroy", fontWeight: 500 }}
-    //             onClick={() => {
-
-    //               dispatch({
-    //                 type: 'DELETEVENDOR',
-    //                 payload: {
-    //                   id: item.id,
-    //                   Status: 0,
-    //                 },
-    //               });
-
-    //               setCurrentPage(1);
-    //               closeToast();
-    //             }}
-    //           >
-    //             Yes
-    //           </button>
-    //           {/* <button
-    //           style={{ backgroundColor: '#5bc0de', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer' }}
-    //           onClick={() => {
-    //             // Cancel deletion
-    //             // toast.info("Vendor deletion canceled", {
-    //             //   position: 'top-center',
-    //             //   autoClose: 1000,
-    //             // });
-    //             closeToast(); 
-    //           }}
-    //         >
-    //           Cancel
-    //         </button> */}
-    //         </div>
-    //       </div>
-    //     ),
-    //     {
-    //       position: 'top-center',
-    //       autoClose: false,
-    //       closeOnClick: false,
-    //       hideProgressBar: true,
-    //       draggable: false,
-    //       // style:toastStyle
-    //     }
-    //   );
-    // }
+  
   };
 
   const handleCloseForDeleteVendor = () => {
@@ -429,14 +311,14 @@ function Vendor() {
 
               }}
             >
-              {/* Image */}
+            
               <img
                 src={EmptyState}
                 alt="Empty State"
                 style={{ maxWidth: "100%", height: "auto" }}
               />
 
-              {/* Permission Error */}
+             
               {vendorpermissionError && (
                 <div
                   style={{
@@ -518,7 +400,7 @@ function Vendor() {
 
                             style={{
                               width: 'auto', boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                              //  '::placeholder': { color: "#222", fontWeight: 500 } 
+                              
                             }}
                             placeholder="Search..."
                           />
@@ -592,13 +474,7 @@ function Vendor() {
 
 
 
-                  {/* <div className='me-3'>
-                    <Sort
-                      Size="24"
-                      color="#222"
-                      variant="Outline"
-                    />
-                  </div> */}
+                 
 
                   <div >
                     <Button disabled={vendorAddPermission} onClick={handleShow} className="vendor-button"
@@ -634,7 +510,13 @@ function Vendor() {
               </div>
             )}
 
-            <div className='container'
+            <div className='container show-scroll'
+            style={{
+               height: "300px",
+                overflowY: "auto",
+                               position: "relative",
+                              
+              }}
             >
               {loading && (
                 <div
@@ -662,13 +544,7 @@ function Vendor() {
                   ></div>
                 </div>
               )}
-              <div className='vendor-card' style={{
-                maxHeight: "450px",
-                overflowY: "auto",
-                overflowX: "hidden",
-                position: "relative"
-
-              }}>
+           
 
                 <div className='row row-gap-3 '>
                   {currentItems && currentItems.length > 0 && currentItems.map((vendor) => (
@@ -679,22 +555,7 @@ function Vendor() {
                     </div>
                   ))
                   }
-                  {/* {!loading  && filteredData.length === 0 &&
-                  <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
-
-
-                    <div>
-                      <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                      <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No vendor available</div>
-                      <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Vendors added.</div>
-
-                    </div>
-                    <div>
-
-                    </div>
-                  </div>
-                } */}
-
+               
                   {!loading && filteredData.length === 0 && (
                     <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
                       <div>
@@ -716,7 +577,7 @@ function Vendor() {
 
 
                 </div>
-              </div>
+             
             </div>
           
             {
@@ -746,7 +607,7 @@ function Vendor() {
                   </select>
                 </div>
 
-                {/* Pagination Controls */}
+                
                 <ul className="selectoption"
                   style={{
                     display: "flex",
@@ -756,7 +617,7 @@ function Vendor() {
                     padding: 0,
                   }}
                 >
-                  {/* Previous Button */}
+                  
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -778,12 +639,12 @@ function Vendor() {
                     </button>
                   </li>
 
-                  {/* Current Page Indicator */}
+                  
                   <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                     {currentPage} of {totalPages}
                   </li>
 
-                  {/* Next Button */}
+                 
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -811,7 +672,7 @@ function Vendor() {
               </nav>
             }
 
-            {/* </div> */}
+           
 
             {show &&
               <AddVendor show={show} currentItem={currentItem} setShow={setShow} />
@@ -827,7 +688,7 @@ function Vendor() {
                   style={{
                     fontSize: "18px", fontFamily: "Gilroy", fontWeight: 600, color: "#222222",
                   }}>Delete Vendor?</Modal.Title>
-                {/* <CloseCircle size="24" color="#000"  onClick={handleCloseForDeleteVendor}/> */}
+                
               </Modal.Header>
 
               <Modal.Body

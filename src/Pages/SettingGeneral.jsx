@@ -944,59 +944,85 @@ function SettingGeneral() {
                             borderRadius: 10,
                             display: "flex",
                             flexDirection: "column",
-                            padding: 10,
-                            alignItems: "start",
+                            padding: 0,
+                            alignItems: "flex-start",
                             zIndex: 1050,
-
                             fontSize: window.innerWidth <= 404 ? 13 : 14,
                           }}
                         >
                           <div
-                            className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleEditGeneralUser(item)}
+                            style={{
+                              width: "100%",
+                              backgroundColor: "#F9F9F9",
+                              borderRadius: 10,
+                            }}
                           >
-                            <img
-                              src={Edit}
-                              style={{ height: 16, width: 16 }}
-                              alt="Edit"
-                            />
-                            <label
+                           
+                            <div
+                              onClick={() => handleEditGeneralUser(item)}
+                              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
+                              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
                               style={{
-                                fontSize: 14,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy, sans-serif",
-                                color: "#000000",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "10px",
+                                padding: "8px 12px",
+                                width: "100%",
+                                backgroundColor: "#F9F9F9",
+                                borderTopLeftRadius: 10,
+                                borderTopRightRadius: 10,
                                 cursor: "pointer",
                               }}
                             >
-                              Edit
-                            </label>
-                          </div>
+                              <img src={Edit} alt="Edit" style={{ height: 16, width: 16 }} />
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy, sans-serif",
+                                  color: "#000000",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                Edit
+                              </label>
+                            </div>
 
-                          <div
-                            className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                            style={{ cursor: "pointer", pointerEvents: "auto" }}
-                            onClick={() => handleDelete(item)}
-                          >
-                            <img
-                              src={Delete}
-                              style={{ height: 16, width: 16 }}
-                              alt="Delete"
-                            />
-                            <label
+                            <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
+
+                            
+                            <div
+                              onClick={() => handleDelete(item)}
+                              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
+                              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#F9F9F9")}
                               style={{
-                                fontSize: 14,
-                                fontWeight: 500,
-                                fontFamily: "Gilroy, sans-serif",
-                                color: "#FF0000",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "10px",
+                                padding: "8px 12px",
+                                width: "100%",
+                                backgroundColor: "#F9F9F9",
+                                borderBottomLeftRadius: 10,
+                                borderBottomRightRadius: 10,
                                 cursor: "pointer",
                               }}
                             >
-                              Delete
-                            </label>
+                              <img src={Delete} alt="Delete" style={{ height: 16, width: 16 }} />
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy, sans-serif",
+                                  color: "#FF0000",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                Delete
+                              </label>
+                            </div>
                           </div>
                         </div>
+
                       )}
                     </div>
                   </div>
@@ -1153,7 +1179,7 @@ function SettingGeneral() {
               padding: 0,
             }}
           >
-            {/* Previous Button */}
+          
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -1405,8 +1431,7 @@ function SettingGeneral() {
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                    // onChange={handleCountryCodeChange}
-                    style={{
+                                     style={{
                       border: "1px solid #D9D9D9",
                       borderRadius: "8px 0 0 8px",
                       height: 50,
@@ -1435,12 +1460,12 @@ function SettingGeneral() {
                       fontFamily: "Gilroy",
                       fontWeight: Phone ? 500 : 500,
                       boxShadow: "none",
-                     borderLeft: "unset",
-                        borderRight: "1px solid #D9D9D9",
-                        borderTop: "1px solid #D9D9D9",
-                        borderBottom: "1px solid #D9D9D9",
-                        height: 50,
-                        borderRadius: "0 8px 8px 0",
+                      borderLeft: "unset",
+                      borderRight: "1px solid #D9D9D9",
+                      borderTop: "1px solid #D9D9D9",
+                      borderBottom: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: "0 8px 8px 0",
                     }}
                   />
                 </InputGroup>

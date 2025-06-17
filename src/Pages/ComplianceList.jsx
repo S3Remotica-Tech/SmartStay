@@ -75,14 +75,14 @@ const ComplianceList = (props) => {
       handleCloseDeleteForm();
     }
   }, [state.ComplianceList.statusCodeForDeleteCompliance]);
- 
+
   const handleShowDots = (id) => {
     if (showDots === id) {
       setShowDots(null);
     } else {
       setShowDots(id);
     }
-   
+
   };
 
   const handleEdit = (item) => {
@@ -123,7 +123,7 @@ const ComplianceList = (props) => {
     let formattedMonth = monthNames[month];
     let formattedDate = `${day} ${formattedMonth} ${year}`;
     setDate(formattedDate);
-  
+
     setProfile(item.profile && item.profile !== "0" ? item.profile : User);
   };
 
@@ -220,7 +220,7 @@ const ComplianceList = (props) => {
     setCommentError("");
   };
 
-  
+
   const [selectedStatus, setSelectedStatus] = useState("");
 
 
@@ -309,20 +309,20 @@ const ComplianceList = (props) => {
   };
 
 
-  
+
   useEffect(() => {
     if (state.ComplianceList.complianceAssignChangeStatus === 200 && showAssignComplaint) {
-       dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
-        dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
+      dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id: hostel_id } });
+      dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
       setShowAssignComplaint(false);
       setStatusErrorType("");
       setShowChangeStatus(false);
-      
+
     }
   }, [state.ComplianceList.complianceAssignChangeStatus]);
 
 
-   
+
 
 
   useEffect(() => {
@@ -364,7 +364,7 @@ const ComplianceList = (props) => {
       setStatusErrorType(" ");
     }
   };
- 
+
 
   const handleStatus = (selectedOption) => {
     setStatus(selectedOption?.value || '');
@@ -460,13 +460,12 @@ const ComplianceList = (props) => {
       ) : (
         <div>
           <Card
-            // className="h-100 "
-            style={{ borderRadius: 16, border: "1px solid #E6E6E6" , height:330}}
+                       style={{ borderRadius: 16, border: "1px solid #E6E6E6", height: 330 }}
           >
-            <Card.Body style={{ padding:15 }}>
+            <Card.Body style={{ padding: 15 }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className="d-flex flex-wrap gap-2 align-items-start">
-               
+
                   <div>
                     <Image
                       src={
@@ -481,7 +480,7 @@ const ComplianceList = (props) => {
                     />
                   </div>
 
-               
+
                   <div className="flex-grow-1">
                     <div className="pb-2">
                       <label
@@ -497,9 +496,9 @@ const ComplianceList = (props) => {
                         {props.complaints && props.complaints.Name}
                       </label>
 
-                    
+
                       <div className="d-flex flex-wrap gap-2 ms-2">
-                      
+
                         <div
                           style={{
                             display: "flex",
@@ -517,7 +516,7 @@ const ComplianceList = (props) => {
                           {props.complaints?.room_name} - B{props.complaints?.bedName}
                         </div>
 
-                  
+
                         <div
                           style={{
                             display: "flex",
@@ -572,39 +571,40 @@ const ComplianceList = (props) => {
                             right: 40,
                             top: '2px',
                             width: 175,
-                            height: 159,
+                            height: "auto",
                             border: "1px solid #F9F9F9",
                             borderRadius: 12,
                             display: "flex",
                             justifyContent: "start",
-                            padding: 15,
                             alignItems: "center",
+                            zIndex: 1000,
                           }}
                         >
-                          <div>
+                          <div style={{ width: "100%" }}>
                             <div
-                              className={"mb-2"}
-                              onClick={() =>
-                                handleChangeStatusOpenClose(props.complaints)
-                              }
+                              className="d-flex align-items-center"
+                              onClick={() => handleChangeStatusOpenClose(props.complaints)}
                               style={{
                                 cursor: "pointer",
+                                borderTopLeftRadius: 10,
+                                borderTopRightRadius: 10,
+                                backgroundColor: "#F9F9F9",
+                                padding: "8px 12px",
+                                width: "100%",
                               }}
+                              onMouseEnter={(e) =>
+                                (e.currentTarget.style.backgroundColor = "#EDF2FF")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.backgroundColor = "transparent")
+                              }
                             >
-                              <img
-                                src={ChangeStatusIcon}
-                                style={{
-                                  height: 16,
-                                  width: 16,
-                                }}
-                                alt="Edit"
-                              />
+                              <img src={ChangeStatusIcon} style={{ height: 16, width: 16 }} alt="Change Status" />
                               <label
                                 style={{
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
-
                                   cursor: "pointer",
                                   paddingLeft: 5,
                                 }}
@@ -614,22 +614,21 @@ const ComplianceList = (props) => {
                             </div>
 
                             <div
-                              className={"mb-2"}
-                              onClick={() =>
-                                handleAssignOpenClose(props.complaints)
-                              }
+                              className="d-flex align-items-center"
+                              onClick={() => handleAssignOpenClose(props.complaints)}
                               style={{
                                 cursor: "pointer",
+                                padding: "8px 12px",
+                                width: "100%",
                               }}
+                              onMouseEnter={(e) =>
+                                (e.currentTarget.style.backgroundColor = "#EDF2FF")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.backgroundColor = "transparent")
+                              }
                             >
-                              <img
-                                src={AssignComplaintIcon}
-                                style={{
-                                  height: 16,
-                                  width: 16,
-                                }}
-                                alt="Edit"
-                              />
+                              <img src={AssignComplaintIcon} style={{ height: 16, width: 16 }} alt="Assign Complaint" />
                               <label
                                 style={{
                                   fontSize: 14,
@@ -643,28 +642,33 @@ const ComplianceList = (props) => {
                               </label>
                             </div>
 
-                           
                             <div
-                              className={"mb-2"}
+                              className="d-flex align-items-center"
                               onClick={() => {
                                 if (!props.complianceEditPermission) {
                                   handleEdit(props.complaints);
                                 }
                               }}
                               style={{
-                                cursor: props.complianceEditPermission
-                                  ? "not-allowed"
-                                  : "pointer",
+                                cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
+                                padding: "8px 12px",
+                                width: "100%",
                               }}
+                              onMouseEnter={(e) =>
+                              (e.currentTarget.style.backgroundColor = props.complianceEditPermission
+                                ? "transparent"
+                                : "#EDF2FF")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.backgroundColor = "transparent")
+                              }
                             >
                               <img
                                 src={Edit}
                                 style={{
                                   height: 16,
                                   width: 16,
-                                  filter: props.complianceEditPermission
-                                    ? "grayscale(100%)"
-                                    : "none",
+                                  filter: props.complianceEditPermission ? "grayscale(100%)" : "none",
                                 }}
                                 alt="Edit"
                               />
@@ -673,12 +677,8 @@ const ComplianceList = (props) => {
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
-                                  color: props.complianceEditPermission
-                                    ? "#ccc"
-                                    : "#222222",
-                                  cursor: props.complianceEditPermission
-                                    ? "not-allowed"
-                                    : "pointer",
+                                  color: props.complianceEditPermission ? "#ccc" : "#222222",
+                                  cursor: props.complianceEditPermission ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
                                 }}
                               >
@@ -686,24 +686,31 @@ const ComplianceList = (props) => {
                               </label>
                             </div>
 
-                           
                             <div
-                              className={"mb-2"}
-                              style={{
-                                                               cursor: props.complianceDeletePermission
-                                  ? "not-allowed"
-                                  : "pointer",
-                              }}
+                              className="d-flex align-items-center"
                               onClick={() => handleDeleteFormShow(props.complaints)}
-                                                        >
+                              style={{
+                                cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
+                                padding: "8px 12px",
+                                width: "100%",
+                                borderBottomLeftRadius: 10,
+                                borderBottomRightRadius: 10,
+                              }}
+                              onMouseEnter={(e) =>
+                              (e.currentTarget.style.backgroundColor = props.complianceDeletePermission
+                                ? "transparent"
+                                : "#FFF0F0")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.backgroundColor = "transparent")
+                              }
+                            >
                               <img
                                 src={Delete}
                                 style={{
                                   height: 16,
                                   width: 16,
-                                  filter: props.complianceDeletePermission
-                                    ? "grayscale(100%)"
-                                    : "none", 
+                                  filter: props.complianceDeletePermission ? "grayscale(100%)" : "none",
                                 }}
                                 alt="Delete"
                               />
@@ -712,12 +719,8 @@ const ComplianceList = (props) => {
                                   fontSize: 14,
                                   fontWeight: 600,
                                   fontFamily: "Gilroy, sans-serif",
-                                  color: props.complianceDeletePermission
-                                    ? "#ccc"
-                                    : "#FF0000",
-                                  cursor: props.complianceDeletePermission
-                                    ? "not-allowed"
-                                    : "pointer",
+                                  color: props.complianceDeletePermission ? "#ccc" : "#FF0000",
+                                  cursor: props.complianceDeletePermission ? "not-allowed" : "pointer",
                                   paddingLeft: 5,
                                 }}
                               >
@@ -726,6 +729,7 @@ const ComplianceList = (props) => {
                             </div>
                           </div>
                         </div>
+
                       </>
                     )}
                   </div>
@@ -813,33 +817,33 @@ const ComplianceList = (props) => {
                     </label>
                   </div>
                   <div>
-                   <label
-  style={{
-    color: "#222222",
-    fontSize: 16,
-    fontWeight: 600,
-    fontFamily: "Gilroy",
-    fontStyle: "normal",
-    lineHeight: "normal",
-  }}
->
-  {props.complaints.assigner_name === "" ||
-  props.complaints.assigner_name === null ? (
-    <span
-      style={{
-        color: "#1E45E1",
-        fontSize: "16px",
-        cursor: "pointer",
-        textDecoration: "none",
-      }}
-      onClick={() => handleAssignOpenClose(props.complaints)}
-    >
-      + Assign
-    </span>
-  ) : (
-    props.complaints.assigner_name
-  )}
-</label>
+                    <label
+                      style={{
+                        color: "#222222",
+                        fontSize: 16,
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        fontStyle: "normal",
+                        lineHeight: "normal",
+                      }}
+                    >
+                      {props.complaints.assigner_name === "" ||
+                        props.complaints.assigner_name === null ? (
+                        <span
+                          style={{
+                            color: "#1E45E1",
+                            fontSize: "16px",
+                            cursor: "pointer",
+                            textDecoration: "none",
+                          }}
+                          onClick={() => handleAssignOpenClose(props.complaints)}
+                        >
+                          + Assign
+                        </span>
+                      ) : (
+                        props.complaints.assigner_name
+                      )}
+                    </label>
 
                   </div>
                 </div>
@@ -930,363 +934,363 @@ const ComplianceList = (props) => {
               </div>
 
               <hr style={{ border: "1px solid #E7E7E7" }} />
-<div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    minHeight: 32, 
-  }}
->
-  <div style={{ display: "flex", alignItems: "center" }}>
-    {props.complaints.Assign === "" || props.complaints.Assign === null ? (
-      <>
-        <img
-          src={Profile_add}
-          alt="Add Profile"
-          style={{ marginRight: 8, height: 16, width: 16 }}
-        />
-        <span
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            color: "#222",
-            fontFamily: "Gilroy",
-            lineHeight: "16px",
-          }}
-        >
-          Yet to assign the complaint
-        </span>
-      </>
-    ) : (
-      <>
-        <img
-          src={Tickicon}
-          alt="Success"
-          style={{ marginRight: 8, height: 16, width: 16 }}
-        />
-        <span
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            color: "#222",
-            fontFamily: "Gilroy",
-            lineHeight: "16px",
-          }}
-        >
-          successfully attended on{" "}
-          {moment(props.complaints.date).format("DD-MM-YYYY")}
-        </span>
-      </>
-    )}
-  </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  minHeight: 32,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  {props.complaints.Assign === "" || props.complaints.Assign === null ? (
+                    <>
+                      <img
+                        src={Profile_add}
+                        alt="Add Profile"
+                        style={{ marginRight: 8, height: 16, width: 16 }}
+                      />
+                      <span
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          color: "#222",
+                          fontFamily: "Gilroy",
+                          lineHeight: "16px",
+                        }}
+                      >
+                        Yet to assign the complaint
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        src={Tickicon}
+                        alt="Success"
+                        style={{ marginRight: 8, height: 16, width: 16 }}
+                      />
+                      <span
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 600,
+                          color: "#222",
+                          fontFamily: "Gilroy",
+                          lineHeight: "16px",
+                        }}
+                      >
+                        successfully attended on{" "}
+                        {moment(props.complaints.date).format("DD-MM-YYYY")}
+                      </span>
+                    </>
+                  )}
+                </div>
 
-  <div
-    onClick={() => handleIconClick(props.complaints)}
-    style={{
-      border: "1px solid #DCDCDC",
-      borderRadius: "50px",
-      padding: "6px 10px",
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      gap: "6px",
-    }}
-  >
-    <img
-      src={CommentIcon}
-      alt="Comments"
-      height={14}
-      width={14}
-    />
-    <span
-      style={{
-        fontSize: 12,
-        color: "#333",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-      }}
-    >
-      {props.complaints.comment_count}
-    </span>
-  </div>
-
-
-
-
-           
-
-                
-                
-
-                  <Modal
-                    show={showCard}
-                    onHide={handleCloseIconClick}
-                    centered
-                    backdrop="static"
+                <div
+                  onClick={() => handleIconClick(props.complaints)}
+                  style={{
+                    border: "1px solid #DCDCDC",
+                    borderRadius: "50px",
+                    padding: "6px 10px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                  }}
+                >
+                  <img
+                    src={CommentIcon}
+                    alt="Comments"
+                    height={14}
+                    width={14}
+                  />
+                  <span
+                    style={{
+                      fontSize: 12,
+                      color: "#333",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
                   >
-                    <Modal.Dialog
-                      style={{
-                        maxWidth: 950,
-                        paddingTop: "-10px",
-                                              borderRadius: "30px",
+                    {props.complaints.comment_count}
+                  </span>
+                </div>
 
-                      }}
-                      className="m-0 p-0"
-                    >
-                      <Modal.Body>
-                        <div>
-                          <Modal.Header
-                            style={{
-                              marginBottom: "30px",
-                              position: "relative",
-                              display: "flex",
-                                                            marginleft: "-15px"
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                width: "100%",
-                                marginleft: "-15px",
-                              }}
-                            >
-                              <img
-                                src={profile}
-                                alt="Profile"
-                                style={{
-                                  cursor: "pointer",
-                                  width: "40px",
-                                  height: "40px",
-                                  borderRadius: "50%",
-                                  marginRight: "10px",
-                                }}
-                              />
-                              <div style={{ flexGrow: 1 }}>
-                                <p
-                                  style={{
-                                    margin: 0,
-                                    fontSize: "16px",
-                                    fontWeight: "bold",
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  {name}
-                                </p>
-                                <p
-                                  style={{
-                                    margin: 0,
-                                    fontSize: "14px",
-                                    color: "gray",
-                                  }}
-                                >
-                                  {date}
-                                </p>
-                              </div>
-                            </div>
 
-                           
-                            <CloseCircle size="24" color="#000" onClick={handleCloseIconClick}
-                              style={{ cursor: 'pointer' }} />
-                          </Modal.Header>
-                        </div>
-                        <div
+
+
+
+
+
+
+
+                <Modal
+                  show={showCard}
+                  onHide={handleCloseIconClick}
+                  centered
+                  backdrop="static"
+                >
+                  <Modal.Dialog
+                    style={{
+                      maxWidth: 950,
+                      paddingTop: "-10px",
+                      borderRadius: "30px",
+
+                    }}
+                    className="m-0 p-0"
+                  >
+                    <Modal.Body>
+                      <div>
+                        <Modal.Header
                           style={{
-                            height:
-                              state.ComplianceList?.getComplianceComments?.comments
-                                ?.length > 2
-                                ? "250px"
-                                : "auto",
-                            overflowY:
-                              state.ComplianceList?.getComplianceComments?.comments
-                                ?.length > 2
-                                ? "auto"
-                                : "hidden",
-                            padding: "10px",
-                            backgroundColor: "#F4F5F7",
-                            borderRadius: "10px",
-                          }}
-                        >
-
-
-                          {state.ComplianceList?.getComplianceComments?.comments?.length > 0 ? (
-                            state.ComplianceList?.getComplianceComments?.comments.map((item, index) => {
-                              let Dated = new Date(item.created_at);
-
-                              let day = Dated.getDate();
-                              let month = Dated.getMonth();
-                              let year = Dated.getFullYear();
-
-                              const monthNames = [
-                                "January", "February", "March", "April", "May", "June",
-                                "July", "August", "September", "October", "November", "December",
-                              ];
-
-                              let formattedMonth = monthNames[month];
-                              let formattedDate = `${day} ${formattedMonth} ${year}`;
-
-                              return (
-                                <div
-                                  key={index}
-                                  className="row"
-                                  style={{
-                                    borderBottom: "1px solid #EDF0F4",
-                                    paddingBottom: "10px",
-                                    marginBottom: "10px",
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <img
-                                      src={
-                                        !item.profile || ["0", "", "undefined", "null", "NULL"].includes(String(item.profile).trim())
-                                          ? User
-                                          : item.profile
-                                      }
-                                      alt="User"
-                                      style={{
-                                        width: "40px",
-                                        height: "40px",
-                                        borderRadius: "50%",
-                                        marginRight: "10px",
-                                      }}
-                                    />
-                                    <div>
-                                      <p
-                                        style={{
-                                          margin: 0,
-                                          fontSize: "16px",
-                                          fontWeight: "bold",
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        {item.name}
-                                      </p>
-                                      <p
-                                        style={{
-                                          margin: 0,
-                                          fontSize: "14px",
-                                          color: "#666666",
-                                        }}
-                                      >
-                                        {formattedDate}
-                                      </p>
-                                    </div>
-                                  </div>
-
-                                  <p
-                                    style={{
-                                      wordWrap: "break-word",
-                                      overflowWrap: "break-word",
-                                      whiteSpace: "pre-wrap",
-                                      maxWidth: "100%",
-                                      marginTop: "8px",
-                                      fontSize: "16px",
-                                      fontWeight: "400",
-                                      color: "#333",
-                                    }}
-                                  >
-                                    {item.comment}
-                                  </p>
-                                </div>
-                              );
-                            })
-                          ) : (
-                            <div
-                              style={{
-                                textAlign: "center",
-                                color: "red",
-                                fontSize: "16px",
-                                padding: "20px",
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              No Comments available
-                            </div>
-                          )}
-
-                        </div>
-                      </Modal.Body>
-                      {commentError && (
-                        <div style={{ color: "red", textAlign: "center" }}>
-                          <MdError />
-                          <span
-                            style={{
-                              fontSize: "12px",
-                              color: "red",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {commentError}
-                          </span>
-                        </div>
-                      )}
-                      <Modal.Footer style={{ border: "none" }}>
-                        <div
-                          style={{
-                            marginTop: 15,
+                            marginBottom: "30px",
                             position: "relative",
-                            display: "inline-block",
-                            width: "100%",
+                            display: "flex",
+                            marginleft: "-15px"
                           }}
                         >
-                          <Form.Control
-                            type="text"
-                            value={comments}
-                            onChange={(e) => handleComments(e)}
-                            className="input-field"
+                          <div
                             style={{
-                              border: "1px solid #E7E7E7",
-                              paddingTop: 6,
-                              paddingBottom: 6,
-                              paddingLeft: 16,
-                              width: "100%",
-                              height: "52px",
-                              fontFamily: "Gilroy",
-                              borderRadius: "12px",
-                            }}
-                            placeholder="Post your reply here"
-                          />
-                          <div className="input-field"
-                            style={{
-
-                              position: "absolute",
-                              right: "10px",
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              backgroundColor: "#1E45E1",
-                              border: "1px solid #E7E7E7",
-                              borderRadius: "60px",
-                              padding: "12px",
                               display: "flex",
-                              justifyContent: "center",
                               alignItems: "center",
-                              cursor: "pointer",
-
+                              width: "100%",
+                              marginleft: "-15px",
                             }}
-                            onClick={handleAddComment}
                           >
                             <img
-                              src={send}
-                              alt="Send"
+                              src={profile}
+                              alt="Profile"
                               style={{
-                                width: "16px",
-                                height: "16px",
+                                cursor: "pointer",
+                                width: "40px",
+                                height: "40px",
+                                borderRadius: "50%",
+                                marginRight: "10px",
                               }}
-                           
                             />
+                            <div style={{ flexGrow: 1 }}>
+                              <p
+                                style={{
+                                  margin: 0,
+                                  fontSize: "16px",
+                                  fontWeight: "bold",
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                {name}
+                              </p>
+                              <p
+                                style={{
+                                  margin: 0,
+                                  fontSize: "14px",
+                                  color: "gray",
+                                }}
+                              >
+                                {date}
+                              </p>
+                            </div>
                           </div>
 
+
+                          <CloseCircle size="24" color="#000" onClick={handleCloseIconClick}
+                            style={{ cursor: 'pointer' }} />
+                        </Modal.Header>
+                      </div>
+                      <div
+                        style={{
+                          height:
+                            state.ComplianceList?.getComplianceComments?.comments
+                              ?.length > 2
+                              ? "250px"
+                              : "auto",
+                          overflowY:
+                            state.ComplianceList?.getComplianceComments?.comments
+                              ?.length > 2
+                              ? "auto"
+                              : "hidden",
+                          padding: "10px",
+                          backgroundColor: "#F4F5F7",
+                          borderRadius: "10px",
+                        }}
+                      >
+
+
+                        {state.ComplianceList?.getComplianceComments?.comments?.length > 0 ? (
+                          state.ComplianceList?.getComplianceComments?.comments.map((item, index) => {
+                            let Dated = new Date(item.created_at);
+
+                            let day = Dated.getDate();
+                            let month = Dated.getMonth();
+                            let year = Dated.getFullYear();
+
+                            const monthNames = [
+                              "January", "February", "March", "April", "May", "June",
+                              "July", "August", "September", "October", "November", "December",
+                            ];
+
+                            let formattedMonth = monthNames[month];
+                            let formattedDate = `${day} ${formattedMonth} ${year}`;
+
+                            return (
+                              <div
+                                key={index}
+                                className="row"
+                                style={{
+                                  borderBottom: "1px solid #EDF0F4",
+                                  paddingBottom: "10px",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      !item.profile || ["0", "", "undefined", "null", "NULL"].includes(String(item.profile).trim())
+                                        ? User
+                                        : item.profile
+                                    }
+                                    alt="User"
+                                    style={{
+                                      width: "40px",
+                                      height: "40px",
+                                      borderRadius: "50%",
+                                      marginRight: "10px",
+                                    }}
+                                  />
+                                  <div>
+                                    <p
+                                      style={{
+                                        margin: 0,
+                                        fontSize: "16px",
+                                        fontWeight: "bold",
+                                        fontFamily: "Gilroy",
+                                      }}
+                                    >
+                                      {item.name}
+                                    </p>
+                                    <p
+                                      style={{
+                                        margin: 0,
+                                        fontSize: "14px",
+                                        color: "#666666",
+                                      }}
+                                    >
+                                      {formattedDate}
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <p
+                                  style={{
+                                    wordWrap: "break-word",
+                                    overflowWrap: "break-word",
+                                    whiteSpace: "pre-wrap",
+                                    maxWidth: "100%",
+                                    marginTop: "8px",
+                                    fontSize: "16px",
+                                    fontWeight: "400",
+                                    color: "#333",
+                                  }}
+                                >
+                                  {item.comment}
+                                </p>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <div
+                            style={{
+                              textAlign: "center",
+                              color: "red",
+                              fontSize: "16px",
+                              padding: "20px",
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            No Comments available
+                          </div>
+                        )}
+
+                      </div>
+                    </Modal.Body>
+                    {commentError && (
+                      <div style={{ color: "red", textAlign: "center" }}>
+                        <MdError />
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            color: "red",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {commentError}
+                        </span>
+                      </div>
+                    )}
+                    <Modal.Footer style={{ border: "none" }}>
+                      <div
+                        style={{
+                          marginTop: 15,
+                          position: "relative",
+                          display: "inline-block",
+                          width: "100%",
+                        }}
+                      >
+                        <Form.Control
+                          type="text"
+                          value={comments}
+                          onChange={(e) => handleComments(e)}
+                          className="input-field"
+                          style={{
+                            border: "1px solid #E7E7E7",
+                            paddingTop: 6,
+                            paddingBottom: 6,
+                            paddingLeft: 16,
+                            width: "100%",
+                            height: "52px",
+                            fontFamily: "Gilroy",
+                            borderRadius: "12px",
+                          }}
+                          placeholder="Post your reply here"
+                        />
+                        <div className="input-field"
+                          style={{
+
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            backgroundColor: "#1E45E1",
+                            border: "1px solid #E7E7E7",
+                            borderRadius: "60px",
+                            padding: "12px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            cursor: "pointer",
+
+                          }}
+                          onClick={handleAddComment}
+                        >
+                          <img
+                            src={send}
+                            alt="Send"
+                            style={{
+                              width: "16px",
+                              height: "16px",
+                            }}
+
+                          />
                         </div>
-                      </Modal.Footer>
-                    </Modal.Dialog>
-                  </Modal>
+
+                      </div>
+                    </Modal.Footer>
+                  </Modal.Dialog>
+                </Modal>
 
                 <Modal
                   show={showChangeStatus}
@@ -1318,16 +1322,16 @@ const ComplianceList = (props) => {
                           >
                             Change Status
                           </div>
-                        
+
                           <CloseCircle size="24" color="#000" onClick={ChangeStatusClose}
                             style={{ cursor: 'pointer' }} />
 
-                         
+
                         </Modal.Header>
                       </div>
 
                       <div className="row mt-2">
-                      
+
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <Form.Group
                             className="mb-4"
@@ -1348,7 +1352,7 @@ const ComplianceList = (props) => {
                                 *
                               </span>
                             </Form.Label>
-                           
+
 
                             <Select
                               options={[
@@ -1458,7 +1462,7 @@ const ComplianceList = (props) => {
                       maxWidth: 950,
                       paddingRight: "10px",
                       borderRadius: "30px",
-                                         }}
+                    }}
                     className="m-0 p-0"
                   >
                     <Modal.Body>
@@ -1477,16 +1481,16 @@ const ComplianceList = (props) => {
                           >
                             Assign Complaint
                           </div>
-                        
+
                           <CloseCircle size="24" color="#000" onClick={handleCloseAssign}
                             style={{ cursor: 'pointer' }} />
 
-                       
+
                         </Modal.Header>
                       </div>
 
                       <div className="row mt-1" style={{ paddingTop: 2 }}>
-                       
+
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <Form.Group
 
@@ -1507,7 +1511,7 @@ const ComplianceList = (props) => {
                                 *
                               </span>
                             </Form.Label>
-                         
+
 
                             <Select
                               options={
@@ -1615,7 +1619,7 @@ const ComplianceList = (props) => {
                   </Modal.Dialog>
                 </Modal>
 
-               
+
               </div>
             </Card.Body>
           </Card>
