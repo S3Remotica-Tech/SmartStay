@@ -42,6 +42,11 @@ import timehalf from "../Assets/Images/New_images/time-half past.png";
 import { CiUser } from "react-icons/ci";
 import { MdOutlineLocalPhone } from "react-icons/md";
 import html2canvas from "html2canvas";
+import adhar from "../Assets/Images/New_images/aadharimg.png"
+
+
+
+
 
 
 function UserListRoomDetail(props) {
@@ -1289,23 +1294,20 @@ function UserListRoomDetail(props) {
     }
   }, [state.UsersList.statusCodeForGenerateAdvance]);
 
-const handleKycDownload = () => {
-  const card = document.getElementById("kyc-download-card");
+const handleDownloadKYC = async () => {
+  const kycCard = document.getElementById("kyc-download-card");
+  if (!kycCard) return;
 
  
-  card.style.display = "block";
+  await new Promise((res) => setTimeout(res, 300));
 
-  html2canvas(card).then((canvas) => {
+  html2canvas(kycCard).then((canvas) => {
     const link = document.createElement("a");
-    link.download = "aadhaar_card.png";
+    link.download = "kyc_details.png";
     link.href = canvas.toDataURL("image/png");
     link.click();
-
-   
-    card.style.display = "none";
   });
 };
-
 
 
 
@@ -2045,7 +2047,7 @@ const handleKycDownload = () => {
   <img
     src={docDown}
     alt="Download Aadhar"
-    onClick={handleKycDownload}
+    onClick={handleDownloadKYC}
     style={{ width: 20, height: 20, cursor: "pointer" ,marginLeft:200,marginTop:"-70px"}}
   />
 </div>
@@ -2057,237 +2059,66 @@ const handleKycDownload = () => {
 
 
 
-
-
-
 <div
   id="kyc-download-card"
   style={{
-    
+    position: "absolute",
+    top: "-9999px", 
+    left: "-9999px",
     borderRadius: 10,
     padding: 20,
-    width: 400,
-    backgroundColor: "#fff",
+    width: 320,
     textAlign: "center",
-    display: "none", 
-    
+  
+    fontFamily: "Gilroy",
   }}
 >
-  
-  
+  {/* KYC Content Here */}
+  <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20,fontFamily:"Gilroy" }}>
+    KYC Details
+  </h6>
+
+  <div style={{ marginBottom: 15 }}>
+    <img
+      src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+      alt="KYC"
+      style={{
+        height: 120,
+        width: 120,
+        borderRadius: "25%",
+        border: "3px solid #f0f0f0",
+      }}
+    />
+  </div>
+
+  <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
+    {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
+  </h5>
+
+  <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
+    <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10}}></i>
     
-                      <div className="d-flex align-items-center mt-1">
-                        <div
-                          className=""
-                          style={{ height: 100, width: 100, position: "relative" }}
-                        >
-                          <Image
-                            src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
-                            roundedCircle
-                            style={{ height: 100, width: 100 }}
-                          />
-    
-                          <label htmlFor="imageInput" className="">
-                         
-                            <input
-                              type="file"
-                              accept="image/*"
-                              multiple
-                              className="sr-only"
-                              id="imageInput"
-                              onChange={handleImageChange}
-                              style={{ display: "none" }}
-                            />
-                          </label>
-                        </div>
-                        <div className="ps-3">
-                          <div>
-                            <label
-                              style={{
-                                fontSize: 16,
-                                fontWeight: 500,
-                                color: "#222222",
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Profile Photo
-                            </label>
-                          </div>
-                          <div>
-                            <label
-                              style={{
-                                fontSize: 14,
-                                fontWeight: 500,
-                                color: "#4B4B4B",
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-                              Max size of image 10MB
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row mt-4">
+    <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+      Adress<br/>
+     <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
+    </p>
+  </div>
+
   
-  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                       <Form.Group className="mb-3">
-                        <Form.Label
-  style={{
-    fontSize: 14,
-    color: "#222222",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    textAlign: "left",        
-    display: "block",   
-  }}
->
-  First Name{" "}
-  <span style={{ color: "red", fontSize: "20px" }}> *</span>
-</Form.Label>
-
-                         <FormControl
-                           id="form-controls"
-                           placeholder="Enter First Name"
-                           type="text"
-                         
-                           style={{
-                             fontSize: 16,
-                             color: "#4B4B4B",
-                             fontFamily: "Gilroy",
-                             fontWeight: 500,
-                             boxShadow: "none",
-                             border: "1px solid #D9D9D9",
-                             height: 42,
-                             borderRadius: 8,
-                           }}
-                         />
-                       </Form.Group>
-                     
-                     </div>
-
-
-                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                       <Form.Group className="mb-3">
-                         <Form.Label
-                          style={{
-    fontSize: 14,
-    color: "#222222",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    textAlign: "left",        
-    display: "block",   
-  }}
-                         >
-                           Last Name{" "}
-                           <span style={{ color: "red", fontSize: "20px" }}>
-                             {" "}
-                             *{" "}
-                           </span>
-                         </Form.Label>
-                         <FormControl
-                           id="form-controls"
-                           placeholder="Enter First Name"
-                           type="text"
-                        
-                           style={{
-                             fontSize: 16,
-                             color: "#4B4B4B",
-                             fontFamily: "Gilroy",
-                             fontWeight: 500,
-                             boxShadow: "none",
-                             border: "1px solid #D9D9D9",
-                             height: 42,
-                             borderRadius: 8,
-                           }}
-                         />
-                       </Form.Group>
-                     
-                     </div>
-
-
-                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                       <Form.Group className="mb-3">
-                         <Form.Label
-                          style={{
-    fontSize: 14,
-    color: "#222222",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    textAlign: "left",        
-    display: "block",   
-  }}
-                         >
-                           Adress{" "}
-                           <span style={{ color: "red", fontSize: "20px" }}>
-                             {" "}
-                             *{" "}
-                           </span>
-                         </Form.Label>
-                         <FormControl
-                           id="form-controls"
-                           placeholder="Enter First Name"
-                           type="text"
-                         
-                           style={{
-                             fontSize: 16,
-                             color: "#4B4B4B",
-                             fontFamily: "Gilroy",
-                             fontWeight: 500,
-                             boxShadow: "none",
-                             border: "1px solid #D9D9D9",
-                             height: 42,
-                             borderRadius: 8,
-                           }}
-                         />
-                       </Form.Group>
-                     
-                     </div>
-
-
-                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                       <Form.Group className="mb-3">
-                         <Form.Label
-                          style={{
-    fontSize: 14,
-    color: "#222222",
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    textAlign: "left",        
-    display: "block",   
-  }}
-                         >
-                           Aadhar{" "}
-                           <span style={{ color: "red", fontSize: "20px" }}>
-                             {" "}
-                             *{" "}
-                           </span>
-                         </Form.Label>
-                         <FormControl
-                           id="form-controls"
-                           placeholder="Enter First Name"
-                           type="text"
-                           value={'********8672'}
-                        
-                           style={{
-                             fontSize: 16,
-                             color: "#4B4B4B",
-                             fontFamily: "Gilroy",
-                             fontWeight: 500,
-                             boxShadow: "none",
-                             border: "1px solid #D9D9D9",
-                             height: 42,
-                             borderRadius: 8,
-                           }}
-                         />
-                       </Form.Group>
-                     
-                     </div>
-                     </div>
- 
- 
-
- 
+   <div className="d-flex align-items-start" style={{ justifyContent: "center",marginLeft:"-25px" }}>
+    <img src={adhar} style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10}}></img>
+    
+    <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+      Aadhar Number<br/>
+     <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+    </p>
+  </div>
 </div>
+
+
+
+
+
 
 
  

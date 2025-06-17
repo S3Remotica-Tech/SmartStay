@@ -280,7 +280,7 @@ function SettingNewUser() {
         </div>
       )}
 
-      <div className="mt-4 scroll-issue">
+      <div className="mt-4">
         {sortedData?.length > 0 ? (
           <div
             className=" booking-table-userlist  booking-table me-2"
