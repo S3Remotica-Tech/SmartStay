@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-// import Edit from '../Assets/Images/New_images/edit.png';
 import Delete from "../../Assets/Images/New_images/trash.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";
@@ -65,14 +64,14 @@ function VendorListMap(props) {
   const isValid = (value) => {
     return value !== null && value !== undefined && value !== "undefined" && value !== "";
   };
-  
+
 
   return (
     <>
       <Card
         className="h-100 animated-text "
         key={props.vendor && props.vendor.id}
-        style={{ borderRadius: 16, border: "1px solid #E6E6E6",marginTop:20 }}
+        style={{ borderRadius: 16, border: "1px solid #E6E6E6", marginTop: 20 }}
       >
         <Card.Body style={{ padding: 20 }}>
           <div className="d-flex justify-content-between align-items-center flex-wrap">
@@ -150,93 +149,112 @@ function VendorListMap(props) {
                       position: "absolute",
                       right: 45,
                       top: '-20px',
-                      width: 100,
-                      height: 72,
+                      width: 160,
+                      height: "auto",
                       border: "1px solid #EBEBEB",
                       borderRadius: 10,
                       display: "flex",
                       flexDirection: "column",
-                      justifyContent: "space-between",
-                      padding: "10px",
+                      padding: 0,
                       alignItems: "flex-start",
+                      zIndex: 1000,
                     }}
                   >
-                    <div
-                      className="gap-1 mb-2"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                        cursor: props.vendorEditPermission
-                          ? "not-allowed"
-                          : "pointer",
-                        pointerEvents: props.vendorEditPermission
-                          ? "none"
-                          : "auto",
-                        opacity: props.vendorEditPermission ? 0.5 : 1,
-                      }}
-                      onClick={() => {
-                        if (!props.vendorEditPermission) {
-                          handleEdit(props.vendor);
-                        }
-                      }}
-                    >
-                      <Edit size="16" color="#1E45E1" />
-                      <label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          color: "#222222",
-                          cursor: props.vendorEditPermission
-                            ? "not-allowed"
-                            : "pointer",
-                        }}
-                      >
-                        Edit
-                      </label>
-                    </div>
+                    <div style={{ width: "100%", backgroundColor: "#F9F9F9", borderRadius: 10 }}>
 
-                    <div
-                      className="gap-1"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                        cursor: props.vendorDeletePermission
-                          ? "not-allowed"
-                          : "pointer",
-                        pointerEvents: props.vendorDeletePermission
-                          ? "none"
-                          : "auto",
-                        opacity: props.vendorDeletePermission ? 0.5 : 1,
-                      }}
-                      onClick={() => {
-                        if (!props.vendorDeletePermission) {
-                          handleDelete(props.vendor);
-                        }
-                      }}
-                    >
-                      <img
-                        src={Delete}
-                        alt="Delete"
-                        style={{ height: 16, width: 16 }}
-                      />
-                      <label
+                     
+                      <div
+                        onClick={() => {
+                          if (!props.vendorEditPermission) {
+                            handleEdit(props.vendor);
+                          }
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!props.vendorEditPermission)
+                            e.currentTarget.style.backgroundColor = "#EDF2FF";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
+                        }}
                         style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          color: "#FF0000",
-                          cursor: props.vendorDeletePermission
-                            ? "not-allowed"
-                            : "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                          padding: "8px 12px",
+                          width: "100%",
+                          backgroundColor: "#F9F9F9",
+                          cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+                          pointerEvents: props.vendorEditPermission ? "none" : "auto",
+                          opacity: props.vendorEditPermission ? 0.5 : 1,
+                          borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
                         }}
                       >
-                        Delete
-                      </label>
+                        <Edit size="16" color="#1E45E1" />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            color: "#222222",
+                            cursor: props.vendorEditPermission ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Edit
+                        </label>
+                      </div>
+
+                      
+                      <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+                    
+                      <div
+                        onClick={() => {
+                          if (!props.vendorDeletePermission) {
+                            handleDelete(props.vendor);
+                          }
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!props.vendorDeletePermission)
+                            e.currentTarget.style.backgroundColor = "#FFF0F0";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "#F9F9F9";
+                        }}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                          padding: "8px 12px",
+                          width: "100%",
+                          backgroundColor: "#F9F9F9",
+                          cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
+                          pointerEvents: props.vendorDeletePermission ? "none" : "auto",
+                          opacity: props.vendorDeletePermission ? 0.5 : 1,
+                          borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
+                        }}
+                      >
+                        <img
+                          src={Delete}
+                          alt="Delete"
+                          style={{ height: 16, width: 16 }}
+                        />
+                        <label
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 600,
+                            fontFamily: "Gilroy",
+                            color: "#FF0000",
+                            cursor: props.vendorDeletePermission ? "not-allowed" : "pointer",
+                          }}
+                        >
+                          Delete
+                        </label>
+                      </div>
                     </div>
                   </div>
+
                 )}
               </div>
             </div>
@@ -267,8 +285,8 @@ function VendorListMap(props) {
                   }}
                 >
                   {props.vendor &&
-                  props.vendor.Vendor_Email &&
-                  props.vendor.Vendor_Email !== "undefined"
+                    props.vendor.Vendor_Email &&
+                    props.vendor.Vendor_Email !== "undefined"
                     ? props.vendor.Vendor_Email
                     : "N/A"}
                 </label>
@@ -296,7 +314,7 @@ function VendorListMap(props) {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  {/* +{props.vendor && props.vendor.Vendor_Mobile} */}+
+                 
                   {props.vendor &&
                     String(props.vendor.Vendor_Mobile).slice(
                       0,
@@ -333,14 +351,14 @@ function VendorListMap(props) {
                   fontFamily: "Gilroy",
                 }}
               >
-              <>
-  {isValid(props.vendor?.Vendor_Address) && <>{props.vendor.Vendor_Address}, </>}
-  {isValid(props.vendor?.area) && <>{props.vendor.area}, </>}
-  {isValid(props.vendor?.city) && <>{props.vendor.city}, </>}
-  {isValid(props.vendor?.state) && <>{props.vendor.state}</>}
-  <br />
-  {isValid(props.vendor?.Pincode) && <>{props.vendor.Pincode}</>}
-</>
+                <>
+                  {isValid(props.vendor?.Vendor_Address) && <>{props.vendor.Vendor_Address}, </>}
+                  {isValid(props.vendor?.area) && <>{props.vendor.area}, </>}
+                  {isValid(props.vendor?.city) && <>{props.vendor.city}, </>}
+                  {isValid(props.vendor?.state) && <>{props.vendor.state}</>}
+                  <br />
+                  {isValid(props.vendor?.Pincode) && <>{props.vendor.Pincode}</>}
+                </>
 
               </label>
             </div>

@@ -539,7 +539,7 @@ function SettingNewUser() {
                           <div className="ps-2">
                             {item.email_Id}
                           </div>
-                       
+
                         </td>
 
                         <td
@@ -557,7 +557,7 @@ function SettingNewUser() {
                             textOverflow: "ellipsis",
                             borderBottom: "1px solid #E8E8E8",
                           }}
-                           className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                          className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                         >
                           +
                           {item &&
@@ -621,65 +621,77 @@ function SettingNewUser() {
                             {showDots === index && (
                               <div
                                 ref={popupRef}
+                                className="pg-card"
                                 style={{
-                                  cursor: "pointer",
-                                  backgroundColor: "#F9F9F9",
+                                  backgroundColor: "#fff",
                                   position: "fixed",
                                   top: popupPosition.top,
                                   left: popupPosition.left,
-                                  width: 120,
-                                  height: 70,
-                                  border: "1px solid #EBEBEB",
+                                  border: "1px solid #E0E0E0",
                                   borderRadius: 10,
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  padding: 10,
-                                  alignItems: "start",
+                                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                  width: 140,
+                                  zIndex: 1000,
                                 }}
                               >
-                                <div
-                                  className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                  onClick={() => handleEditForm(item)}
-                                >
-                                  <img
-                                    src={Edit}
-                                    style={{ height: 16, width: 16 }}
-                                    alt="Edit"
-                                  />
-                                  <label
+                                <div>
+                                 
+                                  <div
+                                    className="d-flex gap-2 align-items-center"
+                                    onClick={() => handleEditForm(item)}
                                     style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      color: "#000000",
+                                      padding: "8px 12px",
+                                      width: "100%",
                                       cursor: "pointer",
+                                      transition: "background 0.2s ease-in-out",
                                     }}
+                                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
+                                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
                                   >
-                                    Edit
-                                  </label>
-                                </div>
-                                <div
-                                  className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                  onClick={() => handleDeleteForm(item)}
-                                >
-                                  <img
-                                    src={Delete}
-                                    style={{ height: 16, width: 16 }}
-                                    alt="Delete"
-                                  />
-                                  <label
+                                    <img src={Edit} width={16} height={16} alt="Edit" />
+                                    <span
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy, sans-serif",
+                                        color: "#1E45E1",
+                                      }}
+                                    >
+                                      Edit
+                                    </span>
+                                  </div>
+
+                                  
+                                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+                                  
+                                  <div
+                                    className="d-flex gap-2 align-items-center"
+                                    onClick={() => handleDeleteForm(item)}
                                     style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      color: "#FF0000",
+                                      padding: "8px 12px",
+                                      width: "100%",
                                       cursor: "pointer",
+                                      transition: "background 0.2s ease-in-out",
                                     }}
+                                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF3F3")}
+                                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
                                   >
-                                    Delete
-                                  </label>
+                                    <img src={Delete} width={16} height={16} alt="Delete" />
+                                    <span
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy, sans-serif",
+                                        color: "#FF0000",
+                                      }}
+                                    >
+                                      Delete
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
+
                             )}
                           </div>
                         </td>

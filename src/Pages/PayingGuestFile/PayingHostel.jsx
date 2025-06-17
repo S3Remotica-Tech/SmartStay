@@ -122,15 +122,15 @@ function PayingHostel(props) {
               border: hoverPgCard
                 ? " 1px solid #1E45E1"
                 : hoverPgCard
-                ? "1px solid #e6e6e6"
-                : "1px solid #E6E6E6",
+                  ? "1px solid #e6e6e6"
+                  : "1px solid #E6E6E6",
               transition: "border 0.3s ease, box-shadow 0.3s ease",
               height: "auto",
               boxShadow: hoverPgCard
                 ? "0px 4px 10px rgba(30, 69, 225, 0.4)"
                 : hoverPgCard
-                ? "0px 4px 10px rgba(156, 156, 156, 0.3)"
-                : "0px 2px 5px rgba(0, 0, 0, 0.1)",
+                  ? "0px 4px 10px rgba(156, 156, 156, 0.3)"
+                  : "0px 2px 5px rgba(0, 0, 0, 0.1)",
             }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -142,9 +142,9 @@ function PayingHostel(props) {
                     <Image
                       src={
                         props.filteredData[0] &&
-                        props.filteredData[0].profile !== undefined &&
-                        props.filteredData[0].profile !== null &&
-                        props.filteredData[0].profile !== "0"
+                          props.filteredData[0].profile !== undefined &&
+                          props.filteredData[0].profile !== null &&
+                          props.filteredData[0].profile !== "0"
                           ? props.filteredData[0].profile
                           : Vendors
                       }
@@ -219,108 +219,95 @@ function PayingHostel(props) {
                           className="pg-card"
                           style={{
                             cursor: "pointer",
-                            backgroundColor: "#F9F9F9",
+                            backgroundColor: "#fff",
                             position: "absolute",
-                            right: 40,
-                            top: -20,
-                            width: 120,
-                            height: 92,
-                            border: "1px solid #EBEBEB",
+                            right: 50,
+                            top: 30,
+                            border: "1px solid #E0E0E0",
                             borderRadius: 10,
-                            display: "flex",
-                            justifyContent: "start",
-                            padding: 15,
-                            alignItems: "center",
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                            width: 140,
+                            zIndex: 1000,
+                          
                           }}
                         >
-                          <div>
-                     
-                            <div
-                              className="d-flex gap-2  align-items-center"
+                          <div style={{ borderRadius: 10,}}>
+                                                       <div
+                              className="d-flex gap-2 align-items-center"
                               onClick={
                                 !props.editPermissionError
                                   ? () => handleEdit(props.filteredData[0])
                                   : undefined
                               }
                               style={{
-                                pointerEvents: props.editPermissionError
-                                  ? "none"
-                                  : "auto", 
+                                padding: "8px 12px",
+                                width: "100%",
+                                borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
+                                pointerEvents: props.editPermissionError ? "none" : "auto",
                                 opacity: props.editPermissionError ? 0.5 : 1,
-
+                                cursor: props.editPermissionError ? "not-allowed" : "pointer",
+                                transition: "background 0.2s ease-in-out",
                               }}
+                              onMouseEnter={(e) =>
+                                !props.editPermissionError && (e.currentTarget.style.backgroundColor = "#F0F4FF")
+                              }
+                              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
                             >
-                              <div style={{ cursor: "pointer" }}>
-                                <Edit
-                                  size="16"
-                                  color={
-                                    props.editPermissionError
-                                      ? "#A0A0A0"
-                                      : "#1E45E1"
-                                  }
-                                />
-                              </div>
-                              <div>
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    color: props.editPermissionError
-                                      ? "#A0A0A0"
-                                      : "#222222",
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  Edit
-                                </label>
-                              </div>
+                              <Edit size="16" color={props.editPermissionError ? "#A0A0A0" : "#1E45E1"} />
+                              <span
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  color: props.editPermissionError ? "#A0A0A0" : "#1E45E1",
+                                }}
+                              >
+                                Edit
+                              </span>
                             </div>
 
+                       
+                            <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+                          
                             <div
-                              className="d-flex gap-2 mb-2 align-items-center"
+                              className="d-flex gap-2 align-items-center menu-option"
                               onClick={
                                 !props.editPermissionError
                                   ? () => handleDelete(props.filteredData[0])
                                   : undefined
                               }
                               style={{
-                                pointerEvents: props.editPermissionError
-                                  ? "none"
-                                  : "auto", 
+                                padding: "8px 12px",
+                                width: "100%",
+                                borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
+                                pointerEvents: props.editPermissionError ? "none" : "auto",
                                 opacity: props.editPermissionError ? 0.5 : 1,
-                                cursor: "pointer",
+                                cursor: props.editPermissionError ? "not-allowed" : "pointer",
+                                transition: "background 0.2s ease-in-out",
                               }}
+                              onMouseEnter={(e) =>
+                                !props.editPermissionError && (e.currentTarget.style.backgroundColor = "#FFF3F3")
+                              }
+                              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
                             >
-                              <div style={{ cursor: "pointer" }}>
-                                <Trash
-                                  size="16"
-                                  color={
-                                    props.editPermissionError
-                                      ? "#A0A0A0"
-                                      : "red"
-                                  } 
-                                />
-                              </div>
-
-                              <div>
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    color: props.editPermissionError
-                                      ? "#A0A0A0"
-                                      : "#FF0000",
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  Delete
-                                </label>
-                              </div>
+                              <Trash size="16" color={props.editPermissionError ? "#A0A0A0" : "#FF0000"} />
+                              <span
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  color: props.editPermissionError ? "#A0A0A0" : "#FF0000",
+                                }}
+                              >
+                                Delete
+                              </span>
                             </div>
                           </div>
                         </div>
+
                       </>
                     )}
                   </div>
@@ -462,7 +449,7 @@ function PayingHostel(props) {
                       }}
                     >
                       {props.filteredData[0]?.email_id &&
-                      props.filteredData[0]?.email_id !== "undefined"
+                        props.filteredData[0]?.email_id !== "undefined"
                         ? props.filteredData[0]?.email_id
                         : "N/A"}
                     </label>
@@ -525,7 +512,7 @@ function PayingHostel(props) {
                         String(props.filteredData[0].hostel_PhoneNo).slice(
                           0,
                           String(props.filteredData[0].hostel_PhoneNo).length -
-                            10
+                          10
                         )}{" "}
                       {props.filteredData[0] &&
                         String(props.filteredData[0].hostel_PhoneNo).slice(-10)}
@@ -564,11 +551,10 @@ function PayingHostel(props) {
     ${props.filteredData[0]?.Address || ""}
     ${props.filteredData[0]?.area ? ", " + props.filteredData[0].area : ""}
     ${props.filteredData[0]?.city ? ", " + props.filteredData[0].city : ""}
-    ${
-      props.filteredData[0]?.pincode
-        ? " - " + props.filteredData[0].pincode
-        : ""
-    }
+    ${props.filteredData[0]?.pincode
+                      ? " - " + props.filteredData[0].pincode
+                      : ""
+                    }
     ${props.filteredData[0]?.state ? ", " + props.filteredData[0].state : ""}
   `}
                 >
@@ -577,23 +563,23 @@ function PayingHostel(props) {
                     props.filteredData[0]?.city ||
                     props.filteredData[0]?.pincode ||
                     props.filteredData[0]?.state) && (
-                    <>
-                      {props.filteredData[0]?.Address
-                        ? props.filteredData[0].Address + ", "
-                        : ""}
-                      {props.filteredData[0]?.area || ""}
-                      {props.filteredData[0]?.city
-                        ? ", " + props.filteredData[0].city
-                        : ""}
-                      {props.filteredData[0]?.pin_code
-                        ? " - " + props.filteredData[0].pin_code
-                        : ""}{" "}
-                      <br></br>
-                      {props.filteredData[0]?.state
-                        ? props.filteredData[0].state
-                        : ""}
-                    </>
-                  )}
+                      <>
+                        {props.filteredData[0]?.Address
+                          ? props.filteredData[0].Address + ", "
+                          : ""}
+                        {props.filteredData[0]?.area || ""}
+                        {props.filteredData[0]?.city
+                          ? ", " + props.filteredData[0].city
+                          : ""}
+                        {props.filteredData[0]?.pin_code
+                          ? " - " + props.filteredData[0].pin_code
+                          : ""}{" "}
+                        <br></br>
+                        {props.filteredData[0]?.state
+                          ? props.filteredData[0].state
+                          : ""}
+                      </>
+                    )}
                 </div>
               </div>
             </Card.Body>

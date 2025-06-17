@@ -12,6 +12,7 @@
   align-items: center;
   gap: 10px;
   width: 100%;
+  height:auto;
   padding: 15px 15px;
   cursor: pointer;
   border-radius: 8px;
@@ -21,6 +22,7 @@
 .popup-option:hover {
   background-color: #E6ECFF;
 }
+
 
 @media (max-width: 768px) {
   .responsive-button {
