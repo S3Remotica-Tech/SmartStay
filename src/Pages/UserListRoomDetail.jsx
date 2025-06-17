@@ -46,6 +46,7 @@ import html2canvas from "html2canvas";
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
+  console.log("UserListRoomDetail",state)
   const dispatch = useDispatch();
   const calendarRef = useRef(null);
   const [id, setId] = useState("");
@@ -2227,7 +2228,7 @@ const handleKycDownload = () => {
                            id="form-controls"
                            placeholder="Enter First Name"
                            type="text"
-                         
+                         value={state.UsersList?.KycCustomerDetails?.address}
                            style={{
                              fontSize: 16,
                              color: "#4B4B4B",
@@ -2266,7 +2267,7 @@ const handleKycDownload = () => {
                            id="form-controls"
                            placeholder="Enter First Name"
                            type="text"
-                           value={'********8672'}
+                           value={state.UsersList?.KycCustomerDetails?.aadhaarNumber}
                         
                            style={{
                              fontSize: 16,
