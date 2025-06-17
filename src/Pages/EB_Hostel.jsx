@@ -1258,7 +1258,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       }}
                       className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
-                      {v.Name}
+                      <div style={{marginLeft:5}}>   {v.Name}</div>
+                   
                     </td>
 
 
@@ -1272,7 +1273,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     fontFamily: "Gilroy",
                     marginTop: 10,borderBottom: "1px solid #E8E8E8"
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
                 >
                   <span
                     style={{
@@ -1280,6 +1281,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       paddingLeft: "12px",
                       paddingRight: "12px",
                       paddingBottom: "3px",
+                      marginLeft:3,
                       borderRadius: "60px",
                       backgroundColor: "#FFEFCF",
                       textAlign: "start",
@@ -1307,7 +1309,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       }}
                          className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
-                      <div className="ps-1">
+                      <div style={{marginLeft:5}}>
                         {v.floor_name}
                       </div>
                 
@@ -1322,9 +1324,10 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                         borderBottom: "1px solid #E8E8E8",
                         paddingLeft:20
                       }}
-                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
-                      {v.Room_Id}
+                      <div style={{marginLeft:6}}> {v.Room_Id}</div>
+                     
                     </td>
                   </>
                 )}
@@ -1337,9 +1340,11 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     verticalAlign: "middle",
                     borderBottom: "1px solid #E8E8E8"
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                 >
-                  {v.start_meter}
+                  <div style={{marginLeft:5}}>
+                        {v.start_meter}
+                      </div>
                 </td>
                 <td
                   style={{
@@ -1350,9 +1355,11 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     verticalAlign: "middle",
                     borderBottom: "1px solid #E8E8E8"
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                 >
-                  {v.end_meter}
+                    <div style={{marginLeft:5}}>
+                        {v.end_meter}
+                      </div>
                 </td>
                 <td
                   style={{
@@ -1367,7 +1374,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     marginBottom: "-20px",
                     borderBottom: "1px solid #E8E8E8"
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-1"
                 >
                   <span
                     style={{
@@ -1376,6 +1383,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       paddingRight: "16px",
                       paddingBottom: "5px",
                       borderRadius: "60px",
+                      marginLeft:2,
                       backgroundColor: "#EBEBEB",
                       textAlign: "start",
                       fontSize: 13, 

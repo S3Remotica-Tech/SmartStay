@@ -555,7 +555,7 @@ if (v.date && v.date !== '0000-00-00') {
                         }}
                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                       >
-                        {v.reading}
+                       <div style={{marginLeft:5}}>{v.reading}</div> 
                       </td>
                      
                         <td
@@ -571,7 +571,7 @@ if (v.date && v.date !== '0000-00-00') {
                     marginBottom: "-20px",
                     borderBottom: "1px solid #E8E8E8"
                   }}
-                   className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                   className="ps-0 ps-sm-0 ps-md-1 ps-lg-1"
                 >
                   <span
                     style={{
@@ -580,6 +580,7 @@ if (v.date && v.date !== '0000-00-00') {
                       paddingRight: "16px",
                       paddingBottom: "5px",
                       borderRadius: "60px",
+                      marginLeft:2,
                       backgroundColor: "#EBEBEB",
                       textAlign: "start",
                       fontSize: 13, 
@@ -604,7 +605,8 @@ if (v.date && v.date !== '0000-00-00') {
                         }}
                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                       >
-                        {v.total_reading}
+                        <div style={{marginLeft:6}}>{v.total_reading}</div>
+                        
                       </td>
                       <td
                         style={{
@@ -616,7 +618,8 @@ if (v.date && v.date !== '0000-00-00') {
                         }}
                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
                       >
-                        ₹{v.total_amount}
+
+                       <div style={{marginLeft:6}}>₹{v.total_amount}</div> 
                       </td>
                       <td  style={{
                       textAlign: "start",

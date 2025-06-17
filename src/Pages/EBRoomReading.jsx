@@ -658,7 +658,8 @@ return (
         whiteSpace:"nowrap"
       }}
     >
-      {v.Room_Id}
+      <div style={{marginLeft:2}}>  {v.Room_Id}</div>
+    
     </td>
 
     <td
@@ -671,11 +672,12 @@ return (
        borderBottom: "1px solid #E8E8E8",
        paddingLeft:20,
        whiteSpace:"nowrap",
-       marginLeft:11
+       marginLeft:13
 
       }}
     >
-      {v.reading}
+      <div style={{marginLeft:2}}>{v.reading}</div>
+    
     </td>
     <td
       style={{
@@ -694,7 +696,7 @@ return (
           paddingLeft: "16px",
           paddingRight: "16px",
           paddingBottom: "5px",
-          marginLeft:-3,
+          marginLeft:-4,
           borderRadius: "60px",
           fontSize: 13, 
           fontWeight: 500,
@@ -717,7 +719,8 @@ return (
        
       }}
     >
-      {v.total_reading}
+      <div style={{marginLeft:2}}>{v.total_reading}</div>
+      
     </td>
     <td
       style={{
@@ -731,7 +734,8 @@ return (
         
       }}
     >
-      ₹{v.total_amount}
+        <div style={{marginLeft:2}}>₹{v.total_amount}</div>
+   
     </td>
     <td  style={{
        fontSize: 13, 
