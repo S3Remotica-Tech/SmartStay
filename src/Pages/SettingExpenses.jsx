@@ -698,121 +698,94 @@ function SettingExpenses({ hostelid }) {
 
 
       {expensesFilterddata?.length >= 5 && (
-        <nav 
-      
-        className="container  bottom-0 end-0 mt-3 me-3 d-flex justify-content-end align-items-center"
-        style={{
-          position: "fixed",
-          bottom: "10px",
-          right: "16px",
-          left: "16px",
-          zIndex: 995,
-          backgroundColor: "#fff",
-          paddingBottom: "30px",
-        }}
-        >
-         
-          <div >
-            <select className='selectoption'
-              value={expensesrowsPerPage}
-              onChange={handleItemsPerPageChange}
-              style={{
-                padding: "5px",
-                border: "1px solid #1E45E1",
-                borderRadius: "5px",
-                color: "#1E45E1",
-                fontWeight: "bold",
-                cursor: "pointer",
-                outline: "none",
-                boxShadow: "none",
-              }}
-            >
-            
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
-          </div>
-
-          
-          <ul className='selectoption'
-            style={{
-              display: "flex",
-              alignItems: "center",
-              listStyleType: "none",
-              margin: 0,
-              padding: 0,
-            }}
-          >
-            
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color: expensescurrentPage === 1 ? "#ccc" : "#1E45E1",
-                  cursor: expensescurrentPage === 1 ? "not-allowed" : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(expensescurrentPage - 1)}
-                disabled={expensescurrentPage === 1}
-              >
-                <ArrowLeft2
-                  size="16"
-                  color={expensescurrentPage === 1 ? "#ccc" : "#1E45E1"}
-                />
-              </button>
-            </li>
-
-            
-            <li
-              style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
-            >
-              {expensescurrentPage} of {totalPagesGeneral}
-            </li>
-
-           
-            <li style={{ margin: "0 10px" }}>
-              <button
-                style={{
-                  padding: "5px",
-                  textDecoration: "none",
-                  color:
-                    expensescurrentPage === totalPagesGeneral
-                      ? "#ccc"
-                      : "#1E45E1",
-                  cursor:
-                    expensescurrentPage === totalPagesGeneral
-                      ? "not-allowed"
-                      : "pointer",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  minWidth: "30px",
-                  textAlign: "center",
-                  backgroundColor: "transparent",
-                  border: "none",
-                }}
-                onClick={() => handlePageChange(expensescurrentPage + 1)}
-                disabled={expensescurrentPage === totalPagesGeneral}
-              >
-                <ArrowRight2
-                  size="16"
-                  color={
-                    expensescurrentPage === totalPagesGeneral
-                      ? "#ccc"
-                      : "#1E45E1"
-                  }
-                />
-              </button>
-            </li>
-          </ul>
-        </nav>
+         <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+                  <div>
+                    <select
+                      value={expensesrowsPerPage}
+                      onChange={handleItemsPerPageChange}
+                      style={{
+                        padding: "5px",
+                        border: "1px solid #1E45E1",
+                        borderRadius: "5px",
+                        color: "#1E45E1",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                        outline: "none",
+                        boxShadow: "none",
+                      }}
+                    >
+                      <option value={5}>5</option>
+                      <option value={10}>10</option>
+                      <option value={50}>50</option>
+                      <option value={100}>100</option>
+                    </select>
+                  </div>
+        
+                  <ul
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      listStyleType: "none",
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  >
+                    <li style={{ margin: "0 10px" }}>
+                      <button
+                        style={{
+                          padding: "5px",
+                          textDecoration: "none",
+                          color: expensescurrentPage === 1 ? "#ccc" : "#1E45E1",
+                          cursor: expensescurrentPage === 1 ? "not-allowed" : "pointer",
+                          borderRadius: "50%",
+                          display: "inline-block",
+                          minWidth: "30px",
+                          textAlign: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                        onClick={() => handlePageChange(expensescurrentPage - 1)}
+                        disabled={expensescurrentPage === 1}
+                      >
+                        <ArrowLeft2
+                          size="16"
+                          color={expensescurrentPage === 1 ? "#ccc" : "#1E45E1"}
+                        />
+                      </button>
+                    </li>
+        
+                    <li
+                      style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
+                    >
+                      {expensescurrentPage} of {totalPagesGeneral}
+                    </li>
+        
+                    <li style={{ margin: "0 10px" }}>
+                      <button
+                        style={{
+                          padding: "5px",
+                          textDecoration: "none",
+                          color: expensescurrentPage === totalPagesGeneral ? "#ccc" : "#1E45E1",
+                          cursor:
+                            expensescurrentPage === totalPagesGeneral ? "not-allowed" : "pointer",
+                          borderRadius: "50%",
+                          display: "inline-block",
+                          minWidth: "30px",
+                          textAlign: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                        onClick={() => handlePageChange(expensescurrentPage + 1)}
+                        disabled={expensescurrentPage === totalPagesGeneral}
+                      >
+                        <ArrowRight2
+                          size="16"
+                          color={expensescurrentPage === totalPagesGeneral ? "#ccc" : "#1E45E1"}
+                        />
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
       )}
 
 
