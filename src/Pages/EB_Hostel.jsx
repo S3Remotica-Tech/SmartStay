@@ -1075,7 +1075,7 @@ function EB_Hostel() {
           </Box>
         </div>
 
-        <TabPanel value="1">
+     <TabPanel value="1">
           <>
             <EBHostelReading
               hostelBasedForm={hostelBasedForm}
@@ -1088,7 +1088,7 @@ function EB_Hostel() {
               editeb={editeb}
               setEditEb={setEditEb}
               electricityHostel={electricityHostel}
-              filterStatus={filterStatus}
+              filterStatus = {filterStatus}
               setLoader={setLoader}
               loading={loader}
             />
@@ -1101,17 +1101,17 @@ function EB_Hostel() {
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-
+                   
                   }}
                 >
-
+                 
                   <img
                     src={Emptystate}
                     alt="Empty State"
                     style={{ maxWidth: "100%", height: "auto" }}
                   />
 
-
+                  
                   {ebpermissionError && (
                     <div
                       style={{
@@ -1140,304 +1140,304 @@ function EB_Hostel() {
             ) : (
               <>
 
-                {sortedData && sortedData.length > 0 && (
+           {sortedData && sortedData.length > 0 && (
+                     
+                     
+                     <div
+className="p-0 booking-table-userlist  booking-table ms-2 me-4"
+style={{ paddingBottom: "20px",marginLeft:"-22px" }}
+>
+                                   <div
+                                     className='show-scrolls electricity-table'
+                                     style={{
+                                      
+
+                                       height: sortedData.length >= 5 || sortedData.length >= 5 ? "340px" : "auto",
+
+                                       overflow: "auto",
+                                       marginBottom: 20,
+                                       marginTop: "20px"
+                                      
+                                     }}>
+                     
+                                     <Table
+                                       responsive="md"
+                                     >
+                     
+                                       <thead style={{
+                                         fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                         top: 0,
+                                         zIndex: 1
+                                       }}>
+                                         <tr>
+                                         <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Name</div></th>
+
+                                           <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}>
+                                             <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div>  Paying Guest</div> 
+                                            </th>
+
+                                           {hostelBased !== 1 && (
+                                        <>
+                                          <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }} >
+                                             <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Floor</div> 
+                                
+                                           </th>
+
+                                          <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }} >
+                                              <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Room</div> 
+                                
+                                          </th>
+                           
+                                         </>
+                                               )}
+
+                     
+                                           <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("start_meter", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("start_meter", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Previous </div></th>
+
+                                           <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("end_meter", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("end_meter", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Current </div></th>
+                     
+                                           <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading_date", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading_date", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div>  Date </div></th>
+                     
+                                           <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div> Units</div></th>
+                     
+                                           <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                             <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
+                                             <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
+                                           </div>  Amount </div></th>
+                     
+                                         </tr>
+                                       </thead>
+                     
+                     
+                                       <tbody>
+                                         {   sortedData && sortedData.length > 0 && (
+                                                 <>
+                                                   {sortedData.map((v) => {
+           
+            const formattedDate = v.reading_date
+              ? v.reading_date.split("-").reverse().join("-")
+              : "";
+           
 
 
-                  <div
-                    className="p-0 booking-table-userlist  booking-table ms-2 me-4"
-                    style={{ paddingBottom: "20px", marginLeft: "-22px" }}
-                  >
-                    <div
-                      className='show-scrolls electricity-table'
+            return (
+              <tr key={v.id}>
+                 <td
                       style={{
+                        fontSize: 13, 
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        textAlign: "start",
+                        verticalAlign: "middle",
+                        border: "none",
+                        borderBottom: "1px solid #E8E8E8"
+                      }}
+                      className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                    >
+                      {v.Name}
+                    </td>
 
 
-                        height: sortedData.length >= 5 || sortedData.length >= 5 ? "340px" : "auto",
-
-                        overflow: "auto",
-                        marginBottom: 20,
-                        marginTop: "20px"
-
-                      }}>
-
-                      <Table
-                        responsive="md"
-                      >
-
-                        <thead style={{
-                          fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                          top: 0,
-                          zIndex: 1
-                        }}>
-                          <tr>
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
-                            </div> Name</div></th>
-
-                            <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>
-                              <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'asc')} style={{ cursor: "pointer" }} />
-                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("HostelName", 'desc')} style={{ cursor: "pointer" }} />
-                              </div>  Paying Guest</div>
-                            </th>
-
-                            {hostelBased !== 1 && (
-                              <>
-                                <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }} >
-                                  <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div> Floor</div>
-
-                                </th>
-
-                                <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }} >
-                                  <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
-                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
-                                  </div> Room</div>
-
-                                </th>
-
-                              </>
-                            )}
-
-
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("start_meter", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("start_meter", 'desc')} style={{ cursor: "pointer" }} />
-                            </div> Previous </div></th>
-
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("end_meter", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("end_meter", 'desc')} style={{ cursor: "pointer" }} />
-                            </div> Current </div></th>
-
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading_date", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading_date", 'desc')} style={{ cursor: "pointer" }} />
-                            </div>  Date </div></th>
-
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit", 'desc')} style={{ cursor: "pointer" }} />
-                            </div> Units</div></th>
-
-                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
-                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
-                            </div>  Amount </div></th>
-
-                          </tr>
-                        </thead>
-
-
-                        <tbody>
-                          {sortedData && sortedData.length > 0 && (
-                            <>
-                              {sortedData.map((v) => {
-
-                                const formattedDate = v.reading_date
-                                  ? v.reading_date.split("-").reverse().join("-")
-                                  : "";
-
-
-
-                                return (
-                                  <tr key={v.id}>
-                                    <td
-                                      style={{
-                                        fontSize: 13,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        textAlign: "start",
-                                        verticalAlign: "middle",
-                                        border: "none",
-                                        borderBottom: "1px solid #E8E8E8"
-                                      }}
-                                      className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                                    >
-                                      {v.Name}
-                                    </td>
-
-
-                                    <td
-                                      style={{
-                                        paddingTop: 15,
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: 13,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        marginTop: 10, borderBottom: "1px solid #E8E8E8"
-                                      }}
-                                      className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                                    >
-                                      <span
-                                        style={{
-                                          paddingTop: "3px",
-                                          paddingLeft: "12px",
-                                          paddingRight: "12px",
-                                          paddingBottom: "3px",
-                                          borderRadius: "60px",
-                                          backgroundColor: "#FFEFCF",
-                                          textAlign: "start",
-                                          fontSize: 13,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          verticalAlign: "middle",
-                                          whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-                                        }}
-
-                                      >
-                                        {v.HostelName}
-                                      </span>
-                                    </td>
-                                    {hostelBased !== 1 && (
-                                      <>
-                                        <td
-                                          style={{
-                                            fontSize: 13,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            textAlign: "start",
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8"
-                                          }}
-                                          className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                                        >
-                                          <div className="ps-1">
-                                            {v.floor_name}
-                                          </div>
-
-                                        </td>
-                                        <td
-                                          style={{
-                                            fontSize: 13,
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            textAlign: "start",
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
-                                            paddingLeft: 20
-                                          }}
-                                          className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                                        >
-                                          {v.Room_Id}
-                                        </td>
-                                      </>
-                                    )}
-                                    <td
-                                      style={{
-                                        fontSize: 13,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        textAlign: "start",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8"
-                                      }}
-                                      className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                                    >
-                                      {v.start_meter}
-                                    </td>
-                                    <td
-                                      style={{
-                                        fontSize: 13,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        textAlign: "start",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8"
-                                      }}
-                                      className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                                    >
-                                      {v.end_meter}
-                                    </td>
-                                    <td
-                                      style={{
-                                        paddingTop: "15px",
-                                        border: "none",
-                                        textAlign: "start",
-                                        fontSize: 13,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        verticalAlign: "middle",
-                                        whiteSpace: "nowrap",
-                                        marginBottom: "-20px",
-                                        borderBottom: "1px solid #E8E8E8"
-                                      }}
-                                      className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
-                                    >
-                                      <span
-                                        style={{
-                                          paddingTop: "5px",
-                                          paddingLeft: "16px",
-                                          paddingRight: "16px",
-                                          paddingBottom: "5px",
-                                          borderRadius: "60px",
-                                          backgroundColor: "#EBEBEB",
-                                          textAlign: "start",
-                                          fontSize: 13,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                          display: "inline-block",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                          whiteSpace: "nowrap",
-                                        }}
-                                      >
-                                        {formattedDate}
-                                      </span>
-                                    </td>
-                                    <td
-                                      style={{
-                                        fontSize: 13,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        textAlign: "start",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8", paddingLeft: 20
-                                      }}
-                                      className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                                    >
-                                      {v.unit}
-                                    </td>
-                                    <td
-                                      style={{
-                                        fontSize: 13,
-                                        fontWeight: 500,
-                                        fontFamily: "Gilroy",
-                                        textAlign: "start",
-                                        verticalAlign: "middle",
-                                        borderBottom: "1px solid #E8E8E8",
-                                        paddingLeft: 20
-                                      }}
-                                      className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                                    >
-                                      ₹{v.amount}
-                                    </td>
-                                  </tr>
-                                );
-
-
-                              })}
-                            </>
-
-
-                          )
-                          }
-                        </tbody>
-
-
-                      </Table>
-                    </div>
-
-                  </div>
+                <td
+                  style={{
+                    paddingTop: 15,
+                    border: "none",
+                    textAlign: "start",
+                    fontSize: 13, 
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    marginTop: 10,borderBottom: "1px solid #E8E8E8"
+                  }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                >
+                  <span
+                    style={{
+                      paddingTop: "3px",
+                      paddingLeft: "12px",
+                      paddingRight: "12px",
+                      paddingBottom: "3px",
+                      borderRadius: "60px",
+                      backgroundColor: "#FFEFCF",
+                      textAlign: "start",
+                      fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      verticalAlign: "middle",
+                      whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                    }}
+                    
+                  >
+                    {v.HostelName}
+                  </span>
+                </td>
+                {hostelBased !== 1 && (
+                  <>
+                    <td
+                      style={{
+                        fontSize: 13, 
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        textAlign: "start",
+                        verticalAlign: "middle",
+                        borderBottom: "1px solid #E8E8E8"
+                      }}
+                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                    >
+                      <div className="ps-1">
+                        {v.floor_name}
+                      </div>
+                
+                    </td>
+                    <td
+                      style={{
+                        fontSize: 13, 
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                        textAlign: "start",
+                        verticalAlign: "middle",
+                        borderBottom: "1px solid #E8E8E8",
+                        paddingLeft:20
+                      }}
+                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                    >
+                      {v.Room_Id}
+                    </td>
+                  </>
                 )}
+                <td
+                  style={{
+                    fontSize: 13, 
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    textAlign: "start",
+                    verticalAlign: "middle",
+                    borderBottom: "1px solid #E8E8E8"
+                  }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                >
+                  {v.start_meter}
+                </td>
+                <td
+                  style={{
+                    fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    textAlign: "start",
+                    verticalAlign: "middle",
+                    borderBottom: "1px solid #E8E8E8"
+                  }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                >
+                  {v.end_meter}
+                </td>
+                <td
+                  style={{
+                    paddingTop: "15px",
+                    border: "none",
+                    textAlign: "start",
+                    fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    verticalAlign: "middle",
+                    whiteSpace: "nowrap",
+                    marginBottom: "-20px",
+                    borderBottom: "1px solid #E8E8E8"
+                  }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                >
+                  <span
+                    style={{
+                      paddingTop: "5px",
+                      paddingLeft: "16px",
+                      paddingRight: "16px",
+                      paddingBottom: "5px",
+                      borderRadius: "60px",
+                      backgroundColor: "#EBEBEB",
+                      textAlign: "start",
+                      fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      display: "inline-block",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {formattedDate}
+                  </span>
+                </td>
+                <td
+                  style={{
+                    fontSize: 13, 
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    textAlign: "start",
+                    verticalAlign: "middle",
+                    borderBottom: "1px solid #E8E8E8", paddingLeft:20
+                  }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                >
+                  {v.unit}
+                </td>
+                <td
+                  style={{
+                    fontSize: 13, 
+                    fontWeight: 500,
+                    fontFamily: "Gilroy",
+                    textAlign: "start",
+                    verticalAlign: "middle",
+                    borderBottom: "1px solid #E8E8E8",
+                    paddingLeft:20
+                  }}
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                >
+                  ₹{v.amount}
+                </td>
+              </tr>
+            );
+        
+                           
+                     })}
+                                                 </>
+                                               
+                     
+                                             )
+                                         }
+                                       </tbody>
+                     
+                     
+                                     </Table>
+                                   </div>
+                     
+                     </div>
+                                 )}
 
 
-
+                
 
                 {customerLoader && (
                   <div
@@ -1509,7 +1509,7 @@ function EB_Hostel() {
 
                 {electricityFilterddata?.length >= 5 && (
                   <nav
-
+                  
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -1524,7 +1524,7 @@ function EB_Hostel() {
                       zIndex: 1000,
                     }}
                   >
-
+                   
                     <div>
                       <select
                         value={electricityrowsPerPage}
@@ -1547,7 +1547,7 @@ function EB_Hostel() {
                       </select>
                     </div>
 
-
+                   
                     <ul
                       style={{
                         display: "flex",
@@ -1557,7 +1557,7 @@ function EB_Hostel() {
                         padding: 0,
                       }}
                     >
-
+                      
                       <li style={{ margin: "0 10px" }}>
                         <button
                           style={{
@@ -1590,7 +1590,7 @@ function EB_Hostel() {
                         </button>
                       </li>
 
-
+                     
                       <li
                         style={{
                           margin: "0 10px",
@@ -1601,7 +1601,7 @@ function EB_Hostel() {
                         {electricitycurrentPage} of {totalPagesinvoice}
                       </li>
 
-
+                     
                       <li style={{ margin: "0 10px" }}>
                         <button
                           style={{
@@ -1646,6 +1646,8 @@ function EB_Hostel() {
             )}
           </>
         </TabPanel>
+
+
         <Modal
           show={addEbDetail}
           onHide={() => handleClose()}

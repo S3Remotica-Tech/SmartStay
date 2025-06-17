@@ -141,6 +141,8 @@ function SettingsBills() {
     setIsOn(false);
     setSelectedDays([]);
     setNotifications({});
+    setIsFromOpen(false);
+    setIsToOpen(false);
   };
 
   const handleRecurrName = (e) => {
@@ -249,6 +251,7 @@ function SettingsBills() {
 
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
+       setLoading(true);
       dispatch({ type: "SETTINGS_GET_RECURRING" , payload:{hostel_id: state.login.selectedHostel_Id} });
       dispatch({ type: "FREQUENCY_TYPES_LIST" });
       dispatch({ type: "NOTIFICATION_TYPES_LIST" });
@@ -350,6 +353,8 @@ function SettingsBills() {
   };
   const handleInvoiceEndDateChange = (selectedOption) => {
     setInvoiceDueDate(selectedOption?.value);
+    setDueDateErrmsg("");
+    
   };
 
   const labelStyle = {
@@ -798,7 +803,7 @@ function SettingsBills() {
                         </div>
                       </div>
                     )}
-                    {selectedFromerrmsg.trim() !== "" && (
+                    { !selectedFrom && selectedFromerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
                         <MdError
                           style={{
@@ -872,7 +877,7 @@ function SettingsBills() {
                       </div>
                     )}
 
-                    {selectedToerrmsg.trim() !== "" && (
+                    {!selectedTo &&  selectedToerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
                         <MdError
                           style={{
@@ -899,7 +904,16 @@ function SettingsBills() {
 
                 <div className="row">
                   <div className="col-lg-6 mb-3">
-                    <label htmlFor="startDayDropdown" className="form-label">
+                    <label htmlFor="startDayDropdown" className="form-label"
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        color: "#000",
+                        fontStyle: "normal",
+                        lineHeight: "normal",
+                      }} 
+                    >
                       Billing Date of Month
                     </label>
                     <Select
@@ -916,6 +930,9 @@ function SettingsBills() {
                           ...base,
                           height: "40px",
                           border: "1px solid #ced4da",
+                          fontSize: 14,
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
                         }),
                         menu: (base) => ({
                           ...base,
@@ -969,7 +986,16 @@ function SettingsBills() {
                   </div>
 
                   <div className="col-lg-6 mb-3">
-                    <label htmlFor="endDayDropdown" className="form-label">
+                    <label htmlFor="endDayDropdown" className="form-label"
+                      style={{
+                        fontFamily: "Gilroy",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        color: "#000",
+                        fontStyle: "normal",
+                        lineHeight: "normal",
+                      }}
+                    >
                       Due Date of Month
                     </label>
                     <Select
@@ -986,6 +1012,9 @@ function SettingsBills() {
                           ...base,
                           height: "40px",
                           border: "1px solid #ced4da",
+                          fontSize: 14,
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
                         }),
                         menu: (base) => ({
                           ...base,
@@ -1043,7 +1072,7 @@ function SettingsBills() {
                   <div>
                     <p
                       style={{
-                        fontSize: "15px",
+                        fontSize: 14,
                         fontFamily: "Gilroy",
                         fontWeight: 500,
                       }}
@@ -1065,12 +1094,18 @@ function SettingsBills() {
                 </div>
 
                 <div className="col-lg-12 col-md-12 col-sm-12 mb-3">
-                  <label htmlFor="endDayDropdown" className="form-label">
+                  <label htmlFor="endDayDropdown" className="form-label" 
+                    style={{
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                  >
                     Remainder days before Due
                   </label>
                   <Select
                     options={filteredOptions}
-                    placeholder="Select a Reminder Dates"
+                    placeholder="Select a Remainder Dates"
                     onChange={handleSelect}
                     value={null}
                     classNamePrefix="custom"
@@ -1080,6 +1115,9 @@ function SettingsBills() {
                         ...base,
                         height: "40px",
                         border: "1px solid #ced4da",
+                        fontSize: 14,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
                       }),
                     }}
                   />
@@ -1094,6 +1132,9 @@ function SettingsBills() {
                             fontWeight: 400,
                             borderRadius: "8px",
                             border: "1px solid rgba(30, 69, 225, 1)",
+                            fontSize: 14,
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
                           }}
                         >
                           {item.label}
@@ -1139,7 +1180,7 @@ function SettingsBills() {
                   <div className="d-flex flex-column">
                     <p
                       style={{
-                        fontSize: "15px",
+                        fontSize: 14,
                         fontFamily: "Gilroy",
                         fontWeight: 500,
                       }}
@@ -1147,7 +1188,7 @@ function SettingsBills() {
                       Bill Delivery Channels
                     </p>
                     <div>
-                      <div className="d-flex gap-4 flex-wrap">
+                      <div className="d-flex gap-3 flex-wrap">
                         {checkboxOptions.map(({ key, label }) => (
               <label
     className="form-check d-flex align-items-center gap-2"
@@ -1167,7 +1208,7 @@ function SettingsBills() {
       }}
     />
     <span
-      className="form-check-label"
+      className="form-check-label mt-1"
       style={{
         color: notifications[key] ? "#000" : "#aaa",
         fontSize: "14px",

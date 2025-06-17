@@ -1427,105 +1427,107 @@ function Banking() {
 
                         let formattedDate = `${day} ${formattedMonth} ${year}`;
 
-                        return (
-                          <tr
-                            key={user.id}
+                      return (
+                        <tr
+                          key={user.id}
+                          style={{
+                            fontSize: "13px",
+                            fontWeight: 600,
+                            textAlign: "center",
+                            marginTop: 10,
+                          }}
+                        >
+                          <td
                             style={{
+                              border: "none",
+                              textAlign: "start",
                               fontSize: "13px",
                               fontWeight: 600,
-                              textAlign: "center",
-                              marginTop: 10,
+                              fontFamily: "Gilroy",
+                              paddingTop: 15,
+                              marginLeft:20
                             }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                           >
-                            <td
+                            <div className="ps-2 ps-lg-2">
+   {user.benificiary_name} - {user.type}
+                            </div>
+                         
+                          </td>
+                          <td
+                            style={{
+                              paddingTop: 15,
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              marginTop: 10,
+                              whiteSpace: "nowrap",
+                              
+                            }}
+                            className="ps-2 ps-lg-2"
+                          >
+                            <span
                               style={{
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "13px",
-                                fontWeight: 600,
-                                fontFamily: "Gilroy",
-                                paddingTop: 15,
-                                marginLeft: 20
-                              }}
-                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                            >
-                              <div className="ps-2 ps-lg-2">
-                                {user.benificiary_name} - {user.type}
-                              </div>
-
-                            </td>
-                            <td
-                              style={{
-                                paddingTop: 15,
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "13px",
+                                paddingTop: "3px",
+                                paddingLeft: "10px",
+                                paddingRight: "10px",
+                                marginLeft:8,
+                                paddingBottom: "3px",
+                                borderRadius: "60px",
+                                textAlign: "center",
+                                fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                marginTop: 10,
-                                whiteSpace: "nowrap",
-
+                                backgroundColor: "#EBEBEB",
                               }}
                             >
-                              <span
-                                style={{
-                                  paddingTop: "3px",
-                                  paddingLeft: "10px",
-                                  paddingRight: "10px",
-                                  paddingBottom: "3px",
-                                  borderRadius: "60px",
-                                  textAlign: "center",
-                                  fontSize: "11px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  backgroundColor: "#EBEBEB",
-                                }}
-                              >
-                                {formattedDate}
-                              </span>
-                            </td>
-                            <td
+                              {formattedDate}
+                            </span>
+                          </td>
+                          <td
+                            style={{
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              paddingTop: 15,
+                            }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                          >
+                            {user.amount}
+                          </td>
+                          <td
+                            style={{
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              paddingTop: 15,
+                            }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                          >
+                            {user.desc}
+                          </td>
+                          <td
+                            style={{
+                              paddingTop: 15,
+                              border: "none",
+                              textAlign: "start",
+                              fontSize: "13px",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              whiteSpace: "nowrap",
+                            }}
+                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                          >
+                            <span
                               style={{
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                paddingTop: 15,
-                              }}
-                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                            >
-                              {user.amount}
-                            </td>
-                            <td
-                              style={{
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                paddingTop: 15,
-                              }}
-                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                            >
-                              {user.desc}
-                            </td>
-                            <td
-                              style={{
-                                paddingTop: 15,
-                                border: "none",
-                                textAlign: "start",
-                                fontSize: "13px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                                whiteSpace: "nowrap",
-                              }}
-                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                            >
-                              <span
-                                style={{
-                                  padding: "3px 10px",
-                                  borderRadius: "60px",
+                                padding: "3px 10px",
+                                borderRadius: "60px",
 
                                   backgroundColor: "#EBEBEB",
 
@@ -1545,8 +1547,8 @@ function Banking() {
                             <td
                               style={{
                                 cursor: "pointer",
-                                height: 40,
-                                width: 40,
+                                height: 30,
+                                width: 30,
                                 borderRadius: 100,
                                 border: "1px solid #EFEFEF",
                                 display: "flex",
@@ -1554,7 +1556,8 @@ function Banking() {
                                 alignItems: "center",
                                 position: "relative",
                                 marginTop: 10,
-                                backgroundColor:
+                                marginLeft:5,
+                              backgroundColor:
                                   EditTransaction === user.id
                                     ? "#E7F1FF"
                                     : "white",
@@ -1563,7 +1566,7 @@ function Banking() {
                               onClick={(e) => handleEditTrans(user.id, e)}
                             >
                               <PiDotsThreeOutlineVerticalFill
-                                style={{ height: 20, width: 20 }}
+                                style={{ height: 17, width: 17 }}
                               />
                               {EditTransaction === user.id && (
                                 <div

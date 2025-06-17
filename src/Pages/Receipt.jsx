@@ -17,13 +17,13 @@ const Receipt = (props) => {
  
   const dispatch = useDispatch();
 
-  const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
+      const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
+      const [receiptEditPermission, setReceiptEditPermission] = useState("")
+      const [deleteShow, setDeleteShow] = useState(false)
+      const [deleteitem, setDeleteItem] = useState('')
+      const [showDots, setShowDots] = useState('')
+      const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
-  const [receiptEditPermission, setReceiptEditPermission] = useState("")
-  const [deleteShow, setDeleteShow] = useState(false)
-  const [deleteitem, setDeleteItem] = useState('')
-
- 
 
   const handleDeleteForm = (item) => {
     setDeleteShow(true)
@@ -57,9 +57,8 @@ const Receipt = (props) => {
     }
   }, [props.billrolePermission]);
 
-  const [showDots, setShowDots] = useState('')
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
+   
   const handleShowDots = (event) => {
     setShowDots(!showDots)
     const { top, left, height } = event.target.getBoundingClientRect();
@@ -84,8 +83,7 @@ const Receipt = (props) => {
 
 
   const handleEdit = (item) => {
-      props.onhandleEdit(item)
-
+    props.onhandleEdit(item)  
   }
 
 
@@ -104,7 +102,6 @@ const Receipt = (props) => {
 
   let formattedDate = `${day}/${month}/${year}`;
 
-  
 
   const popupRef = useRef(null);
   const handleClickOutside = (event) => {
@@ -124,10 +121,7 @@ const Receipt = (props) => {
   const handleDownload = (item) => {
 
     props.DisplayInvoice(true, item)
-
-    dispatch({ type: "RECEIPTPDF_NEWCHANGES", id: item?.id })
-   
-
+    dispatch({type:"RECEIPTPDF_NEWCHANGES",id:item?.id})
   }
 
   useEffect(() => {
@@ -170,8 +164,8 @@ const Receipt = (props) => {
           <div className="d-flex  align-items-center">
 
             <div className="Invoice_Name" style={{
-              fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '15px', color: "#1E45E1",
-              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start", paddingTop: "10px"
+              fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '17px', color: "#1E45E1",
+              fontStyle: 'normal', lineHeight: 'normal', fontWeight: 600, cursor: "pointer", textAlign: "start",paddingTop:"10px"
             }}
               onClick={() => handleDownload(props.item)}
 
@@ -179,18 +173,23 @@ const Receipt = (props) => {
 
           </div>
         </td>
-
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-4">{props.item.reference_id}</td>
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-4">{!props.item.invoice_number || props.item.invoice_number === "0" ? "-" : props.item.invoice_number}
+         
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+           <div style={{marginLeft:7}}>{props.item.reference_id}</div></td>
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div className="ps-0" style={{marginLeft:6}}>{!props.item.invoice_number || props.item.invoice_number === "0" ? "-" : props.item.invoice_number}</div>
         </td>
 
 
-        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-4">{props.item.type}
+        <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+          <div style={{marginLeft:6}}>{props.item.type}</div>
         </td>
 
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{formattedDate}</span></td>
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-4" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} > ₹{props.item.amount_received.toLocaleString('en-IN')}</td>
-        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{props.item.paymentMode}</span></td>
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}>
+          <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" , marginLeft:3 }}>{formattedDate}</span></td>
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-4" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }} > ₹{props.item.amount_received.toLocaleString('en-IN')}</td>
+        <td className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}>
+          <span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" , marginLeft:2}}>{props.item.paymentMode}</span></td>
 
 
         <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8" }} className=''>

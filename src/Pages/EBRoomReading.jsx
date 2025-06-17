@@ -661,82 +661,84 @@ function EBRoomReading(props) {
                                   {v.Room_Id}
                                 </td>
 
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle",
-                                    borderBottom: "1px solid #E8E8E8",
-                                    paddingLeft: 20,
-                                    whiteSpace: "nowrap"
-                                  }}
-                                >
-                                  {v.reading}
-                                </td>
-                                <td
-                                  style={{
-                                    textAlign: "start",
-                                    verticalAlign: "middle",
-                                    borderBottom: "1px solid #E8E8E8",
-                                    paddingRight: 5,
-                                    whiteSpace: "nowrap"
+    <td
+      style={{
+        fontSize: 13, 
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle",
+       borderBottom: "1px solid #E8E8E8",
+       paddingLeft:20,
+       whiteSpace:"nowrap",
+       marginLeft:11
 
-                                  }}
-                                >
-                                  <span
-                                    style={{
-                                      backgroundColor: "#EBEBEB",
-                                      paddingTop: "5px",
-                                      paddingLeft: "16px",
-                                      paddingRight: "16px",
-                                      paddingBottom: "5px",
-                                      borderRadius: "60px",
-                                      fontSize: 13,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      whiteSpace: "nowrap"
-                                    }}
-                                  >
-                                    {formattedDate}
-                                  </span>
-                                </td>
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8",
-                                    paddingLeft: 20,
-                                    whiteSpace: "nowrap"
-
-                                  }}
-                                >
-                                  {v.total_reading}
-                                </td>
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8",
-                                    paddingLeft: 20,
-                                    whiteSpace: "nowrap"
-
-                                  }}
-                                >
-                                  ₹{v.total_amount}
-                                </td>
-                                <td style={{
-                                  fontSize: 13,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  textAlign: "start",
-                                  verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                }}>
+      }}
+    >
+      {v.reading}
+    </td>
+    <td
+      style={{
+        textAlign: "start",
+        verticalAlign: "middle", 
+        borderBottom: "1px solid #E8E8E8",
+               whiteSpace:"nowrap"
+        
+      }}
+    >
+      <span
+        style={{
+          backgroundColor: "#EBEBEB",
+          paddingTop: "5px",
+          paddingLeft: "16px",
+          paddingRight: "16px",
+          paddingBottom: "5px",
+          marginLeft:-3,
+          borderRadius: "60px",
+          fontSize: 13, 
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          whiteSpace:"nowrap"
+        }}
+      >
+        {formattedDate}
+      </span>
+    </td>
+    <td
+      style={{
+        fontSize: 13, 
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
+        paddingLeft:20,
+        whiteSpace:"nowrap"
+       
+      }}
+    >
+      {v.total_reading}
+    </td>
+    <td
+      style={{
+        fontSize: 13, 
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
+        paddingLeft:20,
+        whiteSpace:"nowrap"
+        
+      }}
+    >
+      ₹{v.total_amount}
+    </td>
+    <td  style={{
+       fontSize: 13, 
+       fontWeight: 500,
+       fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+      }}>
 
                                   <div
                                     style={{
