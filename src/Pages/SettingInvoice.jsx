@@ -40,7 +40,7 @@ import {CloseCircle} from "iconsax-react";
 import { FaUniversity } from "react-icons/fa";
 import './SettingInvoice.css';
 
-function SettingInvoice() {
+function SettingInvoice({hostelid}) {
 
 
   const dispatch = useDispatch();
@@ -66,10 +66,7 @@ function SettingInvoice() {
   const [loading, setLoading] = useState(false)
 
   const [InvoiceList, setInvoiceList] = useState([]);
-  console.log("invoicelist", InvoiceList);
   
-  
-
   const [isVisible, setIsVisible] = useState(true);
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
@@ -371,13 +368,16 @@ const handleTermsChange = (e) => {
     });
   };
 
+
+  
+  
  
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if (hostelid) {
     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [hostelid]);
 
 
 
@@ -425,7 +425,7 @@ const handleTermsChange = (e) => {
     useEffect(() => {
     if (state.Settings?.settingsAddInvoiceSucesscode === 200) {
 
-    dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
+    dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: hostelid} });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE" });
@@ -2407,6 +2407,7 @@ const handleTermsChange = (e) => {
   );
 }
 SettingInvoice.propTypes = {
+  hostelid: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
 }

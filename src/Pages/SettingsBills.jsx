@@ -216,7 +216,8 @@ function SettingsBills() {
         isAutoSend: isOn === true ? 1 : 0,
         remainderDates: reminderDays,
         billDeliveryChannels: selectedNotificationIds,
-        recure_id: recurring_bills ? recurring_bills.recure_id : ''
+        recure_id: recurring_bills ? recurring_bills.recure_id : '',
+        isActive: 1 , 
       },
     });
   };
@@ -1134,7 +1135,6 @@ function SettingsBills() {
                             border: "1px solid rgba(30, 69, 225, 1)",
                             fontSize: 14,
                             fontFamily: "Gilroy",
-                            fontWeight: 500,
                           }}
                         >
                           {item.label}
@@ -1156,7 +1156,7 @@ function SettingsBills() {
                     <div className="text-left">
                       <p
                         style={{
-                          fontSize: "12px",
+                          fontSize: 12,
                           color: "red",
                           marginTop: "13px",
                           fontFamily: "Gilroy",
@@ -1165,7 +1165,6 @@ function SettingsBills() {
                       >
                         <MdError
                           style={{
-                            fontSize: "14px",
                             color: "red",
                             marginBottom: "2px",
                           }}
