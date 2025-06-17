@@ -525,6 +525,9 @@ function EBRoomReading(props) {
                     responsive="md"
                   >
 
+
+   
+
                     <thead style={{
                       fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                       top: 0,
@@ -599,67 +602,68 @@ function EBRoomReading(props) {
                               <tr key={v.id}>
 
 
+ <td
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "13px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            marginTop: 10,
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
+                                          }}
+                                        >
+                                          <span
+                                            style={{
+                                              paddingTop: "3px",
+                                              paddingLeft: "10px",
+                                              paddingRight: "10px",
+                                              paddingBottom: "3px",
+                                              borderRadius: "60px",
+                                              backgroundColor: "#FFEFCF",
+                                              textAlign: "center",
+                                              fontSize: "11px",
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              marginLeft:10
+                                            }}
+                                          >
+                                            {v.hoatel_Name}
+                                          </span>
+                                        </td>
+    <td
+      style={{
+        fontSize: 13, 
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle",
+        borderBottom: "1px solid #E8E8E8",
+        paddingLeft:20,
+        whiteSpace:"nowrap"
+      }}
+    >
+      {v.floor_name}
+    </td>
+    <td
+      style={{
+        fontSize: 13, 
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        textAlign: "start",
+        verticalAlign: "middle"
+        ,borderBottom: "1px solid #E8E8E8",
+        paddingLeft:20,
+        whiteSpace:"nowrap"
+      }}
+    >
+      <div style={{marginLeft:2}}>  {v.Room_Id}</div>
+    
+    </td>
 
-                                <td
-                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
-                                  style={{
-                                    paddingTop: 15,
-                                    border: "none",
-                                    textAlign: "start",
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    marginTop: 10,
-                                    verticalAlign: "middle",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                >
-                                  <span
-                                    style={{
-                                      paddingTop: "3px",
-                                      paddingLeft: "10px",
-                                      paddingRight: "10px",
-                                      paddingBottom: "3px",
-                                      borderRadius: "60px",
-                                      backgroundColor: "#FFEFCF",
-                                      textAlign: "center",
-                                      fontSize: "11px",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      marginLeft: 10
-                                    }}
-                                  >
-                                    {v.hoatel_Name}
-                                  </span>
-                                </td>
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle",
-                                    borderBottom: "1px solid #E8E8E8",
-                                    paddingLeft: 20,
-                                    whiteSpace: "nowrap"
-                                  }}
-                                >
-                                  {v.floor_name}
-                                </td>
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle"
-                                    , borderBottom: "1px solid #E8E8E8",
-                                    paddingLeft: 20,
-                                    whiteSpace: "nowrap"
-                                  }}
-                                >
-                                  {v.Room_Id}
-                                </td>
 
     <td
       style={{
@@ -671,11 +675,12 @@ function EBRoomReading(props) {
        borderBottom: "1px solid #E8E8E8",
        paddingLeft:20,
        whiteSpace:"nowrap",
-       marginLeft:11
+       marginLeft:13
 
       }}
     >
-      {v.reading}
+      <div style={{marginLeft:2}}>{v.reading}</div>
+    
     </td>
     <td
       style={{
@@ -693,7 +698,7 @@ function EBRoomReading(props) {
           paddingLeft: "16px",
           paddingRight: "16px",
           paddingBottom: "5px",
-          marginLeft:-3,
+          marginLeft:-4,
           borderRadius: "60px",
           fontSize: 13, 
           fontWeight: 500,
@@ -716,7 +721,8 @@ function EBRoomReading(props) {
        
       }}
     >
-      {v.total_reading}
+      <div style={{marginLeft:2}}>{v.total_reading}</div>
+      
     </td>
     <td
       style={{
@@ -730,7 +736,8 @@ function EBRoomReading(props) {
         
       }}
     >
-      ₹{v.total_amount}
+        <div style={{marginLeft:2}}>₹{v.total_amount}</div>
+   
     </td>
     <td  style={{
        fontSize: 13, 

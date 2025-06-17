@@ -572,15 +572,16 @@ function SettingSubscription() {
                             <tr key={index} style={{ marginTop: "20px" }}>
                               <td
                                 style={{
-                                  textAlign: "center",
+                                  textAlign: "left",
                                   fontWeight: 500,
                                   fontSize: "13px",
                                   fontFamily: "Gilroy",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                               >
-                                {index + 1}
+
+                               <div style={{marginLeft:10}}>{index + 1}</div> 
                               </td>
                               <td
                                 style={{
@@ -593,14 +594,14 @@ function SettingSubscription() {
                                 }}
                                 className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
-                                {view.name}
+                                <div style={{marginLeft:6}}>{view.name}</div>  
                               </td>
                               <td
                                 style={{
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
                               >
                                 <span
                                   style={{
@@ -609,6 +610,7 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
+                                    marginLeft:4,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -626,7 +628,7 @@ function SettingSubscription() {
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
                               >
                                 <span
                                   style={{
@@ -635,6 +637,7 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
+                                    marginLeft:4,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -653,7 +656,7 @@ function SettingSubscription() {
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
                               >
                                 <span
                                   style={{
@@ -661,6 +664,7 @@ function SettingSubscription() {
                                     backgroundColor: "#D9FFD9",
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
+                                    marginLeft:3,
                                     fontSize: "11px",
                                     fontWeight: 500,
                                     borderRadius: "10px",

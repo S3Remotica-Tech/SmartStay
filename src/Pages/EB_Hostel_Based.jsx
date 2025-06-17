@@ -429,6 +429,8 @@ function EBHostelReading(props) {
                 style={{ paddingBottom: "20px", marginLeft: "-22px" }}
               >
 
+
+  
                 <div
                   className='show-scrolls'
                   style={{
@@ -509,166 +511,170 @@ function EBHostelReading(props) {
                             }
 
 
-                            return (
-                              <tr key={v.eb_Id}>
+                                          return (
+                    <tr key={v.eb_Id}>
 
-                                <td
-                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
-                                  style={{
-                                    paddingTop: 15,
-                                    border: "none",
-                                    textAlign: "start",
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    marginTop: 10,
-                                    verticalAlign: "middle",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                >
-                                  <span
-                                    style={{
-                                      paddingTop: "3px",
-                                      paddingLeft: "10px",
-                                      paddingRight: "10px",
-                                      paddingBottom: "3px",
-                                      borderRadius: "60px",
-                                      backgroundColor: "#FFEFCF",
-                                      textAlign: "center",
-                                      fontSize: "11px",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      marginLeft: 10
-                                    }}
-                                  >
-                                    {v.hoatel_Name}
-                                  </span>
-                                </td>
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+                      <td
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
+                                          style={{
+                                            paddingTop: 15,
+                                            border: "none",
+                                            textAlign: "start",
+                                            fontSize: "13px",
+                                            fontWeight: 500,
+                                            fontFamily: "Gilroy",
+                                            marginTop: 10,
+                                            verticalAlign: "middle",
+                                            borderBottom: "1px solid #E8E8E8",
+                                          }}
+                                        >
+                                          <span
+                                            style={{
+                                              paddingTop: "3px",
+                                              paddingLeft: "10px",
+                                              paddingRight: "10px",
+                                              paddingBottom: "3px",
+                                              borderRadius: "60px",
+                                              backgroundColor: "#FFEFCF",
+                                              textAlign: "center",
+                                              fontSize: "11px",
+                                              fontWeight: 500,
+                                              fontFamily: "Gilroy",
+                                              marginLeft:10
+                                            }}
+                                          >
+                                            {v.hoatel_Name}
+                                          </span>
+                                        </td>
+                      <td
+                        style={{
+                          fontSize: 13, 
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          textAlign: "start",
+                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+                          
+                        }}
+                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                      >
+                       <div style={{marginLeft:5}}>{v.reading}</div> 
+                      </td>
+                     
+                        <td
+                  style={{
+                    paddingTop: "15px",
+                    border: "none",
+                    textAlign: "start",
+                    fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    verticalAlign: "middle",
+                    whiteSpace: "nowrap",
+                    marginBottom: "-20px",
+                    borderBottom: "1px solid #E8E8E8"
+                  }}
+                   className="ps-0 ps-sm-0 ps-md-1 ps-lg-1"
+                >
+                  <span
+                    style={{
+                      paddingTop: "5px",
+                      paddingLeft: "16px",
+                      paddingRight: "16px",
+                      paddingBottom: "5px",
+                      borderRadius: "60px",
+                      marginLeft:2,
+                      backgroundColor: "#EBEBEB",
+                      textAlign: "start",
+                      fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      display: "inline-block",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {formattedDate}
+                  </span>
+                </td>
+                      <td
+                        style={{
+                          fontSize: 13, 
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                          textAlign: "start",
+                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+                        }}
+                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                      >
+                        <div style={{marginLeft:6}}>{v.total_reading}</div>
+                        
+                      </td>
+                      <td
+                        style={{
+                          fontSize: 13, 
+                          fontWeight: 500,
+                          fontFamily: "Gilroy",
+                          textAlign: "start",
+                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+                        }}
+                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                      >
 
-                                  }}
-                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                >
-                                  {v.reading}
-                                </td>
-
-                                <td
-                                  style={{
-                                    paddingTop: "15px",
-                                    border: "none",
-                                    textAlign: "start",
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    verticalAlign: "middle",
-                                    whiteSpace: "nowrap",
-                                    marginBottom: "-20px",
-                                    borderBottom: "1px solid #E8E8E8"
-                                  }}
-                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                >
-                                  <span
-                                    style={{
-                                      paddingTop: "5px",
-                                      paddingLeft: "16px",
-                                      paddingRight: "16px",
-                                      paddingBottom: "5px",
-                                      borderRadius: "60px",
-                                      backgroundColor: "#EBEBEB",
-                                      textAlign: "start",
-                                      fontSize: 13,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      display: "inline-block",
-                                      overflow: "hidden",
-                                      textOverflow: "ellipsis",
-                                      whiteSpace: "nowrap",
-                                    }}
-                                  >
-                                    {formattedDate}
-                                  </span>
-                                </td>
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                  }}
-                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                >
-                                  {v.total_reading}
-                                </td>
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                  }}
-                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                >
-                                  ₹{v.total_amount}
-                                </td>
-                                <td style={{
-                                  textAlign: "start",
-                                  color: "#939393",
-                                  fontSize: 13,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
-                                }}
-
-                                >
-                                  <div
-                                    style={{
-                                      cursor: "pointer",
-                                      height: 35,
-                                      width: 35,
-                                      borderRadius: 100,
-                                      border: "1px solid #EFEFEF",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      position: "relative",
-
-                                      backgroundColor: activeRow === v.eb_Id ? "#E7F1FF" : "white",
-                                    }}
-                                    onClick={(e) => handleShowActive(v.eb_Id, e)}
-                                  >
-                                    <PiDotsThreeOutlineVerticalFill
-                                      style={{ height: 20, width: 20, color: "#000000" }}
-                                    />
-                                    {activeRow === v.eb_Id && (
-                                      <div
-                                        ref={popupRef}
-                                        style={{
-                                          cursor: "pointer",
-                                          backgroundColor: "#F9F9F9",
-                                          position: "fixed",
-                                          top: popupPosition.top,
-                                          left: popupPosition.left,
-                                          width: 130,
-                                          border: "1px solid #EBEBEB",
-                                          borderRadius: 10,
-                                                                                    display: "flex",
-                                          flexDirection: "column",
-                                          alignItems: "flex-start",
-                                          zIndex: 1000,
-                                          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.05)",
-                                        }}
-                                      >
-                                        <div style={{ width: "100%" }}>
-
-                                          <div
-                                            className="d-flex justify-content-start align-items-center gap-2 "
+                       <div style={{marginLeft:6}}>₹{v.total_amount}</div> 
+                      </td>
+                      <td  style={{
+                      textAlign: "start",
+                      color: "#939393",
+                      fontSize: 13, 
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8"
+                    }} 
+                    
+                    >
+                        <div
+                         style={{
+                          cursor: "pointer",
+                          height: 35,
+                          width: 35,
+                          borderRadius: 100,
+                          border: "1px solid #EFEFEF",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          position: "relative",
+                         
+                          backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
+                        }}
+                          onClick={(e) => handleShowActive(v.eb_Id, e)}
+                        >
+                          <PiDotsThreeOutlineVerticalFill
+                            style={{ height: 20, width: 20,color:"#000000"}}
+                          />
+                          {activeRow === v.eb_Id && (
+                            <div
+                              ref={popupRef}
+                              style={{
+                                cursor: "pointer",
+                                backgroundColor: "#f9f9f9",
+                                position: "fixed",
+                                top: popupPosition.top,
+                                left: popupPosition.left,
+                              
+                                width: 120,
+                                height: "auto",
+                                border: "1px solid #EBEBEB",
+                                borderRadius: 10,
+                                display: "flex",
+                                justifyContent: "start",
+                                padding: 10,
+                                alignItems: "center",
+                                zIndex: 1000 ,
+                              }}
+                            >
+                              <div>
+                                <div
+                                  className="mb-3 d-flex justify-content-start align-items-center gap-2"
                                             style={{
                                               cursor: "pointer",
                                               borderRadius: 6,
