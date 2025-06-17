@@ -460,8 +460,7 @@ const ComplianceList = (props) => {
       ) : (
         <div>
           <Card
-            // className="h-100 "
-            style={{ borderRadius: 16, border: "1px solid #E6E6E6", height: 330 }}
+                       style={{ borderRadius: 16, border: "1px solid #E6E6E6", height: 330 }}
           >
             <Card.Body style={{ padding: 15 }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap">

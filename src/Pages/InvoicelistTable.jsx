@@ -84,8 +84,6 @@ const InvoiceTable = (props) => {
 
     props.DisplayInvoice(true, item)
 
-    // setDownloadInvoiceTable(true)
-
   }
 
 

@@ -30,16 +30,7 @@ const RecurringBillList = (props) => {
       setRecurringBillDeletePermission("Permission Denied");
     }
   }, [props.billrolePermission]);
-  // useEffect(() => {
-  //   if (
-  //     props.billrolePermission[0]?.is_owner == 1 ||
-  //     props.billrolePermission[0]?.role_permissions[11]?.per_edit == 1
-  //   ) {
-  //     setRecurringBillEditPermission("");
-  //   } else {
-  //     setRecurringBillEditPermission("Permission Denied");
-  //   }
-  // }, [props.billrolePermission]);
+
 
   const [showDots, setShowDots] = useState('')
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
@@ -67,7 +58,7 @@ const RecurringBillList = (props) => {
   let Dated = new Date(props.item.invoice_date);
 
   let day = Dated.getDate();
-  let month = Dated.getMonth() + 1; // Months are zero-based
+  let month = Dated.getMonth() + 1; 
   let year = Dated.getFullYear();
 
   let formattedDate = `${day}/${month}/${year}`;
@@ -77,7 +68,7 @@ const RecurringBillList = (props) => {
   let dueDated = new Date(props.item.DueDate);
 
   let daydue = dueDated.getDate();
-  let monthdue = dueDated.getMonth() + 1; // Months are zero-based
+  let monthdue = dueDated.getMonth() + 1; 
   let yeardue = dueDated.getFullYear();
 
   let formattedDueDate = `${daydue}/${monthdue}/${yeardue}`;
@@ -85,7 +76,7 @@ const RecurringBillList = (props) => {
   let nextinvoiceDated = new Date(props.item.next_invoice_date);
 
   let nextinvoiceday = nextinvoiceDated.getDate();
-  let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; // Months are zero-based
+  let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; 
   let nextinvoiceyear = nextinvoiceDated.getFullYear();
 
   let formattedNextInvoiceDate = `${nextinvoiceday}/${nextinvoicemonth}/${nextinvoiceyear}`;
@@ -105,31 +96,9 @@ const RecurringBillList = (props) => {
     };
   }, []);
 
-  //   const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
+  
 
-  //   const handleDownload = (item) => {
-  // console.log(item);
-
-  //     // props.RecuringInvoice(true, item)
-
-  //     setDownloadInvoiceTable(true)
-
-  //   }
-  // const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
-  // const [selectedItem, setSelectedItem] = useState(null); 
-
-  // const handleDownload = (item) => {
-  //   console.log(item); 
-  //   setSelectedItem(item); 
-  //   setDownloadInvoiceTable(true); 
-  // };
-
-
-  // React.useEffect(() => {
-  //   if (selectedItem) {
-  //     console.log("Selected Item:", selectedItem);
-  //   }
-  // }, [selectedItem]);
+ 
 
 
   return (
@@ -141,26 +110,13 @@ const RecurringBillList = (props) => {
 
         <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", paddingTop: '18px', textAlign: "center", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
-            {/* <div className="d-flex  align-items-center">
-              <span >
-                <img
-                  src={
-                    props.item.user_profile && props.item.user_profile !== "0"
-                      ? props.item.user_profile
-                      : User
-                  }
-                  style={{ height: 40, width: 40 }}
-                />
-              </span>
-            </div> */}
+          
             <div className="Invoice_Name" style={{ fontFamily: 'Gilroy', fontSize: '13px', marginLeft: '15px', fontStyle: 'normal', lineHeight: 'normal', fontWeight: 500, cursor: "pointer" }}
-            // onClick={()=>handleDownload(props.item)}
-
+          
             >{props.item.user_name}</div><br />
 
           </div>
         </td>
-        {/* <td style={{   border: "none", textAlign: 'center', verticalAlign: 'middle', fontSize: 16, fontWeight: 500, color: "#000000",fontFamily: "Gilroy" }}  className=''>#{props.item.Invoices == null || props.item.Invoices == '' ? '0.00' : props.item.Invoices}</td> */}
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px" }}>{formattedDate}</span></td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px" }}>{formattedDueDate}</span></td>
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", margin: "0", fontSize: "14px", fontWeight: 500, fontFamily: "Gilroy", padding: "4px 10px" }}>{formattedNextInvoiceDate}</span></td>
@@ -336,15 +292,7 @@ const RecurringBillList = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* {
-      downLoadInvoiceTable == true ?(
-<> */}
-      {/* <InvoiceCard/> */}
-      {/* <RecuringBillPDF/> */}
-      {/* <p>{selectedItem.Invoices}</p> */}
-      {/* </>
-      ):null
-    } */}
+      
 
     </>
   )

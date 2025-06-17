@@ -32,7 +32,7 @@ import './PgList.css';
 function PgList(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log('PgList', state)
+ 
   const [showHostelDetails, setShowHostelDetails] = useState("");
   const [rolePermission, setRolePermission] = useState("");
   const [permissionError, setPermissionError] = useState("");
@@ -47,7 +47,8 @@ function PgList(props) {
 
   const popupRef = useRef(null);
 
-  console.log("showHostelDetails", showHostelDetails)
+ 
+  
 
   const [hidePgList, setHidePgList] = useState(true);
   const [floorClick, setFloorClick] = useState("");
@@ -61,21 +62,7 @@ function PgList(props) {
   const [editHostelDetails, setEditHostelDetails] = useState("");
   const [showAddPg, setShowAddPg] = useState(false);
 
-  // const stateAccount = useSelector((state) => state.createAccount);
 
-  // const [profile, setProfile] = useState(
-  //   stateAccount.accountList[0]?.user_details.profile
-  // );
-
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [itemsPerPage, setItemsPerPage] = useState(10);
-
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-  // const [currentItem, setCurrentItem] = useState("");
-
-  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const [showFloor, setShowFloor] = useState(false);
   const [showRoom, setShowRoom] = useState(false);
@@ -107,7 +94,7 @@ function PgList(props) {
   }, [state?.login?.selectedHostel_Id]);
 
 
-  //  useEffect
+ 
 
   useEffect(() => {
     if (hostel_Id) {
@@ -124,7 +111,7 @@ function PgList(props) {
   }, [selectedHostel]);
 
 
-  console.log("state", state)
+ 
 
 
   useEffect(() => {
@@ -162,7 +149,7 @@ function PgList(props) {
     }
   }, [filteredData[0]]);
 
-  console.log("filteredData", filteredData)
+  
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -188,7 +175,7 @@ function PgList(props) {
     ) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
-      // dispatch({ type: "HOSTELIDDETAILS" });
+    
 
 
       setShowFloor(false);
@@ -202,7 +189,7 @@ function PgList(props) {
     state.PgList.updateFloorSuccessStatusCode,
   ]);
 
-  console.log("visible range", visibleRange)
+
 
 
   useEffect(() => {
@@ -236,8 +223,7 @@ function PgList(props) {
     if (state.UsersList.deleteFloorSuccessStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "HOSTELLIST" });
-      // dispatch({ type: "HOSTELIDDETAILS" });
-      setShowDelete(false);
+           setShowDelete(false);
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_FLOOR" });
@@ -279,8 +265,7 @@ function PgList(props) {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
-      // dispatch({ type: "HOSTELIDDETAILS" });
-      setShowAddPg(false);
+           setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
       }, 1000);
@@ -312,18 +297,13 @@ function PgList(props) {
     if (state.PgList.createPgStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
-      // dispatch({ type: "HOSTELIDDETAILS" });
+     
       setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_PG_STATUS_CODE" });
       }, 1000);
 
-      // setPgList({
-      //   Name: "",
-      //   phoneNumber: "",
-      //   email_Id: "",
-      //   location: "",
-      // });
+     
     }
   }, [state.PgList.createPgStatusCode]);
 
@@ -344,13 +324,7 @@ function PgList(props) {
     }
   }, [state.UsersList.hotelDetailsinPg]);
 
-  // useEffect(() => {
-  //   if (stateAccount.statusCodeForAccountList === 200) {
-  //     const loginProfile = stateAccount.accountList[0].user_details.profile;
-
-  //     setProfile(loginProfile);
-  //   }
-  // }, [stateAccount.statusCodeForAccountList]);
+ 
 
 
   useEffect(() => {
@@ -370,10 +344,7 @@ function PgList(props) {
         return item.floor_id === floorClick;
       }) || [];
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
-      // setTimeout(() => {
-
-      //   dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
-      // }, 1000);
+     
     }
   }, [state.UsersList.statuscodeForhotelDetailsinPg, showHostelDetails, floorClick]);
 
@@ -393,7 +364,6 @@ function PgList(props) {
   }, [state.UsersList.hosteListStatusCode])
 
 
-  console.log("all hostel", state.UsersList?.statuscodeForhotelDetailsinPg)
 
 
   useEffect(() => {
@@ -404,9 +374,7 @@ function PgList(props) {
 
       setFloorName(FloorNameData.length > 0 ? FloorNameData[0]?.floor_name : "");
 
-      // setTimeout(() => {
-      //   dispatch({ type: "CLEAR_HOSTEL_LIST_All_CODE" });
-      // }, 100);
+    
     }
 
   }, [state.UsersList?.statuscodeForhotelDetailsinPg])
@@ -421,7 +389,7 @@ function PgList(props) {
 
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
-      // dispatch({ type: "HOSTELIDDETAILS" });
+      
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_ROOM" });
@@ -517,44 +485,10 @@ function PgList(props) {
 
 
 
-  // const handleClose = () => {
-  //   setFloorDetails([{ number_of_floor: "" }]);
-  //   setShow(false);
-  // };
-  // const handleShow = () => setShow(true);
-
-  // const handleCancels = () => {
-  //   handlecloseHostelForm();
-  // };
-
-  // const handleshowHostelForm = () => {
-  //   setAddhostelForm(true);
-  // };
-  // const handlecloseHostelForm = () => {
-  //   setPgList({
-  //     Name: "",
-  //     phoneNumber: "",
-  //     email_Id: "",
-  //     location: "",
-  //   });
-  //   setEmailError("");
-  //   setAddhostelForm(false);
-  // };
 
 
 
-  // const [emailError, setEmailError] = useState("");
-
-  // const validateEmail = (email) => {
-  //   const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   if (pattern.test(email)) {
-  //     setEmailError("");
-  //     return true;
-  //   } else {
-  //     setEmailError("Please Enter a Valid Email");
-  //     return false;
-  //   }
-  // };
+  
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -567,14 +501,14 @@ function PgList(props) {
       return item.id === selectedHostelId;
     });
     setSelectedHostel(true);
-    console.log("selected", selected)
+   
     setShowHostelDetails(selected);
   };
 
 
 
 
-  console.log("showHostelDetails", showHostelDetails)
+  
 
   const handleCloses = () => {
     setShowAddPg(false);
@@ -597,12 +531,6 @@ function PgList(props) {
 
 
 
-  // const handlePageChange = (pageNumber) => {
-  //   setCurrentPage(pageNumber);
-  // };
-  // const handleItemsPerPageChange = (event) => {
-  //   setItemsPerPage(Number(event.target.value));
-  // };
 
 
 
@@ -662,7 +590,7 @@ function PgList(props) {
     } else {
       setFilteredData(state.UsersList.hotelDetailsinPg);
     }
-    // setCurrentPage(1);
+   
   };
 
   const handleDropDown = (value) => {
@@ -682,7 +610,7 @@ function PgList(props) {
     } else {
       setFilteredData(state.UsersList.hotelDetailsinPg);
     }
-    // setCurrentPage(1);
+   
     setShowDropDown(false);
   };
 
@@ -699,7 +627,7 @@ function PgList(props) {
 
   const numberOfFloors =
     showHostelDetails && showHostelDetails?.floorDetails?.length;
-  // const floorsPerPage = 5;
+  
 
 
   const handlePrev = () => {
@@ -794,7 +722,7 @@ function PgList(props) {
       hostel_Id: hostel_Id,
       floor_Name: floorName,
     });
-    // setFloorClick(1)
+   
   };
 
   const [update, setUpdate] = useState(false);
@@ -823,14 +751,14 @@ function PgList(props) {
               height: "100vh",
             }}
           >
-            {/* Image */}
+           
             <img
               src={EmptyState}
               alt="Empty State"
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-            {/* Permission Error */}
+           
             {permissionError && (
               <div
                 style={{
@@ -863,7 +791,7 @@ function PgList(props) {
                   backgroundColor: "#fff",
                 }}
               >
-                {/* <div className="d-flex justify-content-between align-items-center"> */}
+               
 
                 <div className="pglistlable" style={{ marginTop: -5 }}>
                   <label
@@ -881,7 +809,7 @@ function PgList(props) {
                 <div className="d-flex justify-content-between flex-wrap align-items-center">
                   {!showFilter && (
                     <div className="me-3" onClick={handleShowSearch}>
-                      {/* <SearchNormal1 size="26" color="#222" /> */}
+                     
                     </div>
                   )}
                   {showFilter && (
@@ -903,7 +831,7 @@ function PgList(props) {
                             fontSize: 15,
                             fontWeight: 500,
                             color: "#222",
-                            //  '::placeholder': { color: "#222", fontWeight: 500 }
+                            
                           }}
                           placeholder="Search..."
                         />
@@ -934,13 +862,10 @@ function PgList(props) {
                             <ul
                               className="show-scroll"
                               style={{
-                                // position: 'absolute',
-                                // top: '50px',
-                                // left: 0,
+                              
                                 width: 260,
                                 backgroundColor: "#fff",
-                                // border: '1px solid #D9D9D9',
-                                maxHeight: 174,
+                                                               maxHeight: 174,
                                 minHeight: 100,
                                 overflowY: "auto",
                                 padding: "5px 10px",
@@ -951,9 +876,9 @@ function PgList(props) {
                                 boxSizing: "border-box",
                               }}
                             >
-                              {/* {filteredData.map((user, index) => ( */}
+                             
                               <li
-                                // key={index}
+                              
                                 onClick={() => {
                                   handleDropDown(filteredData[0].Name);
                                 }}
@@ -968,7 +893,7 @@ function PgList(props) {
                               >
                                 {filteredData[0].Name}
                               </li>
-                              {/* ))} */}
+                              
                             </ul>
                           </div>
                         )}
@@ -1062,7 +987,7 @@ function PgList(props) {
                   {filteredData?.length > 0 ?
 
                     <div
-                      // key={hostel.id}
+                    
                       className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12"
                     >
                       <PayingHostel
@@ -1244,8 +1169,7 @@ function PgList(props) {
 
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="me-3">
-                    {/* <Sort Size="24" color="#222" variant="Outline" /> */}
-                    {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
+                  
                   </div>
 
                   <div style={{ marginTop: 5 }}>

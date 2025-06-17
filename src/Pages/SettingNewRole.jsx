@@ -314,7 +314,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   }}
 >
   <div>
-    {/* Edit Option */}
+   
     <div
       className="d-flex gap-2 align-items-center"
       onClick={() => handleEditForm(view)}
@@ -340,10 +340,8 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
       </span>
     </div>
 
-    {/* Divider */}
     <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
-    {/* Delete Option */}
     <div
       className="d-flex gap-2 align-items-center"
       onClick={() => handleDeleteForm(view)}

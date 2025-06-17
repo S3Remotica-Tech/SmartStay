@@ -1174,7 +1174,7 @@ function SettingGeneral() {
               padding: 0,
             }}
           >
-            {/* Previous Button */}
+          
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -1426,8 +1426,7 @@ function SettingGeneral() {
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                    // onChange={handleCountryCodeChange}
-                    style={{
+                                     style={{
                       border: "1px solid #D9D9D9",
                       borderRadius: "8px 0 0 8px",
                       height: 50,

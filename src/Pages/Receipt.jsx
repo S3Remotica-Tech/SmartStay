@@ -10,11 +10,11 @@ import Download from '../Assets/Images/New_images/download.png';
 import PropTypes from "prop-types";
 
 const Receipt = (props) => {
-  console.log("propsR", props);
+
 
 
   const state = useSelector((state) => state);
-  console.log("Receipt", state)
+ 
   const dispatch = useDispatch();
 
   const [receiptdeletePermission, setReceiptDeletePermission] = useState("");
@@ -23,13 +23,7 @@ const Receipt = (props) => {
   const [deleteShow, setDeleteShow] = useState(false)
   const [deleteitem, setDeleteItem] = useState('')
 
-  //  const [hostelId, setHostelId] = useState("");
-
-  //  useEffect(() => {
-  //     if (state.login.selectedHostel_Id) {
-  //       setHostelId(state.login.selectedHostel_Id);
-  //     }
-  //   }, [state.login.selectedHostel_Id]);
+ 
 
   const handleDeleteForm = (item) => {
     setDeleteShow(true)
@@ -90,8 +84,7 @@ const Receipt = (props) => {
 
 
   const handleEdit = (item) => {
-    console.log("handleEdit", item)
-    props.onhandleEdit(item)
+      props.onhandleEdit(item)
 
   }
 
@@ -106,19 +99,12 @@ const Receipt = (props) => {
   let Dated = new Date(props.item.payment_date);
 
   let day = Dated.getDate();
-  let month = Dated.getMonth() + 1; // Months are zero-based
+  let month = Dated.getMonth() + 1; 
   let year = Dated.getFullYear();
 
   let formattedDate = `${day}/${month}/${year}`;
 
-  // let nextinvoiceDated = new Date(props.item.next_invoice_date);
-
-  // let nextinvoiceday = nextinvoiceDated.getDate();
-  // let nextinvoicemonth = nextinvoiceDated.getMonth() + 1; // Months are zero-based
-  // let nextinvoiceyear = nextinvoiceDated.getFullYear();
-
-  // let formattedNextInvoiceDate = `${nextinvoiceday}/${nextinvoicemonth}/${nextinvoiceyear}`;
-
+  
 
   const popupRef = useRef(null);
   const handleClickOutside = (event) => {
@@ -140,8 +126,7 @@ const Receipt = (props) => {
     props.DisplayInvoice(true, item)
 
     dispatch({ type: "RECEIPTPDF_NEWCHANGES", id: item?.id })
-    // dispatch({ type: "RECEIPTPDF_NEWCHANGES", params: { receipt_id: item?.id } });
-    // setDownloadInvoiceTable(true)
+   
 
   }
 
@@ -154,29 +139,7 @@ const Receipt = (props) => {
 
   }, [state.InvoiceList.statusCodeNewReceiptStatusCode])
 
-  //   const handleDownload = (item) => {
-  // console.log(item);
-
-  //     // props.RecuringInvoice(true, item)
-
-  //     setDownloadInvoiceTable(true)
-
-  //   }
-  // const [downLoadInvoiceTable, setDownloadInvoiceTable] = useState(false)
-  // const [selectedItem, setSelectedItem] = useState(null); 
-
-  // const handleDownload = (item) => {
-  //   console.log(item); 
-  //   setSelectedItem(item); 
-  //   setDownloadInvoiceTable(true); 
-  // };
-
-
-  // React.useEffect(() => {
-  //   if (selectedItem) {
-  //     console.log("Selected Item:", selectedItem);
-  //   }
-  // }, [selectedItem]);
+  
 
   useEffect(() => {
     if (state.InvoiceList.ReceiptDeletesuccessStatuscode === 200) {
@@ -188,7 +151,7 @@ const Receipt = (props) => {
     }
   }, [state.InvoiceList.ReceiptDeletesuccessStatuscode,]);
 
-  console.log("props.item", props.item)
+
 
 
   return (
@@ -201,29 +164,7 @@ const Receipt = (props) => {
       }} className='m-2' >
 
 
-        {/* <td className="table-cells" style={{ border: "none", flexWrap: "wrap" }}>
-  <div className="d-flex align-items-center">
-    <div
-      className="Invoice_Name"
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: "16px",
-        marginLeft: "8px",
-        color: "#1E45E1",
-        fontStyle: "normal",
-        lineHeight: "normal",
-        fontWeight: 600,
-        cursor: "pointer",
-        textAlign: "start", 
-        verticalAlign: "middle",
-      }}
-      onClick={() => handleDownload(props.item)}
-    >
-      {props.item.Name}
-    </div>
-    <br />
-  </div>
-</td> */}
+       
 
         <td className="table-cells ps-2 ps-sm-2 ps-md-3 ps-lg-3" style={{ border: "none", flexWrap: "wrap", whiteSpace: "nowrap", borderBottom: "1px solid #E8E8E8" }}>
           <div className="d-flex  align-items-center">
@@ -240,7 +181,6 @@ const Receipt = (props) => {
         </td>
 
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-4">{props.item.reference_id}</td>
-        {/* <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}> {props.item.invoice_number}</td> */}
         <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-4">{!props.item.invoice_number || props.item.invoice_number === "0" ? "-" : props.item.invoice_number}
         </td>
 
@@ -498,15 +438,7 @@ const Receipt = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* {
-      downLoadInvoiceTable == true ?(
-<> */}
-      {/* <InvoiceCard/> */}
-      {/* <RecuringBillPDF/> */}
-      {/* <p>{selectedItem.Invoices}</p> */}
-      {/* </>
-      ):null
-    } */}
+     
 
     </>
   )

@@ -676,7 +676,7 @@ function UserListInvoice(props) {
   }}
 >
   <div style={{ width: "100%", backgroundColor: "#F9F9F9", borderRadius: 10 }}>
-    {/* Edit */}
+  
     <div
       onClick={() => {
         if (!props.billEditPermission) {
@@ -726,10 +726,10 @@ function UserListInvoice(props) {
       </label>
     </div>
 
-    {/* Divider */}
+    
     <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
-    {/* Delete */}
+  
     <div
       onClick={() => {
         if (!props.billDeletePermission) {

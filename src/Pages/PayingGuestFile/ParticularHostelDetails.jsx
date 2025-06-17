@@ -30,7 +30,7 @@ function ParticularHostelDetails(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-  // const [showRoom, setShowRoom] = useState(false)
+ 
   const [showBed, setShowBed] = useState(false)
   const [details, setDetails] = useState('')
 
@@ -51,10 +51,7 @@ function ParticularHostelDetails(props) {
     setDetails({ item, Room_Id });
   }
 
-  // const handleCloseBed = () => {
-  //   setShowBed(false)
-
-  // }
+  
 
 
 
@@ -185,7 +182,7 @@ function ParticularHostelDetails(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6)
 
-  // const [currentItems, setCurrentItems] = useState([]); 
+ 
 
 
   useEffect(() => {
@@ -204,7 +201,7 @@ function ParticularHostelDetails(props) {
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
-  console.log("currentItems", currentItems)
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -514,7 +511,7 @@ function ParticularHostelDetails(props) {
                                 <img src={bed.isfilled ? Green : White} alt='bedd' style={{ height: 41, width: 34, cursor: "pointer" }}
 
                                   onClick={() => handleDeleteBedConfirmation(bed, room)}
-                                // onClick={()=>handleDeleteBed(bed, room)}
+                              
 
                                 />
                               </OverlayTrigger>
@@ -635,7 +632,7 @@ function ParticularHostelDetails(props) {
 
 
           <nav
-            // className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
+           
             className="pagination-container"
             style={{
               display: "flex",
@@ -675,7 +672,7 @@ function ParticularHostelDetails(props) {
               </select>
             </div>
 
-            {/* Pagination Controls */}
+          
             <ul
               style={{
                 display: "flex",
@@ -685,7 +682,7 @@ function ParticularHostelDetails(props) {
                 padding: 0,
               }}
             >
-              {/* Previous Button */}
+            
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{
@@ -707,12 +704,12 @@ function ParticularHostelDetails(props) {
                 </button>
               </li>
 
-              {/* Current Page Indicator */}
+            
               <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                 {currentPage} of {totalPages}
               </li>
 
-              {/* Next Button */}
+             
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{

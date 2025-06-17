@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-// import Edit from '../Assets/Images/New_images/edit.png';
 import Delete from "../../Assets/Images/New_images/trash.png";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import Card from "react-bootstrap/Card";

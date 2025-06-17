@@ -873,7 +873,7 @@ function EBRoomReading(props) {
                                     )}
                                   </div>
 
-                                  {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
+                                
                                 </td>
                               </tr>
                             );
@@ -941,7 +941,7 @@ function EBRoomReading(props) {
                   zIndex: 1000,
                 }}
               >
-                {/* Dropdown for Items Per Page */}
+              
                 <div>
                   <select
                     value={electricityrowsPerPage}
@@ -965,7 +965,7 @@ function EBRoomReading(props) {
                   </select>
                 </div>
 
-                {/* Pagination Controls */}
+             
                 <ul
                   style={{
                     display: "flex",
@@ -975,7 +975,7 @@ function EBRoomReading(props) {
                     padding: 0,
                   }}
                 >
-                  {/* Previous Button */}
+                
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -997,12 +997,12 @@ function EBRoomReading(props) {
                     </button>
                   </li>
 
-                  {/* Current Page Indicator */}
+                 
                   <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                     {electricitycurrentPage} of {totalPagesinvoice}
                   </li>
 
-                  {/* Next Button */}
+                  
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1051,37 +1051,7 @@ function EBRoomReading(props) {
           >
             Edit Reading
           </div>
-          {/* <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleClose}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "16px",
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "25px",
-              height: "25px",
-              borderRadius: "50%",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{
-                fontSize: "30px",
-                paddingBottom: "6px",
-              }}
-            >
-              &times;
-            </span>
-          </button> */}
+        
           <CloseCircle size="24" color="#000" onClick={handleClose}
             style={{ cursor: 'pointer' }} />
         </Modal.Header>
@@ -1100,43 +1070,7 @@ function EBRoomReading(props) {
                 Floor{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
-              {/* <Form.Select
-                aria-label="Default select example"
-                className="border"
-                disabled={
-                  unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel !== ""
-                }
-                value={Floor}
-                onChange={(e) => handleFloor(e)}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-              >
-                <option
-                  style={{ fontSize: 14, fontWeight: 600 }}
-                  selected
-                  value=""
-                >
-                  Select Floor
-                </option>
-                {state?.UsersList?.hosteldetailslist &&
-                  state?.UsersList?.hosteldetailslist.map((item) => (
-                    <>
-                      <option key={item.floor_id} value={item.floor_id}>
-                        {item.floor_name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select> */}
+             
 
               <Select
                 options={
@@ -1230,37 +1164,7 @@ function EBRoomReading(props) {
                 Room{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
-              {/* <Form.Select
-                aria-label="Default select example"
-                className="border"
-                disabled={
-                  unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel !== ""
-                }
-                value={Rooms}
-                onChange={(e) => handleRoom(e)}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
-                }}
-              >
-                <option>Select a Room</option>
-                {state.UsersList?.roomdetails &&
-                  state.UsersList?.roomdetails.map((item) => (
-                    <>
-                      <option key={item.Room_Id} value={item.Room_Id}>
-                        {item.Room_Name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select> */}
+              
 
               <Select
                 options={
@@ -1394,21 +1298,7 @@ function EBRoomReading(props) {
                   Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
-                  {/* <DatePicker
-    style={{ width: '100%', height: 48 }}
-    format="DD/MM/YYYY"
-    placeholder="DD/MM/YYYY"
-    value={selectedDate ? dayjs(selectedDate) : null}
-    onChange={(date) => {
-      setSelectedDate(date ? date.toDate() : null);
-      dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
-      setDateError('');
-      setFormError('');
-      setDateErrorMesg('');
-    }}
-    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-     placement="bottomLeft"
-  /> */}
+                 
                   <DatePicker
                     style={{ height: 48, width: "100%", cursor: "pointer" }}
                     format="DD/MM/YYYY"
