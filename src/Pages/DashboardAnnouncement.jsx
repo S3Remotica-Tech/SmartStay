@@ -635,6 +635,8 @@ function DashboardAnnouncement() {
                                     width: "100%",
                                     padding: "8px 12px",
                                     transition: "background 0.2s ease-in-out",
+                                    borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
                                   }}
                                   onClick={() => handleEdit(data)}
                                   onMouseEnter={(e) =>
@@ -669,6 +671,8 @@ function DashboardAnnouncement() {
                                     width: "100%",
                                     padding: "8px 12px",
                                     transition: "background 0.2s ease-in-out",
+                                    borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
                                   }}
                                   onClick={() => handleDelete(data)}
                                   onMouseEnter={(e) =>

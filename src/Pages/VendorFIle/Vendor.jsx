@@ -634,7 +634,13 @@ function Vendor() {
               </div>
             )}
 
-            <div className='container'
+            <div className='container show-scroll'
+            style={{
+               height: "300px",
+                overflowY: "auto",
+                               position: "relative",
+                              
+              }}
             >
               {loading && (
                 <div
@@ -662,13 +668,7 @@ function Vendor() {
                   ></div>
                 </div>
               )}
-              <div className='vendor-card' style={{
-                maxHeight: "450px",
-                overflowY: "auto",
-                overflowX: "hidden",
-                position: "relative"
-
-              }}>
+           
 
                 <div className='row row-gap-3 '>
                   {currentItems && currentItems.length > 0 && currentItems.map((vendor) => (
@@ -679,22 +679,7 @@ function Vendor() {
                     </div>
                   ))
                   }
-                  {/* {!loading  && filteredData.length === 0 &&
-                  <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
-
-
-                    <div>
-                      <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                      <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No vendor available</div>
-                      <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Vendors added.</div>
-
-                    </div>
-                    <div>
-
-                    </div>
-                  </div>
-                } */}
-
+               
                   {!loading && filteredData.length === 0 && (
                     <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
                       <div>
@@ -716,7 +701,7 @@ function Vendor() {
 
 
                 </div>
-              </div>
+             
             </div>
           
             {

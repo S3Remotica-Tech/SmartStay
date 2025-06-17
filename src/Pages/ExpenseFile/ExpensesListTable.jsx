@@ -41,7 +41,7 @@ function ExpensesListTable(props) {
 
   const handleDelete = (id) => {
     props.handleDelete(id)
-   setShowDeletePopup(true); 
+    setShowDeletePopup(true);
   }
 
 
@@ -51,7 +51,7 @@ function ExpensesListTable(props) {
     }
   };
 
-   const [showTagAsset, setshowTagAsset] = useState(false);
+  const [showTagAsset, setshowTagAsset] = useState(false);
 
   const handleShowTagAsset = () => {
 
@@ -61,23 +61,23 @@ function ExpensesListTable(props) {
   };
 
 
-useEffect(() => {
-  function handleClickOutside(event) {
-    if (
-      popupRef.current &&
-      !popupRef.current.contains(event.target) &&
-      !showTagAsset &&
-      !showDeletePopup
-    ) {
-      setShowDots(false);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target) &&
+        !showTagAsset &&
+        !showDeletePopup
+      ) {
+        setShowDots(false);
+      }
     }
-  }
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, [popupRef, showTagAsset, showDeletePopup]);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [popupRef, showTagAsset, showDeletePopup]);
 
 
 
@@ -141,21 +141,21 @@ useEffect(() => {
 
   return (<>
     <tr style={{ fontFamily: "Gilroy", border: "none" }} key={props.item.id}>
-      
-              <td  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</span></td>
 
-      <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }}>{moment(props.item.purchase_date).format('DD MMM YYYY').toUpperCase()}</span></td>
+
+      <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
           <div style={{ fontWeight: 500, width: "fit-content", padding: 8, borderRadius: 10, fontSize: 13, display: "flex", justifyContent: "center", fontFamily: "Gilroy" }}>{props.item.category_Name}</div>
         </div>
       </td>
 
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle',  fontSize: 13,  fontWeight: 50, fontFamily: "Gilroy", color: "#000000",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">{props.item.description || "-"}</td>
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" ,borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap"}}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_count}</td>
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_amount}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 50, fontFamily: "Gilroy", color: "#000000", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">{props.item.description || "-"}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_count}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_amount}</td>
 
 
-      <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
+      <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
         <div style={{ width: "100%", display: "flex", justifyContent: "start" }}>
           <div style={{ fontWeight: 500, padding: 8, borderRadius: 60, fontSize: 13, width: "fit-content", fontFamily: "Gilroy" }} >
             {props.item.purchase_amount}
@@ -164,125 +164,162 @@ useEffect(() => {
 
       </td>
 
-    
 
-     <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8", }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }} className=''>
-      {props.item.payment_mode}
+
+      <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }} className=''>
+        {props.item.payment_mode}
       </span></td>
 
 
 
-      <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }} className=''>
+      <td style={{ textAlign: 'center', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className=''>
         <div style={{ width: "100%", display: "flex", justifyContent: "left" }}>
           <div style={{ cursor: "pointer", backgroundColor: showDots ? "#E7F1FF" : "white", height: 30, width: 30, borderRadius: 100, border: "1px solid #EBEBEB", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }} onClick={(e) => handleShowDots(e)}>
             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20, }} />
 
             {showDots && <>
-              <div ref={popupRef} className="dots-popup"
+              <div
+                ref={popupRef}
+                className="dots-popup"
                 style={{
-                  cursor: "pointer", backgroundColor: "#f9f9f9",
+                  cursor: "pointer",
+                  backgroundColor: "#F9F9F9",
                   position: "fixed",
                   top: popupPosition.top,
                   left: popupPosition.left,
-                  width: 163, height: "auto", border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 10, alignItems: "center", zIndex: showDots ? 1000 : 'auto'
-                }}>
-                <div style={{ backgroundColor: "#f9f9f9" }} className=''>
+                  width: 160,
+                  height: "auto",
+                  border: "1px solid #EBEBEB",
+                  borderRadius: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  zIndex: showDots ? 1000 : "auto",
+                }}
+              >
 
-
-                  <div
-                    className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                <div
+                  className="d-flex justify-content-start align-items-center gap-2"
+                  onClick={() => {
+                    if (!props.expenceDeletePermission) {
+                      handleShowTagAsset();
+                    }
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!props.expenceDeletePermission)
+                      e.currentTarget.style.backgroundColor = "#EDF2FF";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "#F9F9F9";
+                  }}
+                  style={{
+                    width: "100%",
+                    padding: "8px 10px",
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
+                    pointerEvents: props.expenceDeletePermission ? "none" : "auto",
+                    opacity: props.expenceDeletePermission ? 0.5 : 1,
+                  }}
+                >
+                  <img src={TagAsset} alt="tag" />
+                  <label
                     style={{
-                      cursor: "pointer",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      color: "#000000",
+                      cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
                     }}
-                    onClick={handleShowTagAsset}>
-                    <div>
-                      <img src={TagAsset} alt='tagg' />
-                    </div>
-                    <div>
-                      <label
-                        style={{
-                          cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-                          fontSize: 14,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          color: "black",
-                        }}
-                      >
-                        Tag Asset
-                      </label>
-                    </div>
-                  </div>
+                  >
+                    Tag Asset
+                  </label>
+                </div>
 
-
-
-
-
-                  <div
-                    className="mb-2 d-flex justify-content-start align-items-center gap-2 "
-                    onClick={() => {
-                      if (!props.expenceEditPermission) {
-                        handleEditExpense(props.item);
-                      }
-                    }}
+<div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                <div
+                  className="d-flex justify-content-start align-items-center gap-2"
+                  onClick={() => {
+                    if (!props.expenceEditPermission) {
+                      handleEditExpense(props.item);
+                    }
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!props.expenceEditPermission)
+                      e.currentTarget.style.backgroundColor = "#EDF2FF";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "#F9F9F9";
+                  }}
+                  style={{
+                    width: "100%",
+                    padding: "8px 10px",
+                    cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
+                    pointerEvents: props.expenceEditPermission ? "none" : "auto",
+                    opacity: props.expenceEditPermission ? 0.5 : 1,
+                  }}
+                >
+                  <Edit
+                    size="16"
+                    color={props.expenceEditPermission ? "#A9A9A9" : "#1E45E1"}
+                  />
+                  <label
                     style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      color: props.expenceEditPermission ? "#A9A9A9" : "#222222",
                       cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
                     }}
                   >
-                    <div>
-                      <Edit
-                        size="16"
-                        color={props.expenceEditPermission ? "#A9A9A9" : "#1E45E1"}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        style={{
-                          cursor: props.expenceEditPermission ? "not-allowed" : "pointer",
-                          fontSize: 14,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          color: props.expenceEditPermission ? "#A9A9A9" : "#222222",
-                        }}
-                      >
-                        Edit
-                      </label>
-                    </div>
-                  </div>
+                    Edit
+                  </label>
+                </div>
 
-                  <div
-                    className="mb-1 d-flex justify-content-start align-items-center gap-2"
+                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+                <div
+                  className="d-flex justify-content-start align-items-center gap-2"
+                  onClick={() => {
+                    if (!props.expenceDeletePermission) {
+                      handleDelete(props.item.id);
+                    }
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!props.expenceDeletePermission)
+                      e.currentTarget.style.backgroundColor = "#FFF0F0";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "#F9F9F9";
+                  }}
+                  style={{
+                    width: "100%",
+                    padding: "8px 10px",
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 10,
+                    cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
+                    pointerEvents: props.expenceDeletePermission ? "none" : "auto",
+                    opacity: props.expenceDeletePermission ? 0.5 : 1,
+                  }}
+                >
+                  <Trash
+                    size="16"
+                    color={props.expenceDeletePermission ? "#A9A9A9" : "red"}
+                  />
+                  <label
                     style={{
+                      fontSize: 14,
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      color: props.expenceDeletePermission ? "#A9A9A9" : "#FF0000",
                       cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
                     }}
-                    onClick={() => {
-                      if (!props.expenceDeletePermission) {
-                        handleDelete(props.item.id);
-                      }
-                    }}
                   >
-                    <div>
-                      <Trash
-                        size="16"
-                        color={props.expenceDeletePermission ? "#A9A9A9" : "red"}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        style={{
-                          cursor: props.expenceDeletePermission ? "not-allowed" : "pointer",
-                          fontSize: 14,
-                          fontWeight: 600,
-                          fontFamily: "Gilroy",
-                          color: props.expenceDeletePermission ? "#A9A9A9" : "#FF0000",
-                        }}
-                      >
-                        Delete
-                      </label>
-                    </div>
-                  </div>
-
+                    Delete
+                  </label>
                 </div>
               </div>
+
 
 
             </>}
@@ -293,7 +330,7 @@ useEffect(() => {
       </td>
     </tr>
 
-  
+
 
 
 
@@ -373,7 +410,7 @@ useEffect(() => {
                 MenuProps={{
                   PaperProps: {
                     sx: {
-                      backgroundColor: "#f8f9fa", 
+                      backgroundColor: "#f8f9fa",
                       maxHeight: 150,
                       marginTop: 1,
                       overflowY: "auto",
@@ -383,7 +420,7 @@ useEffect(() => {
                         color: "#fff",
                       },
                       "& .Mui-selected": {
-                        backgroundColor: "#D9E6FC !important", 
+                        backgroundColor: "#D9E6FC !important",
                         color: "#000",
                       },
                       "& .Mui-selected:hover": {

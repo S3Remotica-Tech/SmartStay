@@ -17,8 +17,8 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { ArrowUp2, ArrowDown2} from 'iconsax-react';
-import {CloseCircle} from "iconsax-react";
+import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
+import { CloseCircle } from "iconsax-react";
 
 function EBHostelReading(props) {
   const dispatch = useDispatch();
@@ -34,47 +34,47 @@ function EBHostelReading(props) {
   const [formError, setFormError] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
   const [hosteldeleteId, setHostelDeleteId] = useState("");
-  
+
   const [editId, setEditId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-  const [dateErrorMesg,setDateErrorMesg] = useState("")
-const [hostelEbList,setHostelEbList] = useState("")
+  const [dateErrorMesg, setDateErrorMesg] = useState("")
+  const [hostelEbList, setHostelEbList] = useState("")
 
- useEffect(() => {
-   if(selectedHostel){
-    props.setLoader(true)
-    dispatch({
-      type: "HOSTELBASEDEBLIST",
-      payload: { hostel_id: selectedHostel },
-    });
-  }
-   
-    
+  useEffect(() => {
+    if (selectedHostel) {
+      props.setLoader(true)
+      dispatch({
+        type: "HOSTELBASEDEBLIST",
+        payload: { hostel_id: selectedHostel },
+      });
+    }
+
+
   }, [selectedHostel]);
 
- useEffect(() => {
-      if (state.PgList.getStatusCodeForHostelBased === 200) {
-        props.setLoader(false)
-        setHostelEbList(
-          state?.PgList?.getHostelBasedRead?.hostel_readings
-        );
-        
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
-        }, 200);
-      }
-    }, [state.PgList.getStatusCodeForHostelBased]);
+  useEffect(() => {
+    if (state.PgList.getStatusCodeForHostelBased === 200) {
+      props.setLoader(false)
+      setHostelEbList(
+        state?.PgList?.getHostelBasedRead?.hostel_readings
+      );
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST" });
+      }, 200);
+    }
+  }, [state.PgList.getStatusCodeForHostelBased]);
 
 
-    useEffect(() => {
-        if (state.PgList.nostatusCodeforEbHostelBased === 201) {
-          props.setLoader(false)
-          setTimeout(() => {
-            dispatch({ type: "CLEAR_NO_EB_HOSTEL_BASED" });
-          }, 200);
-        }
-      }, [state.PgList.nostatusCodeforEbHostelBased]);
+  useEffect(() => {
+    if (state.PgList.nostatusCodeforEbHostelBased === 201) {
+      props.setLoader(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NO_EB_HOSTEL_BASED" });
+      }, 200);
+    }
+  }, [state.PgList.nostatusCodeforEbHostelBased]);
 
   const handleShowActive = (eb_Id, event) => {
     if (activeRow === eb_Id) {
@@ -83,7 +83,7 @@ const [hostelEbList,setHostelEbList] = useState("")
       setActiveRow(eb_Id);
     }
 
-    const { top, left,height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
     const popupLeft = left - 150;
 
@@ -94,19 +94,19 @@ const [hostelEbList,setHostelEbList] = useState("")
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setActiveRow(null); 
+        setActiveRow(null);
       }
     };
 
-   
+
     document.addEventListener("mousedown", handleClickOutside);
 
-    
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
- 
+
 
   const handleDeleteEb = (item) => {
     setDeleteForm(true);
@@ -126,7 +126,7 @@ const [hostelEbList,setHostelEbList] = useState("")
   useEffect(() => {
     if (state.PgList.statusCodeForDeleteHostelBased === 200) {
       handleCloseDelete();
-      
+
       dispatch({
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
@@ -149,20 +149,20 @@ const [hostelEbList,setHostelEbList] = useState("")
     setReading(user.reading);
     setSelectedHostel(selectedHostel);
     setEditId(user.eb_Id);
- setSelectedDate(user.date || "");
-          
-          setSelectedDate(
-            user.date ? moment(user.date).toDate("") : null
-          );
+    setSelectedDate(user.date || "");
+
+    setSelectedDate(
+      user.date ? moment(user.date).toDate("") : null
+    );
 
     setInitialStateAssign({
-      
+
       reading: user.reading || "",
       selectedDate: user.date || "",
     });
   };
 
- 
+
   useEffect(() => {
     setDateError(state.PgList.dateAlready);
   }, [state.PgList.dateAlready]);
@@ -183,7 +183,7 @@ const [hostelEbList,setHostelEbList] = useState("")
   const handleReadingChange = (e) => {
     const newReading = e.target.value;
     if (!/^\d*$/.test(newReading)) {
-      return; 
+      return;
     }
     setReading(newReading);
     setReadingError("");
@@ -233,12 +233,12 @@ const [hostelEbList,setHostelEbList] = useState("")
   };
 
   const [initialStateAssign, setInitialStateAssign] = useState({
-   
+
     reading: "",
     selectedDate: "",
   });
   const handleSaveEb = () => {
-    
+
     const isReadingValid = validateAssignField(reading, "reading");
     const isDateValid = validateAssignField(selectedDate, "selectedDate");
     const isHostelValid = validateAssignField(hos_Name, "Hostel ID");
@@ -247,11 +247,11 @@ const [hostelEbList,setHostelEbList] = useState("")
       return;
     }
 
-    
+
     const isValidDate = (date) => !isNaN(Date.parse(date));
     const formattedDated = moment(selectedDate).format("YYYY-MM-DD");
     if (props.editeb && editId) {
-      
+
       const isChangedBed =
         (isValidDate(selectedDate) &&
           isValidDate(initialStateAssign.selectedDate)
@@ -269,24 +269,24 @@ const [hostelEbList,setHostelEbList] = useState("")
 
       setFormError("");
 
-    
+
       dispatch({
         type: "HOSTELBASEDEDITEB",
         payload: {
           hostel_id: selectedHostel,
           reading: reading,
-          date: formattedDated, 
+          date: formattedDated,
           id: editId,
         },
       });
     } else {
-      
+
       dispatch({
         type: "HOSTELBASEDADDEB",
         payload: {
           hostel_id: selectedHostel,
           reading: reading,
-          date: formattedDated, 
+          date: formattedDated,
         },
       });
     }
@@ -297,7 +297,7 @@ const [hostelEbList,setHostelEbList] = useState("")
   useEffect(() => {
     if (state.PgList.statusCodeForAddHostelBased === 200) {
       handleCloseHostel();
-      
+
       dispatch({
         type: "CUSTOMEREBLIST",
         payload: { hostel_id: selectedHostel },
@@ -317,7 +317,7 @@ const [hostelEbList,setHostelEbList] = useState("")
     if (state.PgList.statusCodeForEditHostelBased === 200) {
       handleCloseHostel();
       props.setEditEb(false);
-     
+
       dispatch({
         type: "HOSTELBASEDEBLIST",
         payload: { hostel_id: selectedHostel },
@@ -343,29 +343,29 @@ const [hostelEbList,setHostelEbList] = useState("")
     setDateError("");
     setEditId("")
     setDateErrorMesg("")
-     dispatch({ type: "CLEAR_SAME_DATE_ALREADY" });
-    
+    dispatch({ type: "CLEAR_SAME_DATE_ALREADY" });
+
   };
 
 
-  
+
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
- 
+
   const dataSource =
-  props.value === "3" && props.filterStatus ? props.electricityHostel : hostelEbList;
+    props.value === "3" && props.filterStatus ? props.electricityHostel : hostelEbList;
 
-const currentRowelectricity = dataSource?.slice(
-  indexOfFirstRowelectricity,
-  indexOfLastRowelectricity
-);
+  const currentRowelectricity = dataSource?.slice(
+    indexOfFirstRowelectricity,
+    indexOfLastRowelectricity
+  );
 
 
- 
+
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
   };
@@ -380,546 +380,558 @@ const currentRowelectricity = dataSource?.slice(
 
 
 
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  
-    const sortedData = React.useMemo(() => {
-      if (!sortConfig.key) return currentRowelectricity;
-  
-      const sorted = [...currentRowelectricity].sort((a, b) => {
-        const valueA = a[sortConfig.key];
-        const valueB = b[sortConfig.key];
-  
-  
-        if (!isNaN(valueA) && !isNaN(valueB)) {
-          return sortConfig.direction === 'asc'
-            ? valueA - valueB
-            : valueB - valueA;
-        }
-  
-        if (typeof valueA === 'string' && typeof valueB === 'string') {
-          return sortConfig.direction === 'asc'
-            ? valueA.localeCompare(valueB)
-            : valueB.localeCompare(valueA);
-        }
-  
-        return 0;
-      });
-  
-      return sorted;
-    }, [currentRowelectricity, sortConfig]);
-  
-    const handleSort = (key, direction) => {
-      setSortConfig({ key, direction });
-    };
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-  
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return currentRowelectricity;
 
- 
+    const sorted = [...currentRowelectricity].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
 
- 
+
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === 'asc'
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortConfig.direction === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [currentRowelectricity, sortConfig]);
+
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
+
+
+
+
+
+
   return (
     <>
       <div>
-        {props.value === "3" &&   sortedData?.length > 0 ? (
+        {props.value === "3" && sortedData?.length > 0 ? (
           <>
-           {sortedData && sortedData.length > 0 && (
-          
-          <div
-className="p-0 booking-table-userlist  booking-table ms-2 me-4"
-style={{ paddingBottom: "20px",marginLeft:"-22px" }}
->
-          
-                        <div
-                          className='show-scrolls'
-                          style={{
-                           
-                            height: sortedData.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
-                            overflow: "auto",
-                            borderTop: "1px solid #E8E8E8",
-                            marginBottom: 20,
-                            marginTop: "20px"
-                            
-                          }}>
-          
-                          <Table
-                            responsive="md"
-                          >
-          
-                            <thead style={{
-                              fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                              top: 0,
-                              zIndex: 1
-                            }}>
-                              <tr>
-                                <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
-                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
-                                </div>  Paying Guest</div>  </th>
-          
-                               
-          
-                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
-                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
-                                </div> Reading </div></th>
-          
-                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
-                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
-                                </div>  Date </div></th>
-          
-                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
-                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
-                                </div> Units</div></th>
-          
-                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                  <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
-                                  <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
-                                </div>  Amount </div></th>
-          
-                                <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
-                              </tr>
-                            </thead>
-          
-          
-                            <tbody>
-                              {   sortedData && sortedData.length > 0 && (
-                                      <>
-                                        {sortedData.map((v) => {
+            {sortedData && sortedData.length > 0 && (
 
+              <div
+                className="p-0 booking-table-userlist  booking-table ms-2 me-4"
+                style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+              >
 
-          
-                 let formattedDate;
-
-
-if (v.date && v.date !== '0000-00-00') {
-  let Dated = new Date(v.date);
-  let day = Dated.getDate().toString().padStart(2, '0');
-  let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
-  let year = Dated.getFullYear();
-  formattedDate = `${day}-${month}-${year}`;
-} else {
-  
-  let initialDate = new Date(v.initial_date); 
-  let day = initialDate.getDate().toString().padStart(2, '0');
-  let month = (initialDate.getMonth() + 1).toString().padStart(2, '0');
-  let year = initialDate.getFullYear();
-  formattedDate = `${day}/${month}/${year}`;
-}
-
-
-                  return (
-                    <tr key={v.eb_Id}>
-
-                      <td
-                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
-                                          style={{
-                                            paddingTop: 15,
-                                            border: "none",
-                                            textAlign: "start",
-                                            fontSize: "13px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            marginTop: 10,
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
-                                          }}
-                                        >
-                                          <span
-                                            style={{
-                                              paddingTop: "3px",
-                                              paddingLeft: "10px",
-                                              paddingRight: "10px",
-                                              paddingBottom: "3px",
-                                              borderRadius: "60px",
-                                              backgroundColor: "#FFEFCF",
-                                              textAlign: "center",
-                                              fontSize: "11px",
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              marginLeft:10
-                                            }}
-                                          >
-                                            {v.hoatel_Name}
-                                          </span>
-                                        </td>
-                      <td
-                        style={{
-                          fontSize: 13, 
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "start",
-                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                          
-                        }}
-                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                      >
-                        {v.reading}
-                      </td>
-                     
-                        <td
+                <div
+                  className='show-scrolls'
                   style={{
-                    paddingTop: "15px",
-                    border: "none",
-                    textAlign: "start",
-                    fontSize: 13, 
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    verticalAlign: "middle",
-                    whiteSpace: "nowrap",
-                    marginBottom: "-20px",
-                    borderBottom: "1px solid #E8E8E8"
-                  }}
-                   className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                >
-                  <span
-                    style={{
-                      paddingTop: "5px",
-                      paddingLeft: "16px",
-                      paddingRight: "16px",
-                      paddingBottom: "5px",
-                      borderRadius: "60px",
-                      backgroundColor: "#EBEBEB",
-                      textAlign: "start",
-                      fontSize: 13, 
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      display: "inline-block",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {formattedDate}
-                  </span>
-                </td>
-                      <td
-                        style={{
-                          fontSize: 13, 
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                          textAlign: "start",
-                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                        }}
-                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                      >
-                        {v.total_reading}
-                      </td>
-                      <td
-                        style={{
-                          fontSize: 13, 
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "start",
-                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                        }}
-                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                      >
-                        ₹{v.total_amount}
-                      </td>
-                      <td  style={{
-                      textAlign: "start",
-                      color: "#939393",
-                      fontSize: 13, 
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8"
-                    }} 
-                    
-                    >
-                        <div
-                         style={{
-                          cursor: "pointer",
-                          height: 35,
-                          width: 35,
-                          borderRadius: 100,
-                          border: "1px solid #EFEFEF",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          position: "relative",
-                         
-                          backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
-                        }}
-                          onClick={(e) => handleShowActive(v.eb_Id, e)}
-                        >
-                          <PiDotsThreeOutlineVerticalFill
-                            style={{ height: 20, width: 20,color:"#000000"}}
-                          />
-                          {activeRow === v.eb_Id && (
-                            <div
-                              ref={popupRef}
-                              style={{
-                                cursor: "pointer",
-                                backgroundColor: "#f9f9f9",
-                                position: "fixed",
-                                top: popupPosition.top,
-                                left: popupPosition.left,
-                              
-                                width: 120,
-                                height: "auto",
-                                border: "1px solid #EBEBEB",
-                                borderRadius: 10,
-                                display: "flex",
-                                justifyContent: "start",
-                                padding: 10,
-                                alignItems: "center",
-                                zIndex: 1000 ,
-                              }}
-                            >
-                              <div>
-                                <div
-                                  className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                                  style={{
-                                    cursor: "pointer",
-                                  }}
-                                  onClick={() => handleEditEb(v)}
-                                >
-                                  <img
-                                    src={Edit}
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                      filter: props.ebEditPermission
-                                        ? "grayscale(100%)"
-                                        : "none",
-                                    }}
-                                    alt="Edit"
-                                  />
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      cursor: "pointer",
-                                      color:"#000000"
-                                    }}
-                                  >
-                                    Edit
-                                  </label>
-                                </div>
-                                <div
-                                  className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                  style={{
-                                    cursor: "pointer",
-                                  }}
-                                  onClick={() => handleDeleteEb(v)}
-                                >
-                                  <img
-                                    src={Delete}
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                    }}
-                                    alt="Delete"
-                                  />
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      cursor: "pointer",
-                                      color:"#000000"
-                                    }}
-                                  >
-                                    Delete
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                
-          })}
-                                      </>
-                                    
-          
-                                  )
-                              }
-                            </tbody>
-          
-          
-                          </Table>
-                        </div>
-          
-          </div>
-                      )}
 
-        
+                    height: sortedData.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
+                    overflow: "auto",
+                    borderTop: "1px solid #E8E8E8",
+                    marginBottom: 20,
+                    marginTop: "20px"
+
+                  }}>
+
+                  <Table
+                    responsive="md"
+                  >
+
+                    <thead style={{
+                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 1
+                    }}>
+                      <tr>
+                        <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Paying Guest</div>  </th>
+
+
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Reading </div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Date </div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Units</div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Amount </div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
+                      </tr>
+                    </thead>
+
+
+                    <tbody>
+                      {sortedData && sortedData.length > 0 && (
+                        <>
+                          {sortedData.map((v) => {
+
+
+
+                            let formattedDate;
+
+
+                            if (v.date && v.date !== '0000-00-00') {
+                              let Dated = new Date(v.date);
+                              let day = Dated.getDate().toString().padStart(2, '0');
+                              let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
+                              let year = Dated.getFullYear();
+                              formattedDate = `${day}-${month}-${year}`;
+                            } else {
+
+                              let initialDate = new Date(v.initial_date);
+                              let day = initialDate.getDate().toString().padStart(2, '0');
+                              let month = (initialDate.getMonth() + 1).toString().padStart(2, '0');
+                              let year = initialDate.getFullYear();
+                              formattedDate = `${day}/${month}/${year}`;
+                            }
+
+
+                            return (
+                              <tr key={v.eb_Id}>
+
+                                <td
+                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
+                                  style={{
+                                    paddingTop: 15,
+                                    border: "none",
+                                    textAlign: "start",
+                                    fontSize: "13px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    marginTop: 10,
+                                    verticalAlign: "middle",
+                                    borderBottom: "1px solid #E8E8E8",
+                                  }}
+                                >
+                                  <span
+                                    style={{
+                                      paddingTop: "3px",
+                                      paddingLeft: "10px",
+                                      paddingRight: "10px",
+                                      paddingBottom: "3px",
+                                      borderRadius: "60px",
+                                      backgroundColor: "#FFEFCF",
+                                      textAlign: "center",
+                                      fontSize: "11px",
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      marginLeft: 10
+                                    }}
+                                  >
+                                    {v.hoatel_Name}
+                                  </span>
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+
+                                  }}
+                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                >
+                                  {v.reading}
+                                </td>
+
+                                <td
+                                  style={{
+                                    paddingTop: "15px",
+                                    border: "none",
+                                    textAlign: "start",
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    verticalAlign: "middle",
+                                    whiteSpace: "nowrap",
+                                    marginBottom: "-20px",
+                                    borderBottom: "1px solid #E8E8E8"
+                                  }}
+                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                >
+                                  <span
+                                    style={{
+                                      paddingTop: "5px",
+                                      paddingLeft: "16px",
+                                      paddingRight: "16px",
+                                      paddingBottom: "5px",
+                                      borderRadius: "60px",
+                                      backgroundColor: "#EBEBEB",
+                                      textAlign: "start",
+                                      fontSize: 13,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      display: "inline-block",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      whiteSpace: "nowrap",
+                                    }}
+                                  >
+                                    {formattedDate}
+                                  </span>
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+                                  }}
+                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                >
+                                  {v.total_reading}
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+                                  }}
+                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                >
+                                  ₹{v.total_amount}
+                                </td>
+                                <td style={{
+                                  textAlign: "start",
+                                  color: "#939393",
+                                  fontSize: 13,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                                }}
+
+                                >
+                                  <div
+                                    style={{
+                                      cursor: "pointer",
+                                      height: 35,
+                                      width: 35,
+                                      borderRadius: 100,
+                                      border: "1px solid #EFEFEF",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      position: "relative",
+
+                                      backgroundColor: activeRow === v.eb_Id ? "#E7F1FF" : "white",
+                                    }}
+                                    onClick={(e) => handleShowActive(v.eb_Id, e)}
+                                  >
+                                    <PiDotsThreeOutlineVerticalFill
+                                      style={{ height: 20, width: 20, color: "#000000" }}
+                                    />
+                                    {activeRow === v.eb_Id && (
+                                      <div
+                                        ref={popupRef}
+                                        style={{
+                                          cursor: "pointer",
+                                          backgroundColor: "#F9F9F9",
+                                          position: "fixed",
+                                          top: popupPosition.top,
+                                          left: popupPosition.left,
+                                          width: 130,
+                                          border: "1px solid #EBEBEB",
+                                          borderRadius: 10,
+                                                                                    display: "flex",
+                                          flexDirection: "column",
+                                          alignItems: "flex-start",
+                                          zIndex: 1000,
+                                          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.05)",
+                                        }}
+                                      >
+                                        <div style={{ width: "100%" }}>
+
+                                          <div
+                                            className="d-flex justify-content-start align-items-center gap-2 "
+                                            style={{
+                                              cursor: "pointer",
+                                              borderRadius: 6,
+                                               padding: "8px 12px",
+                                              transition: "background-color 0.2s ease",
+                                            }}
+                                            onMouseEnter={(e) =>
+                                              (e.currentTarget.style.backgroundColor = "#F0F0F0")
+                                            }
+                                            onMouseLeave={(e) =>
+                                              (e.currentTarget.style.backgroundColor = "transparent")
+                                            }
+                                            onClick={() => handleEditEb(v)}
+                                          >
+                                            <img
+                                              src={Edit}
+                                              alt="Edit"
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                                filter: props.ebEditPermission ? "grayscale(100%)" : "none",
+                                              }}
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: "#222",
+                                              }}
+                                            >
+                                              Edit
+                                            </label>
+                                          </div>
+
+                                          <div
+                                            className="d-flex justify-content-start align-items-center gap-2"
+                                            style={{
+                                              cursor: "pointer",
+                                              borderRadius: 6,
+                                               padding: "8px 12px",
+                                              transition: "background-color 0.2s ease",
+                                            }}
+                                            onMouseEnter={(e) =>
+                                              (e.currentTarget.style.backgroundColor = "#FFF0F0")
+                                            }
+                                            onMouseLeave={(e) =>
+                                              (e.currentTarget.style.backgroundColor = "transparent")
+                                            }
+                                            onClick={() => handleDeleteEb(v)}
+                                          >
+                                            <img
+                                              src={Delete}
+                                              alt="Delete"
+                                              style={{ height: 16, width: 16 }}
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: "#222",
+                                              }}
+                                            >
+                                              Delete
+                                            </label>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+
+                          })}
+                        </>
+
+
+                      )
+                      }
+                    </tbody>
+
+
+                  </Table>
+                </div>
+
+              </div>
+            )}
+
+
 
           </>
         ) :
-         props.value === "3"  && !props.loading && currentRowelectricity  && currentRowelectricity?.length === 0 ? (
-          <div>
-            <div style={{ textAlign: "center" }}>
-              <img src={emptyimg} width={240} height={240} alt="No readings" />
-            </div>
-            <div
-              className="pb-1"
-              style={{
-                textAlign: "center",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: 20,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              No hostel readings
-            </div>
-            <div
-              className="pb-1"
-              style={{
-                textAlign: "center",
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                fontSize: 16,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              There are no Hostel readings available.
-            </div>
+          props.value === "3" && !props.loading && currentRowelectricity && currentRowelectricity?.length === 0 ? (
+            <div>
+              <div style={{ textAlign: "center" }}>
+                <img src={emptyimg} width={240} height={240} alt="No readings" />
+              </div>
+              <div
+                className="pb-1"
+                style={{
+                  textAlign: "center",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: 20,
+                  color: "rgba(75, 75, 75, 1)",
+                }}
+              >
+                No hostel readings
+              </div>
+              <div
+                className="pb-1"
+                style={{
+                  textAlign: "center",
+                  fontWeight: 500,
+                  fontFamily: "Gilroy",
+                  fontSize: 16,
+                  color: "rgba(75, 75, 75, 1)",
+                }}
+              >
+                There are no Hostel readings available.
+              </div>
 
-          </div>
-        ) : null}
+            </div>
+          ) : null}
       </div>
 
-      { props.loading &&
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: '200px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      opacity: 0.75,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                      }}
-                    ></div>
-                  </div>
-                }
+      {props.loading &&
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: '200px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      }
 
 
-       {props.value === "3" && props.electricityHostel?.length >= 5 &&
-                    <nav
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "end",
-                        padding: "10px",
-                        position: "fixed",
-                        bottom: "10px",
-                        right: "10px",
-                        backgroundColor: "#fff",
-                        borderRadius: "5px",
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                        zIndex: 1000,
-                      }}
-                    >
-                     
-                      <div>
-                        <select
-                          value={electricityrowsPerPage}
-                          onChange={handleItemsPerPageChange}
-                          style={{
-                            padding: "5px",
-                            border: "1px solid #1E45E1",
-                            borderRadius: "5px",
-                            color: "#1E45E1",
-                            fontWeight: "bold",
-                            cursor: "pointer",
-                            outline: "none",
-                            boxShadow: "none",
-      
-                          }}
-                        >
-                          <option value={5}>5</option>
-                          <option value={10}>10</option>
-                          <option value={50}>50</option>
-                          <option value={100}>100</option>
-                        </select>
-                      </div>
-      
-                      
-                      <ul
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          listStyleType: "none",
-                          margin: 0,
-                          padding: 0,
-                        }}
-                      >
-                        
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color: electricitycurrentPage === 1 ? "#ccc" : "#1E45E1",
-                              cursor: electricitycurrentPage === 1 ? "not-allowed" : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(electricitycurrentPage - 1)}
-                            disabled={electricitycurrentPage === 1}
-                          >
-                            <ArrowLeft2 size="16" color={electricitycurrentPage === 1 ? "#ccc" : "#1E45E1"} />
-                          </button>
-                        </li>
-      
-                        
-                        <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                          {electricitycurrentPage} of {totalPagesinvoice}
-                        </li>
-      
-                     
-                        <li style={{ margin: "0 10px" }}>
-                          <button
-                            style={{
-                              padding: "5px",
-                              textDecoration: "none",
-                              color: electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1",
-                              cursor: electricitycurrentPage === totalPagesinvoice ? "not-allowed" : "pointer",
-                              borderRadius: "50%",
-                              display: "inline-block",
-                              minWidth: "30px",
-                              textAlign: "center",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
-                            onClick={() => handlePageChange(electricitycurrentPage + 1)}
-                            disabled={electricitycurrentPage === totalPagesinvoice}
-                          >
-                            <ArrowRight2
-                              size="16"
-                              color={electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1"}
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                  }
+      {props.value === "3" && props.electricityHostel?.length >= 5 &&
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end",
+            padding: "10px",
+            position: "fixed",
+            bottom: "10px",
+            right: "10px",
+            backgroundColor: "#fff",
+            borderRadius: "5px",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+            zIndex: 1000,
+          }}
+        >
+
+          <div>
+            <select
+              value={electricityrowsPerPage}
+              onChange={handleItemsPerPageChange}
+              style={{
+                padding: "5px",
+                border: "1px solid #1E45E1",
+                borderRadius: "5px",
+                color: "#1E45E1",
+                fontWeight: "bold",
+                cursor: "pointer",
+                outline: "none",
+                boxShadow: "none",
+
+              }}
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+
+
+          <ul
+            style={{
+              display: "flex",
+              alignItems: "center",
+              listStyleType: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color: electricitycurrentPage === 1 ? "#ccc" : "#1E45E1",
+                  cursor: electricitycurrentPage === 1 ? "not-allowed" : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(electricitycurrentPage - 1)}
+                disabled={electricitycurrentPage === 1}
+              >
+                <ArrowLeft2 size="16" color={electricitycurrentPage === 1 ? "#ccc" : "#1E45E1"} />
+              </button>
+            </li>
+
+
+            <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+              {electricitycurrentPage} of {totalPagesinvoice}
+            </li>
+
+
+            <li style={{ margin: "0 10px" }}>
+              <button
+                style={{
+                  padding: "5px",
+                  textDecoration: "none",
+                  color: electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1",
+                  cursor: electricitycurrentPage === totalPagesinvoice ? "not-allowed" : "pointer",
+                  borderRadius: "50%",
+                  display: "inline-block",
+                  minWidth: "30px",
+                  textAlign: "center",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+                onClick={() => handlePageChange(electricitycurrentPage + 1)}
+                disabled={electricitycurrentPage === totalPagesinvoice}
+              >
+                <ArrowRight2
+                  size="16"
+                  color={electricitycurrentPage === totalPagesinvoice ? "#ccc" : "#1E45E1"}
+                />
+              </button>
+            </li>
+          </ul>
+        </nav>
+      }
 
       <Modal
         show={props.hostelBasedForm}
@@ -927,7 +939,7 @@ if (v.date && v.date !== '0000-00-00') {
         backdrop="static"
         centered
       >
-       
+
 
         <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
           <div
@@ -937,16 +949,16 @@ if (v.date && v.date !== '0000-00-00') {
               fontFamily: "Gilroy",
             }}
           >
-         
-          {props.editeb ? "Edit Hostel Reading" : "Add Hostel Reading"}
+
+            {props.editeb ? "Edit Hostel Reading" : "Add Hostel Reading"}
           </div>
-        
-          <CloseCircle size="24" color="#000" onClick={handleCloseHostel} 
-            style={{ cursor: 'pointer' }}/>
+
+          <CloseCircle size="24" color="#000" onClick={handleCloseHostel}
+            style={{ cursor: 'pointer' }} />
         </Modal.Header>
-        <Modal.Body style={{marginTop:"-13px"}}>
+        <Modal.Body style={{ marginTop: "-13px" }}>
           <div className="row ">
-          
+
 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -966,7 +978,7 @@ if (v.date && v.date !== '0000-00-00') {
                   id="form-controls"
                   placeholder="6542310"
                   value={hos_Name}
-                
+
                   style={{
                     fontSize: 16,
                     color: "#4B4B4B",
@@ -995,7 +1007,7 @@ if (v.date && v.date !== '0000-00-00') {
                 </div>
               )}
 
-            
+
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1038,7 +1050,7 @@ if (v.date && v.date !== '0000-00-00') {
                       color: "red",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      marginLeft:5
+                      marginLeft: 5
                     }}
                   >
                     {" "}
@@ -1046,10 +1058,10 @@ if (v.date && v.date !== '0000-00-00') {
                   </span>
                 </div>
               )}
-              
+
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group  controlId="purchaseDate">
+              <Form.Group controlId="purchaseDate">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1060,28 +1072,28 @@ if (v.date && v.date !== '0000-00-00') {
                 >
                   Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-                
-                  <div
-                                                                  className="datepicker-wrapper"
-                                                                  style={{ position: "relative", width: "100%" }}
-                                                                >
-                                                                 <DatePicker
-                                                                   style={{ height: 48,width: "100%",cursor:"pointer" }}
-                                                                   format="DD/MM/YYYY"
-                                                                     placeholder="DD/MM/YYYY"
-                                                                   value={selectedDate ? dayjs(selectedDate) : null}
-                                                                   onChange={(date) => {
-                                                                    setSelectedDate(date ? date.toDate() : null);
-                                                                    dispatch({ type: "CLEAR_SAME_DATE_ALREADY" });
-                                                                    dispatch({ type: "CLEAR_EDIT_SAME_DATE_ALREADY" });
-                                                                     setDateError('');
-                                                                     setFormError('');
-                                                                     setDateErrorMesg('');
-                                                                   }}
-                                                                   getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                                                                   dropdownClassName="custom-datepicker-popup"
-                                                                 />
-                                                                </div>
+
+                <div
+                  className="datepicker-wrapper"
+                  style={{ position: "relative", width: "100%" }}
+                >
+                  <DatePicker
+                    style={{ height: 48, width: "100%", cursor: "pointer" }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={selectedDate ? dayjs(selectedDate) : null}
+                    onChange={(date) => {
+                      setSelectedDate(date ? date.toDate() : null);
+                      dispatch({ type: "CLEAR_SAME_DATE_ALREADY" });
+                      dispatch({ type: "CLEAR_EDIT_SAME_DATE_ALREADY" });
+                      setDateError('');
+                      setFormError('');
+                      setDateErrorMesg('');
+                    }}
+                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                    dropdownClassName="custom-datepicker-popup"
+                  />
+                </div>
               </Form.Group>
               {dateErrorMesg && (
                 <div style={{ color: "red" }}>
@@ -1092,7 +1104,7 @@ if (v.date && v.date !== '0000-00-00') {
                       color: "red",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      marginLeft:5
+                      marginLeft: 5
                     }}
                   >
                     {" "}
@@ -1104,19 +1116,19 @@ if (v.date && v.date !== '0000-00-00') {
           </div>
 
           {dateError && (
-              <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
-              <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
-              <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
+            <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
+              <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
+              <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
             </div>
-              )}
+          )}
         </Modal.Body>
-         {formError && (
-                                                                <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
-                                                                  <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
-                                                                  <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
-                                                                </div>
-                                                              )}
-        <Modal.Footer className="d-flex justify-content-center" style={{border:"none"}}>
+        {formError && (
+          <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
+            <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
+            <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+          </div>
+        )}
+        <Modal.Footer className="d-flex justify-content-center" style={{ border: "none" }}>
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12 w-100"
             style={{
@@ -1129,15 +1141,15 @@ if (v.date && v.date !== '0000-00-00') {
               marginTop: 10,
             }}
             onClick={handleSaveEb}
-         
+
           >
-          
+
             {props.editeb ? "Save Changes" : "Add Reading"}
           </Button>
         </Modal.Footer>
       </Modal>
 
-    
+
       <Modal
         show={deleteForm}
         onHide={handleCloseDelete}
@@ -1147,14 +1159,14 @@ if (v.date && v.date !== '0000-00-00') {
       >
         <Modal.Header style={{ borderBottom: "none" }}>
           <Modal.Title
-          className="w-100 text-center"
+            className="w-100 text-center"
             style={{
               fontSize: "18px",
               fontFamily: "Gilroy",
-              
+
               fontWeight: 600,
               color: "#222222",
-              
+
             }}
           >
             Delete Reading?
@@ -1162,13 +1174,13 @@ if (v.date && v.date !== '0000-00-00') {
         </Modal.Header>
 
         <Modal.Body
-        className="text-center"
+          className="text-center"
           style={{
             fontSize: 14,
             fontWeight: 500,
             fontFamily: "Gilroy",
             color: "#646464",
-          
+
             marginTop: "-10px",
           }}
         >
@@ -1176,28 +1188,28 @@ if (v.date && v.date !== '0000-00-00') {
         </Modal.Body>
 
         <Modal.Footer
-        className="d-flex justify-content-center"
+          className="d-flex justify-content-center"
           style={{
-            
+
             borderTop: "none",
             marginTop: "-10px",
           }}
         >
           <Button
-          className="me-2"
-          style={{
-            width: "100%",
-            maxWidth: 160,
-            height: 52,
-            borderRadius: 8,
-            padding: "12px 20px",
-            background: "#fff",
-            color: "#1E45E1",
-            border: "1px solid #1E45E1",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-          }}
+            className="me-2"
+            style={{
+              width: "100%",
+              maxWidth: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
             onClick={handleCloseDelete}
           >
             Cancel
@@ -1238,6 +1250,6 @@ EBHostelReading.propTypes = {
   hostelName: PropTypes.func.isRequired,
   setHostelBasedForm: PropTypes.func.isRequired,
   setLoader: PropTypes.func.isRequired,
-   filterStatus: PropTypes.func.isRequired,
+  filterStatus: PropTypes.func.isRequired,
 }
 export default EBHostelReading;

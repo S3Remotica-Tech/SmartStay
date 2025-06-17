@@ -389,7 +389,7 @@ function ParticularHostelDetails(props) {
                     <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
                       <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>
                         Room No {room.Room_Name}
-                                             </div>
+                      </div>
                       <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                         {String(activeRoomId) === String(room.Room_Id) && (
@@ -404,14 +404,14 @@ function ParticularHostelDetails(props) {
                               width: 140,
                               border: "1px solid #EBEBEB",
                               borderRadius: 10,
-                             
-                                                           display: "flex",
+
+                              display: "flex",
                               flexDirection: "column",
                               zIndex: 1000,
                               boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                             }}
                           >
-                        
+
                             <div
                               className="d-flex gap-2 align-items-center"
                               onClick={() => {
@@ -421,7 +421,8 @@ function ParticularHostelDetails(props) {
                               }}
                               style={{
                                 padding: "10px 10px",
-                                borderRadius: 6,
+                                borderTopLeftRadius: 10,
+                                borderTopRightRadius: 10,
                                 pointerEvents: props.editPermissionError ? "none" : "auto",
                                 opacity: props.editPermissionError ? 0.5 : 1,
                                 cursor: props.editPermissionError ? "not-allowed" : "pointer",
@@ -439,7 +440,7 @@ function ParticularHostelDetails(props) {
                                 style={{
                                   fontSize: 14,
                                   fontWeight: 500,
-                                fontFamily: "Gilroy",
+                                  fontFamily: "Gilroy",
                                   color: props.editPermissionError ? "#888888" : "#222222",
                                   marginBottom: 0,
                                   cursor: "pointer",
@@ -449,7 +450,7 @@ function ParticularHostelDetails(props) {
                               </label>
                             </div>
 
-                         
+
                             <div style={{ height: 1, backgroundColor: "#E0E0E0", margin: "0px 0" }} />
 
                             <div
@@ -461,7 +462,8 @@ function ParticularHostelDetails(props) {
                               }}
                               style={{
                                 padding: "10px 10px",
-                                borderRadius: 6,
+                                borderBottomLeftRadius: 10,
+                                borderBottomRightRadius: 10,
                                 pointerEvents: props.deletePermissionError ? "none" : "auto",
                                 opacity: props.deletePermissionError ? 0.5 : 1,
                                 cursor: props.deletePermissionError ? "not-allowed" : "pointer",

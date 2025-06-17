@@ -259,7 +259,7 @@ function SettingManage(props) {
     if (state.PgList.createPgStatusCode === 200) {
       dispatch({ type: "HOSTELLIST" });
       dispatch({ type: "HOSTELIDDETAILS" });
-      
+
 
       setShowAddPg(false);
       setTimeout(() => {
@@ -328,7 +328,7 @@ function SettingManage(props) {
     setEditHostelDetails("");
   };
 
- 
+
 
   useEffect(() => {
     if (state.PgList.UpgradestatusCode === 201) {
@@ -687,7 +687,7 @@ function SettingManage(props) {
           </div>
         </>
       ) : (
-        <div  style={{ position: "relative" }}>
+        <div style={{ position: "relative" }}>
 
 
           {loading &&
@@ -727,7 +727,7 @@ function SettingManage(props) {
               {/* <div
                  className=" justify-content-between d-flex align-items-center"
                  className="d-flex flex-column flex-md-row justify-content-between align-items-center" */}
-                <div className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+              <div className="d-flex flex-column flex-md-row justify-content-between align-items-center"
                 style={{
                   position: "sticky",
                   top: 0,
@@ -740,7 +740,7 @@ function SettingManage(props) {
                   whiteSpace: "nowrap",
                 }}
               >
-               <div     className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
+                <div className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
                   <label
                     style={{
                       fontSize: 18,
@@ -755,11 +755,11 @@ function SettingManage(props) {
                 </div>
 
                 {/* <div className="d-flex justify-content-between align-items-center"> */}
-               
+
                 <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0"
                 // style={{paddingRight:1}}
-                 >
-                  <div style={{marginTop:6}}>
+                >
+                  <div style={{ marginTop: 6 }}>
                     <Button
                       onClick={handleShowAddPg}
                       disabled={addPermissionError}
@@ -777,7 +777,7 @@ function SettingManage(props) {
                         // maxHeight: 45,
                         height: "45px",
                         width: "146px",
-                        marginTop:5
+                        marginTop: 5
 
                       }}
                     >
@@ -844,12 +844,12 @@ function SettingManage(props) {
                   )}
                 </div>
               )} */}
-              <div className="scroll-issue" 
-              style={{
-                maxHeight: "400px",
-                overflowY: "auto",
-                overflowX: "hidden"
-              }}
+              <div className="scroll-issue"
+                style={{
+                  maxHeight: "400px",
+                  overflowY: "auto",
+                  overflowX: "hidden"
+                }}
               >
                 <div className="row row-gap-3">
                   {currentItems?.length > 0 ?
@@ -927,22 +927,22 @@ function SettingManage(props) {
                 </div>
               </div>
               {filteredData.length >= 5 && (
-                <nav 
-                className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
-              //   className="pagination-container"
-              // style={{
-              //   display: "flex",
-              //   alignItems: "center",
-              //   justifyContent: "end",
-              //   padding: "10px",
-              //   position: "fixed",
-              //   bottom: "10px",
-              //   right: "10px",
-              //   backgroundColor: "#fff",
-              //   borderRadius: "5px",
-              //   boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-              //   zIndex: 1000,
-              // }}
+                <nav
+                  className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
+                //   className="pagination-container"
+                // style={{
+                //   display: "flex",
+                //   alignItems: "center",
+                //   justifyContent: "end",
+                //   padding: "10px",
+                //   position: "fixed",
+                //   bottom: "10px",
+                //   right: "10px",
+                //   backgroundColor: "#fff",
+                //   borderRadius: "5px",
+                //   boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                //   zIndex: 1000,
+                // }}
                 >
                   {/* Dropdown for Items Per Page */}
                   <div>
@@ -1040,63 +1040,64 @@ function SettingManage(props) {
           {selectedHostel && (
             <div className="container mt-3">
               {/* <div className="d-flex justify-content-between align-items-center mb-3"> */}
-            {/* <div className="d-flex align-items-center"> */}
-            <div 
-      // className="pt-4" 
-      // className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-       className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-md-between w-100"
-      style={{
-        // display: "flex", flexDirection: "row", justifyContent: "space-between", 
-        position: "sticky",
-        top: 0,
-        right: 0,
-        left: 0,
-        zIndex: 1000,
-        backgroundColor: "#FFFFFF",
-        // height: 83,
-        whiteSpace: "nowrap",
-        padding: "25px"
-        
-      }}>
-        {/* <div className="w-100 text-md-start text-center"> */}
-        <div className="w-100 d-flex justify-content-start">
-     
+              {/* <div className="d-flex align-items-center"> */}
+              <div
+                // className="pt-4" 
+                // className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+                className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-md-between w-100"
+                style={{
+                  // display: "flex", flexDirection: "row", justifyContent: "space-between", 
+                  position: "sticky",
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  zIndex: 1000,
+                  backgroundColor: "#FFFFFF",
+                  // height: 83,
+                  whiteSpace: "nowrap",
+                  padding: "25px"
+
+                }}>
+                {/* <div className="w-100 text-md-start text-center"> */}
+                <div className="w-100 d-flex justify-content-start">
+
                   <ArrowLeft
                     size="32"
                     color="#222222"
                     onClick={handlebackToPG}
-                    style={{ cursor: "pointer", 
-                     
-                      
+                    style={{
+                      cursor: "pointer",
+
+
                     }}
-                    
+
                   />
                   <div className="w-100 text-center text-md-start mt-2 mt-md-0">
-                  <label
-                    // className="ms-md-3"
-                    style={{
-                      fontSize: 18,
-                      color: "rgba(34, 34, 34, 1)",
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      marginLeft: "20px"
-                      // paddingLeft: 0
-                    }}
-                  >
-                    {showHostelDetails?.Name}
-                  </label>
-                </div>
+                    <label
+                      // className="ms-md-3"
+                      style={{
+                        fontSize: 18,
+                        color: "rgba(34, 34, 34, 1)",
+                        fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        marginLeft: "20px"
+                        // paddingLeft: 0
+                      }}
+                    >
+                      {showHostelDetails?.Name}
+                    </label>
+                  </div>
                 </div>
                 {/* <div className="d-flex justify-content-between align-items-center">
                   <div className="me-3"> */}
-                   <div className="d-flex justify-content-md-between align-items-center w-100 w-md-auto">
-                   {/* <div className="me-3 d-none"> */}
-                    {/* <Sort Size="24" color="#222" variant="Outline" /> */}
-                    {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
+                <div className="d-flex justify-content-md-between align-items-center w-100 w-md-auto">
+                  {/* <div className="me-3 d-none"> */}
+                  {/* <Sort Size="24" color="#222" variant="Outline" /> */}
+                  {/* <Image src={Filter} roundedCircle style={{ height: "30px", width: "30px" }} /> */}
                   {/* </div> */}
-                  <div 
-        className="d-flex justify-content-center justify-content-md-end w-100 mt-4 mt-md-0"
-        >
+                  <div
+                    className="d-flex justify-content-center justify-content-md-end w-100 mt-4 mt-md-0"
+                  >
                     <Button
                       style={{
                         fontSize: 14,
@@ -1315,91 +1316,102 @@ function SettingManage(props) {
                                       ref={popupRef}
                                       style={{
                                         cursor: "pointer",
-                                        backgroundColor: "#f9f9f9",
+                                        backgroundColor: "#F9F9F9",
                                         position: "absolute",
                                         right: 40,
                                         top: 20,
-                                        width: 100,
+                                        width: 120,
                                         height: "auto",
                                         border: "1px solid #EBEBEB",
                                         borderRadius: 10,
                                         display: "flex",
-                                        justifyContent: "start",
-                                        padding: '10px',
-                                        alignItems: "center",
+                                        flexDirection: "column",
+                                        padding: 0,
+                                        alignItems: "flex-start",
+                                        zIndex: 1000,
                                       }}
                                     >
-                                      <div>
+                                      <div style={{ width: "100%", borderRadius: 10 }}>
+                                       
                                         <div
-                                          className="d-flex gap-1 align-items-center"
-                                          // onClick={() => {
-                                          //   if (editPermissionError) {
-                                          //     handleEditFloor(floorClick, showHostelDetails.id, floorName);
-                                          //   }
-                                          // }}
-                                          onClick={() => handleEditFloor(floorClick, showHostelDetails.id, floorName)}
+                                          onClick={() =>
+                                            !editPermissionError && handleEditFloor(floorClick, showHostelDetails.id, floorName)
+                                          }
+                                          onMouseEnter={(e) => {
+                                            if (!editPermissionError) e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                          }}
                                           style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "8px",
+                                            padding: "8px 12px",
+                                            width: "100%",
+                                            backgroundColor: "#F9F9F9",
                                             cursor: editPermissionError ? "not-allowed" : "pointer",
                                             opacity: editPermissionError ? 0.6 : 1,
+                                            borderTopLeftRadius: 10,
+                                            borderTopRightRadius: 10,
                                           }}
                                         >
-                                          <div>
-                                            <Edit
-                                              size="16"
-                                              color={editPermissionError ? "#888888" : "#1E45E1"}
-                                            />
-                                          </div>
-                                          <div>
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "Outfit, sans-serif",
-                                                color: editPermissionError ? "#888888" : "#222222",
-                                                cursor: editPermissionError ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Edit
-                                            </label>
-                                          </div>
+                                          <Edit size="16" color={editPermissionError ? "#888888" : "#1E45E1"} />
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy, sans-serif",
+                                              color: editPermissionError ? "#888888" : "#222222",
+                                              cursor: editPermissionError ? "not-allowed" : "pointer",
+                                            }}
+                                          >
+                                            Edit
+                                          </label>
                                         </div>
 
+                                     
+                                        <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px" }} />
 
-                                        <div
-                                          className="d-flex gap-1 align-items-center"
-                                          onClick={() => {
-                                            if (!deletePermissionError) {
-                                              handleShowDelete(floorClick, showHostelDetails.id, floorName);
-                                            }
+                                                                             <div
+                                          onClick={() =>
+                                            !deletePermissionError && handleShowDelete(floorClick, showHostelDetails.id, floorName)
+                                          }
+                                          onMouseEnter={(e) => {
+                                            if (!deletePermissionError) e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.currentTarget.style.backgroundColor = "#F9F9F9";
                                           }}
                                           style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "8px",
+                                            padding: "8px 12px",
+                                            width: "100%",
+                                            backgroundColor: "#F9F9F9",
                                             cursor: deletePermissionError ? "not-allowed" : "pointer",
                                             opacity: deletePermissionError ? 0.6 : 1,
+                                            borderBottomLeftRadius: 10,
+                                            borderBottomRightRadius: 10,
                                           }}
                                         >
-                                          <div>
-                                            <Trash
-                                              size="16"
-                                              color={deletePermissionError ? "#888888" : "red"}
-                                            />
-                                          </div>
-                                          <div>
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 600,
-                                                fontFamily: "Gilroy",
-                                                color: deletePermissionError ? "#888888" : "#FF0000",
-                                                cursor: deletePermissionError ? "not-allowed" : "pointer",
-                                              }}
-                                            >
-                                              Delete
-                                            </label>
-                                          </div>
+                                          <Trash size="16" color={deletePermissionError ? "#888888" : "red"} />
+                                          <label
+                                            style={{
+                                              fontSize: 14,
+                                              fontWeight: 600,
+                                              fontFamily: "Gilroy, sans-serif",
+                                              color: deletePermissionError ? "#888888" : "#FF0000",
+                                              cursor: deletePermissionError ? "not-allowed" : "pointer",
+                                            }}
+                                          >
+                                            Delete
+                                          </label>
                                         </div>
-
                                       </div>
                                     </div>
+
                                   </>
                                 )}
                               </div>

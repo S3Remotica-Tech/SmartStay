@@ -231,7 +231,7 @@ function PayingHostel(props) {
                           
                           }}
                         >
-                          <div>
+                          <div style={{ borderRadius: 10,}}>
                                                        <div
                               className="d-flex gap-2 align-items-center"
                               onClick={
@@ -242,6 +242,8 @@ function PayingHostel(props) {
                               style={{
                                 padding: "8px 12px",
                                 width: "100%",
+                                borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
                                 pointerEvents: props.editPermissionError ? "none" : "auto",
                                 opacity: props.editPermissionError ? 0.5 : 1,
                                 cursor: props.editPermissionError ? "not-allowed" : "pointer",
@@ -279,6 +281,8 @@ function PayingHostel(props) {
                               style={{
                                 padding: "8px 12px",
                                 width: "100%",
+                                borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
                                 pointerEvents: props.editPermissionError ? "none" : "auto",
                                 opacity: props.editPermissionError ? 0.5 : 1,
                                 cursor: props.editPermissionError ? "not-allowed" : "pointer",

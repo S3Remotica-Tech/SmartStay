@@ -38,12 +38,12 @@ function SettingAmenities({ hostelid }) {
     const [amenitiesrowsPerPage, setAmenitiesrowsPerPage] = useState(2);
     const [amenitiesFilterddata, setAmenitiesFilterddata] = useState([]);
     const [amenitiescurrentPage, setAmenitiescurrentPage] = useState(1);
-     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
 
 
 
-  
+
 
 
 
@@ -58,32 +58,32 @@ function SettingAmenities({ hostelid }) {
     const handleToggle = (amenity) => {
         setSwitchStates((prevSwitchStates) => {
             const newChecked = !prevSwitchStates[amenity.id];
-    
+
             setIsChecked(newChecked);
             setAmenityDetails(amenity);
-    
+
             return {
                 ...prevSwitchStates,
                 [amenity.id]: newChecked,
             };
         });
-    
-        
+
+
         if (!switchStates[amenity.id]) {
             setIsDisplayRecurring(true);
         }
     };
-    
+
 
 
     useEffect(() => {
         if (isChecked === null) return;
-    
+
         if (isChecked) {
-            setIsDisplayRecurring(true); 
-            setIsFormSubmitted(false);  
+            setIsDisplayRecurring(true);
+            setIsFormSubmitted(false);
         } else {
-           
+
             dispatch({
                 type: 'RECURRINGROLE',
                 payload: {
@@ -92,14 +92,14 @@ function SettingAmenities({ hostelid }) {
                     hostel_id: state.login.selectedHostel_Id,
                     start_date: '0',
                     end_date: '0',
-                    am_id: amenityDetails?.id, 
+                    am_id: amenityDetails?.id,
                 },
             });
         }
     }, [isChecked]);
 
 
-  
+
 
 
 
@@ -125,7 +125,7 @@ function SettingAmenities({ hostelid }) {
         }
         setOpenAmenitiesForm(true);
         setEditDetails('');
-       
+
     };
 
 
@@ -137,7 +137,7 @@ function SettingAmenities({ hostelid }) {
     const handleCloseRecurringPopUp = () => {
         setIsDisplayRecurring(false);
 
-      
+
         setSwitchStates((prev) => ({
             ...prev,
             [amenityDetails?.id]: false,
@@ -293,7 +293,7 @@ function SettingAmenities({ hostelid }) {
     }, [state.InvoiceList?.deleteAmenitiesSuccessStatusCode])
 
 
-   
+
     const indexOfLastRowAmenities = amenitiescurrentPage * amenitiesrowsPerPage;
     const indexOfFirstRowAmenities = indexOfLastRowAmenities - amenitiesrowsPerPage;
     const currentRowAmenities = amenitiesFilterddata?.slice(indexOfFirstRowAmenities, indexOfLastRowAmenities);
@@ -311,30 +311,30 @@ function SettingAmenities({ hostelid }) {
     );
 
 
-       useEffect(() => {
-                      if (
-                        amenitiesFilterddata.length > 0 &&
-                        currentRowAmenities.length === 0 &&
-                        amenitiescurrentPage > 1
-                      ) {
-                        setAmenitiescurrentPage(amenitiescurrentPage - 1);
-                      }
-                    }, [amenitiesFilterddata])
+    useEffect(() => {
+        if (
+            amenitiesFilterddata.length > 0 &&
+            currentRowAmenities.length === 0 &&
+            amenitiescurrentPage > 1
+        ) {
+            setAmenitiescurrentPage(amenitiescurrentPage - 1);
+        }
+    }, [amenitiesFilterddata])
 
 
     return (
-        <div 
+        <div
             style={{
                 position: "relative", maxHeight: "500px",
                 overflowY: "auto",
-                paddingRight:11,paddingLeft:10
+                paddingRight: 11, paddingLeft: 10
             }}>
-            
-            <div 
-  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+
+            <div
+                className="d-flex flex-column flex-md-row justify-content-between align-items-center"
                 style={{
-                   
-                     position: "sticky",
+
+                    position: "sticky",
                     top: 0,
                     right: 0,
                     left: 0,
@@ -342,14 +342,14 @@ function SettingAmenities({ hostelid }) {
                     backgroundColor: "#FFFFFF",
                     height: 83,
                 }}>
-                 <div 
-    className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
+                <div
+                    className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
                     <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Amenities</label>
                 </div>
                 <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
                     <Button
                         onClick={handleOpenAmenities}
-                      
+
                         style={{
                             fontFamily: "Gilroy",
                             fontSize: "14px",
@@ -358,9 +358,9 @@ function SettingAmenities({ hostelid }) {
                             fontWeight: 600,
                             borderRadius: "8px",
                             padding: "11px 35px",
-                            
-                            width:146,
-                            height:45,
+
+                            width: 146,
+                            height: 45,
                             maxWidth: "100%",
                             maxHeight: 50,
                             marginTop: 12,
@@ -394,7 +394,7 @@ function SettingAmenities({ hostelid }) {
                 <div className='row row-gap-3 scroll-issue'>
 
 
-                  
+
                     {currentRowAmenities && currentRowAmenities.length > 0 ? (
                         currentRowAmenities.map((amenity, index) => (
 
@@ -422,113 +422,120 @@ function SettingAmenities({ hostelid }) {
 
                                                     {showDots === index && <>
 
-                                                        <div ref={popupRef} 
-                                                        style={{ cursor: "pointer", 
-                                                        backgroundColor: "#F9F9F9", 
-                                                        position: "absolute", 
-                                                     
-                                                        right: window.innerWidth <= 335 ? 0 : 40,
-                                                        
-                                                        top:20, 
-                                                        
-                                                        width: window.innerWidth <= 335 ? 120 : 150,
-                                                       
-                                                        height: "auto", 
-                                                        border: "1px solid #EBEBEB", 
-                                                        borderRadius: 10, display: "flex", 
-                                                        flexDirection: "column",
-                                                        
-                                                        padding: 10, 
-                                                        alignItems: "start",
-                                                        zIndex: 1050, 
-                         
-                          fontSize: window.innerWidth <= 335 ? 13 : 14,
-                                                         }}>
-                                                            <div >
+                                                        <div
+                                                            ref={popupRef}
+                                                            style={{
+                                                                cursor: "pointer",
+                                                                backgroundColor: "#F9F9F9",
+                                                                position: "absolute",
+                                                                right: window.innerWidth <= 335 ? 0 : 40,
+                                                                top: 20,
+                                                                width: window.innerWidth <= 335 ? 120 : 180,
+                                                                border: "1px solid #EBEBEB",
+                                                                borderRadius: 10,
+                                                                display: "flex",
+                                                                flexDirection: "column",
+                                                                alignItems: "start",
+                                                                zIndex: 1050,
+                                                                fontSize: window.innerWidth <= 335 ? 13 : 14,
+                                                                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                                                            }}
+                                                        >
+                                                            <div style={{ width: "100%" }}>
                                                                 <div
-                                                                    
                                                                     onClick={() => {
                                                                         if (amenity.setAsDefault !== 1) {
                                                                             handleDisplayAssignAmenities(amenity);
                                                                         }
                                                                     }}
-                                                                    className="d-flex gap-2 mb-2 align-items-center"
-
+                                                                    className="d-flex gap-2 align-items-center w-100"
                                                                     style={{
                                                                         cursor: amenity.setAsDefault === 1 ? "not-allowed" : "pointer",
                                                                         opacity: amenity.setAsDefault === 1 ? 0.5 : 1,
+                                                                        padding: "8px 12px",
+                                                                        borderTopLeftRadius: 10,
+                                                                        borderTopRightRadius: 10,
+                                                                        transition: "background 0.2s ease",
                                                                     }}
-
-
+                                                                    onMouseEnter={(e) =>
+                                                                        amenity.setAsDefault !== 1 &&
+                                                                        (e.currentTarget.style.backgroundColor = "#EDF2FF")
+                                                                    }
+                                                                    onMouseLeave={(e) =>
+                                                                        (e.currentTarget.style.backgroundColor = "transparent")
+                                                                    }
                                                                 >
-                                                                    <div>
-                                                                        <ProfileAdd size="16" color="#1E45E1" />
-                                                                    </div>
-                                                                    <div>
-                                                                        <label
-                                                                            style={{
-                                                                                fontSize: 14,
-                                                                                fontWeight: 600,
-                                                                                fontFamily: "Gilroy",
-                                                                                color: "#222222",
-                                                                                cursor: amenity.setAsDefault === 1 ? "not-allowed" : "pointer",
-                                                                            }}
-                                                                        >
-                                                                            Assign Amenities
-                                                                        </label>
-                                                                    </div>
+                                                                    <ProfileAdd size="16" color="#1E45E1" />
+                                                                    <label
+                                                                        style={{
+                                                                            fontSize: 14,
+                                                                            fontWeight: 600,
+                                                                            fontFamily: "Gilroy",
+                                                                            color: "#222222",
+                                                                        }}
+                                                                    >
+                                                                        Assign Amenities
+                                                                    </label>
                                                                 </div>
-
+                                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
 
                                                                 <div
-                                                                    className="d-flex gap-2 mb-2 align-items-center"
-
                                                                     onClick={() => handleEditAmenities(amenity)}
+                                                                    className="d-flex gap-2 align-items-center w-100"
+                                                                    style={{
+                                                                        cursor: "pointer",
+                                                                        padding: "8px 12px",
+
+                                                                        transition: "background 0.2s ease",
+                                                                    }}
+                                                                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
+                                                                    onMouseLeave={(e) =>
+                                                                        (e.currentTarget.style.backgroundColor = "transparent")
+                                                                    }
                                                                 >
-                                                                    <div>
-                                                                        <Edit size="16" color="#1E45E1" />
-                                                                    </div>
-                                                                    <div>
-                                                                        <label
-                                                                            style={{
-                                                                                fontSize: 14,
-                                                                                fontWeight: 600,
-                                                                                fontFamily: "Gilroy",
-                                                                                color: "#222222",
-                                                                                cursor: "pointer"
-                                                                            }}
-                                                                        >
-                                                                            Edit
-                                                                        </label>
-                                                                    </div>
+                                                                    <Edit size="16" color="#1E45E1" />
+                                                                    <label
+                                                                        style={{
+                                                                            fontSize: 14,
+                                                                            fontWeight: 600,
+                                                                            fontFamily: "Gilroy",
+                                                                            color: "#222222",
+                                                                        }}
+                                                                    >
+                                                                        Edit
+                                                                    </label>
                                                                 </div>
+                                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+
                                                                 <div
-                                                                    className="d-flex gap-2 mb-2 align-items-center"
                                                                     onClick={() => handleDeleteAmenities(amenity)}
+                                                                    className="d-flex gap-2  align-items-center w-100"
+                                                                    style={{
+                                                                        cursor: "pointer",
+                                                                        padding: "8px 12px",
+                                                                        borderBottomLeftRadius: 10,
+                                                                        borderBottomRightRadius: 10,
+                                                                        transition: "background 0.2s ease",
+                                                                    }}
+                                                                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
+                                                                    onMouseLeave={(e) =>
+                                                                        (e.currentTarget.style.backgroundColor = "transparent")
+                                                                    }
                                                                 >
-
-                                                                    <div>
-                                                                        <Trash
-                                                                            size="16"
-                                                                            color="red"
-                                                                        />
-                                                                    </div>
-                                                                    <div>
-                                                                        <label
-                                                                            style={{
-                                                                                fontSize: 14,
-                                                                                fontWeight: 600,
-                                                                                fontFamily: "Gilroy",
-                                                                                color: "#FF0000",
-                                                                                cursor: "pointer"
-                                                                            }}
-                                                                        >
-                                                                            Delete
-                                                                        </label>
-                                                                    </div>
+                                                                    <Trash size="16" color="red" />
+                                                                    <label
+                                                                        style={{
+                                                                            fontSize: 14,
+                                                                            fontWeight: 600,
+                                                                            fontFamily: "Gilroy",
+                                                                            color: "#FF0000",
+                                                                        }}
+                                                                    >
+                                                                        Delete
+                                                                    </label>
                                                                 </div>
-
                                                             </div>
                                                         </div>
 
@@ -551,30 +558,30 @@ function SettingAmenities({ hostelid }) {
                                                 <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Amount</p>
                                                 <p style={{ fontSize: 16, fontFamily: "Gilroy", fontWeight: 600 }}>₹{amenity.Amount}</p>
                                             </div>
-                                          
+
                                             <div className="col-lg-4 col-md-4 col-12">
                                                 <p className="mb-1" style={{ fontSize: 14, fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Recuring</p>
 
                                                 <div>
-  <Form.Check
-    type="switch"
-    checked={switchStates[amenity.id]}
-    id={`custom-switch-${amenity.id}`}
-    className="custom-switch-pointer"
-    style={{ boxShadow: "none" }}
-    label="Recurring"
-    onChange={() => handleToggle(amenity)}
-  />
+                                                    <Form.Check
+                                                        type="switch"
+                                                        checked={switchStates[amenity.id]}
+                                                        id={`custom-switch-${amenity.id}`}
+                                                        className="custom-switch-pointer"
+                                                        style={{ boxShadow: "none" }}
+                                                        label="Recurring"
+                                                        onChange={() => handleToggle(amenity)}
+                                                    />
 
-  <style>
-    {`
+                                                    <style>
+                                                        {`
       .custom-switch-pointer input[type="checkbox"],
       .custom-switch-pointer label {
         cursor: pointer !important;
       }
     `}
-  </style>
-</div>
+                                                    </style>
+                                                </div>
 
                                             </div>
                                             <div className="col-lg-4 col-md-4 col-12">
@@ -606,8 +613,10 @@ function SettingAmenities({ hostelid }) {
                     <div style={{ marginTop: 65, alignItems: "center", justifyContent: "center" }}>
                         <div className='d-flex  justify-content-center'>
                             <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                        <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", 
-                            fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Amenities available</div>
+                        <div className="pb-1 mt-3" style={{
+                            textAlign: "center", fontWeight: 600, fontFamily: "Gilroy",
+                            fontSize: 20, color: "rgba(75, 75, 75, 1)"
+                        }}>No Amenities available</div>
 
                     </div>
 
@@ -629,7 +638,7 @@ function SettingAmenities({ hostelid }) {
                     <div
                         style={{
                             position: 'fixed',
-                   right: "30%",
+                            right: "30%",
                             display: 'flex',
                             height: "50vh",
                             alignItems: 'center',
@@ -661,11 +670,11 @@ function SettingAmenities({ hostelid }) {
 
 
             {amenitiesFilterddata.length >= 2 && (
-                <nav 
-                className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
-          
+                <nav
+                    className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
+
                 >
-                   
+
                     <div>
                         <select
                             value={amenitiesrowsPerPage}
@@ -689,7 +698,7 @@ function SettingAmenities({ hostelid }) {
                         </select>
                     </div>
 
-                   
+
                     <ul
                         style={{
                             display: "flex",
@@ -699,7 +708,7 @@ function SettingAmenities({ hostelid }) {
                             padding: 0,
                         }}
                     >
-                      
+
                         <li style={{ margin: "0 10px" }}>
                             <button
                                 style={{
@@ -724,14 +733,14 @@ function SettingAmenities({ hostelid }) {
                             </button>
                         </li>
 
-                     
+
                         <li
                             style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
                         >
                             {amenitiescurrentPage} of {totalPagesGeneral}
                         </li>
 
-                       
+
                         <li style={{ margin: "0 10px" }}>
                             <button
                                 style={{
@@ -777,7 +786,7 @@ function SettingAmenities({ hostelid }) {
                 openAmenitiesForm && <AddAmenities show={handleOpenAmenities} handleClose={handleCloseAmenities} hostelid={hostelid} editDetails={editDetails} />
             }
             {
-                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={hostelid} amenityDetails={amenityDetails} setIsFormSubmitted = {setIsFormSubmitted} isFormSubmitted = {isFormSubmitted}/>
+                isDisplayRecurring && <RecurringEnable show={isDisplayRecurring} handleCloseRecurring={handleCloseRecurringPopUp} hostelid={hostelid} amenityDetails={amenityDetails} setIsFormSubmitted={setIsFormSubmitted} isFormSubmitted={isFormSubmitted} />
             }
             {
                 IsDisplayAssignAmenities && <AssignAmenities show={IsDisplayAssignAmenities} handleClose={handleDisplayAssignAmenitiesClose} hostelid={hostelid} assignAmenitiesDetails={assignAmenitiesDetails} />
@@ -796,14 +805,14 @@ function SettingAmenities({ hostelid }) {
                 >
                     <Modal.Header style={{ borderBottom: "none" }}>
                         <Modal.Title
-                        className="w-100 text-center mt-2"
+                            className="w-100 text-center mt-2"
                             style={{
                                 fontSize: "18px",
                                 fontFamily: "Gilroy",
-                               
+
                                 fontWeight: 600,
                                 color: "#222222",
-                               
+
                             }}
                         >
                             Delete Amenities?
@@ -811,13 +820,13 @@ function SettingAmenities({ hostelid }) {
                     </Modal.Header>
 
                     <Modal.Body
-                    className="text-center"
+                        className="text-center"
                         style={{
                             fontSize: 14,
                             fontWeight: 500,
                             fontFamily: "Gilroy",
                             color: "#646464",
-                           
+
                             marginTop: "-27px",
                         }}
                     >
@@ -825,28 +834,28 @@ function SettingAmenities({ hostelid }) {
                     </Modal.Body>
 
                     <Modal.Footer
-                    className="d-flex justify-content-center"
+                        className="d-flex justify-content-center"
                         style={{
-                            
+
                             borderTop: "none",
                             marginTop: "-10px",
                         }}
                     >
                         <Button
-                        className="me-2"
-                        style={{
-                            width: "100%",
-                            maxWidth: 160,
-                            height: 52,
-                            borderRadius: 8,
-                            padding: "12px 20px",
-                            background: "#fff",
-                            color: "#1E45E1",
-                            border: "1px solid #1E45E1",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            fontSize: "14px",
-                          }}
+                            className="me-2"
+                            style={{
+                                width: "100%",
+                                maxWidth: 160,
+                                height: 52,
+                                borderRadius: 8,
+                                padding: "12px 20px",
+                                background: "#fff",
+                                color: "#1E45E1",
+                                border: "1px solid #1E45E1",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                fontSize: "14px",
+                            }}
                             onClick={handleCloseDeleteFormAmenities}
                         >
                             Cancel
@@ -863,7 +872,7 @@ function SettingAmenities({ hostelid }) {
                                 fontWeight: 600,
                                 fontFamily: "Gilroy",
                                 fontSize: "14px",
-                              }}
+                            }}
                             onClick={handleDeleteAmenitiesConfirm}
                         >
                             Delete
@@ -878,5 +887,5 @@ function SettingAmenities({ hostelid }) {
 }
 SettingAmenities.propTypes = {
     hostelid: PropTypes.func.isRequired,
-  };
+};
 export default SettingAmenities;
