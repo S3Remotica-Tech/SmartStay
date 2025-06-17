@@ -2073,7 +2073,7 @@ const handleDownloadKYC = async () => {
     fontFamily: "Gilroy",
   }}
 >
-  {/* KYC Content Here */}
+
   <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20,fontFamily:"Gilroy" }}>
     KYC Details
   </h6>
