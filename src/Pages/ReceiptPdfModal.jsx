@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { toWords } from 'number-to-words';
 import "../Pages/Invoices.css";
@@ -31,166 +30,23 @@ import receiptLogo from '../Assets/Images/New_images/receiptlogo.png'
 
 
 
-const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
+const ReceiptPdfCard = ({ rowData, handleClosed }) => {
+
   const state = useSelector((state) => state);
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(true);
-  const [receiptDataNew, setReceiptDataNew] = useState("");
   const [idforwhats, setIdForWhats] = useState("");
+  const [receiptDataNew, setReceiptDataNew] = useState("");
   useEffect(() => {
     if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
       setReceiptDataNew(state.InvoiceList.newReceiptchanges.receipt)
       setTimeout(() => {
         dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
       }, 500);
-=======
- const dispatch = useDispatch();
-    const [isVisible, setIsVisible] = useState(true);
-    const [receiptDataNew, setReceiptDataNew] = useState("");
-    useEffect(()=>{
-       if(state.InvoiceList.statusCodeNewReceiptStatusCode === 200){
-        setReceiptDataNew(state.InvoiceList.newReceiptchanges.receipt)
-         setTimeout(() => {
-           dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
-         },500);
-       }
-       
-     },[state.InvoiceList.statusCodeNewReceiptStatusCode])
-
-     
-    const cardRef = useRef(null);
-
-    useEffect(() => {
-      
-        setIsVisible(true)
-        if(rowData?.id){
-          dispatch({type:"RECEIPTPDF_NEWCHANGES",id:rowData?.id})
-        }
-       
-    }, [rowData])
-
-
-
-    const [isOpen, setIsOpen] = useState(false);
-    
-      const handleShareClick = () => {
-        setIsOpen(!isOpen);
-      };
-
-     const [hoveredItem, setHoveredItem] = useState(null);
-    
-      const menuItems = [
-        {
-          label: "Send Mail",
-          icon: Mail,
-          iconWhite: Mail_white,
-          key: "mail",
-        },
-        {
-          label: "Send SMS",
-          icon: Message_text,
-          iconWhite: Message_text_white,
-          key: "sms",
-        },
-        {
-          label: "Send Whatsapp",
-          icon: Whatsapp_blue,
-          iconWhite: Whatsapp_white,
-          key: "whatsapp",
-        },
-      ];
-
-      const isValid = (value) => {
-        return value !== null && value !== undefined && value !== "undefined" && value !== "";
-      };
-    
-
-      const innerScrollRef = useRef(null);
-
-      const handleDownload = async () => {
-        const element = cardRef.current;
-        const innerElement = innerScrollRef.current;
-      
-        if (!element || !innerElement) return;
-      
-        const outerOriginal = {
-          height: element.style.height,
-          maxHeight: element.style.maxHeight,
-          overflow: element.style.overflow,
-          overflowY: element.style.overflowY,
-        };
-      
-        const innerOriginal = {
-          height: innerElement.style.height,
-          maxHeight: innerElement.style.maxHeight,
-          overflow: innerElement.style.overflow,
-          overflowY: innerElement.style.overflowY,
-        };
-      
-        element.style.height = "auto";
-        element.style.maxHeight = "none";
-        element.style.overflow = "visible";
-        element.style.overflowY = "visible";
-      
-        innerElement.style.height = "auto";
-        innerElement.style.maxHeight = "none";
-        innerElement.style.overflow = "visible";
-        innerElement.style.overflowY = "visible";
-      
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      
-        const canvas = await html2canvas(element, {
-          scale: 2,
-          useCORS: true,
-          logging: true,
-          allowTaint: false,
-        });
-      
-        const imgData = canvas.toDataURL("image/png");
-        const imgWidth = 595.28;
-        const pageHeight = 841.89;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      
-        let heightLeft = imgHeight;
-        let position = 0;
-      
-        const pdf = new jsPDF("p", "pt", "a4");
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      
-        while (heightLeft > 0) {
-          pdf.addPage();
-          position = -(imgHeight - heightLeft);
-          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-          heightLeft -= pageHeight;
-        }
-      
-        pdf.save("invoice.pdf");
-      
-        Object.assign(element.style, outerOriginal);
-        Object.assign(innerElement.style, innerOriginal);
-      };
-
-
-  
-
-
-
-
-
-
-
-
-   
-
-
-    const handleBackInvoice = () => {
-        handleClosed()
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
     }
 
   }, [state.InvoiceList.statusCodeNewReceiptStatusCode])
+
 
   const cardRef = useRef(null);
 
@@ -205,18 +61,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
   }, [rowData])
 
 
-  //     const handleDownload = async () => {
-  //   const element = cardRef.current;
-  //   const canvas = await html2canvas(element);
-  //   const imageData = canvas.toDataURL("image/png");
-  //   const pdf = new jsPDF({
-  //     orientation: "portrait", 
-  //     unit: "px", 
-  //     format: [canvas.width, canvas.height]
-  //   });
-  //   pdf.addImage(imageData, "PNG", 0, 0);
-  //   pdf.save("invoice.pdf");
-  // };
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -260,7 +104,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
 
     if (!element || !innerElement) return;
 
-    // Save original styles
     const outerOriginal = {
       height: element.style.height,
       maxHeight: element.style.maxHeight,
@@ -275,7 +118,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
       overflowY: innerElement.style.overflowY,
     };
 
-    // Expand both elements
     element.style.height = "auto";
     element.style.maxHeight = "none";
     element.style.overflow = "visible";
@@ -316,52 +158,9 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
 
     pdf.save("invoice.pdf");
 
-    // Restore styles
     Object.assign(element.style, outerOriginal);
     Object.assign(innerElement.style, innerOriginal);
   };
-
-
-  // const handleDownload = async () => {
-  //     const element = cardRef.current;
-  //     const canvas = await html2canvas(element, { scale: 2 });
-  //     const imageData = canvas.toDataURL("image/png");
-
-  //     const pdf = new jsPDF({
-  //         orientation: "portrait",
-  //         unit: "px",
-  //         format: [canvas.width / 2, canvas.height / 2]
-  //     });
-
-  //     pdf.addImage(imageData, "PNG", 0, 0, canvas.width / 2, canvas.height / 2);
-  //     pdf.save("invoice.pdf");
-  // };
-
-
-
-
-
-
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
-
-
-  // const handleShare = async () => {
-  //     if (navigator.share) {
-  //         try {
-  //             await navigator.share({
-  //                 title: "Invoice",
-  //                 text: "Here is your invoice.",
-  //                 url: window.location.href,
-  //             });
-  //         } catch (err) {
-  //             console.error("Error sharing", err);
-  //         }
-  //     } else {
-  //         alert("Web Share API not supported in this browser.");
-  //     }
-  // };
-
-
 
   const handleBackInvoice = () => {
     handleClosed()
@@ -370,14 +169,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
   const amountInWords = rowData?.amount_received
     ? `${toWords(rowData.amount_received).replace(/\b\w/g, char => char.toUpperCase())} Rupees`
     : '';
-
-
-
-  //action: "recuring"
-
-
-
-  // if (!isVisible) return null;
 
   const handleMenuClick = async (key) => {
     setIsOpen(false);
@@ -402,30 +193,16 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
     }
   };
 
-
-
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
       <div >
         <div className="d-flex justify-content-between 
-=======
-    return (
-        <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
-            <div >
-                <div className="d-flex justify-content-between 
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
             align-items-center ps-3">
 
 
           <div className="d-flex align-items-center 
                 justify-content-between gap-3 mx-3">
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
-            {/* <div onClick={handleBackInvoice} style={{ cursor: 'pointer' }}>
-                            <ArrowLeft
-                                size="25"
-                                color="#545454"
-                            />
-                        </div> */}
+
             <div>
 
 
@@ -434,9 +211,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
 
               </div>
               <div className="mb-2 mt-2">
-                {/* <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>{moment(rowData?.Date).format('DD MMM YYYY')}</label> - <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>#{receiptDataNew?.reference_id === null || receiptDataNew?.reference_id === '' ? '0.00' : receiptDataNew?.reference_id}</label> */}
                 <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>
-                  {/* {moment(receiptDataNew?.Date).format('DD MMM YYYY')} */}
                   {moment(receiptDataNew?.Date).format('DD-MM-YYYY')}
                 </label>
                 -
@@ -445,26 +220,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                     ? receiptDataNew.invoice_number
                     : (receiptDataNew?.reference_id || '0.00')}
                 </label>
-=======
-                       
-                        <div>
-
-
-                            <div className="mb-3">
-                                <span style={{ fontSize: '10px', backgroundColor: '#D9FFD9', color: '#000', borderRadius: '14px', fontFamily: 'Gilroy', padding: "8px 12px" }}>Paid</span> 
-                              
-                            </div>
-                            <div className="mb-2 mt-2">
-                                <label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>
-  {moment(receiptDataNew?.Date).format('DD-MM-YYYY')}
-</label>
- -
-<label style={{ fontSize: 16, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" }}>
-  #{(receiptDataNew?.invoice_number && receiptDataNew?.invoice_number !== '' && receiptDataNew?.invoice_number !== '0')
-    ? receiptDataNew.invoice_number
-    : (receiptDataNew?.reference_id || '0.00')}
-</label>
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
 
 
               </div>
@@ -513,7 +268,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                 </div>
 
 
-                {/* Popup Menu */}
                 {isOpen && (
                   <div
                     className="position-absolute  start-0 mt-2 p-2 shadow"
@@ -555,7 +309,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                           {item.label}
                         </span>
                       </div>
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
                     ))}
                   </div>
                 )
@@ -567,69 +320,8 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
               <img src={Close} className="me-3 mt-1 ms-2" alt="Close Invoice" style={{ height: 20, width: 20, cursor: "pointer" }}
                 onClick={handleBackInvoice} />
             </div>
-            {/* <div className="gap-5 d-flex">
- 
-                            <img src={DownLoad} alt="Download Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleDownload} />
-                            <img src={Close} alt="Close Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} onClick={handleBackInvoice} />
-                        </div> */}
+
           </div>
-=======
-                      
-                      
-                       {  isOpen && (
-                            <div
-                              className="position-absolute  start-0 mt-2 p-2 shadow"
-                              style={{
-                                borderRadius: "8px",
-                                backgroundColor: "#fff",
-                                width: 160,
-                                zIndex: 10,
-                              }}
-                            >
-                              {menuItems.map((item) => (
-                                <div
-                                  key={item.key}
-                                  className="d-flex align-items-center mb-2 hover-item p-1 rounded"
-                                  style={{
-                                    backgroundColor:
-                                      hoveredItem === item.key ? "rgba(30, 69, 225, 1)" : "#fff",
-                                  }}
-                                  onMouseEnter={() => setHoveredItem(item.key)}
-                                  onMouseLeave={() => setHoveredItem(null)}
-                                >
-                                  <img
-                                    src={hoveredItem === item.key ? item.iconWhite : item.icon}
-                                    className="me-2"
-                                    alt={item.label}
-                                  />
-                                  <span
-                                    style={{
-                                      fontSize: 13,
-                                      fontWeight: 400,
-                                      fontFamily: "Gilroy",
-                                      color:
-                                        hoveredItem === item.key
-                                          ? "rgba(255, 255, 255, 1)"
-                                          : "rgba(33, 37, 41, 1)",
-                                    }}
-                                  >
-                                    {item.label}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          )
-                        }
-                      
-                      </div>
-                      
-                      
-                                    <img src={Close} className="me-3 mt-1 ms-2" alt="Close Invoice" style={{ height: 20, width: 20, cursor: "pointer" }} 
-                                   onClick={handleBackInvoice} />
-                                  </div>
-                    
-                    </div>
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
 
         </div>
         <div style={{ height: "2px", }} className="mx-4 mt-0">
@@ -676,22 +368,13 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                       </div>
                     </div>
 
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
-                    {/* <div className="text-start">
-                        <h5 className="mb-0" style={{ fontSize: 18, fontWeight: 500, letterSpacing: 1, fontFamily: "Gilroy" , marginRight:'20px'}}>{receiptDataNew?.hostel_details?.name}</h5>
-                        <small style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>{["", "0", null, undefined, "undefined"].includes(receiptDataNew?.hostel_details?.address)
-  ? ""
-  : receiptDataNew?.hostel_details?.address} , {receiptDataNew?.hostel_details?.area} ,{receiptDataNew?.hostel_details?.city}
-<br/> {receiptDataNew?.hostel_details?.landmark}, {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</small>
-                      </div> */}
+
                   </div>
                 </div>
 
 
                 <div className="container bg-white rounded-bottom border position-relative" style={{ width: "100%", }}>
                   <div className="text-center pt-2 pb-1">
-                    {/* <h5 className="fw-bold">Payment Receipt</h5> */}
-                    {/* <h5 className="fw-bold">{rowData?.action === "advance" ? "Security Deposit Receipt":"Payment Receipt"}</h5>  */}
                     <p className="" style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>
                       {receiptDataNew.invoice_type === "advance" && "Security Deposit Receipt"}
                       {receiptDataNew.invoice_type === "checkout" && "Final Settlement Receipt"}
@@ -707,7 +390,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                       <p className="mb-1" style={{ fontSize: '13px', color: '#1E45E1', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To:</p>
                       <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}>Mr. <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', }}>{receiptDataNew?.user_details?.name}</span></p>
                       <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12} />
-                        {/* {receiptDataNew?.user_details?.phone} */}
                         <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>  + {receiptDataNew &&
                           String(receiptDataNew?.user_details?.phone)?.slice(
                             0,
@@ -736,8 +418,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                         </div>
 
                       </div>
-                      {/* <p style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: '#222222',}}><img src={substracBlue} alt="subs" width={15} height={15}/> {receiptDataNew?.user_details?.address} {receiptDataNew?.user_details?.area} <br></br>
-                         {receiptDataNew?.user_details?.city} {receiptDataNew?.user_details?.landmark}, {receiptDataNew?.user_details?.state} {receiptDataNew?.user_details?.pincode}</p> */}
+
                     </div>
                     <div className="col-md-5 mb-3">
                       <div className="row">
@@ -748,8 +429,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                         <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Date :</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{moment(receiptDataNew?.payment_date).format('DD/MM/YYYY')}</div>
 
-                        <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Time :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>11:56:43 AM</div>
                         <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Room No :</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</div>
                         <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Payment Mode :</div>
@@ -767,9 +446,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                         <thead style={{ backgroundColor: "#1E45E1", color: "#FFFFFF" }}>
                           <tr style={{ color: "white" }}>
                             <th style={{ borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px", color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400 }}>S.NO</th>
-                            {/* <th style={{color:"white"}}>Inv No</th> */}
                             <th style={{ color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400 }}>Description</th>
-                            {/* <th style={{color:"white"}}>Duration</th> */}
                             <th style={{ borderTopRightRadius: "12px", borderBottomRightRadius: "12px", color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400 }}>Amount / INR</th>
                           </tr>
                         </thead>
@@ -777,110 +454,14 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                           {receiptDataNew?.amenities?.map((item, index) => (
                             <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
                               <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{index + 1}</td>
-                              {/* <td>{receiptDataNew.invoice_number}</td> */}
                               <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{item.am_name}</td>
-                              {/* <td>{moment(receiptDataNew?.Date).format("DD/MM/YYYY")}</td> */}
                               <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>Rs: {item.amount}</td>
-=======
-      </div>
-    </div>
-
-
-                    </div>
-                  </div>
-                
-                 
-                  <div className="container bg-white rounded-bottom border position-relative" style={{width:"100%",}}>
-                    <div className="text-center pt-2 pb-1">
-                      <p className="" style={{ fontSize: '17px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>
-  {receiptDataNew.invoice_type === "advance" && "Security Deposit Receipt"}
-  {receiptDataNew.invoice_type === "checkout" && "Final Settlement Receipt"}
-  {receiptDataNew.invoice_type !== "advance" && receiptDataNew.invoice_type !== "checkout" && "Payment Receipt"}
-        </p>
-
-
-                    </div>
-                
-                  
-                    <div className="row px-4 mt-2">
-                      <div className="col-md-7 mb-3">
-                        <p className="mb-1" style={{fontSize: '13px', color:'#1E45E1' ,fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To:</p>
-                        <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',}}>{receiptDataNew?.user_details?.name}</span></p>
-                        <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12}/>
-                       <span className="ms-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}>  + {receiptDataNew &&
-                                          String(receiptDataNew?.user_details?.phone)?.slice(
-                                            0,
-                                            String(receiptDataNew?.user_details?.phone).length - 10
-                                          )}{" "}
-                                        {receiptDataNew && String(receiptDataNew?.user_details?.phone)?.slice(-10)}</span>
-                         </p>
-                        <p className="mb-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}><img src={frameblue} alt="frame" width={15} height={15} className="me-1"/> {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
-
-                         <div className="d-flex" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)' }}>
-                       
-                       <div className="me-2">
-                         <img src={substracBlue} alt="local" />
-                       </div>
-                     
-                       <div>
-                         <div>
-                           {isValid(receiptDataNew?.user_details?.address) && <>{receiptDataNew?.user_details?.address}, </>}
-                           {isValid(receiptDataNew?.user_details?.area) && <>{receiptDataNew?.user_details?.area}, </>}
-                           {isValid(receiptDataNew?.user_details?.city) && <>{receiptDataNew?.user_details?.city}</>}
-                         </div>
-                         <div>
-                           {isValid(receiptDataNew?.user_details?.state) && <>{receiptDataNew?.user_details?.state} </>}
-                           {isValid(receiptDataNew?.user_details?.pincode) && <>- {receiptDataNew?.user_details?.pincode}</>}
-                         </div>
-                       </div>
-                     
-                     </div>
-
-                      </div>
-                      <div className="col-md-5 mb-3">
-                        <div className="row">
-
-                          <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>Receipt No :</div>
-                          <div className="col-6  text-start mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{receiptDataNew?.reference_id}</div>
-                
-                          <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Date :</div>
-                          <div className="col-6  text-start mt-1"  style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(receiptDataNew?.payment_date).format('DD/MM/YYYY')}</div>
-                
-                          <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Room No :</div>
-                          <div className="col-6  text-start mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</div>
-                          <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Payment Mode :</div>
-                          <div className="col-6  text-start"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginTop:2,paddingLeft:18}}> {receiptDataNew?.bank_type !== "" 
-    ? receiptDataNew.bank_type 
-    : receiptDataNew.payment_mode}</div>
-                        </div>
-                      </div>
-                    </div>
-                
-                   
-                    <div className="px-4 pb-3">
-                      <div className="table-responsive">
-                        <table className="table  text-center align-middle">
-                          <thead  style={{backgroundColor:"#1E45E1",color:"#FFFFFF"}}>
-                            <tr style={{color:"white"}}>
-                              <th style={{ borderTopLeftRadius: "12px",borderBottomLeftRadius:"12px",color:"white", fontSize:'12px' , fontFamily:'Gilroy', fontWeight:400 }}>S.NO</th>
-                              <th style={{color:"white" , fontSize:'12px' , fontFamily:'Gilroy', fontWeight:400}}>Description</th>
-                              <th style={{ borderTopRightRadius: "12px",borderBottomRightRadius:"12px",color:"white",  fontSize:'12px' , fontFamily:'Gilroy', fontWeight:400 }}>Amount / INR</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          {receiptDataNew?.amenities?.map((item, index) => (
-                            <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>{index + 1}</td>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>{item.am_name}</td>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>Rs: {item.amount}</td>
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
                             </tr>
                           ))}
                         </tbody>
                       </table>
                     </div>
 
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
 
                     <div className="d-flex justify-content-end mt-3"  >
                       <div className="w-100 w-md-50" style={{ paddingRight: "80px" }}>
@@ -890,18 +471,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                           <div className="w-25 text-end" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}> Rs: {receiptDataNew?.total_advance_amount}</div>
                         </div>
 
-                        {/* <div className="d-flex justify-content-end  py-1">
-      <div className="w-50 text-end" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</div>
-      <div className="w-25 text-end" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>₹ {receiptDataNew?.amount_received}</div>
-    </div> */}
-=======
-  <div className="d-flex justify-content-end py-1">
-      <div className="w-50 text-end" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Advance Amount</div>
-      <div className="w-25 text-end" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}> Rs: {receiptDataNew?.total_advance_amount}</div>
-    </div>
-   
-    
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
+
 
 
                         <div className="d-flex justify-content-end py-2 fw-bold">
@@ -911,22 +481,8 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                       </div>
                     </div>
 
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
                   </div>
 
-=======
-                    <div className="d-flex justify-content-between mt-4 align-items-start flex-wrap ms-4">
- 
-    <div className="text-start mt-4">
-      <p className="mb-0" style={{fontSize: "12px", fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(30, 69, 225, 1)'}}>
-      &quot;Your comfort is our priority –
-      </p>
-      <p className="mb-0" style={{fontSize: "12px", fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(30, 69, 225, 1)'}}>
-        See you again at Smart Stay! &quot;
-      </p>
-    </div>
-  
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
 
 
                 </div>
@@ -947,7 +503,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                 </div>
 
                 <div className="d-flex justify-content-between mt-4 align-items-start flex-wrap ms-4">
-                  {/* Left Message Block */}
 
                   <div className="text-start mt-4">
                     <p className="mb-0" style={{ fontSize: "12px", fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(30, 69, 225, 1)' }}>
@@ -1000,7 +555,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
 
                 <div className="container bg-white rounded-bottom border position-relative" style={{}}>
                   <div className="text-center pt-2 pb-1">
-                    {/* <h5 className="fw-bold">Payment Receipt</h5> */}
                     <h5 className="" style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{receiptDataNew?.invoice_type === "advance" ? "Security Deposit Receipt" : "Payment Receipt"}</h5>
                   </div>
 
@@ -1010,7 +564,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                       <p className=" mb-1" style={{ color: 'rgba(0, 163, 46, 1)', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To :</p>
                       <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}>Mr. <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', }}>{receiptDataNew?.user_details?.name}</span></p>
                       <p className="mb-1"><img src={mob} alt="mob" width={12} height={12} />
-                        {/* {receiptDataNew?.user_details?.phone} */}
                         <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>  + {receiptDataNew &&
                           String(receiptDataNew?.user_details?.phone)?.slice(
                             0,
@@ -1051,8 +604,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                         <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Date :</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{moment(receiptDataNew?.payment_date).format('DD/MM/YYYY')}</div>
 
-                        <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', }}>Time :</div>
-                        <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>11:56:43 AM</div>
+
 
                         <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)', whiteSpace: "nowrap" }}>Payment Mode :</div>
                         <div className="col-6  text-start mt-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', paddingLeft: 18 }}> {receiptDataNew?.bank_type !== ""
@@ -1061,49 +613,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                       </div>
                     </div>
                   </div>
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
-=======
-                
-                 
-                  <div className="container bg-white rounded-bottom border position-relative" style={{}}>
-                    <div className="text-center pt-2 pb-1">
-                      <h5 className="" style={{ fontSize: '17px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{receiptDataNew?.invoice_type === "advance" ? "Security Deposit Receipt":"Payment Receipt"}</h5> 
-                    </div>
-                
-                  
-                    <div className="row px-4 mt-3">
-                      <div className="col-md-7 mb-3">
-                        <p className=" mb-1" style={{color:'rgba(0, 163, 46, 1)' ,  fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400,fontStyle:'italic'}}>Bill To :</p>
-                        <p className="mb-1 me-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)',}}>Mr. <span style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',}}>{receiptDataNew?.user_details?.name}</span></p>
-                        <p className="mb-1"><img src={mob} alt="mob" width={12} height={12}/>
-                       <span className="ms-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}>  + {receiptDataNew &&
-                                          String(receiptDataNew?.user_details?.phone)?.slice(
-                                            0,
-                                            String(receiptDataNew?.user_details?.phone).length - 10
-                                          )}{" "}
-                                        {receiptDataNew && String(receiptDataNew?.user_details?.phone)?.slice(-10)}</span>
-                         </p>
-                         <p className="mb-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 500, color: '#000000',}}><img src={frame} alt="frame" width={15} height={15} className="me-1"/> {receiptDataNew?.user_details?.room_name}-{receiptDataNew?.user_details?.bed_name}</p>
-                        <div className="d-flex" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(34, 34, 34, 1)' }}>
-                       
-                       <div className="me-2">
-                         <img src={substrac} alt="subs" />
-                       </div>
-                     
-                       <div>
-                         <div>
-                           {isValid(receiptDataNew?.user_details?.address) && <>{receiptDataNew?.user_details?.address}, </>}
-                           {isValid(receiptDataNew?.user_details?.area) && <>{receiptDataNew?.user_details?.area}, </>}
-                           {isValid(receiptDataNew?.user_details?.city) && <>{receiptDataNew?.user_details?.city}</>}
-                         </div>
-                         <div>
-                           {isValid(receiptDataNew?.user_details?.state) && <>{receiptDataNew?.user_details?.state} </>}
-                           {isValid(receiptDataNew?.user_details?.pincode) && <>- {receiptDataNew?.user_details?.pincode}</>}
-                         </div>
-                       </div>
-                     
-                     </div>
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
 
                   {receiptDataNew?.invoice_type === "advance" && (
                     <div className="d-flex justify-content-end text-end mt-3 me-5">
@@ -1112,7 +621,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                           Amount received
                         </label>
                       </div>
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
                       <div style={{ padding: '20px', border: '1px solid rgba(0, 163, 46, 1)', borderRadius: '5px' }}>
 
                         <div>
@@ -1129,25 +637,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                           }}>
                             {amountInWords} only
                           </label>
-=======
-                      <div className="col-md-5 mb-3">
-                        <div className="row">
-                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Receipt No :</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{receiptDataNew?.reference_id}</div>
-                
-                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Invoice Ref :</div>
-                          <div className="col-6 text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>#{receiptDataNew?.invoice_number}</div>
-                
-                          <div className="col-6 text-muted text-end mt-1"   style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Date :</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>{moment(receiptDataNew?.payment_date).format('DD/MM/YYYY')}</div>
-                
-
-                
-                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Payment Mode :</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',paddingLeft:18}}> {receiptDataNew?.bank_type !== "" 
-    ? receiptDataNew.bank_type 
-    : receiptDataNew.payment_mode}</div>
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
                         </div>
                       </div>
                     </div>
@@ -1160,7 +649,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                       </div>
                     )
 
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
                   }
 
                   <div className="px-4 pb-3">
@@ -1170,7 +658,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                           <tr style={{ color: "white" }}>
                             <th style={{ borderTopLeftRadius: "12px", borderBottomLeftRadius: "12px", color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600 }}>S.NO</th>
                             <th style={{ color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600 }}>Inv No</th>
-                            {/* <th style={{color:"white"}}>Description</th> */}
                             <th style={{ color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600 }}>Description</th>
                             {receiptDataNew?.invoice_type !== "advance" && (
                               <th style={{ color: "white", fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 600 }}>Duration</th>
@@ -1185,38 +672,9 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                               <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{index + 1}</td>
                               <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{receiptDataNew?.invoice_number}</td>
                               <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>{item.am_name}</td>
-                              {/* <td>{moment(item?.created_at).format("DD/MM/YYYY")}</td> */}
                               {receiptDataNew?.invoice_type !== "advance" && (
-                                <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }} >{moment(item?.created_at).format("DD/MM/YYYY")}</td>
+                                <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }} >{moment(item?.created_at).format("MMM YYYY")}</td>
                               )}
-=======
-}
-                   
-                    <div className="px-4 pb-3">
-                      <div className="table-responsive">
-                        <table className="table  text-center align-middle">
-                          <thead  style={{backgroundColor:"#00A32E",color:"#FFFFFF"}}>
-                            <tr style={{color:"white"}}>
-                              <th style={{ borderTopLeftRadius: "12px",borderBottomLeftRadius:"12px",color:"white" , fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600 }}>S.NO</th>
-                              <th style={{color:"white" , fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600}}>Inv No</th>
-                              <th style={{color:"white" ,  fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600 }}>Description</th>
-                              {receiptDataNew?.invoice_type !== "advance" && (
-  <th style={{ color: "white"  ,  fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600 }}>Duration</th>
-)}
-                            
-                              <th style={{ borderTopRightRadius: "12px",borderBottomRightRadius:"12px",color:"white",  fontSize:'12px' , fontFamily:'Gilroy', fontWeight:600  }}>Amount / INR</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          {receiptDataNew?.amenities?.map((item, index) => (
-                            <tr key={index} style={{ borderBottom: "1px solid #dee2e6" }}>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>{index + 1}</td>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>{receiptDataNew?.invoice_number}</td>
-                              <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}}>{item.am_name}</td>
-                              {receiptDataNew?.invoice_type !== "advance" && (
-  <td style={{ fontSize:'12px' , fontFamily:'Gilroy', fontWeight:500}} >{moment(item?.created_at).format("MMM YYYY")}</td>
-)}
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
 
                               <td style={{ fontSize: '12px', fontFamily: 'Gilroy', fontWeight: 500 }}>
                                 ₹ {receiptDataNew?.invoice_type === "advance" ? receiptDataNew?.amount_received : item.amount}
@@ -1225,25 +683,10 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
 
                             </tr>
                           ))}
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
                         </tbody>
                       </table>
                     </div>
-                    {/* receiptDataNew.invoice_type === "advance"              */}
 
-                    {/* <div className="d-flex justify-content-end mt-3"  >
-  <div className="w-100 w-md-50" style={{paddingRight:"50px"}}>
-   
-    <div className="d-flex justify-content-end  py-1">
-      <div className="w-50 text-end" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Sub Total</div>
-      <div className="w-25 text-end" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>₹ {receiptDataNew?.total_amount}</div>
-    </div>
-    <div className="d-flex justify-content-end py-2 fw-bold">
-      <div className="w-50 text-end" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Total</div>
-      <div className="w-25 text-end" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>₹ {receiptDataNew?.total_amount}</div>
-    </div>
-  </div>
-</div> */}
                     {receiptDataNew.invoice_type !== "advance" && (
                       <div className="d-flex justify-content-end mt-3">
                         <div className="w-100 w-md-50" style={{ paddingRight: "50px" }}>
@@ -1298,66 +741,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                         </div>
                       </div>
                     )}
-=======
-                          </tbody>
-                        </table>
-                      </div>
- 
-{receiptDataNew.invoice_type !== "advance" && (
-  <div className="d-flex justify-content-end mt-3">
-    <div className="w-100 w-md-50" style={{ paddingRight: "50px" }}>
-      <div className="d-flex justify-content-end py-1">
-        <div
-          className="w-50 text-end"
-          style={{
-            fontSize: '13px',
-            fontFamily: 'Gilroy',
-            fontWeight: 500,
-            color: 'rgba(23, 23, 23, 1)',
-          }}
-        >
-          Sub Total
-        </div>
-        <div
-          className="w-25 text-end"
-          style={{
-            fontSize: '13px',
-            fontFamily: 'Gilroy',
-            fontWeight: 500,
-            color: 'rgba(23, 23, 23, 1)',
-          }}
-        >
-          ₹ {receiptDataNew?.total_amount}
-        </div>
-      </div>
-      <div className="d-flex justify-content-end py-2 fw-bold">
-        <div
-          className="w-50 text-end"
-          style={{
-            fontSize: '13px',
-            fontFamily: 'Gilroy',
-            fontWeight: 500,
-            color: 'rgba(23, 23, 23, 1)',
-          }}
-        >
-          Total
-        </div>
-        <div
-          className="w-25 text-end"
-          style={{
-            fontSize: '15px',
-            fontFamily: 'Gilroy',
-            fontWeight: 500,
-            color: 'rgba(23, 23, 23, 1)',
-          }}
-        >
-          ₹ {receiptDataNew?.total_amount}
-        </div>
-      </div>
-    </div>
-  </div>
-)}
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
 
 
                   </div>
@@ -1379,7 +762,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                       <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode:  {receiptDataNew?.bank_type !== ""
                         ? receiptDataNew.bank_type
                         : receiptDataNew.payment_mode}</p>
-                      {/* <p className="mb-1" style={{ fontSize: '15px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Transaction ID: GPay-2134-8482-XYZ</p> */}
                       {receiptDataNew?.invoice_type !== "advance" && (
                         <p
                           className="mb-1"
@@ -1398,7 +780,6 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                       <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', marginTop: "-14px" }}>Status: Paid</p>
 
                     </div>
-<<<<<<< HEAD:src/Pages/ReceiptPdfModal.js
                     <div className="col-md-6 text-end">
                       <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block ms-2"><img src={received} alt="received" height={91} width={162} /></p>
                       {receiptDataNew?.invoice_type === "advance" && (
@@ -1411,85 +792,17 @@ const ReceiptPdfCard = ({ rowData, handleClosed, props }) => {
                           </p>
                         </div>
                       )}
-                      {/* <p className="mt-4">Authorized Signature</p> */}
                     </div>
                     <div className="row">
-                      {/* Left side - Acknowledgment */}
                       <div className="col-md-6">
                         <h6 style={{ color: "#00A32E", fontSize: "13px", fontWeight: 600, fontFamily: "Gilroy" }}>Acknowledgment</h6>
                         <p style={{ fontSize: "12px", color: "#555", fontFamily: "Gilroy" }}>
                           This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
                         </p>
                       </div>
-=======
-                
-                   
-                  
-                  </div>
-                  <div className="px-4" style={{marginTop:20}}>
-                      <div className="row">
-                        <div className="col-md-6 mb-3">
-                          <h6  style={{
-        fontSize: '13px',
-        fontFamily: 'Gilroy',
-        fontWeight: 700,
-        color: '#00A32E',
-        letterSpacing:'1px'}}
-        >PAYMENT DETAILS</h6>
-                          <p className="mb-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Payment Mode:  {receiptDataNew?.bank_type !== "" 
-    ? receiptDataNew.bank_type 
-    : receiptDataNew.payment_mode}</p>
-                          {receiptDataNew?.invoice_type !== "advance" && (
-  <p
-    className="mb-1"
-    style={{
-      fontSize: '13px',
-      fontFamily: 'Gilroy',
-      fontWeight: 500,
-      color: 'rgba(23, 23, 23, 1)',
-    }}
-  >
-    Transaction ID: GPay-2134-8482-XYZ
-  </p>
-)}
 
-                          <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)', }}>Received By: Admin - Anjali R</p>
-                          <p style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: 'rgba(23, 23, 23, 1)',marginTop:"-14px" }}>Status: Paid</p>
-    
-                        </div>
-                        <div className="col-md-6 text-end">
-                        <p className="text-success fw-bold  border-success px-4 py-2 d-inline-block ms-2"><img src={received} alt="received" height={91} width={162}/></p>
-                        {receiptDataNew?.invoice_type === "advance"  && (
-    <div className="text-start mt-2 ms-5" >
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500 , color:'rgba(0, 163, 46, 1)',fontSize:"13px",marginLeft:"35px"}}>
-      &quot;Thank you for choosing SmartStay. &quot;
-      </p>
-      <p className="mb-0" style={{ fontFamily: 'Gilroy', fontWeight: 500  , color:'rgba(0, 163, 46, 1)',fontSize:"13px",marginLeft:"35px"}}>
-      Your transaction is completed &quot;
-      </p>
-    </div>
-  )}
-                        </div>
-                        <div className="row">
-  <div className="col-md-6">
-    <h6  style={{color:"#00A32E",fontSize:"13px",fontWeight:600,fontFamily:"Gilroy"}}>Acknowledgment</h6>
-    <p style={{ fontSize: "12px", color: "#555",fontFamily:"Gilroy" }}>
-      This payment confirms your dues till the mentioned period. Final settlement during checkout will be calculated based on services utilized and advance paid.
-    </p>
-  </div>
-
-  <div className="col-md-6 text-end">
-    <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
-    </p>
-    <p className="mt-4" style={{fontSize: "13px",fontFamily:"Gilroy",color:"#2C2C2C",paddingRight:"25px"}}>Authorized Signature</p>
-  </div>
-</div>
->>>>>>> 4f2dddd07ccb921c5661887f63f21975bcf7d04c:src/Pages/ReceiptPdfModal.jsx
-
-                      {/* Right side - Signature */}
                       <div className="col-md-6 text-end">
                         <p className="text-success fw-bold border-success px-4 py-2 d-inline-block">
-                          {/* <img src={received} alt="received" height={91} width={162} /> */}
                         </p>
                         <p className="mt-4" style={{ fontSize: "13px", fontFamily: "Gilroy", color: "#2C2C2C", paddingRight: "25px" }}>Authorized Signature</p>
                       </div>

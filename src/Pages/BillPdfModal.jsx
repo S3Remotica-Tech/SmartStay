@@ -71,8 +71,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     setIsVisible(true)
   }, [rowData])
 
-
-
   useEffect(() => {
     if (state.InvoiceList.BillsPdfSuccessCode === 200) {
       setHostelDetails(state.InvoiceList.BillsPdfDetails.hostel_details)
@@ -156,14 +154,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   };
 
 
-
-
-
-
-
-
-
-
   const handleBackInvoice = () => {
     handleClosed()
   }
@@ -171,9 +161,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const totalStayingDays = userdetails?.joining_date
     ? moment().diff(moment(userdetails.joining_date), 'days') + 1
     : 0;
-
-
-
 
   const isValid = (value) => {
     return value !== null && value !== undefined && value !== "undefined" && value !== "";
@@ -193,11 +180,10 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
       try {
         dispatch({
           type: "SET_TRIGGER_SOURCE",
-          payload: "whatsapp",
+          payload: "bill",
         });
-
         dispatch({
-          type: "RECEIPTPDF",
+          type: "INVOICEPDF",
           payload: {
             id: idforwhats,
           },

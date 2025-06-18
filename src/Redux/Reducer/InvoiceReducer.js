@@ -73,6 +73,21 @@ export const initialState = {
 
     triggeredBy: '',  //whatsapp
 
+    // whatsappSettings: {
+    //     0: false,
+    //     1: false,
+    //     2: true,
+    //     3: false,
+    // }
+
+    whatsappSettings:
+        JSON.parse(localStorage.getItem('whatsappSettings')) || {
+            0: false,
+            1: false,
+            2: false,
+            3: false,
+        },
+
 }
 
 const InvoiceReducer = (state = initialState, action) => {
@@ -315,7 +330,31 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'CLEAR_TRIGGER_SOURCE':
             return { ...state, triggeredBy: '' };
-            
+
+
+        case 'SET_WHATSAPP_SETTINGS':
+            return { ...state, whatsappSettings: action.payload };
+
+        // case 'TOGGLE_WHATSAPP_SETTING':
+        //     return {
+        //         ...state,
+        //         whatsappSettings: {
+        //             ...state.whatsappSettings,
+        //             [action.payload.id]: action.payload.value
+        //         }
+        //     };
+
+        case 'TOGGLE_WHATSAPP_SETTING':
+            const updated = {
+                ...state.whatsappSettings,
+                [action.payload.id]: action.payload.value,
+            };
+            localStorage.setItem('whatsappSettings', JSON.stringify(updated));
+            return {
+                ...state,
+                whatsappSettings: updated,
+            };
+
         default:
             return state;
 

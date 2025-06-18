@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { Card, Container, Form } from 'react-bootstrap';
 import { BsWhatsapp } from 'react-icons/bs';
 import { Message } from 'iconsax-react';
@@ -10,6 +11,8 @@ import "./SettingsNotifications.css";
 
 const SettingsNotifications = () => {
 
+    const dispatch = useDispatch();
+    const toggleStatus = useSelector((state) => state.InvoiceList.whatsappSettings || []);
     const [showWhatsAppSettings, setShowWhatsAppSettings] = useState(false);
 
     const notifications = [
@@ -35,15 +38,12 @@ const SettingsNotifications = () => {
         },
     ];
 
-    const [toggleStatus, setToggleStatus] = useState({
-        0: false,
-        1: true,
-        2: true,
-        3: true,
-    });
-
     const handleToggle = (id) => {
-        setToggleStatus((prev) => ({ ...prev, [id]: !prev[id] }));
+        const currentValue = toggleStatus[id];
+        dispatch({
+            type: 'TOGGLE_WHATSAPP_SETTING',
+            payload: { id, value: !currentValue }
+        });
     };
 
     return (
@@ -82,11 +82,11 @@ const SettingsNotifications = () => {
                             <div className="d-flex flex-column justify-content-center">
                                 <div
                                     className="fw-semibold"
-                                    style={{ fontSize: '14px', lineHeight: '1.2', marginBottom: '4px',fontFamily:"Gilroy" }}
+                                    style={{ fontSize: '14px', lineHeight: '1.2', marginBottom: '4px', fontFamily: "Gilroy" }}
                                 >
                                     Whatsapp
                                 </div>
-                                <div className="text-muted" style={{ fontSize: '10px', lineHeight: '1.3',fontFamily:"Gilroy" }}>
+                                <div className="text-muted" style={{ fontSize: '10px', lineHeight: '1.3', fontFamily: "Gilroy" }}>
                                     Manage and automate Whatsapp message alerts for key tenant activities.
                                 </div>
                             </div>
@@ -127,7 +127,7 @@ const SettingsNotifications = () => {
                                 <div> <Message size="18" color="#1E45E1" /> </div>
 
                                 <div className="d-flex flex-column flex-grow-1 mb-1 mb-md-0">
-                                    <h5 className="mb-1" style={{ fontSize: '14px',fontFamily:"Gilroy" }}>{item.title}</h5>
+                                    <h5 className="mb-1" style={{ fontSize: '14px', fontFamily: "Gilroy" }}>{item.title}</h5>
 
                                     <p
                                         className="text-muted mb-0"
@@ -136,7 +136,7 @@ const SettingsNotifications = () => {
                                             whiteSpace: 'nowrap',
                                             overflow: 'hidden',
                                             textOverflow: 'ellipsis',
-                                            fontFamily:"Gilroy",
+                                            fontFamily: "Gilroy",
                                         }}
                                     >
                                         {item.description}
@@ -144,12 +144,11 @@ const SettingsNotifications = () => {
 
                                 </div>
 
-
                                 <div className="text-md-end w-100 w-md-auto d-flex justify-content-between justify-content-md-end align-items-center mt-2 mt-md-0">
                                     <small className="text-muted me-2" style={{ fontSize: '12px' }}>Automation Status</small>
 
                                     <div className="d-flex align-items-center">
-                                        <span className="me-2" style={{fontFamily:"Gilroy", fontSize: '12px', color: toggleStatus[item.id] ? 'blue' : 'text-muted' }}>
+                                        <span className="me-2" style={{ fontFamily: "Gilroy", fontSize: '12px', color: toggleStatus[item.id] ? 'blue' : 'text-muted' }}>
                                             {toggleStatus[item.id] ? 'On' : 'Off'}
                                         </span>
                                         <Form.Check
