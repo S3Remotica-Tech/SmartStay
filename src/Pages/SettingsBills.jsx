@@ -47,7 +47,8 @@ function SettingsBills() {
   const [isOn, setIsOn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [recurring_bills, setRecuringBills] = useState({});
-  const [isChecked, setIsChecked] = useState(false); 
+  const [isChecked, setIsChecked] = useState(false);
+  const [editErrmsg, setEditErrmessage] = useState("") 
 
   const initialOptions = [
     { label: "01st", value: 1 },
@@ -132,6 +133,7 @@ function SettingsBills() {
     setInvoiceDateErrmsg("");
     setDueDateErrmsg("");
     setSelectedRemainderDaysErrMsg("");
+    setEditErrmessage("")
     setRecurringName("");
     setBilling_Frequency("");
     setSelectedFrom(null);
@@ -157,6 +159,8 @@ function SettingsBills() {
       }
     }
   };
+
+
 
   
 
@@ -194,15 +198,43 @@ function SettingsBills() {
       return;
     }
 
-    const reminderDays =
-      selectedDays.length > 0 && selectedDays.map((item) => item.value);
+const reminderDays = selectedDays.map((item) => item.value); 
+const selectedNotificationIds = Object.keys(notifications)
+  .filter((key) => notifications[key])
+  .map(Number);
 
-      
+const currentData = {
+  recurringName: recurring_name,
+  billFrequency: billing_frequency,
+  calculationFromDate: selectedFrom,
+  calculationToDate: selectedTo,
+  billingDateOfMonth: Number(invoiceDate),
+  dueDateOfMonth: Number(invoicedueDate),
+  isAutoSend: isOn ? 1 : 0,
+  remainderDates: reminderDays.map(Number),
+  billDeliveryChannels: selectedNotificationIds.map(Number),
+};
 
-    const selectedNotificationIds = Object.keys(notifications)
-      .filter((key) => notifications[key])
-      .map(Number);
+const originalData = {
+  recurringName: recurring_bills.recurringName || '',
+  billFrequency: recurring_bills.billFrequency || '',
+  calculationFromDate: recurring_bills.calculationFromDate || '',
+  calculationToDate: recurring_bills.calculationToDate || '',
+  billingDateOfMonth: Number(recurring_bills.billingDateOfMonth),
+  dueDateOfMonth: Number(recurring_bills.dueDateOfMonth),
+  isAutoSend: Number(recurring_bills.isAutoSend),
+  remainderDates: (recurring_bills.remainderDates || []).map(Number),
+  billDeliveryChannels: (recurring_bills.billDeliveryChannels || []).map(Number),
+};
 
+if (edit && JSON.stringify(currentData) === JSON.stringify(originalData)) {
+  setEditErrmessage("No changes detected");
+  return;
+}
+
+
+
+   
     dispatch({
       type: "SETTINGSADD_RECURRING",
       payload: {
@@ -374,7 +406,12 @@ function SettingsBills() {
 
  useEffect(() => {
 
+  
+
   if (edit && recurring_bills) {
+
+    
+
     setRecurringName(recurring_bills.recurringName || '');
     setBilling_Frequency(recurring_bills.billFrequency || '');
     setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? recurring_bills.calculationFromDate : '');
@@ -403,6 +440,56 @@ function SettingsBills() {
 }, [edit, recurring_bills , checkboxOptions]);
 
 
+
+
+useEffect(() => {
+  if (!edit) return;
+
+  const reminderDays = selectedDays.map((item) => item.value); 
+  const selectedNotificationIds = Object.keys(notifications)
+    .filter((key) => notifications[key])
+    .map(Number);
+
+  const currentData = {
+    recurringName: recurring_name,
+    billFrequency: billing_frequency,
+    calculationFromDate: selectedFrom,
+    calculationToDate: selectedTo,
+    billingDateOfMonth: Number(invoiceDate),
+    dueDateOfMonth: Number(invoicedueDate),
+    isAutoSend: isOn ? 1 : 0,
+    remainderDates: reminderDays.map(Number),
+    billDeliveryChannels: selectedNotificationIds.map(Number),
+  };
+
+  const originalData = {
+    recurringName: recurring_bills?.recurringName || '',
+    billFrequency: recurring_bills?.billFrequency || '',
+    calculationFromDate: recurring_bills?.calculationFromDate || '',
+    calculationToDate: recurring_bills?.calculationToDate || '',
+    billingDateOfMonth: Number(recurring_bills?.billingDateOfMonth),
+    dueDateOfMonth: Number(recurring_bills?.dueDateOfMonth),
+    isAutoSend: Number(recurring_bills?.isAutoSend),
+    remainderDates: (recurring_bills?.remainderDates || []).map(Number),
+    billDeliveryChannels: (recurring_bills?.billDeliveryChannels || []).map(Number),
+  };
+
+  if (JSON.stringify(currentData) !== JSON.stringify(originalData)) {
+    setEditErrmessage('');
+  }
+}, [
+  recurring_name,
+  billing_frequency,
+  selectedFrom,
+  selectedTo,
+  invoiceDate,
+  invoicedueDate,
+  selectedDays,
+  notifications,
+  isOn,
+  recurring_bills,
+  edit
+]);
 
 
 
@@ -685,6 +772,16 @@ function SettingsBills() {
     setBilling_Frequency(selected.value);
     setBillingFrequencyErrmsg("");
   }}
+              onInputChange={(inputValue, { action }) => {
+              if (action === "input-change") {
+              const lettersOnly = inputValue.replace(
+                    /[^a-zA-Z\s]/g,
+                   ""
+                    );
+               return lettersOnly;
+                }
+                 return inputValue;
+                   }}
   styles={{
     control: (base) => ({
       ...base,
@@ -1111,6 +1208,16 @@ function SettingsBills() {
                     value={null}
                     classNamePrefix="custom"
                     menuPlacement="auto"
+                    onInputChange={(inputValue, { action }) => {
+                   if (action === "input-change") {
+                   const lettersOnly = inputValue.replace(
+                    /[^a-zA-Z\s]/g,
+                   ""
+                    );
+                 return lettersOnly;
+                }
+                 return inputValue;
+                   }}
                     styles={{
                       control: (base) => ({
                         ...base,
@@ -1224,6 +1331,30 @@ function SettingsBills() {
                     </div>
                   </div>
                 </div>
+
+
+                   {editErrmsg.trim() !== "" && (
+                    <div className="text-left">
+                      <p
+                        style={{
+                          fontSize: 12,
+                          color: "red",
+                          marginTop: "13px",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        <MdError
+                          style={{
+                            color: "red",
+                            marginBottom: "2px",
+                            marginRight:3
+                          }}
+                        />
+                        {editErrmsg}
+                      </p>
+                    </div>
+                  )}
 
                 <div className="d-flex justify-content-end flex-wrap mt-3 ">
                   <button
