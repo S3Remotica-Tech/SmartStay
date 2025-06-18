@@ -313,12 +313,18 @@ const Compliance = () => {
 
  
   const handleStatusFilter = (event) => {
+    console.log("event", event.target.value);
+    
     const value = event.target.value;
     setStatusfilter(value);
   
     if (value === "All") {
       setFilteredUsers(state.ComplianceList?.Compliance || []);
-    }
+    }  
+
+   else if (value === "date") {
+      setFilteredUsers(state.ComplianceList?.Compliance || []);
+    } 
     
     else {
       const filtered = (state.ComplianceList?.Compliance || []).filter(item =>
@@ -936,8 +942,8 @@ const Compliance = () => {
                       style={{ width: "100%", height: 350, marginTop: 40 }}>
                       <div>
                         <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active complaint </div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>There are no active complaints </div>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Active complaint </div>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no active complaints </div>
 
 
                       </div>
@@ -950,7 +956,7 @@ const Compliance = () => {
                   }
 
                 </div>
-                {filteredUsers?.length >= 5 && (
+                { filteredUsers && filteredUsers?.length >= 5 && (
               
                   <nav className="pagination-container mb-0"
                   style={{
