@@ -1023,41 +1023,58 @@ useEffect(() => {
                       placeholder="Select"
                       classNamePrefix="custom"
                       menuPlacement="auto"
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "40px",
-                          border: "1px solid #ced4da",
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#fff",
-                          border: "1px solid #ced4da",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#fff",
-                          maxHeight: "120px",
-                          padding: 0,
-                          scrollbarWidth: "thin",
-                          overflowY: "auto",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                      }}
+                     styles={{
+  control: (base) => ({
+    ...base,
+    height: "40px",
+    border: "1px solid #ced4da",
+    fontSize: 14,
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    boxShadow: "none",
+  }),
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #ced4da",
+    zIndex: 9999, 
+  }),
+  menuList: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    maxHeight: "120px",
+    padding: 0,
+    scrollbarWidth: "thin",
+    overflowY: "auto",
+  }),
+  option: (base, { isFocused, isSelected }) => ({
+    ...base,
+    backgroundColor: isSelected
+      ? "#1E45E1"
+      : isFocused
+      ? "#f0f0f0"
+      : "#fff",
+    color: "#000",
+    fontSize: 14,
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    padding: "10px 12px",
+    cursor: "pointer",
+  }),
+  placeholder: (base) => ({
+    ...base,
+    color: "#555",
+  }),
+  dropdownIndicator: (base) => ({
+    ...base,
+    color: "#555",
+    cursor: "pointer",
+  }),
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+}}
+
                     />
                     {invoicedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
@@ -1105,41 +1122,58 @@ useEffect(() => {
                       placeholder="Select"
                       classNamePrefix="custom"
                       menuPlacement="auto"
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          height: "40px",
-                          border: "1px solid #ced4da",
-                          fontSize: 14,
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          backgroundColor: "#fff",
-                          border: "1px solid #ced4da",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          backgroundColor: "#fff",
-                          maxHeight: "120px",
-                          padding: 0,
-                          scrollbarWidth: "thin",
-                          overflowY: "auto",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          color: "#555",
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          color: "#555",
-                          cursor: "pointer",
-                        }),
-                        indicatorSeparator: () => ({
-                          display: "none",
-                        }),
-                      }}
+                    styles={{
+  control: (base) => ({
+    ...base,
+    height: "40px",
+    border: "1px solid #ced4da",
+    fontSize: 14,
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    boxShadow: "none",
+  }),
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    border: "1px solid #ced4da",
+    zIndex: 9999, 
+  }),
+  menuList: (base) => ({
+    ...base,
+    backgroundColor: "#fff",
+    maxHeight: "120px",
+    padding: 0,
+    scrollbarWidth: "thin",
+    overflowY: "auto",
+  }),
+  option: (base, { isFocused, isSelected }) => ({
+    ...base,
+    backgroundColor: isSelected
+      ? "#1E45E1"
+      : isFocused
+      ? "#f0f0f0"
+      : "#fff",
+    color: "#000",
+    fontSize: 14,
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    padding: "10px 12px",
+    cursor: "pointer",
+  }),
+  placeholder: (base) => ({
+    ...base,
+    color: "#555",
+  }),
+  dropdownIndicator: (base) => ({
+    ...base,
+    color: "#555",
+    cursor: "pointer",
+  }),
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+}}
+
                     />
                     {duedateerrmsg.trim() !== "" && (
                       <div className="d-flex align-items-center p-1">
