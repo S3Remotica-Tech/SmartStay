@@ -41,12 +41,12 @@ function SettingNewRole({ hostelid }) {
     }
     setShowRole(true);
     setAddRole(true);
-    
-    setEditRoleDetails('');
-      };
 
-const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-   
+    setEditRoleDetails('');
+  };
+
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
   const handleShowDots = (event, index) => {
     setShowDots((prev) => (prev === index ? null : index));
     const { top, left, height } = event.target.getBoundingClientRect();
@@ -58,7 +58,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   }
 
- 
+
 
 
   const handleDeleteForm = (view) => {
@@ -121,9 +121,9 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   }, [state.Settings.errorRole])
 
- const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10)
- const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roleList?.slice(indexOfFirstItem, indexOfLastItem);
 
@@ -198,21 +198,21 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   }, [state.Settings.StatusForEditPermission])
 
 
-   useEffect(() => {
-                             if (
-                              roleList.length > 0 &&
-                              currentItems.length === 0 &&
-                               currentPage > 1
-                             ) {
-                               setCurrentPage(currentPage - 1);
-                             }
-                           }, [roleList])
+  useEffect(() => {
+    if (
+      roleList.length > 0 &&
+      currentItems.length === 0 &&
+      currentPage > 1
+    ) {
+      setCurrentPage(currentPage - 1);
+    }
+  }, [roleList])
 
   return (
-    <div  style={{ position: "relative",paddingRight:10,paddingLeft:10 }}>
-      <div 
-           className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-      style={{
+    <div style={{ position: "relative", paddingRight: 10, paddingLeft: 10 }}>
+      <div
+        className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+        style={{
           position: "sticky",
           top: 0,
           right: 0,
@@ -220,11 +220,11 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
           zIndex: 1000,
           backgroundColor: "#FFFFFF",
           height: 83,
-          paddingRight:1
+          paddingRight: 1
         }}>
-        <div 
-           className="w-100 d-flex justify-content-center justify-content-md-start mt-3"
-        style={{ marinTop: -4 }}>
+        <div
+          className="w-100 d-flex justify-content-center justify-content-md-start mt-3"
+          style={{ marinTop: -4 }}>
           <label style={{ fontFamily: "Gilroy", fontSize: 20, color: "#222", fontWeight: 600, }}>Role</label>
 
 
@@ -247,7 +247,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
         </div>
 
       </div>
-    
+
 
       {showPopup && (
         <div className="d-flex flex-wrap">
@@ -255,145 +255,145 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
             Please add a hostel before adding Role information.
           </p>
 
-               </div>
+        </div>
 
 
       )}
 
 
-<div 
-  className="row mt-3 mb-3 overflow-auto scroll-issue" 
-  
->
-  {currentItems.length > 0 ? (
-    currentItems.map((view, index) => (
-      <div key={index} className="col-12  col-sm-12 col-md-12 col-lg-4 col-xs-12 mb-3">
-        <div
-          className="d-flex align-items-center justify-content-between p-3 border rounded position-relative"
-          style={{ height: 64, width: "100%" }}
-        >
-          <div className="d-flex align-items-center">
-            <img src={role} width={24} height={24} alt="Role Icon" />
-            <span 
-              title={view.role_name}
-              className="ms-3  text-truncate d-inline-block"
-              style={{ fontSize: 16, maxWidth: 100 , fontWeight:500, fontFamily:"Gilroy"}}
-            >
-              {view.role_name}
-            </span>
-          </div>
-          
-          <div
-            className="d-flex justify-content-center align-items-center border rounded-circle"
-            style={{
-              height: "35px",
-              width: "35px",
-              cursor: "pointer",
-              backgroundColor: showDots === index ? "#E7F1FF" : "white",
-              position: "relative",
-            }}
-            onClick={(e) => handleShowDots(e,index)}
-          >
-            <PiDotsThreeOutlineVerticalFill 
-              style={{ height: "20px", width: "20px" }} 
-            />
-            {showDots === index && (
-             <div
-  ref={popupRef}
-  className="pg-card"
-  style={{
-    backgroundColor: "#fff",
-    position: "fixed",
-    top: popupPosition.top,
-    left: popupPosition.left,
-    border: "1px solid #E0E0E0",
-    borderRadius: 10,
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-    width: 140,
-    zIndex: 1000,
-  }}
->
-  <div>
-   
-    <div
-      className="d-flex gap-2 align-items-center"
-      onClick={() => handleEditForm(view)}
-      style={{
-        padding: "8px 12px",
-        width: "100%",
-        cursor: "pointer",
-        transition: "background 0.2s ease-in-out",
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
-      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
-    >
-      <img src={Edit} width={16} height={16} alt="Edit" />
-      <span
-        style={{
-          fontSize: 14,
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-          color: "#1E45E1",
-        }}
+      <div
+        className="row mt-3 mb-3 overflow-auto scroll-issue"
+
       >
-        Edit
-      </span>
-    </div>
+        {currentItems.length > 0 ? (
+          currentItems.map((view, index) => (
+            <div key={index} className="col-12  col-sm-12 col-md-12 col-lg-4 col-xs-12 mb-3">
+              <div
+                className="d-flex align-items-center justify-content-between p-3 border rounded position-relative"
+                style={{ height: 64, width: "100%" }}
+              >
+                <div className="d-flex align-items-center">
+                  <img src={role} width={24} height={24} alt="Role Icon" />
+                  <span
+                    title={view.role_name}
+                    className="ms-3  text-truncate d-inline-block"
+                    style={{ fontSize: 16, maxWidth: 100, fontWeight: 500, fontFamily: "Gilroy" }}
+                  >
+                    {view.role_name}
+                  </span>
+                </div>
 
-    <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                <div
+                  className="d-flex justify-content-center align-items-center border rounded-circle"
+                  style={{
+                    height: "35px",
+                    width: "35px",
+                    cursor: "pointer",
+                    backgroundColor: showDots === index ? "#E7F1FF" : "white",
+                    position: "relative",
+                  }}
+                  onClick={(e) => handleShowDots(e, index)}
+                >
+                  <PiDotsThreeOutlineVerticalFill
+                    style={{ height: "20px", width: "20px" }}
+                  />
+                  {showDots === index && (
+                    <div
+                      ref={popupRef}
+                      className="pg-card"
+                      style={{
+                        backgroundColor: "#fff",
+                        position: "fixed",
+                        top: popupPosition.top,
+                        left: popupPosition.left,
+                        border: "1px solid #E0E0E0",
+                        borderRadius: 10,
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                        width: 140,
+                        zIndex: 1000,
+                      }}
+                    >
+                      <div>
 
-    <div
-      className="d-flex gap-2 align-items-center"
-      onClick={() => handleDeleteForm(view)}
-      style={{
-        padding: "8px 12px",
-        width: "100%",
-        cursor: "pointer",
-        transition: "background 0.2s ease-in-out",
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF3F3")}
-      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
-    >
-      <img src={Delete} width={16} height={16} alt="Delete" />
-      <span
-        style={{
-          fontSize: 14,
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-          color: "#FF0000",
-        }}
-      >
-        Delete
-      </span>
-    </div>
-  </div>
-</div>
+                        <div
+                          className="d-flex gap-2 align-items-center"
+                          onClick={() => handleEditForm(view)}
+                          style={{
+                            padding: "8px 12px",
+                            width: "100%",
+                            cursor: "pointer",
+                            transition: "background 0.2s ease-in-out",
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
+                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                        >
+                          <img src={Edit} width={16} height={16} alt="Edit" />
+                          <span
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: "#1E45E1",
+                            }}
+                          >
+                            Edit
+                          </span>
+                        </div>
 
-            )}
-          </div>
-        </div>
+                        <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+                        <div
+                          className="d-flex gap-2 align-items-center"
+                          onClick={() => handleDeleteForm(view)}
+                          style={{
+                            padding: "8px 12px",
+                            width: "100%",
+                            cursor: "pointer",
+                            transition: "background 0.2s ease-in-out",
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF3F3")}
+                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                        >
+                          <img src={Delete} width={16} height={16} alt="Delete" />
+                          <span
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: "#FF0000",
+                            }}
+                          >
+                            Delete
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                  )}
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          !loading && (
+            <div className="d-flex flex-column align-items-center text-center mt-5">
+              <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+              <div className="mt-3 fw-semibold text-secondary" style={{ fontSize: 20 }}>
+                No Role Available
+              </div>
+            </div>
+          )
+        )}
       </div>
-    ))
-  ) : (
-    !loading && (
-      <div className="d-flex flex-column align-items-center text-center mt-5">
-        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-        <div className="mt-3 fw-semibold text-secondary" style={{ fontSize: 20 }}>
-          No Role Available
-        </div>
-      </div>
-    )
-  )}
-</div>
 
 
 
 
       {
         roleList.length >= 10 &&
-        <nav 
-        className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center' style={{backgroundColor:"white"}}
-       
+        <nav
+          className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center' style={{ backgroundColor: "white" }}
+
         >
           <div>
             <select
@@ -411,14 +411,14 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
               }}
             >
-            
+
               <option value={10}>10</option>
               <option value={50}>50</option>
               <option value={100}>100</option>
             </select>
           </div>
 
-         
+
           <ul
             style={{
               display: "flex",
@@ -428,7 +428,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
               padding: 0,
             }}
           >
-            
+
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -450,12 +450,12 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
               </button>
             </li>
 
-            
+
             <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
               {currentPage} of {totalPages}
             </li>
 
-          
+
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -498,34 +498,37 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
       {loading &&
-         <div
-         style={{
-             position: 'fixed',
-    right: "30%",
-             display: 'flex',
-                        alignItems: 'center',
-             justifyContent: 'center',
-             backgroundColor: 'transparent',
-             opacity: 0.75,
-             zIndex: 10,
-         }}
-     >
-         <div
-             style={{
-                 borderTop: '4px solid #1E45E1',
-                 borderRight: '4px solid transparent',
-                 borderRadius: '50%',
-                 width: '40px',
-                 height: '40px',
-                 animation: 'spin 1s linear infinite',
-             }}
-         ></div>
-     </div>
+        <div
+          style={{
+            position: "fixed",
+            top: "48%",
+            left: "68%",
+            transform: "translate(-50%, -50%)",
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "transparent",
+            zIndex: 1050,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
       }
 
 
       {
-        showRole && <AddRole showRole={showRole} addRole={addRole}  hostelid={hostelid} editRoleDetails={editRoleDetails} setShowRole = {setShowRole}/>
+        showRole && <AddRole showRole={showRole} addRole={addRole} hostelid={hostelid} editRoleDetails={editRoleDetails} setShowRole={setShowRole} />
       }
 
 
@@ -543,10 +546,10 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
               style={{
                 fontSize: "18px",
                 fontFamily: "Gilroy",
-                
+
                 fontWeight: 600,
                 color: "#222222",
-                
+
               }}
             >
               Delete Role?
@@ -554,13 +557,13 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
           </Modal.Header>
 
           <Modal.Body
-          className="text-center  "
+            className="text-center  "
             style={{
               fontSize: 14,
               fontWeight: 500,
               fontFamily: "Gilroy",
               color: "#646464",
-              
+
               marginTop: "-27px",
             }}
           >
@@ -568,46 +571,46 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
           </Modal.Body>
 
           <Modal.Footer
-          className="d-flex justify-content-center"
+            className="d-flex justify-content-center"
             style={{
-             
+
               borderTop: "none",
               marginTop: "-10px",
             }}
           >
             <Button
-            className="me-2"
-            style={{
-              width: "100%",
-              maxWidth: 160,
-              height: 52,
-              borderRadius: 8,
-              padding: "12px 20px",
-              background: "#fff",
-              color: "#1E45E1",
-              border: "1px solid #1E45E1",
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              fontSize: "14px",
-            }}
+              className="me-2"
+              style={{
+                width: "100%",
+                maxWidth: 160,
+                height: 52,
+                borderRadius: 8,
+                padding: "12px 20px",
+                background: "#fff",
+                color: "#1E45E1",
+                border: "1px solid #1E45E1",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+              }}
               onClick={handleCloseDeleteForm}
             >
               Cancel
             </Button>
             <Button
 
-style={{
-  width: "100%",
-  maxWidth: 160,
-  height: 52,
-  borderRadius: 8,
-  padding: "12px 20px",
-  background: "#1E45E1",
-  color: "#FFFFFF",
-  fontWeight: 600,
-  fontFamily: "Gilroy",
-  fontSize: "14px",
-}}
+              style={{
+                width: "100%",
+                maxWidth: 160,
+                height: 52,
+                borderRadius: 8,
+                padding: "12px 20px",
+                background: "#1E45E1",
+                color: "#FFFFFF",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+              }}
               onClick={handleDeleteRole}
             >
               Delete

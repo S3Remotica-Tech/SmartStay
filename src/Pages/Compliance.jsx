@@ -936,7 +936,7 @@ const Compliance = () => {
                       style={{ width: "100%", height: 350, marginTop: 40 }}>
                       <div>
                         <div style={{ textAlign: "center" }}> <img src={Emptystate} alt="emptystate" /></div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 24, color: "rgba(75, 75, 75, 1)" }}>No Active complaint </div>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Active complaint </div>
                         <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no active complaints </div>
 
 

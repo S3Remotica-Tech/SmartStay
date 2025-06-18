@@ -154,12 +154,15 @@ function DashboardAnnouncement() {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
-    setLoading(true)
+   
     if (hostel_id) {
+       setLoading(true)
       dispatch({
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
       });
+    }else{
+       setLoading(false)
     }
   }, [hostel_id]);
 
