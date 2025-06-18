@@ -145,33 +145,12 @@ const AddReceiptForm = (props) => {
       };
 
 
-      // const handleReceivedAmount = (e) => {
-      //   const value = e.target.value;
-      //   const receivedValue = parseFloat(value);
-      
-      //   setReceivedAmount(value);
-      
-      //   const baseAmount = props.editvalue ? props.editvalue.amount_received : initial_due_amount;
-      
-      //   if (value === '') {
-      //     setDueAmount(baseAmount);
-      //   } else if (!isNaN(receivedValue)) {
-      //     if (receivedValue <= baseAmount) {
-      //       setDueAmount(baseAmount - receivedValue);
-      //     } else {
-      //       setDueAmount(0);
-      //     }
-      //   } else {
-      //     setDueAmount(baseAmount);
-      //   }
-      //   setAllFieldErrmsg("")
-      // };
+    
 
 
 const handleReceivedAmount = (e) => {
   const value = e.target.value;
 
-  // Allow only numbers and one optional dot
   const validInput = /^[0-9]*\.?[0-9]*$/;
   if (!validInput.test(value)) return;
 
@@ -180,7 +159,6 @@ const handleReceivedAmount = (e) => {
   const receivedValue = parseFloat(value);
   const baseAmount = props.editvalue ? props.editvalue.amount_received : initial_due_amount;
 
-  // Prevent entering value greater than baseAmount (due)
   if (receivedValue > baseAmount) return;
 
   setReceivedAmount(value);

@@ -313,7 +313,6 @@ const Compliance = () => {
 
  
   const handleStatusFilter = (event) => {
-    console.log("event", event.target.value);
     
     const value = event.target.value;
     setStatusfilter(value);
