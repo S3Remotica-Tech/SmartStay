@@ -3032,7 +3032,7 @@ function UserList(props) {
                                                   border: "1px solid #EBEBEB",
                                                   borderRadius: "10px",
                                                   zIndex: 1000,
-                                                                                                  }}
+                                                }}
                                               >
                                                 <div>
                                                   {!user.Bed && (
@@ -3148,7 +3148,7 @@ function UserList(props) {
                                                       }}
                                                       onMouseEnter={(e) => {
                                                         if (!customerAddPermission) {
-                                                          e.currentTarget.style.backgroundColor = "#FFFBEF"; 
+                                                          e.currentTarget.style.backgroundColor = "#FFFBEF";
                                                         }
                                                       }}
                                                       onMouseLeave={(e) => {
@@ -3292,7 +3292,7 @@ function UserList(props) {
                   </>
                 )}
 
-                {!loading && userListDetail && userListDetail?.length === 0 && (
+                {!loading && currentItems && currentItems?.length === 0 && (
                   <div style={{ marginTop: 30 }}>
                     <div style={{ textAlign: "center" }}>
                       <img src={Emptystate} alt="emptystate" />
@@ -3325,7 +3325,9 @@ function UserList(props) {
                 )}
 
                 {
-                  (search ? filteredUsers?.length : userListDetail?.length) >= 5 && (
+                  (search || filterStatus
+                    ? filteredUsers?.length
+                    : userListDetail?.length) >= 5 && (
 
                     <nav
                       style={{
