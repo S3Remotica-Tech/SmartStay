@@ -408,6 +408,10 @@ function Sidebar() {
               cursor: "pointer",
               backgroundColor: "#E0ECFF",
               position: "fixed",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              overflowY: "auto",
               zIndex: 1000,
             }}
           >
@@ -454,9 +458,8 @@ function Sidebar() {
 
               {hostelListDetail && hostelListDetail?.length > 0 && (
                 <li
-                  className={`align-items-center list-Item ${
-                    currentPage === "settingNewDesign" ? "active" : ""
-                  }`}
+                  className={`align-items-center list-Item ${currentPage === "settingNewDesign" ? "active" : ""
+                    }`}
                   onClick={toggleDropdown}
                   style={{
                     listStyleType: "none",
@@ -469,8 +472,8 @@ function Sidebar() {
                   <img
                     src={
                       selectedProfileImage &&
-                      selectedProfileImage !== "0" &&
-                      selectedProfileImage !== ""
+                        selectedProfileImage !== "0" &&
+                        selectedProfileImage !== ""
                         ? selectedProfileImage
                         : hostelimage
                     }
@@ -533,8 +536,8 @@ function Sidebar() {
                             <img
                               src={
                                 item.profile &&
-                                item.profile !== "0" &&
-                                item.profile !== ""
+                                  item.profile !== "0" &&
+                                  item.profile !== ""
                                   ? item.profile
                                   : Profile
                               }
@@ -585,9 +588,8 @@ function Sidebar() {
                 }}
               >
                 <li
-                  className={`align-items-center list-Item ${
-                    currentPage === "dashboard" ? "active" : ""
-                  }`}
+                  className={`align-items-center list-Item ${currentPage === "dashboard" ? "active" : ""
+                    }`}
                   onClick={() => handlePageClick("dashboard")}
                   style={{
                     listStyleType: "none",
@@ -637,9 +639,8 @@ function Sidebar() {
                 </li>
 
                 <li
-                  className={`align-items-center list-Item ${
-                    currentPage === "manage" ? "active" : ""
-                  }`}
+                  className={`align-items-center list-Item ${currentPage === "manage" ? "active" : ""
+                    }`}
                   onClick={() => {
                     setManageOpen(!manageOpen);
                     localStorage.setItem("manageOpen", !manageOpen);
@@ -681,9 +682,8 @@ function Sidebar() {
                     style={{ marginLeft: 10, zIndex: 1, position: "relative" }}
                   >
                     <li
-                      className={`align-items-center list-sub-Item ${
-                        currentPage === "pg-list" ? "active" : ""
-                      }`}
+                      className={`align-items-center list-sub-Item ${currentPage === "pg-list" ? "active" : ""
+                        }`}
                       onClick={() => handlePageClick("pg-list")}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
@@ -705,9 +705,8 @@ function Sidebar() {
                       </span>
                     </li>
                     <li
-                      className={`align-items-center list-sub-Item ${
-                        currentPage === "user-list" ? "active" : ""
-                      }`}
+                      className={`align-items-center list-sub-Item ${currentPage === "user-list" ? "active" : ""
+                        }`}
                       onClick={() => handlePageClick("user-list")}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
@@ -729,9 +728,8 @@ function Sidebar() {
                       </span>
                     </li>
                     <li
-                      className={`align-items-center list-sub-Item ${
-                        currentPage === "asset" ? "active" : ""
-                      }`}
+                      className={`align-items-center list-sub-Item ${currentPage === "asset" ? "active" : ""
+                        }`}
                       onClick={() => handlePageClick("asset")}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
@@ -753,9 +751,8 @@ function Sidebar() {
                       </span>
                     </li>
                     <li
-                      className={`align-items-center list-sub-Item ${
-                        currentPage === "vendor" ? "active" : ""
-                      }`}
+                      className={`align-items-center list-sub-Item ${currentPage === "vendor" ? "active" : ""
+                        }`}
                       onClick={() => handlePageClick("vendor")}
                       style={{ listStyleType: "none", display: "flex" }}
                     >
@@ -780,9 +777,8 @@ function Sidebar() {
                 )}
 
                 <li
-                  className={`align-items-center list-Item ${
-                    currentPage === "banking" ? "active" : ""
-                  }`}
+                  className={`align-items-center list-Item ${currentPage === "banking" ? "active" : ""
+                    }`}
                   onClick={() => handlePageClick("banking")}
                   style={{ listStyleType: "none", display: "flex" }}
                 >
@@ -806,9 +802,8 @@ function Sidebar() {
                 </li>
 
                 <li
-                  className={`align-items-center list-Item ${
-                    currentPage === "invoice" ? "active" : ""
-                  }`}
+                  className={`align-items-center list-Item ${currentPage === "invoice" ? "active" : ""
+                    }`}
                   onClick={() => handlePageClick("invoice")}
                   style={{ listStyleType: "none", display: "flex" }}
                 >
@@ -832,9 +827,8 @@ function Sidebar() {
                 </li>
 
                 <li
-                  className={`align-items-center list-Item ${
-                    currentPage === "eb" ? "active" : ""
-                  }`}
+                  className={`align-items-center list-Item ${currentPage === "eb" ? "active" : ""
+                    }`}
                   onClick={() => handlePageClick("eb")}
                   style={{ listStyleType: "none", display: "flex" }}
                 >
@@ -857,9 +851,8 @@ function Sidebar() {
                 </li>
 
                 <li
-                  className={` align-items-center list-Item ${
-                    currentPage === "compliance" ? "active" : ""
-                  }`}
+                  className={` align-items-center list-Item ${currentPage === "compliance" ? "active" : ""
+                    }`}
                   onClick={() => handlePageClick("compliance")}
                   style={{ listStyleType: "none", display: "flex" }}
                 >
@@ -881,9 +874,8 @@ function Sidebar() {
                   </span>
                 </li>
                 <li
-                  className={`align-items-center list-Item ${
-                    currentPage === "expenses" ? "active" : ""
-                  }`}
+                  className={`align-items-center list-Item ${currentPage === "expenses" ? "active" : ""
+                    }`}
                   onClick={() => handlePageClick("expenses")}
                   style={{ listStyleType: "none", display: "flex" }}
                 >
@@ -906,9 +898,8 @@ function Sidebar() {
                 </li>
 
                 <li
-                  className={` align-items-center list-Item ${
-                    currentPage === "reports" ? "active" : ""
-                  }`}
+                  className={` align-items-center list-Item ${currentPage === "reports" ? "active" : ""
+                    }`}
                   onClick={() => handlePageClick("reports")}
                   style={{ listStyleType: "none", display: "flex" }}
                 >
@@ -946,21 +937,20 @@ function Sidebar() {
             >
               <ul className=" p-0">
                 <li
-                  className={` align-items-center list-Items ${
-                    currentPage === "profile" ? "active" : ""
-                  }`}
+                  className={` align-items-center list-Items ${currentPage === "profile" ? "active" : ""
+                    }`}
                   style={{ listStyleType: "none", display: "flex", width: 190 }}
                 >
                   <div className="mr-3" style={{ cursor: "pointer" }}>
                     <Image
                       src={
                         profiles === "null" ||
-                        profiles === null ||
-                        profiles === undefined ||
-                        profiles === "undefined" ||
-                        profiles === "" ||
-                        profiles === 0 ||
-                        profiles === "0"
+                          profiles === null ||
+                          profiles === undefined ||
+                          profiles === "undefined" ||
+                          profiles === "" ||
+                          profiles === 0 ||
+                          profiles === "0"
                           ? Profileimage
                           : profiles
                       }
@@ -1147,6 +1137,10 @@ function Sidebar() {
             md={{ span: 10, offset: 2 }}
             sm={{ span: 9, offset: 3 }}
             xs={{ span: 9, offset: 3 }}
+             style={{
+        height: "100vh",
+        overflowY: "auto", 
+      }}
           >
             {currentPage === "dashboard" && (
               <Dashboards
