@@ -18,8 +18,3 @@ export default config;
 // https://smartstayapi.qbatz.com
 // http://13.126.102.54:2001
 // https://smartstaydevapi.s3remotica.com
-
-
-
-
-

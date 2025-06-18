@@ -448,30 +448,30 @@ const SettingElectricity = ({ hostelid }) => {
       <>
         {EbList && EbList.length > 0
           ? EbList.map((v, index) => {
-              return (
-                <Row key={index} className="scroll-issue">
-                  <Col lg={8} md={12} sm={12}>
-                    <Card
-                      className="p-2 border mb-4 mb-md-0"
-                      style={{ borderRadius: 16 }}
-                    >
-                      <Card.Body>
-                        <div className="d-flex justify-content-between align-items-center flex-wrap">
-                          <div className="d-flex gap-2">
-                            <label
-                              style={{
-                                fontFamily: "Gilroy",
-                                fontSize: 18,
-                                color: "#222",
-                                fontWeight: 600,
-                                marginLeft: "10px",
-                              }}
-                            >
-                              Electricity Information
-                            </label>
-                          </div>
+            return (
+              <Row key={index} className="scroll-issue">
+                <Col lg={8} md={12} sm={12}>
+                  <Card
+                    className="p-2 border mb-4 mb-md-0"
+                    style={{ borderRadius: 16 }}
+                  >
+                    <Card.Body>
+                      <div className="d-flex justify-content-between align-items-center flex-wrap">
+                        <div className="d-flex gap-2">
+                          <label
+                            style={{
+                              fontFamily: "Gilroy",
+                              fontSize: 18,
+                              color: "#222",
+                              fontWeight: 600,
+                              marginLeft: "10px",
+                            }}
+                          >
+                            Electricity Information
+                          </label>
+                        </div>
 
-                          {/* <div>
+                        {/* <div>
               <div
                 style={{
                   height: 40,
@@ -574,31 +574,31 @@ const SettingElectricity = ({ hostelid }) => {
                 )}
               </div>
             </div> */}
-                        </div>
-                        <hr />
-                        <Form>
-                          <Row className="mb-3">
-                            <Col>
-                              <Form.Label
-                                style={{
-                                  fontSize: 12,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  color: "#939393",
-                                }}
-                              >
-                                Per unit Amount
-                              </Form.Label>
-                              <h6
-                                style={{
-                                  fontSize: 16,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 600,
-                                }}
-                              >
-                                ₹ {v.amount}
-                              </h6>
-                              {/* {unitErr && (
+                      </div>
+                      <hr />
+                      <Form>
+                        <Row className="mb-3">
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                color: "#939393",
+                              }}
+                            >
+                              Per unit Amount
+                            </Form.Label>
+                            <h6
+                              style={{
+                                fontSize: 16,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                              }}
+                            >
+                              ₹ {v.amount}
+                            </h6>
+                            {/* {unitErr && (
                 <p 
                   style={{
                     color: "red",
@@ -614,184 +614,184 @@ const SettingElectricity = ({ hostelid }) => {
                   {unitErr}
                 </p>
               )} */}
-                            </Col>
+                          </Col>
 
-                            <Col>
-                              <Form.Label
-                                style={{
-                                  fontSize: 12,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  color: "#939393",
-                                }}
-                              >
-                                Room Based Calculation
-                              </Form.Label>
-                              <Form.Check
-                                type="switch"
-                                id="roomBased"
-                                label="Enabled"
-                                checked={roomBasedCalculation}
-                                onChange={() => {
-                                  handleRoomBased(v);
-                                }}
-                              />
-                            </Col>
-                            <Col>
-                              <Form.Label
-                                style={{
-                                  fontSize: 12,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  color: "#939393",
-                                }}
-                              >
-                                Hostel Based Calculation
-                              </Form.Label>
-                              <Form.Check
-                                type="switch"
-                                id="hostelBased"
-                                label="Enabled"
-                                checked={hostelBasedCalculation}
-                                onChange={() => {
-                                  handleHostelBased(v);
-                                }}
-                              />
-                            </Col>
-                          </Row>
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                color: "#939393",
+                              }}
+                            >
+                              Room Based Calculation
+                            </Form.Label>
+                            <Form.Check
+                              type="switch"
+                              id="roomBased"
+                              label="Enabled"
+                              checked={roomBasedCalculation}
+                              onChange={() => {
+                                handleRoomBased(v);
+                              }}
+                            />
+                          </Col>
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                color: "#939393",
+                              }}
+                            >
+                              Hostel Based Calculation
+                            </Form.Label>
+                            <Form.Check
+                              type="switch"
+                              id="hostelBased"
+                              label="Enabled"
+                              checked={hostelBasedCalculation}
+                              onChange={() => {
+                                handleHostelBased(v);
+                              }}
+                            />
+                          </Col>
+                        </Row>
 
-                          <Row className="mb-3">
-                            <Col md={6}>
-                              <Form.Label
-                                style={{
-                                  fontSize: 12,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  color: "#939393",
-                                }}
-                              >
-                                Recurring
-                              </Form.Label>
-                              <Form.Check
-                                type="switch"
-                                id={`custom-switch-${isRecurring}`}
-                                label="Recurring"
-                                className="custom-switch-pointer"
-                                checked={isRecurring}
-                                onChange={() => handleRecurringFormShow(v)}
-                              />
-                              <style>
-                                {`
+                        <Row className="mb-3">
+                          <Col md={6}>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                color: "#939393",
+                              }}
+                            >
+                              Recurring
+                            </Form.Label>
+                            <Form.Check
+                              type="switch"
+                              id={`custom-switch-${isRecurring}`}
+                              label="Recurring"
+                              className="custom-switch-pointer"
+                              checked={isRecurring}
+                              onChange={() => handleRecurringFormShow(v)}
+                            />
+                            <style>
+                              {`
                                       .custom-switch-pointer input[type="checkbox"],
                                       .custom-switch-pointer label {
                                         cursor: pointer !important;
                                       }
                                     `}
-                              </style>
-                            </Col>
-                          </Row>
+                            </style>
+                          </Col>
+                        </Row>
 
-                          <Row className="mb-3">
-                            <Col>
-                              <Form.Label
-                                style={{
-                                  fontSize: 12,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  color: "#939393",
-                                }}
-                              >
-                                Calculation Type
-                              </Form.Label>
-                              <h6
-                                style={{
-                                  fontSize: 16,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 600,
-                                }}
-                              >
-                                Monthly
-                              </h6>
-                            </Col>
-                            <Col>
-                              <Form.Label
-                                style={{
-                                  fontSize: 12,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  color: "#939393",
-                                }}
-                              >
-                                Calculation Start Day
-                              </Form.Label>
-                              <h6
-                                style={{
-                                  fontSize: 16,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 600,
-                                }}
-                              >
-                                {v.start_date}
-                              </h6>
-                            </Col>
-                            <Col>
-                              <Form.Label
-                                style={{
-                                  fontSize: 12,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 500,
-                                  color: "#939393",
-                                }}
-                              >
-                                Calculation End Day
-                              </Form.Label>
-                              <h6
-                                style={{
-                                  fontSize: 16,
-                                  fontFamily: "Gilroy",
-                                  fontWeight: 600,
-                                }}
-                              >
-                                {v.end_date}
-                              </h6>
-                            </Col>
-                          </Row>
-                        </Form>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                </Row>
-              );
-            })
+                        <Row className="mb-3">
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                color: "#939393",
+                              }}
+                            >
+                              Calculation Type
+                            </Form.Label>
+                            <h6
+                              style={{
+                                fontSize: 16,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Monthly
+                            </h6>
+                          </Col>
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                color: "#939393",
+                              }}
+                            >
+                              Calculation Start Day
+                            </Form.Label>
+                            <h6
+                              style={{
+                                fontSize: 16,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {v.start_date}
+                            </h6>
+                          </Col>
+                          <Col>
+                            <Form.Label
+                              style={{
+                                fontSize: 12,
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                                color: "#939393",
+                              }}
+                            >
+                              Calculation End Day
+                            </Form.Label>
+                            <h6
+                              style={{
+                                fontSize: 16,
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {v.end_date}
+                            </h6>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+            );
+          })
           : !loading && (
+            <div
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 65,
+              }}
+            >
+              <div className="d-flex justify-content-center">
+                <img
+                  src={EmptyState}
+                  style={{ height: 240, width: 240 }}
+                  alt="Empty state"
+                />
+              </div>
               <div
+                className="pb-1 mt-3"
                 style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginTop: 65,
+                  textAlign: "center",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: 20,
+                  color: "rgba(75, 75, 75, 1)",
                 }}
               >
-                <div className="d-flex justify-content-center">
-                  <img
-                    src={EmptyState}
-                    style={{ height: 240, width: 240 }}
-                    alt="Empty state"
-                  />
-                </div>
-                <div
-                  className="pb-1 mt-3"
-                  style={{
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontFamily: "Gilroy",
-                    fontSize: 20,
-                    color: "rgba(75, 75, 75, 1)",
-                  }}
-                >
-                  No Electricity available
-                </div>
+                No Electricity available
               </div>
-            )}
+            </div>
+          )}
       </>
 
       <Modal

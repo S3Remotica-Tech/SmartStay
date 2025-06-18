@@ -19,7 +19,7 @@ export const initialState = {
     StatusCodeAmenitiesGet: 0,
     AmenitiesUpdateStatusCode: 0,
     ManualInvoice: [],
-    BillsErrorstatusCode:0,
+    BillsErrorstatusCode: 0,
     manualInvoiceStatusCode: 0,
     UpdateInvoiceStatusCode: 0,
     ManualInvoiceNUmber: [],
@@ -34,7 +34,7 @@ export const initialState = {
     RecurringBillAddStatusCode: 0,
     RecurringBills: [],
     RecurringbillsgetStatuscode: 0,
-    NodataRecurringStatusCode:0,
+    NodataRecurringStatusCode: 0,
     deleterecurringbillsStatuscode: 0,
     settingsaddRecurringStatusCode: 0,
     deleteUserSuccessStatusCode: 0,
@@ -47,7 +47,7 @@ export const initialState = {
     deletemanualError: '',
     ReceiptList: [],
     ReceiptlistgetStatuscode: 0,
-    NodataReceiptStatusCode:0,
+    NodataReceiptStatusCode: 0,
     ReceiptAddsuccessStatuscode: 0,
     ReceiptEditsuccessStatuscode: 0,
     ReceiptDeletesuccessStatuscode: 0,
@@ -59,19 +59,31 @@ export const initialState = {
     ReceiptPDF: '',
     getstatusCodeForfilterrecurrcustomers: 0,
     FilterRecurrCustomers: [],
-    errorRecuireFile:'',
+    errorRecuireFile: '',
     RecurenotEnable: '',
-    RecurenotenableStatusCode : 0,
+    RecurenotenableStatusCode: 0,
     Errmessage: '',
-    amnitiessAddError:'',
+    amnitiessAddError: '',
 
-    BillsPdfDetails:[],
-    BillsPdfSuccessCode:0,
+    BillsPdfDetails: [],
+    BillsPdfSuccessCode: 0,
 
     newReceiptchanges:[],
     statusCodeNewReceiptStatusCode:0,
     ReceiptErrmsg:'',
     ReceiptAddErrorStatuscode : 0,
+    newReceiptchanges: [],
+    statusCodeNewReceiptStatusCode: 0,
+
+    triggeredBy: '',  
+
+    whatsappSettings:
+        JSON.parse(localStorage.getItem('whatsappSettings')) || {
+            0: false,
+            1: false,
+            2: false,
+            3: false,
+        },
 
 }
 
@@ -90,17 +102,17 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'REMOVE_ALREADY_ASSIGN_ERROR':
             return { ...state, alreadyAssignAmenitiesStatusCode: 0 }
-            case 'ERROR_RECURE':
-                return { ...state, errorRecuireFile: action.payload.response }
-    
-            case 'REMOVE_ERROR_RECURE':
-                return { ...state, errorRecuireFile: ''}
+        case 'ERROR_RECURE':
+            return { ...state, errorRecuireFile: action.payload.response }
 
-                case 'ERROR_AMENITIES_SETTINGS':
-                    return { ...state, amnitiessAddError: action.payload.response }
-        
-                case 'REMOVE_ERROR_AMENITIES_SETTINGS':
-                    return { ...state, amnitiessAddError: ''}
+        case 'REMOVE_ERROR_RECURE':
+            return { ...state, errorRecuireFile: '' }
+
+        case 'ERROR_AMENITIES_SETTINGS':
+            return { ...state, amnitiessAddError: action.payload.response }
+
+        case 'REMOVE_ERROR_AMENITIES_SETTINGS':
+            return { ...state, amnitiessAddError: '' }
 
         case 'DELETE_USER':
             return { ...state, deleteUserSuccessStatusCode: action.payload.statusCode }
@@ -144,9 +156,11 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'CLEAR_INVOICE_LIST':
             return { ...state, InvoiceListStatusCode: 0, toTriggerPDF: true }
         case 'UPDATEINVOICE_DETAILS':
-            return { ...state,  UpdateInvoiceStatusCode: 
-                action.payload.response.statusCode ||
-                 action.payload.statusCode }
+            return {
+                ...state, UpdateInvoiceStatusCode:
+                    action.payload.response.statusCode ||
+                    action.payload.statusCode
+            }
         case 'CLEAR_INVOICE_UPDATE_LIST':
             return { ...state, UpdateInvoiceStatusCode: 0, message: null }
         case 'INVOICE_SETTINGS':
@@ -156,7 +170,7 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'CLEAR_AMENITIES_SETTINS_STATUSCODE':
             return { ...state, statusCode: 0 }
         case 'INVOICE_PDF':
-                        return { ...state, invoicePDF: action.payload.response, statusCodeForPDf: action.payload.statusCode, toTriggerPDF: false }
+            return { ...state, invoicePDF: action.payload.response, statusCodeForPDf: action.payload.statusCode, toTriggerPDF: false }
         case 'CLEAR_INVOICE_PDF_STATUS_CODE':
             return { ...state, statusCodeForPDf: 0 }
         case 'AMENITIES_SETTINGS':
@@ -186,13 +200,14 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'REMOVE_STATUS_CODE_RECURRING_INVOICE_AMOUNT':
             return { ...state, recurrbillamountgetStatuscode: 0 }
 
-        case 'FAIL_ADD_RECURRING_BILL': 
-            return { ...state, RecurenotEnable: action.payload.response, RecurenotenableStatusCode: action.payload.statusCode , 
+        case 'FAIL_ADD_RECURRING_BILL':
+            return {
+                ...state, RecurenotEnable: action.payload.response, RecurenotenableStatusCode: action.payload.statusCode,
                 // Errmessage : action.payload.message 
             }
         case 'REMOVE_STATUS_CODE_FAIL_ADD_RECURRING_BILL':
             return { ...state, RecurenotenableStatusCode: 0 }
-            
+
 
         case 'MANUAL_INVOICE_ADD':
             return { ...state, manualInvoiceAddStatusCode: action.payload.statusCode } //bills Add 
@@ -220,9 +235,9 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_LIST':
             return { ...state, ManualInvoicesgetstatuscode: 0 }
         case 'NODATA_BILL_LIST':
-                return { ...state, BillsErrorstatusCode: action.payload.statusCode }
+            return { ...state, BillsErrorstatusCode: action.payload.statusCode }
         case 'REMOVE_NODATA_BILL_LIST':
-                return { ...state, BillsErrorstatusCode: 0}
+            return { ...state, BillsErrorstatusCode: 0 }
 
         case 'DELETE_MANUAL_ERROR':
             return { ...state, deletemanualError: action.payload }
@@ -234,14 +249,14 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, RecurringbillsgetStatuscode: 0 }
 
         case 'NODATA_RECURRINGBILLS_LIST':
-             return { ...state, NodataRecurringStatusCode: action.payload.statusCode }
+            return { ...state, NodataRecurringStatusCode: action.payload.statusCode }
         case 'CLEAR_NODATA_RECURRINGBILLS_LIST':
-             return { ...state, NodataRecurringStatusCode: 0}    
+            return { ...state, NodataRecurringStatusCode: 0 }
 
         case 'FILTER_RECURR_CUSTOMERS':
-                return { ...state, FilterRecurrCustomers: action.payload.response,  getstatusCodeForfilterrecurrcustomers: action.payload.statusCode,  }
+            return { ...state, FilterRecurrCustomers: action.payload.response, getstatusCodeForfilterrecurrcustomers: action.payload.statusCode, }
         case 'CLEAR_FILTER_ADD_RECURR_CUSTOMERSF_STATUS_CODE':
-                return { ...state, getstatusCodeForfilterrecurrcustomers: 0 }
+            return { ...state, getstatusCodeForfilterrecurrcustomers: 0 }
 
         case 'DELETE_RECURRING_BILLS':
             return { ...state, deleterecurringbillsStatuscode: action.payload.statusCode }
@@ -260,9 +275,9 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, ReceiptlistgetStatuscode: 0 }
 
         case 'NODATA_RECEIPTS_LIST':
-                return { ...state, NodataReceiptStatusCode: action.payload.statusCode }
+            return { ...state, NodataReceiptStatusCode: action.payload.statusCode }
         case 'CLEAR_NODATA_RECEIPTS_LIST':
-                return { ...state, NodataReceiptStatusCode: 0} 
+            return { ...state, NodataReceiptStatusCode: 0 }
 
         case 'RECEIPTS_ADD':
             return { ...state, ReceiptAddsuccessStatuscode: action.payload.statusCode } //Receipt Add
@@ -290,31 +305,54 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, ReferenceIdgetsuccessStatuscode: 0 }
 
         case 'RECEIPT_PDF':
-                return { ...state, ReceiptPDF: action.payload.response, statusCodeForReceiptPDf: action.payload.statusCode, toTriggerPDF: false }
+            return { ...state, ReceiptPDF: action.payload.response, statusCodeForReceiptPDf: action.payload.statusCode, toTriggerPDF: false }
         case 'CLEAR_RECEIPT_PDF_STATUS_CODE':
-                return { ...state, statusCodeForReceiptPDf: 0 }
+            return { ...state, statusCodeForReceiptPDf: 0 }
 
 
         case 'GET-BILLS-PDF-DETAILS':
-            return { ...state, BillsPdfDetails: action.payload.response, BillsPdfSuccessCode: action.payload.statusCode,  }
+            return { ...state, BillsPdfDetails: action.payload.response, BillsPdfSuccessCode: action.payload.statusCode, }
         case 'CLEAR_GET_BILLS_PDF_DETAILS_STATUS_CODE':
-            return { ...state, BillsPdfSuccessCode: 0 }        
+            return { ...state, BillsPdfSuccessCode: 0 }
 
 
 
 
-                // newReceipt
-                case 'RECEIPT_PDF_CHANGES':
-                return { ...state,newReceiptchanges: action.payload, statusCodeNewReceiptStatusCode: action.payload.statusCode }
+        // newReceipt
+        case 'RECEIPT_PDF_CHANGES':
+            return { ...state, newReceiptchanges: action.payload, statusCodeNewReceiptStatusCode: action.payload.statusCode }
         case 'CLEAR_NEE_RECEIPT_PDF_STATUS_CODE':
-                return { ...state, statusCodeNewReceiptStatusCode: 0 }
+            return { ...state, statusCodeNewReceiptStatusCode: 0 }
 
 
-                default:
-        return state;
-            
+        //whatsapp
+
+        case 'SET_TRIGGER_SOURCE':
+            return { ...state, triggeredBy: action.payload };
+
+        case 'CLEAR_TRIGGER_SOURCE':
+            return { ...state, triggeredBy: '' };
+
+
+        case 'SET_WHATSAPP_SETTINGS':
+            return { ...state, whatsappSettings: action.payload };
+
+        case 'TOGGLE_WHATSAPP_SETTING':
+            const updated = {
+                ...state.whatsappSettings,
+                [action.payload.id]: action.payload.value,
+            };
+            localStorage.setItem('whatsappSettings', JSON.stringify(updated));
+            return {
+                ...state,
+                whatsappSettings: updated,
+            };
+
+        default:
+            return state;
+
     }
 
-   
+
 }
 export default InvoiceReducer;

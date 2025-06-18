@@ -48,6 +48,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import './BillPdfModal.css';
+import AxiosConfig from "../WebService/AxiosConfig";
 
 
 
@@ -1848,24 +1849,85 @@ const InvoicePage = () => {
   }, [state.InvoiceList?.statusCodeForPDf]);
 
   useEffect(() => {
-    if (state.InvoiceList?.statusCodeForReceiptPDf === 200) {
-      const pdfUrl = state.InvoiceList.ReceiptPDF;
+    const sendWhatsAppMessage = async () => {
 
-      if (pdfUrl) {
-        setShowLoader(false);
+      if (state.InvoiceList?.statusCodeForReceiptPDf === 200) {
+
+        const pdfUrl = state.InvoiceList.ReceiptPDF;
+        const filename = pdfUrl?.split('/').pop();
+        const triggeredBy = state.InvoiceList.triggeredBy;
+        const isReceiptMessageEnabled = state.InvoiceList.whatsappSettings?.[2];
+
+        if (pdfUrl) {
+          setShowLoader(false);
 
 
-        const pdfWindow = window.open("", "_blank");
-        if (pdfWindow) {
-          pdfWindow.location.href = pdfUrl;
+          if (triggeredBy === "whatsapp") {
+            if (isReceiptMessageEnabled == true) {
+              setLoading(true);
+
+              const receiptData =
+                state.InvoiceList.newReceiptchanges?.receipt ??
+                state.InvoiceList.BillsPdfDetails;
+
+              const userName = receiptData?.user_details?.name || '';
+              let userPhone = receiptData?.user_details?.phone?.toString() || '';
+
+              if (!userPhone.startsWith("+91")) {
+                if (userPhone.startsWith("91")) {
+                  userPhone = "+" + userPhone;
+                } else {
+                  userPhone = "+91" + userPhone;
+                }
+              }
+              try {
+                const response = await AxiosConfig.post("/send-whatsapp", {
+                  to: userPhone,
+                  templateName: "invoice_notification",
+                  parameters: [userName, filename],
+                });
+                if (response.data.statusCode === 200) {
+                  Swal.fire({
+                    icon: 'success',
+                    text: response.data.message,
+                  });
+                } else {
+                  Swal.fire({
+                    icon: 'warning',
+                    text: "Unexpected response from server.",
+                  });
+                }
+              } catch (error) {
+                Swal.fire({
+                  icon: 'error',
+                  text: error.response?.data?.error || "Failed to send WhatsApp message",
+                });
+              } finally {
+                setLoading(false);
+              }
+
+            } else {
+              Swal.fire({
+                icon: 'info',
+                text: 'WhatsApp notification for Deposit Receipt is not enabled. Please enable it in Settings > Notifications.',
+              });
+            }
+          } else {
+            const pdfWindow = window.open("", "_blank");
+            if (pdfWindow) {
+              pdfWindow.location.href = pdfUrl;
+            }
+          }
+
           dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+          dispatch({ type: "CLEAR_TRIGGER_SOURCE" });
         }
 
       }
-    }
-  }, [state.InvoiceList?.statusCodeForReceiptPDf]);
+    };
 
-
+    sendWhatsAppMessage();
+  }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
 
   useEffect(() => {
     if (selectedUserId) {

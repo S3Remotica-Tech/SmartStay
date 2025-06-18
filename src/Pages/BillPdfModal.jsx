@@ -63,13 +63,13 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const [invoice_details, setInvoiceDetails] = useState({})
   const [tabledetails, setTableDetails] = useState([])
   const [isVisible, setIsVisible] = useState(true);
+  const [idforwhats, setIdForWhats] = useState("");
   const cardRef = useRef(null);
 
   useEffect(() => {
+    setIdForWhats(rowData?.id);
     setIsVisible(true)
   }, [rowData])
-
-
 
   useEffect(() => {
     if (state.InvoiceList.BillsPdfSuccessCode === 200) {
@@ -154,14 +154,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   };
 
 
-
-
-
-
-
-
-
-
   const handleBackInvoice = () => {
     handleClosed()
   }
@@ -169,9 +161,6 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
   const totalStayingDays = userdetails?.joining_date
     ? moment().diff(moment(userdetails.joining_date), 'days') + 1
     : 0;
-
-
-
 
   const isValid = (value) => {
     return value !== null && value !== undefined && value !== "undefined" && value !== "";
@@ -184,6 +173,27 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     setIsOpen(!isOpen);
   };
 
+  const handleMenuClick = async (key) => {
+    setIsOpen(false);
+
+    if (key === "whatsapp") {
+      try {
+        dispatch({
+          type: "SET_TRIGGER_SOURCE",
+          payload: "bill",
+        });
+        dispatch({
+          type: "INVOICEPDF",
+          payload: {
+            id: idforwhats,
+          },
+        });
+
+      } catch (error) {
+        console.error("Error sending WhatsApp with PDF:", error);
+      }
+    }
+  };
 
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white' }}>
@@ -290,6 +300,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                         }}
                         onMouseEnter={() => setHoveredItem(item.key)}
                         onMouseLeave={() => setHoveredItem(null)}
+                        onClick={() => handleMenuClick(item.key)}
                       >
                         <img
                           src={hoveredItem === item.key ? item.iconWhite : item.icon}
