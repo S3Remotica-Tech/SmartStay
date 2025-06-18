@@ -468,7 +468,11 @@ function UserListAmenities(props) {
                 className="mb-1"
                 style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}
               >
-                Select Status
+                Select Status{" "}
+                          <span style={{ color: "red", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
               </label>
               <Form.Select
                 aria-label="Default select example"
@@ -483,7 +487,8 @@ function UserListAmenities(props) {
                   opacity: 1,
                   fontWeight: 530,
                   fontFamily: "Gilroy",
-                  color:"grey"
+                  color:"grey",
+                  
                 }}
               >
                 <option
