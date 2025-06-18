@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
@@ -43,6 +43,15 @@ function AddPg({ show, handleClose, currentItem }) {
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [hostel_Id, setHostel_Id] = useState("");
+
+
+  const pgNameRef = useRef(null);
+  const countryCodeRef = useRef(null);
+  const mobileRef = useRef(null);
+  const cityRef = useRef(null);
+  const pincodeRef = useRef(null);
+  const stateNameRef = useRef(null);
+
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -222,88 +231,146 @@ function AddPg({ show, handleClose, currentItem }) {
     }
   }, []);
 
+
+  
+
+
+
+
+
+
+
+
   const handleCreatePayingGuest = () => {
-    let hasError = false;
+   let hasError = false;
+  let focused = false;
 
-    setGeneralError("");
-    setPgNameError("");
-    setMobileError("");
-    setCountryCodeError("");
-    setEmailError("");
-    setHouse_NoError("");
-    setStreetError("");
-    setCityError("");
-    setLandmarkError("");
-    setPincodeError("");
-    setStateNameError("");
-    setIsChangedError("");
+  setGeneralError("");
+  setPgNameError("");
+  setMobileError("");
+  setCountryCodeError("");
+  setEmailError("");
+  setHouse_NoError("");
+  setStreetError("");
+  setCityError("");
+  setLandmarkError("");
+  setPincodeError("");
+  setStateNameError("");
+  setIsChangedError("");
 
-    if (!pgName) {
-      setPgNameError("Please Enter PG Name");
-      hasError = true;
+  if (!pgName) {
+    setPgNameError("Please Enter PG Name");
+    if (!focused) {
+      pgNameRef.current?.focus();
+      focused = true;
     }
+    hasError = true;
+  }
 
-    if (!countryCode) {
-      setCountryCodeError("Please Select Country Code");
-      hasError = true;
+  if (!countryCode) {
+    setCountryCodeError("Please Select Country Code");
+    if (!focused) {
+      countryCodeRef.current?.focus();
+      focused = true;
     }
+    hasError = true;
+  }
 
-    if (!mobile) {
-      setMobileError("Please Enter Mobile Number");
-      hasError = true;
+  if (!mobile) {
+    setMobileError("Please Enter Mobile Number");
+    if (!focused) {
+      mobileRef.current?.focus();
+      focused = true;
     }
+    hasError = true;
+  }
 
-    if (!city) {
-      setCityError("Please Enter City");
-      hasError = true;
+  if (mobile && mobile.length !== 10) {
+    setMobileError("Please Enter Valid Mobile No");
+    if (!focused) {
+      mobileRef.current?.focus();
+      focused = true;
     }
+    hasError = true;
+  }
 
-    const pinString = String(pincode).trim();
-    if (!pinString) {
-      setPincodeError("Please Enter Pincode");
-      hasError = true;
-    } else if (!/^\d+$/.test(pinString)) {
-      setPincodeError("Pin Code Must Be Numeric");
-      hasError = true;
-    } else if (pinString.length !== 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-      hasError = true;
-    } else {
-      setPincodeError("");
+ 
+
+  const pinString = String(pincode).trim();
+  if (!pinString) {
+    setPincodeError("Please Enter Pincode");
+    if (!focused) {
+      pincodeRef.current?.focus();
+      focused = true;
     }
-
-    if (!state_name) {
-      setStateNameError("Please Select State");
-      hasError = true;
+    hasError = true;
+  } else if (!/^\d+$/.test(pinString)) {
+    setPincodeError("Pin Code Must Be Numeric");
+    if (!focused) {
+      pincodeRef.current?.focus();
+      focused = true;
     }
-
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-    if (email && !emailRegex.test(email)) {
-      setEmailError("Enter a Valid Email ID");
-      hasError = true;
+    hasError = true;
+  } else if (pinString.length !== 6) {
+    setPincodeError("Pin Code Must Be Exactly 6 Digits");
+    if (!focused) {
+      pincodeRef.current?.focus();
+      focused = true;
     }
+    hasError = true;
+  }
 
-    if (mobile && mobile.length !== 10) {
-      setMobileError("Please Enter Valid Mobile No");
-      hasError = true;
+ if (!city) {
+    setCityError("Please Enter City");
+    if (!focused) {
+      cityRef.current?.focus();
+      focused = true;
     }
+    hasError = true;
+  }
 
-    if (
-      !pgName &&
-      !mobile &&
-      !countryCode &&
-      !house_no &&
-      !street &&
-      !landmark &&
-      !city &&
-      !pincode &&
-      !state_name
-    ) {
-      setGeneralError("Please Fill In All The Required Fields");
-      return;
+
+
+  if (!state_name) {
+    setStateNameError("Please Select State");
+    if (!focused) {
+      stateNameRef.current?.focus();
+      focused = true;
     }
+    hasError = true;
+  }
 
-    if (hasError) return;
+  const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+  if (email && !emailRegex.test(email)) {
+    setEmailError("Enter a Valid Email ID");
+    if (!focused) {
+      emailRef.current?.focus();
+      focused = true;
+    }
+    hasError = true;
+  }
+
+  if (
+    !pgName &&
+    !mobile &&
+    !countryCode &&
+    !house_no &&
+    !street &&
+    !landmark &&
+    !city &&
+    !pincode &&
+    !state_name
+  ) {
+    setGeneralError("Please Fill In All The Required Fields");
+    if (!focused) {
+      pgNameRef.current?.focus();
+      focused = true;
+    }
+    return;
+  }
+
+  if (hasError) return;
+
 
     const arraysAreEqual = (arr1, arr2) => {
       if (arr1.length !== arr2.length) return false;
@@ -653,6 +720,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   value={pgName}
                   onChange={handlePgNameChange}
                   type="text"
+                  ref={pgNameRef}
                   placeholder="Enter PG Name"
                   style={{
                     fontSize: 16,
@@ -708,6 +776,7 @@ function AddPg({ show, handleClose, currentItem }) {
                 <InputGroup>
                   <Form.Select
                     value={countryCode}
+                    ref={countryCodeRef}
                     id="vendor-select-pg"
                     style={{
                       border: "1px solid #D9D9D9",
@@ -726,6 +795,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   </Form.Select>
                   <Form.Control
                     value={mobile}
+                    ref={mobileRef}
                     onChange={handleMobileChange}
                     type="text"
                     placeholder="9876543210"
@@ -1026,6 +1096,7 @@ function AddPg({ show, handleClose, currentItem }) {
                 </Form.Label>
                 <Form.Control
                   value={pincode}
+                  ref={pincodeRef}
                   onChange={(e) => handlePinCodeChange(e)}
                   type="tel"
                   maxLength={6}
@@ -1087,6 +1158,7 @@ function AddPg({ show, handleClose, currentItem }) {
                   id="form-controls"
                   placeholder="Enter City"
                   value={city}
+                  ref={cityRef}
                   onChange={(e) => handleCity(e)}
                   style={{
                     fontSize: 16,
@@ -1138,6 +1210,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
                 <Select
                   options={indianStates}
+                  ref={stateNameRef}
                   onChange={(selectedOption) => {
                     setStateName(selectedOption?.value);
                     setStateNameError("");

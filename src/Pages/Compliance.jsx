@@ -26,7 +26,7 @@ import Select from "react-select";
 import { toast } from 'react-toastify';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 
 const Compliance = () => {
 
@@ -274,7 +274,7 @@ const Compliance = () => {
 
 
 
- 
+
   const handleCloseSearch = () => {
     setSearch(false);
     setFilterInput("")
@@ -305,21 +305,21 @@ const Compliance = () => {
     );
     setFilteredUsers(selectedUserData);
 
-    setDropdownVisible(false);  
+    setDropdownVisible(false);
   };
 
 
- 
 
- 
+
+
   const handleStatusFilter = (event) => {
     const value = event.target.value;
     setStatusfilter(value);
-  
+
     if (value === "All") {
       setFilteredUsers(state.ComplianceList?.Compliance || []);
     }
-    
+
     else {
       const filtered = (state.ComplianceList?.Compliance || []).filter(item =>
         item.Status?.toLowerCase().includes(value.toLowerCase())
@@ -328,13 +328,13 @@ const Compliance = () => {
       setCurrentPage(1)
     }
   };
-  
+
   const [selectedDateRange, setSelectedDateRange] = useState([]);
   const handleDateChange = (dates) => {
     if (!dates || dates.length === 0) {
       setSelectedDateRange([]);
-      setStatusfilter("All"); 
-      setFilteredUsers(state.ComplianceList?.Compliance); 
+      setStatusfilter("All");
+      setFilteredUsers(state.ComplianceList?.Compliance);
     } else {
       setSelectedDateRange(dates);
       const filtered = state.ComplianceList?.Compliance.filter((item) =>
@@ -348,7 +348,7 @@ const Compliance = () => {
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
-    
+
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_CODE_USER' })
       }, 1000)
@@ -371,7 +371,7 @@ const Compliance = () => {
       }
       )
       if (filteredDetails.length > 0) {
-        
+
         const firstFilteredDetail = filteredDetails[0];
         setHostel_Id(firstFilteredDetail.Hostel_Id || '');
         setHostelName(firstFilteredDetail.HostelName || '');
@@ -416,12 +416,12 @@ const Compliance = () => {
   const [show, setShow] = useState(false);
 
   const handleShow = () => {
-     if (!state.login.selectedHostel_Id) {
-              toast.error('Please add a hostel before adding Compliance information.', {
-                  hideProgressBar: true, autoClose: 1500,  style: { color: '#000', borderBottom:"5px solid red", fontFamily:"Gilroy"} 
-              });
-              return;
-          }
+    if (!state.login.selectedHostel_Id) {
+      toast.error('Please add a hostel before adding Compliance information.', {
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      });
+      return;
+    }
     setEdit(false)
     setShow(true);
   }
@@ -466,7 +466,7 @@ const Compliance = () => {
     }
   }
 
-  
+
 
   const handleAddcomplaint = () => {
 
@@ -480,7 +480,7 @@ const Compliance = () => {
 
 
 
-    
+
 
     if (!selectedUsername) {
       setUserErrmsg('Please Select  Customer')
@@ -499,7 +499,7 @@ const Compliance = () => {
     if (Complainttype && selectedDate && hostelname && beds && Rooms) {
       const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
       if (id && hasChanges) {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: Number(beds), Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id} })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: Number(beds), Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id } })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -516,7 +516,7 @@ const Compliance = () => {
         setHostel_Id('')
       }
       else {
-        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status,} })
+        dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status, } })
         handleClose()
         setSelectedUserName('');
         setComplainttype('');
@@ -552,7 +552,7 @@ const Compliance = () => {
 
     setEdit(true)
     if (Complaintdata) {
-      
+
       setShow(true);
       setId(Complaintdata.ID)
       setSelectedUserName(Complaintdata.Name);
@@ -560,7 +560,7 @@ const Compliance = () => {
       setEditcomplainttype(Complaintdata.complaint_name)
       setAssign(Complaintdata.Assign);
       setDescription(Complaintdata.Description);
-      setSelectedDate(new Date(Complaintdata.date)); 
+      setSelectedDate(new Date(Complaintdata.date));
       setHostel_Id(Complaintdata.Hostel_id)
       setBeds(Complaintdata.Bed)
       setBedName(Complaintdata.bedName)
@@ -574,19 +574,19 @@ const Compliance = () => {
         Assign: Complaintdata.Assign,
         Description: Complaintdata.Description,
         Status: Complaintdata.Status,
-        selectedDate: new Date(Complaintdata.date) 
+        selectedDate: new Date(Complaintdata.date)
       };
     }
   };
 
   let hasChanges =
-  Assign !== initialValuesRef.current.Assign ||
-  description !== initialValuesRef.current.Description ||
-  Status !== initialValuesRef.current.Status ||
-  new Date(selectedDate).getTime() !== new Date(initialValuesRef.current.selectedDate).getTime(); 
+    Assign !== initialValuesRef.current.Assign ||
+    description !== initialValuesRef.current.Description ||
+    Status !== initialValuesRef.current.Status ||
+    new Date(selectedDate).getTime() !== new Date(initialValuesRef.current.selectedDate).getTime();
 
 
-    
+
   useEffect(() => {
     const closeButton = document.querySelector('button[aria-label="close-button"]');
     if (closeButton) {
@@ -601,7 +601,7 @@ const Compliance = () => {
 
   const [complainttypelist, setComplainttypelist] = useState([])
 
- 
+
   useEffect(() => {
     if (hosId) {
       dispatch({ type: "GETUSERSTAFF", payload: { hostel_id: hosId } });
@@ -643,16 +643,16 @@ const Compliance = () => {
   });
 
 
-  
-      useEffect(() => {
-            if (
-              filteredUsers.length > 0 &&
-              currentItems.length === 0 &&
-              currentPage > 1
-            ) {
-              setCurrentPage(currentPage - 1);
-            }
-          }, [filteredUsers])
+
+  useEffect(() => {
+    if (
+      filteredUsers.length > 0 &&
+      currentItems.length === 0 &&
+      currentPage > 1
+    ) {
+      setCurrentPage(currentPage - 1);
+    }
+  }, [filteredUsers])
 
 
   return (
@@ -695,79 +695,79 @@ const Compliance = () => {
           <>
             <div style={{ width: "100%", fontFamily: "Gilroy", position: "relative" }} >
               <div >
-                   
-              {loading  &&
-        <div
-          style={{
-            position: 'fixed',
-            top: '53%',
-            left: '57%',
-            transform: 'translate(-50%, -50%)',
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            zIndex: 1050,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>
-}
 
-          
+                {loading &&
+                  <div
+                    style={{
+                      position: 'fixed',
+                      top: '53%',
+                      left: '57%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '100vw',
+                      height: '100vh',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      zIndex: 1050,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: '4px solid #1E45E1',
+                        borderRight: '4px solid transparent',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        animation: 'spin 1s linear infinite',
+                      }}
+                    ></div>
+                  </div>
+                }
 
-<div
-  className="container-fluid sticky-top bg-white py-2"
-  style={{ zIndex: 1000, height: 'auto' }}
->
-  <div className="d-flex justify-content-between align-items-center flex-wrap" style={{paddingTop:11}}>
-    <div className=" ms-2" >
-      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600,marginTop:5,marginLeft:3 }}>Complaints</label>
-    </div>
 
-    <div className="d-flex flex-wrap align-items-center gap-2">
 
-      {search ? (
-        <div className="position-relative" style={{ minWidth: 160 }}>
-          <div className="input-group">
-            <span className="input-group-text bg-white border-end-0">
-              <Image src={searchteam} style={{ height: 20, width: 20 }} />
-            </span>
-            <input
-              type="text"
-              className="form-control border-start-0"
-              placeholder="Search"
-              style={{
-                boxShadow: "none",
-                outline: "none",
-                borderColor: "rgb(207,213,219)",
-                borderRight: "none",
-              }}
-              value={filterInput}
-              onChange={(e) => handlefilterInput(e)}
-            />
-            <span className="input-group-text bg-white border-start-0">
-              <img
-                src={closecircle}
-                alt="close"
-                style={{ height: 20, width: 20, cursor: "pointer" }}
-                onClick={handleCloseSearch}
-              />
-            </span>
-          </div>
+                <div
+                  className="container-fluid sticky-top bg-white py-2"
+                  style={{ zIndex: 1000, height: 'auto' }}
+                >
+                  <div className="d-flex justify-content-between align-items-center flex-wrap" style={{ paddingTop: 11 }}>
+                    <div className=" ms-2" >
+                      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, marginTop: 5, marginLeft: 3 }}>Complaints</label>
+                    </div>
 
-          {isDropdownVisible && filteredUsers?.length > 0 && (
+                    <div className="d-flex flex-wrap align-items-center gap-2">
+
+                      {search ? (
+                        <div className="position-relative" style={{ minWidth: 160 }}>
+                          <div className="input-group">
+                            <span className="input-group-text bg-white border-end-0">
+                              <Image src={searchteam} style={{ height: 20, width: 20 }} />
+                            </span>
+                            <input
+                              type="text"
+                              className="form-control border-start-0"
+                              placeholder="Search"
+                              style={{
+                                boxShadow: "none",
+                                outline: "none",
+                                borderColor: "rgb(207,213,219)",
+                                borderRight: "none",
+                              }}
+                              value={filterInput}
+                              onChange={(e) => handlefilterInput(e)}
+                            />
+                            <span className="input-group-text bg-white border-start-0">
+                              <img
+                                src={closecircle}
+                                alt="close"
+                                style={{ height: 20, width: 20, cursor: "pointer" }}
+                                onClick={handleCloseSearch}
+                              />
+                            </span>
+                          </div>
+
+                          {isDropdownVisible && filteredUsers?.length > 0 && (
                             <div
                               style={{
                                 border: "1px solid #d9d9d9 ",
@@ -834,87 +834,87 @@ const Compliance = () => {
                               </ul>
                             </div>
                           )}
-        </div>
-      ) : (
-        <div className='me-2' style={{ cursor: "pointer" }}>
-          <Image
-            src={searchteam}
-            style={{ height: "24px", width: "24px" }}
-            onClick={handleSearch}
-          />
-        </div>
-      )}
+                        </div>
+                      ) : (
+                        <div className='me-2' style={{ cursor: "pointer" }}>
+                          <Image
+                            src={searchteam}
+                            style={{ height: "24px", width: "24px" }}
+                            onClick={handleSearch}
+                          />
+                        </div>
+                      )}
 
-     <div className='me-2' style={{ cursor: "pointer" }}>
-        <Image
-          src={Filters}
-          style={{ height: "50px", width: "50px" }}
-          onClick={handleFilterd}
-        />
-      </div>
+                      <div className='me-2' style={{ cursor: "pointer" }}>
+                        <Image
+                          src={Filters}
+                          style={{ height: "50px", width: "50px" }}
+                          onClick={handleFilterd}
+                        />
+                      </div>
 
-      {
-                          filterStatus &&
+                      {
+                        filterStatus &&
 
-                          <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width:  "140px"}}>
-                            <Form.Select
-                              onChange={(e) => handleStatusFilter(e)}
-                              value={statusfilter}
-                              aria-label="Select Price Range"
-                              className=''
-                              id="statusselect"
-                              style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy",cursor:"pointer" }}
-                            >
-                              <option value="All">All</option>
-                              <option value="open">Open</option>
-                              <option value="in-progress">In Progress</option>
-                              <option value="resolved">Resolved</option>
-                              <option value="date">Date</option>
+                        <div className='me-3' style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: "140px" }}>
+                          <Form.Select
+                            onChange={(e) => handleStatusFilter(e)}
+                            value={statusfilter}
+                            aria-label="Select Price Range"
+                            className=''
+                            id="statusselect"
+                            style={{ color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy", cursor: "pointer" }}
+                          >
+                            <option value="All">All</option>
+                            <option value="open">Open</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="date">Date</option>
 
 
-                            </Form.Select>
-                          </div>
+                          </Form.Select>
+                        </div>
 
-                        }
-                         {statusfilter === 'date' && (
-      <div style={{ paddingRight: 30 }}>
-        <RangePicker
-          value={selectedDateRange}
-          onChange={handleDateChange}
-          format="DD-MM-YYYY"
-          style={{ height: 40,cursor:"pointer" }}
-        />
-      </div>
-    )}
+                      }
+                      {statusfilter === 'date' && (
+                        <div style={{ paddingRight: 30 }}>
+                          <RangePicker
+                            value={selectedDateRange}
+                            onChange={handleDateChange}
+                            format="DD-MM-YYYY"
+                            style={{ height: 40, cursor: "pointer" }}
+                          />
+                        </div>
+                      )}
 
-      <div className='me-2' style={{ cursor: "pointer" }}>
-        <img
-          src={excelimg}
-          alt="excel"
-          width={38}
-          height={38}
-          onClick={handleComplianceeExcel}
-        />
-      </div>
+                      <div className='me-2' style={{ cursor: "pointer" }}>
+                        <img
+                          src={excelimg}
+                          alt="excel"
+                          width={38}
+                          height={38}
+                          onClick={handleComplianceeExcel}
+                        />
+                      </div>
 
-      <div className='me-2' style={{paddingRight:4}}>
-      <Button
-                        disabled={complianceAddPermission}
-                        onClick={handleShow}
-                        style={{
-                          fontSize: 13, backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 8,
+                      <div className='me-2' style={{ paddingRight: 4 }}>
+                        <Button
+                          disabled={complianceAddPermission}
+                          onClick={handleShow}
+                          style={{
+                            fontSize: 13, backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 8,
 
-                         
-                          color: '#FFF', fontFamily: 'Montserrat',
-                          whiteSpace: "nowrap",
-                          width:146,
-                          height:45,
-                          textAlign:"center"
-                        }} > + Complaint</Button>
-      </div>
-    </div>
-  </div>
-</div>
+
+                            color: '#FFF', fontFamily: 'Montserrat',
+                            whiteSpace: "nowrap",
+                            width: 146,
+                            height: 45,
+                            textAlign: "center"
+                          }} > + Complaint</Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
 
                 <div className='row row-gap-3 p-4'
@@ -924,13 +924,13 @@ const Compliance = () => {
                   }}>
                   {currentItems.length > 0 && currentItems.map((complaints) => (
                     <div key={complaints.ID} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-                      <ComplianceList  complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} complianceAddPermission={complianceAddPermission} complianceEditPermission={complianceEditPermission} complianceDeletePermission={complianceDeletePermission} />
+                      <ComplianceList complaints={complaints} onEditComplaints={handleEditcomplaint} onAssignshow={handleAssignShow} complianceAddPermission={complianceAddPermission} complianceEditPermission={complianceEditPermission} complianceDeletePermission={complianceDeletePermission} />
                     </div>
                   ))
                   }
 
 
-                  { !loading  && currentItems.length === 0 &&
+                  {!loading && currentItems.length === 0 &&
 
                     <div className='d-flex align-items-center justify-content-center fade-in'
                       style={{ width: "100%", height: 350, marginTop: 40 }}>
@@ -951,23 +951,23 @@ const Compliance = () => {
 
                 </div>
                 {filteredUsers?.length >= 5 && (
-              
+
                   <nav className="pagination-container mb-0"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "end",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    position: "fixed",
-                    zIndex: 1000,
-                    width:'83%',
-                    bottom:0,
-                    left:'17%',
-                    right:'16px'
-                  }}
-                >
-                  
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "end",
+                      padding: "10px",
+                      borderRadius: "5px",
+                      position: "fixed",
+                      zIndex: 1000,
+                      width: '83%',
+                      bottom: 0,
+                      left: '17%',
+                      right: '16px'
+                    }}
+                  >
+
                     <div>
                       <select
                         value={itemsPerPage}
@@ -1067,20 +1067,17 @@ const Compliance = () => {
                     onHide={handleClose}
                     centered
                     backdrop="static">
-                    <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }} className='m-0 p-0'>
+                    <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px", }} className='m-0 p-0'>
 
+                      <Modal.Header style={{ }}>
+                        <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
 
-                      <Modal.Body>
-                        <div>
+                        <CloseCircle size="24" color="#000" onClick={handleClose}
+                          style={{ cursor: 'pointer' }} />
 
-                          <Modal.Header style={{ marginBottom: "10px", position: "relative",marginTop:"-15px" }}>
-                            <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
-                           
-                              <CloseCircle size="24" color="#000" onClick={handleClose} 
-                                        style={{ cursor: 'pointer'}}/>
-
-                          </Modal.Header>
-                        </div>
+                      </Modal.Header>
+                      <Modal.Body style={{ maxHeight: "430px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+                      
 
                         <div className='row '>
 
@@ -1089,92 +1086,94 @@ const Compliance = () => {
                               <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
                                 Customer <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
-                            
-                     
-  <Select
-    options={
-      state?.UsersList?.Users?.filter(
-        (u) =>
-          u.Bed !== "undefined" &&
-          u.Bed !== "0" &&
-          typeof u.Bed === "string" &&
-          u.Bed.trim() !== "" &&
-          u.Rooms !== "undefined" &&
-          u.Rooms !== "0" &&
-          typeof u.Rooms === "string" &&
-          u.Rooms.trim() !== ""
-      ).map((u) => ({
-        value: u.Name,
-        label: u.Name,
-      })) || []
-    }
-    onChange={handleCheckoutChange}
-    value={
-      selectedUsername
-        ? state?.UsersList?.Users?.find((u) => u.Name === selectedUsername) && {
-            value: selectedUsername,
-            label: selectedUsername,
-          }
-        : null
-    }
-    placeholder="Select a customer"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    isDisabled={edit}
-    noOptionsMessage={() => "No customers available"}
-    components={
-      edit
-        ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
-        : undefined
-    }
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-        backgroundColor: edit ? "#E7F1FF" : "#fff",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        opacity: 1,
-        cursor: edit ? "not-allowed" : "pointer",
-      }),
-      option: (base, state) => ({
-        ...base,
-        cursor: edit ? "not-allowed" : "pointer",
-        backgroundColor: state.isFocused ? "lightblue" : "white", 
-        color: "#000",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-     
-    }}
-  />
+
+
+                              <Select
+                                options={
+                                  state?.UsersList?.Users?.filter(
+                                    (u) =>
+                                      u.Bed !== "undefined" &&
+                                      u.Bed !== "0" &&
+                                      typeof u.Bed === "string" &&
+                                      u.Bed.trim() !== "" &&
+                                      u.Rooms !== "undefined" &&
+                                      u.Rooms !== "0" &&
+                                      typeof u.Rooms === "string" &&
+                                      u.Rooms.trim() !== ""
+                                  ).map((u) => ({
+                                    value: u.Name,
+                                    label: u.Name,
+                                  })) || []
+                                }
+                                onChange={handleCheckoutChange}
+                                value={
+                                  selectedUsername
+                                    ? state?.UsersList?.Users?.find((u) => u.Name === selectedUsername) && {
+                                      value: selectedUsername,
+                                      label: selectedUsername,
+                                    }
+                                    : null
+                                }
+                                placeholder="Select a customer"
+                                classNamePrefix="custom"
+                                menuPlacement="auto"
+                                isDisabled={edit}
+                                noOptionsMessage={() => "No customers available"}
+                                components={
+                                  edit
+                                    ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
+                                    : undefined
+                                }
+                                styles={{
+                                  control: (base) => ({
+                                    ...base,
+                                    height: "50px",
+                                    border: "1px solid #D9D9D9",
+                                    borderRadius: "8px",
+                                    fontSize: "16px",
+                                    color: "#4B4B4B",
+                                    fontFamily: "Gilroy",
+                                    fontWeight: 500,
+                                    boxShadow: "none",
+                                    backgroundColor: edit ? "#E7F1FF" : "#fff",
+                                  }),
+                                  menu: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    border: "1px solid #ced4da",
+                                     fontFamily: "Gilroy",
+                                  }),
+                                  menuList: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#f8f9fa",
+                                    maxHeight: "120px",
+                                    padding: 0,
+                                    scrollbarWidth: "thin",
+                                    overflowY: "auto",
+                                     fontFamily: "Gilroy",
+                                  }),
+                                  placeholder: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                  }),
+                                  dropdownIndicator: (base) => ({
+                                    ...base,
+                                    color: "#555",
+                                    opacity: 1,
+                                    cursor: edit ? "not-allowed" : "pointer",
+                                  }),
+                                  option: (base, state) => ({
+                                    ...base,
+                                    cursor: edit ? "not-allowed" : "pointer",
+                                    backgroundColor: state.isFocused ? "lightblue" : "white",
+                                    color: "#000",
+                                  }),
+                                  indicatorSeparator: () => ({
+                                    display: "none",
+                                  }),
+
+                                }}
+                              />
 
 
                               {usererrmsg.trim() !== "" && (
@@ -1205,100 +1204,102 @@ const Compliance = () => {
                               Complaint Type <span style={{ color: "red", fontSize: "16px" }}>*</span>
                             </label>
 
-                        
-                        
-  <Select
-    options={
-      Array.isArray(complainttypelist) && complainttypelist.length > 0
-        ? complainttypelist.map((u) => ({
-            value: u.id,
-            label: u.complaint_name,
-          }))
-        : []
-    }
-    onChange={handleComplaintType}
-    value={
-      edit && editcomplainttype
-        ? { value: editcomplainttype, label: editcomplainttype }
-        : Complainttype
-        ? {
-            value: Complainttype,
-            label: complainttypelist.find((c) => c.id === Complainttype)
-              ?.complaint_name,
-          }
-        : null
-    }
-    placeholder="Select a type"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    isDisabled={edit}
-    components={
-      edit
-        ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
-        : undefined
-    }
-    noOptionsMessage={() => "No complaint types available"}
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-        backgroundColor: edit ? "#E7F1FF" : "#fff",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px", 
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto", 
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        display: "inline-block",
-        fill: "currentColor",
-        lineHeight: 1,
-        stroke: "currentColor",
-        strokeWidth: 0,
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
+
+
+                            <Select
+                              options={
+                                Array.isArray(complainttypelist) && complainttypelist.length > 0
+                                  ? complainttypelist.map((u) => ({
+                                    value: u.id,
+                                    label: u.complaint_name,
+                                  }))
+                                  : []
+                              }
+                              onChange={handleComplaintType}
+                              value={
+                                edit && editcomplainttype
+                                  ? { value: editcomplainttype, label: editcomplainttype }
+                                  : Complainttype
+                                    ? {
+                                      value: Complainttype,
+                                      label: complainttypelist.find((c) => c.id === Complainttype)
+                                        ?.complaint_name,
+                                    }
+                                    : null
+                              }
+                              placeholder="Select a type"
+                              classNamePrefix="custom"
+                              menuPlacement="auto"
+                              isDisabled={edit}
+                              components={
+                                edit
+                                  ? { DropdownIndicator: () => null, IndicatorSeparator: () => null }
+                                  : undefined
+                              }
+                              noOptionsMessage={() => "No complaint types available"}
+                              styles={{
+                                control: (base) => ({
+                                  ...base,
+                                  height: "50px",
+                                  border: "1px solid #D9D9D9",
+                                  borderRadius: "8px",
+                                  fontSize: "16px",
+                                  color: "#4B4B4B",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 500,
+                                  boxShadow: "none",
+                                  backgroundColor: edit ? "#E7F1FF" : "#fff",
+                                }),
+                                menu: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  border: "1px solid #ced4da",
+                                   fontFamily: "Gilroy",
+                                }),
+                                menuList: (base) => ({
+                                  ...base,
+                                  backgroundColor: "#f8f9fa",
+                                  maxHeight: "120px",
+                                  padding: 0,
+                                  scrollbarWidth: "thin",
+                                  overflowY: "auto",
+                                   fontFamily: "Gilroy",
+                                }),
+                                placeholder: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                }),
+                                dropdownIndicator: (base) => ({
+                                  ...base,
+                                  color: "#555",
+                                  display: "inline-block",
+                                  fill: "currentColor",
+                                  lineHeight: 1,
+                                  stroke: "currentColor",
+                                  strokeWidth: 0,
+                                }),
+                                indicatorSeparator: () => ({
+                                  display: "none",
+                                }),
+                              }}
+                            />
 
 
                           </div>
                           {complaint_typeerrmsg.trim() !== "" && (
-                                <div>
-                                  <p style={{ fontSize: '15px', color: 'red' }}>
-                                    {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px"}} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
-                                  </p>
-                                </div>
-                              )}
+                            <div>
+                              <p style={{ fontSize: '15px', color: 'red' }}>
+                                {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
+                              </p>
+                            </div>
+                          )}
 
 
                           {state?.Settings?.Complainttypelist && state?.Settings?.Complainttypelist?.complaint_types?.length === 0 && <>
                             <label className="pb-1" style={{ fontSize: 14, color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>*
                               Please add a &apos;ComplaintType&apos; option in Settings, accessible after  adding an Complaints.</label></>}
 
-                    
+
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 '>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -1336,7 +1337,7 @@ const Compliance = () => {
 
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
                               >
@@ -1352,17 +1353,17 @@ const Compliance = () => {
                             </Form.Group>
                           </div>
 
-                      
+
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                             <Form.Group className='mb-1' controlId="purchaseDate">
                               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 Complaint Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
-                             
+
                               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                 <DatePicker
-                                  style={{ width: "100%", height: 48,cursor:"pointer" }}
+                                  style={{ width: "100%", height: 48, cursor: "pointer" }}
                                   format="DD/MM/YYYY"
                                   placeholder="DD/MM/YYYY"
                                   value={selectedDate ? dayjs(selectedDate) : null}
@@ -1403,19 +1404,6 @@ const Compliance = () => {
 
 
 
-
-
-
-
-
-
-
-                          
-
-
-
-                         
-
                       </Modal.Body>
 
                       {totalErrormsg.trim() !== "" && (
@@ -1426,7 +1414,7 @@ const Compliance = () => {
                         </div>
                       )}
 
-                      <Modal.Footer style={{ border: "none" }}>
+                      <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
 
                         <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }}
                           onClick={handleAddcomplaint}
@@ -1471,7 +1459,7 @@ const Compliance = () => {
                                 <option value="">Select Assignee</option>
                                 <option>John</option>
                                 <option>Ruban</option>
-                         
+
 
 
                               </Form.Select>
