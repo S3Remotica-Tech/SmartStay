@@ -58,7 +58,7 @@ function SettingInvoice({hostelid}) {
   const [tax, setTax] = useState("");
   const [banking, setBanking] = useState([])
   const [selectedBankId, setSelectedBankId] = useState(null);
-
+  const [editErrmsg , setEditErrMessage] = useState('')
   const [showform, setShowForm] = useState(false);
 
   const [edit, setEdit] = useState(false);
@@ -246,15 +246,6 @@ const handleTermsChange = (e) => {
 
 
 
-  
-
-
-  
-
-
-
-
-
 
 
    const [notes, setNotes] = useState(
@@ -310,6 +301,7 @@ const handleTermsChange = (e) => {
     setTermsErrMsg("");
     setAccount_Number("")
     setSignatureErrMsg("")
+    setEditErrMessage("")
     setIfscCode("")
     setBankName("")
     setPrefix("")
@@ -319,57 +311,68 @@ const handleTermsChange = (e) => {
   }
 
 
-   const handleSaveInvoice = () => {
-    if (
-       !prefix ||  !suffix || !tax ||
-      !notes ||
-      !terms ||
-      !signature 
-    
-    ) {
-     
-     
-      
-      if (!prefix) {
-        setPrefixErrMsg("Please Enter Prefix");
-      }
-      if (!suffix) {
-        setSuffixErrMsg("Please Enter Suffix");
-      }
-      if (!tax) {
-        setTaxErrMsg("Please Enter Tax");
-      }
-      if (!notes) {
-        setNotesErrMsg("Please Enter Notes");
-      }
-      if (!terms) {
-        setTermsErrMsg("Please Enter Terms");
-      }
-       if (!signature) {
-        setSignatureErrMsg("Please Select Signature");
-      }
-     
-      return;
-    }
 
 
-    dispatch({
-      type: "ADD_INVOICE_SETTINGS",
-      payload: {
-        hostelId  : Number(state.login.selectedHostel_Id),
-        bank_id: Number(selectedBankId),
-        prefix: prefix,
-        suffix: suffix,
-        tax: tax ,
-        notes: notes,
-        privacyPolicy: terms,
-        signature:signature
-      },
-    });
+
+  const handleSaveInvoice = () => {
+  if (
+    !prefix || !suffix || !tax || !notes || !terms || !signature
+  ) {
+    if (!prefix) setPrefixErrMsg("Please Enter Prefix");
+    if (!suffix) setSuffixErrMsg("Please Enter Suffix");
+    if (!tax) setTaxErrMsg("Please Enter Tax");
+    if (!notes) setNotesErrMsg("Please Enter Notes");
+    if (!terms) setTermsErrMsg("Please Enter Terms");
+    if (!signature) setSignatureErrMsg("Please Select Signature");
+    return;
+  }
+
+  const currentData = {
+    prefix,
+    suffix,
+    tax,
+    notes: notes?.replace(/"/g, '') || '',
+    privacyPolicy: terms,
+    signatureFile: signature,
+    bankingId: Number(selectedBankId)
   };
 
+  const originalData = {
+    prefix: InvoiceList?.invoiceSettings?.prefix || '',
+    suffix: InvoiceList?.invoiceSettings?.suffix || '',
+    tax: InvoiceList?.invoiceSettings?.tax || '',
+    notes: InvoiceList?.invoiceSettings?.notes?.replace(/"/g, '') || '',
+    privacyPolicy: InvoiceList?.invoiceSettings?.privacyPolicyHtml || '',
+    signatureFile: InvoiceList?.invoiceSettings?.signatureFile || '',
+    bankingId: Number(InvoiceList?.invoiceSettings?.bankingId || 0),
+  };
 
-  
+  if (
+    InvoiceList?.invoiceSettings &&
+    JSON.stringify(currentData) === JSON.stringify(originalData)
+  ) {
+    setEditErrMessage("No changes detected");
+    return;
+  }
+
+  dispatch({
+    type: "ADD_INVOICE_SETTINGS",
+    payload: {
+      hostelId: Number(state.login.selectedHostel_Id),
+      bank_id: Number(selectedBankId),
+      prefix,
+      suffix,
+      tax,
+      notes,
+      privacyPolicy: terms,
+      signature,
+    },
+  });
+};
+
+
+
+   
   
  
   useEffect(() => {
@@ -566,7 +569,7 @@ const handleTermsChange = (e) => {
  
 
 
-         useEffect(()=> {
+      useEffect(()=> {
              if(InvoiceList?.invoiceSettings){
                    setPrefix(InvoiceList.invoiceSettings.prefix)
                    setSuffix(InvoiceList.invoiceSettings.suffix)
@@ -587,17 +590,35 @@ const handleTermsChange = (e) => {
 
 
 
+useEffect(() => {
+  if (!InvoiceList?.invoiceSettings) return;
 
- 
-  
+  const currentData = {
+    prefix,
+    suffix,
+    tax,
+    notes: notes?.replace(/"/g, '') || '',
+    privacyPolicy: terms,
+    signatureFile: signature,
+    bankingId: Number(selectedBankId)
+  };
+
+  const originalData = {
+    prefix: InvoiceList.invoiceSettings.prefix || '',
+    suffix: InvoiceList.invoiceSettings.suffix || '',
+    tax: InvoiceList.invoiceSettings.tax || '',
+    notes: InvoiceList.invoiceSettings.notes?.replace(/"/g, '') || '',
+    privacyPolicy: InvoiceList.invoiceSettings.privacyPolicyHtml || '',
+    signatureFile: InvoiceList.invoiceSettings.signatureFile || '',
+    bankingId: Number(InvoiceList.invoiceSettings.bankingId || 0),
+  };
+
+  if (JSON.stringify(currentData) !== JSON.stringify(originalData)) {
+    setEditErrMessage('');
+  }
+}, [prefix, suffix, tax, notes, terms, signature, selectedBankId, InvoiceList]);
 
 
-
-  
-
- 
-
- 
 
 
   return (
@@ -780,6 +801,7 @@ const handleTermsChange = (e) => {
          style={{
            maxHeight: 450,
            overflowY: "auto",
+           overflowX:'hidden',
            borderBottomLeftRadius: "13px",
            borderBottomRightRadius: "13px",
          }}>
@@ -2149,6 +2171,29 @@ const handleTermsChange = (e) => {
                                               </div>
                                             )}
     </div>
+
+     {editErrmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {editErrmsg}
+                                                </label>
+                                              </div>
+                                            )}
 
     <div className="d-flex justify-content-end flex-wrap mt-3 ">
     <button
