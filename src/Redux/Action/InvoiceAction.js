@@ -154,12 +154,6 @@ export async function AmenitiesSettings(datum) {
 
 export async function InvoiceSettings(params) {
 
-  //  const formData = new FormData();
-  // formData.append("profile", params.profile);
-  // formData.append("hostel_Id", params.hostel_Id);
-  // formData.append("prefix", params.prefix);
-  // formData.append("suffix", params.suffix);
-
   const formData = new FormData();
   if (params.profile) formData.append("profile", params.profile);
   formData.append("hostel_Id", params.hostel_Id);
@@ -233,11 +227,6 @@ export async function GetBillsPdfDetails(datum) {
   return await AxiosConfig.get(`/get_bill_details/${datum.bill_id}`);
 }
 
-// export async function ReceiptPDFNewChanges(params) {
-//   return await AxiosConfig.get('/get_receipt_details/'+params.id, {
-//     params:params
-//   })
-// }
 export async function ReceiptPDFNewChanges(params) {
   return await AxiosConfig.get('/get_receipt_details/' + params.id);
 }
