@@ -74,8 +74,8 @@ function EB_Hostel() {
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [search, setSearch] = useState(false);
-  const [loader, setLoader] = useState(true);
-  const [customerLoader, setCustomerLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
+  const [customerLoader, setCustomerLoader] = useState(false);
   const [dateErrorMesg, setDateErrorMesg] = useState("");
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [filterStatus, setFilterStatus] = useState(false);
@@ -796,6 +796,7 @@ function EB_Hostel() {
                 fontWeight: 600,
                 marginLeft: "-2px",
                 marginTop: "4px",
+                fontFamily:"Gilroy"
               }}
             >
               Electricity

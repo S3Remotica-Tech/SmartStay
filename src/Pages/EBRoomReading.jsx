@@ -44,7 +44,7 @@ function EBRoomReading(props) {
   const [unitAmount, setUnitAmount] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [dateErrorMesg, setDateErrorMesg] = useState("")
-  const [roomelectricity, setRoomElectricity] = useState("")
+  const [roomelectricity, setRoomElectricity] = useState([])
 
 
 
@@ -138,9 +138,7 @@ function EBRoomReading(props) {
     setUnitAmount(FilterEbAmount);
     if (Array.isArray(FilterEbAmount) && FilterEbAmount.length > 0) {
       setUnitAmount(FilterEbAmount[0]?.amount);
-    } else {
-      console.log("unitAmount is not a valid array or is empty.");
-    }
+    } 
   }, [state.Settings.EBBillingUnitlist.eb_settings, hostelId]);
 
 
@@ -456,6 +454,7 @@ function EBRoomReading(props) {
   }, [state.PgList.statusCodeForEbRoomList])
 
 
+ 
 
 
 
@@ -501,7 +500,7 @@ function EBRoomReading(props) {
           <>
 
 
-            {sortedData && sortedData.length > 0 && (
+            {sortedData && sortedData.length > 0 ? (
 
               <div
                 className="p-0 booking-table-userlist  booking-table ps-2 ms-0 me-4"
@@ -899,7 +898,39 @@ function EBRoomReading(props) {
                 </div>
               </div>
 
-            )}
+            ):
+                     props.value === "2" && !props.loading && roomelectricity && roomelectricity?.length === 0 ? (
+                        <div style={{marginTop:60}}>
+                          <div style={{ textAlign: "center" }}>
+                            <img src={emptyimg} width={240} height={240} alt="No readings" />
+                          </div>
+                          <div
+                            className="pb-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              fontSize: 20,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            No room readings
+                          </div>
+                          <div
+                            className="pb-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              fontSize: 16,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            There are no room readings available.
+                          </div>
+            
+                        </div>
+                      ) : null}
 
 
 
