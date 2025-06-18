@@ -85,7 +85,6 @@ function BankingAddForm(props) {
 useEffect(() => {
   if (props.editAddBank && props.editAddBank.id) {
     props.setEdit(true);
-
  
     if (props.editAddBank.type) {
       setActiveTab(props.editAddBank.type);
@@ -93,11 +92,10 @@ useEffect(() => {
     }
 
     
-    if (props.editAddBank.type === "cash" || props.editAddBank.type === "upi" || props.editAddBank.type === "bank") {
+    if (props.editAddBank.type === "cash" || props.editAddBank.type === "upi" || props.editAddBank.type === "bank" || props.editAddBank.type === "card") {
       setAccountName(props.editAddBank.benificiary_name);
-    } else if (props.editAddBank.type === "card") {
-      setAccountName(props.editAddBank.benificiary_name);
-    } else {
+    }
+     else {
       setAccountName(props.editAddBank.acc_name);
     }
     
@@ -118,8 +116,8 @@ useEffect(() => {
         props.editAddBank.type === "cash" || props.editAddBank.type === "upi"
           ? props.editAddBank.benificiary_name || ""
           : props.editAddBank.type === "card"
-          ? props.editAddBank.card_holder || ""
-          : props.editAddBank.acc_name || "",
+          ? props.editAddBank.benificiary_name || ""
+          : props.editAddBank.benificiary_name || "",
       accountNo: props.editAddBank.acc_num || "",
       bankName: props.editAddBank.bank_name || "",
       ifscCode: props.editAddBank.ifsc_code || "",

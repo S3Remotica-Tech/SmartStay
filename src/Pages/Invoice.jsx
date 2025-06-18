@@ -422,21 +422,33 @@ const InvoicePage = () => {
     setStatusFilterReceipt(searchTerm);
   };
 
+useEffect(() => {
+  if (statusFilterReceipt !== "date") {
+    setReceiptDateRange([]);
 
-  useEffect(() => {
-    if (statusFilterReceipt !== "date") {
-      setReceiptDateRange([]);
-      if (statusFilterReceipt === "All") {
-        setReceiptData(originalBillsFilterReceipt);
-      } else {
-        const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) =>
-          user.payment_mode.toLowerCase().includes(statusFilterReceipt.toLowerCase())
-        );
-        setReceiptData(filteredItemsReceipt);
-        setCurrentReceiptPage(1)
-      }
+    if (statusFilterReceipt === "All") {
+      setReceiptData(originalBillsFilterReceipt);
+    } else {
+      const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) => {
+        const mode = user.paymentMode?.toLowerCase() || "";
+
+        if (statusFilterReceipt === "Cash") return mode.endsWith("-cash");
+        if (statusFilterReceipt === "UPI") return mode.endsWith("-upi");
+        if (statusFilterReceipt === "Bank") return mode.endsWith("-bank");
+        if (statusFilterReceipt === "Card") return mode.endsWith("-card");
+
+        return false;
+      });
+
+      setReceiptData(filteredItemsReceipt);
+      setCurrentReceiptPage(1);
     }
-  }, [statusFilterReceipt]);
+  }
+}, [statusFilterReceipt]);
+
+
+
+ 
 
   const [receiptDateRange, setReceiptDateRange] = useState([]);
   const handleDateRangeChangeReceipt = (dates) => {
@@ -2745,11 +2757,11 @@ const InvoicePage = () => {
                         }}
                       >
                         <option value="All">All</option>
-                        <option value="Cash">Cash</option>
-                        <option value="upi">UPI</option>
-                        <option value="Credit Card">Credit Card</option>
-                        <option value="Debit Card">Debit Card</option>
-                        <option value="date">Date</option>
+  <option value="Cash">Cash</option>
+  <option value="UPI">UPI</option>
+  <option value="Bank">Bank</option>
+  <option value="Card">Card</option>
+  <option value="date">Date</option>
                       </Form.Select>
                     </div>
                   )}
@@ -4755,7 +4767,7 @@ const InvoicePage = () => {
                                     className='show-scrolls'
                                     style={{
 
-                                      height: sortedDataReceipt?.length >= 5 || sortedDataReceipt?.length >= 5 ? "350px" : "auto",
+                                      height: sortedDataReceipt?.length >= 5 || sortedDataReceipt?.length >= 5 ? "330px" : "auto",
                                       overflow: "auto",
                                       borderTop: "1px solid #E8E8E8",
                                       marginBottom: 20,

@@ -806,7 +806,7 @@ function EB_Hostel() {
 
 
             {search && value === "1" ? (
-              <div className="position-relative" style={{ maxWidth: "300px", minWidth: "180px" }}>
+              <div className="position-relative" style={{ maxWidth: "230px", minWidth: "180px" }}>
                 <div className="input-group">
                   <span className="input-group-text bg-white border-end-0">
                     <Image src={searchteam} alt="Search" style={{ height: 20, width: 20 }} />
@@ -819,12 +819,12 @@ function EB_Hostel() {
                     onChange={(e) => handlefilterInput(e)}
                     style={{ boxShadow: "none", outline: "none", borderRight: "none", fontFamily: "Gilroy" ,border:"1px solid #dcdcdc"}}
                   />
-                  <span className="input-group-text bg-white border-start-0">
+                  <span className="input-group-text bg-white">
                     <img
                       src={closecircle}
                       alt="close"
                       onClick={handleCloseSearch}
-                      style={{ height: 20, width: 20, cursor: "pointer" }}
+                      style={{ height: 20, width: 20, cursor: "pointer",borderLeft:"none" }}
                     />
                   </span>
                 </div>
