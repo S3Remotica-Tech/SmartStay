@@ -313,12 +313,17 @@ const Compliance = () => {
 
  
   const handleStatusFilter = (event) => {
+    
     const value = event.target.value;
     setStatusfilter(value);
   
     if (value === "All") {
       setFilteredUsers(state.ComplianceList?.Compliance || []);
-    }
+    }  
+
+   else if (value === "date") {
+      setFilteredUsers(state.ComplianceList?.Compliance || []);
+    } 
     
     else {
       const filtered = (state.ComplianceList?.Compliance || []).filter(item =>
@@ -950,7 +955,7 @@ const Compliance = () => {
                   }
 
                 </div>
-                {filteredUsers?.length >= 5 && (
+                { filteredUsers && filteredUsers?.length >= 5 && (
               
                   <nav className="pagination-container mb-0"
                   style={{
