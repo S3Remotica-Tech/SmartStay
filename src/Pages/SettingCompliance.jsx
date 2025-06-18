@@ -113,9 +113,9 @@ function SettingCompliance({ hostelid }) {
     setShowEditForm(false);
     setComplaintError("");
     setPlanExpiredCompliance("");
-    dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR"});
-    dispatch({type:"CLEAR_PLAN-EXPIRED"})
-    
+    dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
+    dispatch({ type: "CLEAR_PLAN-EXPIRED" })
+
   };
 
   const [showPopupvalidation, setShowPopupValidation] = useState(false);
@@ -421,7 +421,6 @@ function SettingCompliance({ hostelid }) {
                       {showDots === i && menuLoaded && (
                         <div
                           ref={popupRef}
-                          className=""
                           style={{
                             cursor: "pointer",
                             backgroundColor: "#F9F9F9",
@@ -432,58 +431,70 @@ function SettingCompliance({ hostelid }) {
                             border: "1px solid #EBEBEB",
                             borderRadius: 10,
                             display: "flex",
-                            justifyContent: "start",
-                            padding: 10,
-                            alignItems: "center",
+                            flexDirection: "column",
+                                                       alignItems: "flex-start",
                             zIndex: 1000,
+                            boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
                           }}
                         >
-                          <div>
-                            <div
-                              className="mb-3 d-flex justify-content-start align-items-center gap-2"
-                              onClick={() => handleEdit(u)}
+                                                  <div
+                            className="d-flex align-items-center gap-2 w-100 px-3 py-2"
+                            onClick={() => handleEdit(u)}
+                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
+                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                            style={{
+                              cursor: "pointer",
+                              transition: "background-color 0.2s ease",
+                               borderTopLeftRadius: 10,
+                                            borderTopRightRadius: 10,
+                            }}
+                          >
+                            <img src={Edit} alt="edit" style={{ height: 16, width: 16 }} />
+                            <label
+                              className="m-0"
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 500,
+                                fontFamily: "Gilroy, sans-serif",
+                                color: "#222222",
+                                cursor: "pointer",
+                              }}
                             >
-                              <img
-                                src={Edit}
-                                alt="edit"
-                                style={{ height: 16, width: 16 }}
-                              />
-                              <label
-                                className="m-0"
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  color: "#222222",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                Edit
-                              </label>
-                            </div>
-                            <div
-                              className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                              onClick={() => handleDeleteClick()}
+                              Edit
+                            </label>
+                          </div>
+
+                         
+                          <div style={{ width: "100%", height: 1, backgroundColor: "#E6E6E6" }} />
+
+                        
+                          <div
+                            className="d-flex align-items-center gap-2 w-100 px-3 py-2"
+                            onClick={handleDeleteClick}
+                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF0F0")}
+                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+                            style={{
+                              cursor: "pointer",
+                              transition: "background-color 0.2s ease",
+                               borderBottomLeftRadius: 10,
+                                            borderBottomRightRadius: 10,
+                            }}
+                          >
+                            <img src={Delete} alt="delete" style={{ height: 16, width: 16 }} />
+                            <label
+                              style={{
+                                fontSize: 14,
+                                fontWeight: 500,
+                                fontFamily: "Gilroy, sans-serif",
+                                color: "#FF0000",
+                                cursor: "pointer",
+                              }}
                             >
-                              <img
-                                src={Delete}
-                                alt="delete"
-                                style={{ height: 16, width: 16 }}
-                              />{" "}
-                              <label
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy,sans-serif",
-                                  color: "#FF0000",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                Delete
-                              </label>
-                            </div>
+                              Delete
+                            </label>
                           </div>
                         </div>
+
                       )}
                     </div>
                   </>

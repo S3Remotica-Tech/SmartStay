@@ -33,18 +33,6 @@ function SettingNewRole({ hostelid }) {
 
 
 
-  // const handleClose = () => {
-  //   setShowRole(false)
-
-
-  // };
-  //add role
-
-  // const handleAddRole = () => {
-  //     setShowRole(true)
-  //     setAddRole(true)
-  //     setEditRoleDetails('')
-  // };
   const [showPopup, setShowPopup] = useState(false);
   const handleAddRole = () => {
     if (!hostelid) {
@@ -70,9 +58,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   }
 
-  // const handleShowDots = (index) => {
-  //   setShowDots((prev) => (prev === index ? null : index));
-  // }
+ 
 
 
   const handleDeleteForm = (view) => {
@@ -225,8 +211,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
   return (
     <div  style={{ position: "relative",paddingRight:10,paddingLeft:10 }}>
       <div 
-      // className=' d-flex justify-content-between align-items-center'
-      className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+           className="d-flex flex-column flex-md-row justify-content-between align-items-center"
       style={{
           position: "sticky",
           top: 0,
@@ -262,56 +247,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
         </div>
 
       </div>
-      {/* <div 
-  className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-  style={{
-    position: "sticky",
-    top: 0,
-    right: 0,
-    left: 0,
-    zIndex: 1000,
-    backgroundColor: "#FFFFFF",
-    height: 83,
-    paddingRight: 1,
-  }}
->
-  <div 
-    className="w-100 d-flex justify-content-center justify-content-md-start mt-3"
-    style={{ marginTop: -4 }}
-  >
-    <label 
-      style={{ 
-        fontFamily: "Gilroy", 
-        fontSize: 20, 
-        color: "#222", 
-        fontWeight: 600 
-      }}
-    >
-      Role
-    </label>
-  </div>
-
-  <div className="d-flex justify-content-center justify-content-md-end w-100 mt-2 mt-md-0">
-    <Button
-      onClick={handleAddRole}
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: 14,
-        backgroundColor: "#1E45E1",
-        color: "white",
-        fontWeight: 600,
-        borderRadius: 8,
-        padding: "11px 53px",
-        paddingLeft: 52,
-        marginTop: 5,
-        whiteSpace: "nowrap",
-      }}
-      disabled={showPopup}
-    >
-      + Role
-    </Button>
-  </div>
-</div> */}
+    
 
       {showPopup && (
         <div className="d-flex flex-wrap">
@@ -327,7 +263,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 <div 
   className="row mt-3 mb-3 overflow-auto scroll-issue" 
-  // style={{ maxHeight: "480px" }}
+  
 >
   {currentItems.length > 0 ? (
     currentItems.map((view, index) => (
@@ -341,7 +277,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
             <span 
               title={view.role_name}
               className="ms-3  text-truncate d-inline-block"
-              style={{ fontSize: 16, maxWidth: 100 , fontWeight:500}}
+              style={{ fontSize: 16, maxWidth: 100 , fontWeight:500, fontFamily:"Gilroy"}}
             >
               {view.role_name}
             </span>
@@ -362,37 +298,77 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
               style={{ height: "20px", width: "20px" }} 
             />
             {showDots === index && (
-              <div
-                ref={popupRef}
-                className=" bg-light border rounded p-2"
-                style={{
-                  position: "fixed",
-                  top: popupPosition.top,
-                  left: popupPosition.left,
-                  width: 120,
-                  height: 70,
-                  zIndex: 1000,
-                }}
-              >
-                <div
-                  className="mb-2 d-flex align-items-center gap-2"
-                  onClick={() => handleEditForm(view)}
-                >
-                  <img src={Edit} width={16} height={16} alt="Edit" />
-                  <label className="text-dark fw-medium" style={{ fontSize: 14, cursor: "pointer" }}>
-                    Edit
-                  </label>
-                </div>
-                <div
-                  className="d-flex align-items-center gap-2"
-                  onClick={() => handleDeleteForm(view)}
-                >
-                  <img src={Delete} width={16} height={16} alt="Delete" />
-                  <label className="text-danger fw-medium" style={{ fontSize: 14, cursor: "pointer" }}>
-                    Delete
-                  </label>
-                </div>
-              </div>
+             <div
+  ref={popupRef}
+  className="pg-card"
+  style={{
+    backgroundColor: "#fff",
+    position: "fixed",
+    top: popupPosition.top,
+    left: popupPosition.left,
+    border: "1px solid #E0E0E0",
+    borderRadius: 10,
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+    width: 140,
+    zIndex: 1000,
+  }}
+>
+  <div>
+   
+    <div
+      className="d-flex gap-2 align-items-center"
+      onClick={() => handleEditForm(view)}
+      style={{
+        padding: "8px 12px",
+        width: "100%",
+        cursor: "pointer",
+        transition: "background 0.2s ease-in-out",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#F0F4FF")}
+      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+    >
+      <img src={Edit} width={16} height={16} alt="Edit" />
+      <span
+        style={{
+          fontSize: 14,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          color: "#1E45E1",
+        }}
+      >
+        Edit
+      </span>
+    </div>
+
+    <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+    <div
+      className="d-flex gap-2 align-items-center"
+      onClick={() => handleDeleteForm(view)}
+      style={{
+        padding: "8px 12px",
+        width: "100%",
+        cursor: "pointer",
+        transition: "background 0.2s ease-in-out",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#FFF3F3")}
+      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+    >
+      <img src={Delete} width={16} height={16} alt="Delete" />
+      <span
+        style={{
+          fontSize: 14,
+          fontWeight: 500,
+          fontFamily: "Gilroy",
+          color: "#FF0000",
+        }}
+      >
+        Delete
+      </span>
+    </div>
+  </div>
+</div>
+
             )}
           </div>
         </div>
@@ -417,20 +393,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
         roleList.length >= 10 &&
         <nav 
         className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center' style={{backgroundColor:"white"}}
-        // className="pagination-container"
-        //       style={{
-        //         display: "flex",
-        //         alignItems: "center",
-        //         justifyContent: "end",
-        //         padding: "10px",
-        //         position: "fixed",
-        //         bottom: "10px",
-        //         right: "10px",
-        //         backgroundColor: "#fff",
-        //         borderRadius: "5px",
-        //         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-        //         zIndex: 1000,
-        //       }}
+       
         >
           <div>
             <select
@@ -455,7 +418,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
             </select>
           </div>
 
-          {/* Pagination Controls */}
+         
           <ul
             style={{
               display: "flex",
@@ -465,7 +428,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
               padding: 0,
             }}
           >
-            {/* Previous Button */}
+            
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -487,12 +450,12 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
               </button>
             </li>
 
-            {/* Current Page Indicator */}
+            
             <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
               {currentPage} of {totalPages}
             </li>
 
-            {/* Next Button */}
+          
             <li style={{ margin: "0 10px" }}>
               <button
                 style={{
@@ -540,8 +503,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
              position: 'fixed',
     right: "30%",
              display: 'flex',
-            //  height: "50vh",
-             alignItems: 'center',
+                        alignItems: 'center',
              justifyContent: 'center',
              backgroundColor: 'transparent',
              opacity: 0.75,

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import Error from "../Assets/Images/landingpageimages/i.png";
@@ -42,6 +42,23 @@ const SubscriptionPlan = () => {
       },
   ];
 
+
+
+ useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+  
   return (
 
     <>
@@ -53,10 +70,10 @@ const SubscriptionPlan = () => {
       flexDirection: "column",
       alignItems: "center",
       position: "relative",
-      backgroundColor: "rgba(226, 230, 255, 1)",
-      height: "auto",
+      background: "linear-gradient(135deg, #E2E6FF, #EFFCFF)",
+      height: "400px",
       zIndex: 1,
-      marginBottom: "50px",
+      marginBottom: "400px",
       padding: "50px 15px",
       textAlign: "center",
     }}
@@ -65,7 +82,7 @@ const SubscriptionPlan = () => {
       src={TopLeftCurve}
       alt="Top Left Curve"
       className="position-absolute d-none d-md-block"
-      style={{ top: "0", left: "0", width: "150px", zIndex: "1" }}
+      style={{ top: "0", left: "0", width: "120px", zIndex: "1" }}
     />
     <h1
       style={{
@@ -84,17 +101,17 @@ const SubscriptionPlan = () => {
         fontWeight: 400,
         color: "rgba(71, 85, 105, 1)",
         fontFamily: "Montserrat",
+        paddingLeft:100,
+        paddingRight:170
       }}
     >
-      Get more done with targeted and personalized rewarding experiences at a
-      global scale. Plum offers AI-enabled rewards automation that runs on the
-      largest global rewards marketplace.
+    Get more done with targeted and personalized rewarding experiences at a global scale. Plum offers AI-enabled rewards automation that runs on the largest global rewards marketplace. It delivers rewards experiences people love, available in over 100 countries.
     </p>
   </div>
 
-  {/* Pricing Cards */}
-  <Container className="py-5">
-    <Row className="justify-content-center">
+
+  <Container fluid className="d-flex justify-content-center" style={{ zIndex: 4, position: "absolute", top: 270 }}>
+    <Row className="justify-content-center w-100">
       {plans.map((plan, index) => (
         <Col key={index} xs={12} sm={6} md={4} lg={3} className="mb-4">
           <Card
@@ -233,14 +250,7 @@ const SubscriptionPlan = () => {
     </Row>
   </Container>
 
-  {/* <div
-    style={{
-      position: "relative",
-      backgroundColor: "white",
-      height: "300px",
-      zIndex: 2,
-    }}
-  ></div> */}
+ 
 </div>
 
     </>

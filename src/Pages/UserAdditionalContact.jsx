@@ -198,9 +198,13 @@ function UserAdditionalContact(props) {
   };
 
   const handleCity = (e) => {
-    setCity(e.target.value);
+        const value = e.target.value;
+  const regex = /^[a-zA-Z\s]*$/;
+  if (regex.test(value)) {
+    setCity(value);
     setCityError("");
-    // setFormError("");
+    setFormError("");
+  }
   }
 
   const validateAssignField = (value, fieldName) => {
@@ -956,6 +960,16 @@ const isChanged = (
                                                                      onChange={(selectedOption) => {
                                                                        setStateName(selectedOption?.value);
                                                                      }}
+                                                                       onInputChange={(inputValue, { action }) => {
+                                                                    if (action === "input-change") {
+                                                                          const lettersOnly = inputValue.replace(
+                                                                  /[^a-zA-Z\s]/g,
+                                                                       ""
+                                                                          );
+                                                                 return lettersOnly;
+                                                                       }
+                                                                 return inputValue;
+                                                                   }}
                                                                      value={
                                                                        state_name ? { value: state_name, label: state_name } : null
                                                                      }

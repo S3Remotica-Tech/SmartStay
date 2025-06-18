@@ -534,7 +534,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                     <span
                       style={{
                         color: "#FF0000",
-                        display: count ? "none" : "inline-block",
                         fontSize:"20px",
                       }}
                     >
@@ -593,7 +592,6 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                     <span
                       style={{
                         color: "#FF0000",
-                        display: price ? "none" : "inline-block",
                         fontSize:"20px",
                       }}
                     >

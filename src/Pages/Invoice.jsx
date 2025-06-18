@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Modal, Button } from "react-bootstrap";
@@ -11,7 +12,6 @@ import User from "../Assets/Images/New_images/profile-picture.png";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import LoaderComponent from "./LoaderComponent";
 import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
@@ -48,7 +48,12 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import './BillPdfModal.css';
-import AxiosConfig from "../WebService/AxiosConfig";
+
+
+
+
+
+
 
 const InvoicePage = () => {
   const state = useSelector((state) => state);
@@ -358,6 +363,13 @@ const InvoicePage = () => {
       setShowLoader(true);
     }
   };
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (originalBillsFilter.length === 0 && bills.length > 0) {
@@ -1816,6 +1828,8 @@ const InvoicePage = () => {
     }
   }, [state.login.UpdateNotificationMessage]);
 
+
+
   useEffect(() => {
     if (state.InvoiceList?.statusCodeForPDf === 200) {
       const pdfUrl = state.InvoiceList.invoicePDF;
@@ -1832,7 +1846,6 @@ const InvoicePage = () => {
       }
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
-
 
   useEffect(() => {
     const sendWhatsAppMessage = async () => {
@@ -1914,28 +1927,6 @@ const InvoicePage = () => {
 
     sendWhatsAppMessage();
   }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
-
-
-
-  // useEffect(() => {
-  //   if (state.InvoiceList?.statusCodeForReceiptPDf === 200) {
-  //     const pdfUrl = state.InvoiceList.ReceiptPDF;
-
-  //     if (pdfUrl) {
-  //       setShowLoader(false);
-
-
-  //       const pdfWindow = window.open("", "_blank");
-  //       if (pdfWindow) {
-  //         pdfWindow.location.href = pdfUrl;
-  //         dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
-  //       }
-
-  //     }
-  //   }
-  // }, [state.InvoiceList?.statusCodeForReceiptPDf]);
-
-
 
   useEffect(() => {
     if (selectedUserId) {
@@ -2221,10 +2212,30 @@ const InvoicePage = () => {
   };
 
   const handleUserSelect = (user) => {
+    const searchItem = user.Name
     setFilterInput(user.Name);
-    setBills([user]);
+
+    if (searchItem !== "") {
+      const filteredItems =
+        state.InvoiceList.ManualInvoices &&
+        state.InvoiceList.ManualInvoices.filter(
+          (user) =>
+            user.Name &&
+            user.Name.toLowerCase().includes(searchItem.toLowerCase())
+        );
+      setBills(filteredItems);
+
+    } else {
+      setBills(state.InvoiceList.ManualInvoices);
+    }
+    setCurrentPage(1);
     setDropdownVisible(false);
   };
+
+
+
+
+
 
   const handleCloseSearch = () => {
     setDropdownVisible(false);
@@ -2264,7 +2275,23 @@ const InvoicePage = () => {
 
   const handleUserRecuire = (user) => {
     setFilterInput(user.user_name);
-    setRecurringBills([user]);
+    const searchItem = user.user_name
+
+    if (searchItem !== "") {
+      const filteredItems =
+        state.InvoiceList.RecurringBills &&
+        state.InvoiceList.RecurringBills.filter(
+          (user) =>
+            user.user_name &&
+            user.user_name.toLowerCase().includes(searchItem.toLowerCase())
+        );
+      setRecurringBills(filteredItems);
+
+    } else {
+      setRecurringBills(state.InvoiceList.RecurringBills);
+    }
+    setCurrentPage(1);
+
     setDropdownVisible(false);
   };
 
@@ -2273,7 +2300,25 @@ const InvoicePage = () => {
 
   const handleUserReceipt = (user) => {
     setFilterInput(user.Name);
-    setReceiptData([user]);
+
+
+    const searchItem = user.Name
+
+    if (searchItem !== "") {
+      const filteredItems =
+        state.InvoiceList.ReceiptList &&
+        state.InvoiceList.ReceiptList.filter(
+          (user) =>
+            user.Name &&
+            user.Name.toLowerCase().includes(searchItem.toLowerCase())
+        );
+      setReceiptData(filteredItems);
+
+    } else {
+      setReceiptData(state.InvoiceList.ReceiptList);
+    }
+    setCurrentPage(1);
+
     setDropdownVisible(false);
   };
 
@@ -2317,6 +2362,10 @@ const InvoicePage = () => {
       state.InvoiceList.ReceiptDeletesuccessStatuscode === 200 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
+
+
+      handleBackBill()
+
 
       dispatch({
         type: "RECEIPTSLIST",
@@ -2395,6 +2444,7 @@ const InvoicePage = () => {
                               outline: "none",
                               borderColor: "rgb(207,213,219)",
                               borderRight: "none",
+                              fontFamily: "Gilroy",
                             }}
                             value={filterInput}
                             onChange={(e) => handlefilterInput(e)}
@@ -2415,7 +2465,7 @@ const InvoicePage = () => {
                           bills?.length > 0 && (
                             <div
                               style={{
-                                border: "1px solid #d9d9d9 ",
+                                border: "1px solid #d9d9d9",
                                 position: "absolute",
                                 top: 80,
                                 left: 0,
@@ -2426,59 +2476,63 @@ const InvoicePage = () => {
                                 width: "100%",
                               }}
                             >
-
                               <ul
                                 className="show-scroll p-0"
                                 style={{
                                   listStyleType: "none",
                                   maxHeight: 174,
-                                  minHeight:
-                                    bills?.length > 1 ? "100px" : "auto",
-                                  overflowY:
-                                    bills?.length > 3 ? "auto" : "hidden",
+                                  minHeight: bills?.length > 1 ? "100px" : "auto",
+                                  overflowY: bills?.length > 3 ? "auto" : "hidden",
                                   margin: 0,
                                 }}
                               >
-                                {bills?.map((user, index) => (
-                                  <li
-                                    key={index}
-                                    className="d-flex align-items-center"
-                                    style={{
-                                      padding: "10px 5px",
-                                      cursor: "pointer",
-                                      borderBottom:
-                                        index !== bills?.length - 1
-                                          ? "1px solid #eee"
-                                          : "none",
-                                      backgroundColor:
-                                        hoveredIndex === index ? "#1E45E1" : "transparent",
-                                      color:
-                                        hoveredIndex === index ? "white" : "black",
-                                    }}
-                                    onClick={() => handleUserSelect(user)}
-                                    onMouseEnter={() => setHoveredIndex(index)}
-                                    onMouseLeave={() => setHoveredIndex(null)}
-                                  >
-                                    <Image
-                                      src={user.profile || Profile}
-                                      alt={user.Name}
-                                      roundedCircle
+                                {bills
+                                  ?.filter(
+                                    (item, index, self) =>
+                                      index === self.findIndex((t) => t.Name === item.Name)
+                                  )
+                                  .map((user, index) => (
+                                    <li
+                                      key={index}
+                                      className="d-flex align-items-center me-1"
                                       style={{
-                                        height: "30px",
-                                        width: "30px",
-                                        marginRight: "10px",
+                                        padding: "10px 5px",
+                                        cursor: "pointer",
+                                        fontFamily: "Gilroy",
+                                        borderRadius: 8,
+                                        borderBottom:
+                                          index !== bills?.length - 1
+                                            ? "1px solid #eee"
+                                            : "none",
+                                        backgroundColor:
+                                          hoveredIndex === index ? "#1E45E1" : "transparent",
+                                        color: hoveredIndex === index ? "white" : "black",
                                       }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
-                                      }}
-                                    />
-                                    <span>{user.Name}</span>
-                                  </li>
-                                ))}
+                                      onClick={() => handleUserSelect(user)}
+                                      onMouseEnter={() => setHoveredIndex(index)}
+                                      onMouseLeave={() => setHoveredIndex(null)}
+                                    >
+                                      <Image
+                                        src={user.profile || Profile}
+                                        alt={user.Name}
+                                        roundedCircle
+                                        style={{
+                                          height: "30px",
+                                          width: "30px",
+                                          marginRight: "10px",
+                                        }}
+                                        onError={(e) => {
+                                          e.target.onerror = null;
+                                          e.target.src = Profile;
+                                        }}
+                                      />
+                                      <span>{user.Name}</span>
+                                    </li>
+                                  ))}
                               </ul>
                             </div>
                           )}
+
                         {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
                           <div
                             style={{
@@ -2510,39 +2564,54 @@ const InvoicePage = () => {
                               {recurringbills?.length === 0 ? (
                                 <li style={{ padding: "10px" }}>No results found</li>
                               ) : (
-                                recurringbills?.map((user, index) => (
-                                  <li
-                                    key={index}
-                                    className="list-group-item d-flex align-items-center"
-                                    style={{
-                                      cursor: "pointer",
-                                      padding: "10px 5px",
-                                      borderBottom: index !== recurringbills.length - 1 ? "1px solid #eee" : "none",
-                                    }}
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      handleUserRecuire(user);
-                                    }}
-                                  >
-                                    <Image
-                                      src={user.profile || Profile}
-                                      alt={user.user_name || "Default Profile"}
-                                      roundedCircle
-                                      style={{ height: "30px", width: "30px", marginRight: "10px" }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
+                                recurringbills
+                                  ?.filter(
+                                    (item, index, self) =>
+                                      index === self.findIndex((t) => t.user_name === item.user_name)
+                                  )
+                                  .map((user, index) => (
+                                    <li
+                                      key={index}
+                                      className="d-flex align-items-center me-1"
+                                      style={{
+                                        cursor: "pointer",
+                                        fontFamily: "Gilroy",
+                                        borderRadius: 8,
+                                        padding: "10px 5px",
+                                        borderBottom:
+                                          index !== recurringbills.length - 1
+                                            ? "1px solid #eee"
+                                            : "none",
+                                        backgroundColor:
+                                          hoveredIndex === index ? "#1E45E1" : "transparent",
+                                        color: hoveredIndex === index ? "white" : "black",
                                       }}
-                                    />
-                                    <span>{user.user_name}</span>
-                                  </li>
-                                ))
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        handleUserRecuire(user);
+                                      }}
+                                      onMouseEnter={() => setHoveredIndex(index)}
+                                      onMouseLeave={() => setHoveredIndex(null)}
+                                    >
+                                      <Image
+                                        src={user.profile || Profile}
+                                        alt={user.user_name || "Default Profile"}
+                                        roundedCircle
+                                        style={{ height: "30px", width: "30px", marginRight: "10px" }}
+                                        onError={(e) => {
+                                          e.target.onerror = null;
+                                          e.target.src = Profile;
+                                        }}
+                                      />
+                                      <span>{user.user_name}</span>
+                                    </li>
+                                  ))
                               )}
                             </ul>
                           </div>
-
                         )}
+
 
                         {value === "3" &&
                           isDropdownVisible &&
@@ -2574,46 +2643,60 @@ const InvoicePage = () => {
                                   boxSizing: "border-box",
                                 }}
                               >
-                                {receiptdata?.map((user, index) => {
-                                  const imagedrop = user.profile || Profile;
-                                  return (
-                                    <li
-                                      key={index}
-                                      className="list-group-item d-flex align-items-center"
-                                      style={{
-                                        cursor: "pointer",
-                                        padding: "10px 5px",
-                                        borderBottom: index !== receiptdata?.length - 1 ? "1px solid #eee" : "none",
-                                      }}
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-
-                                        handleUserReceipt(user);
-                                      }}
-                                    >
-                                      <Image
-                                        src={imagedrop}
-                                        alt={user.Name || "Default Profile"}
-                                        roundedCircle
+                                {receiptdata
+                                  ?.filter(
+                                    (item, index, self) =>
+                                      index === self.findIndex((t) => t.Name === item.Name)
+                                  )
+                                  .map((user, index) => {
+                                    const imagedrop = user.profile || Profile;
+                                    return (
+                                      <li
+                                        key={index}
+                                        className="d-flex align-items-center me-1 "
                                         style={{
-                                          height: "30px",
-                                          width: "30px",
-                                          marginRight: "10px",
+                                          cursor: "pointer",
+                                          fontFamily: "Gilroy",
+                                          borderRadius: 8,
+                                          padding: "10px 5px",
+                                          borderBottom:
+                                            index !== receiptdata?.length - 1
+                                              ? "1px solid #eee"
+                                              : "none",
+                                          backgroundColor:
+                                            hoveredIndex === index ? "#1E45E1" : "transparent",
+                                          color: hoveredIndex === index ? "white" : "black",
                                         }}
-                                        onError={(e) => {
-                                          e.target.onerror = null;
-                                          e.target.src = Profile;
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          handleUserReceipt(user);
                                         }}
-                                      />
-                                      <span>{user.Name}</span>
-                                    </li>
-                                  );
-                                })}
+                                        onMouseEnter={() => setHoveredIndex(index)}
+                                        onMouseLeave={() => setHoveredIndex(null)}
+                                      >
+                                        <Image
+                                          src={imagedrop}
+                                          alt={user.Name || "Default Profile"}
+                                          roundedCircle
+                                          style={{
+                                            height: "30px",
+                                            width: "30px",
+                                            marginRight: "10px",
+                                          }}
+                                          onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = Profile;
+                                          }}
+                                        />
+                                        <span>{user.Name}</span>
+                                      </li>
+                                    );
+                                  })}
                               </ul>
                             </div>
-
                           )}
+
                       </div>
                     </>
                   ) : (
@@ -5183,7 +5266,7 @@ const InvoicePage = () => {
             </div>
           </div>
 
-          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
               <Form.Label
                 style={{
@@ -5258,6 +5341,7 @@ const InvoicePage = () => {
                     padding: 0,
                     scrollbarWidth: "thin",
                     overflowY: "auto",
+                    fontFamily: "Gilroy"
                   }),
                   placeholder: (base) => ({
                     ...base,
@@ -5459,29 +5543,34 @@ const InvoicePage = () => {
 
 
           {Array.isArray(newRows) && newRows.length > 0 && (
-            <div className="row ">
-              <div className="col-lg-11 col-md-11 col-12 ">
-                <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-                  <Table className="ebtable mt-3" responsive>
+            <div className="row mt-3" style={{ width: "100%" }}>
+              <div className="col-lg-12 col-md-12 col-12">
+                <div style={{ maxHeight: "150px", overflowY: "auto", width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
+                  <Table
+                    className="w-100"
+                    responsive
+                    style={{ width: "100%", backgroundColor: "", borderRadius: "10px", }}
+                  >
                     <thead
                       style={{
                         backgroundColor: "#E7F1FF",
                         position: "sticky",
                         top: 0,
                         zIndex: 1,
+                        borderRadius: 10,
                       }}
                     >
-                      <tr>
-                        <th className="text-center" style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                      <tr style={{ borderRadius: 10 }}>
+                        <th className="text-center" style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                           S.No
                         </th>
-                        <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                           Description
                         </th>
-                        <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                           Total Amount
                         </th>
-                        <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
                           Action
                         </th>
                       </tr>
@@ -5539,9 +5628,10 @@ const InvoicePage = () => {
                 </div>
               </div>
             </div>
+
           )}
 
-          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-3">
+          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3">
             <Form.Select
               className="border"
               style={{
@@ -5633,7 +5723,7 @@ const InvoicePage = () => {
             )}
             <Button
               onClick={isEditing ? handleEditBill : handleCreateBill}
-              className="w-100 mt-3 mb-5"
+              className="w-100 mt-3 mb-2"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 500,

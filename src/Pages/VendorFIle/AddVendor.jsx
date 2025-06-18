@@ -165,11 +165,15 @@ function AddVendor({ show, setShow, currentItem }) {
   // }
 
   const handleCity = (e) => {
-    setCity(e.target.value);
-    setCityError("");
+
+  const value = e.target.value;
+  const regex = /^[a-zA-Z\s]*$/;
+  if (regex.test(value)) {
+    setCity(value);
+     setCityError("");
     setGeneralError("");
     setIsChangedError("");
-    // setFormError("");
+  }
   }
 
   // const handleStateChange = (e) => {
@@ -1518,6 +1522,16 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
       onChange={(selectedOption) => {
         setStateName(selectedOption?.value);
       }}
+            onInputChange={(inputValue, { action }) => {
+                        if (action === "input-change") {
+                      const lettersOnly = inputValue.replace(
+                        /[^a-zA-Z\s]/g,
+                        ""
+                      );
+                      return lettersOnly;
+                    }
+                    return inputValue;
+                  }}
       value={
         state_name ? { value: state_name, label: state_name } : null
       }

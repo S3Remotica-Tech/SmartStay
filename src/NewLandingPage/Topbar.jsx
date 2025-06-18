@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
-import { useNavigate , useLocation  } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Link, Element, animateScroll as scroll } from "react-scroll";
 import HomePage from "./Homepage";
 import Footers from "./Footers";
@@ -49,8 +49,8 @@ function FrontPage() {
         navigate("/contact");
         break;
       case "privacy_policy":
-          navigate("/privacy-policy");
-          break;
+        navigate("/privacy-policy");
+        break;
       case "firstPage":
         navigate("/");
         break;
@@ -62,29 +62,29 @@ function FrontPage() {
 
   const location = useLocation();
 
-useEffect(() => {
-  const path = location.pathname;
-  if (path === "/features") {
-    setActiveSection("keyFeature");
-    scroll.scrollTo(document.getElementById("keyFeature")?.offsetTop - 70 || 0);
-  } else if (path === "/pricing") {
-    setActiveSection("Pricing");
-    scroll.scrollTo(document.getElementById("Pricing")?.offsetTop - 70 || 0);
-  } 
-  else if (path === "/contact") {
-    setActiveSection("Contact_us");
-    scroll.scrollTo(document.getElementById("Contact_us")?.offsetTop - 70 || 0);
-  } 
-  else if (path === "/privacy-policy") {
-    setActiveSection("privacy_policy");
-    scroll.scrollTo(document.getElementById("privacy_policy")?.offsetTop - 70 || 0);
-  } 
-  else {
-    setActiveSection("firstPage");
-    scroll.scrollTo(0);
-  }
-}, [location.pathname]);
-  
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === "/features") {
+      setActiveSection("keyFeature");
+      scroll.scrollTo(document.getElementById("keyFeature")?.offsetTop - 70 || 0);
+    } else if (path === "/pricing") {
+      setActiveSection("Pricing");
+      scroll.scrollTo(document.getElementById("Pricing")?.offsetTop - 70 || 0);
+    }
+    else if (path === "/contact") {
+      setActiveSection("Contact_us");
+      scroll.scrollTo(document.getElementById("Contact_us")?.offsetTop - 70 || 0);
+    }
+    else if (path === "/privacy-policy") {
+      setActiveSection("privacy_policy");
+      scroll.scrollTo(document.getElementById("privacy_policy")?.offsetTop - 70 || 0);
+    }
+    else {
+      setActiveSection("firstPage");
+      scroll.scrollTo(0);
+    }
+  }, [location.pathname]);
+
 
   const linkStyle = (isActive) => ({
     cursor: "pointer",
@@ -99,6 +99,7 @@ useEffect(() => {
     scroll.scrollTo(0);
     setActiveSection("firstPage");
   };
+  
 
   return (
     <>
@@ -135,7 +136,7 @@ useEffect(() => {
                 style={linkStyle(activeSection === "keyFeature")}
                 onClick={() => handleSetActive("keyFeature")}
               >
-              Features
+                Features
               </Nav.Link>
               <Nav.Link
                 as={Link}
@@ -148,7 +149,7 @@ useEffect(() => {
                 style={linkStyle(activeSection === "Pricing")}
                 onClick={() => handleSetActive("Pricing")}
               >
-              Pricing
+                Pricing
               </Nav.Link>
               <Nav.Link
                 as={Link}
@@ -161,7 +162,7 @@ useEffect(() => {
                 style={linkStyle(activeSection === "Contact_us")}
                 onClick={() => handleSetActive("Contact_us")}
               >
-              Contact Us
+                Contact Us
               </Nav.Link>
             </Nav>
             <Nav className="d-flex align-items-center justify-content-center gap-3 mt-lg-0 mt-3">
@@ -195,55 +196,52 @@ useEffect(() => {
           <HomePage />
           <Startup />
           <StatsSection />
-          <RoomManagement/>
-          <SmartStaySection/>
+          <RoomManagement />
+          <SmartStaySection />
           <TestimonialSlider />
-          
-          {/* <Getanswer /> */}
+            <Getanswer />
         </Element>
       )}
 
       {activeSection === "keyFeature" && (
         <Element name="keyFeature" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
           <KeyFeatures />
-          <SmartStaySection/>
+          <SmartStaySection />
           <Getanswer />
         </Element>
       )}
 
-  {activeSection === "Pricing" && (
+      {activeSection === "Pricing" && (
         <Element name="Pricing" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
           <SubscriptionPlan />
-          <SmartStaySection/>
+          <SmartStaySection />
           <Getanswer />
         </Element>
       )}
 
-{activeSection === "Contact_us" && (
+      {activeSection === "Contact_us" && (
         <Element name="Contact_us" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
-          <Contact/>
-        
-          <Getanswer />
-        </Element>
+          <Contact />
+                  </Element>
       )}
 
-{activeSection === "terms_use" && (
+      {activeSection === "terms_use" && (
         <Element name="terms_use" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
-         <Condition/>
+          <Condition />
         </Element>
       )}
 
-      
-{activeSection === "cookies" && (
+
+      {activeSection === "cookies" && (
         <Element name="cookies" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
-         <CookiesPolicy/>
+          <CookiesPolicy />
         </Element>
       )}
 
-      
-{activeSection === "privacy_policy" && (
+
+      {activeSection === "privacy_policy" && (
         <Element name="privacy_policy" style={{ paddingTop: "70px", display: "flex", flexDirection: "column" }}>
-         <Policy/>
+          <Policy />
         </Element>
       )}
 

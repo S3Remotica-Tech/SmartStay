@@ -68,6 +68,10 @@ export const initialState = {
     BillsPdfDetails: [],
     BillsPdfSuccessCode: 0,
 
+    newReceiptchanges:[],
+    statusCodeNewReceiptStatusCode:0,
+    ReceiptErrmsg:'',
+    ReceiptAddErrorStatuscode : 0,
     newReceiptchanges: [],
     statusCodeNewReceiptStatusCode: 0,
 
@@ -291,6 +295,11 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, ReceiptEditsuccessStatuscode: action.payload.statusCode } //Receipt edit
         case 'REMOVE_STATUS_CODE_RECEIPTS_EDIT':
             return { ...state, ReceiptEditsuccessStatuscode: 0 }
+
+        case 'ERROR_RECEIPTS_ADD':
+            return { ...state, ReceiptErrmsg: action.payload.response ,  ReceiptAddErrorStatuscode: action.payload.statusCode } 
+        case 'REMOVE_STATUS_ERROR_RECEIPTS_ADD':
+            return { ...state, ReceiptAddErrorStatuscode: 0 , ReceiptErrmsg : '' }    
 
         case 'DELETERECEIPT':
             return { ...state, ReceiptDeletesuccessStatuscode: action.payload.statusCode }

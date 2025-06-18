@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import Profile from "../Assets/Images/New_images/profile-picture.png";
+import Profiles from "../Assets/Images/New_images/profile-picture.png";
 import leftarrow from "../Assets/Images/arrow-left.png";
 import Image from "react-bootstrap/Image";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import "./UserList.css";
-import { Call, Sms, House, Buildings } from "iconsax-react";
+import { Call, Sms, House, Buildings, Profile } from "iconsax-react";
 import Group from "../Assets/Images/Group.png";
 import { useDispatch, useSelector } from "react-redux";
 import Money from "../Assets/Images/New_images/Money.png";
@@ -39,6 +39,15 @@ import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../Assets/Images/New_images/time-half past.png";
+import { CiUser } from "react-icons/ci";
+import { MdOutlineLocalPhone } from "react-icons/md";
+import html2canvas from "html2canvas";
+import adhar from "../Assets/Images/New_images/aadharimg.png"
+
+
+
+
+
 
 function UserListRoomDetail(props) {
   const state = useSelector((state) => state);
@@ -152,11 +161,11 @@ function UserListRoomDetail(props) {
   ];
 
 
-  useEffect(()=>{
-dispatch({type:'KYCCUSTOMERDETAILS',payload:{customer_id:props.id}})
-},[])
+  useEffect(() => {
+    dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
+  }, [])
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList.statusCodeForCustomerDetails === 200) {
       setTimeout(() => {
         dispatch({ type: "REMOVEKYC_CUSTOMER_DETAILS" });
@@ -223,9 +232,9 @@ useEffect(() => {
   };
 
 
-const handleKYCSubmit = () => {
-   
- dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id:props.id } })
+  const handleKYCSubmit = () => {
+
+    dispatch({ type: 'KYCVERIFYINGNEW', payload: { customer_id: props.id } })
 
   }
 
@@ -233,9 +242,9 @@ const handleKYCSubmit = () => {
     setEditAdditional(false);
     setAdditionalForm(true);
   };
- 
 
- 
+
+
   const handleChanges = (event, newValue) => {
     setValue(newValue);
     setFormShow(false);
@@ -514,9 +523,14 @@ const handleKYCSubmit = () => {
   };
 
   const handleCity = (e) => {
-    setCity(e.target.value);
-    setCityError("");
-    setFormError("");
+    
+        const value = e.target.value;
+      const regex = /^[a-zA-Z\s]*$/;
+      if (regex.test(value)) {
+        setCity(value);
+        setCityError("");
+        setFormError("");
+      }
   };
 
   const aadharInputRef = useRef(null);
@@ -620,7 +634,7 @@ const handleKYCSubmit = () => {
     setFormError("");
   };
 
- 
+
   const handleBed = (e) => {
     const selectedBedId = e.target.value;
     setBedId(selectedBedId);
@@ -795,9 +809,9 @@ const handleKYCSubmit = () => {
   const handleSaveUserlist = () => {
     const normalize = (value) =>
       value === null ||
-      value === undefined ||
-      value === "null" ||
-      value === "undefined"
+        value === undefined ||
+        value === "null" ||
+        value === "undefined"
         ? ""
         : String(value).trim();
 
@@ -813,7 +827,7 @@ const handleKYCSubmit = () => {
       normalize(landmark) !== normalize(initialState.landmark ?? "") ||
       city !== initialState.city ||
       String(pincode || "").trim() !==
-        String(initialState.pincode || "").trim() ||
+      String(initialState.pincode || "").trim() ||
       state_name !== initialState.state;
 
     let hasError = false;
@@ -1096,11 +1110,11 @@ const handleKYCSubmit = () => {
 
     const isChangedBed =
       String(Floor).toLowerCase() !==
-        String(initialStateAssign.Floor).toLowerCase() ||
+      String(initialStateAssign.Floor).toLowerCase() ||
       String(RoomId).toLowerCase() !==
-        String(initialStateAssign.Rooms).toLowerCase() ||
+      String(initialStateAssign.Rooms).toLowerCase() ||
       String(BedId).toLowerCase() !==
-        String(initialStateAssign.Bed).toLowerCase() ||
+      String(initialStateAssign.Bed).toLowerCase() ||
       formattedDate !== initialFormattedDate ||
       Number(AdvanceAmount) !== Number(initialStateAssign.AdvanceAmount) ||
       Number(RoomRent) !== Number(initialStateAssign.RoomRent);
@@ -1279,13 +1293,32 @@ const handleKYCSubmit = () => {
       }, 500);
     }
   }, [state.UsersList.statusCodeForGenerateAdvance]);
+
+const handleDownloadKYC = async () => {
+  const kycCard = document.getElementById("kyc-download-card");
+  if (!kycCard) return;
+
+ 
+  await new Promise((res) => setTimeout(res, 300));
+
+  html2canvas(kycCard).then((canvas) => {
+    const link = document.createElement("a");
+    link.download = "kyc_details.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+};
+
+
+
   return (
+    
     <>
       {props.roomDetail && (
         <>
           {props.userDetails &&
             props.userDetails.map((item) => {
-              const imageUrl = item.profile || Profile;
+              const imageUrl = item.profile || Profiles;
               return (
                 <div
                   key={item.ID}
@@ -1344,7 +1377,7 @@ const handleKYCSubmit = () => {
                           }}
                           onError={(e) => {
                             e.target.onerror = null;
-                            e.target.src = Profile;
+                            e.target.src = Profiles;
                           }}
                         />
                         <div style={{ marginLeft: 10 }}>
@@ -1359,92 +1392,92 @@ const handleKYCSubmit = () => {
                             {item.Name}
                           </span>
 
-                         
-                 {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" && 
-  <>
-    <Button
-      type="primary"
-      style={{
-        borderRadius: "20px",
-        backgroundColor: "#1848f1",
-        border: "none",
-        padding: "0 16px",
-        height: "32px",
-        display: "flex",
-        alignItems: "center",
-        fontSize: "14px",
-      }}
-    >
-      KYC Verified
-    </Button>
-  </>
-            }
+
+                          {state.UsersList?.KycCustomerDetails?.message === "KYC Completed" &&
+                            <>
+                              <Button
+                                type="primary"
+                                style={{
+                                  borderRadius: "20px",
+                                  backgroundColor: "#1848f1",
+                                  border: "none",
+                                  padding: "0 16px",
+                                  height: "32px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  fontSize: "14px",
+                                }}
+                              >
+                                KYC Verified
+                              </Button>
+                            </>
+                          }
 
 
- {state.UsersList?.KycCustomerDetails?.message === "KYC Pending" && 
-  <>
-    <Button
-      style={{
-        borderRadius: "20px",
-        backgroundColor: "#f59e0b",
-        border: "none",
-        padding: "0 16px",
-        height: "32px",
-        display: "flex",
-        alignItems: "center",
-        fontSize: "14px",
-        color: "#fff",
-      }}
-      
-    >
-      <img src={timehalf} alt="time" style={{ width: "16px", marginRight: 8 }} />
-      Pending
-    </Button>
-    <p
-      style={{
-        fontSize: 14,
-        fontWeight: 400,
-        fontFamily: "Gilroy",
-        marginTop: 4,
-      }}
-    >
-      Last Attempt: 03 June, 2025 – 04:22 PM
-    </p>
-  </>
-            }
+                          {state.UsersList?.KycCustomerDetails?.message === "KYC Pending" &&
+                            <>
+                              <Button
+                                style={{
+                                  borderRadius: "20px",
+                                  backgroundColor: "#f59e0b",
+                                  border: "none",
+                                  padding: "0 16px",
+                                  height: "32px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  fontSize: "14px",
+                                  color: "#fff",
+                                }}
 
-   {
-state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" && 
- <>
-    <Button
-      type="primary"
-      style={{
-        borderRadius: "20px",
-        backgroundColor: "#1848f1",
-        border: "none",
-        padding: "0 16px",
-        height: "32px",
-        display: "flex",
-        alignItems: "center",
-        fontSize: "14px",
-      }}
-      onClick={handleKYCSubmit}
-    >
-      Verify KYC <RightOutlined style={{ fontSize: "12px", marginLeft: 6 }} />
-    </Button>
-    <p
-      style={{
-        fontSize: 14,
-        fontWeight: 400,
-        fontFamily: "Gilroy",
-        marginTop: 4,
-      }}
-    >
-      Verify your Customer KYC Details via DigiLocker.
-    </p>
-  </>
-   }         
- 
+                              >
+                                <img src={timehalf} alt="time" style={{ width: "16px", marginRight: 8 }} />
+                                Pending
+                              </Button>
+                              <p
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 400,
+                                  fontFamily: "Gilroy",
+                                  marginTop: 4,
+                                }}
+                              >
+                                Last Attempt: 03 June, 2025 – 04:22 PM
+                              </p>
+                            </>
+                          }
+
+                          {
+                            state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this customer" &&
+                            <>
+                              <Button
+                                type="primary"
+                                style={{
+                                  borderRadius: "20px",
+                                  backgroundColor: "#1848f1",
+                                  border: "none",
+                                  padding: "0 16px",
+                                  height: "32px",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  fontSize: "14px",
+                                }}
+                                onClick={handleKYCSubmit}
+                              >
+                                Verify KYC <RightOutlined style={{ fontSize: "12px", marginLeft: 6 }} />
+                              </Button>
+                              <p
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 400,
+                                  fontFamily: "Gilroy",
+                                  marginTop: 4,
+                                }}
+                              >
+                                Verify your Customer KYC Details via DigiLocker.
+                              </p>
+                            </>
+                          }
+
                         </div>
                       </div>
 
@@ -1642,9 +1675,9 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                         >
                                           {" "}
                                           {item.Floor &&
-                                          item.Floor !== "undefined" &&
-                                          item.Floor !== 0 &&
-                                          item.Floor !== "null"
+                                            item.Floor !== "undefined" &&
+                                            item.Floor !== 0 &&
+                                            item.Floor !== "null"
                                             ? item.Floor
                                             : "N/A"}
                                         </span>
@@ -1896,31 +1929,31 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                         >
                                           {(props.userDetails[0].Address ||
                                             props.userDetails[0].area) && (
-                                            <>
-                                              {props.userDetails[0].Address
-                                                ? props.userDetails[0].Address +
+                                              <>
+                                                {props.userDetails[0].Address
+                                                  ? props.userDetails[0].Address +
                                                   ", "
-                                                : ""}
-                                              {props.userDetails[0].area || ""}
-                                              <br />
-                                            </>
-                                          )}
+                                                  : ""}
+                                                {props.userDetails[0].area || ""}
+                                                <br />
+                                              </>
+                                            )}
 
                                           {(props.userDetails[0].city ||
                                             props.userDetails[0].pincode ||
                                             props.userDetails[0].state) && (
-                                            <>
-                                              {props.userDetails[0].city
-                                                ? props.userDetails[0].city +
+                                              <>
+                                                {props.userDetails[0].city
+                                                  ? props.userDetails[0].city +
                                                   ", "
-                                                : ""}
-                                              {props.userDetails[0].pincode
-                                                ? props.userDetails[0].pincode +
+                                                  : ""}
+                                                {props.userDetails[0].pincode
+                                                  ? props.userDetails[0].pincode +
                                                   " - "
-                                                : ""}
-                                              {props.userDetails[0].state || ""}
-                                            </>
-                                          )}
+                                                  : ""}
+                                                {props.userDetails[0].state || ""}
+                                              </>
+                                            )}
                                         </div>
                                       </div>
                                     </div>
@@ -1967,104 +2000,166 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                     justifyContent: "space-between",
                                   }}
                                 >
- <div className="col-6 text-start">
-  <label
-    style={{
-      display: "block",
-      fontSize: 14,
-      fontWeight: 500,
-      marginBottom: "10px",
-    }}
-  >
-    Aadhar Card
-  </label>
+                                  <div className="col-6 text-start">
+                                    <label
+                                      style={{
+                                        display: "block",
+                                        fontSize: 14,
+                                        fontWeight: 500,
+                                        marginBottom: "10px",
+                                      }}
+                                    >
+                                      Aadhar Card
+                                    </label>
 
-  
-  <button
-    className="btn"
-    style={{
-      borderRadius: "10px",
-      padding: "10px 20px",
-      fontSize: "14px",
-      border: "1px solid #D9D9D9",
-    }}
-    onClick={() => handleUploadClick(aadharInputRef)}
-  >
-    <img
-      src={upload}
-      alt="upload"
-      width={20}
-      height={20}
-      style={{ marginRight: "8px" }}
-    />
-    Upload Document
-  </button>
 
-  
-  <input
-    type="file"
-    ref={aadharInputRef}
-    style={{ display: "none" }}
-    onChange={(e) => handleFileChange(e, "doc1")}
+                                    <button
+                                      className="btn"
+                                      style={{
+                                        borderRadius: "10px",
+                                        padding: "10px 20px",
+                                        fontSize: "14px",
+                                        border: "1px solid #D9D9D9",
+                                      }}
+                                      onClick={() => handleUploadClick(aadharInputRef)}
+                                    >
+                                      <img
+                                        src={upload}
+                                        alt="upload"
+                                        width={20}
+                                        height={20}
+                                        style={{ marginRight: "8px" }}
+                                      />
+                                      Upload Document
+                                    </button>
+
+
+                                    <input
+                                      type="file"
+                                      ref={aadharInputRef}
+                                      style={{ display: "none" }}
+                                      onChange={(e) => handleFileChange(e, "doc1")}
+                                    />
+
+
+                                     {state.UsersList?.KycCustomerDetails?.pic && (
+<div >
+  <img
+    src={docDown}
+    alt="Download Aadhar"
+    onClick={handleDownloadKYC}
+    style={{ width: 20, height: 20, cursor: "pointer" ,marginLeft:200,marginTop:"-70px"}}
   />
+</div>
+  )}
 
- 
-  {state.UsersList?.KycCustomerDetails?.pic && (
-  <a
-    href={`data:image/jpeg;base64,${state.UsersList.KycCustomerDetails.pic}`}
-    download="aadhar_document.jpg"  
-    target="_blank"
-    rel="noopener noreferrer"
-  >
+
+
+
+
+
+
+<div
+  id="kyc-download-card"
+  style={{
+    position: "absolute",
+    top: "-9999px", 
+    left: "-9999px",
+    borderRadius: 10,
+    padding: 20,
+    width: 320,
+    textAlign: "center",
+  
+    fontFamily: "Gilroy",
+  }}
+>
+
+  <h6 style={{ fontWeight: 600, fontSize: 15, color: "black", marginBottom: 20,fontFamily:"Gilroy" }}>
+    KYC Details
+  </h6>
+
+  <div style={{ marginBottom: 15 }}>
     <img
-      src={docDown}
-      alt="Download Aadhar"
+      src={`data:image/jpeg;base64,${state.UsersList?.KycCustomerDetails?.pic}`}
+      alt="KYC"
       style={{
-        width: 20,
-        height: 20,
-        marginLeft: "10px",
+        height: 120,
+        width: 120,
+        borderRadius: "25%",
+        border: "3px solid #f0f0f0",
       }}
     />
-  </a>
-)}
+  </div>
+
+  <h5 style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, color: "#222" }}>
+    {`${state.UsersList?.KycCustomerDetails?.name || '****'}`}
+  </h5>
+
+  <div className="d-flex align-items-start" style={{ justifyContent: "center" }}>
+    <i className="bi bi-geo-alt" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10}}></i>
+    
+    <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+      Adress<br/>
+     <span> {state.UsersList?.KycCustomerDetails?.address || 'No address provided'}</span>
+    </p>
+  </div>
+
+  
+   <div className="d-flex align-items-start" style={{ justifyContent: "center",marginLeft:"-25px" }}>
+    <img src={adhar} style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10}}></img>
+    
+    <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
+      Aadhar Number<br/>
+     <span> {state.UsersList?.KycCustomerDetails?.aadhaarNumber}</span>
+    </p>
+  </div>
+</div>
+
+
+
+
+
 
 
  
-  {advanceDetail[0]?.doc1 && (
-    <a
-      href={advanceDetail[0]?.doc1}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img
-        src={docDown}
-        alt="docdown"
-        style={{
-          width: 20,
-          height: 20,
-          marginLeft: "10px",
-        }}
-      />
-    </a>
-  )}
 
 
-  {uploadError && (
-    <div style={{ color: "red" }}>
-      <MdError />
-      <span
-        style={{
-          fontSize: "12px",
-          color: "red",
-          fontFamily: "Gilroy",
-          fontWeight: 500,
-        }}
-      >
-        {uploadError}
-      </span>
-    </div>
-  )}
-</div>
+
+                                    {advanceDetail[0]?.doc1 && (
+                                      <a
+                                        href={advanceDetail[0]?.doc1}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <img
+                                          src={docDown}
+                                          alt="docdown"
+                                          style={{
+                                            width: 20,
+                                            height: 20,
+                                            marginLeft: "10px",
+                                          }}
+                                        />
+                                      </a>
+                                    )}
+
+
+                                    {uploadError && (
+                                      <div style={{ color: "red" }}>
+                                        <MdError />
+                                        <span
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {uploadError}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
 
 
 
@@ -2170,7 +2265,6 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                   <div className="card-body">
                                     {props.userDetails[0]?.AdvanceAmount > 0 ? (
                                       <div className="row mb-3">
-                                        {/* Advance Amount */}
                                         <div className="col-sm-4 d-flex flex-column align-items-start">
                                           <div
                                             style={{
@@ -2216,12 +2310,12 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                           >
                                             {advanceDetail[0]?.Date
                                               ? new Date(
-                                                  advanceDetail[0].Date
-                                                ).toLocaleDateString("en-GB", {
-                                                  day: "2-digit",
-                                                  month: "short",
-                                                  year: "numeric",
-                                                })
+                                                advanceDetail[0].Date
+                                              ).toLocaleDateString("en-GB", {
+                                                day: "2-digit",
+                                                month: "short",
+                                                year: "numeric",
+                                              })
                                               : "-"}
                                           </p>
                                         </div>
@@ -2245,12 +2339,12 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                           >
                                             {advanceDetail[0]?.DueDate
                                               ? new Date(
-                                                  advanceDetail[0].DueDate
-                                                ).toLocaleDateString("en-GB", {
-                                                  day: "2-digit",
-                                                  month: "short",
-                                                  year: "numeric",
-                                                })
+                                                advanceDetail[0].DueDate
+                                              ).toLocaleDateString("en-GB", {
+                                                day: "2-digit",
+                                                month: "short",
+                                                year: "numeric",
+                                              })
                                               : "-"}
                                           </p>
                                         </div>
@@ -2347,7 +2441,6 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                     style={{
                                       backgroundColor: "transparent",
                                       borderBottom: "1px solid #e0e0e0",
-                                      marginBottom: "15px",
                                     }}
                                   >
                                     <div
@@ -2355,30 +2448,31 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                       style={{
                                         fontSize: 16,
                                         lineHeight: "40px",
+                                        fontFamily: "Gilroy"
                                       }}
                                     >
                                       Additional Contact
                                     </div>
                                     <button
                                       className="btn btn-link fw-medium text-decoration-none"
-                                      style={{ fontSize: 14 }}
+                                      style={{ fontSize: 14, fontFamily: "Gilroy" }}
                                       onClick={handleAdditionalForm}
                                     >
                                       + Add Contact
                                     </button>
                                   </div>
 
-                                  <div className="card-body">
+                                  <div className="card-body" style={{ fontFamily: "Gilroy" }}>
                                     {state?.UsersList?.customerAllDetails
                                       ?.contact_details?.length > 0 ? (
                                       state.UsersList.customerAllDetails
                                         .contact_details.length > 1 ? (
-                                        <Carousel interval={null} indicators>
+                                        <Carousel interval={null} indicators  className="custom-carousel">
                                           {state.UsersList.customerAllDetails.contact_details.map(
                                             (v, index) => (
                                               <Carousel.Item key={index}>
                                                 <div>
-                                                  <p>
+                                                  <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
                                                     Contact Info{" "}
                                                     <img
                                                       src={editliner}
@@ -2399,55 +2493,75 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                                         handleContactDelete(v)
                                                       }
                                                     />
-                                                  </p>
+                                                  </label>
 
-                                                  <div className="row mb-3">
+                                                  <div className="row mb-3 g-4">
                                                     <div className="col-sm-4">
                                                       <p className="mb-1 small fw-medium">
                                                         Contact Name
                                                       </p>
-                                                      <p className="mb-0 fw-semibold">
-                                                        {v.user_name}
-                                                      </p>
+                                                      <span className="d-flex gap-2">
+                                                        <Profile
+                                                          size="20"
+                                                          color="#1E45E1"
+                                                        />
+                                                        <p className="mb-0 fw-semibold" style={{ fontFamily: "Gilroy", fontSize: 15 }}>
+                                                          {v.user_name}
+                                                        </p>
+                                                      </span>
                                                     </div>
-                                                    <div className="col-sm-4 text-center">
+                                                    <div className="col-sm-4 text-start">
                                                       <p className="mb-1 small fw-medium">
                                                         Mobile No
                                                       </p>
-                                                      <p className="mb-0 fw-semibold">
-                                                        +
-                                                        {v &&
-                                                          String(
-                                                            v.mob_no
-                                                          ).slice(
-                                                            0,
-                                                            String(v.mob_no)
-                                                              .length - 10
-                                                          )}{" "}
-                                                        {v &&
-                                                          String(
-                                                            v.mob_no
-                                                          ).slice(-10)}
-                                                      </p>
+                                                      <span className="d-flex align-items-center gap-2">
+                                                        <Call size="20" color="#1E45E1" />
+                                                        <p className="mb-0 fw-semibold text-start" style={{ fontFamily: "Gilroy", fontSize: 14 }}>
+                                                          +
+                                                          {v && String(v.mob_no).slice(0, String(v.mob_no).length - 10)}{" "}
+                                                          {v && String(v.mob_no).slice(-10)}
+                                                        </p>
+                                                      </span>
+
                                                     </div>
-                                                    <div className="col-sm-4 text-end">
-                                                      <p className="mb-1 small fw-medium">
+                                                    <div className="col-sm-4 text-center">
+                                                      <p className="mb-1 small fw-medium text-start">
                                                         Guardian
                                                       </p>
-                                                      <p className="mb-0 fw-semibold">
-                                                        {v.guardian}
-                                                      </p>
+                                                      <span className="d-flex gap-2 text-center">
+                                                        <Profile
+                                                          size="20"
+                                                          color="#1E45E1"
+                                                        />
+                                                        <p className="mb-0 fw-semibold text-center ">
+                                                          {v.guardian}
+                                                        </p>
+                                                      </span>
                                                     </div>
                                                   </div>
 
-                                                  <div className="row">
-                                                    <div className="col-sm-12">
+                                                  <div className="row " style={{ backgroundColor: "", width: "100%" }}>
+                                                    <div className="col-sm-12 col-lg-12 col-md-12 text-start" style={{ width: "100%" }}>
                                                       <p className="mb-1 small fw-medium">
                                                         Address
                                                       </p>
-                                                      <p className="mb-0 fw-semibold">
-                                                        {v.address}
-                                                      </p>
+                                                      <span className="d-flex gap-2" style={{ width: "100%" }}>
+                                                        <Buildings
+                                                          size="20"
+                                                          color="#1E45E1"
+                                                        />
+                                                        <p className="mb-0 fw-semibold text-start" style={{
+                                                          width: "100%",
+                                                          whiteSpace: "nowrap",
+                                                          overflow: "hidden",
+                                                          textOverflow: "ellipsis",
+                                                        }}
+                                                          title={`${v.address}, ${v.area}, ${v.city}, ${v.state} - ${v.pin_code}`}>
+                                                          {v.address} , {v.area} ,{" "}
+                                                          {v.city} ,{" "}
+                                                          {v.state}- {v.pin_code}
+                                                        </p>
+                                                      </span>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -2460,7 +2574,7 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                           {state.UsersList.customerAllDetails.contact_details.map(
                                             (v, index) => (
                                               <div key={index}>
-                                                <p>
+                                                <p className="mb-3">
                                                   Contact Info{" "}
                                                   <img
                                                     src={editliner}
@@ -2483,53 +2597,73 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                                   />
                                                 </p>
 
-                                                <div className="row mb-3">
+                                                <div className="row mb-3 g-4">
                                                   <div className="col-sm-4">
                                                     <p className="mb-1 small fw-medium">
                                                       Contact Name
                                                     </p>
-                                                    <p className="mb-0 fw-semibold">
-                                                      {v.user_name}
-                                                    </p>
+                                                    <span className="d-flex gap-2">
+                                                      <Profile
+                                                        size="20"
+                                                        color="#1E45E1"
+                                                      />
+                                                      <p className="mb-0 fw-semibold" style={{ fontFamily: "Gilroy", fontSize: 15 }}>
+                                                        {v.user_name}
+                                                      </p>
+                                                    </span>
                                                   </div>
-                                                  <div className="col-sm-4 text-center">
+                                                  <div className="col-sm-4 text-start">
                                                     <p className="mb-1 small fw-medium">
                                                       Mobile No
                                                     </p>
-                                                    <p className="mb-0 fw-semibold">
-                                                      +
-                                                      {v &&
-                                                        String(v.mob_no).slice(
-                                                          0,
-                                                          String(v.mob_no)
-                                                            .length - 10
-                                                        )}{" "}
-                                                      {v &&
-                                                        String(v.mob_no).slice(
-                                                          -10
-                                                        )}
-                                                    </p>
+                                                    <span className="d-flex align-items-center gap-2">
+                                                      <Call size="20" color="#1E45E1" />
+                                                      <p className="mb-0 fw-semibold text-start" style={{ fontFamily: "Gilroy", fontSize: 14 }}>
+                                                        +
+                                                        {v && String(v.mob_no).slice(0, String(v.mob_no).length - 10)}{" "}
+                                                        {v && String(v.mob_no).slice(-10)}
+                                                      </p>
+                                                    </span>
+
                                                   </div>
-                                                  <div className="col-sm-4 text-end">
-                                                    <p className="mb-1 small fw-medium">
+                                                  <div className="col-sm-4 text-center">
+                                                    <p className="mb-1 small fw-medium text-start">
                                                       Guardian
                                                     </p>
-                                                    <p className="mb-0 fw-semibold">
-                                                      {v.guardian}
-                                                    </p>
+                                                    <span className="d-flex gap-2 text-center">
+                                                      <Profile
+                                                        size="20"
+                                                        color="#1E45E1"
+                                                      />
+                                                      <p className="mb-0 fw-semibold text-center ">
+                                                        {v.guardian}
+                                                      </p>
+                                                    </span>
                                                   </div>
                                                 </div>
 
-                                                <div className="row">
-                                                  <div className="col-sm-12">
+                                                <div className="row " style={{ backgroundColor: "" }}>
+                                                  <div className="col-sm-12 col-lg-12 col-md-12 text-start" style={{ width: "100%" }}>
                                                     <p className="mb-1 small fw-medium">
                                                       Address
                                                     </p>
-                                                    <p className="mb-0 fw-semibold">
-                                                      {v.address} , {v.area} ,{" "}
-                                                      {v.city} <br></br>
-                                                      {v.state}- {v.pin_code}
-                                                    </p>
+                                                    <span className="d-flex gap-2" style={{ width: "100%" }}>
+                                                      <Buildings
+                                                        size="20"
+                                                        color="#1E45E1"
+                                                      />
+                                                      <p className="mb-0 fw-semibold text-start" style={{
+                                                        width: "100%",
+                                                        whiteSpace: "nowrap",
+                                                        overflow: "hidden",
+                                                        textOverflow: "ellipsis",
+                                                      }}
+                                                        title={`${v.address}, ${v.area}, ${v.city}, ${v.state} - ${v.pin_code}`}>
+                                                        {v.address} , {v.area} ,{" "}
+                                                        {v.city} ,{" "}
+                                                        {v.state}- {v.pin_code}
+                                                      </p>
+                                                    </span>
                                                   </div>
                                                 </div>
                                               </div>
@@ -2560,7 +2694,7 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                           <UserListKyc
                             kycdetailsForm={kycdetailsForm}
                             setKycDetailForm={setKycDetailForm}
-                         
+
                           />
                         ) : null}
                         {additionalForm === true ? (
@@ -2633,7 +2767,7 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                           ? typeof file === "string"
                                             ? file
                                             : URL.createObjectURL(file)
-                                          : Profile
+                                          : Profiles
                                       }
                                       alt="filee"
                                       roundedCircle
@@ -3317,12 +3451,22 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                         onChange={(selectedOption) => {
                                           setStateName(selectedOption?.value);
                                         }}
+                                           onInputChange={(inputValue, { action }) => {
+                        if (action === "input-change") {
+                      const lettersOnly = inputValue.replace(
+                        /[^a-zA-Z\s]/g,
+                        ""
+                      );
+                      return lettersOnly;
+                    }
+                    return inputValue;
+                  }}
                                         value={
                                           state_name
                                             ? {
-                                                value: state_name,
-                                                label: state_name,
-                                              }
+                                              value: state_name,
+                                              label: state_name,
+                                            }
                                             : null
                                         }
                                         placeholder="Select State"
@@ -3617,13 +3761,13 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                           (option) => option.Room_Id === RoomId
                                         )
                                           ? {
-                                              value: RoomId,
-                                              label:
-                                                state.UsersList.roomdetails.find(
-                                                  (option) =>
-                                                    option.Room_Id === RoomId
-                                                )?.Room_Name,
-                                            }
+                                            value: RoomId,
+                                            label:
+                                              state.UsersList.roomdetails.find(
+                                                (option) =>
+                                                  option.Room_Id === RoomId
+                                              )?.Room_Name,
+                                          }
                                           : null
                                       }
                                       placeholder="Select a Room"
@@ -4374,7 +4518,7 @@ state.UsersList?.KycCustomerDetails?.message === "KYC ID not found for this cust
                                 Generate Advance
                               </Button>
                             </div>
-                            {/* )} */}
+
                           </div>
                         </Modal.Body>
 
