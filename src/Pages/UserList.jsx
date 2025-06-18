@@ -2206,7 +2206,7 @@ function UserList(props) {
                     style={{
                       border: "1px solid #D4D4D4",
                       borderRadius: 8,
-                      width: search ? "120px" : "120px",
+                      width: search ? "150px" : "130px",
                     }}
                   >
                     <Form.Select
