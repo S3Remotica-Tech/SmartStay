@@ -527,7 +527,7 @@ function SettingAllPages() {
             style={{
               overflowY: "auto",
               height: "100vh",
-            }}
+                         }}
           >
 
             {activePage === 'General' && <SettingGeneral />}
