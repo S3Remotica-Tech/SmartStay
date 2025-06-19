@@ -443,7 +443,7 @@ const handleReceivedAmount = (e) => {
 <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
   <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}>
-    Customer
+    Customer  <span style={{ color: "red", fontSize: "20px" }}>*</span>
   </Form.Label>
 
   
@@ -490,6 +490,8 @@ const handleReceivedAmount = (e) => {
       fontSize: 16,
       borderRadius: 8,
       border: "1px solid #D9D9D9",
+      backgroundColor: edit ? "#E7F1FF" : "#FFFFFF",
+      color: "black",
     }),
   }}
 />
@@ -549,7 +551,7 @@ const handleReceivedAmount = (e) => {
           lineHeight: "normal",
         }}
       >
-        Invoice Number
+        Invoice Number  <span style={{ color: "red", fontSize: "20px" }}>*</span>
       </Form.Label>
 
       {edit ? (
@@ -688,7 +690,7 @@ const handleReceivedAmount = (e) => {
 
     <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
       <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received</Form.Label>
+        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received  <span style={{ color: "red", fontSize: "20px" }}>*</span></Form.Label>
         <Form.Control
           style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500}}
           type="text"
@@ -732,7 +734,7 @@ const handleReceivedAmount = (e) => {
   <div className="col-lg-3 col-md-5 col-sm-12 ">
     <Form.Group controlId="invoiceDate" className="mb-1">
       <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-        Payment Date 
+        Payment Date  <span style={{ color: "red", fontSize: "20px" }}>*</span> 
       </Form.Label>
       <div style={{ position: 'relative', width: "100%" ,height: 48, }}>
        
@@ -782,14 +784,7 @@ const handleReceivedAmount = (e) => {
                     }}
                   >
                     Mode of Transaction{" "}
-                    <span
-                      style={{
-                        color: "#FF0000",
-                        display: modeOfPayment ? "none" : "inline-block",
-                      }}
-                    >
-                      *
-                    </span>
+                 <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Select
                     aria-label="Default select example"
