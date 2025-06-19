@@ -366,6 +366,7 @@ const handleTermsChange = (e) => {
  
   useEffect(() => {
     if (hostelid) {
+         setLoading(true)
     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
@@ -408,6 +409,17 @@ const handleTermsChange = (e) => {
       }, 1000);
     }
   }, [state.Settings.settingsInvoicegetSucesscode]);
+
+
+    useEffect(() => {
+    if (state.Settings?.settingsInvoicegetErrorStatuscode === 201) {
+        setLoading(false)
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ERROR_SETTINGS_GETINVOICE_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.settingsInvoicegetErrorStatuscode]);
 
 
 
