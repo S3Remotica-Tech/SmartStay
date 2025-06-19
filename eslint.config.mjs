@@ -36,6 +36,7 @@ export default [
       "jsx-a11y": pluginJsxA11y,
     },
     rules: {
+      "@typescript-eslint/no-require-imports": "off",
       "eqeqeq": "error", 
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "error",
