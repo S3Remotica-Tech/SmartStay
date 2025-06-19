@@ -179,14 +179,14 @@ function UserEb(props) {
                                                         size="10"
                                                         variant="Bold"
                                                         color="#1E45E1"
-                                                        onClick={() => handleSort("Room_Id", "asc")}
+                                                        onClick={() => handleSort("Room_Name", "asc")}
                                                         style={{ cursor: "pointer" }}
                                                       />
                                                       <ArrowDown2
                                                         size="10"
                                                         variant="Bold"
                                                         color="#1E45E1"
-                                                        onClick={() => handleSort("Room_Id", "desc")}
+                                                        onClick={() => handleSort("Room_Name", "desc")}
                                                         style={{ cursor: "pointer" }}
                                                       />
                                                     </div>
@@ -338,7 +338,7 @@ function UserEb(props) {
                      <div className="ps-1">{u.floor_name}</div> 
                       </td>
                     <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}} className="ps-4 ps-sm-2 ps-md-3 ps-lg-3" >
-                       <div className="ps-1">{u.Room_Id}</div> 
+                       <div className="ps-1">{u.Room_Name}</div> 
                      </td>
                     <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8" }} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >₹{u.start_meter}</td>
                     <td style={{ fontWeight: 500, fontSize: "13px", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"}} className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 " >{u.end_meter}</td>
@@ -358,7 +358,7 @@ function UserEb(props) {
 
         </div>
       ):
-      <div style={{ marginTop: 30 }}>
+      <div style={{ marginTop: 20 }}>
                           <div style={{ textAlign: "center" }}>
                             <img src={Emptystate} alt="emptystate" />
                           </div>
@@ -368,7 +368,7 @@ function UserEb(props) {
                               textAlign: "center",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              fontSize: 20,
+                              fontSize: 16,
                               color: "rgba(75, 75, 75, 1)",
                             }}
                           >
@@ -380,7 +380,7 @@ function UserEb(props) {
                               textAlign: "center",
                               fontWeight: 500,
                               fontFamily: "Gilroy",
-                              fontSize: 16,
+                              fontSize: 14,
                               color: "rgba(75, 75, 75, 1)",
                             }}
                           >

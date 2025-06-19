@@ -65,7 +65,7 @@ function Booking(props) {
   const [state_name, setStateName] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-    const [Email, setEmail] = useState("");
+  const [Email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [countryCode, setCountryCode] = useState("");
@@ -209,7 +209,7 @@ function Booking(props) {
       setFirstName(item.first_name || "");
       setLastName(item.last_name || "");
       setJoiningDate(item.joining_date || "");
-            setJoiningDate(
+      setJoiningDate(
         item.joining_date ? moment(item.joining_date).toDate("") : null
       );
       setFile(item.profile || "");
@@ -222,7 +222,7 @@ function Booking(props) {
       setCountryCode(countryCode);
       setPhone(mobileNumber);
       setEmail(item.email_id || "");
-            setHouseNo(item.address || '');
+      setHouseNo(item.address || '');
       setStreet(item.area || '');
       setLandmark(item.landmark || '')
       setPincode(item.pin_code || '');
@@ -251,7 +251,7 @@ function Booking(props) {
     }
   };
 
-  
+
 
 
 
@@ -330,7 +330,7 @@ function Booking(props) {
     setFormError("")
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
- 
+
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
@@ -350,7 +350,7 @@ function Booking(props) {
     setFormError("");
   }
 
-  
+
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
@@ -366,16 +366,20 @@ function Booking(props) {
       setFormError("");
     }
 
-   
+
   };
 
   const handleCity = (e) => {
-    setCity(e.target.value);
+      const value = e.target.value;
+  const regex = /^[a-zA-Z\s]*$/;
+  if (regex.test(value)) {
+    setCity(value);
     setCityError("");
     setFormError("");
   }
+  }
 
-  
+
 
   const handleCloseDelete = () => {
     setDeleteShow(false);
@@ -384,7 +388,7 @@ function Booking(props) {
     if (
       !value ||
       value === "Select a PG"
-      
+
     ) {
       switch (fieldName) {
         case "firstName":
@@ -396,7 +400,7 @@ function Booking(props) {
         case "amount":
           setamountError("Amount is Required");
           break;
-                case "City":
+        case "City":
           setCityError("Please Enter City");
           break;
         case "Pincode":
@@ -424,7 +428,7 @@ function Booking(props) {
         case "amount":
           setamountError("");
           break;
-            case "City":
+        case "City":
           setCityError("");
           break;
         case "Pincode":
@@ -450,7 +454,7 @@ function Booking(props) {
     const isamountValid = validateAssignField(amount, "amount");
     const isphoneValid = validateAssignField(Phone, "Phone");
     const isHostelValid = validateAssignField(HostelIds, "paying");
-       const isCityValid = validateAssignField(city, "City");
+    const isCityValid = validateAssignField(city, "City");
     const isPincodeValid = validateAssignField(pincode, "Pincode");
     const isStatenameValid = validateAssignField(state_name, "Statename");
 
@@ -497,7 +501,7 @@ function Booking(props) {
 
 
 
-    
+
     const isValidDate = (date) => !isNaN(Date.parse(date));
 
     const normalize = (value) => {
@@ -513,11 +517,11 @@ function Booking(props) {
         : joiningDate !== initialStateAssign.joiningDate) ||
       Number(amount) !== Number(initialStateAssign.amount) ||
       String(firstName) !== String(initialStateAssign.firstName) ||
-            String(Email) !== String(initialStateAssign.Email) ||
+      String(Email) !== String(initialStateAssign.Email) ||
       Number(countryCode + Phone) !== Number(initialStateAssign.Phone) ||
       String(lastName) !== String(initialStateAssign.lastName) ||
       ((file instanceof File || file instanceof Blob) &&
-        file.name !== initialStateAssign.file?.name) || 
+        file.name !== initialStateAssign.file?.name) ||
       file !== initialStateAssign.file ||
       String(pincode).trim() !== String(initialStateAssign.pincode || "").trim() ||
 
@@ -534,7 +538,7 @@ function Booking(props) {
       setFormError("");
     }
 
-    
+
     const formattedDate = moment(joiningDate).format("YYYY-MM-DD");
 
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
@@ -562,7 +566,7 @@ function Booking(props) {
     });
 
 
-   
+
     setFormEdit(false);
   };
 
@@ -589,7 +593,7 @@ function Booking(props) {
     setFormError("");
     setPhone("");
     setPhoneError("");
-        setfirstNameError("");
+    setfirstNameError("");
     setDateError("");
     setamountError("");
     setStateNameError("");
@@ -636,7 +640,7 @@ function Booking(props) {
 
   useEffect(() => {
     if (state?.Booking?.bookingPhoneError) {
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_PHONE_ERROR" });
       }, 2000);
     }
@@ -644,7 +648,7 @@ function Booking(props) {
 
   useEffect(() => {
     if (state?.Booking?.bookingEmailError) {
-     
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
       }, 2000);
@@ -717,10 +721,10 @@ function Booking(props) {
   const popupRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-    const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  
+
   const currentItems =
     props.search || props.filterStatus || props.bookingDateRange?.length === 2
       ? props.filteredUsers?.slice(indexOfFirstItem, indexOfLastItem)
@@ -772,7 +776,7 @@ function Booking(props) {
     }
   }, [props.resetPage]);
 
-  
+
   const totalPages = Math.ceil(
     (props.search || props.filterStatus ? props.filteredUsers?.length : customerBooking?.length) / itemsPerPage
   );
@@ -799,16 +803,16 @@ function Booking(props) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-                         }}
+            }}
           >
-           
+
             <img
               src={Emptystate}
               alt="Empty State"
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-            
+
             {bookingPermissionError && (
               <div
                 style={{
@@ -837,38 +841,38 @@ function Booking(props) {
       ) : (
         <div className="p-10" style={{ marginLeft: "-20px" }}>
           <div>
-          {loader ? (
- <div
- style={{
-   position: "absolute",
-   top: 0,
-   right: 0,
-   bottom: 0,
-   left: "200px",
-   display: "flex",
-   alignItems: "center",
-   justifyContent: "center",
-   backgroundColor: "transparent",
-   opacity: 0.75,
-   zIndex: 10,
- }}
->
- <div
-   style={{
-     borderTop: "4px solid #1E45E1",
-     borderRight: "4px solid transparent",
-     borderRadius: "50%",
-     width: "40px",
-     height: "40px",
-     animation: "spin 1s linear infinite",
-   }}
- ></div>
-</div>
-) : sortedData?.length > 0 ? (
- 
-  <div
+            {loader ? (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: "200px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "transparent",
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: "4px solid #1E45E1",
+                    borderRight: "4px solid transparent",
+                    borderRadius: "50%",
+                    width: "40px",
+                    height: "40px",
+                    animation: "spin 1s linear infinite",
+                  }}
+                ></div>
+              </div>
+            ) : sortedData?.length > 0 ? (
+
+              <div
                 className="p-10 booking-table-userlist  booking-table me-4"
-                style={{ paddingBottom: "20px" , marginLeft: "5px" }}
+                style={{ paddingBottom: "20px", marginLeft: "5px" }}
               >
                 <div
 
@@ -882,12 +886,12 @@ function Booking(props) {
                     marginTop: "20px",
                     paddingRight: 0,
                     paddingLeft: 0
-                    
+
                   }}
                 >
                   <Table
                     responsive="md"
-                    
+
                     style={{
                       fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
                       top: 0,
@@ -913,7 +917,7 @@ function Booking(props) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                                                       paddingLeft: "20px",
+                            paddingLeft: "20px",
                           }}
                         >
                           <div className='d-flex gap-1 align-items-center justify-content-start'>
@@ -1032,7 +1036,8 @@ function Booking(props) {
                             fontFamily: "Gilroy",
                             background: "#E7F1FF",
                             border: "none",
-                            paddingBottom:12}}
+                            paddingBottom: 12
+                          }}
                         >
                           Action
                         </th>
@@ -1089,31 +1094,33 @@ function Booking(props) {
 
                         return (
                           <tr key={customer.id} className="customer-row">
-                            <td style={{    border: "none",
-                                            padding: "10px",
-                                            textAlign: "start",
-                                            paddingLeft: "20px",
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",}}>
-             
-                                <span
-                                  style={{
-                                 fontSize: "13px",
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              color: "#1E45E1",
-                                              cursor: "pointer",
-                                              marginTop: 10,
-                                                                                           whiteSpace: "nowrap",
-                                  
-                                  }}
-                                  className="customer-name ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                >
-                                  {customer.first_name} {customer.last_name ? customer.last_name : ""}
-                                 
+                            <td style={{
+                              border: "none",
+                              padding: "10px",
+                              textAlign: "start",
+                              paddingLeft: "20px",
+                              verticalAlign: "middle",
+                              borderBottom: "1px solid #E8E8E8",
+                            }}>
 
-                                </span>
-                            
+                              <span
+                                style={{
+                                  fontSize: "13px",
+                                  fontWeight: 600,
+                                  fontFamily: "Gilroy",
+                                  color: "#1E45E1",
+                                  cursor: "pointer",
+                                  marginTop: 10,
+                                  whiteSpace: "nowrap",
+
+                                }}
+                                className="customer-name ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                              >
+                                {customer.first_name} {customer.last_name ? customer.last_name : ""}
+
+
+                              </span>
+
                             </td>
                             <td
                               style={{
@@ -1122,15 +1129,15 @@ function Booking(props) {
                                 fontFamily: "Gilroy",
                                 color: "#000000",
                                 textAlign: "start",
-                                paddingLeft:20,
-                                verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
+                                paddingLeft: 20,
+                                verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
-                                className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+                              className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                             >
-                              
+
                               {customer.email_id ? customer.email_id : "N/A"}
                             </td>
-                            
+
 
                             <td
                               style={{
@@ -1141,7 +1148,7 @@ function Booking(props) {
                                 textAlign: "start",
                                 verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
-                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+                              className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
                             >
                               +
                               {customer &&
@@ -1164,7 +1171,7 @@ function Booking(props) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
-                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                              className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -1197,7 +1204,7 @@ function Booking(props) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
-                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                              className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -1229,7 +1236,7 @@ function Booking(props) {
                                 whiteSpace: "nowrap",
                                 verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
                               }}
-                               className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                              className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
                             >
                               <span
                                 style={{
@@ -1263,7 +1270,7 @@ function Booking(props) {
                                   justifyContent: "center",
                                   alignItems: "center",
                                   position: "relative",
-                                                                    backgroundColor:
+                                  backgroundColor:
                                     activeDotsId === customer.id
                                       ? "#E7F1FF"
                                       : "white",
@@ -1278,114 +1285,98 @@ function Booking(props) {
                                   <div
                                     ref={popupRef}
                                     style={{
-                                      cursor: "pointer",
-                                      backgroundColor: "#F9F9F9",
                                       position: "fixed",
-                                      top:
-                                        currentItems.length >= 1
-                                          ? popupPosition.top
-                                          : "auto",
-                                      left:
-                                        currentItems.length >= 1
-                                          ? popupPosition.left
-                                          : popupPosition.left - 10,
-
-                                     
+                                      top: currentItems.length >= 1 ? popupPosition.top : "auto",
+                                      left: currentItems.length >= 1 ? popupPosition.left : popupPosition.left - 10,
                                       width: 163,
-                                      height: 92,
+                                      height: "auto",
+                                      backgroundColor: "#F9F9F9",
                                       border: "1px solid #EBEBEB",
                                       borderRadius: 10,
+                                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                       display: "flex",
                                       flexDirection: "column",
-                                      justifyContent: "center",
-                                      padding: 15,
-                                      boxShadow:
-                                        "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                                                            zIndex: 1000,
                                     }}
                                   >
+
                                     <div
-                                      className="mb-2 d-flex align-items-center"
+                                      className="d-flex align-items-center"
                                       onClick={() => {
-                                        if (
-                                          !props.customerBookingAddPermission
-                                        ) {
+                                        if (!props.customerBookingAddPermission) {
                                           handleCheckin(customer);
                                         }
                                       }}
                                       style={{
-                                        cursor:
-                                          props.customerBookingAddPermission
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        pointerEvents:
-                                          props.customerBookingAddPermission
-                                            ? "none"
-                                            : "auto",
-                                        opacity:
-                                          props.customerBookingAddPermission
-                                            ? 0.5
-                                            : 1,
+                                        cursor: props.customerBookingAddPermission ? "not-allowed" : "pointer",
+                                        pointerEvents: props.customerBookingAddPermission ? "none" : "auto",
+                                        opacity: props.customerBookingAddPermission ? 0.5 : 1,
+                                        padding: "6px 8px",
+                                        borderRadius: 6,
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        if (!props.customerBookingAddPermission) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = "transparent";
                                       }}
                                     >
                                       <img
                                         src={check}
-                                        style={{
-                                          height: 16,
-                                          width: 16,
-                                          marginRight: "8px",
-                                        }}
                                         alt="Checkin icon"
+                                        style={{ height: 16, width: 16, marginRight: 8 }}
                                       />
                                       <label
                                         style={{
                                           fontSize: 14,
                                           fontWeight: 500,
-                                          fontFamily: "Gilroy",
+                                          fontFamily: "Gilroy, sans-serif",
                                           color: "#222222",
-                                          cursor: "pointer"
+                                          cursor: "pointer",
                                         }}
                                       >
                                         Check In
                                       </label>
                                     </div>
 
+                                    <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
                                     <div
-                                      className="mb-2 d-flex align-items-center"
-                                                                           onClick={() => handleEdit(customer)}
+                                      className="d-flex align-items-center"
+                                      onClick={() => handleEdit(customer)}
                                       style={{
-                                        cursor: bookingEditPermissionError
-                                          ? "not-allowed"
-                                          : "pointer",
-                                        pointerEvents:
-                                          bookingEditPermissionError
-                                            ? "none"
-                                            : "auto",
-                                        opacity: bookingEditPermissionError
-                                          ? 0.5
-                                          : 1,
+                                        cursor: bookingEditPermissionError ? "not-allowed" : "pointer",
+                                        pointerEvents: bookingEditPermissionError ? "none" : "auto",
+                                        opacity: bookingEditPermissionError ? 0.5 : 1,
+                                        padding: "6px 8px",
+                                        borderRadius: 6,
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        if (!bookingEditPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = "transparent";
                                       }}
                                     >
                                       <img
                                         src={Edit}
-                                        style={{
-                                          height: 16,
-                                          width: 16,
-                                          marginRight: "8px",
-                                        }}
                                         alt="Edit icon"
+                                        style={{ height: 16, width: 16, marginRight: 8 }}
                                       />
                                       <label
                                         style={{
                                           fontSize: 14,
                                           fontWeight: 500,
-                                          fontFamily: "Gilroy",
+                                          fontFamily: "Gilroy, sans-serif",
                                           color: "#222222",
-                                          cursor: "pointer"
+                                          cursor: "pointer",
                                         }}
                                       >
                                         Edit
                                       </label>
                                     </div>
+
+                                    <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
                                     <div
                                       className="d-flex align-items-center"
@@ -1395,40 +1386,38 @@ function Booking(props) {
                                         }
                                       }}
                                       style={{
-                                        cursor: bookingDeletePermissionError
-                                          ? "not-allowed"
-                                          : "pointer",
-                                        pointerEvents:
-                                          bookingDeletePermissionError
-                                            ? "none"
-                                            : "auto",
-                                        opacity: bookingDeletePermissionError
-                                          ? 0.5
-                                          : 1,
+                                        cursor: bookingDeletePermissionError ? "not-allowed" : "pointer",
+                                        pointerEvents: bookingDeletePermissionError ? "none" : "auto",
+                                        opacity: bookingDeletePermissionError ? 0.5 : 1,
+                                        padding: "6px 8px",
+                                        borderRadius: 6,
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        if (!bookingDeletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = "transparent";
                                       }}
                                     >
                                       <img
                                         src={Delete}
-                                        style={{
-                                          height: 16,
-                                          width: 16,
-                                          marginRight: "8px",
-                                        }}
                                         alt="Delete icon"
+                                        style={{ height: 16, width: 16, marginRight: 8 }}
                                       />
                                       <label
                                         style={{
                                           fontSize: 14,
                                           fontWeight: 500,
-                                          fontFamily: "Gilroy",
+                                          fontFamily: "Gilroy, sans-serif",
                                           color: "#FF0000",
-                                          cursor: "pointer"
+                                          cursor: "pointer",
                                         }}
                                       >
                                         Delete
                                       </label>
                                     </div>
                                   </div>
+
                                 )}
                               </div>
                             </td>
@@ -1491,7 +1480,7 @@ function Booking(props) {
                   zIndex: "1000",
                 }}
               >
-                
+
                 <div>
                   <select
                     value={itemsPerPage}
@@ -1515,7 +1504,7 @@ function Booking(props) {
                   </select>
                 </div>
 
-                
+
                 <ul
                   style={{
                     display: "flex",
@@ -1525,7 +1514,7 @@ function Booking(props) {
                     padding: 0,
                   }}
                 >
-                  
+
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1551,7 +1540,7 @@ function Booking(props) {
                     </button>
                   </li>
 
-                
+
                   <li
                     style={{
                       margin: "0 10px",
@@ -1562,7 +1551,7 @@ function Booking(props) {
                     {currentPage} of {totalPages}
                   </li>
 
-                 
+
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1599,11 +1588,11 @@ function Booking(props) {
         </div>
       )}
 
-     
+
       <BookingModal
         show={modalType === "edit" || modalType === "add"}
         handleClose={handleModalClose}
-        mode={modalType} 
+        mode={modalType}
         customer={selectedCustomer}
         setFormEdit={setFormEdit}
         formEdit={formEdit}
@@ -1648,11 +1637,11 @@ function Booking(props) {
             >
               <Image
                 src={
-                  file && (file === "0" || file === 0) 
+                  file && (file === "0" || file === 0)
                     ? Profile2
                     : file instanceof File || file instanceof Blob
                       ? URL.createObjectURL(file)
-                      : file || Profile2 
+                      : file || Profile2
                 }
                 roundedCircle
                 style={{ height: 100, width: 100 }}
@@ -1733,7 +1722,7 @@ function Booking(props) {
                     height: "50px",
                   }}
                   value={firstName}
-                                   onChange={(e) => handleFirstName(e)}
+                  onChange={(e) => handleFirstName(e)}
                 />
               </Form.Group>
               {firstNameError && (
@@ -1769,7 +1758,7 @@ function Booking(props) {
                     marginTop: 5
                   }}
                   value={lastName}
-                                    onChange={(e) => handleLastName(e)}
+                  onChange={(e) => handleLastName(e)}
                 />
               </Form.Group>
             </Col>
@@ -1794,7 +1783,7 @@ function Booking(props) {
                   <Form.Select
                     value={countryCode}
                     id="vendor-select-pg"
-                                        style={{
+                    style={{
                       border: "1px solid #D9D9D9",
 
                       borderRadius: "8px 0 0 8px",
@@ -1892,7 +1881,7 @@ function Booking(props) {
                     marginTop: 6
                   }}
                   value={Email}
-                                   onChange={(e) => handleEmail(e)}
+                  onChange={(e) => handleEmail(e)}
                 />
               </Form.Group>
               {emailError && (
@@ -2190,6 +2179,16 @@ function Booking(props) {
                 value={
                   state_name ? { value: state_name, label: state_name } : null
                 }
+                 onInputChange={(inputValue, { action }) => {
+                        if (action === "input-change") {
+                      const lettersOnly = inputValue.replace(
+                        /[^a-zA-Z\s]/g,
+                        ""
+                      );
+                      return lettersOnly;
+                    }
+                    return inputValue;
+                  }}
                 placeholder="Select State"
                 classNamePrefix="custom"
                 menuPlacement="auto"
@@ -2251,7 +2250,7 @@ function Booking(props) {
 
           </div>
 
-       
+
           <Row>
             <Col md={6}>
               <Form.Group className="mb-2" controlId="purchaseDate">
@@ -2265,7 +2264,7 @@ function Booking(props) {
                 >
                   Joining Date{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                 
+
                 </Form.Label>
 
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
@@ -2368,10 +2367,10 @@ function Booking(props) {
           </Button>
 
         </Modal.Body>
-       
+
       </Modal>
 
-     
+
       <Modal
         show={deleteShow}
         onHide={handleCloseDelete}

@@ -21,7 +21,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import Filters from "../../Assets/Images/Filters.svg";
 import Image from 'react-bootstrap/Image';
-import { ArrowUp2, ArrowDown2} from 'iconsax-react';
+import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import { useMediaQuery, useTheme } from '@mui/material'
 
 function Expenses({ allPageHostel_Id }) {
@@ -192,7 +192,7 @@ function Expenses({ allPageHostel_Id }) {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [dates,  state.login.selectedHostel_Id]);
+  }, [dates, state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (selectedValue === "All") {
@@ -278,7 +278,7 @@ function Expenses({ allPageHostel_Id }) {
       setMinAmount("");
       setMaxAmount("");
     }
-  
+
     else if (minAmount || maxAmount) {
       dispatch({
         type: "EXPENSELIST",
@@ -310,12 +310,12 @@ function Expenses({ allPageHostel_Id }) {
   ]);
 
   useEffect(() => {
-    if(state.login.selectedHostel_Id){
-    dispatch({
-      type: "BANKINGLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "BANKINGLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
   }, [state.login.selectedHostel_Id]);
 
   const handleShow = () => {
@@ -368,25 +368,25 @@ function Expenses({ allPageHostel_Id }) {
   const [currentItem, setCurrentItem] = useState("");
 
   useEffect(() => {
-    if(state.login.selectedHostel_Id){
-    setLoading(true);
-    dispatch({
-      type: "ASSETLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-    dispatch({
-      type: "EXPENCES-CATEGORY-LIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-    dispatch({
-      type: "VENDORLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-    dispatch({
-      type: "EXPENSELIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }
+    if (state.login.selectedHostel_Id) {
+      setLoading(true);
+      dispatch({
+        type: "ASSETLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      dispatch({
+        type: "EXPENCES-CATEGORY-LIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      dispatch({
+        type: "VENDORLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      dispatch({
+        type: "EXPENSELIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -454,7 +454,7 @@ function Expenses({ allPageHostel_Id }) {
     setShowFilter(!showFilter);
   };
 
-  
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -481,38 +481,38 @@ function Expenses({ allPageHostel_Id }) {
     setCurrentPage(pageNumber);
   };
 
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  
-    const sortedData = React.useMemo(() => {
-      if (!sortConfig.key) return currentItems;
-  
-      const sorted = [...currentItems].sort((a, b) => {
-        const valueA = a[sortConfig.key];
-        const valueB = b[sortConfig.key];
-  
-  
-        if (!isNaN(valueA) && !isNaN(valueB)) {
-          return sortConfig.direction === 'asc'
-            ? valueA - valueB
-            : valueB - valueA;
-        }
-  
-        if (typeof valueA === 'string' && typeof valueB === 'string') {
-          return sortConfig.direction === 'asc'
-            ? valueA.localeCompare(valueB)
-            : valueB.localeCompare(valueA);
-        }
-  
-        return 0;
-      });
-  
-      return sorted;
-    }, [currentItems, sortConfig]);
-  
-    const handleSort = (key, direction) => {
-      setSortConfig({ key, direction });
-    };
-  
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return currentItems;
+
+    const sorted = [...currentItems].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+
+
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === 'asc'
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortConfig.direction === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [currentItems, sortConfig]);
+
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
+
 
   const handleEditExpen = (item) => {
     setShowModal(true);
@@ -648,14 +648,14 @@ function Expenses({ allPageHostel_Id }) {
               height: "100vh",
             }}
           >
-           
+
             <img
               src={EmptyState}
               alt="Empty State"
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-           
+
             {expencepermissionError && (
               <div
                 style={{
@@ -685,7 +685,7 @@ function Expenses({ allPageHostel_Id }) {
               }}
             >
               <div
-               
+
                 className="col-12 col-md-auto d-flex flex-wrap align-items-center"
                 style={{ marginTop: 13, marginLeft: 11 }}
               >
@@ -700,22 +700,23 @@ function Expenses({ allPageHostel_Id }) {
                   Expenses
                 </label>
 
-             <RangePicker
-  className="range-picker-with-left-arrow"
-  key={pickerKey}
-  style={{
-    height: 40,
-    width: 250,
-    marginLeft: 7,
-    marginTop: 5,
-    cursor: "pointer",
-    paddingLeft: 30 
-  }}
-  onChange={handleDateChange}
-  value={dates.length === 2 ? [dates[0], dates[1]] : null}
-  format="DD-MM-YYYY"
-  placeholder={["Start Date", "End Date"]}
-/>
+                <RangePicker
+                  className="range-picker-with-left-arrow"
+                  key={pickerKey}
+                  style={{
+                    height: 40,
+                    width: 250,
+                    marginLeft: 7,
+                    marginTop: 5,
+                    cursor: "pointer",
+                    paddingLeft: 30,
+                    fontFamily: "Gilroy"
+                  }}
+                  onChange={handleDateChange}
+                  value={dates.length === 2 ? [dates[0], dates[1]] : null}
+                  format="DD-MM-YYYY"
+                  placeholder={["Start Date", "End Date"]}
+                />
 
               </div>
 
@@ -732,7 +733,7 @@ function Expenses({ allPageHostel_Id }) {
                         height: "24px",
                         width: "24px",
                         cursor: "pointer",
-                       
+                        fontFamily: "Gilroy",
                         marginTop: 8,
                       }}
                     />
@@ -776,7 +777,7 @@ function Expenses({ allPageHostel_Id }) {
                             className="show-scroll-category submenu"
                             style={{
                               position: "absolute",
-                              right: 250,
+                              right: 200,
                               top: 0,
                               borderRadius: "8px",
                               maxHeight: "200px",
@@ -812,7 +813,7 @@ function Expenses({ allPageHostel_Id }) {
                             className="show-scroll-category"
                             style={{
                               position: "absolute",
-                              right: 250,
+                              right: 200,
                               top: 0,
                               borderRadius: "8px",
                               maxHeight: "200px",
@@ -853,7 +854,7 @@ function Expenses({ allPageHostel_Id }) {
                             className="show-scroll-category"
                             style={{
                               position: "absolute",
-                              right: 250,
+                              right: 200,
                               top: 0,
                               borderRadius: "8px",
                               maxHeight: "200px",
@@ -918,7 +919,8 @@ function Expenses({ allPageHostel_Id }) {
                           fontSize: 15,
                           fontWeight: 500,
                           color: "#222",
-                          
+                           fontFamily: "Gilroy",
+
                         }}
                         placeholder="Search..."
                       />
@@ -950,7 +952,7 @@ function Expenses({ allPageHostel_Id }) {
                           <ul
                             className="show-scroll"
                             style={{
-                              width: 260,
+                              width: 215,
                               backgroundColor: "#fff",
                               maxHeight: "174px",
                               minHeight: getData?.length > 1 ? "100px" : "auto",
@@ -1123,24 +1125,24 @@ function Expenses({ allPageHostel_Id }) {
           )}
 
 
- {sortedData && sortedData.length > 0 && (
+          {sortedData && sortedData.length > 0 && (
 
 
-<div
-className="p-0 booking-table-userlist  booking-table ms-2 me-4"
-style={{ paddingBottom: "20px",marginLeft:"-22px" }}
->
+            <div
+              className="p-0 booking-table-userlist  booking-table ms-2 me-4"
+              style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+            >
               <div
 
                 className='show-scrolls'
 
                 style={{
-                 
+
                   height: currentItems.length >= 8 || sortedData.length >= 8 ? "400px" : "auto",
                   overflow: "auto",
                   marginBottom: 20,
                   marginTop: "20px"
-                 
+
                 }}>
 
                 <Table
@@ -1153,42 +1155,42 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     zIndex: 1
                   }}>
                     <tr>
-                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
                       </div> Date </div>  </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("category_Name", 'desc')} style={{ cursor: "pointer" }} />
                       </div> Category </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("description", 'desc')} style={{ cursor: "pointer" }} />
                       </div> Description </div> </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_count", 'desc')} style={{ cursor: "pointer" }} />
                       </div> Unit Count </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("unit_amount", 'desc')} style={{ cursor: "pointer" }} />
                       </div>  Per Unit Price </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_amount", 'desc')} style={{ cursor: "pointer" }} />
                       </div> Total Amount </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
                         <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'asc')} style={{ cursor: "pointer" }} />
                         <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("payment_mode", 'desc')} style={{ cursor: "pointer" }} />
                       </div>  Mode of Payment </div></th>
 
-                      <th style={{ textAlign: "middle", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}>Action</th>
+                      <th style={{ textAlign: "middle", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}>Action</th>
                     </tr>
                   </thead>
 
@@ -1215,10 +1217,10 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                           sortedData && sortedData.length > 0 && (
                             <>
                               {sortedData.map((item) => (
-            <ExpensesListTable  key={item.id}  item={item}  OnEditExpense={handleEditExpen}  handleDelete={handleDeleteExpense}
-            expenceEditPermission={expenceEditPermission}
-            expenceDeletePermission={expenceDeletePermission}
-              />
+                                <ExpensesListTable key={item.id} item={item} OnEditExpense={handleEditExpen} handleDelete={handleDeleteExpense}
+                                  expenceEditPermission={expenceEditPermission}
+                                  expenceDeletePermission={expenceDeletePermission}
+                                />
                               ))}
                             </>
                           )
@@ -1230,12 +1232,12 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 
                 </Table>
               </div>
-</div>
+            </div>
 
-            )}
+          )}
 
 
-          
+
 
 
 
@@ -1281,16 +1283,16 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                 >
                   There are no expenses available.
                 </div>
-              
+
               </div>
               <div></div>
             </div>
           )}
 
-          
+
           {filteredData.length >= 5 && (
-            <nav 
-           
+            <nav
+
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -1409,7 +1411,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
         <AddExpenses
           hostelId={allPageHostel_Id}
           show={showModal}
-          currentItem={currentItem}   
+          currentItem={currentItem}
           setShowModal={setShowModal}
         />
       )}

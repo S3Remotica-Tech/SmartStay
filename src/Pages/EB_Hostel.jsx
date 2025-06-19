@@ -35,17 +35,17 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import Filters from "../Assets/Images/Filters.svg";
 import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 function EB_Hostel() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const theme = useTheme();
-const { RangePicker } = DatePicker;
-dayjs.extend(isSameOrAfter); 
-dayjs.extend(isSameOrBefore);
- dayjs.extend(isBetween);
+  const { RangePicker } = DatePicker;
+  dayjs.extend(isSameOrAfter);
+  dayjs.extend(isSameOrBefore);
+  dayjs.extend(isBetween);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [addEbDetail, setaddEbDetail] = useState(false);
   const [selectedHostel, setSelectedHostel] = useState("");
@@ -74,8 +74,8 @@ dayjs.extend(isSameOrBefore);
   const [filterInput, setFilterInput] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [search, setSearch] = useState(false);
-  const [loader, setLoader] = useState(true);
-  const [customerLoader, setCustomerLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
+  const [customerLoader, setCustomerLoader] = useState(false);
   const [dateErrorMesg, setDateErrorMesg] = useState("");
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [filterStatus, setFilterStatus] = useState(false);
@@ -84,7 +84,7 @@ dayjs.extend(isSameOrBefore);
     setSelectedHostel(state.login.selectedHostel_Id);
   }, [state.login.selectedHostel_Id]);
 
- 
+
 
   const [editeb, setEditEb] = useState(false);
 
@@ -196,18 +196,18 @@ dayjs.extend(isSameOrBefore);
   };
 
   const calendarRef = useRef(null);
- 
+
   const [electricityFilterd, setelectricityFilterd] = useState([]);
   const [electricityHostel, setelectricityHostel] = useState([]);
   useEffect(() => {
-    if(state.login.selectedHostel_Id){
-    setCustomerLoader(true);
-    dispatch({
-      type: "CUSTOMEREBLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-  }
-      }, [state.login.selectedHostel_Id]);
+    if (state.login.selectedHostel_Id) {
+      setCustomerLoader(true);
+      dispatch({
+        type: "CUSTOMEREBLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+    }
+  }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
@@ -231,20 +231,20 @@ dayjs.extend(isSameOrBefore);
   }, [state.login.selectedHostel_Id]);
 
 
-  
-  const [RoomElect,setRoomElect] = useState("")
-  
-  
-   useEffect(() => {
-      if (state.PgList?.statusCodeForEbRoomList === 200) {
-       
-        setRoomElect(state.PgList?.EB_startmeterlist);
-  
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
-        }, 1000);
-      }
-    }, [state.PgList.statusCodeForEbRoomList])
+
+  const [RoomElect, setRoomElect] = useState("")
+
+
+  useEffect(() => {
+    if (state.PgList?.statusCodeForEbRoomList === 200) {
+
+      setRoomElect(state.PgList?.EB_startmeterlist);
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_EB_STARTMETER_LIST" });
+      }, 1000);
+    }
+  }, [state.PgList.statusCodeForEbRoomList])
   useEffect(() => {
     if (selectedHostel && value === "3") {
       setLoader(true);
@@ -281,7 +281,7 @@ dayjs.extend(isSameOrBefore);
     }
   }, [selectedDate]);
 
- 
+
 
   const handleFloor = (selectedOption) => {
     setFloor(selectedOption?.value || "");
@@ -351,7 +351,7 @@ dayjs.extend(isSameOrBefore);
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
- 
+
   useEffect(() => {
     const FilterHostelBased = state.Settings.EBBillingUnitlist?.filter(
       (item) => item.hostel_id === selectedHostel
@@ -360,7 +360,7 @@ dayjs.extend(isSameOrBefore);
     if (Array.isArray(FilterHostelBased) && FilterHostelBased.length > 0) {
       setHostelBased(FilterHostelBased[0]?.hostel_based);
       setHostelName(FilterHostelBased[0]?.Name);
-    } 
+    }
   }, [state.Settings.EBBillingUnitlist, selectedHostel]);
 
   useEffect(() => {
@@ -483,7 +483,7 @@ dayjs.extend(isSameOrBefore);
       setfloorError("");
     }
 
-   
+
     if (Rooms === "Select a Room" || !isRoomValid) {
       setRoomError("Please Select Valid Room");
       return;
@@ -526,20 +526,20 @@ dayjs.extend(isSameOrBefore);
     }
   }, [state.PgList?.AddEBstatusCode]);
 
- 
+
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
- 
+
   const currentRoomelectricity =
     filterInput.length > 0
       ? electricityFilterddata
       : electricityFilterddata?.slice(
-          indexOfFirstRowelectricity,
-          indexOfLastRowelectricity
-        );
+        indexOfFirstRowelectricity,
+        indexOfLastRowelectricity
+      );
 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
@@ -554,44 +554,44 @@ dayjs.extend(isSameOrBefore);
 
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  
-    const sortedData = React.useMemo(() => {
-      if (!sortConfig.key) return currentRoomelectricity;
-  
-      const sorted = [...currentRoomelectricity].sort((a, b) => {
-        const valueA = a[sortConfig.key];
-        const valueB = b[sortConfig.key];
-  
-  
-        if (!isNaN(valueA) && !isNaN(valueB)) {
-          return sortConfig.direction === 'asc'
-            ? valueA - valueB
-            : valueB - valueA;
-        }
-  
-        if (typeof valueA === 'string' && typeof valueB === 'string') {
-          return sortConfig.direction === 'asc'
-            ? valueA.localeCompare(valueB)
-            : valueB.localeCompare(valueA);
-        }
-  
-        return 0;
-      });
-  
-      return sorted;
-    }, [currentRoomelectricity, sortConfig]);
-  
-    const handleSort = (key, direction) => {
-      setSortConfig({ key, direction });
-    };
 
-const [originalElec, setOriginalElec] = useState("");
-const [originalRoomElec,setOriginalRoomElec] = useState("")
-const [originalHostelElec,setOriginalHostelElec] = useState("")
-   
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return currentRoomelectricity;
+
+    const sorted = [...currentRoomelectricity].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
 
 
-  
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === 'asc'
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortConfig.direction === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [currentRoomelectricity, sortConfig]);
+
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
+
+  const [originalElec, setOriginalElec] = useState("");
+  const [originalRoomElec, setOriginalRoomElec] = useState("")
+  const [originalHostelElec, setOriginalHostelElec] = useState("")
+
+
+
+
   const handleDateChange = (date) => {
     setDateError("");
     setDateErrorMesg("");
@@ -602,142 +602,142 @@ const [originalHostelElec,setOriginalHostelElec] = useState("")
     setSearch(!search);
   };
 
-const [customerDateRange, setCustomerDateRange] = useState([]);
+  const [customerDateRange, setCustomerDateRange] = useState([]);
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
   };
 
- const handleDateRangeChangeEb = (dates) => {
-  setCustomerDateRange(dates);
+  const handleDateRangeChangeEb = (dates) => {
+    setCustomerDateRange(dates);
 
-  if (!dates || dates.length !== 2) {
-    setFilterStatus(false);
-    setelectricityFilterddata(originalElec);
-    return;
-  }
-
-  const [start, end] = dates;
-
-  const filtered = originalElec?.filter((item) => {
-    
-    if (!item.reading_date || typeof item.reading_date !== 'string') {
-      return false; 
+    if (!dates || dates.length !== 2) {
+      setFilterStatus(false);
+      setelectricityFilterddata(originalElec);
+      return;
     }
 
-    const itemDate = dayjs(item.reading_date);
+    const [start, end] = dates;
 
-    
-    if (!itemDate.isValid()) {
-           return false; 
+    const filtered = originalElec?.filter((item) => {
+
+      if (!item.reading_date || typeof item.reading_date !== 'string') {
+        return false;
+      }
+
+      const itemDate = dayjs(item.reading_date);
+
+
+      if (!itemDate.isValid()) {
+        return false;
+      }
+
+      return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+    });
+
+    setelectricityFilterddata(filtered);
+    setFilterStatus(true);
+    setelectricitycurrentPage(1);
+  };
+
+
+  const [roomBasedFilter, setRoomBasedFilter] = useState("")
+
+  const handleDateRoomRangeChangeEb = (dates) => {
+
+    setRoomBasedFilter(dates);
+
+    if (!dates || dates?.length !== 2) {
+      setFilterStatus(false);
+      setRoomElect(originalRoomElec);
+      return;
     }
 
-    return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
-  });
+    const [start, end] = dates;
 
-  setelectricityFilterddata(filtered);
-  setFilterStatus(true);
-  setelectricitycurrentPage(1);
-};
+    const filtered = originalRoomElec?.filter((item) => {
+
+      if (!item.date || typeof item.date !== 'string') {
+        return false;
+      }
+
+      const itemDate = dayjs(item.date);
 
 
-const [roomBasedFilter,setRoomBasedFilter] = useState("")
+      if (!itemDate.isValid()) {
+        return false;
+      }
 
- const handleDateRoomRangeChangeEb = (dates) => {
- 
-  setRoomBasedFilter(dates);
- 
-  if (!dates || dates?.length !== 2) {
-    setFilterStatus(false);
-    setRoomElect(originalRoomElec);
-    return;
-  }
+      return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+    });
 
-  const [start, end] = dates;
+    setRoomElect(filtered);
+    setFilterStatus(true);
+  };
 
-  const filtered = originalRoomElec?.filter((item) => {
-    
-    if (!item.date || typeof item.date !== 'string') {
-      return false; 
+
+  const [hostelBasedFilter, setHostelBasedFilter] = useState("")
+
+
+
+  const handleDateHostelRangeChangeEb = (dates) => {
+
+    setHostelBasedFilter(dates);
+
+
+    if (!dates || dates?.length !== 2) {
+      setFilterStatus(false);
+      setelectricityHostel(originalHostelElec);
+      return;
     }
 
-    const itemDate = dayjs(item.date);
+    const [start, end] = dates;
 
-    
-    if (!itemDate.isValid()) {
-      return false; 
-    }
+    const filtered = originalHostelElec?.filter((item) => {
 
-    return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
-  });
+      if (!item.date || typeof item.date !== 'string') {
+        return false;
+      }
 
-  setRoomElect(filtered);
-  setFilterStatus(true);
-};
+      const itemDate = dayjs(item.date);
 
 
-const [hostelBasedFilter,setHostelBasedFilter] = useState("")
-  
+      if (!itemDate.isValid()) {
+        return false;
+      }
 
+      return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
+    });
 
-const handleDateHostelRangeChangeEb = (dates) => {
- 
-  setHostelBasedFilter(dates);
- 
-
-  if (!dates || dates?.length !== 2) {
-    setFilterStatus(false);
-    setelectricityHostel(originalHostelElec);
-    return;
-  }
-
-  const [start, end] = dates;
-
-  const filtered = originalHostelElec?.filter((item) => {
-    
-    if (!item.date || typeof item.date !== 'string') {
-      return false; 
-    }
-
-    const itemDate = dayjs(item.date);
-
-    
-    if (!itemDate.isValid()) {
-      return false; 
-    }
-
-    return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
-  });
-
-  setelectricityHostel(filtered);
-  setFilterStatus(true);
-};
+    setelectricityHostel(filtered);
+    setFilterStatus(true);
+  };
 
 
   const handleUserSelect = (user) => {
     setFilterInput(user.Name);
-    
-     setelectricityFilterddata(
-    originalElec.filter((item) => item.Name === user.Name)
-  );
+
+    setelectricityFilterddata(
+      originalElec.filter((item) => item.Name === user.Name)
+    );
 
     setDropdownVisible(false);
   };
 
- 
+
   const handlefilterInput = (e) => {
     const searchText = e.target.value;
     setFilterInput(searchText);
     setDropdownVisible(searchText.length > 0);
 
     if (searchText.length > 0) {
-     
+
       setelectricityFilterddata(
         originalElec.filter((item) =>
           item.Name.toLowerCase().includes(searchText.toLowerCase())
         )
       );
     } else {
-      
+
       setelectricityFilterddata(originalElec);
     }
   };
@@ -757,7 +757,7 @@ const handleDateHostelRangeChangeEb = (dates) => {
 
 
 
-   useEffect(() => {
+  useEffect(() => {
     if (electricityHostel?.length > 0 && originalHostelElec?.length === 0) {
       setOriginalHostelElec(electricityHostel);
     }
@@ -767,12 +767,12 @@ const handleDateHostelRangeChangeEb = (dates) => {
     setSearch(false);
     setFilterInput("");
     setelectricityFilterddata(originalElec);
-   
+
   };
 
   return (
     <div >
-     <div
+      <div
         className="container-fluid"
         style={{
           top: 0,
@@ -783,231 +783,239 @@ const handleDateHostelRangeChangeEb = (dates) => {
           height: "auto",
         }}
       >
-     <div
-  className="d-flex flex-wrap justify-content-between align-items-center"
-  style={{ paddingLeft: 13, paddingTop: value === "2" ? "22px" : "19px" }}
->
+        <div
+          className="d-flex flex-wrap justify-content-between align-items-center"
+          style={{ paddingLeft: 13, paddingTop: value === "2" ? "22px" : "19px" }}
+        >
 
-  <div className="me-3" style={{ minWidth: "100px" }}>
-    <label
-      style={{
-        fontSize: 18,
-        color: "#000000",
-        fontWeight: 600,
-        marginLeft: "-2px",
-        marginTop: "4px",
-      }}
-    >
-      Electricity
-    </label>
-  </div>
-
-  <div className="d-flex flex-wrap align-items-center gap-2">
-
-   
-    {search && value === "1" ? (
-      <div className="position-relative" style={{ maxWidth: "300px", minWidth: "180px" }}>
-        <div className="input-group">
-          <span className="input-group-text bg-white border-end-0">
-            <Image src={searchteam} alt="Search" style={{ height: 20, width: 20 }} />
-          </span>
-          <input
-            type="text"
-            className="form-control border-start-0"
-            placeholder="Search"
-            value={filterInput}
-            onChange={(e) => handlefilterInput(e)}
-            style={{ boxShadow: "none", outline: "none", borderRight: "none" }}
-          />
-          <span className="input-group-text bg-white border-start-0">
-            <img
-              src={closecircle}
-              alt="close"
-              onClick={handleCloseSearch}
-              style={{ height: 20, width: 20, cursor: "pointer" }}
-            />
-          </span>
-        </div>
-     
-        {value === "1" &&
-          isDropdownVisible &&
-          electricityFilterddata?.length > 0 && (
-            <div
+          <div className="me-3" style={{ minWidth: "100px" }}>
+            <label
               style={{
-                border: "1px solid #d9d9d9",
-                position: "absolute",
-                top: 50,
-                left: 0,
-                zIndex: 1000,
-                padding: 10,
-                borderRadius: 8,
-                backgroundColor: "#fff",
-                width: "100%",
+                fontSize: 18,
+                color: "#000000",
+                fontWeight: 600,
+                marginLeft: "-2px",
+                marginTop: "4px",
+                fontFamily:"Gilroy"
               }}
             >
-              <ul
-                className="show-scroll p-0"
-                style={{
-                  listStyleType: "none",
-                  maxHeight: 174,
-                  minHeight:
-                    electricityFilterddata?.length > 1 ? "100px" : "auto",
-                  overflowY:
-                    electricityFilterddata?.length > 3 ? "auto" : "hidden",
-                  margin: 0,
-                }}
-              >
-                {electricityFilterddata?.map((user, index) => (
-                  <li
-                    key={index}
-                    className="d-flex align-items-center"
-                    style={{
-                      padding: "10px 5px",
-                      cursor: "pointer",
-                      borderBottom:
-                        index !== electricityFilterddata?.length - 1
-                          ? "1px solid #eee"
-                          : "none",
-                      backgroundColor:
-                        hoveredIndex === index ? "#1E45E1" : "transparent",
-                        color:
-                        hoveredIndex === index ? "white" : "black",
-                    }}
-                    onClick={() => handleUserSelect(user)}
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                  >
-                    <Image
-                      src={user.profile || Profile}
-                      alt={user.Name}
-                      roundedCircle
-                      style={{
-                        height: "30px",
-                        width: "30px",
-                        marginRight: "10px",
-                      }}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = Profile;
-                      }}
+              Electricity
+            </label>
+          </div>
+
+          <div className="d-flex flex-wrap align-items-center gap-2">
+
+
+            {search && value === "1" ? (
+              <div className="position-relative" style={{ maxWidth: "230px", minWidth: "180px" }}>
+                <div className="input-group">
+                  <span className="input-group-text bg-white border-end-0">
+                    <Image src={searchteam} alt="Search" style={{ height: 20, width: 20 }} />
+                  </span>
+                  <input
+                    type="text"
+                    className="form-control border-start-0"
+                    placeholder="Search"
+                    value={filterInput}
+                    onChange={(e) => handlefilterInput(e)}
+                    style={{ boxShadow: "none", outline: "none", borderRight: "none", fontFamily: "Gilroy" ,border:"1px solid #dcdcdc"}}
+                  />
+                  <span className="input-group-text bg-white">
+                    <img
+                      src={closecircle}
+                      alt="close"
+                      onClick={handleCloseSearch}
+                      style={{ height: 20, width: 20, cursor: "pointer",borderLeft:"none" }}
                     />
-                    <span>{user.Name}</span>
-                  </li>
-                ))}
-              </ul>
+                  </span>
+                </div>
+
+                {value === "1" &&
+                  isDropdownVisible &&
+                  electricityFilterddata?.length > 0 && (
+                    <div
+                      style={{
+                        border: "1px solid #d9d9d9",
+                        position: "absolute",
+                        top: 50,
+                        left: 0,
+                        zIndex: 1000,
+                        padding: 10,
+                        borderRadius: 8,
+                        backgroundColor: "#fff",
+                        width: "100%",
+                        fontFamily:"Gilroy"
+                      }}
+                    >
+                      <ul
+                        className="show-scroll p-0"
+                        style={{
+                          listStyleType: "none",
+                          maxHeight: 174,
+                          minHeight:
+                            electricityFilterddata?.length > 1 ? "100px" : "auto",
+                          overflowY:
+                            electricityFilterddata?.length > 3 ? "auto" : "hidden",
+                          margin: 0,
+                        }}
+                      >
+                        {electricityFilterddata
+                          ?.filter(
+                            (item, index, self) =>
+                              index === self.findIndex((t) => t.Name === item.Name)
+                          )
+                          .map((user, index) => (
+                            <li
+                              key={index}
+                              className="d-flex align-items-center me-1"
+                              style={{
+                                borderRadius:8,
+                                padding: "10px 5px",
+                                cursor: "pointer",
+                                borderBottom:
+                                  index !== electricityFilterddata?.length - 1
+                                    ? "1px solid #eee"
+                                    : "none",
+                                backgroundColor:
+                                  hoveredIndex === index ? "#1E45E1" : "transparent",
+                                color: hoveredIndex === index ? "white" : "black",
+                              }}
+                              onClick={() => handleUserSelect(user)}
+                              onMouseEnter={() => setHoveredIndex(index)}
+                              onMouseLeave={() => setHoveredIndex(null)}
+                            >
+                              <Image
+                                src={user.profile || Profile}
+                                alt={user.Name}
+                                roundedCircle
+                                style={{
+                                  height: "30px",
+                                  width: "30px",
+                                  marginRight: "10px",
+                                }}
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = Profile;
+                                }}
+                              />
+                              <span>{user.Name}</span>
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  )}
+
+              </div>
+            ) : (
+              value === "1" && (
+                <div className="me-2" style={{ cursor: "pointer" }}>
+                  <Image
+                    src={searchteam}
+                    alt="Search Icon"
+                    style={{ height: 24, width: 24 }}
+                    onClick={handleSearch}
+                  />
+                </div>
+              )
+            )}
+
+
+            <div className="me-2">
+              <Image
+                src={Filters}
+                roundedCircle
+                style={{ height: "50px", width: "50px", cursor: "pointer" }}
+                onClick={handleFilterd}
+              />
             </div>
-          )}
-      </div>
-    ) : (
-      value === "1" && (
-        <div className="me-2" style={{ cursor: "pointer" }}>
-          <Image
-            src={searchteam}
-            alt="Search Icon"
-            style={{ height: 24, width: 24 }}
-            onClick={handleSearch}
-          />
+
+
+
+            {filterStatus && value === "1" && (
+              <div className="me-2">
+                <RangePicker
+                  value={customerDateRange}
+                  onChange={handleDateRangeChangeEb}
+                  format="DD/MM/YYYY"
+                  style={{ height: 40, cursor: "pointer", fontFamily: "Gilroy" }}
+                />
+              </div>
+            )}
+            {filterStatus && value === "2" && (
+              <div className="me-2">
+                <RangePicker
+                  value={roomBasedFilter}
+                  onChange={handleDateRoomRangeChangeEb}
+                  format="DD/MM/YYYY"
+                  style={{ height: 40, cursor: "pointer", fontFamily: "Gilroy" }}
+                />
+              </div>
+            )}
+            {filterStatus && value === "3" && (
+              <div className="me-2">
+                <RangePicker
+                  value={hostelBasedFilter}
+                  onChange={handleDateHostelRangeChangeEb}
+                  format="DD/MM/YYYY"
+                  style={{ height: 40, cursor: "pointer" }}
+                />
+              </div>
+            )}
+
+
+            {value === "1" && (
+              <div className="me-2" style={{ cursor: "pointer" }}>
+                <img
+                  src={excelimg}
+                  alt="Excel"
+                  width={38}
+                  height={38}
+                  onClick={handleEbExcel}
+                />
+              </div>
+            )}
+
+
+            <div className="me-2" style={{ paddingRight: 4 }}>
+              {hostelBased === 1 ? (
+                <Button
+                  onClick={handleHostelForm}
+                  className="text-white"
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    backgroundColor: "#1E45E1",
+                    fontWeight: 600,
+                    borderRadius: "8px",
+                    padding: "11px 19px",
+                    whiteSpace: "nowrap",
+                    width: 146,
+                  }}
+                >
+                  + Hostel Reading
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleAddEbDetails}
+                  disabled={ebAddPermission}
+                  className="text-white"
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    backgroundColor: "#1E45E1",
+                    fontWeight: 600,
+                    borderRadius: "8px",
+                    padding: "11px 19px",
+                    whiteSpace: "nowrap",
+                    width: 146,
+                  }}
+                >
+                  + Room Reading
+                </Button>
+              )}
+            </div>
+          </div>
         </div>
-      )
-    )}
-
-
-      <div className="me-2">
-        <Image
-          src={Filters}
-          roundedCircle
-          style={{ height: "50px", width: "50px", cursor: "pointer" }}
-          onClick={handleFilterd}
-        />
-      </div>
-
-
-   
-    {filterStatus && value === "1" && (
-      <div className="me-2">
-        <RangePicker
-          value={customerDateRange}
-          onChange={handleDateRangeChangeEb}
-          format="DD/MM/YYYY"
-          style={{ height: 40,cursor:"pointer" }}
-        />
-      </div>
-    )}
-     {filterStatus && value === "2" && (
-      <div className="me-2">
-        <RangePicker
-          value={roomBasedFilter}
-          onChange={handleDateRoomRangeChangeEb}
-          format="DD/MM/YYYY"
-          style={{ height: 40,cursor:"pointer" }}
-        />
-      </div>
-    )}
-     {filterStatus && value === "3" && (
-      <div className="me-2">
-        <RangePicker
-          value={hostelBasedFilter}
-          onChange={handleDateHostelRangeChangeEb}
-          format="DD/MM/YYYY"
-          style={{ height: 40,cursor:"pointer" }}
-        />
-      </div>
-    )}
-
-   
-    {value === "1" && (
-      <div className="me-2" style={{ cursor: "pointer" }}>
-        <img
-          src={excelimg}
-          alt="Excel"
-          width={38}
-          height={38}
-          onClick={handleEbExcel}
-        />
-      </div>
-    )}
-
-   
-    <div className="me-2" style={{ paddingRight: 4 }}>
-      {hostelBased === 1 ? (
-        <Button
-          onClick={handleHostelForm}
-          className="text-white"
-          style={{
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-            backgroundColor: "#1E45E1",
-            fontWeight: 600,
-            borderRadius: "8px",
-            padding: "11px 19px",
-            whiteSpace: "nowrap",
-            width: 146,
-          }}
-        >
-          + Hostel Reading
-        </Button>
-      ) : (
-        <Button
-          onClick={handleAddEbDetails}
-          disabled={ebAddPermission}
-          className="text-white"
-          style={{
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-            backgroundColor: "#1E45E1",
-            fontWeight: 600,
-            borderRadius: "8px",
-            padding: "11px 19px",
-            whiteSpace: "nowrap",
-            width: 146,
-          }}
-        >
-          + Room Reading
-        </Button>
-      )}
-    </div>
-  </div>
-</div>
 
       </div>
 
@@ -1068,7 +1076,7 @@ const handleDateHostelRangeChangeEb = (dates) => {
           </Box>
         </div>
 
-        <TabPanel value="1">
+     <TabPanel value="1">
           <>
             <EBHostelReading
               hostelBasedForm={hostelBasedForm}
@@ -1251,7 +1259,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       }}
                       className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
-                      {v.Name}
+                      <div style={{marginLeft:5}}>   {v.Name}</div>
+                   
                     </td>
 
 
@@ -1265,7 +1274,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     fontFamily: "Gilroy",
                     marginTop: 10,borderBottom: "1px solid #E8E8E8"
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
                 >
                   <span
                     style={{
@@ -1273,6 +1282,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       paddingLeft: "12px",
                       paddingRight: "12px",
                       paddingBottom: "3px",
+                      marginLeft:3,
                       borderRadius: "60px",
                       backgroundColor: "#FFEFCF",
                       textAlign: "start",
@@ -1300,7 +1310,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       }}
                          className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
-                      <div className="ps-1">
+                      <div style={{marginLeft:5}}>
                         {v.floor_name}
                       </div>
                 
@@ -1315,9 +1325,10 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                         borderBottom: "1px solid #E8E8E8",
                         paddingLeft:20
                       }}
-                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                     >
-                      {v.Room_Id}
+                      <div style={{marginLeft:6}}> {v.Room_Id}</div>
+                     
                     </td>
                   </>
                 )}
@@ -1330,9 +1341,11 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     verticalAlign: "middle",
                     borderBottom: "1px solid #E8E8E8"
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                 >
-                  {v.start_meter}
+                  <div style={{marginLeft:5}}>
+                        {v.start_meter}
+                      </div>
                 </td>
                 <td
                   style={{
@@ -1343,9 +1356,11 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     verticalAlign: "middle",
                     borderBottom: "1px solid #E8E8E8"
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                 >
-                  {v.end_meter}
+                    <div style={{marginLeft:5}}>
+                        {v.end_meter}
+                      </div>
                 </td>
                 <td
                   style={{
@@ -1360,7 +1375,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     marginBottom: "-20px",
                     borderBottom: "1px solid #E8E8E8"
                   }}
-                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                     className="ps-2 ps-sm-2 ps-md-3 ps-lg-1"
                 >
                   <span
                     style={{
@@ -1369,6 +1384,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       paddingRight: "16px",
                       paddingBottom: "5px",
                       borderRadius: "60px",
+                      marginLeft:2,
                       backgroundColor: "#EBEBEB",
                       textAlign: "start",
                       fontSize: 13, 
@@ -1639,6 +1655,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             )}
           </>
         </TabPanel>
+
+
         <Modal
           show={addEbDetail}
           onHide={() => handleClose()}
@@ -1655,9 +1673,9 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             >
               Add a Reading
             </div>
-           
-            <CloseCircle size="24" color="#000" onClick={handleClose} 
-            style={{ cursor: 'pointer'}}/>
+
+            <CloseCircle size="24" color="#000" onClick={handleClose}
+              style={{ cursor: 'pointer' }} />
           </Modal.Header>
           <Modal.Body style={{ marginTop: "-10px" }}>
             <div className="row ">
@@ -1673,7 +1691,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   Floor{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-                
+
 
                 <Select
                   options={
@@ -1686,13 +1704,13 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   value={
                     Floor
                       ? state?.UsersList?.hosteldetailslist?.find(
+                        (item) => item.floor_id === Floor
+                      ) && {
+                        value: Floor,
+                        label: state?.UsersList?.hosteldetailslist?.find(
                           (item) => item.floor_id === Floor
-                        ) && {
-                          value: Floor,
-                          label: state?.UsersList?.hosteldetailslist?.find(
-                            (item) => item.floor_id === Floor
-                          )?.floor_name,
-                        }
+                        )?.floor_name,
+                      }
                       : null
                   }
                   placeholder="Select Floor"
@@ -1731,12 +1749,12 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     dropdownIndicator: (base) => ({
                       ...base,
                       color: "#555",
-                      cursor:"pointer"
+                      cursor: "pointer"
                     }),
                     option: (base, state) => ({
                       ...base,
-                      cursor: "pointer", 
-                      backgroundColor: state.isFocused ? "lightblue" : "white", 
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "lightblue" : "white",
                       color: "#000",
                     }),
                     indicatorSeparator: () => ({
@@ -1780,7 +1798,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   Room{" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
-               
+
 
                 <Select
                   options={
@@ -1793,13 +1811,13 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   value={
                     Rooms
                       ? state?.UsersList?.roomdetails?.find(
+                        (item) => item.Room_Id === Rooms
+                      ) && {
+                        value: Rooms,
+                        label: state?.UsersList?.roomdetails?.find(
                           (item) => item.Room_Id === Rooms
-                        ) && {
-                          value: Rooms,
-                          label: state?.UsersList?.roomdetails?.find(
-                            (item) => item.Room_Id === Rooms
-                          )?.Room_Name,
-                        }
+                        )?.Room_Name,
+                      }
                       : null
                   }
                   placeholder="Select a Room"
@@ -1838,12 +1856,12 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     dropdownIndicator: (base) => ({
                       ...base,
                       color: "#555",
-                      cursor:"pointer"
+                      cursor: "pointer"
                     }),
                     option: (base, state) => ({
                       ...base,
-                      cursor: "pointer", 
-                      backgroundColor: state.isFocused ? "lightblue" : "white", 
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "lightblue" : "white",
                       color: "#000",
                     }),
                     indicatorSeparator: () => ({
@@ -1938,14 +1956,14 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     Date{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                 
+
 
                   <div
                     className="datepicker-wrapper"
                     style={{ position: "relative", width: "100%" }}
                   >
                     <DatePicker
-                      style={{ width: "100%", height: 48,cursor:"pointer" }}
+                      style={{ width: "100%", height: 48, cursor: "pointer" }}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={selectedDate ? dayjs(selectedDate) : null}
@@ -2029,8 +2047,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             electricityFilterd={electricityFilterd}
             loading={loader}
             value={value}
-            RoomElect = {RoomElect}
-            filterStatus= {filterStatus}
+            RoomElect={RoomElect}
+            filterStatus={filterStatus}
 
           />
         </TabPanel>
@@ -2048,7 +2066,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
             editeb={editeb}
             setEditEb={setEditEb}
             electricityHostel={electricityHostel}
-            filterStatus = {filterStatus}
+            filterStatus={filterStatus}
             loading={loader}
             setLoader={setLoader}
           />

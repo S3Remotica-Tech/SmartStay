@@ -7,7 +7,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "react-bootstrap/Image";
 import { Button, Form, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import BankingAddForm from "./BankingAddForm";
 import Edit from "../Assets/Images/Edit-blue.png";
@@ -16,13 +16,13 @@ import Modal from "react-bootstrap/Modal";
 import BankingEditTransaction from "./BankingTransaction";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
-import {ArrowLeft2,ArrowRight2,ArrowUp2, ArrowDown2,} from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import money from "../Assets/Images/New_images/Amount.png";
 import { MdError } from "react-icons/md";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import transArrow from "../Assets/Images/New_images/arrow-transfer.png";
@@ -34,9 +34,9 @@ import banklogo from "../Assets/Images/New_images/bank_loga.png";
 function Banking() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-   const { RangePicker } = DatePicker;
-   dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
+  const { RangePicker } = DatePicker;
+  dayjs.extend(isSameOrAfter);
+  dayjs.extend(isSameOrBefore);
   const popupRef = useRef(null);
   const [loader, setLoader] = useState(true);
   const [search, setSearch] = useState(false);
@@ -72,9 +72,9 @@ dayjs.extend(isSameOrBefore);
   const [originalBillsFilter, setOriginalBillsFilter] = useState([]);
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
   const [bankking, setBanking] = useState("")
-  const [selfTranfer,setSelfTransfer] = useState(false)
-  
-  
+  const [selfTranfer, setSelfTransfer] = useState(false)
+
+
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
@@ -130,9 +130,9 @@ dayjs.extend(isSameOrBefore);
   }, [bankingrolePermission]);
 
   useEffect(() => {
-    if(hostel_id){
-    setLoader(true);
-    dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
+    if (hostel_id) {
+      setLoader(true);
+      dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
     }
   }, [hostel_id]);
 
@@ -149,14 +149,14 @@ dayjs.extend(isSameOrBefore);
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
 
-   useEffect(() => {
-      if (state.bankingDetails.statusCodeForBankingNoData === 201) {
-        setLoader(false)
-        setTimeout(() => {
-          dispatch({ type: "CLEAR_NO_BANKING" });
-        }, 200);
-      }
-    }, [state.bankingDetails.statusCodeForBankingNoData]);
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForBankingNoData === 201) {
+      setLoader(false)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_NO_BANKING" });
+      }, 200);
+    }
+  }, [state.bankingDetails.statusCodeForBankingNoData]);
 
   const handleShowDots = (id) => {
     if (openMenuId === id) {
@@ -164,7 +164,7 @@ dayjs.extend(isSameOrBefore);
     } else {
       setOpenMenuId(id);
     }
-    
+
   };
 
   useEffect(() => {
@@ -197,13 +197,13 @@ dayjs.extend(isSameOrBefore);
         setShowAccountTypeOptions(null);
       }
     };
-  
+
     document.addEventListener('mousedown', handleClickOutsideAccount);
     return () => {
       document.removeEventListener('mousedown', handleClickOutsideAccount);
     };
   }, []);
-  
+
 
 
   const handleAccountTypeSelection = (e) => {
@@ -216,13 +216,13 @@ dayjs.extend(isSameOrBefore);
   };
   useEffect(() => {
     if (showAccountTypeOptions !== null) {
-      setSelectedAccountType(defaltType); 
+      setSelectedAccountType(defaltType);
     }
   }, [showAccountTypeOptions, defaltType]);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
-      
+
       setShowAccountTypeOptions(null);
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -233,7 +233,7 @@ dayjs.extend(isSameOrBefore);
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
-     
+
       handleCloseAddBalance();
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -242,13 +242,13 @@ dayjs.extend(isSameOrBefore);
     }
   }, [state.bankingDetails.statusCodeForAddBankingAmount]);
 
-const handleOpenSelfTransfer = ()=>{
-  setOpenMenuId(null)
-  setSelfTransfer(true)
-}
-const handleCloseSElfTransfer=()=>{
-  setSelfTransfer(false)
-}
+  const handleOpenSelfTransfer = () => {
+    setOpenMenuId(null)
+    setSelfTransfer(true)
+  }
+  const handleCloseSElfTransfer = () => {
+    setSelfTransfer(false)
+  }
 
   const handleEditAddBank = (item) => {
     setEdit(true);
@@ -258,12 +258,12 @@ const handleCloseSElfTransfer=()=>{
   };
 
   const handleShowForm = () => {
-      if (!state.login.selectedHostel_Id) {
-          toast.error('Please add a hostel before adding bank information.', {
-            hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
-          });
-          return;
-        }
+    if (!state.login.selectedHostel_Id) {
+      toast.error('Please add a hostel before adding bank information.', {
+        hideProgressBar: true, autoClose: 1500, style: { color: '#000', borderBottom: "5px solid red", fontFamily: "Gilroy" }
+      });
+      return;
+    }
     setEdit(false);
     setShowForm(true);
     setEditAddBank("");
@@ -292,19 +292,19 @@ const handleCloseSElfTransfer=()=>{
 
   const handleCloseDelete = () => {
     setDeleteShow(false);
-    
+
   };
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-  const handleEditTrans = (id,event) => {
- 
+  const handleEditTrans = (id, event) => {
+
     if (EditTransaction === id) {
       setEditTransaction(null);
     } else {
       setEditTransaction(id);
     }
 
-    const { top, left} = event.target.getBoundingClientRect();
+    const { top, left } = event.target.getBoundingClientRect();
     const popupTop = top - 10;
     const popupLeft = left - 150;
 
@@ -368,10 +368,10 @@ const handleCloseSElfTransfer=()=>{
 
   const handleShowAddBalance = (item) => {
     setAddBankName(item.bank_name);
-    
+
     setTypeId(item.id);
     setshowAddBalance(true);
-    
+
   };
   const handleCloseAddBalance = () => {
     setshowAddBalance(false);
@@ -383,9 +383,9 @@ const handleCloseSElfTransfer=()=>{
   const [amountError, setAmountError] = useState("");
 
   const handleAddBankAmount = (e) => {
-  const value = (e.target.value)
+    const value = (e.target.value)
     if (!/^\d*$/.test(value)) {
-      return; 
+      return;
     }
     setAddBankAmount(value);
     setAmountError("");
@@ -417,38 +417,38 @@ const handleCloseSElfTransfer=()=>{
   const handlePageChange = (pageNumber) => {
     settransactioncurrentPage(pageNumber);
   };
-  
 
-   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-      
-        const sortedData = React.useMemo(() => {
-          if (!sortConfig.key) return currentRowTransaction;
-      
-          const sorted = [...currentRowTransaction].sort((a, b) => {
-            const valueA = a[sortConfig.key];
-            const valueB = b[sortConfig.key];
-      
-      
-            if (!isNaN(valueA) && !isNaN(valueB)) {
-              return sortConfig.direction === 'asc'
-                ? valueA - valueB
-                : valueB - valueA;
-            }
-      
-            if (typeof valueA === 'string' && typeof valueB === 'string') {
-              return sortConfig.direction === 'asc'
-                ? valueA.localeCompare(valueB)
-                : valueB.localeCompare(valueA);
-            }
-      
-            return 0;
-          });
-      
-          return sorted;
-        }, [currentRowTransaction, sortConfig]);
-        const handleSort = (key, direction) => {
-          setSortConfig({ key, direction });
-        };
+
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return currentRowTransaction;
+
+    const sorted = [...currentRowTransaction].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+
+
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === 'asc'
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortConfig.direction === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [currentRowTransaction, sortConfig]);
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
   const handleItemsPerPageChange = (event) => {
     setTransactionrowsPerPage(Number(event.target.value));
     settransactioncurrentPage(1)
@@ -475,7 +475,7 @@ const handleCloseSElfTransfer=()=>{
 
   const handleSearch = () => {
     setSearch(!search);
-   
+
   };
 
   const handleFilterd = () => {
@@ -490,60 +490,60 @@ const handleCloseSElfTransfer=()=>{
 
 
   const handleUserSelect = (user) => {
-  setFilterInput(user.benificiary_name); 
-  const selected = transactionFilterddata.filter(
-    (item) => String(item.benificiary_name) === String(user.benificiary_name)
-  );
-  settransactionFilterddata(selected);
-  setDropdownVisible(false);
-};
+    setFilterInput(user.benificiary_name);
+    const selected = transactionFilterddata.filter(
+      (item) => String(item.benificiary_name) === String(user.benificiary_name)
+    );
+    settransactionFilterddata(selected);
+    setDropdownVisible(false);
+  };
 
   const [dateRange, setDateRange] = useState(null);
   const handleStatusFilter = (event) => {
     const value = event.target.value;
     setStatusfilter(value);
-  
+
     if (value === "All") {
       settransactionFilterddata(originalBillsFilter);
     } else if (value === "date") {
-      
-      settransactionFilterddata(originalBillsFilter);
-    } 
-   
-    else {
-    const filtered = originalBillsFilter?.filter((user) => {
-      const isCredit = user.desc === "Invoice";
-      const isDebit = user.desc !== "Invoice";
 
-      return (
-        (value === "1" && isCredit) ||
-        (value === "2" && isDebit)
-      );
-    });
+      settransactionFilterddata(originalBillsFilter);
+    }
+
+    else {
+      const filtered = originalBillsFilter?.filter((user) => {
+        const isCredit = user.desc === "Invoice";
+        const isDebit = user.desc !== "Invoice";
+
+        return (
+          (value === "1" && isCredit) ||
+          (value === "2" && isDebit)
+        );
+      });
       settransactionFilterddata(filtered);
     }
   };
   const handleDateRangeChange = (dates) => {
     setDateRange(dates);
-  
+
     if (!dates || dates.length !== 2) {
-      settransactionFilterddata(originalBillsFilter); 
-      setStatusfilter("All");                        
+      settransactionFilterddata(originalBillsFilter);
+      setStatusfilter("All");
       return;
     }
-  
+
     const [start, end] = dates;
-  
+
     const filtered = originalBillsFilter?.filter((item) => {
-      const itemDate = dayjs(item.date); 
+      const itemDate = dayjs(item.date);
       return itemDate.isSameOrAfter(dayjs(start), 'day') &&
-             itemDate.isSameOrBefore(dayjs(end), 'day');
+        itemDate.isSameOrBefore(dayjs(end), 'day');
     });
-  
+
     settransactionFilterddata(filtered);
   };
-  
- 
+
+
 
   useEffect(() => {
     if (originalBillsFilter.length === 0 && transactionFilterddata.length > 0) {
@@ -551,7 +551,7 @@ const handleCloseSElfTransfer=()=>{
     }
   }, [transactionFilterddata]);
 
-  
+
 
   return (
     <>
@@ -566,14 +566,14 @@ const handleCloseSElfTransfer=()=>{
               height: "100vh",
             }}
           >
-          
+
             <img
               src={emptyimg}
               alt="Empty State"
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-           
+
             {bankingpermissionError && (
               <div
                 style={{
@@ -604,14 +604,14 @@ const handleCloseSElfTransfer=()=>{
           <div
             className="d-flex flex-wrap justify-content-between align-items-center "
 
-        style={{paddingLeft:4,paddingRight:4, marginTop:3}}  >
+            style={{ paddingLeft: 4, paddingRight: 4, marginTop: 3 }}  >
             <div className="ms-2">
               <label style={{
                 fontSize: 18,
                 color: "#000000",
                 fontWeight: 600,
                 fontFamily: "Gilroy",
-                marginTop:17
+                marginTop: 17
               }}>Banking</label>
             </div>
 
@@ -620,13 +620,13 @@ const handleCloseSElfTransfer=()=>{
                 <>
                   <div
 
-                   style={{
-                    position: "relative",
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "0px",
-                    marginBottom: "5px",
-                  }}
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: "0px",
+                      marginBottom: "5px",
+                    }}
 
                   >
                     <div
@@ -635,8 +635,8 @@ const handleCloseSElfTransfer=()=>{
                         display: "flex",
                         alignItems: "center",
                         width: "100%",
-                         cursor:"pointer",
-                        
+                        cursor: "pointer",
+
                       }}
                     >
                       <Image
@@ -644,7 +644,7 @@ const handleCloseSElfTransfer=()=>{
                         alt="Search"
                         style={{
                           position: "absolute",
-                          
+
                           width: "24px",
                           height: "24px",
                           pointerEvents: "none",
@@ -653,7 +653,7 @@ const handleCloseSElfTransfer=()=>{
                       <div
                         className="input-group"
 
-                    
+
 
                       >
                         <span className="input-group-text bg-white border-end-0">
@@ -672,8 +672,8 @@ const handleCloseSElfTransfer=()=>{
                             outline: "none",
                             borderColor: "rgb(207,213,219)",
                             borderRight: "none",
-                            width:"160px",
-                            height:40
+                            width: "160px",
+                            height: 40
                           }}
                           value={filterInput}
                           onChange={(e) => handlefilterInput(e)}
@@ -728,7 +728,7 @@ const handleCloseSElfTransfer=()=>{
                                 }}
                                 onClick={() => handleUserSelect(user)}
                               >
-                                
+
                                 <span>{user.benificiary_name}</span>
                               </li>
                             );
@@ -741,7 +741,7 @@ const handleCloseSElfTransfer=()=>{
               ) : (
                 <>
 
-                  <div style={{ paddingRight: 15 ,cursor:"pointer"}}>
+                  <div style={{ paddingRight: 15, cursor: "pointer" }}>
                     <Image
                       src={searchteam}
                       roundedCircle
@@ -753,7 +753,7 @@ const handleCloseSElfTransfer=()=>{
               )}
 
 
-              <div style={{ paddingRight: 15,cursor:"pointer" }}>
+              <div style={{ paddingRight: 15, cursor: "pointer" }}>
                 <Image
                   src={Filters}
                   roundedCircle
@@ -766,9 +766,9 @@ const handleCloseSElfTransfer=()=>{
               {
                 filterStatus &&
 
- 
-                <div className='me-3' 
-                style={{ border: "1px solid #D4D4D4", borderRadius: 8,    width: search ? "120px" : "120px", }}>
+
+                <div className='me-3'
+                  style={{ border: "1px solid #D4D4D4", borderRadius: 8, width: search ? "120px" : "120px", }}>
 
                   <Form.Select
                     onChange={(e) => handleStatusFilter(e)}
@@ -779,7 +779,7 @@ const handleCloseSElfTransfer=()=>{
                       color: "rgba(34, 34, 34, 1)",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      cursor:"pointer"
+                      cursor: "pointer"
                     }}
                   >
                     <option value="All">All</option>
@@ -790,39 +790,39 @@ const handleCloseSElfTransfer=()=>{
                 </div>
 
               }
-                {statusfilter === "date" && (
-    <div className="me-3">
-      <RangePicker
-        value={dateRange}
-        format="YYYY-MM-DD"
-        onChange={handleDateRangeChange}
-        style={{ height: "38px", borderRadius: 8,cursor:"pointer"}}
-      />
-    </div>
-  )}
+              {statusfilter === "date" && (
+                <div className="me-3">
+                  <RangePicker
+                    value={dateRange}
+                    format="YYYY-MM-DD"
+                    onChange={handleDateRangeChange}
+                    style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
+                  />
+                </div>
+              )}
 
 
               <div className="me-2">
 
-              <Button
-  disabled={bankingAddPermission}
-  onClick={handleShowForm}
-  style={{
-    fontFamily: "Gilroy",
-fontSize: "14px",
-backgroundColor: "#1E45E1",
-color: "white",
-fontWeight: 600,
-borderRadius: "8px",
-padding: "12px",
-marginBottom: "10px",
-maxHeight: 45,
-width: "146px",
-whiteSpace: "nowrap"
-  }}
->
-  + Add
-</Button>
+                <Button
+                  disabled={bankingAddPermission}
+                  onClick={handleShowForm}
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontSize: "14px",
+                    backgroundColor: "#1E45E1",
+                    color: "white",
+                    fontWeight: 600,
+                    borderRadius: "8px",
+                    padding: "12px",
+                    marginBottom: "10px",
+                    maxHeight: 45,
+                    width: "146px",
+                    whiteSpace: "nowrap"
+                  }}
+                >
+                  + Add
+                </Button>
 
               </div>
             </div>
@@ -848,7 +848,7 @@ whiteSpace: "nowrap"
 
                     }}
                   >
-                    
+
                     <div
                       className="card-body"
                       style={{ overflowY: "auto", scrollBehavior: "smooth" }}
@@ -876,27 +876,28 @@ whiteSpace: "nowrap"
                           >
                             {item.acc_name || item.benificiary_name}
                           </p>
-                       
+
                         </div>
-                       
-                        <div style={{ cursor: "pointer",
-                              height: 40,
-                              width: 40,
-                              borderRadius: 100,
-                              border: "1px solid #EFEFEF",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              position: "relative",
-                              backgroundColor: openMenuId === item.id   ? "#E7F1FF": "white"
-                             
-                                }} onClick={() => handleShowDots(item.id)}>
-                        <PiDotsThreeOutlineVerticalFill
-                         
-                          alt="More options"
-                              style={{ height: 20, width: 20,cursor:"pointer" }}
-                            />
-                            </div>
+
+                        <div style={{
+                          cursor: "pointer",
+                          height: 40,
+                          width: 40,
+                          borderRadius: 100,
+                          border: "1px solid #EFEFEF",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          position: "relative",
+                          backgroundColor: openMenuId === item.id ? "#E7F1FF" : "white"
+
+                        }} onClick={() => handleShowDots(item.id)}>
+                          <PiDotsThreeOutlineVerticalFill
+
+                            alt="More options"
+                            style={{ height: 20, width: 20, cursor: "pointer" }}
+                          />
+                        </div>
                         {openMenuId === item.id && (
                           <div
                             ref={popupRef}
@@ -906,130 +907,143 @@ whiteSpace: "nowrap"
                               position: "absolute",
                               right: 30,
                               top: 50,
-                              width: 140,
-                              height:"auto",
+                              width: 160,
+                              height: "auto",
                               border: "1px solid #EBEBEB",
                               borderRadius: 10,
                               display: "flex",
                               flexDirection: "column",
-                              padding: 10,
                               alignItems: "start",
                               zIndex: 9999,
+                              padding: 0,
                             }}
                           >
+                            <div style={{ width: "100%", borderRadius: 10, backgroundColor: "#F9F9F9" }}>
 
- <div
-                              className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                              style={{
-                                cursor: bankingEditPermission
-                                  ? "not-allowed"
-                                  : "pointer",
-                                pointerEvents: bankingEditPermission
-                                  ? "none"
-                                  : "auto",
-                                opacity: bankingEditPermission ? 0.5 : 1,
-                              }}
-                              onClick={() => {
-                                if (!bankingEditPermission) {
-                                  handleOpenSelfTransfer(item);
-                                }
-                              }}
-                            >
-                              <img
-                                src={transArrow}
-                                style={{ height: 16, width: 16 }}
-                                alt="transArrow"
-                              />
-                              <label
+
+                              <div
+                                className="d-flex justify-content-start align-items-center gap-2"
+                                onClick={() => {
+                                  if (!bankingEditPermission) {
+                                    handleOpenSelfTransfer(item);
+                                  }
+                                }}
+                                onMouseEnter={(e) => {
+                                  if (!bankingEditPermission)
+                                    e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                }}
                                 style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  color: "#000000",
-                                  cursor: bankingEditPermission
-                                    ? "not-allowed"
-                                    : "pointer",
-                                    whiteSpace:"nowrap"
+                                  padding: "8px 12px",
+                                  width: "100%",
+                                  backgroundColor: "#F9F9F9",
+                                  cursor: bankingEditPermission ? "not-allowed" : "pointer",
+                                  pointerEvents: bankingEditPermission ? "none" : "auto",
+                                  opacity: bankingEditPermission ? 0.5 : 1,
+                                  borderTopLeftRadius: 10,
+                                  borderTopRightRadius: 10,
                                 }}
                               >
-                               Self Transfer
-                              </label>
-                            </div>
+                                <img src={transArrow} style={{ height: 16, width: 16 }} alt="transArrow" />
+                                <label
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy, sans-serif",
+                                    color: "#000000",
+                                    cursor: bankingEditPermission ? "not-allowed" : "pointer",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  Self Transfer
+                                </label>
+                              </div>
 
-                            <div
-                              className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                              style={{
-                                cursor: bankingEditPermission
-                                  ? "not-allowed"
-                                  : "pointer",
-                                pointerEvents: bankingEditPermission
-                                  ? "none"
-                                  : "auto",
-                                opacity: bankingEditPermission ? 0.5 : 1,
-                              }}
-                              onClick={() => {
-                                if (!bankingEditPermission) {
-                                  handleEditAddBank(item);
-                                }
-                              }}
-                            >
-                              <img
-                                src={Edit}
-                                style={{ height: 16, width: 16 }}
-                                alt="Edit"
-                              />
-                              <label
+                              <div style={{ height: 1, backgroundColor: "#F0F0F0" }} />
+
+                              <div
+                                className="d-flex justify-content-start align-items-center gap-2"
+                                onClick={() => {
+                                  if (!bankingEditPermission) {
+                                    handleEditAddBank(item);
+                                  }
+                                }}
+                                onMouseEnter={(e) => {
+                                  if (!bankingEditPermission)
+                                    e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                }}
                                 style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  color: "#000000",
-                                  cursor: bankingEditPermission
-                                    ? "not-allowed"
-                                    : "pointer",
+                                  padding: "8px 12px",
+                                  width: "100%",
+                                  backgroundColor: "#F9F9F9",
+                                  cursor: bankingEditPermission ? "not-allowed" : "pointer",
+                                  pointerEvents: bankingEditPermission ? "none" : "auto",
+                                  opacity: bankingEditPermission ? 0.5 : 1,
                                 }}
                               >
-                                Edit
-                              </label>
-                            </div>
+                                <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
+                                <label
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy, sans-serif",
+                                    color: "#000000",
+                                    cursor: bankingEditPermission ? "not-allowed" : "pointer",
+                                  }}
+                                >
+                                  Edit
+                                </label>
+                              </div>
 
-                            <div
-                              className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                              style={{
-                                cursor: bankingDeletePermission
-                                  ? "not-allowed"
-                                  : "pointer",
-                                pointerEvents: bankingDeletePermission
-                                  ? "none"
-                                  : "auto",
-                                opacity: bankingDeletePermission ? 0.5 : 1,
-                              }}
-                              onClick={() => {
-                                if (!bankingDeletePermission) {
-                                  handleDeleteForm(item);
-                                }
-                              }}
-                            >
-                              <img
-                                src={Delete}
-                                style={{ height: 16, width: 16 }}
-                                alt="Delete"
-                              />
-                              <label
+                              <div style={{ height: 1, backgroundColor: "#F0F0F0" }} />
+
+
+                              <div
+                                className="d-flex justify-content-start align-items-center gap-2"
+                                onClick={() => {
+                                  if (!bankingDeletePermission) {
+                                    handleDeleteForm(item);
+                                  }
+                                }}
+                                onMouseEnter={(e) => {
+                                  if (!bankingDeletePermission)
+                                    e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                }}
                                 style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy, sans-serif",
-                                  color: "#FF0000",
-                                  cursor: bankingDeletePermission
-                                    ? "not-allowed"
-                                    : "pointer",
+                                  padding: "8px 12px",
+                                  width: "100%",
+                                  backgroundColor: "#F9F9F9",
+                                  cursor: bankingDeletePermission ? "not-allowed" : "pointer",
+                                  pointerEvents: bankingDeletePermission ? "none" : "auto",
+                                  opacity: bankingDeletePermission ? 0.5 : 1,
+                                  borderBottomLeftRadius: 10,
+                                  borderBottomRightRadius: 10,
                                 }}
                               >
-                                Delete
-                              </label>
+                                <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" />
+                                <label
+                                  style={{
+                                    fontSize: 14,
+                                    fontWeight: 600,
+                                    fontFamily: "Gilroy, sans-serif",
+                                    color: "#FF0000",
+                                    cursor: bankingDeletePermission ? "not-allowed" : "pointer",
+                                  }}
+                                >
+                                  Delete
+                                </label>
+                              </div>
                             </div>
                           </div>
+
                         )}
                       </div>
 
@@ -1116,54 +1130,54 @@ whiteSpace: "nowrap"
                         </span>
                       </div>
                       {showAccountTypeOptions === item.id && (
-  <div
-    className="account-type-dropdown"
-    onMouseDown={(e) => e.stopPropagation()} 
-    style={{
-      position: "absolute",
-      top: 70,
-      left: 50,
-      backgroundColor: "#FFFFFF",
-      border: "1px solid #EBEBEB",
-      borderRadius: "10px",
-      padding: "10px",
-      zIndex: 1000,
-      width: 150,
-      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-    }}
-  >
-    <label style={{ display: "block", marginBottom: "5px" }}>
-      <input
-        type="radio"
-        name={`accountType-${item.id}`}
-        value={1}
-        checked={selectedAccountType === 1}
-        onChange={handleAccountTypeSelection}
-      />{" "}
-      Credit A/C
-    </label>
-    <label style={{ display: "block", marginBottom: "5px" }}>
-      <input
-        type="radio"
-        name={`accountType-${item.id}`}
-        value={2}
-        checked={selectedAccountType === 2}
-        onChange={handleAccountTypeSelection}
-      />{" "}
-      Debit A/C
-    </label>
-    <label style={{ display: "block", marginBottom: "5px" }}>
-      <input
-        type="radio"
-        name={`accountType-${item.id}`}
-        value={3}
-        checked={selectedAccountType === 3}
-        onChange={handleAccountTypeSelection}
-      />{" "}
-      Both A/C
-    </label>
-  </div>
-)}
+                        <div
+                          className="account-type-dropdown"
+                          onMouseDown={(e) => e.stopPropagation()}
+                          style={{
+                            position: "absolute",
+                            top: 70,
+                            left: 50,
+                            backgroundColor: "#FFFFFF",
+                            border: "1px solid #EBEBEB",
+                            borderRadius: "10px",
+                            padding: "10px",
+                            zIndex: 1000,
+                            width: 150,
+                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                          }}
+                        >
+                          <label style={{ display: "block", marginBottom: "5px" }}>
+                            <input
+                              type="radio"
+                              name={`accountType-${item.id}`}
+                              value={1}
+                              checked={selectedAccountType === 1}
+                              onChange={handleAccountTypeSelection}
+                            />{" "}
+                            Credit A/C
+                          </label>
+                          <label style={{ display: "block", marginBottom: "5px" }}>
+                            <input
+                              type="radio"
+                              name={`accountType-${item.id}`}
+                              value={2}
+                              checked={selectedAccountType === 2}
+                              onChange={handleAccountTypeSelection}
+                            />{" "}
+                            Debit A/C
+                          </label>
+                          <label style={{ display: "block", marginBottom: "5px" }}>
+                            <input
+                              type="radio"
+                              name={`accountType-${item.id}`}
+                              value={3}
+                              checked={selectedAccountType === 3}
+                              onChange={handleAccountTypeSelection}
+                            />{" "}
+                            Both A/C
+                          </label>
+                        </div>
+                      )}
 
                     </div>
 
@@ -1233,185 +1247,185 @@ whiteSpace: "nowrap"
               })
             ) : (
               <></>
-              
+
             )}
           </div>
 
           <div style={{ marginTop: 30 }} className="container bankingtab-table ms-2 me-4">
 
             {sortedData?.length > 0 ? (
-             <div
-                                   className=" booking-table-userlist  booking-table"
-                                   style={{ paddingBottom: "20px",marginLeft:"-22px" }}
-                                 >
-                                    <div
-                                     
-                                      className='show-scrolls'
-                                      style={{
-                                       
-                                        height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "250px" : "auto",
-                                        overflow: "auto",
-                                        borderTop: "1px solid #E8E8E8",
-                                        marginBottom: 20,
-                                        marginTop: "20px",
-                                        paddingRight:0,
-                                        paddingLeft:0
-                                      }}
-                                    >
-                                      <Table
-                                        responsive="md"
-                                        
-                                        style={{
-                                          fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                          top: 0,
-                                          zIndex: 1,
-                                          borderRadius:0
-                                        }}
-                                      >
-                                        <thead style={{
-                                                     fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                     top: 0,
-                                                     zIndex: 1
-                                                   }}>
-                    <tr>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          paddingLeft: "20px",
-                          whiteSpace:"nowrap"
-                         
-                        }}
-                      >
-                        <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                   <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bank_name", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bank_name", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                  </div>
-                                                                                                 Account Name</div>
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "center",
-                          padding: "10px",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                         <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                   </div>
-                                                                                                    Date</div>
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                         <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                   </div>
-                                                                                                    Amount</div>
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                         <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("desc", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("desc", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                   </div>
-                                                                                                    Description</div>
-                      </th>
+              <div
+                className=" booking-table-userlist  booking-table"
+                style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+              >
+                <div
 
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                         <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                    <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                     <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("type", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                     <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("type", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                   </div>
-                                                                                                    Transaction</div>
-                      </th>
-                      <th
-                        style={{
-                          textAlign: "start",
-                          padding: "10px",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: "12px",
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          paddingBottom:12
-                        }}
-                      >Action</th>
-                      <th
-                        style={{
-                          textAlign: "center",
-                          fontFamily: "Gilroy",
-                          color: "rgb(147, 147, 147)",
-                          fontSize: 14,
-                          fontWeight: 500,
-                        }}
-                      ></th>
-                    </tr>
-                  </thead>
-                  <tbody style={{ textAlign: "center" }}>
-                    {sortedData?.map((user) => {
-                      let Dated = new Date(user.date);
+                  className='show-scrolls'
+                  style={{
 
-                      let day = Dated.getDate();
-                      let month = Dated.getMonth();
-                      let year = Dated.getFullYear();
+                    height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "250px" : "auto",
+                    overflow: "auto",
+                    borderTop: "1px solid #E8E8E8",
+                    marginBottom: 20,
+                    marginTop: "20px",
+                    paddingRight: 0,
+                    paddingLeft: 0
+                  }}
+                >
+                  <Table
+                    responsive="md"
 
-                     
-                      const monthNames = [
-                        "Jan",
-                        "Feb",
-                        "Mar",
-                        "Apr",
-                        "May",
-                        "Jun",
-                        "Jul",
-                        "Aug",
-                        "Sep",
-                        "Oct",
-                        "Nov",
-                        "Dec",
-                      ];
+                    style={{
+                      fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 1,
+                      borderRadius: 0
+                    }}
+                  >
+                    <thead style={{
+                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 1
+                    }}>
+                      <tr>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            paddingLeft: "20px",
+                            whiteSpace: "nowrap"
 
-                      let formattedMonth = monthNames[month];
+                          }}
+                        >
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bank_name", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("bank_name", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Account Name</div>
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "center",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Date</div>
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("amount", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Amount</div>
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("desc", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("desc", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Description</div>
+                        </th>
 
-                      let formattedDate = `${day} ${formattedMonth} ${year}`;
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                          }}
+                        >
+                          <div className='d-flex gap-1 align-items-center justify-content-start'>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("type", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("type", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>
+                            Transaction</div>
+                        </th>
+                        <th
+                          style={{
+                            textAlign: "start",
+                            padding: "10px",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            fontFamily: "Gilroy",
+                            paddingBottom: 12
+                          }}
+                        >Action</th>
+                        <th
+                          style={{
+                            textAlign: "center",
+                            fontFamily: "Gilroy",
+                            color: "rgb(147, 147, 147)",
+                            fontSize: 14,
+                            fontWeight: 500,
+                          }}
+                        ></th>
+                      </tr>
+                    </thead>
+                    <tbody style={{ textAlign: "center" }}>
+                      {sortedData?.map((user) => {
+                        let Dated = new Date(user.date);
+
+                        let day = Dated.getDate();
+                        let month = Dated.getMonth();
+                        let year = Dated.getFullYear();
+
+
+                        const monthNames = [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec",
+                        ];
+
+                        let formattedMonth = monthNames[month];
+
+                        let formattedDate = `${day} ${formattedMonth} ${year}`;
 
                       return (
                         <tr
@@ -1452,19 +1466,21 @@ whiteSpace: "nowrap"
                               whiteSpace: "nowrap",
                               
                             }}
+                            className="ps-2 ps-lg-2"
                           >
                             <span
                               style={{
                                 paddingTop: "3px",
                                 paddingLeft: "10px",
                                 paddingRight: "10px",
+                                marginLeft:8,
                                 paddingBottom: "3px",
                                 borderRadius: "60px",
                                 textAlign: "center",
                                 fontSize: "11px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                 backgroundColor: "#EBEBEB",
+                                backgroundColor: "#EBEBEB",
                               }}
                             >
                               {formattedDate}
@@ -1513,150 +1529,162 @@ whiteSpace: "nowrap"
                                 padding: "3px 10px",
                                 borderRadius: "60px",
 
-                                backgroundColor: "#EBEBEB",                             
+                                  backgroundColor: "#EBEBEB",
 
-                                textAlign: "start",
-                                fontSize: "11px",
-                                fontWeight: 500,
-                                fontFamily: "Gilroy",
-                              }}
-                            >
-
-                              {user.desc === "Invoice"
-                                ? "Credit":"Debit"
-                              }
-                            </span>
-                          </td>
-
-                          <td
-                            style={{
-                              cursor: "pointer",
-                              height: 40,
-                              width: 40,
-                              borderRadius: 100,
-                              border: "1px solid #EFEFEF",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              position: "relative",
-                              marginTop: 10,
-                              backgroundColor:
-                                EditTransaction === user.id
-                                  ? "#E7F1FF"
-                                  : "white",
-                            
-                            }}
-                            onClick={(e) => handleEditTrans(user.id,e)}
-                          >
-                            <PiDotsThreeOutlineVerticalFill
-                              style={{ height: 20, width: 20 }}
-                            />
-                            {EditTransaction === user.id && (
-                              <div
-                                ref={popupRef}
-                                style={{
-                                  cursor: "pointer",
-                                  backgroundColor: "#F9F9F9",
-                               
-                                  marginLeft:10,
-                                  position: "fixed",
-                                  top: popupPosition.top,
-                                  left: popupPosition.left,
-                                  width: 120,
-                                  height: 70,
-                                  border: "1px solid #EBEBEB",
-                                  borderRadius: 10,
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  padding: 10,
-                                  alignItems: "start",
-                                  zIndex: 1000,
+                                  textAlign: "start",
+                                  fontSize: "11px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
                                 }}
                               >
+
+                                {user.desc === "Invoice"
+                                  ? "Credit" : "Debit"
+                                }
+                              </span>
+                            </td>
+
+                            <td
+                              style={{
+                                cursor: "pointer",
+                                height: 30,
+                                width: 30,
+                                borderRadius: 100,
+                                border: "1px solid #EFEFEF",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                position: "relative",
+                                marginTop: 10,
+                                marginLeft:5,
+                              backgroundColor:
+                                  EditTransaction === user.id
+                                    ? "#E7F1FF"
+                                    : "white",
+
+                              }}
+                              onClick={(e) => handleEditTrans(user.id, e)}
+                            >
+                              <PiDotsThreeOutlineVerticalFill
+                                style={{ height: 17, width: 17 }}
+                              />
+                              {EditTransaction === user.id && (
                                 <div
-                                  className="mb-2 d-flex justify-content-start align-items-center gap-2"
+                                  ref={popupRef}
                                   style={{
-                                    cursor: bankingEditPermission
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    pointerEvents: bankingEditPermission
-                                      ? "none"
-                                      : "auto",
-                                    opacity: bankingEditPermission ? 0.6 : 1,
-                                  }}
-                                  onClick={() => {
-                                    if (!bankingEditPermission) {
-                                      handleEditTransForm(user);
-                                    }
+                                    cursor: "pointer",
+                                    backgroundColor: "#F9F9F9",
+                                    position: "fixed",
+                                    top: popupPosition.top,
+                                    left: popupPosition.left,
+                                    marginLeft: 10,
+                                    width: 140,
+                                    height: "auto",
+                                    border: "1px solid #EBEBEB",
+                                    borderRadius: 10,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "start",
+                                    zIndex: 1000,
+                                    padding: 0,
                                   }}
                                 >
-                                  <img
-                                    src={Edit}
-                                    style={{ height: 16, width: 16 }}
-                                    alt="Edit"
-                                  />
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      color: "#000000",
-                                      cursor: bankingEditPermission
-                                        ? "not-allowed"
-                                        : "pointer",
-                                    }}
-                                  >
-                                    Edit
-                                  </label>
+                                  <div style={{ width: "100%", borderRadius: 10, backgroundColor: "#F9F9F9" }}>
+
+                               
+                                    <div
+                                      className="d-flex justify-content-start align-items-center gap-2"
+                                      onClick={() => {
+                                        if (!bankingEditPermission) {
+                                          handleEditTransForm(user);
+                                        }
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        if (!bankingEditPermission)
+                                          e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                      }}
+                                      style={{
+                                        padding: "8px 12px",
+                                        width: "100%",
+                                        backgroundColor: "#F9F9F9",
+                                        cursor: bankingEditPermission ? "not-allowed" : "pointer",
+                                        pointerEvents: bankingEditPermission ? "none" : "auto",
+                                        opacity: bankingEditPermission ? 0.6 : 1,
+                                        borderTopLeftRadius: 10,
+                                        borderTopRightRadius: 10,
+                                      }}
+                                    >
+                                      <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
+                                      <label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy, sans-serif",
+                                          color: "#000000",
+                                          cursor: bankingEditPermission ? "not-allowed" : "pointer",
+                                        }}
+                                      >
+                                        Edit
+                                      </label>
+                                    </div>
+
+                                    
+                                    <div style={{ height: 1, backgroundColor: "#F0F0F0" }} />
+
+                                    <div
+                                      className="d-flex justify-content-start align-items-center gap-2"
+                                      onClick={() => {
+                                        if (!bankingDeletePermission) {
+                                          handleDeleteTransForm(user);
+                                        }
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        if (!bankingDeletePermission)
+                                          e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                      }}
+                                      style={{
+                                        padding: "8px 12px",
+                                        width: "100%",
+                                        backgroundColor: "#F9F9F9",
+                                        cursor: bankingDeletePermission ? "not-allowed" : "pointer",
+                                        pointerEvents: bankingDeletePermission ? "none" : "auto",
+                                        opacity: bankingDeletePermission ? 0.6 : 1,
+                                        borderBottomLeftRadius: 10,
+                                        borderBottomRightRadius: 10,
+                                      }}
+                                    >
+                                      <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" />
+                                      <label
+                                        style={{
+                                          fontSize: 14,
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy, sans-serif",
+                                          color: "#FF0000",
+                                          cursor: bankingDeletePermission ? "not-allowed" : "pointer",
+                                        }}
+                                      >
+                                        Delete
+                                      </label>
+                                    </div>
+                                  </div>
                                 </div>
 
-                                <div
-                                  className="mb-2 d-flex justify-content-start align-items-center gap-2"
-                                  style={{
-                                    cursor: bankingDeletePermission
-                                      ? "not-allowed"
-                                      : "pointer",
-                                    pointerEvents: bankingDeletePermission
-                                      ? "none"
-                                      : "auto",
-                                    opacity: bankingDeletePermission ? 0.6 : 1,
-                                  }}
-                                  onClick={() => {
-                                    if (!bankingDeletePermission) {
-                                      handleDeleteTransForm(user);
-                                    }
-                                  }}
-                                >
-                                  <img
-                                    src={Delete}
-                                    style={{ height: 16, width: 16 }}
-                                    alt="Delete"
-                                  />
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy, sans-serif",
-                                      color: "#FF0000",
-                                      cursor: bankingDeletePermission
-                                        ? "not-allowed"
-                                        : "pointer",
-                                    }}
-                                  >
-                                    Delete
-                                  </label>
-                                </div>
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                </div>
               </div>
-              </div>
-              
+
             ) : (
 
               <div>
@@ -1869,14 +1897,14 @@ whiteSpace: "nowrap"
           >
             <Modal.Header style={{ borderBottom: "none" }}>
               <Modal.Title
-              className="w-100 text-center"
+                className="w-100 text-center"
                 style={{
                   fontSize: "18px",
                   fontFamily: "Gilroy",
-                 
+
                   fontWeight: 600,
                   color: "#222222",
-                  
+
                 }}
               >
                 Delete Banking?
@@ -1884,13 +1912,13 @@ whiteSpace: "nowrap"
             </Modal.Header>
 
             <Modal.Body
-            className="text-center"
+              className="text-center"
               style={{
                 fontSize: 14,
                 fontWeight: 500,
                 fontFamily: "Gilroy",
                 color: "#646464",
-                
+
                 marginTop: "-10px",
               }}
             >
@@ -1898,28 +1926,28 @@ whiteSpace: "nowrap"
             </Modal.Body>
 
             <Modal.Footer
-            className="d-flex justify-content-center"
+              className="d-flex justify-content-center"
               style={{
-                
+
                 borderTop: "none",
                 marginTop: "-10px",
               }}
             >
               <Button
-               className="me-2"
-               style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#fff",
-                color: "#1E45E1",
-                border: "1px solid #1E45E1",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
+                className="me-2"
+                style={{
+                  width: "100%",
+                  maxWidth: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#fff",
+                  color: "#1E45E1",
+                  border: "1px solid #1E45E1",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                }}
                 onClick={handleCloseDelete}
               >
                 Cancel
@@ -1967,9 +1995,9 @@ whiteSpace: "nowrap"
               >
                 Add balance
               </div>
-              <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance} 
-            style={{ cursor: 'pointer' }}/>
-      
+              <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance}
+                style={{ cursor: 'pointer' }} />
+
             </Modal.Header>
             <Modal.Body>
               <div className="col-12" style={{ marginTop: "-35px" }}>
@@ -1990,7 +2018,7 @@ whiteSpace: "nowrap"
                     id="form-controls"
                     placeholder="Enter amount"
                     value={AddBankName}
-                 
+
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
@@ -2005,7 +2033,7 @@ whiteSpace: "nowrap"
                 </Form.Group>
               </div>
 
-              <div className="col-12" style={{marginTop:-10}}>
+              <div className="col-12" style={{ marginTop: -10 }}>
                 <Form.Group className="mb-3">
                   <Form.Label
                     style={{
@@ -2035,30 +2063,30 @@ whiteSpace: "nowrap"
                     }}
                   />
                 </Form.Group>
-                 
+
                 {amountError && (
-                  <div style={{ color: "red", fontSize: "14px", marginTop: "5px",textAlign:"center" }}>
-                     <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                  <div style={{ color: "red", fontSize: "14px", marginTop: "5px", textAlign: "center" }}>
+                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
                     {amountError}</div>)}
                 <Button
-                className="col-12"
-                style={{
-                  backgroundColor: "#1E45E1",
-                  fontWeight: 600,
-                  height: "50px",
-                  borderRadius: "12px",
-                  fontSize: "16px",
-                  fontFamily: "Gilroy",
-                  marginTop: "10px",
-                }}
-                onClick={handleAddAmountSubmit}
-              >
-                Add balance
-              </Button>
+                  className="col-12"
+                  style={{
+                    backgroundColor: "#1E45E1",
+                    fontWeight: 600,
+                    height: "50px",
+                    borderRadius: "12px",
+                    fontSize: "16px",
+                    fontFamily: "Gilroy",
+                    marginTop: "10px",
+                  }}
+                  onClick={handleAddAmountSubmit}
+                >
+                  Add balance
+                </Button>
               </div>
-              
+
             </Modal.Body>
-           
+
           </Modal>
 
           <Modal
@@ -2070,14 +2098,14 @@ whiteSpace: "nowrap"
           >
             <Modal.Header style={{ borderBottom: "none" }}>
               <Modal.Title
-              className="w-100 text-center"
+                className="w-100 text-center"
                 style={{
                   fontSize: "18px",
                   fontFamily: "Gilroy",
-                 
+
                   fontWeight: 600,
                   color: "#222222",
-                  
+
                 }}
               >
                 Delete Transaction?
@@ -2085,13 +2113,13 @@ whiteSpace: "nowrap"
             </Modal.Header>
 
             <Modal.Body
-            className="text-center"
+              className="text-center"
               style={{
                 fontSize: 14,
                 fontWeight: 500,
                 fontFamily: "Gilroy",
                 color: "#646464",
-                
+
                 marginTop: "-10px",
               }}
             >
@@ -2099,45 +2127,45 @@ whiteSpace: "nowrap"
             </Modal.Body>
 
             <Modal.Footer
-            className="d-flex justify-content-center"
+              className="d-flex justify-content-center"
               style={{
-                
+
                 borderTop: "none",
                 marginTop: "-10px",
               }}
             >
               <Button
-               className="me-2"
-               style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#fff",
-                color: "#1E45E1",
-                border: "1px solid #1E45E1",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
+                className="me-2"
+                style={{
+                  width: "100%",
+                  maxWidth: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#fff",
+                  color: "#1E45E1",
+                  border: "1px solid #1E45E1",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                }}
                 onClick={handleCloseTransactionDelete}
               >
                 Cancel
               </Button>
               <Button
-               style={{
-                width: "100%",
-                maxWidth: 160,
-                height: 52,
-                borderRadius: 8,
-                padding: "12px 20px",
-                background: "#1E45E1",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: "14px",
-              }}
+                style={{
+                  width: "100%",
+                  maxWidth: 160,
+                  height: 52,
+                  borderRadius: 8,
+                  padding: "12px 20px",
+                  background: "#1E45E1",
+                  color: "#FFFFFF",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: "14px",
+                }}
                 onClick={handleDeleteTransSubmit}
               >
                 Delete
@@ -2147,9 +2175,9 @@ whiteSpace: "nowrap"
 
 
 
-<Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
-      
-       <Modal.Header 
+          <Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
+
+            <Modal.Header
               style={{ position: "relative" }}
             >
               <div
@@ -2157,123 +2185,123 @@ whiteSpace: "nowrap"
                   fontSize: "1.25rem",
                   fontWeight: 600,
                   fontFamily: "Gilroy",
-                  color:"#1E45E1"
+                  color: "#1E45E1"
                 }}
               >
                 Self Transfer
               </div>
-              <CloseCircle size="24" color="#000" onClick={handleCloseSElfTransfer} 
-            style={{ cursor: 'pointer' }}/>
-             
+              <CloseCircle size="24" color="#000" onClick={handleCloseSElfTransfer}
+                style={{ cursor: 'pointer' }} />
+
             </Modal.Header>
 
-      <Modal.Body>
-       <div>
-  <h6 style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>From</h6>
+            <Modal.Body>
+              <div>
+                <h6 style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>From</h6>
 
-  <div className="d-flex align-items-center p-3" style={{ borderBottom: "1px solid #ccc" }}>
-    <img
-      src={banklogo}
-      style={{marginTop:"-10px"}}
-      width="50"
-      height="50"
-      className="me-3"
-      alt="bank"
-    />
+                <div className="d-flex align-items-center p-3" style={{ borderBottom: "1px solid #ccc" }}>
+                  <img
+                    src={banklogo}
+                    style={{ marginTop: "-10px" }}
+                    width="50"
+                    height="50"
+                    className="me-3"
+                    alt="bank"
+                  />
 
-    <div className="w-100 d-flex justify-content-between align-items-start">
-      <div>
-        <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy",fontSize:14 }}>Canara Bank</div>
-        <div className="small text-muted" style={{ fontFamily: "Gilroy",fontSize:12 }}>Savings A/C</div>
-      </div>
+                  <div className="w-100 d-flex justify-content-between align-items-start">
+                    <div>
+                      <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}>Canara Bank</div>
+                      <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
+                    </div>
 
-      <div className="text-end" style={{ fontFamily: "Gilroy" }}>
-        <div style={{ fontWeight: 500, color: "#1A1A1A" ,fontSize:14}}>Immanuel</div>
-        <div className="small" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:400}}>4561 2013 6210 6540</div>
-        <div className="small fw-semibold" style={{ color:"#1E45E1" }}>
-          Avl Bal : ₹10,000.00
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-        <div className="mb-3">
-          <h6 className="mt-1" style={{color:"#4B4B4B",fontSize:16,fontWeight:500,fontFamily:"Gilroy"}}>To</h6>
-
-         <div className="d-flex align-items-center p-3" >
-    <img
-      src={banklogo}
-      style={{marginTop:"-10px"}}
-      width="50"
-      height="50"
-      className="me-3"
-      alt="bank"
-    />
-
-   <div className="w-100 d-flex justify-content-between align-items-start">
-      <div>
-        <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy",fontSize:14 }}> State Bank of India</div>
-        <div className="small text-muted" style={{ fontFamily: "Gilroy",fontSize:12 }}>Savings A/C</div>
-      </div>
-
-      <div className="text-end" style={{ fontFamily: "Gilroy" }}>
-        <div style={{ fontWeight: 500, color: "#1A1A1A" ,fontSize:14}}>Immanuel</div>
-        <div className="small" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:400}}>4561 2013 6210 6540</div>
-        <div className="small fw-semibold" style={{ color:"#1E45E1" }}>
-          Avl Bal : ₹10,000.00
-        </div>
-      </div>
-    </div>
-  </div>
-
-         <div className="d-flex align-items-center p-3" style={{marginTop:"-10px"}}>
-    <img
-      src={banklogo}
-      style={{marginTop:"-10px"}}
-      width="50"
-      height="50"
-      className="me-3"
-      alt="bank"
-    />
-
-    <div className="w-100 d-flex justify-content-between align-items-start">
-      <div>
-        <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy",fontSize:14 }}> ICICI</div>
-        <div className="small text-muted" style={{ fontFamily: "Gilroy",fontSize:12 }}>Savings A/C</div>
-      </div>
-
-      <div className="text-end" style={{ fontFamily: "Gilroy" }}>
-        <div style={{ fontWeight: 500, color: "#1A1A1A" ,fontSize:14}}>Immanuel</div>
-        <div className="small" style={{fontSize:12,fontFamily:"Gilroy",fontWeight:400}}>4561 2013 6210 6540</div>
-        <div className="small fw-semibold" style={{ color:"#1E45E1" }}>
-          Avl Bal : ₹10,000.00
-        </div>
-      </div>
-    </div>
-  </div>
-        </div>
-
-      
-        <div className="input-group">
-  <span className="input-group-text bg-white border-end-0 rounded-start">₹</span>
-  <input
-    type="text"
-    className="form-control border-start-0 rounded-end"
-    placeholder="Enter amount"
-    style={{ boxShadow: 'none',outline:"none"}}
-  />
-</div>
+                    <div className="text-end" style={{ fontFamily: "Gilroy" }}>
+                      <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
+                      <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
+                      <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
+                        Avl Bal : ₹10,000.00
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
 
-      <div className="text-end mt-3">
-          <Button variant="primary" >
-          Transfer
-        </Button>
-      </div>
-      </Modal.Body>
-    </Modal>
+              <div className="mb-3">
+                <h6 className="mt-1" style={{ color: "#4B4B4B", fontSize: 16, fontWeight: 500, fontFamily: "Gilroy" }}>To</h6>
+
+                <div className="d-flex align-items-center p-3" >
+                  <img
+                    src={banklogo}
+                    style={{ marginTop: "-10px" }}
+                    width="50"
+                    height="50"
+                    className="me-3"
+                    alt="bank"
+                  />
+
+                  <div className="w-100 d-flex justify-content-between align-items-start">
+                    <div>
+                      <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}> State Bank of India</div>
+                      <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
+                    </div>
+
+                    <div className="text-end" style={{ fontFamily: "Gilroy" }}>
+                      <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
+                      <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
+                      <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
+                        Avl Bal : ₹10,000.00
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex align-items-center p-3" style={{ marginTop: "-10px" }}>
+                  <img
+                    src={banklogo}
+                    style={{ marginTop: "-10px" }}
+                    width="50"
+                    height="50"
+                    className="me-3"
+                    alt="bank"
+                  />
+
+                  <div className="w-100 d-flex justify-content-between align-items-start">
+                    <div>
+                      <div style={{ fontWeight: 600, color: "#1A1A1A", fontFamily: "Gilroy", fontSize: 14 }}> ICICI</div>
+                      <div className="small text-muted" style={{ fontFamily: "Gilroy", fontSize: 12 }}>Savings A/C</div>
+                    </div>
+
+                    <div className="text-end" style={{ fontFamily: "Gilroy" }}>
+                      <div style={{ fontWeight: 500, color: "#1A1A1A", fontSize: 14 }}>Immanuel</div>
+                      <div className="small" style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 400 }}>4561 2013 6210 6540</div>
+                      <div className="small fw-semibold" style={{ color: "#1E45E1" }}>
+                        Avl Bal : ₹10,000.00
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div className="input-group">
+                <span className="input-group-text bg-white border-end-0 rounded-start">₹</span>
+                <input
+                  type="text"
+                  className="form-control border-start-0 rounded-end"
+                  placeholder="Enter amount"
+                  style={{ boxShadow: 'none', outline: "none" }}
+                />
+              </div>
+
+
+              <div className="text-end mt-3">
+                <Button variant="primary" >
+                  Transfer
+                </Button>
+              </div>
+            </Modal.Body>
+          </Modal>
 
 
 

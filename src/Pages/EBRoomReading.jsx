@@ -18,8 +18,8 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { ArrowUp2, ArrowDown2} from 'iconsax-react';
-import {CloseCircle} from "iconsax-react";
+import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
+import { CloseCircle } from "iconsax-react";
 import './EB_RoomReading.css';
 
 function EBRoomReading(props) {
@@ -43,28 +43,28 @@ function EBRoomReading(props) {
   const [roomError, setRoomError] = useState("");
   const [unitAmount, setUnitAmount] = useState("");
   const [deleteId, setDeleteId] = useState("");
-  const [dateErrorMesg,setDateErrorMesg] = useState("")
-  const [roomelectricity,setRoomElectricity] = useState("")
-  
+  const [dateErrorMesg, setDateErrorMesg] = useState("")
+  const [roomelectricity, setRoomElectricity] = useState([])
 
- 
+
+
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-   
- useEffect(() => {
-     props.setLoader(true)
+
+  useEffect(() => {
+    props.setLoader(true)
     dispatch({
       type: "EBSTARTMETERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
-    });  
-    
+    });
+
   }, [state.login.selectedHostel_Id]);
 
 
 
- useEffect(() => {
+  useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
-     props.setLoader(false)
+      props.setLoader(false)
       setRoomElectricity(state.PgList?.EB_startmeterlist);
 
       setTimeout(() => {
@@ -74,21 +74,21 @@ function EBRoomReading(props) {
   }, [state.PgList.statusCodeForEbRoomList])
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.PgList.statusCodeForEBRoombasednodata === 201) {
       props.setLoader(false)
-   
-      
+
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_ROOM_BASED" });
       }, 200);
     }
   }, [state.PgList.statusCodeForEBRoombasednodata]);
 
- 
 
-  const handleShowDots = (eb_Id,event) => {
-    setActiveRow((prevActiveRow) => (prevActiveRow === eb_Id ? null : eb_Id)); 
+
+  const handleShowDots = (eb_Id, event) => {
+    setActiveRow((prevActiveRow) => (prevActiveRow === eb_Id ? null : eb_Id));
 
     const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + (height / 2);
@@ -101,14 +101,14 @@ useEffect(() => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setActiveRow(null);  
+        setActiveRow(null);
       }
     };
 
-   
+
     document.addEventListener("mousedown", handleClickOutside);
 
-   
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -122,7 +122,7 @@ useEffect(() => {
   const handleReadingChange = (e) => {
     const value = (e.target.value)
     if (!/^\d*$/.test(value)) {
-      return; 
+      return;
     }
     setReading(value);
     setReadingError('')
@@ -138,9 +138,7 @@ useEffect(() => {
     setUnitAmount(FilterEbAmount);
     if (Array.isArray(FilterEbAmount) && FilterEbAmount.length > 0) {
       setUnitAmount(FilterEbAmount[0]?.amount);
-    } else {
-      console.log("unitAmount is not a valid array or is empty.");
-    }
+    } 
   }, [state.Settings.EBBillingUnitlist.eb_settings, hostelId]);
 
 
@@ -200,7 +198,7 @@ useEffect(() => {
     dispatch({ type: "EBLIST" });
 
   }, []);
-  
+
 
 
 
@@ -220,12 +218,12 @@ useEffect(() => {
 
 
     setReading(item.reading);
-  
+
     setSelectedDate(item.date || "");
-       
-          setSelectedDate(
-            item.date ? moment(item.date).toDate("") : null
-          );
+
+    setSelectedDate(
+      item.date ? moment(item.date).toDate("") : null
+    );
     setId(item.eb_Id)
     setHostelId(item.hostel_Id)
 
@@ -270,7 +268,7 @@ useEffect(() => {
       return false;
     }
 
-   
+
     switch (fieldName) {
       case "reading":
         setReadingError("");
@@ -306,14 +304,14 @@ useEffect(() => {
       setfloorError("");
     }
 
- 
+
     if (Rooms === "Select a Room" || !isRoomValid) {
       setRoomError("Please Select a Valid Room");
       return;
     } else {
       setRoomError("");
     }
-   
+
     if (
 
       !isreadingValid ||
@@ -344,7 +342,7 @@ useEffect(() => {
       setFormError("");
     }
 
-   const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
+    const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
     dispatch({
       type: "EDITELECTRICITY",
       payload: {
@@ -359,7 +357,7 @@ useEffect(() => {
 
   };
 
- 
+
   const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const indexOfLastRowelectricity =
@@ -369,11 +367,11 @@ useEffect(() => {
 
   const dataSource = props.filterStatus ? props.RoomElect : roomelectricity;
 
-const currentRowelectricity = dataSource?.slice(
-  indexOfFirstRowelectricity,
-  indexOfLastRowelectricity
-);
- 
+  const currentRowelectricity = dataSource?.slice(
+    indexOfFirstRowelectricity,
+    indexOfLastRowelectricity
+  );
+
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
   };
@@ -385,40 +383,40 @@ const currentRowelectricity = dataSource?.slice(
   const totalPagesinvoice = Math.ceil(roomelectricity?.length / electricityrowsPerPage);
 
 
-  
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  
-    const sortedData = React.useMemo(() => {
-      if (!sortConfig.key) return currentRowelectricity;
-  
-      const sorted = [...currentRowelectricity].sort((a, b) => {
-        const valueA = a[sortConfig.key];
-        const valueB = b[sortConfig.key];
-  
-  
-        if (!isNaN(valueA) && !isNaN(valueB)) {
-          return sortConfig.direction === 'asc'
-            ? valueA - valueB
-            : valueB - valueA;
-        }
-  
-        if (typeof valueA === 'string' && typeof valueB === 'string') {
-          return sortConfig.direction === 'asc'
-            ? valueA.localeCompare(valueB)
-            : valueB.localeCompare(valueA);
-        }
-  
-        return 0;
-      });
-  
-      return sorted;
-    }, [currentRowelectricity, sortConfig]);
-  
-    const handleSort = (key, direction) => {
-      setSortConfig({ key, direction });
-    };
 
- 
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return currentRowelectricity;
+
+    const sorted = [...currentRowelectricity].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+
+
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === 'asc'
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortConfig.direction === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [currentRowelectricity, sortConfig]);
+
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
+
+
 
 
   const handleDeleteReading = () => {
@@ -443,7 +441,7 @@ const currentRowelectricity = dataSource?.slice(
         dispatch({ type: "CLEAR_DELETE_ELECTRICITY" });
       }, 200);
 
-    
+
     }
   }, [state.PgList.statusCodeForEditElectricity, state.PgList.statusCodeForDeleteElectricity])
 
@@ -459,6 +457,7 @@ const currentRowelectricity = dataSource?.slice(
  
 
 
+
   return (
 
 
@@ -471,17 +470,17 @@ const currentRowelectricity = dataSource?.slice(
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-             
+
             }}
           >
-         
+
             <img
               src={emptyimg}
               alt="Empty State"
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-           
+
             {props.ebpermissionError && (
               <div
                 style={{
@@ -501,106 +500,108 @@ const currentRowelectricity = dataSource?.slice(
           <>
 
 
- {sortedData && sortedData.length > 0 && (
-
-<div
-className="p-0 booking-table-userlist  booking-table ps-2 ms-0 me-4"
-style={{ paddingBottom: "20px",marginLeft:"-22px" }}
->
+            {sortedData && sortedData.length > 0 ? (
 
               <div
-                className='show-scrolls electricity-table'
-                style={{
-                  
+                className="p-0 booking-table-userlist  booking-table ps-2 ms-0 me-4"
+                style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+              >
 
-                  height: currentRowelectricity.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
+                <div
+                  className='show-scrolls electricity-table'
+                  style={{
 
-                  overflow: "auto",
-                  marginBottom: 20,
-                  marginTop: "20px"
-                  
-                }}>
 
-                <Table
-                  responsive="md"
-                >
+                    height: currentRowelectricity.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
 
-                  <thead style={{
-                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                    top: 0,
-                    zIndex: 1
+                    overflow: "auto",
+                    marginBottom: 20,
+                    marginTop: "20px"
+
                   }}>
-                    <tr>
-                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Paying Guest</div>  </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Floor</div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500,whiteSpace:"nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Room no </div> </th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Reading </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Date </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Units</div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Amount </div></th>
-
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
-                    </tr>
-                  </thead>
+                  <Table
+                    responsive="md"
+                  >
 
 
-                  <tbody>
-                    {   sortedData && sortedData.length > 0 && (
-                            <>
-                              {sortedData.map((v) => {
+   
 
-let formattedDate;
+                    <thead style={{
+                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 1
+                    }}>
+                      <tr>
+                        <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Paying Guest</div>  </th>
 
-if (v.date && v.date !== '0000-00-00') {
-  let Dated = new Date(v.date);
-  let day = Dated.getDate().toString().padStart(2, '0');
-  let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
-  let year = Dated.getFullYear();
-  formattedDate = `${day}-${month}-${year}`;
-} else {
-  let initialDate = new Date(v.initial_date);
-  let day = initialDate.getDate().toString().padStart(2, '0');
-  let month = (initialDate.getMonth() + 1).toString().padStart(2, '0');
-  let year = initialDate.getFullYear();
-  formattedDate = `${day}-${month}-${year}`;
-}
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("floor_name", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Floor</div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Room_Id", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Room no </div> </th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Reading </div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Date </div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Units</div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Amount </div></th>
+
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
+                      </tr>
+                    </thead>
+
+
+                    <tbody>
+                      {sortedData && sortedData.length > 0 && (
+                        <>
+                          {sortedData.map((v) => {
+
+                            let formattedDate;
+
+                            if (v.date && v.date !== '0000-00-00') {
+                              let Dated = new Date(v.date);
+                              let day = Dated.getDate().toString().padStart(2, '0');
+                              let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
+                              let year = Dated.getFullYear();
+                              formattedDate = `${day}-${month}-${year}`;
+                            } else {
+                              let initialDate = new Date(v.initial_date);
+                              let day = initialDate.getDate().toString().padStart(2, '0');
+                              let month = (initialDate.getMonth() + 1).toString().padStart(2, '0');
+                              let year = initialDate.getFullYear();
+                              formattedDate = `${day}-${month}-${year}`;
+                            }
 
 
 
 
-return (
-  <tr key={v.id}>
-  
+                            return (
+                              <tr key={v.id}>
 
 
-    <td
+ <td
                                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
                                           style={{
                                             paddingTop: 15,
@@ -658,8 +659,10 @@ return (
         whiteSpace:"nowrap"
       }}
     >
-      {v.Room_Id}
+      <div style={{marginLeft:2}}>  {v.Room_Id}</div>
+    
     </td>
+
 
     <td
       style={{
@@ -670,18 +673,20 @@ return (
         verticalAlign: "middle",
        borderBottom: "1px solid #E8E8E8",
        paddingLeft:20,
-       whiteSpace:"nowrap"
+       whiteSpace:"nowrap",
+       marginLeft:13
+
       }}
     >
-      {v.reading}
+      <div style={{marginLeft:2}}>{v.reading}</div>
+    
     </td>
     <td
       style={{
         textAlign: "start",
         verticalAlign: "middle", 
         borderBottom: "1px solid #E8E8E8",
-        paddingRight:5,
-        whiteSpace:"nowrap"
+               whiteSpace:"nowrap"
         
       }}
     >
@@ -692,6 +697,7 @@ return (
           paddingLeft: "16px",
           paddingRight: "16px",
           paddingBottom: "5px",
+          marginLeft:-4,
           borderRadius: "60px",
           fontSize: 13, 
           fontWeight: 500,
@@ -714,7 +720,8 @@ return (
        
       }}
     >
-      {v.total_reading}
+      <div style={{marginLeft:2}}>{v.total_reading}</div>
+      
     </td>
     <td
       style={{
@@ -728,7 +735,8 @@ return (
         
       }}
     >
-      ₹{v.total_amount}
+        <div style={{marginLeft:2}}>₹{v.total_amount}</div>
+   
     </td>
     <td  style={{
        fontSize: 13, 
@@ -738,176 +746,225 @@ return (
         verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
       }}>
 
-      <div
-        style={{
-          cursor: "pointer",
-          height: 35,
-          width: 35,
-          borderRadius: 100,
-          border: "1px solid #EFEFEF",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          position: "relative",
-         
-          backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
-        }}
-        onClick={(e) => handleShowDots(v.eb_Id,e)}
-      >
-        <PiDotsThreeOutlineVerticalFill
-          style={{ height: 20, width: 20,color:"black" }}
-        />
-        {activeRow === v.eb_Id && (
-          <>
-            <div
-              ref={popupRef}
-              style={{
-                cursor: "pointer",
-                backgroundColor: "#F9F9F9",
-                position: "fixed",
-                top: popupPosition.top,
-                left: popupPosition.left,
-                width: 120,
-                height: "auto",
-                border: "1px solid #EBEBEB",
-                borderRadius: 10,
-                display: "flex",
-                justifyContent: "start",
-                padding: 10,
-                alignItems: "center",
-                zIndex: 1000 ,
-              }}
-            >
-              <div
-                style={{ backgroundColor: "#F9F9F9" }}
-                className=""
-              >
-                <div
-                  className={"mb-3 d-flex justify-content-start align-items-center gap-2"}
-                  style={{
-                    cursor: props.ebEditPermission ? "not-allowed" : "pointer",
-                  }}
-                  onClick={() => {
-                    if (!props.ebEditPermission) {
-                      handleEditRoomReading(v);
-                    }
-                  }}
-                >
-                  <img
-                    src={Edit}
-                    style={{
-                      height: 16,
-                      width: 16,
-                      filter: props.ebEditPermission ? "grayscale(100%)" : "none",
-                    }}
-                    alt="Edit"
-                  />
-                  <label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy, sans-serif",
-                      color: props.ebEditPermission ? "#ccc" : "#222222",
-                      cursor: props.ebEditPermission ? "not-allowed" : "pointer",
-                    }}
-                  >
-                    Edit
-                  </label>
+                                  <div
+                                    style={{
+                                      cursor: "pointer",
+                                      height: 35,
+                                      width: 35,
+                                      borderRadius: 100,
+                                      border: "1px solid #EFEFEF",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      position: "relative",
+
+                                      backgroundColor: activeRow === v.eb_Id ? "#E7F1FF" : "white",
+                                    }}
+                                    onClick={(e) => handleShowDots(v.eb_Id, e)}
+                                  >
+                                    <PiDotsThreeOutlineVerticalFill
+                                      style={{ height: 20, width: 20, color: "black" }}
+                                    />
+                                    {activeRow === v.eb_Id && (
+                                      <>
+                                        <div
+                                          ref={popupRef}
+                                          style={{
+                                            cursor: "pointer",
+                                            backgroundColor: "#F9F9F9",
+                                            position: "fixed",
+                                            top: popupPosition.top,
+                                            left: popupPosition.left,
+                                            width: 150,
+                                            border: "1px solid #EBEBEB",
+                                            borderRadius: 10,
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "flex-start",
+                                            zIndex: 1000,
+                                          }}
+                                        >
+
+                                          <div
+                                            className="d-flex justify-content-start align-items-center gap-2 "
+                                            style={{
+                                              cursor: props.ebEditPermission ? "not-allowed" : "pointer",
+                                              opacity: props.ebEditPermission ? 0.6 : 1,
+                                              borderTopLeftRadius: 10,
+                                              borderTopRightRadius: 10,
+                                              backgroundColor: "#F9F9F9",
+                                              padding: "8px 12px",
+                                              width:"100%",
+                                            }}
+                                            onClick={() => {
+                                              if (!props.ebEditPermission) {
+                                                handleEditRoomReading(v);
+                                              }
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              if (!props.ebEditPermission)
+                                                e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor = "transparent";
+                                            }}
+                                          >
+                                            <img
+                                              src={Edit}
+                                              alt="Edit"
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                                filter: props.ebEditPermission ? "grayscale(100%)" : "none",
+                                              }}
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: props.ebEditPermission ? "#ccc" : "#222222",
+                                              }}
+                                            >
+                                              Edit
+                                            </label>
+                                          </div>
+
+
+                                          <div
+                                            className="d-flex justify-content-start align-items-center gap-2"
+                                            style={{
+                                              cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
+                                              opacity: props.ebDeletePermission ? 0.6 : 1,
+                                              borderBottomLeftRadius: 10,
+                                              borderBottomRightRadius: 10,
+                                              backgroundColor: "#F9F9F9",
+                                              padding: "8px 12px",
+                                              width:"100%",
+                                            }}
+                                            onClick={() => {
+                                              if (!props.ebDeletePermission) {
+                                                handleDeleteShow(v);
+                                              }
+                                            }}
+                                            onMouseEnter={(e) => {
+                                              if (!props.ebDeletePermission)
+                                                e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                              e.currentTarget.style.backgroundColor = "transparent";
+                                            }}
+                                          >
+                                            <img
+                                              src={Delete}
+                                              alt="Delete"
+                                              style={{
+                                                height: 16,
+                                                width: 16,
+                                                filter: props.ebDeletePermission ? "grayscale(100%)" : "none",
+                                              }}
+                                            />
+                                            <label
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 500,
+                                                fontFamily: "Gilroy, sans-serif",
+                                                color: props.ebDeletePermission ? "#ccc" : "#FF0000",
+                                              }}
+                                            >
+                                              Delete
+                                            </label>
+                                          </div>
+                                        </div>
+
+                                      </>
+                                    )}
+                                  </div>
+
+                                
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </>
+
+
+                      )
+                      }
+                    </tbody>
+
+
+                  </Table>
                 </div>
-
-
-
-                <div
-                  className={"mb-2 d-flex justify-content-start align-items-center gap-2"}
-                  style={{
-                    cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
-                  }}
-                  onClick={() => {
-                    if (!props.ebDeletePermission) {
-                      handleDeleteShow(v);
-                    }
-                  }}
-                >
-                  <img
-                    src={Delete}
-                    style={{
-                      height: 16,
-                      width: 16,
-                      filter: props.ebDeletePermission ? "grayscale(100%)" : "none", 
-                    }}
-                    alt="Delete"
-                  />
-                  <label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy, sans-serif",
-                      color: props.ebDeletePermission ? "#ccc" : "#FF0000", 
-                      cursor: props.ebDeletePermission ? "not-allowed" : "pointer",
-                    }}
-                  >
-                    Delete
-                  </label>
-                </div>
-
               </div>
-            </div>
-          </>
-        )}
-      </div>
 
-      {/* <img src={dottt} style={{ height: 40, width: 40 }} /> */}
-    </td>
-  </tr>
-);
-})}
-                            </>
-                          
+            ):
+                     props.value === "2" && !props.loading && roomelectricity && roomelectricity?.length === 0 ? (
+                        <div style={{marginTop:60}}>
+                          <div style={{ textAlign: "center" }}>
+                            <img src={emptyimg} width={240} height={240} alt="No readings" />
+                          </div>
+                          <div
+                            className="pb-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 600,
+                              fontFamily: "Gilroy",
+                              fontSize: 20,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            No room readings
+                          </div>
+                          <div
+                            className="pb-1"
+                            style={{
+                              textAlign: "center",
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              fontSize: 16,
+                              color: "rgba(75, 75, 75, 1)",
+                            }}
+                          >
+                            There are no room readings available.
+                          </div>
+            
+                        </div>
+                      ) : null}
 
-                        )
-                    }
-                  </tbody>
 
 
-                </Table>
-              </div>
-</div>
-
-            )}
-
-
-           
 
 
 
             {props.loading &&
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: '200px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'transparent',
-                      opacity: 0.75,
-                      zIndex: 10,
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderTop: '4px solid #1E45E1',
-                        borderRight: '4px solid transparent',
-                        borderRadius: '50%',
-                        width: '40px',
-                        height: '40px',
-                        animation: 'spin 1s linear infinite',
-                      }}
-                    ></div>
-                  </div>
-                }
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: '200px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
+            }
             {roomelectricity?.length >= 5 && (
               <nav
                 style={{
@@ -924,7 +981,7 @@ return (
                   zIndex: 1000,
                 }}
               >
-                {/* Dropdown for Items Per Page */}
+              
                 <div>
                   <select
                     value={electricityrowsPerPage}
@@ -948,7 +1005,7 @@ return (
                   </select>
                 </div>
 
-                {/* Pagination Controls */}
+             
                 <ul
                   style={{
                     display: "flex",
@@ -958,7 +1015,7 @@ return (
                     padding: 0,
                   }}
                 >
-                  {/* Previous Button */}
+                
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -980,12 +1037,12 @@ return (
                     </button>
                   </li>
 
-                  {/* Current Page Indicator */}
+                 
                   <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                     {electricitycurrentPage} of {totalPagesinvoice}
                   </li>
 
-                  {/* Next Button */}
+                  
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1034,41 +1091,11 @@ return (
           >
             Edit Reading
           </div>
-          {/* <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleClose}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "16px",
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "25px",
-              height: "25px",
-              borderRadius: "50%",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{
-                fontSize: "30px",
-                paddingBottom: "6px",
-              }}
-            >
-              &times;
-            </span>
-          </button> */}
-          <CloseCircle size="24" color="#000" onClick={handleClose} 
-          style={{ cursor: 'pointer'}}/>
+        
+          <CloseCircle size="24" color="#000" onClick={handleClose}
+            style={{ cursor: 'pointer' }} />
         </Modal.Header>
-        <Modal.Body style={{marginTop:"-10px"}}>
+        <Modal.Body style={{ marginTop: "-10px" }}>
           <div className="row ">
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1083,120 +1110,84 @@ return (
                 Floor{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
-              {/* <Form.Select
-                aria-label="Default select example"
-                className="border"
-                disabled={
-                  unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel !== ""
+             
+
+              <Select
+                options={
+                  state?.UsersList?.hosteldetailslist?.map((item) => ({
+                    value: item.floor_id,
+                    label: item.floor_name,
+                  })) || []
                 }
-                value={Floor}
-                onChange={(e) => handleFloor(e)}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
+                onChange={(selectedOption) => handleFloor(selectedOption?.value)}
+                value={
+                  Floor
+                    ? state?.UsersList?.hosteldetailslist?.find(
+                      (item) => item.floor_id === Floor
+                    ) && {
+                      value: Floor,
+                      label: state?.UsersList?.hosteldetailslist?.find(
+                        (item) => item.floor_id === Floor
+                      )?.floor_name,
+                    }
+                    : null
+                }
+                placeholder="Select Floor"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                isDisabled={unitAmount && unitAmount.length === 0 && selectedHostel !== ""}
+                noOptionsMessage={() => "No floors available"}
+                styles={{
+                  control: (base, state) => ({
+                    ...base,
+                    height: "50px",
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "8px",
+                    fontSize: "16px",
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    backgroundColor: state.isDisabled ? "#E9ECEF" : "white",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "120px",
+                    padding: 0,
+                    scrollbarWidth: "thin",
+                    overflowY: "auto",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#555",
+                    cursor: "pointer"
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer",
+                    backgroundColor: state.isFocused ? "lightblue" : "white",
+                    color: "#000",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
                 }}
-              >
-                <option
-                  style={{ fontSize: 14, fontWeight: 600 }}
-                  selected
-                  value=""
-                >
-                  Select Floor
-                </option>
-                {state?.UsersList?.hosteldetailslist &&
-                  state?.UsersList?.hosteldetailslist.map((item) => (
-                    <>
-                      <option key={item.floor_id} value={item.floor_id}>
-                        {item.floor_name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select> */}
-          
-  <Select
-    options={
-      state?.UsersList?.hosteldetailslist?.map((item) => ({
-        value: item.floor_id,
-        label: item.floor_name,
-      })) || []
-    }
-    onChange={(selectedOption) => handleFloor(selectedOption?.value)}
-    value={
-      Floor
-        ? state?.UsersList?.hosteldetailslist?.find(
-            (item) => item.floor_id === Floor
-          ) && {
-            value: Floor,
-            label: state?.UsersList?.hosteldetailslist?.find(
-              (item) => item.floor_id === Floor
-            )?.floor_name,
-          }
-        : null
-    }
-    placeholder="Select Floor"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    isDisabled={unitAmount && unitAmount.length === 0 && selectedHostel !== ""}
-    noOptionsMessage={() => "No floors available"}
-    styles={{
-      control: (base, state) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-        backgroundColor: state.isDisabled ? "#E9ECEF" : "white",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        cursor:"pointer"
-      }),
-      option: (base, state) => ({
-        ...base,
-        cursor: "pointer", 
-        backgroundColor: state.isFocused ? "lightblue" : "white", 
-        color: "#000",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
+              />
 
 
               {floorError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>
+                  <MdError style={{ fontSize: '14px', marginRight: "5px", marginBottom: "2px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{floorError}</span>
                 </div>
               )}
@@ -1213,114 +1204,84 @@ return (
                 Room{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
-              {/* <Form.Select
-                aria-label="Default select example"
-                className="border"
-                disabled={
-                  unitAmount &&
-                  unitAmount?.length === 0 &&
-                  selectedHostel !== ""
+              
+
+              <Select
+                options={
+                  state?.UsersList?.roomdetails?.map((item) => ({
+                    value: item.Room_Id,
+                    label: item.Room_Name,
+                  })) || []
                 }
-                value={Rooms}
-                onChange={(e) => handleRoom(e)}
-                style={{
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                  height: 50,
-                  borderRadius: 8,
+                onChange={(selectedOption) => handleRoom(selectedOption?.value)}
+                value={
+                  Rooms
+                    ? state?.UsersList?.roomdetails?.find(
+                      (item) => item.Room_Id === Rooms
+                    ) && {
+                      value: Rooms,
+                      label: state?.UsersList?.roomdetails?.find(
+                        (item) => item.Room_Id === Rooms
+                      )?.Room_Name,
+                    }
+                    : null
+                }
+                placeholder="Select a Room"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                isDisabled={unitAmount && unitAmount.length === 0 && selectedHostel !== ""}
+                noOptionsMessage={() => "No rooms available"}
+                styles={{
+                  control: (base, state) => ({
+                    ...base,
+                    height: "50px",
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "8px",
+                    fontSize: "16px",
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                    boxShadow: "none",
+                    backgroundColor: state.isDisabled ? "#E9ECEF" : "white",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "120px",
+                    padding: 0,
+                    scrollbarWidth: "thin",
+                    overflowY: "auto",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#555",
+                    cursor: "pointer"
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer",
+                    backgroundColor: state.isFocused ? "lightblue" : "white",
+                    color: "#000",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
                 }}
-              >
-                <option>Select a Room</option>
-                {state.UsersList?.roomdetails &&
-                  state.UsersList?.roomdetails.map((item) => (
-                    <>
-                      <option key={item.Room_Id} value={item.Room_Id}>
-                        {item.Room_Name}
-                      </option>
-                    </>
-                  ))}
-              </Form.Select> */}
-             
-  <Select
-    options={
-      state?.UsersList?.roomdetails?.map((item) => ({
-        value: item.Room_Id,
-        label: item.Room_Name,
-      })) || []
-    }
-    onChange={(selectedOption) => handleRoom(selectedOption?.value)}
-    value={
-      Rooms
-        ? state?.UsersList?.roomdetails?.find(
-            (item) => item.Room_Id === Rooms
-          ) && {
-            value: Rooms,
-            label: state?.UsersList?.roomdetails?.find(
-              (item) => item.Room_Id === Rooms
-            )?.Room_Name,
-          }
-        : null
-    }
-    placeholder="Select a Room"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    isDisabled={unitAmount && unitAmount.length === 0 && selectedHostel !== ""}
-    noOptionsMessage={() => "No rooms available"}
-    styles={{
-      control: (base, state) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-        backgroundColor: state.isDisabled ? "#E9ECEF" : "white",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        cursor:"pointer"
-      }),
-      option: (base, state) => ({
-        ...base,
-        cursor: "pointer", 
-        backgroundColor: state.isFocused ? "lightblue" : "white", 
-        color: "#000",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
+              />
 
 
               {roomError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>
+                  <MdError style={{ fontSize: '14px', marginRight: "5px", marginBottom: "2px" }} />
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{roomError}</span>
                 </div>
               )}
@@ -1359,13 +1320,13 @@ return (
               </Form.Group>
               {readingError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '14px',marginRight:"5px"}}/>
+                  <MdError style={{ fontSize: '14px', marginRight: "5px" }} />
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{readingError}</span>
                 </div>
               )}
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group  controlId="purchaseDate">
+              <Form.Group controlId="purchaseDate">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1377,61 +1338,47 @@ return (
                   Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
-  {/* <DatePicker
-    style={{ width: '100%', height: 48 }}
-    format="DD/MM/YYYY"
-    placeholder="DD/MM/YYYY"
-    value={selectedDate ? dayjs(selectedDate) : null}
-    onChange={(date) => {
-      setSelectedDate(date ? date.toDate() : null);
-      dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
-      setDateError('');
-      setFormError('');
-      setDateErrorMesg('');
-    }}
-    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-     placement="bottomLeft"
-  /> */}
-  <DatePicker
-  style={{ height: 48,width: "100%",cursor:"pointer" }}
-  format="DD/MM/YYYY"
-    placeholder="DD/MM/YYYY"
-  value={selectedDate ? dayjs(selectedDate) : null}
-  onChange={(date) => {
-    setSelectedDate(date ? date.toDate() : null);
-    dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
-    setDateError('');
-    setFormError('');
-    setDateErrorMesg('');
-  }}
-  getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-  dropdownClassName="custom-datepicker-popup"
-/>
+                 
+                  <DatePicker
+                    style={{ height: 48, width: "100%", cursor: "pointer" }}
+                    format="DD/MM/YYYY"
+                    placeholder="DD/MM/YYYY"
+                    value={selectedDate ? dayjs(selectedDate) : null}
+                    onChange={(date) => {
+                      setSelectedDate(date ? date.toDate() : null);
+                      dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
+                      setDateError('');
+                      setFormError('');
+                      setDateErrorMesg('');
+                    }}
+                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                    dropdownClassName="custom-datepicker-popup"
+                  />
 
-</div>
+                </div>
               </Form.Group>
               {dateErrorMesg && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{fontSize: '14px',marginRight:"5px",marginBottom:"2px"}}/>
+                  <MdError style={{ fontSize: '14px', marginRight: "5px", marginBottom: "2px" }} />
                   <span style={{ fontSize: '14px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{dateErrorMesg}</span>
                 </div>
               )}
             </div>
           </div>
-           {dateError && (
-                        <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
-                        <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
-                        <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{dateError}</span>
-                      </div>
-                        )}
+          {dateError && (
+            <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
+              <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
+              <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
+            </div>
+          )}
         </Modal.Body>
         {formError && (
           <div className="d-flex justify-content-center align-items-center" style={{ color: "red" }}>
-            <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
-            <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+            <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
+            <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
           </div>
         )}
-        <Modal.Footer className="d-flex justify-content-center "style={{borderTop:"none"}}>
+        <Modal.Footer className="d-flex justify-content-center " style={{ borderTop: "none" }}>
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -1460,14 +1407,14 @@ return (
       >
         <Modal.Header style={{ borderBottom: "none" }}>
           <Modal.Title
-          className="w-100 text-center"
+            className="w-100 text-center"
             style={{
               fontSize: "18px",
               fontFamily: "Gilroy",
-              
+
               fontWeight: 600,
               color: "#222222",
-              
+
             }}
           >
             Delete Reading?
@@ -1475,13 +1422,13 @@ return (
         </Modal.Header>
 
         <Modal.Body
-        className="text-center"
+          className="text-center"
           style={{
             fontSize: 14,
             fontWeight: 500,
             fontFamily: "Gilroy",
             color: "#646464",
-            
+
             marginTop: "-10px",
           }}
         >
@@ -1491,26 +1438,26 @@ return (
         <Modal.Footer
           className="d-flex justify-content-center"
           style={{
-            
+
             borderTop: "none",
             marginTop: "-10px",
           }}
         >
           <Button
-          className="me-2"
-          style={{
-            width: "100%",
-            maxWidth: 160,
-            height: 52,
-            borderRadius: 8,
-            padding: "12px 20px",
-            background: "#fff",
-            color: "#1E45E1",
-            border: "1px solid #1E45E1",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-          }}
+            className="me-2"
+            style={{
+              width: "100%",
+              maxWidth: 160,
+              height: 52,
+              borderRadius: 8,
+              padding: "12px 20px",
+              background: "#fff",
+              color: "#1E45E1",
+              border: "1px solid #1E45E1",
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+            }}
             onClick={handleCloseDelete}
           >
             Cancel

@@ -69,7 +69,7 @@ function DashboardAnnouncement() {
   const [displayError, setDisplayError] = useState("");
   const [selectTitleCard, setSelectedTitleCard] = useState('')
   const [loading, setLoading] = useState(true)
-const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
 
@@ -154,12 +154,15 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
-    setLoading(true)
+   
     if (hostel_id) {
+       setLoading(true)
       dispatch({
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
       });
+    }else{
+       setLoading(false)
     }
   }, [hostel_id]);
 
@@ -337,7 +340,7 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   const handleShowDots = (id) => {
     setShowDots((prevId) => (prevId === id ? null : id));
-     const { top, left, height } = event.target.getBoundingClientRect();
+    const { top, left, height } = event.target.getBoundingClientRect();
     const popupTop = top + height / 2;
     const popupLeft = left - 150;
 
@@ -458,9 +461,9 @@ const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
 
         <div
-style={{ maxHeight: "400px", overflowY: "auto"}}
+          style={{ maxHeight: "400px", overflowY: "auto", overflowX: 'hidden' }}
         >
-          <div className="row announcement-card"  >
+          <div className="row announcement-card" >
             {currentItems?.length > 0 ? (
               currentItems?.map((data) => (
                 <div key={data.id} className="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12 mb-3">
@@ -606,43 +609,45 @@ style={{ maxHeight: "400px", overflowY: "auto"}}
                             <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
 
                             {showDots === data.id && (
-                              <div className="card-popup"
+                              <div
+                                className="card-popup"
                                 ref={popupRef}
                                 style={{
                                   cursor: "pointer",
-                                  backgroundColor: "#F9F9F9",
+                                  backgroundColor: "#fff",
                                   position: "fixed",
-                                    top: popupPosition.top,
+                                  top: popupPosition.top,
                                   left: popupPosition.left,
-                                   marginRight: 30,
-                                  width: 120,
+                                  marginRight: 30,
+                                  width: 140,
                                   height: "auto",
-                                  border: "1px solid #EBEBEB",
+                                  border: "1px solid #E0E0E0",
                                   borderRadius: 10,
+                                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                                   display: "flex",
                                   flexDirection: "column",
-                                  justifyContent: "space-between",
+                                  justifyContent: "start",
                                   zIndex: 1001,
-                                  alignItems: "flex-start"
-                                }}
+                                  alignItems: "flex-start",
+                                                                  }}
                               >
+                              
                                 <div
-                                  className="mb-2 gap-2"
+                                  className="d-flex gap-2 align-items-center "
                                   style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "20px",
-                                    cursor: "pointer",
-                                    pointerEvents: "auto",
                                     width: "100%",
-                                    padding: "5px 10px",
-
-
+                                    padding: "8px 12px",
+                                    transition: "background 0.2s ease-in-out",
+                                    borderTopLeftRadius: 10,
+                          borderTopRightRadius: 10,
                                   }}
-                                  onClick={() => {
-                                    handleEdit(data);
-
-                                  }}
+                                  onClick={() => handleEdit(data)}
+                                  onMouseEnter={(e) =>
+                                    (e.currentTarget.style.backgroundColor = "#F0F4FF")
+                                  }
+                                  onMouseLeave={(e) =>
+                                    (e.currentTarget.style.backgroundColor = "transparent")
+                                  }
                                 >
                                   <Edit size="16" color="#1E45E1" />
                                   <label
@@ -650,7 +655,8 @@ style={{ maxHeight: "400px", overflowY: "auto"}}
                                       fontSize: 14,
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                      color: "#222222",
+                                      color: "#1E45E1",
+                                      marginBottom: 0,
                                       cursor: "pointer",
                                     }}
                                   >
@@ -658,24 +664,26 @@ style={{ maxHeight: "400px", overflowY: "auto"}}
                                   </label>
                                 </div>
 
+                               
+                                <div style={{ height: 1, backgroundColor: "#F0F0F0", width: "100%" }} />
 
+                              
                                 <div
-                                  className="mb-2 gap-2"
+                                  className="d-flex gap-2 align-items-center "
                                   style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "10px",
-                                    cursor: "pointer",
-                                    pointerEvents: "auto",
-                                     width: "100%",
-                                     padding: "5px 10px",
-                                     
+                                    width: "100%",
+                                    padding: "8px 12px",
+                                    transition: "background 0.2s ease-in-out",
+                                    borderBottomLeftRadius: 10,
+                          borderBottomRightRadius: 10,
                                   }}
-                                  onClick={() => {
-
-                                    handleDelete(data);
-
-                                  }}
+                                  onClick={() => handleDelete(data)}
+                                  onMouseEnter={(e) =>
+                                    (e.currentTarget.style.backgroundColor = "#FFF3F3")
+                                  }
+                                  onMouseLeave={(e) =>
+                                    (e.currentTarget.style.backgroundColor = "transparent")
+                                  }
                                 >
                                   <img
                                     src={Delete}
@@ -688,14 +696,15 @@ style={{ maxHeight: "400px", overflowY: "auto"}}
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
                                       color: "#FF0000",
+                                      marginBottom: 0,
                                       cursor: "pointer",
-                                                                           }}
+                                    }}
                                   >
                                     Delete
                                   </label>
                                 </div>
-
                               </div>
+
                             )}
 
 

@@ -16,7 +16,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
-import { ArrowLeft2, ArrowRight2,Edit, Trash } from 'iconsax-react';
+import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
 
 
@@ -30,11 +30,11 @@ function ParticularHostelDetails(props) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
-  // const [showRoom, setShowRoom] = useState(false)
+ 
   const [showBed, setShowBed] = useState(false)
   const [details, setDetails] = useState('')
 
- 
+
 
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function ParticularHostelDetails(props) {
 
 
 
-  
+
 
 
   const handleAddBed = (item, Room_Id) => {
@@ -51,12 +51,9 @@ function ParticularHostelDetails(props) {
     setDetails({ item, Room_Id });
   }
 
-  // const handleCloseBed = () => {
-  //   setShowBed(false)
+  
 
-  // }
 
- 
 
 
 
@@ -83,9 +80,9 @@ function ParticularHostelDetails(props) {
     }
   }, [props.hostel_Id, props.floorID])
 
- 
 
-  
+
+
 
 
 
@@ -185,7 +182,7 @@ function ParticularHostelDetails(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6)
 
-  // const [currentItems, setCurrentItems] = useState([]); 
+ 
 
 
   useEffect(() => {
@@ -204,14 +201,14 @@ function ParticularHostelDetails(props) {
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
-console.log("currentItems",currentItems)
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
 
 
- 
+
 
 
   const [showRoom, setShowRoom] = useState(false)
@@ -348,14 +345,14 @@ console.log("currentItems",currentItems)
 
       <div className=''>
 
-        <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{position:"relative"}}>
+        <div className='mt-2 mb-2 d-flex justify-content-center w-100 ' style={{ position: "relative" }}>
           {loader && <div
             style={{
               position: 'absolute',
               top: 200,
               right: 0,
               bottom: 0,
-              left:0,
+              left: 0,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -389,75 +386,115 @@ console.log("currentItems",currentItems)
                     <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
                       <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>
                         Room No {room.Room_Name}
-                        {/* <span>{getFormattedRoomId(room.Floor_Id, room.Room_Id)}</span> */}
                       </div>
                       <div onClick={() => handleShowDots(room.Room_Id)} style={{ position: "relative", zIndex: showDots ? 1000 : 'auto', cursor: "pointer" }}>
                         <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                         {String(activeRoomId) === String(room.Room_Id) && (
-                          <div ref={popupRef} style={{ cursor: "pointer", backgroundColor: "#f9f9f9", position: "absolute", right: 0, top: 30, width: 120, height: 92, border: "1px solid #EBEBEB", borderRadius: 10, display: "flex", justifyContent: "start", padding: 15, alignItems: "center" }}>
-                            <div>
-                              <div
-                                className={`d-flex gap-2 mb-2 align-items-center ${props.editPermissionError ? 'disabled' : ''}`}
-                                onClick={() => {
-                                  if (!props.editPermissionError) {
-                                    handleEditRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id, room.Room_Name);
-                                  }
-                                }}
-                                style={{ cursor: props.editPermissionError ? 'not-allowed' : 'pointer' }}
-                              >
-                                <div>
-                                  <Edit size="16" color={props.editPermissionError ? "#888888" : "#1E45E1"} />
-                                </div>
-                                <div>
-                                  <label
-                                    style={{
-                                      fontSize: 14,
-                                      fontWeight: 500,
-                                      fontFamily: "Outfit, sans-serif",
-                                      color: props.editPermissionError ? "#888888" : "#222222",
-                                      cursor: "pointer"
-                                    }}
-                                  >
-                                    Edit
-                                  </label>
-                                </div>
-                              </div>
-                              <div
-                                className={`d-flex gap-2 mb-2 align-items-center ${props.deletePermissionError ? 'disabled' : ''}`}
-                                onClick={() => {
-                                  if (!props.deletePermissionError) {
-                                    handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id);
-                                  }
-                                }}
-                                style={{ cursor: props.deletePermissionError ? 'not-allowed' : 'pointer' }}
-                              >
-                                <div>
-                                  <Trash
-                                    size="16"
-                                    color={props.deletePermissionError ? "#888888" : "red"}
-                                  />
-                                </div>
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    cursor: props.deletePermissionError ? 'not-allowed' : 'pointer',
-                                    color: props.deletePermissionError ? "#888888" : "rgba(255, 0, 0, 1)"
-                                  }}
-                                >
-                                  Delete
-                                </label>
-                              </div>
+                          <div
+                            ref={popupRef}
+                            style={{
+                              cursor: "pointer",
+                              backgroundColor: "#f9f9f9",
+                              position: "absolute",
+                              right: 0,
+                              top: 30,
+                              width: 140,
+                              border: "1px solid #EBEBEB",
+                              borderRadius: 10,
 
+                              display: "flex",
+                              flexDirection: "column",
+                              zIndex: 1000,
+                              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                            }}
+                          >
+
+                            <div
+                              className="d-flex gap-2 align-items-center"
+                              onClick={() => {
+                                if (!props.editPermissionError) {
+                                  handleEditRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id, room.Room_Name);
+                                }
+                              }}
+                              style={{
+                                padding: "10px 10px",
+                                borderTopLeftRadius: 10,
+                                borderTopRightRadius: 10,
+                                pointerEvents: props.editPermissionError ? "none" : "auto",
+                                opacity: props.editPermissionError ? 0.5 : 1,
+                                cursor: props.editPermissionError ? "not-allowed" : "pointer",
+                                transition: "background 0.2s ease-in-out",
+                              }}
+                              onMouseEnter={(e) => {
+                                if (!props.editPermissionError) e.currentTarget.style.backgroundColor = "#F0F4FF";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = "transparent";
+                              }}
+                            >
+                              <Edit size="16" color={props.editPermissionError ? "#888888" : "#1E45E1"} />
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  color: props.editPermissionError ? "#888888" : "#222222",
+                                  marginBottom: 0,
+                                  cursor: "pointer",
+                                }}
+                              >
+                                Edit
+                              </label>
+                            </div>
+
+
+                            <div style={{ height: 1, backgroundColor: "#E0E0E0", margin: "0px 0" }} />
+
+                            <div
+                              className="d-flex gap-2 align-items-center"
+                              onClick={() => {
+                                if (!props.deletePermissionError) {
+                                  handleDeleteRoom(room.Hostel_Id, room.Floor_Id, room.Room_Id);
+                                }
+                              }}
+                              style={{
+                                padding: "10px 10px",
+                                borderBottomLeftRadius: 10,
+                                borderBottomRightRadius: 10,
+                                pointerEvents: props.deletePermissionError ? "none" : "auto",
+                                opacity: props.deletePermissionError ? 0.5 : 1,
+                                cursor: props.deletePermissionError ? "not-allowed" : "pointer",
+                                transition: "background 0.2s ease-in-out",
+                              }}
+                              onMouseEnter={(e) => {
+                                if (!props.deletePermissionError) e.currentTarget.style.backgroundColor = "#FFF3F3";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = "transparent";
+                              }}
+                            >
+                              <Trash size="16" color={props.deletePermissionError ? "#888888" : "red"} />
+                              <label
+                                style={{
+                                  fontSize: 14,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  color: props.deletePermissionError ? "#888888" : "#FF0000",
+                                  marginBottom: 0,
+                                  cursor: "pointer",
+                                }}
+                              >
+                                Delete
+                              </label>
                             </div>
                           </div>
+
                         )}
                       </div>
                     </Card.Header>
                     <Card.Body className=''>
                       <div className='row row-gap-3 g-0'>
-                        { Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details && room.bed_details.map((bed) => (
+                        {Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details && room.bed_details.map((bed) => (
                           <div key={bed.id} className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
                             <div className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
 
@@ -474,7 +511,7 @@ console.log("currentItems",currentItems)
                                 <img src={bed.isfilled ? Green : White} alt='bedd' style={{ height: 41, width: 34, cursor: "pointer" }}
 
                                   onClick={() => handleDeleteBedConfirmation(bed, room)}
-                                // onClick={()=>handleDeleteBed(bed, room)}
+                              
 
                                 />
                               </OverlayTrigger>
@@ -483,7 +520,7 @@ console.log("currentItems",currentItems)
                             </div>
                           </div>
                         ))}
-                      
+
                         <div
                           className={`col-lg-3 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center ${props.addPermissionError ? 'disabled' : ''}`}
                           onClick={() => {
@@ -539,7 +576,7 @@ console.log("currentItems",currentItems)
 
               !loader && !loaderTrigger && currentItems.length === 0 &&
               <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", margin: "0px auto" }}>
-                
+
                 <div>
                   <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
                   <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
@@ -594,22 +631,22 @@ console.log("currentItems",currentItems)
           roomCountData.length >= 6 &&
 
 
-          <nav 
-          // className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center'
-          className="pagination-container"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "end",
-          padding: "10px",
-          position: "fixed",
-          bottom: "10px",
-          right: "10px",
-          backgroundColor: "#fff",
-          borderRadius: "5px",
-          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-          zIndex: 1000,
-        }}
+          <nav
+           
+            className="pagination-container"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "end",
+              padding: "10px",
+              position: "fixed",
+              bottom: "10px",
+              right: "10px",
+              backgroundColor: "#fff",
+              borderRadius: "5px",
+              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+              zIndex: 1000,
+            }}
           >
             <div>
               <select
@@ -627,7 +664,7 @@ console.log("currentItems",currentItems)
 
                 }}
               >
-                
+
                 <option value={6}>6</option>
                 <option value={10}>10</option>
                 <option value={50}>50</option>
@@ -635,7 +672,7 @@ console.log("currentItems",currentItems)
               </select>
             </div>
 
-            {/* Pagination Controls */}
+          
             <ul
               style={{
                 display: "flex",
@@ -645,7 +682,7 @@ console.log("currentItems",currentItems)
                 padding: 0,
               }}
             >
-              {/* Previous Button */}
+            
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{
@@ -667,12 +704,12 @@ console.log("currentItems",currentItems)
                 </button>
               </li>
 
-              {/* Current Page Indicator */}
+            
               <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                 {currentPage} of {totalPages}
               </li>
 
-              {/* Next Button */}
+             
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{

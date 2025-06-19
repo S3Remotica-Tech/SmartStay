@@ -167,8 +167,8 @@ function AssignBooking(props) {
       ad_amount: Advanceamount,
       rent_amount: rentamount,
       id: props.assignBooking.id,
+      whatsappId: state.InvoiceList.whatsappSettings?.[3]
     };
-
     dispatch({
       type: "ASSIGN_BOOKING",
       payload: payload,
@@ -420,8 +420,8 @@ function AssignBooking(props) {
                       backgroundColor: isSelected
                         ? "#007bff"
                         : isFocused
-                        ? "#e9ecef"
-                        : "white",
+                          ? "#e9ecef"
+                          : "white",
                       color: isSelected ? "white" : "#000",
                       cursor: "pointer",
                     }),
@@ -536,8 +536,8 @@ function AssignBooking(props) {
                       backgroundColor: isSelected
                         ? "#007bff"
                         : isFocused
-                        ? "#e9ecef"
-                        : "white",
+                          ? "#e9ecef"
+                          : "white",
                       color: isSelected ? "white" : "#000",
                       cursor: "pointer",
                     }),
@@ -596,29 +596,29 @@ function AssignBooking(props) {
                 options={
                   state.UsersList?.bednumberdetails?.bed_details?.length > 0
                     ? state.UsersList.bednumberdetails.bed_details
-                        .filter(
-                          (item) =>
-                            item.bed_no !== "0" &&
-                            item.bed_no !== "undefined" &&
-                            item.bed_no !== "" &&
-                            item.bed_no !== "null"
-                        )
-                        .map((item) => ({
-                          value: item.id,
-                          label: item.bed_no,
-                        }))
+                      .filter(
+                        (item) =>
+                          item.bed_no !== "0" &&
+                          item.bed_no !== "undefined" &&
+                          item.bed_no !== "" &&
+                          item.bed_no !== "null"
+                      )
+                      .map((item) => ({
+                        value: item.id,
+                        label: item.bed_no,
+                      }))
                     : []
                 }
                 onChange={handleBed}
                 value={
                   bed
                     ? {
-                        value: bed,
-                        label:
-                          state.UsersList?.bednumberdetails?.bed_details?.find(
-                            (bedItem) => bedItem.id === bed
-                          )?.bed_no || "Selected Bed",
-                      }
+                      value: bed,
+                      label:
+                        state.UsersList?.bednumberdetails?.bed_details?.find(
+                          (bedItem) => bedItem.id === bed
+                        )?.bed_no || "Selected Bed",
+                    }
                     : null
                 }
                 placeholder="Selected Bed"

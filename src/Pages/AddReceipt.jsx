@@ -6,7 +6,6 @@ import {Button } from 'react-bootstrap';
 import {Form} from 'react-bootstrap';
 import 'flatpickr/dist/themes/material_blue.css';
 import { MdError } from "react-icons/md";
-// import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -21,7 +20,6 @@ const AddReceiptForm = (props) => {
      
       const [customerinvoicefilter , setCustomerInvoiceFilter] = useState([])
 
-      //receipt
       const [customername , setCustomerName] =  useState ('');
       const [reference_id , setReferenceId] =  useState ('')
       const [invoicenumber , setInvoiceNumber] =  useState ('')
@@ -29,8 +27,6 @@ const AddReceiptForm = (props) => {
       const [initial_due_amount , setInitial_DueAmount] =  useState ('')
       const [received_amount , setReceivedAmount] =  useState ('')
       const [payment_date , setPaymentDate] =  useState (null);
-      // const [payment_mode , setPaymentMode] =  useState ('')
-      // const [bank_id , setBank_Id] =  useState ('')
       const [notes , setNotes] =  useState ('')
         const [modeOfPayment, setModeOfPayment] = useState("");
         const [account, setAccount] = useState("")
@@ -39,13 +35,9 @@ const AddReceiptForm = (props) => {
       const [formatpaymentdate, setFormatPaymentDate] = useState(null)
       const [customererrmsg , setCustomerErrmsg] = useState('')
       const [invoicenumbererrmsg , setInvoicenumberErrmsg] = useState('')
-      // const [referencideerrmsg , setReferenceIdErrmsg] = useState('')
       const [receivedamounterrmsg , setReceivedAmountErrmsg] = useState('')
       const [payment_dateerrmsg , setPaymentDateErrmsg] = useState('')
-      // const [paymentmode_errmsg , setPaymentmode_Errmsg] = useState('')
       const [notes_errmsg , setNotes_Errmsg] = useState('')
-      // const [bank_errmsg , setBank_Errmsg] = useState('')
-        // const [accountError, setAccountError] = useState("");
         const [paymentError, setPaymentError] = useState("");
       
       const [allfielderrmsg , setAllFieldErrmsg] = useState('')
@@ -60,7 +52,6 @@ const AddReceiptForm = (props) => {
      useEffect(() => {
         if (props.editvalue && props.receiptedit) {
           setEdit(true)
-          console.log("receiptedit",props.editvalue);
           setEdit_Id(props.editvalue.user_id)
           setCustomerName(props.editvalue.user_id);
           setInvoiceNumber(props.editvalue.invoice_number || '');
@@ -71,9 +62,8 @@ const AddReceiptForm = (props) => {
               setPaymentDate(parsedDate); 
               const formattedDate = formatDateForReceipt(parsedDate);
           setFormatPaymentDate(formattedDate)
-            } else {
-              console.error("Invalid Date:", props.editvalue.payment_date);
-            }
+            } 
+           
           }
 
           
@@ -90,11 +80,8 @@ const AddReceiptForm = (props) => {
    
     
      
-     console.log("invoicenumber",invoicenumber)
      
-    // const handleDueAmount = (e)=>{
-    //   setDueAmount(e.target.value)
-    // }
+   
     
       const handleCustomerName = (selectedOption) => {
         if (!selectedOption) {
@@ -102,12 +89,11 @@ const AddReceiptForm = (props) => {
           return;
         }
       
-        const Value = selectedOption.value;  // Correct way to get selected value
+        const Value = selectedOption.value;  
         setCustomerName(Value);
         setAllFieldErrmsg("");
         setDueAmount(0);
       
-        // Proper filter logic
         const CustomerinvoicedetailsFilter =
           state?.InvoiceList?.ManualInvoices?.length > 0
             ? state.InvoiceList.ManualInvoices.filter(
@@ -123,8 +109,7 @@ const AddReceiptForm = (props) => {
           setInvoicenumberErrmsg("");
         }
       
-        console.log("customerfilter", state?.InvoiceList?.ManualInvoices);
-        console.log("customerfilter", CustomerinvoicedetailsFilter);
+    
       
         if (!Value) {
           setCustomerErrmsg("Please Select Name");
@@ -138,13 +123,11 @@ const AddReceiptForm = (props) => {
       
       
 
-      // const [dropdownClicked, setDropdownClicked] = useState(false);
 
       const handleInvoiceNumber = (e) => {
         const selectedValue =(e.target.value);
         
         setInvoiceNumber(selectedValue);
-        // setDropdownClicked(true);
         setAllFieldErrmsg("");
       
         const DueAmountFilter =
@@ -161,135 +144,52 @@ const AddReceiptForm = (props) => {
         }
       };
 
-console.log("customerinvoicefilter",customerinvoicefilter)
-      const handleReceivedAmount = (e) => {
-        const value = e.target.value;
-        const receivedValue = parseFloat(value);
-      
-        setReceivedAmount(value);
-      
-        // Use fixed original base for subtraction
-        const baseAmount = props.editvalue ? props.editvalue.amount_received : initial_due_amount;
-      
-        if (value === '') {
-          setDueAmount(baseAmount);
-        } else if (!isNaN(receivedValue)) {
-          if (receivedValue <= baseAmount) {
-            setDueAmount(baseAmount - receivedValue);
-          } else {
-            setDueAmount(0);
-          }
-        } else {
-          setDueAmount(baseAmount);
-        }
-        setAllFieldErrmsg("")
-      };
+
+    
+
+
+const handleReceivedAmount = (e) => {
+  const value = e.target.value;
+
+  const validInput = /^[0-9]*\.?[0-9]*$/;
+  if (!validInput.test(value)) return;
+
+  setReceivedAmountErrmsg("")
+
+  const receivedValue = parseFloat(value);
+  const baseAmount = props.editvalue ? props.editvalue.amount_received : initial_due_amount;
+
+  if (receivedValue > baseAmount) return;
+
+  setReceivedAmount(value);
+
+  if (value === '') {
+    setDueAmount(baseAmount);
+  } else if (!isNaN(receivedValue)) {
+    setDueAmount(baseAmount - receivedValue);
+  } else {
+    setDueAmount(baseAmount);
+  }
+
+  setAllFieldErrmsg("");
+};
+
+
       
 
-      // const handleReceivedAmount = (e) => {
-      //   const value = e.target.value;
-      //   const receivedValue = parseFloat(value);
+    
       
-      //   // Always update receivedAmount for controlled input
-      //   setReceivedAmount(value);
-      
-      //   // Determine base amount for calculation
-      //   const baseAmount = props.editvalue ? props.editvalue.amount_received : due_amount;
-      
-      //   console.log("baseAmount",baseAmount);
-        
-
-      //   if (value == '') {
-      //     // Input cleared — reset dueAmount to full
-      //     setDueAmount(baseAmount);
-      //   } else if (!isNaN(receivedValue)) {
-      //     if (receivedValue <= baseAmount) {
-      //       setDueAmount(baseAmount - receivedValue);
-      //     } else {
-      //       // Optional: cap or show alert
-      //       // alert("Received amount cannot be more than the total amount.");
-      //       setDueAmount(0);
-      //     }
-      //   } else {
-      //     // Invalid input (not a number), reset to base
-      //     setDueAmount(baseAmount);
-      //   }
-      // };
+    
       
       
 
-      // const handleReceivedAmount = (e) => {
-      //   const value = e.target.value;
-      //   const receivedValue = parseFloat(value);
-      //   setReceivedAmount(value);
-      
-      //   const baseAmount = props.editvalue ? props.editvalue.amount_received : due_amount; 
-      
-      //   if (!isNaN(receivedValue)) {
-      //     if (receivedValue <= baseAmount) {
-      //       const updatedDueAmount = baseAmount - receivedValue;
-      //       setDueAmount(updatedDueAmount);
-      //     // } else {
-      //     //   alert("Received amount cannot be more than the total amount.");
-      //     //   setReceivedAmount('');
-      //     //   setDueAmount(baseAmount);
-      //     }
-      //   } else {
-      //     // If input is invalid, reset dueAmount
-      //     setDueAmount(baseAmount);
-      //   }
-      // };
       
       
-      // const handleReceivedAmount = (e) => {
-      //   const value = e.target.value;
-      //   const receivedValue = parseFloat(value);
-      
-      //   // Always update receivedAmount for controlled input
-      //   setReceivedAmount(value);
-      
-      //   if (!isNaN(receivedValue)) {
-      //     if (receivedValue <= props.editvalue.amount_received) {
-      //       const updatedDueAmount = props.editvalue.amount_received - receivedValue;
-      //       setDueAmount(updatedDueAmount);
-      //     }
-      //   } else {
-      //     // If input is invalid, set due amount to full
-      //     setDueAmount(props.editvalue.amount_received);
-      //   }
-      // };
       
       
-    //   const handleReceivedAmount = (e) => {
-    //     const receivedValue = parseFloat(e.target.value) || 0; // Convert to number, handle empty input
-    //   let updatedDueAmount;
-    //     if (receivedValue !== '' && initial_due_amount >= receivedValue) {
-    //     updatedDueAmount = initial_due_amount - receivedValue; 
-    //     console.log("updatedDueAmount",updatedDueAmount);
-    //     setDueAmount(updatedDueAmount >= 0 ? updatedDueAmount : 0);
-    //     setReceivedAmount(receivedValue);
-    //    }
-        
+      
+  
     
-    //     // Prevent negative due amount
-    //     // setReceivedAmount(receivedValue);
-    //     setAllFieldErrmsg('');
-    
-    //     if (!e.target.value) {
-    //       setDueAmount(initial_due_amount);
-    //         setReceivedAmountErrmsg("Please Enter Amount");
-    //     } else {
-    //         setReceivedAmountErrmsg('');
-    //     }
-    // };
-    // const handleAccount = (selectedOption) => {
-    //   const selectedValue = selectedOption?.value || "";
-    
-    //   setAccount(selectedValue);
-    //   setAccountError("")
-    //   setAccountError(selectedValue ? "" : "Please Select Bank");
-    // };
-     
 
     
 
@@ -297,8 +197,6 @@ console.log("customerinvoicefilter",customerinvoicefilter)
       const handleModeOfPaymentChange = (e) => {
         setModeOfPayment(e.target.value);
          setAllFieldErrmsg("")
-        // setGeneralError("");
-        // setPaymentError("");
         if(!e.target.value){
           setPaymentError("Please Select Payment Method")
         }
@@ -306,31 +204,10 @@ console.log("customerinvoicefilter",customerinvoicefilter)
           setPaymentError('')
          
         }
-        // setIsChangedError("");
+
       };
 
-      // const handlePaymentMode = (e) => {
-      //   setPaymentMode(e.target.value)
-      //   setAllFieldErrmsg('')
-      //   if(!e.target.value){
-      //     setPaymentmode_Errmsg("Please Select payment method")
-      //   }
-      //   else{
-      //       setPaymentmode_Errmsg('')
-      //   }
-      // }
-
-      
-      // const handleBanking = (e) => {
-      //   setBank_Id(e.target.value)
-      //   setAllFieldErrmsg('')
-      //   if(!e.target.value){
-      //     setBank_Errmsg("Please Select Bank")
-      //   }
-      //   else{
-      //       setBank_Errmsg('')
-      //   }
-      // }
+    
 
       const handleNotes = (e) => {
         setNotes(e.target.value)
@@ -351,19 +228,13 @@ console.log("customerinvoicefilter",customerinvoicefilter)
         setReferenceId('')
         setPaymentDate('')
         setReceivedAmount('')     
-        // setPaymentMode('')
-        // setBank_Id('')
+    
         setNotes('')
    }
  
-  //  const formatDateForReceipt = (date) => {
-  //    if (!date) return null;
-  //    const offset = date.getTimezoneOffset();
-  //    date.setMinutes(date.getMinutes() - offset);
-  //    return date.toISOString().split('T')[0]; 
-  //  };
+ 
   const formatDateForReceipt = (date) => {
-    return dayjs(date).format("YYYY-MM-DD"); // or any format you prefer
+    return dayjs(date).format("YYYY-MM-DD"); 
   };
  
    
@@ -408,9 +279,7 @@ console.log("customerinvoicefilter",customerinvoicefilter)
             setPaymentDateErrmsg('Please Select  Date')
           }
 
-          // if(!invoicenumber){
-          //   setInvoicenumberErrmsg("Please Select Invoice")
-          // }
+         
           if (!invoicenumber && props.editvalue.type !== "checkout") {
   setInvoicenumberErrmsg("Please Select Invoice");
   return;
@@ -425,13 +294,6 @@ console.log("customerinvoicefilter",customerinvoicefilter)
             setPaymentError("Please Select Payment Method")
             return;
           }
-
-          
-
-          // if (modeOfPayment === "Net Banking" && !account) {
-          //   setAccountError("Please Choose Bank Account");
-          //   return;
-          // }
 
           
           if(!customername && !invoicenumber &&  !formatpaymentdate && !reference_id && !modeOfPayment && !received_amount  ){
@@ -459,9 +321,7 @@ console.log("customerinvoicefilter",customerinvoicefilter)
           })();
         
         
-        console.log("FinalValue:", isChanged);
         
-          // (props.editvalue.notes ? String(props.editvalue.notes) !== String(notes) : notes !== ""); 
         
         if (!isChanged) {
           setAllFieldErrmsg("No Changes Detected");
@@ -479,15 +339,7 @@ console.log("customerinvoicefilter",customerinvoicefilter)
              }
              });
 
-             props.onhandleback()
-             setCustomerName('');
-             setInvoiceNumber('');
-             setReferenceId('')
-             setPaymentDate('')
-             setReceivedAmount('')     
-            //  setPaymentMode('')
-            //  setBank_Id('')
-             setNotes('')
+         
           }
 
           else if(edit && isChanged && props.editvalue && props.receiptedit && edit_Id && customername && invoicenumber  && formatpaymentdate && reference_id && received_amount && modeOfPayment && account ){
@@ -499,58 +351,16 @@ console.log("customerinvoicefilter",customerinvoicefilter)
               }
               });
 
-        
- 
-              props.onhandleback()
               setCustomerName('');
               setInvoiceNumber('');
               setReferenceId('')
               setPaymentDate('')
               setReceivedAmount('')     
-              // setPaymentMode('')
-              // setBank_Id('')
               setNotes('')
           }
 
      
      }
-
-
-  
-  //    const customDateInputPaymentDate = (props) => {
-  //     return (
-  //         <div className="date-input-container w-100" onClick={props.onClick} style={{ position:"relative"}}>
-  //             <FormControl
-  //                 type="text"
-  //                 className='date_input'
-  //                 value={props.value || 'DD/MM/YYYY'}
-  //                 readOnly
-  //                                     style={{
-  //                     border: "1px solid #D9D9D9",
-  //                     borderRadius: 8,
-  //                     padding: 9,
-  //                     fontSize: 14,
-  //                     fontFamily: "Gilroy",
-  //                     fontWeight: props.value ? 600 : 500,
-  //                                            width: "100%", 
-  //                                            height: 48,
-  //                     boxSizing: "border-box",
-  //                     boxShadow:"none" 
-  //                 }}
-  //             />
-  //             <img 
-  //                 src={Calendars} 
-  //             style={{ height: 22, width: 22, marginLeft: 10, cursor: "pointer", position:"absolute" ,right:10, top:"50%",transform:'translateY(-50%)' }} 
-  //                 alt="Calendar" 
-  //                 onClick={props.onClick} 
-  //             />
-  //         </div>
-  //     );
-  // };
-
-
-
-
 
      
 
@@ -560,16 +370,11 @@ console.log("customerinvoicefilter",customerinvoicefilter)
 
     
     
-   
-      
-    
-
+  
 
       const options = {
         dateFormat: 'd/m/Y',
         defaultDate: null,
-        // defaultDate: selectedDate,
-        // maxDate: new Date(),
         minDate: null,
       };
     
@@ -579,9 +384,21 @@ console.log("customerinvoicefilter",customerinvoicefilter)
         }   
     }, [ payment_date ])
 
-      
-    
      
+
+
+     useEffect(() => {
+        if (state.InvoiceList.ReceiptAddErrorStatuscode === 201) {
+    
+          setAllFieldErrmsg(state.InvoiceList.ReceiptErrmsg);
+          setTimeout(() => {
+            dispatch({ type: 'REMOVE_STATUS_ERROR_RECEIPTS_ADD' });
+          }, 100);
+        }
+      }, [state.InvoiceList.ReceiptAddErrorStatuscode]); 
+      
+  
+       
       
      
       useEffect(() => {
@@ -601,7 +418,6 @@ console.log("customerinvoicefilter",customerinvoicefilter)
          
 
          
-    console.log("state?.InvoiceList?.ManualInvoices",state?.InvoiceList?.ManualInvoices)
    
 
         
@@ -627,10 +443,9 @@ console.log("customerinvoicefilter",customerinvoicefilter)
 <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
   <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}>
-    Customer
+    Customer  <span style={{ color: "red", fontSize: "20px" }}>*</span>
   </Form.Label>
 
-  {/* Wrapper for Select with Scrollable Dropdown */}
   
   <Select
   className="show-scroll"
@@ -675,6 +490,8 @@ console.log("customerinvoicefilter",customerinvoicefilter)
       fontSize: 16,
       borderRadius: 8,
       border: "1px solid #D9D9D9",
+      backgroundColor: edit ? "#E7F1FF" : "#FFFFFF",
+      color: "black",
     }),
   }}
 />
@@ -734,7 +551,7 @@ console.log("customerinvoicefilter",customerinvoicefilter)
           lineHeight: "normal",
         }}
       >
-        Invoice Number
+        Invoice Number  <span style={{ color: "red", fontSize: "20px" }}>*</span>
       </Form.Label>
 
       {edit ? (
@@ -826,117 +643,7 @@ console.log("customerinvoicefilter",customerinvoicefilter)
   </div>
 )}
 
-    {/* <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-  <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-    <Form.Label
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: 14,
-        fontWeight: 500,
-        color: "#222",
-        fontStyle: "normal",
-        lineHeight: "normal",
-      }}
-    >
-      Invoice Number
-    </Form.Label>
-
-    {edit ? (
-      <Form.Control
-        type="text"
-        value={invoicenumber}
-        readOnly
-        className="border"
-        style={{
-          fontSize: 16,
-          color: "#4B4B4B",
-          fontFamily: "Gilroy",
-          lineHeight: "18.83px",
-          fontWeight: 500,
-          boxShadow: "none",
-          border: "1px solid #D9D9D9",
-          height: 38,
-          borderRadius: 8,
-          backgroundColor: "#E7F1FF",
-        }}
-      />
-    ) : (
-      <Select
-      className="custom-dropdown"
-      options={customerinvoicefilter.map((u) => ({
-        value: u.Invoices,
-        label: u.Invoices,
-      }))}
-      onChange={(selectedOption) =>
-        handleInvoiceNumber({ target: { value: selectedOption?.value } })
-      }
-      value={
-        customerinvoicefilter.find((u) => u.Invoices === invoicenumber)
-          ? { value: invoicenumber, label: invoicenumber }
-          : null
-      }
-      isDisabled={edit}
-      styles={{
-        menu: (base) => ({
-          ...base,
-          maxHeight: "150px",
-          overflowY: "auto",
-        }),
-        menuList: (base) => ({
-          ...base,
-          maxHeight: "150px", 
-          overflowY: "auto", 
-          scrollbarWidth: "thin",  
-          msOverflowStyle: "none",
-        }),
-        dropdownIndicator: (base) => ({
-          ...base,
-          color: "#555",
-          cursor:"pointer"
-        }),
-        option: (base, state) => ({
-          ...base,
-          cursor: "pointer", 
-          backgroundColor: state.isFocused ? "lightblue" : "white", 
-          color: "#000",
-        }),
-        control: (base) => ({
-          ...base,
-          fontSize: 16,
-          borderRadius: 8,
-          border: "1px solid #D9D9D9",
-        }),
-      }}
-    />
-
-      
-
-     
- 
-
-
-    )}
-
-{invoicenumbererrmsg && (
-                  <div className="d-flex align-items-center  mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"14px" }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {invoicenumbererrmsg}
-                    </label>
-                  </div>
-                )}
-
-
-  </Form.Group>
-</div> */}
+    
 
 
 
@@ -944,21 +651,7 @@ console.log("customerinvoicefilter",customerinvoicefilter)
 
 <div className="row mb-1">
 
-{/* <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
-      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Due Amount</Form.Label>
-        <Form.Control
-          style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 ,   backgroundColor: "#E7F1FF",}}
-          type="text"
-          placeholder="Enter Due Amount"
-          value={due_amount} 
-          // onChange={(e)=>handleDueAmount(e)}
-          readOnly
-        />
 
-  
-      </Form.Group>
-    </div> */}
 
     {!(edit && (!invoicenumber || invoicenumber === "0" || invoicenumber === 0)) && (
   <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
@@ -997,14 +690,22 @@ console.log("customerinvoicefilter",customerinvoicefilter)
 
     <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
       <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received</Form.Label>
+        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received  <span style={{ color: "red", fontSize: "20px" }}>*</span></Form.Label>
         <Form.Control
           style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500}}
           type="text"
           placeholder="Enter Received Amount"
           value={received_amount} 
           onChange={(e)=>handleReceivedAmount(e)} 
-          // disabled={edit}
+           onPaste={(e) => {
+    const pasted = e.clipboardData.getData("text");
+    const num = parseFloat(pasted);
+    const baseAmount = props.editvalue ? props.editvalue.amount_received : initial_due_amount;
+
+    if (!/^[0-9]*\.?[0-9]*$/.test(pasted) || isNaN(num) || num > baseAmount) {
+      e.preventDefault(); 
+    }
+  }}
         />
  {receivedamounterrmsg && (
                   <div className="d-flex align-items-center  mb-2">
@@ -1033,27 +734,10 @@ console.log("customerinvoicefilter",customerinvoicefilter)
   <div className="col-lg-3 col-md-5 col-sm-12 ">
     <Form.Group controlId="invoiceDate" className="mb-1">
       <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-        Payment Date 
-        {/* <span style={{ color: 'red', fontSize: '20px' }}>*</span> */}
+        Payment Date  <span style={{ color: "red", fontSize: "20px" }}>*</span> 
       </Form.Label>
       <div style={{ position: 'relative', width: "100%" ,height: 48, }}>
-        {/* <DatePicker
-          selected={payment_date}
-          onChange={(date) => handlePayemntDate(date)}
-          dateFormat="dd/MM/yyyy"
-          popperPlacement="bottom-start"
-          popperModifiers={[
-            {
-              name: "offset",
-              options: {
-                offset: [0, -300],
-              },
-            },
-          ]}
-          customInput={customDateInputPaymentDate({
-            value: payment_date ? payment_date.toLocaleDateString('en-GB') : '',
-          })}
-        /> */}
+       
 
 
           <DatePicker
@@ -1086,7 +770,6 @@ console.log("customerinvoicefilter",customerinvoicefilter)
                 )}
   </div>
 
-  {/* Due Date */}
   <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-1"
@@ -1101,20 +784,12 @@ console.log("customerinvoicefilter",customerinvoicefilter)
                     }}
                   >
                     Mode of Transaction{" "}
-                    <span
-                      style={{
-                        color: "#FF0000",
-                        display: modeOfPayment ? "none" : "inline-block",
-                      }}
-                    >
-                      *
-                    </span>
+                 <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Select
                     aria-label="Default select example"
                     value={modeOfPayment}
                     onChange={handleModeOfPaymentChange}
-                    // disabled={currentItem}
                     className=""
                     id="vendor-select"
                     style={{
@@ -1125,12 +800,7 @@ console.log("customerinvoicefilter",customerinvoicefilter)
                       cursor:"pointer"
                     }}
                   >
-                 {/* <option selected>select </option>
-                 <option value="Cash">Cash </option>
-                 <option value="Debit Card">Debit Card</option> 
-                  <option value="Credit Card">Credit Card </option>
-                  <option value="UPI">UPI</option>
-                  <option value="Net Banking"> Banking</option> */}
+            
                    <option value="">Select Mode Of Payment</option>
                     {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
                     state.bankingDetails?.bankingList?.banks.map((item) => {
@@ -1149,62 +819,7 @@ console.log("customerinvoicefilter",customerinvoicefilter)
                   
                   </Form.Select>
                  
-  {/* <Select
-    options={[
-      { value: "Cash", label: "Cash" },
-      { value: "Debit Card", label: "Debit Card" },
-      { value: "Credit Card", label: "Credit Card" },
-      { value: "UPI", label: "UPI" },
-      { value: "Net Banking", label: "Net Banking" },
-    ]}
-    onChange={(selectedOption) => handleModeOfPaymentChange(selectedOption?.value)}
-    value={
-      modeOfPayment
-        ? { value: modeOfPayment, label: modeOfPayment }
-        : null
-    }
-    placeholder="Select Mode of Payment"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    noOptionsMessage={() => "No payment modes available"}
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "rgba(75, 75, 75, 1)",
-        fontFamily: "Gilroy",
-        fontWeight: modeOfPayment ? 600 : 500,
-        boxShadow: "none",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  /> */}
+
 
 
                 </Form.Group>
@@ -1226,192 +841,13 @@ console.log("customerinvoicefilter",customerinvoicefilter)
                 )}
               </div>
 
-              {/* {modeOfPayment === "Net Banking" && (
-                <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    }}
-                  >
-                    Account{" "}
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "20px",
-                      }}
-                    >
-                      {" "}
-                      *{" "}
-                    </span>
-                  </Form.Label>
-             
+          
 
 
-
-
-                  <Select
-  className="custom-dropdown"
-  options={state.bankingDetails?.bankingList?.banks.map((u) => ({
-    value: u.id,
-    label: u.bank_name,
-  }))}
-
-  onChange={handleAccount} 
-
-  value={
-    state.bankingDetails?.bankingList?.banks.find((u) => u.id === account)
-      ? { value: account, label: state.bankingDetails.bankingList.banks.find((u) => u.id === account)?.bank_name }
-      : null
-  }
-
-  styles={{
-    menu: (base) => ({
-      ...base,
-      maxHeight: "150px",
-      overflowY: "auto",
-    }),
-    menuList: (base) => ({
-      ...base,
-      maxHeight: "150px",
-      overflowY: "auto",
-      scrollbarWidth: "thin",
-      msOverflowStyle: "none",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor:"pointer"
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer", 
-      backgroundColor: state.isFocused ? "lightblue" : "white", 
-      color: "#000",
-    }),
-    control: (base) => ({
-      ...base,
-      fontSize: 16,
-      borderRadius: 8,
-      border: "1px solid #D9D9D9",
-    }),
-  }}
-/>
-
-
-                  {accountError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {accountError}
-                      </label>
-                    </div>
-                  )}
-               
-                </div>
-              )} */}
-
-
-  {/* <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
-<Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-  <Form.Label 
-    style={{ 
-      fontFamily: 'Gilroy', 
-      fontSize: 14, 
-      fontWeight: 500, 
-      color: "#222", 
-      fontStyle: 'normal', 
-      lineHeight: 'normal' 
-    }}>
-    Payment Mode
-  </Form.Label>
-  <Form.Select 
-    aria-label="Default select example" 
-    value={payment_mode} 
-    onChange={handlePaymentMode} 
-    className='border' 
-    style={{ 
-      fontSize: 16, 
-      color: "#4B4B4B", 
-      fontFamily: "Gilroy", 
-      lineHeight: '18.83px', 
-      fontWeight: 500, 
-      boxShadow: "none", 
-      border: "1px solid #D9D9D9", 
-      height: 48, 
-      borderRadius: 8 
-    }}>
-      <option value=''>Select Payment</option>
-      <option value="Cash" >Cash</option>
-      <option value="upi" >UPI</option>
-      <option value="Credit Card" >Credit Card</option>
-      <option value="Debit Card" >Debit Card</option>
-  </Form.Select>
-  {paymentmode_errmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
-    {paymentmode_errmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red',marginBottom:"5px" }} />} {paymentmode_errmsg}
-  </p>
-</div>
-)}
-</Form.Group>
-</div> */}
+  
 </div>
 
-{/* <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
-<Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-  <Form.Label 
-    style={{ 
-      fontFamily: 'Gilroy', 
-      fontSize: 14, 
-      fontWeight: 500, 
-      color: "#222", 
-      fontStyle: 'normal', 
-      lineHeight: 'normal' 
-    }}>
-    Banking
-  </Form.Label>
-  <Form.Select 
-    aria-label="Default select example" 
-    value={bank_id} 
-    onChange={handleBanking} 
-    className='border' 
-    style={{ 
-      fontSize: 16, 
-      color: "#4B4B4B", 
-      fontFamily: "Gilroy", 
-      lineHeight: '18.83px', 
-      fontWeight: 500, 
-      boxShadow: "none", 
-      border: "1px solid #D9D9D9", 
-      height: 38, 
-      borderRadius: 8 
-    }}>
-      <option value=''>Select Banking</option>
-      {state?.bankingDetails?.bankingList?.banks && state?.bankingDetails?.bankingList?.banks.length > 0 
-     && state.bankingDetails.bankingList.banks.map(u => (
-    <option value={u.id} key={u.id}>{u.bank_name}</option>
-  ))
-}
-  </Form.Select>
-  {bank_errmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '13px', color: 'red', marginTop: '3px' }}>
-    {bank_errmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red',marginBottom:"5px" }} />} {bank_errmsg}
-  </p>
-</div>
-)}
-</Form.Group>
-</div> */}
+
 
 <div className="row mb-1">
 
@@ -1472,7 +908,6 @@ console.log("customerinvoicefilter",customerinvoicefilter)
       <div style={{marginBottom:30}}></div>
     
     </div>
-  {/* </div> */}
   </div>
 
 

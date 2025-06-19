@@ -15,6 +15,7 @@ import Phonepe from '../Assets/Images/phonepe.png'
 import Paytm from '../Assets/Images/paytm.png'
 import EditICon from '../Assets/Images/edit_whiteicon.png'
 import TextAreaICon from '../Assets/Images/textarea.png'
+import BankICon from '../Assets/Images/bank_white.png'
 import "react-datepicker/dist/react-datepicker.css";
 import Rentalinvoice from '../Assets/Images/Rental_invoice.png';
 import SecurityDepositinvoice from '../Assets/Images/bill_settings.png';
@@ -36,9 +37,10 @@ import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import {CloseCircle} from "iconsax-react";
+import { FaUniversity } from "react-icons/fa";
 import './SettingInvoice.css';
 
-function SettingInvoice() {
+function SettingInvoice({hostelid}) {
 
 
   const dispatch = useDispatch();
@@ -46,15 +48,17 @@ function SettingInvoice() {
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [invoicedueDate, setInvoiceDueDate] = useState('');
+  const [accountName, setAccountName] = useState("")
   const [account_number, setAccount_Number] = useState(""); 
+  const [description, setDescription] = useState("");
   const [ifsccode, setIfscCode] = useState(""); 
   const [bank_name, setBankName] = useState(""); 
   const [prefix, setPrefix] = useState("");
   const [suffix, setSuffix] = useState("");
   const [tax, setTax] = useState("");
-
- 
-
+  const [banking, setBanking] = useState([])
+  const [selectedBankId, setSelectedBankId] = useState(null);
+  const [editErrmsg , setEditErrMessage] = useState('')
   const [showform, setShowForm] = useState(false);
 
   const [edit, setEdit] = useState(false);
@@ -62,17 +66,12 @@ function SettingInvoice() {
   const [loading, setLoading] = useState(false)
 
   const [InvoiceList, setInvoiceList] = useState([]);
-  console.log("invoicelist",InvoiceList );
   
-
   const [isVisible, setIsVisible] = useState(true);
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
 
-
-  const [accno_errmsg , setAccNumberErrMsg] = useState('')
-  const [ifsccode_errmsg , setIfscCodeErrMsg] = useState('')
-  const [bank_name_errmsg , setBankErrMsg] = useState('')
+  const [accountNameError, setaccountnameError] = useState("");
   const [prefix_errmsg , setPrefixErrMsg] = useState('')
   const [suffix_errmsg , setSuffixErrMsg] = useState('')
   const [tax_errmsg , setTaxErrMsg] = useState('')
@@ -135,7 +134,15 @@ function SettingInvoice() {
 
  
 
-
+ const handleAccountName = (e) => {
+    const value = e.target.value
+    const pattern = /^[a-zA-Z\s]*$/;
+    if (!pattern.test(value)) {
+      return;
+    }
+    setAccountName(value);
+    setaccountnameError("")
+  };
 
 
 
@@ -166,6 +173,29 @@ const handleBankNameChange = (e) => {
     setBankErrMsg("");
   }
 }
+
+ const handleDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
+
+    const handleSubmitBank = () => {
+
+    if (!accountName) {
+      setaccountnameError("Please Enter Benificiary Name");
+      return;
+    }  
+    setaccountnameError("");
+ 
+    if(accountName){
+      dispatch({     
+      type: "ADD_BANKING",
+      payload: { type:"bank", benificiary_name: accountName, acc_no: account_number, bank_name: bank_name,
+                 ifsc_code: ifsccode, desc: description, hostel_id: state.login.selectedHostel_Id
+               },
+    });
+    }
+  };
 
 
 const hanldePrefix = (e) => {
@@ -213,15 +243,6 @@ const handleTermsChange = (e) => {
     setTermsErrMsg("");
   }
 }
-
-
-
-  
-
-
-  
-
-
 
 
 
@@ -280,6 +301,7 @@ const handleTermsChange = (e) => {
     setTermsErrMsg("");
     setAccount_Number("")
     setSignatureErrMsg("")
+    setEditErrMessage("")
     setIfscCode("")
     setBankName("")
     setPrefix("")
@@ -289,72 +311,76 @@ const handleTermsChange = (e) => {
   }
 
 
-   const handleSaveInvoice = () => {
-    if (
-      !account_number || !ifsccode || !bank_name ||  !prefix ||  !suffix || !tax ||
-      !notes ||
-      !terms ||
-      !signature 
-    
-    ) {
-      if (!account_number) {
-       setAccNumberErrMsg("Please Enter Account No");
-      }
-      if (!ifsccode) {
-        setIfscCodeErrMsg("Please Enter Ifsc Code");
-      }
-      if (!bank_name) {
-        setBankErrMsg("Please Select Date");
-      }
-      
-      if (!prefix) {
-        setPrefixErrMsg("Please Enter Prefix");
-      }
-      if (!suffix) {
-        setSuffixErrMsg("Please Enter Suffix");
-      }
-      if (!tax) {
-        setTaxErrMsg("Please Enter Tax");
-      }
-      if (!notes) {
-        setNotesErrMsg("Please Enter Notes");
-      }
-      if (!terms) {
-        setTermsErrMsg("Please Enter Terms");
-      }
-       if (!signature) {
-        setSignatureErrMsg("Please Select Signature");
-      }
-     
-      return;
-    }
 
 
-    dispatch({
-      type: "ADD_INVOICE_SETTINGS",
-      payload: {
-        hostelId  : Number(state.login.selectedHostel_Id),
-        bankName: bank_name,
-        accountNo: account_number,
-        ifscCode: ifsccode,
-        bankingId: '',
-        prefix: prefix,
-        suffix: suffix,
-        tax: tax ,
-        notes: notes,
-        privacyPolicy: terms,
-        signature:signature
-      },
-    });
+
+  const handleSaveInvoice = () => {
+  if (
+    !prefix || !suffix || !tax || !notes || !terms || !signature
+  ) {
+    if (!prefix) setPrefixErrMsg("Please Enter Prefix");
+    if (!suffix) setSuffixErrMsg("Please Enter Suffix");
+    if (!tax) setTaxErrMsg("Please Enter Tax");
+    if (!notes) setNotesErrMsg("Please Enter Notes");
+    if (!terms) setTermsErrMsg("Please Enter Terms");
+    if (!signature) setSignatureErrMsg("Please Select Signature");
+    return;
+  }
+
+  const currentData = {
+    prefix,
+    suffix,
+    tax,
+    notes: notes?.replace(/"/g, '') || '',
+    privacyPolicy: terms,
+    signatureFile: signature,
+    bankingId: Number(selectedBankId)
   };
 
+  const originalData = {
+    prefix: InvoiceList?.invoiceSettings?.prefix || '',
+    suffix: InvoiceList?.invoiceSettings?.suffix || '',
+    tax: InvoiceList?.invoiceSettings?.tax || '',
+    notes: InvoiceList?.invoiceSettings?.notes?.replace(/"/g, '') || '',
+    privacyPolicy: InvoiceList?.invoiceSettings?.privacyPolicyHtml || '',
+    signatureFile: InvoiceList?.invoiceSettings?.signatureFile || '',
+    bankingId: Number(InvoiceList?.invoiceSettings?.bankingId || 0),
+  };
+
+  if (
+    InvoiceList?.invoiceSettings &&
+    JSON.stringify(currentData) === JSON.stringify(originalData)
+  ) {
+    setEditErrMessage("No changes detected");
+    return;
+  }
+
+  dispatch({
+    type: "ADD_INVOICE_SETTINGS",
+    payload: {
+      hostelId: Number(state.login.selectedHostel_Id),
+      bank_id: Number(selectedBankId),
+      prefix,
+      suffix,
+      tax,
+      notes,
+      privacyPolicy: terms,
+      signature,
+    },
+  });
+};
+
+
+
+   
+  
  
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    if (hostelid) {
     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [hostelid]);
 
 
 
@@ -385,7 +411,7 @@ const handleTermsChange = (e) => {
 
       useEffect(() => {
     if (state.Settings?.settingsInvoicegetSucesscode === 200) {
-        
+        setLoading(false)
       setInvoiceList(state.Settings.SettingsInvoice)
 
       setTimeout(() => {
@@ -395,12 +421,14 @@ const handleTermsChange = (e) => {
   }, [state.Settings.settingsInvoicegetSucesscode]);
 
 
+
+
   
   
     useEffect(() => {
     if (state.Settings?.settingsAddInvoiceSucesscode === 200) {
 
-    dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
+    dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: hostelid} });
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADDINVOICE_SETTINGS_STATUS_CODE" });
@@ -410,7 +438,6 @@ const handleTermsChange = (e) => {
 
 
  
-
 
   
 
@@ -474,10 +501,54 @@ const handleTermsChange = (e) => {
   
             const handleCloseBankAccount = () => {
                  setBankAccountForm(false)
+                 setaccountnameError("")
                 }
+
+                 useEffect(() => {
+                    if(state.login.selectedHostel_Id){
+                    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+                    }
+                  }, [state.login.selectedHostel_Id]);
  
+ useEffect(() => {
+    if (state.bankingDetails.statusCodeForGetBanking === 200) {
+      setBanking(state.bankingDetails.bankingList.banks)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BANKING_LIST" });
+      }, 200);
+    }
+  }, [state.bankingDetails.statusCodeForGetBanking]);
+
+                
+     useEffect(() => {
+       if (state.bankingDetails.statusCodeForAddBanking === 200) {
+         setAccountName("")
+         handleCloseBankAccount();
+   
+         dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+         setTimeout(() => {
+           dispatch({ type: "CLEAR_ADD_USER_BANKING" });
+         }, 1000);
+       }
+     }, [state.bankingDetails.statusCodeForAddBanking]);
 
 
+
+
+
+
+  
+
+  const handleBankClick = (id) => {
+    setSelectedBankId(id);
+  };
+
+    useEffect(() => {
+    if (banking.length > 0) {
+      const defaultBank = banking.find((bank) => bank.setus_default === 2) || banking[0];
+      setSelectedBankId(defaultBank.id);
+    }
+  }, [banking]);
 
 
   useEffect(() => {
@@ -495,39 +566,59 @@ const handleTermsChange = (e) => {
 
 
 
-  useEffect(() => {
-    if (state?.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-      setInvoiceList(state?.UsersList?.hotelDetailsinPg)
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_HOSTEL_LIST_All_CODE' })
-      }, 1000)
+ 
+
+
+      useEffect(()=> {
+             if(InvoiceList?.invoiceSettings){
+                   setPrefix(InvoiceList.invoiceSettings.prefix)
+                   setSuffix(InvoiceList.invoiceSettings.suffix)
+                   setNotes(InvoiceList.invoiceSettings.notes)
+                   setTax(InvoiceList.invoiceSettings.tax)
+                   setTerms(InvoiceList.invoiceSettings.privacyPolicyHtml)
+                   setSignature(InvoiceList.invoiceSettings.signatureFile)
+                   setSignaturePreview(InvoiceList.invoiceSettings.signatureFile)
+                  setNotes(InvoiceList.invoiceSettings.notes?.replace(/"/g, "") || "");
+
+    if (InvoiceList.invoiceSettings.bankingId) {
+      setSelectedBankId(InvoiceList.invoiceSettings.bankingId);
+    } else if (banking.length > 0) {
+      setSelectedBankId(banking[0].id); 
     }
-
-  }, [state?.UsersList?.statuscodeForhotelDetailsinPg])
-
-
-  useState(()=>{
-    if(state.UsersList.noAllHosteListStatusCode === 201){
-      setLoading(false)
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
-      }, 1000);
-    }
-  },[state.UsersList.noAllHosteListStatusCode])
+             }
+     },[InvoiceList ,banking])
 
 
 
- 
-  
+useEffect(() => {
+  if (!InvoiceList?.invoiceSettings) return;
+
+  const currentData = {
+    prefix,
+    suffix,
+    tax,
+    notes: notes?.replace(/"/g, '') || '',
+    privacyPolicy: terms,
+    signatureFile: signature,
+    bankingId: Number(selectedBankId)
+  };
+
+  const originalData = {
+    prefix: InvoiceList.invoiceSettings.prefix || '',
+    suffix: InvoiceList.invoiceSettings.suffix || '',
+    tax: InvoiceList.invoiceSettings.tax || '',
+    notes: InvoiceList.invoiceSettings.notes?.replace(/"/g, '') || '',
+    privacyPolicy: InvoiceList.invoiceSettings.privacyPolicyHtml || '',
+    signatureFile: InvoiceList.invoiceSettings.signatureFile || '',
+    bankingId: Number(InvoiceList.invoiceSettings.bankingId || 0),
+  };
+
+  if (JSON.stringify(currentData) !== JSON.stringify(originalData)) {
+    setEditErrMessage('');
+  }
+}, [prefix, suffix, tax, notes, terms, signature, selectedBankId, InvoiceList]);
 
 
-
-  
-
- 
-
- 
 
 
   return (
@@ -592,24 +683,63 @@ const handleTermsChange = (e) => {
 <div className="col-12 col-md-6 d-flex justify-content-md-end mt-2 mt-md-0">
       <div className="me-3" style={{ width: "60%" }}>
         <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-          <Select
-            placeholder="Select"
-           options={PdfOptions}
-           value={PdfOptions.find(opt => opt.value === selectedcard)}
-           onChange={(selected) => handleselectPdf(selected)}
-            styles={{
-              control: (base) => ({
-                ...base,
-                padding: "2px",
-                marginTop: "5px",
-                fontSize: "14px",
-                fontFamily: "Gilroy",
-                fontWeight: 500,
-                color: "#4B4B4B",
-                borderColor: "#ced4da",
-              }),
-            }}
-          />
+         <Select
+  placeholder="Select"
+  options={PdfOptions}
+  value={PdfOptions.find(opt => opt.value === selectedcard)}
+  onChange={(selected) => handleselectPdf(selected)}
+
+ styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        borderColor: "#D1D5DB",
+                                        borderRadius: "8px",
+                                        padding: "4px",
+                                        boxShadow: "none",
+                                        cursor: "pointer",
+                                        "&:hover": { borderColor: "#666" },
+                                    }),
+                                    menu: (base) => ({
+                                        ...base,
+                                        maxHeight: PdfOptions.length > 3 ? "150px" : "auto",
+                                        overflowY: PdfOptions.length > 3 ? "auto" : "hidden",
+                                        borderRadius: "8px",
+                                        zIndex: 100,
+                                    }),
+                                    menuList: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                        padding: 0,
+                                        scrollbarWidth: "thin",
+                                        "&::-webkit-scrollbar": {
+                                            width: "6px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb": {
+                                            backgroundColor: "#888",
+                                            borderRadius: "4px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb:hover": {
+                                            backgroundColor: "#555",
+                                        },
+                                    }),
+                                    option: (base, state) => ({
+                                        ...base,
+                                        backgroundColor: state.isSelected
+                                            ? '#2563EB'
+                                            : state.isFocused
+                                                ? '#E0ECFF'
+                                                : '#FFFFFF',
+                                        color: state.isSelected ? '#FFFFFF' : '#000000',
+                                        padding: '12px 16px',
+                                        margin: 0,
+                                        borderRadius: 0,
+                                        cursor:'pointer'
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
+                                }}
+/>
+
         </Form.Group>
       </div>
 <button
@@ -671,6 +801,7 @@ const handleTermsChange = (e) => {
          style={{
            maxHeight: 450,
            overflowY: "auto",
+           overflowX:'hidden',
            borderBottomLeftRadius: "13px",
            borderBottomRightRadius: "13px",
          }}>
@@ -757,8 +888,7 @@ const handleTermsChange = (e) => {
                <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Rent Period :</div>
                <div className="col-6  text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>Mar - June 2024</div>
        
-               <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',   }}>Total Staying Days</div>
-               <div className="col-6 text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',   whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>120 Days </div>
+
              </div>
            </div>
          </div>
@@ -1043,8 +1173,7 @@ const handleTermsChange = (e) => {
                           <div className="col-6 text-muted text-end mt-1"   style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Date :</div>
                           <div className="col-6  text-start mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>31 March 2024</div>
                 
-                          <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Time :</div>
-                          <div className="col-6  text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>11:56:43 AM</div>
+
                 
                           <div className="col-6 text-muted  text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Payment Mode :</div>
                           <div className="col-6  text-start mt-1" style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',paddingLeft:18}}>UPI / Net Banking </div>
@@ -1373,8 +1502,7 @@ const handleTermsChange = (e) => {
                           <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Date :</div>
                           <div className="col-6  text-start mt-1"  style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>31 March 2024</div>
                 
-                          <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',}}>Time :</div>
-                          <div className="col-6  text-start mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>11:56:43 AM</div>
+
                           <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Room No :</div>
                           <div className="col-6  text-start mt-1"  style={{ fontSize: '13px',fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',}}>103–02</div>
                           <div className="col-6 text-muted text-end mt-1" style={{ fontSize: '12px',fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(65, 65, 65, 1)',whiteSpace:"nowrap"}}>Payment Mode :</div>
@@ -1508,8 +1636,8 @@ const handleTermsChange = (e) => {
             </div>
 
             <div>
-              <div style={{ fontWeight: 600, fontSize: 16 }}>{title}</div>
-              <div style={{ fontSize: 12, color: "#888" }}>{description}</div>
+              <div style={{ fontWeight: 600, fontSize: 16, fontFamily:"Gilroy" }}>{title}</div>
+              <div style={{ fontSize: 12, color: "#888" , fontFamily:"Gilroy"}}>{description}</div>
             </div>
           </div>
 
@@ -1528,7 +1656,7 @@ const handleTermsChange = (e) => {
   <div>
 
     <div
-                                  className="container justify-content-start  d-flex align-items-start"
+                                  className="container justify-content-start  d-flex align-items-start "
                                   style={{
                                     position: "sticky",
                                     top: 0,
@@ -1569,12 +1697,15 @@ const handleTermsChange = (e) => {
    
                               <div style={{overflowY:'auto', maxHeight:'500px' }}>
     
-                                <div className="border p-3 mb-3" style={{borderRadius:'10px' ,minHeight:'100px', overflowY:'auto', }}>
+                                <div className="border p-3 mb-3" style={{borderRadius:'10px' ,minHeight:'100px', maxHeight:'auto', overflowY:'auto', }}>
                                      <div style={{display:'flex', flexDirection:'row',justifyContent:'space-between'}}>
                                     <div>
                                      <p style={{ fontFamily: "Gilroy", fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 400,whiteSpace: "nowrap",}}>Account Details</p>
                                       </div>
                                       <div>
+                                        {
+                                          banking && banking.length > 0 && 
+
  <button
     onClick={handleAddBankAccount}
       style={{
@@ -1591,30 +1722,105 @@ const handleTermsChange = (e) => {
     >
       Add
     </button>
+                                        }
+
                                       </div>
                                        </div>
 
                                       
                                     <hr></hr>
-                   <div style={{display:'flex',flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                   <p style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "grey", fontStyle: "normal", lineHeight: "normal" }}>No Bank accounts are there!</p>
-                    <button
-    onClick={handleAddBankAccount}
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: "14px",
-        backgroundColor: "#1E45E1",
-        color: "white",
-        fontWeight: 400,
-        borderRadius: "12px",
-        width: 106,
-        height: 35,
-        border: "1px solid #1E45E1",
-      }}
-    >
-      Add
-    </button>
-                      </div>
+    <>
+      {banking && banking.length > 0 ? (
+        banking.map((bank) => (
+          <div
+            key={bank.id}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: 15,
+              cursor: "pointer",
+            }}
+            onClick={() => handleBankClick(bank.id)}
+          >
+            <input
+              type="radio"
+              name="bank"
+              checked={selectedBankId === bank.id}
+              onChange={() => handleBankClick(bank.id)}
+              style={{ accentColor: "#1E45E1", marginRight: 10, height:16, width:16 }}
+            />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "#1E45E1",
+                  color: "white",
+                  borderRadius: "50%",
+                  width: 30,
+                  height: 30,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img  src={BankICon} alt="bankicon" height={17} width={17} className="mb-1"/>
+              </div>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: 14, fontFamily: "Gilroy" }}>
+                  {bank.bank_name || "Bank Name"}
+                </div>
+                <div style={{ fontSize: 13, color: "grey", fontFamily: "Gilroy" }}>
+                  {bank.benificiary_name || "Beneficiary"} /{" "} Savings A/C
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "Gilroy",
+              fontSize: 14,
+              fontWeight: 400,
+              color: "grey",
+              fontStyle: "normal",
+              lineHeight: "normal",
+            }}
+          >
+            No Bank accounts are there!
+          </p>
+          <button
+            onClick={handleAddBankAccount}
+            style={{
+              fontFamily: "Gilroy",
+              fontSize: "14px",
+              backgroundColor: "#1E45E1",
+              color: "white",
+              fontWeight: 400,
+              borderRadius: "12px",
+              width: 106,
+              height: 35,
+              border: "1px solid #1E45E1",
+            }}
+          >
+            Add
+          </button>
+        </div>
+      )}
+    </>
               
 
                 </div>
@@ -1966,6 +2172,29 @@ const handleTermsChange = (e) => {
                                             )}
     </div>
 
+     {editErrmsg.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {editErrmsg}
+                                                </label>
+                                              </div>
+                                            )}
+
     <div className="d-flex justify-content-end flex-wrap mt-3 ">
     <button
     
@@ -2060,38 +2289,22 @@ const handleTermsChange = (e) => {
                       >
                         <Form.Label
                           style={{ fontFamily: "Gilroy", fontSize: 14, fontWeight: 400, color: "rgba(34, 34, 34, 1)", fontStyle: "normal", lineHeight: "normal" }}>
-                         Beneficiary Name
+                         Beneficiary Name   {" "}
+                        <span style={{  color: "red",  fontSize: "20px",}}>  {" "} *{" "} </span>
                         </Form.Label>
                         <Form.Control
                           style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
                           type="text"
                           placeholder="Enter Beneficiary Name"
-                          value={bank_name}
-                          onChange={handleBankNameChange}
+                          value={accountName}
+                          onChange={handleAccountName}
                         />
-
-                          {bank_name_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {bank_name_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
+ {accountNameError && (
+                <div style={{ color: "red" }}>
+                  <MdError style={{fontSize:"14",marginRight:"5px"}}/>
+                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
+                </div>
+              )}
                       </Form.Group>
 
                    
@@ -2112,28 +2325,7 @@ const handleTermsChange = (e) => {
                           onChange={handleBankNameChange}
                         />
 
-                          {bank_name_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {bank_name_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
+                          
                       </Form.Group>
 
                    
@@ -2149,34 +2341,13 @@ const handleTermsChange = (e) => {
                         <Form.Control
                           style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
                           type="text"
-                          placeholder="Account No"
+                          placeholder="Enter Account Number"
                           value={account_number}
                           onChange={handleAccountNumberChange}
  
                         />
 
-                        {accno_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {accno_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
+                      
                       </Form.Group>
 
                    
@@ -2198,28 +2369,7 @@ const handleTermsChange = (e) => {
                           
                         />
 
-                            {ifsccode_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {ifsccode_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
+                          
                       </Form.Group>
 
                       
@@ -2238,32 +2388,11 @@ const handleTermsChange = (e) => {
                           style={{ padding: "10px", marginTop: "5px", fontSize: 16, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy", lineHeight: "18.83px", fontWeight: 400 }}
                           type="text"
                           placeholder="Enter Description"
-                          value={bank_name}
-                          onChange={handleBankNameChange}
+                          value={description}
+                          onChange={(e) => handleDescription(e)}
                         />
 
-                          {bank_name_errmsg.trim() !== "" && (
-                                              <div className="d-flex align-items-center p-1">
-                                                <MdError
-                                                  style={{
-                                                    color: "red",
-                                                    marginRight: "5px",
-                                                    fontSize: "14px",
-                                                  }}
-                                                />
-                                                <label
-                                                  className="mb-0"
-                                                  style={{
-                                                    color: "red",
-                                                    fontSize: "12px",
-                                                    fontFamily: "Gilroy",
-                                                    fontWeight: 500,
-                                                  }}
-                                                >
-                                                  {bank_name_errmsg}
-                                                </label>
-                                              </div>
-                                            )}
+                        
                       </Form.Group>
 
                    
@@ -2290,6 +2419,7 @@ const handleTermsChange = (e) => {
                                         
                                         
                                                       <Modal.Footer style={{ border: "none" }}>
+                                                        
                                                         <Button
                                                           className="w-100"
                                                           style={{
@@ -2303,7 +2433,7 @@ const handleTermsChange = (e) => {
                                                             lineHeight: "normal",
                                                             marginTop:"-15px"
                                                           }}
-                                        
+                                                       onClick={handleSubmitBank}
                                                         >
                                                           Save
                                                          
@@ -2322,6 +2452,7 @@ const handleTermsChange = (e) => {
   );
 }
 SettingInvoice.propTypes = {
+  hostelid: PropTypes.func.isRequired,
   value: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
 }

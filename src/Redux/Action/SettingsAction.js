@@ -216,6 +216,7 @@ export async function SettingsGetRecurring(reccurring) {
 
 
 export async function AddInvoiceSettings(params) {
+  
   const formData = new FormData();
 
   if (params.hostelId) formData.append("hostelId", params.hostelId);
@@ -227,9 +228,9 @@ export async function AddInvoiceSettings(params) {
   if (params.suffix) formData.append("suffix", params.suffix);
   if (params.tax) formData.append("tax", params.tax);
   if (params.notes) formData.append("notes", params.notes);
-  if (params.privacyPolicy) formData.append("privacy_policy", params.privacyPolicy);
+  if (params.privacyPolicy) formData.append("privacyPolicy", params.privacyPolicy);
   if (params.signature) formData.append("signature", params.signature);
-  if (params.bankingId) formData.append("banking_id", params.bankingId);
+  if (params.bank_id) formData.append("bank_id", params.bank_id);
 
   try {
     const response = await AxiosConfig.post(

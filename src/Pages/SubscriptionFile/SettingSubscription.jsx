@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import  { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 import { useDispatch, useSelector } from "react-redux";
 import crown from "../../Assets/Images/New_images/crown.png";
 import { Button, Form, FormControl } from "react-bootstrap";
@@ -11,7 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { MdError } from "react-icons/md";
 import { CloseCircle } from "iconsax-react";
-import {  ArrowUp2, ArrowDown2 } from "iconsax-react";
+import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import { Table } from "react-bootstrap";
 import "./SettingSubscription.css";
 
@@ -32,6 +33,10 @@ function SettingSubscription() {
   const [planType, setPlanType] = useState("");
   const [getPlanActive, setGetPlanActive] = useState("");
   const [selectedHostels, setSelectedHostels] = useState([]);
+  const modalRef = useRef();
+
+
+
 
   useEffect(() => {
     dispatch({ type: "ACCOUNTDETAILS" });
@@ -75,7 +80,7 @@ function SettingSubscription() {
     }
   }, [state.Settings.statusCodeNewSubscription]);
 
- 
+
 
 
 
@@ -103,7 +108,7 @@ function SettingSubscription() {
     })
   );
 
-  
+
 
   const filteredOptions = (hostelOptions || []).filter(
     (option) =>
@@ -148,7 +153,12 @@ function SettingSubscription() {
     setAmount(hostelCount * (Number(selectedPlan) || 0));
   }, [selectedPlan, hostelCount]);
 
-  
+  useEffect(() => {
+    if (changePlan && modalRef.current) {
+      const modal = new bootstrap.Modal(modalRef.current);
+      modal.show();
+    }
+  }, [changePlan]);
 
   const handleClosePlanChange = () => {
     setPlan(false);
@@ -163,7 +173,7 @@ function SettingSubscription() {
   useEffect(() => {
     if (changePlan) {
       handleClosePlanChange();
-      
+
     }
   }, [changePlan]);
 
@@ -212,21 +222,36 @@ function SettingSubscription() {
   };
 
   return (
-    <div className="container">
-      <div style={{ marginTop: 35 }}>
-        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-4">
+    <div className="" >
+
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+        style={{
+          position: "sticky",
+          top: 0,
+          right: 0,
+          left: 0,
+          zIndex: 1000,
+          backgroundColor: "#FFFFFF",
+          minHeight: 83,
+          whiteSpace: "nowrap",
+          paddingRight: 10,
+          paddingLeft: 10,
+
+
+        }}>
+        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-4" >
           <p
             className="cardnewsubs"
-            style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}
+            style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, position: "sticky" }}
           >
             Subscription
           </p>
         </div>
       </div>
 
-      <div className="row g-3">
+      <div className="row g-3" style={{ maxHeight: 600, overflowY: "scroll" }}>
         <div className="col-12 col-md-6">
-  
+
           <div className="card p-3 cardnewsubs">
             {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 ? (
               <>
@@ -238,21 +263,21 @@ function SettingSubscription() {
                 </div>
 
                 <div className="mt-2">
-                  <p className="text-dark fw-semibold fs-6">
+                  <p className="text-dark fw-semibold fs-6" style={{ fontFamily: "Gilroy" }}>
                     Your plan is active
                   </p>
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center">
-                  <p className="text-secondary mb-0 fs-6">Amount</p>
-                  <p className="fw-semibold mb-0 fs-6">
+                  <p className="text-secondary mb-0 fs-6" style={{ fontFamily: "Gilroy" }}>Amount</p>
+                  <p className="fw-semibold mb-0 fs-6" style={{ fontFamily: "Gilroy" }}>
                     ₹{getPlanActive[0]?.amount}
                   </p>
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-2">
-                  <p className="text-secondary mb-0 fs-6">Next payment</p>
-                  <p className="fw-semibold mb-0 fs-6">
+                  <p className="text-secondary mb-0 fs-6" style={{ fontFamily: "Gilroy" }}>Next payment</p>
+                  <p className="fw-semibold mb-0 fs-6" style={{ fontFamily: "Gilroy" }}>
                     {new Date(getPlanActive[0]?.plan_end).toLocaleDateString(
                       "en-GB",
                       {
@@ -265,15 +290,15 @@ function SettingSubscription() {
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center mt-2">
-                  <p className="text-secondary mb-0 fs-6">Payment method</p>
-                  <p className="fw-semibold mb-0 fs-6">
+                  <p className="text-secondary mb-0 fs-6" style={{ fontFamily: "Gilroy" }}>Payment method</p>
+                  <p className="fw-semibold mb-0 fs-6" style={{ fontFamily: "Gilroy" }} >
                     {getPlanActive[0]?.payment_method}
                   </p>
                 </div>
 
                 <div className="d-flex mt-3 w-100">
-                  <button
-                    className="btn btn-primary w-100 fw-semibold fs-6"
+                  <button style={{ fontFamily: "Gilroy", backgroundColor: "#1E45E1", color: "#fff" }}
+                    className="btn  w-100 fw-semibold fs-6"
                     onClick={handleCurrentPlan}
                     data-bs-toggle="modal"
                     data-bs-target="#changePlanModal"
@@ -284,10 +309,11 @@ function SettingSubscription() {
               </>
             ) : (
               <div className="mt-2 text-center">
-                <p className="text-dark fw-semibold fs-6 mb-3">
+                <p className="text-dark fw-semibold fs-6 mb-3" style={{ fontFamily: "Gilroy" }}>
                   Your plan is a trial plan
                 </p>
                 <button
+                  style={{ fontFamily: "Gilroy" }}
                   className="btn btn-primary fw-semibold fs-6"
                   onClick={handleCurrentPlan}
                   data-bs-toggle="modal"
@@ -528,7 +554,7 @@ function SettingSubscription() {
                             Status
                           </div>
                         </th>
-                     
+
                       </tr>
                     </thead>
                     <tbody
@@ -561,15 +587,16 @@ function SettingSubscription() {
                             <tr key={index} style={{ marginTop: "20px" }}>
                               <td
                                 style={{
-                                  textAlign: "center",
+                                  textAlign: "left",
                                   fontWeight: 500,
                                   fontSize: "13px",
                                   fontFamily: "Gilroy",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                               >
-                                {index + 1}
+
+                                <div style={{ marginLeft: 10 }}>{index + 1}</div>
                               </td>
                               <td
                                 style={{
@@ -580,16 +607,16 @@ function SettingSubscription() {
                                   paddingLeft: "20px",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
-                                {view.name}
+                                <div style={{ marginLeft: 6 }}>{view.name}</div>
                               </td>
                               <td
                                 style={{
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
                               >
                                 <span
                                   style={{
@@ -598,6 +625,7 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
+                                    marginLeft: 4,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -615,7 +643,7 @@ function SettingSubscription() {
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
                               >
                                 <span
                                   style={{
@@ -624,6 +652,7 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
+                                    marginLeft: 4,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -642,7 +671,7 @@ function SettingSubscription() {
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                  className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
                               >
                                 <span
                                   style={{
@@ -650,6 +679,7 @@ function SettingSubscription() {
                                     backgroundColor: "#D9FFD9",
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
+                                    marginLeft: 3,
                                     fontSize: "11px",
                                     fontWeight: 500,
                                     borderRadius: "10px",
@@ -661,7 +691,7 @@ function SettingSubscription() {
                                 </span>
                               </td>
 
-                           
+
                             </tr>
                           );
                         })}
@@ -670,48 +700,153 @@ function SettingSubscription() {
                 </div>
               )}
 
-           
+
             </div>
           </div>
         )}
       </div>
 
-      <div
-        className="modal fade"
-        id="changePlanModal"
-        data-bs-backdrop="static"
-        tabIndex="-1"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Change Plan</h5>
-              <CloseCircle
-                size="24"
-                color="#000"
-                onClick={handleCloseCurrentPlan}
-                style={{ cursor: "pointer" }}
-              />
-            </div>
-            <div className="modal-body">
-              <div className="row g-3">
-                <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
-                  <div
-                    className={`card border position-relative ${
-                      planType === "basic_smart"
+      {
+        changePlan &&
+
+
+        <div
+          className="modal fade"
+          ref={modalRef}
+          data-bs-backdrop="static"
+          tabIndex="-1"
+        >
+          <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" style={{ fontFamily: "Gilroy" }}>Change Plan</h5>
+                <CloseCircle
+                  size="24"
+                  color="#000"
+                  onClick={handleCloseCurrentPlan}
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+              <div className="modal-body">
+                <div className="row g-3">
+                  <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                    <div
+                      className={`card border position-relative ${planType === "basic_smart"
                         ? "border-success"
                         : "border-secondary"
-                    }`}
-                    style={{
-                      borderRadius: "14px",
-                      backgroundColor: "#F8FAFC",
-                      padding: "15px",
-                    }}
-                  >
-                    <div className="card-body text-center">
-                      {planType === "basic_smart" && (
-                        <div className="position-relative text-center">
+                        }`}
+                      style={{
+                        borderRadius: "14px",
+                        backgroundColor: "#F8FAFC",
+                        padding: "15px",
+                      }}
+                    >
+                      <div className="card-body text-center p-0  mt-3">
+                        {planType === "basic_smart" && (
+                          <div className="position-relative text-center">
+                            <span
+                              className="badge bg-success position-absolute start-50 translate-middle"
+                              style={{
+                                top: "-30px",
+                                padding: "5px 10px",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 600,
+                              }}
+                            >
+                              Current Plan
+                            </span>
+                          </div>
+                        )}
+                        <h4 className="card-title" style={{ fontFamily: "Gilroy" }}>Basic Plan</h4>
+                        <p style={{ fontFamily: "Gilroy" }}>per agent/month billed annually</p>
+                        <p className="fs-4 fw-bold pb-2 border-bottom" style={{ fontFamily: "Gilroy" }}>₹1</p>
+                        <p className="fw-semibold text-start mt-3" style={{ fontFamily: "Gilroy" }}>
+                          Team Plan Features:
+                        </p>
+                        <ul className="list-unstyled text-start px-3">
+                          <li className="d-flex align-items-center gap-2 mb-2" style={{ fontFamily: "Gilroy" }}>
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered on the icon"
+                            ></i>{" "}
+                            Paying Guest
+                          </li>
+                          <li
+                            className="d-flex align-items-center gap-2 mb-2"
+                            style={{ whiteSpace: "nowrap", fontFamily: "Gilroy" }}
+                          >
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltipmanage"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered Manage"
+                            ></i>{" "}
+                            Manage Customers
+                          </li>
+                          <li className="d-flex align-items-center gap-2 mb-2" style={{ fontFamily: "Gilroy" }}>
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltipvendor"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered Vendor"
+                            ></i>{" "}
+                            Manage Vendors
+                          </li>
+                          <li
+                            className="d-flex align-items-center gap-2 mb-3"
+                            style={{ whiteSpace: "nowrap", fontFamily: "Gilroy" }}
+                          >
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltipassets"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered assets"
+                            ></i>{" "}
+                            Asset Management
+                          </li>
+                        </ul>
+
+                        <hr className="m-0" style={{ color: "#BCCAEB" }} />
+
+                        {planType === "basic_smart" ? (
+                          <button
+                            className="btn btn-changeplan btn-success w-100 mt-3"
+                            onClick={() => handlePlanChange(1)}
+                            style={{ fontFamily: "Gilroy" }}
+                          >
+                            Current Plan
+                          </button>
+                        ) : (
+                          <button
+                            style={{ fontFamily: "Gilroy" }}
+                            className="btn btn-changeplan btn-outline-primary w-100 mt-3"
+                            onClick={() => handlePlanChange(1)}
+                          >
+                            Change Plan
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                    <div
+                      className={`card border position-relative ${planType === "advance_prod"
+                        ? "border-success"
+                        : "border-secondary"
+                        }`}
+                      style={{
+                        borderRadius: "14px",
+                        backgroundColor: "#F8FAFC",
+                        padding: "15px",
+                      }}
+                    >
+                      <div className="card-body text-center p-0   mt-3">
+
+                        {planType === "advance_prod" && (
                           <span
                             className="badge bg-success position-absolute start-50 translate-middle"
                             style={{
@@ -722,170 +857,173 @@ function SettingSubscription() {
                           >
                             Current Plan
                           </span>
+                        )}
+                        <h4 className="card-title" style={{ fontFamily: "Gilroy" }}>Advance Plan</h4>
+
+                        <p style={{ fontFamily: "Gilroy" }}>per agent/month billed annually</p>
+                        <p className="fs-4 fw-bold pb-2 border-bottom" style={{ fontFamily: "Gilroy" }}>₹2</p>
+                        <p
+                          className="fw-semibold text-start mt-3"
+                          style={{ whiteSpace: "nowrap", fontFamily: "Gilroy" }}
+                        >
+                          Professional Plan Features:
+                        </p>
+                        <ul className="list-unstyled text-start px-3" style={{ fontFamily: "Gilroy" }}>
+                          <li className="d-flex align-items-center gap-2 mb-2" style={{ fontFamily: "Gilroy" }}>
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered on the icon"
+                            ></i>{" "}
+                            Paying Guest
+                          </li>
+                          <li
+                            className="d-flex align-items-center gap-2 mb-2"
+                            style={{ whiteSpace: "nowrap" }}
+                          >
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltipmanage"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered Manage"
+                            ></i>{" "}
+                            Manage Customers
+                          </li>
+                          <li className="d-flex align-items-center gap-2 mb-2">
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltipvendor"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered Vendor"
+                            ></i>{" "}
+                            Manage Vendors
+                          </li>
+                          <li
+                            className="d-flex align-items-center gap-2 mb-2"
+                            style={{ whiteSpace: "nowrap" }}
+                          >
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltipassets"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered Assets"
+                            ></i>{" "}
+                            Asset Management
+                          </li>
+                        </ul>
+                        <hr className="m-0" style={{ color: "#BCCAEB" }} />
+                        <div>
+                          {planType === "advance_prod" ? (
+                            <button
+                              className="btn btn-changeplan btn-success w-100 mt-3"
+                              onClick={() => handlePlanChange(2)}
+                              style={{ fontFamily: "Gilroy" }}
+                            >
+                              Current Plan
+                            </button>
+                          ) : (
+                            <button
+                              className="btn btn-changeplan btn-outline-primary w-100 mt-3" style={{ fontFamily: "Gilroy" }}
+                              onClick={() => handlePlanChange(2)}
+                            >
+                              Change Plan
+                            </button>
+                          )}
                         </div>
-                      )}
-                      <h4 className="card-title">Basic Plan</h4>
-                      <p>per agent/month billed annually</p>
-                      <p className="fs-4 fw-bold pb-2 border-bottom">₹1</p>
-                      <p className="fw-semibold text-start mt-3">
-                        Team Plan Features:
-                      </p>
-                      <ul className="list-unstyled text-start px-3">
-                        <li className="d-flex align-items-center gap-2 mb-2">
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered on the icon"
-                          ></i>{" "}
-                          Paying Guest
-                        </li>
-                        <li
-                          className="d-flex align-items-center gap-2 mb-2"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltipmanage"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered Manage"
-                          ></i>{" "}
-                          Manage Customers
-                        </li>
-                        <li className="d-flex align-items-center gap-2 mb-2">
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltipvendor"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered Vendor"
-                          ></i>{" "}
-                          Manage Vendors
-                        </li>
-                        <li
-                          className="d-flex align-items-center gap-2 mb-3"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltipassets"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered assets"
-                          ></i>{" "}
-                          Asset Management
-                        </li>
-                      </ul>
-                      {planType === "basic_smart" ? (
-                        <button
-                          className="btn btn-changeplan btn-success w-100 mt-3"
-                          onClick={() => handlePlanChange(1)}
-                        >
-                          Current Plan
-                        </button>
-                      ) : (
-                        <button
-                          className="btn btn-changeplan btn-outline-primary w-100 mt-3"
-                          onClick={() => handlePlanChange(1)}
-                        >
-                          Change Plan
-                        </button>
-                      )}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
-                  <div
-                    className={`card border position-relative ${
-                      planType === "advance_prod"
+                  <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+                    <div
+                      className={`card border position-relative ${planType === "smartstay_oneyear"
                         ? "border-success"
                         : "border-secondary"
-                    }`}
-                    style={{
-                      borderRadius: "14px",
-                      backgroundColor: "#F8FAFC",
-                      padding: "15px",
-                    }}
-                  >
-                    <div className="card-body text-center">
-             
-                      {planType === "advance_prod" && (
-                        <span
-                          className="badge bg-success position-absolute start-50 translate-middle"
-                          style={{
-                            top: "-30px",
-                            padding: "5px 10px",
-                            fontSize: "12px",
-                          }}
-                        >
-                          Current Plan
-                        </span>
-                      )}
-                      <h4 className="card-title">Advance Plan</h4>
-                      {/* <p className="mb-1">1 Month</p> */}
-                      <p>per agent/month billed annually</p>
-                      <p className="fs-4 fw-bold pb-2 border-bottom">₹2</p>
-                      <p
-                        className="fw-semibold text-start mt-3"
-                        style={{ whiteSpace: "nowrap" }}
-                      >
-                        Professional Plan Features:
-                      </p>
-                      <ul className="list-unstyled text-start px-3">
-                        <li className="d-flex align-items-center gap-2 mb-2">
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered on the icon"
-                          ></i>{" "}
-                          Paying Guest
-                        </li>
-                        <li
-                          className="d-flex align-items-center gap-2 mb-2"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltipmanage"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered Manage"
-                          ></i>{" "}
-                          Manage Customers
-                        </li>
-                        <li className="d-flex align-items-center gap-2 mb-2">
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltipvendor"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered Vendor"
-                          ></i>{" "}
-                          Manage Vendors
-                        </li>
-                        <li
-                          className="d-flex align-items-center gap-2 mb-2"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltipassets"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered Assets"
-                          ></i>{" "}
-                          Asset Management
-                        </li>
-                      </ul>
-                      <div>
-                        {planType === "advance_prod" ? (
-                          <button
+                        }`}
+                      style={{
+                        borderRadius: "14px",
+                        backgroundColor: "#F8FAFC",
+                        padding: "15px",
+                      }}
+                    >
+                      <div className="card-body text-center p-0   mt-3">
+                        {planType === "smartstay_oneyear" && (
+                          <span
+                            className="badge bg-success position-absolute start-50 translate-middle"
+                            style={{
+                              top: "-30px",
+                              padding: "5px 10px",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy"
+                            }}
+                          >
+                            Current Plan
+                          </span>
+                        )}
+
+                        <h4 className="card-title" style={{ fontFamily: "Gilroy" }}>1 Year Plan</h4>
+                        <p style={{ fontFamily: "Gilroy" }}>per agent/month billed annually</p>
+                        <p className="fs-4 fw-bold pb-2 border-bottom" style={{ fontFamily: "Gilroy" }}>₹999</p>
+                        <p className="fw-semibold text-start mt-3" style={{ fontFamily: "Gilroy" }}>
+                          Growth Plan Features:
+                        </p>
+                        <ul className="list-unstyled text-start px-3" style={{ fontFamily: "Gilroy" }}>
+                          <li className="d-flex align-items-center gap-2 mb-2" style={{ fontFamily: "Gilroy" }}>
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltip"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered on the icon"
+                            ></i>{" "}
+                            Paying Guest
+                          </li>
+                          <li
+                            className="d-flex align-items-center gap-2 mb-2"
+                            style={{ whiteSpace: "nowrap" }}
+                          >
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltipmanage"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered manage"
+                            ></i>{" "}
+                            Manage Customers
+                          </li>
+                          <li className="d-flex align-items-center gap-2 mb-2">
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltipvendor"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered Vendor"
+                            ></i>{" "}
+                            Manage Vendors
+                          </li>
+                          <li
+                            className="d-flex align-items-center gap-2 mb-2"
+                            style={{ whiteSpace: "nowrap" }}
+                          >
+                            <i
+                              className="bi bi-info-circle"
+                              data-bs-toggle="tooltipassets"
+                              data-bs-placement="top"
+                              title="This is a hover text that pops up when hovered assets"
+                            ></i>{" "}
+                            Asset Management
+                          </li>
+                        </ul>
+                        <hr className="m-0" style={{ color: "#BCCAEB" }} />
+                        {planType === "smartstay_oneyear" ? (
+                          <button style={{ fontFamily: "Gilroy" }}
                             className="btn btn-changeplan btn-success w-100 mt-3"
-                            onClick={() => handlePlanChange(2)}
+                            onClick={() => handlePlanChange(999)}
                           >
                             Current Plan
                           </button>
                         ) : (
-                          <button
+                          <button style={{ fontFamily: "Gilroy" }}
                             className="btn btn-changeplan btn-outline-primary w-100 mt-3"
-                            onClick={() => handlePlanChange(2)}
+                            onClick={() => handlePlanChange(999)}
                           >
                             Change Plan
                           </button>
@@ -894,189 +1032,92 @@ function SettingSubscription() {
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
-                  <div
-                    className={`card border position-relative ${
-                      planType === "smartstay_oneyear"
-                        ? "border-success"
-                        : "border-secondary"
-                    }`}
-                    style={{
-                      borderRadius: "14px",
-                      backgroundColor: "#F8FAFC",
-                      padding: "15px",
-                    }}
-                  >
-                    <div className="card-body text-center">
-                      {planType === "smartstay_oneyear" && (
-                        <span
-                          className="badge bg-success position-absolute start-50 translate-middle"
-                          style={{
-                            top: "-30px",
-                            padding: "5px 10px",
-                            fontSize: "12px",
-                          }}
-                        >
-                          Current Plan
-                        </span>
-                      )}
-
-                      <h4 className="card-title">1 Year Plan</h4>
-                      <p>per agent/month billed annually</p>
-                      <p className="fs-4 fw-bold pb-2 border-bottom">₹999</p>
-                      <p className="fw-semibold text-start mt-3">
-                        Growth Plan Features:
-                      </p>
-                      <ul className="list-unstyled text-start px-3">
-                        <li className="d-flex align-items-center gap-2 mb-2">
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered on the icon"
-                          ></i>{" "}
-                          Paying Guest
-                        </li>
-                        <li
-                          className="d-flex align-items-center gap-2 mb-2"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltipmanage"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered manage"
-                          ></i>{" "}
-                          Manage Customers
-                        </li>
-                        <li className="d-flex align-items-center gap-2 mb-2">
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltipvendor"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered Vendor"
-                          ></i>{" "}
-                          Manage Vendors
-                        </li>
-                        <li
-                          className="d-flex align-items-center gap-2 mb-2"
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <i
-                            className="bi bi-info-circle"
-                            data-bs-toggle="tooltipassets"
-                            data-bs-placement="top"
-                            title="This is a hover text that pops up when hovered assets"
-                          ></i>{" "}
-                          Asset Management
-                        </li>
-                      </ul>
-                      {planType === "smartstay_oneyear" ? (
-                        <button
-                          className="btn btn-changeplan btn-success w-100 mt-3"
-                          onClick={() => handlePlanChange(999)}
-                        >
-                          Current Plan
-                        </button>
-                      ) : (
-                        <button
-                          className="btn btn-changeplan btn-outline-primary w-100 mt-3"
-                          onClick={() => handlePlanChange(999)}
-                        >
-                          Change Plan
-                        </button>
-                      )}
-                    </div>
+              <div style={{ textAlign: "center" }}>
+                <h4 style={{ fontFamily: "Gilroy" }}>
+                  {planType === "free_plan" || planType === null
+                    ? "Your plan is free trial"
+                    : ""}
+                </h4>
+              </div>
+              {planType !== "free_plan" && planType !== null && (
+                <div className="p-3">
+                  <div className="table-responsive border rounded">
+                    <table
+                      className="table mb-0 "
+                      style={{
+                        width: "100%",
+                      }}
+                    >
+                      <thead>
+                        <tr style={{ backgroundColor: "#e9f2ff", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          <th style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Total Hostel</th>
+                          <th style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Plan Name</th>
+                          <th style={{ textAlign: "center", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Plan Amount</th>
+                          <th style={{ textAlign: "center", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}>Total Amount</th>
+                          <th
+                            style={{ textAlign: "center", whiteSpace: "nowrap", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}
+                          >
+                            Plan Start Date
+                          </th>
+                          <th
+                            style={{ textAlign: "center", whiteSpace: "nowrap", fontFamily: "Gilroy", fontWeight: 500, color: "#4B4B4B" }}
+                          >
+                            Plan End Date
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr style={{ fontFamily: "Gilroy", fontWeight: 500, color: "#222" }}>
+                          <td style={{ textAlign: "center", color: "#222" }}>
+                            {" "}
+                            {getPlanActive[0]?.hostel_count}
+                          </td>
+                          <td style={{ color: "#222" }}>
+                            {getPlanActive[0]?.plan_code === "one_day" &&
+                              "Free Trail"}
+                            {getPlanActive[0]?.plan_code === "basic_smart" &&
+                              "Basic Plan"}
+                            {getPlanActive[0]?.plan_code === "advance_prod" &&
+                              "Advance PLan"}
+                          </td>
+                          <td style={{ textAlign: "center", color: "#222222" }}>
+                            ₹ {getPlanActive[0]?.amount}
+                          </td>
+                          <td style={{ textAlign: "center", color: "#222222" }}>
+                            ₹ {getPlanActive[0]?.amount}
+                          </td>
+                          <td style={{ textAlign: "center", color: "#222222" }}>
+                            {" "}
+                            {new Date(
+                              getPlanActive[0]?.plan_start
+                            ).toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </td>
+                          <td style={{ textAlign: "center", color: "#222222" }}>
+                            {" "}
+                            {new Date(
+                              getPlanActive[0]?.plan_end
+                            ).toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
-
-            <div style={{ textAlign: "center" }}>
-              <h4>
-                {planType === "free_plan" || planType === null
-                  ? "Your plan is free trial"
-                  : ""}
-              </h4>
-            </div>
-            {planType !== "free_plan" && planType !== null && (
-              <div className="p-3">
-                <div className="table-responsive border rounded">
-                  <table
-                    className="table mb-0 "
-                    style={{    
-                      width: "100%",
-                    }}
-                  >
-                    <thead>
-                      <tr style={{ backgroundColor: "#e9f2ff" }}>
-                        <th style={{}}>Total Hostel</th>
-                        <th style={{}}>Plan Name</th>
-                        <th style={{ textAlign: "center" }}>Plan Amount</th>
-                        <th style={{ textAlign: "center" }}>Total Amount</th>
-                        <th
-                          style={{ textAlign: "center", whiteSpace: "nowrap" }}
-                        >
-                          Plan Start Date
-                        </th>
-                        <th
-                          style={{ textAlign: "center", whiteSpace: "nowrap" }}
-                        >
-                          Plan End Date
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td style={{ textAlign: "center" }}>
-                          {" "}
-                          {getPlanActive[0]?.hostel_count}
-                        </td>
-                        <td>
-                          {getPlanActive[0]?.plan_code === "one_day" &&
-                            "Free Trail"}
-                          {getPlanActive[0]?.plan_code === "basic_smart" &&
-                            "Basic Plan"}
-                          {getPlanActive[0]?.plan_code === "advance_prod" &&
-                            "Advance PLan"}
-                        </td>
-                        <td style={{ textAlign: "center" }}>
-                          ₹ {getPlanActive[0]?.amount}
-                        </td>
-                        <td style={{ textAlign: "center" }}>
-                          ₹ {getPlanActive[0]?.amount}
-                        </td>
-                        <td style={{ textAlign: "center" }}>
-                          {" "}
-                          {new Date(
-                            getPlanActive[0]?.plan_start
-                          ).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "long",
-                            year: "numeric",
-                          })}
-                        </td>
-                        <td style={{ textAlign: "center" }}>
-                          {" "}
-                          {new Date(
-                            getPlanActive[0]?.plan_end
-                          ).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "long",
-                            year: "numeric",
-                          })}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
           </div>
         </div>
-      </div>
-
+      }
       <Modal
         show={plan}
         onHide={handleClosePlanChange}
@@ -1108,18 +1149,18 @@ function SettingSubscription() {
                   >
                     Manage Plan
                   </div>
-                  <div style={{ paddingRight: 40 }}>
+                  <div style={{ paddingRight: 40, fontFamily: "Gilroy", }}>
                     (
                     {planCode?.trim() === "basic_smart"
                       ? "1 Month Plan"
                       : planCode?.trim() === "advance_prod"
-                      ? "3 Month Plan"
-                      : 
+                        ? "3 Month Plan"
+                        :
                         planCode}{" "}
                     - Rs.{selectedPlan})
                   </div>
 
-               
+
                   <CloseCircle
                     size="24"
                     color="#000"
@@ -1159,26 +1200,58 @@ function SettingSubscription() {
                       <Select
                         options={filteredOptions}
                         placeholder="Select Hostel"
-                        value={null} // Always reset to placeholder
+                        value={null}
                         onChange={handleHostelSelect}
                         classNamePrefix="custom"
                         menuPlacement="auto"
                         styles={{
-                          control: (base) => ({
-                            ...base,
-                            padding: "2px",
-                            marginTop: "5px",
-                            fontSize: "16px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 400,
-                            color: "rgba(34, 34, 34, 1)",
-                            borderColor: "#ced4da",
-                            minHeight: "40px",
-                          }),
-                        }}
+                    control: (base) => ({
+                      ...base,
+                      height: "50px",
+                      border: "1px solid #D9D9D9",
+                      borderRadius: "8px",
+                      fontSize: "16px",
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      border: "1px solid #ced4da",
+                      fontFamily: "Gilroy",
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      maxHeight: "120px",
+                      padding: 0,
+                      scrollbarWidth: "thin",
+                      overflowY: "auto",
+                    }),
+                    placeholder: (base) => ({
+                      ...base,
+                      color: "#555",
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#555",
+                      cursor: "pointer",
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      color: "#000",
+                    }),
+                  }}
                       />
 
-                      {/* Tag Chips below */}
+                      
                       {selectedHostels.length > 0 && (
                         <div className="mt-3 d-flex flex-wrap gap-2">
                           {selectedHostels.map((hostel) => (
@@ -1188,6 +1261,7 @@ function SettingSubscription() {
                               style={{
                                 fontWeight: 400,
                                 borderRadius: "8px",
+                                fontFamily: "Gilroy",
                                 border: "1px solid rgba(30, 69, 225, 1)",
                               }}
                             >
@@ -1258,7 +1332,7 @@ function SettingSubscription() {
                         type="text"
                         value={hostelCount}
                         readOnly
-                    
+
                         style={{
                           fontSize: 16,
                           color: "#4B4B4B",
@@ -1372,7 +1446,7 @@ function SettingSubscription() {
                         id="form-controls"
                         placeholder="Enter Comments"
                         type="text"
-                      
+
                         style={{
                           fontSize: 16,
                           color: "#4B4B4B",
@@ -1385,7 +1459,7 @@ function SettingSubscription() {
                         }}
                       />
                     </Form.Group>
-              
+
                   </div>
                 </div>
 

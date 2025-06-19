@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
 import Image from "react-bootstrap/Image";
@@ -7,9 +7,9 @@ import Form from "react-bootstrap/Form";
 import imageCompression from "browser-image-compression";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
-import { InputGroup , FormControl } from "react-bootstrap";
+import { InputGroup, FormControl } from "react-bootstrap";
 import { MdError } from "react-icons/md";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 
@@ -21,17 +21,14 @@ function AddVendor({ show, setShow, currentItem }) {
   const [last_Name, setLast_Name] = useState("");
   const [vendor_Mobile, setVendor_Mobile] = useState("");
   const [address, setAddress] = useState("");
-   const [house_no, setHouseNo] = useState("");
+  const [house_no, setHouseNo] = useState("");
   const [street, setStreet] = useState("");
   const [landmark, setLandmark] = useState("");
-  // const [pincode, setPincode] = useState("");
   const [city, setCity] = useState("")
   const [state_name, setStateName] = useState("");
   const [email_Id, setEmail_Id] = useState("");
-  // const [errors, setErrors] = useState({});
   const [business_Name, setBusiness_Name] = useState("");
   const [id, setId] = useState("");
-  // const [vendor_Id, setVendor_Id] = useState("");
   const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
 
@@ -41,60 +38,77 @@ function AddVendor({ show, setShow, currentItem }) {
   const [countryCodeError, setCountryCodeError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [emailError, setEmailError] = useState("");
-  // const [addressError, setAddressError] = useState("");
   const [businessNameError, setBusinessNameError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [countryError, setCountryError] = useState("");
   const [countryCode, setCountryCode] = useState("91");
   const [pinCodeError, setPinCodeError] = useState("");
-  const [vendorPhoneError,setVendorPhoneError] = useState("")
-  const [vendorEmailError,setVendorEmailError]= useState("")
-     const [house_noError, setHouse_NoError] = useState("");
-        const [streetError, setStreetError] = useState("");
-        const [landmarkError, setLandmarkError] = useState("");
-        // const [pincodeError, setPincodeError] = useState("");
-        const [cityError, setCityError] = useState("");
-        const [state_nameError, setStateNameError] = useState("");
+  const [vendorPhoneError, setVendorPhoneError] = useState("")
+  const [vendorEmailError, setVendorEmailError] = useState("")
+  const [house_noError, setHouse_NoError] = useState("");
+  const [streetError, setStreetError] = useState("");
+  const [landmarkError, setLandmarkError] = useState("");
+  const [cityError, setCityError] = useState("");
+  const [state_nameError, setStateNameError] = useState("");
 
 
-        const indianStates = [
-          { value: "Andhra Pradesh", label: "Andhra Pradesh" },
-          { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
-          { value: "Assam", label: "Assam" },
-          { value: "Bihar", label: "Bihar" },
-          { value: "Chhattisgarh", label: "Chhattisgarh" },
-          { value: "Goa", label: "Goa" },
-          { value: "Gujarat", label: "Gujarat" },
-          { value: "Haryana", label: "Haryana" },
-          { value: "Himachal Pradesh", label: "Himachal Pradesh" },
-          { value: "Jharkhand", label: "Jharkhand" },
-          { value: "Karnataka", label: "Karnataka" },
-          { value: "Kerala", label: "Kerala" },
-          { value: "Madhya Pradesh", label: "Madhya Pradesh" },
-          { value: "Maharashtra", label: "Maharashtra" },
-          { value: "Manipur", label: "Manipur" },
-          { value: "Meghalaya", label: "Meghalaya" },
-          { value: "Mizoram", label: "Mizoram" },
-          { value: "Nagaland", label: "Nagaland" },
-          { value: "Odisha", label: "Odisha" },
-          { value: "Punjab", label: "Punjab" },
-          { value: "Rajasthan", label: "Rajasthan" },
-          { value: "Sikkim", label: "Sikkim" },
-          { value: "Tamil Nadu", label: "Tamil Nadu" },
-          { value: "Telangana", label: "Telangana" },
-          { value: "Tripura", label: "Tripura" },
-          { value: "Uttar Pradesh", label: "Uttar Pradesh" },
-          { value: "Uttarakhand", label: "Uttarakhand" },
-          { value: "West Bengal", label: "West Bengal" },
-          { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
-          { value: "Chandigarh", label: "Chandigarh" },
-          { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
-          { value: "Delhi", label: "Delhi" },
-          { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
-          { value: "Ladakh", label: "Ladakh" },
-          { value: "Lakshadweep", label: "Lakshadweep" },
-          { value: "Puducherry", label: "Puducherry" },
-        ];
+  const firstNameRef = useRef(null);
+  const mobileRef = useRef(null);
+  const businessNameRef = useRef(null);
+  const cityRef = useRef(null);
+  const pinCodeRef = useRef(null);
+  const stateRef = useRef(null);
+  const countryRef = useRef(null);
+
+
+
+
+
+
+
+
+
+
+
+
+  const indianStates = [
+    { value: "Tamil Nadu", label: "Tamil Nadu" },
+    { value: "Andhra Pradesh", label: "Andhra Pradesh" },
+    { value: "Arunachal Pradesh", label: "Arunachal Pradesh" },
+    { value: "Assam", label: "Assam" },
+    { value: "Bihar", label: "Bihar" },
+    { value: "Chhattisgarh", label: "Chhattisgarh" },
+    { value: "Goa", label: "Goa" },
+    { value: "Gujarat", label: "Gujarat" },
+    { value: "Haryana", label: "Haryana" },
+    { value: "Himachal Pradesh", label: "Himachal Pradesh" },
+    { value: "Jharkhand", label: "Jharkhand" },
+    { value: "Karnataka", label: "Karnataka" },
+    { value: "Kerala", label: "Kerala" },
+    { value: "Madhya Pradesh", label: "Madhya Pradesh" },
+    { value: "Maharashtra", label: "Maharashtra" },
+    { value: "Manipur", label: "Manipur" },
+    { value: "Meghalaya", label: "Meghalaya" },
+    { value: "Mizoram", label: "Mizoram" },
+    { value: "Nagaland", label: "Nagaland" },
+    { value: "Odisha", label: "Odisha" },
+    { value: "Punjab", label: "Punjab" },
+    { value: "Rajasthan", label: "Rajasthan" },
+    { value: "Sikkim", label: "Sikkim" },
+    { value: "Telangana", label: "Telangana" },
+    { value: "Tripura", label: "Tripura" },
+    { value: "Uttar Pradesh", label: "Uttar Pradesh" },
+    { value: "Uttarakhand", label: "Uttarakhand" },
+    { value: "West Bengal", label: "West Bengal" },
+    { value: "Andaman and Nicobar Islands", label: "Andaman and Nicobar Islands" },
+    { value: "Chandigarh", label: "Chandigarh" },
+    { value: "Dadra and Nagar Haveli and Daman and Diu", label: "Dadra and Nagar Haveli and Daman and Diu" },
+    { value: "Delhi", label: "Delhi" },
+    { value: "Jammu and Kashmir", label: "Jammu and Kashmir" },
+    { value: "Ladakh", label: "Ladakh" },
+    { value: "Lakshadweep", label: "Lakshadweep" },
+    { value: "Puducherry", label: "Puducherry" },
+  ];
 
   const handleCountryChange = (e) => {
     const value = e.target.value
@@ -110,23 +124,20 @@ function AddVendor({ show, setShow, currentItem }) {
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
-  
+
     if (!/^\d{0,6}$/.test(value)) {
       return;
     }
-  
+
     setPinCode(value);
-  
-    // Remove this from here (let validation handle error on submit)
-    // setPinCodeError("");
-  
-    // Optional: Live validation (if you want it)
+
+
     if (value.length > 0 && value.length < 6) {
       setPinCodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPinCodeError("");
     }
-  
+
     setGeneralError("");
     setIsChangedError("");
   };
@@ -135,7 +146,6 @@ function AddVendor({ show, setShow, currentItem }) {
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
     setHouse_NoError("")
-    // setFormError("");
     setGeneralError("");
     setIsChangedError("");
   };
@@ -143,7 +153,6 @@ function AddVendor({ show, setShow, currentItem }) {
   const handleStreetName = (e) => {
     setStreet(e.target.value);
     setStreetError("");
-    // setFormError("");
     setGeneralError("");
     setIsChangedError("");
   }
@@ -151,61 +160,35 @@ function AddVendor({ show, setShow, currentItem }) {
   const handleLandmark = (e) => {
     setLandmark(e.target.value);
     setLandmarkError("");
-    // setFormError("");
     setGeneralError("");
     setIsChangedError("");
   }
 
-  // const handlePincode = (e) => {
-  //   setPincode(e.target.value);
-  //   setPincodeError("");
-  //   setGeneralError("");
-  //   setIsChangedError("");
-  //   // setFormError("");
-  // }
+
 
   const handleCity = (e) => {
-    setCity(e.target.value);
-    setCityError("");
-    setGeneralError("");
-    setIsChangedError("");
-    // setFormError("");
+
+    const value = e.target.value;
+    const regex = /^[a-zA-Z\s]*$/;
+    if (regex.test(value)) {
+      setCity(value);
+      setCityError("");
+      setGeneralError("");
+      setIsChangedError("");
+    }
   }
 
-  // const handleStateChange = (e) => {
-  //   setStateName(e.target.value);
-  //   setStateNameError("");
-  //   setGeneralError("");
-  //   setIsChangedError("");
-  //   // setFormError("");
-  // }
-  
 
-  // const handlePinCodeChange = (e) => {
-  //   const value = e.target.value;
-  //   if (!/^\d{0,6}$/.test(value)) {
-  //     return; // Stop input if it's not a number or exceeds 6 digits
-  //   }
-  //   setPinCode(value);
-  //   setGeneralError("");
-  //   setIsChangedError("");
-  //   setPinCodeError("");
-  // };
 
-const handleClose =()=>{
-  setShow(false)
-  setVendorPhoneError("")
-  setVendorEmailError("")
-  dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
-  dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
-}
+  const handleClose = () => {
+    setShow(false)
+    setVendorPhoneError("")
+    setVendorEmailError("")
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
+  }
 
-  // const handleCountryCodeChange = (e) => {
-  //   setCountryCode(e.target.value);
-  //   setGeneralError("");
-  //   setIsChangedError("");
-  //   setCountryCodeError("");
-  // };
+
 
   const handleBusinessChange = (e) => {
     const value = e.target.value;
@@ -218,25 +201,16 @@ const handleClose =()=>{
     setBusinessNameError("");
     if (value === "") {
       setBusiness_Name(value);
-      // setErrors((prevErrors) => ({
-      //   ...prevErrors,
-      //   businessName: "Business name cannot be empty or spaces only",
-      // }));
+
       return;
     }
 
     if (value.trim() !== "") {
       setBusiness_Name(value);
-      // setErrors((prevErrors) => ({ ...prevErrors, businessName: "" }));
     }
   };
 
-  // const handleImageChange = (event) => {
-  //   const fileimgage = event.target.files[0];
-  //   if (fileimgage) {
-  //     setFile(fileimgage);
-  //   }
-  // };
+
 
   const handleImageChange = async (event) => {
     const fileImage = event.target.files[0];
@@ -267,16 +241,13 @@ const handleClose =()=>{
 
     if (value === "") {
       setFirst_Name(value);
-      // setErrors((prevErrors) => ({
-      //   ...prevErrors,
-      //   firstName: "First name cannot be empty or spaces only",
-      // }));
+
       return;
     }
 
     if (value.trim() !== "") {
       setFirst_Name(value);
-      // setErrors((prevErrors) => ({ ...prevErrors, firstName: "" }));
+
     }
   };
 
@@ -288,7 +259,7 @@ const handleClose =()=>{
     }
     if (value === "") {
       setLast_Name(value);
-      
+
       return;
     }
     if (value.trim() !== "") {
@@ -296,133 +267,30 @@ const handleClose =()=>{
     }
     setIsChangedError("")
   };
- 
-  
+
+
 
 
   const handleMobileChange = (e) => {
     const input = e.target.value;
     const numericInput = input.replace(/\D/g, "");
     setVendor_Mobile(numericInput);
-  
+
     if (input.length === 0) {
-      setMobileError(""); 
+      setMobileError("");
     } else if (!/^\d{10}$/.test(numericInput)) {
       setMobileError("Invalid Mobile Number");
     } else {
       setMobileError("");
     }
-  
+
     setVendorPhoneError("");
     setGeneralError("");
     setCountryCodeError("");
     setIsChangedError("");
     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
   };
-  
-  // const handleMobileChange = (e) => {
-  //   const value = e.target.value;
-  
-  //   const pattern = /^\d*$/;
-  //   if (pattern.test(value)) {
-  //     setVendor_Mobile(value);
-  //     setGeneralError("");
-  //     setIsChangedError("");
-  //     setCountryCodeError("");
-  //     setMobileError("");
-  //     setVendorPhoneError("");
-  //     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
-  
-  //     // Show error while typing if length is less than 10
-  //     if (value.length === 0) {
-  //       setErrors((prevErrors) => ({
-  //         ...prevErrors,
-  //         setMobileError: "Mobile Number is required",
-  //       }));
-  //     } else if (value.length < 10) {
-  //       setErrors((prevErrors) => ({
-  //         ...prevErrors,
-  //         setMobileError: "Please Enter Valid Mobile Number",
-  //       }));
-  //     } else {
-  //       setErrors((prevErrors) => ({
-  //         ...prevErrors,
-  //         setMobileError: "",
-  //       }));
-  //     }
-  
-  //   } else {
-  //     setErrors((prevErrors) => ({
-  //       ...prevErrors,
-  //       mobileError: "Mobile number can only contain digits",
-  //     }));
-  //   }
-  // };
-  
-  // const handleMobileChange = (e) => {
-  //   const value = e.target.value;
 
-  //   const pattern = /^\d*$/;
-
-  //   if (pattern.test(value)) {
-  //     setVendor_Mobile(value);
-  //     setGeneralError("");
-  //     setIsChangedError("");
-  //     setCountryCodeError("");
-  //     setMobileError("");
-  //     setVendorPhoneError("")
-  //     dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
-
-  //     if (value.length === 10) {
-  //       setErrors((prevErrors) => ({ ...prevErrors, vendor_Mobile: "" }));
-  //     } else {
-  //       setErrors((prevErrors) => ({
-  //         ...prevErrors,
-  //         vendor_Mobile: "Invalid mobile number *",
-  //       }));
-  //     }
-  //   } else {
-  //     setErrors((prevErrors) => ({
-  //       ...prevErrors,
-  //       vendor_Mobile: "Mobile number can only contain digits *",
-  //     }));
-  //   }
-  // };
-
-  // const handleAddressChange = (e) => {
-  //   const value = e.target.value;
-  //   setGeneralError("");
-  //   setAddressError("");
-  //   setIsChangedError("");
-  //   if (value === "") {
-  //     setAddress(value);
-  //     // setErrors((prevErrors) => ({
-  //     //   ...prevErrors,
-  //     //   address: "Address cannot be empty or spaces only",
-  //     // }));
-  //     return;
-  //   }
-
-  //   if (value.trim() !== "") {
-  //     setAddress(value);
-  //     // setErrors((prevErrors) => ({ ...prevErrors, address: "" }));
-  //   }
-  // };
-
-  // const handleEmailChange = (e) => {
-  //   const email = e.target.value;
-  //   setEmail_Id(email);
-  //   setGeneralError('');
-  //   setIsChangedError('');
-  //   setEmailError('');
-  //   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-  //   const isValidEmail = emailRegex.test(email);
-  //   if (isValidEmail) {
-  //     setErrors(prevErrors => ({ ...prevErrors, email_Id: '' }));
-  //   } else {
-  //     setErrors(prevErrors => ({ ...prevErrors, email_Id: 'Invalid Email Id *' }));
-  //   }
-  // }
 
   const handleEmailChange = (e) => {
     const email = e.target.value.toLowerCase();
@@ -444,10 +312,11 @@ const handleClose =()=>{
     }
   };
 
-  console.log("file", file);
+
 
   const handleAddVendor = () => {
     let isValid = true;
+const focusedRef = { current: false };
 
     const emailInvalid = emailError !== "";
     const mobileInvalid = mobileError !== "";
@@ -455,7 +324,6 @@ const handleClose =()=>{
     if (
       !first_Name &&
       !vendor_Mobile &&
-      // !address &&
       !business_Name &&
       !countryCode &&
       !city &&
@@ -467,74 +335,116 @@ const handleClose =()=>{
       isValid = false;
     }
 
-    if (!first_Name) {
-      setFirstNameError("Please Enter First Name");
-      isValid = false;
+   if (!first_Name) {
+    setFirstNameError("Please Enter First Name");
+    if (!focusedRef.current && firstNameRef.current) {
+      firstNameRef.current.focus();
+      focusedRef.current = true;
     }
+    isValid = false;
+  }
 
-    if (!countryCode) {
-      setCountryCodeError("Please Select Country Code");
-      isValid = false;
+  if (!countryCode) {
+    setCountryCodeError("Please Select Country Code");
+    if (!focusedRef.current && countryCodeRef.current) {
+      countryCodeRef.current.focus();
+      focusedRef.current = true;
     }
+    isValid = false;
+  }
 
-    if (!vendor_Mobile) {
-      setMobileError("Please Enter Mobile Number");
-      isValid = false;
+  if (!vendor_Mobile) {
+    setMobileError("Please Enter Mobile Number");
+    if (!focusedRef.current && mobileRef.current) {
+      mobileRef.current.focus();
+      focusedRef.current = true;
     }
-    if (mobileInvalid) {
-      setMobileError("Enter Valid Mobile Number");
-      isValid = false;
+    isValid = false;
+  } else if (mobileInvalid) {
+    setMobileError("Enter Valid Mobile Number");
+    if (!focusedRef.current && mobileRef.current) {
+      mobileRef.current.focus();
+      focusedRef.current = true;
     }
+    isValid = false;
+  }
 
-    if (!business_Name) {
-      setBusinessNameError("Please Enter Business Name");
-      isValid = false;
+  if (!business_Name) {
+    setBusinessNameError("Please Enter Business Name");
+    if (!focusedRef.current && businessNameRef.current) {
+      businessNameRef.current.focus();
+      focusedRef.current = true;
     }
+    isValid = false;
+  }
 
-   
-
-    if (!country) {
-      setCountryError("Please Enter Country");
-      isValid = false;
+  if (emailInvalid) {
+    setEmailError("Enter Valid Email ID");
+    if (!focusedRef.current && emailRef.current) {
+      emailRef.current.focus();
+      focusedRef.current = true;
     }
+    isValid = false;
+  }
+ if (!city) {
+    setCityError("Please Enter City");
+    if (!focusedRef.current && cityRef.current) {
+      cityRef.current.focus();
+      focusedRef.current = true;
+    }
+    isValid = false;
+  }
+
+ if (!pinCode) {
+    setPinCodeError("Please Enter Pincode");
+    if (!focusedRef.current && pinCodeRef.current) {
+      pinCodeRef.current.focus();
+      focusedRef.current = true;
+    }
+    isValid = false;
+  } else if (!/^\d+$/.test(String(pinCode))) {
+    setPinCodeError("Pin Code Must Be Numeric");
+    if (!focusedRef.current && pinCodeRef.current) {
+      pinCodeRef.current.focus();
+      focusedRef.current = true;
+    }
+    isValid = false;
+  } else if (String(pinCode).length !== 6) {
+    setPinCodeError("Pin Code Must Be Exactly 6 Digits");
+    if (!focusedRef.current && pinCodeRef.current) {
+      pinCodeRef.current.focus();
+      focusedRef.current = true;
+    }
+    isValid = false;
+  } else {
+    setPinCodeError("");
+  }
+
+
+  if (!state_name) {
+    setStateNameError("Please Select State");
+    if (!focusedRef.current && stateRef.current) {
+      stateRef.current.focus();
+      focusedRef.current = true;
+    }
+    isValid = false;
+  }
+
+  if (!country) {
+    setCountryError("Please Enter Country");
+    if (!focusedRef.current && countryRef.current) {
+      countryRef.current.focus();
+      focusedRef.current = true;
+    }
+    isValid = false;
+  }
 
  
 
-    if (!city) {
-      setCityError("Please Enter City");
-      isValid = false;
-    }
+  
 
-   
+ 
 
-    if (!state_name) {
-      setStateNameError("Please Select State");
-      isValid = false;
-    }
-
-    // Pin Code Validation - Only if it's been changed
-    if (!pinCode) {
-      setPinCodeError("Please Enter Pincode");
-      isValid = false;
-    } else if (!/^\d+$/.test(String(pinCode))) {
-      setPinCodeError("Pin Code Must Be Numeric");
-      isValid = false;
-    } else if (String(pinCode).length !== 6) {
-      setPinCodeError("Pin Code Must Be Exactly 6 Digits");
-      isValid = false;
-    } else {
-      setPinCodeError("");
-    }
-    
-    if (emailInvalid || mobileInvalid) {
-      if (emailInvalid) {
-        setEmailError("Enter Valid Email ID");
-      }
-      if (mobileInvalid) {
-        setMobileError("Enter Valid Mobile Number");
-      }
-      isValid = false;
-    }
 
     const normalize = (value) => {
       const val = (value ?? "").toString().trim().toLowerCase();
@@ -542,29 +452,26 @@ const handleClose =()=>{
     };
 
     const isChanged =
-    first_Name.trim() !== (initialState.first_Name || "").trim() ||
-    last_Name.trim() !== (initialState.last_Name || "").trim() ||
-    Number(vendor_Mobile) !== Number(initialState.vendor_Mobile || 0) ||
-    email_Id.trim() !== (initialState.email_Id || "").trim() ||
-    business_Name.trim() !== (initialState.business_Name || "").trim() ||
-    file !== initialState.file ||
-    countryCode !== (initialState.countryCode || "") ||
-    country.trim() !== (initialState.country || "").trim() ||
-    String(pinCode).trim() !== String(initialState.pinCode || "").trim() ||
-    normalize(house_no) !== normalize(initialState.house_no) ||
-    normalize(street) !== normalize(initialState.street) ||
-    normalize(landmark) !== normalize(initialState.landmark) ||
-    // house_no !== initialState.house_no ||
-    // street !== initialState.street ||
-    // landmark !== initialState.landmark ||
-    city !== initialState.city ||
-   state_name?.trim() !== (initialState.state || "").trim()
+      first_Name.trim() !== (initialState.first_Name || "").trim() ||
+      last_Name.trim() !== (initialState.last_Name || "").trim() ||
+      Number(vendor_Mobile) !== Number(initialState.vendor_Mobile || 0) ||
+      email_Id.trim() !== (initialState.email_Id || "").trim() ||
+      business_Name.trim() !== (initialState.business_Name || "").trim() ||
+      file !== initialState.file ||
+      countryCode !== (initialState.countryCode || "") ||
+      country.trim() !== (initialState.country || "").trim() ||
+      String(pinCode).trim() !== String(initialState.pinCode || "").trim() ||
+      normalize(house_no) !== normalize(initialState.house_no) ||
+      normalize(street) !== normalize(initialState.street) ||
+      normalize(landmark) !== normalize(initialState.landmark) ||
+      city !== initialState.city ||
+      state_name?.trim() !== (initialState.state || "").trim()
 
-  
-    console.log("ischanged",isChanged );
-    
 
-    if (!isChanged ) {
+
+
+
+    if (!isChanged) {
       setIsChangedError("No Changes Detected");
       isValid = false;
     }
@@ -582,16 +489,15 @@ const handleClose =()=>{
             Last_Name: last_Name,
             Vendor_Mobile: MobileNumber,
             Vendor_Email: email_Id,
-            // Vendor_Address: address,
             Business_Name: business_Name,
             id: id,
             Country: country,
             Vendor_Address: house_no,
             Pincode: pinCode,
-            area : street,
-            landmark : landmark,
-            city : city,
-            state:state_name,
+            area: street,
+            landmark: landmark,
+            city: city,
+            state: state_name,
           },
         });
       } else {
@@ -608,27 +514,20 @@ const handleClose =()=>{
             Country: country,
             Vendor_Address: house_no,
             Pincode: pinCode,
-            area : street,
-            landmark : landmark,
-            city : city,
-            state:state_name,
+            area: street,
+            landmark: landmark,
+            city: city,
+            state: state_name,
           },
         });
       }
 
-      // setFile('')
-      // // handleClose()
-      // setFirst_Name('')
-      // setLast_Name('')
-      // setVendor_Mobile('')
-      // setAddress('')
-      // setEmail_Id('')
-      // setBusiness_Name('')
-    } 
-   
+
+    }
+
   };
 
- 
+
   useEffect(() => {
     if (state.ComplianceList.addVendorSuccessStatusCode === 200) {
       setFile("");
@@ -646,12 +545,12 @@ const handleClose =()=>{
       setStateName("")
     }
   }, [state.ComplianceList.addVendorSuccessStatusCode]);
-  
+
 
   useEffect(() => {
     const closeButton = document.querySelector(
       'button[aria-label="close-button"]'
-);
+    );
     if (closeButton) {
       closeButton.style.backgroundColor = "white";
       closeButton.style.borderRadius = "50%";
@@ -662,9 +561,7 @@ const handleClose =()=>{
     }
   }, []);
 
-  // useEffect(() => {
-  //   dispatch({ type: "COUNTRYLIST" });
-  // }, []);
+
 
   useEffect(() => {
     if (currentItem) {
@@ -684,11 +581,11 @@ const handleClose =()=>{
           ? ""
           : emailValue;
 
-          const sanitize = (value) => {
-            return value === null || value === undefined || value === "null" || value === "undefined"
-              ? ""
-              : value;
-          };
+      const sanitize = (value) => {
+        return value === null || value === undefined || value === "null" || value === "undefined"
+          ? ""
+          : value;
+      };
 
 
       setCheck("EDIT");
@@ -699,14 +596,14 @@ const handleClose =()=>{
       setAddress(currentItem.Vendor_Address);
 
       setEmail_Id(normalizedEmail);
-      // setEmail_Id(currentItem.Vendor_Email ? currentItem.Vendor_Email : '');
+
       setBusiness_Name(currentItem.Business_Name);
       setId(currentItem.id);
-      // setVendor_Id(currentItem.Vendor_Id);
+
       setFile(currentItem.Vendor_profile ? currentItem.Vendor_profile : null);
       setCountry(currentItem.Country);
       setPinCode(currentItem.Pincode);
-      // setHouseNo(sanitize(item[0].Address));
+
       setHouseNo(sanitize(currentItem.Vendor_Address))
       setStreet(sanitize(currentItem.area))
       setLandmark(sanitize(currentItem.landmark))
@@ -718,12 +615,12 @@ const handleClose =()=>{
         last_Name: lastName,
         vendor_Mobile: mobileNumber,
         countryCode: countryCode,
-        // address: currentItem.Vendor_Address,
+
         house_no: sanitize(currentItem.Vendor_Address) || '',
         street: sanitize(currentItem.area) || '',
         city: sanitize(currentItem.city) || '',
-        // pincode:user.pin_code || '',
-        landmark:sanitize(currentItem.landmark)|| '',
+
+        landmark: sanitize(currentItem.landmark) || '',
         state: currentItem.state || '',
         email_Id: normalizedEmail,
         business_Name: currentItem.Business_Name,
@@ -735,36 +632,28 @@ const handleClose =()=>{
   }, [currentItem]);
 
 
-   console.log("house_no", house_no , street , landmark);
-   
 
- 
-  useEffect(()=>{
+
+
+  useEffect(() => {
     setVendorPhoneError(state.ComplianceList?.alreadyVendorHere)
-  },[state.ComplianceList?.alreadyVendorHere])
+  }, [state.ComplianceList?.alreadyVendorHere])
 
-  useEffect(()=>{
-setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
-  },[state.ComplianceList.alreadyVendorEmailError])
+  useEffect(() => {
+    setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
+  }, [state.ComplianceList.alreadyVendorEmailError])
 
-  // useEffect(() => {
-  //   if (state.ComplianceList?.alreadyVendorHere) {
-  //     setVendorPhoneError(state.ComplianceList?.alreadyVendorHere)
-  //     setTimeout(() => {
-  //       dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
-  //     }, 3000);
-  //   }
-  // }, [state.ComplianceList?.alreadyVendorHere]);
+
   const [initialState, setInitialState] = useState({
     first_Name: "",
     last_Name: "",
     vendor_Mobile: "",
     address: "",
-    house_no:'',
-    street:'',
-    city:'',
-    landmark:'',
-    state:'',
+    house_no: '',
+    street: '',
+    city: '',
+    landmark: '',
+    state: '',
     email_Id: "",
     business_Name: "",
     file: null,
@@ -773,37 +662,8 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
   });
 
 
-  console.log("initialstate", initialState);
-  
 
-  //     useEffect(()=>{
-  // if(currentItem){
-  //     const nameParts = currentItem.Vendor_Name.split(' ');
-  //     const firstName = nameParts[0];
-  //     const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-  //         setCheck('EDIT')
-  //       setFirst_Name(firstName)
-  //       setLast_Name(lastName)
-  //       setVendor_Mobile(currentItem.Vendor_Mobile)
-  //       setAddress(currentItem.Vendor_Address)
-  //       setEmail_Id(currentItem.Vendor_Email)
-  //       setBusiness_Name(currentItem.Business_Name)
-  //       setId(currentItem.id)
-  //       setVendor_Id(currentItem.Vendor_Id)
-  //       if (currentItem.Vendor_profile) {
-  //         const profile = currentItem.Vendor_profile;
-  //                if (typeof profile === 'string') {
-  //                     setFile(profile);
-  //         } else if (profile instanceof Blob) {
-  //                   setFile(profile);
-  //         } else {
-  //                 setFile(null);
-  //           console.warn('Invalid profile format');
-  //         }
-  //       }
 
-  // }
-  //     },[currentItem])
 
   return (
     <div
@@ -821,7 +681,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
         backdrop="static"
         className="custom-modal-width-vendor"
         style={{
-          maxWidth: '90%', 
+          maxWidth: '90%',
           margin: 'auto',
         }}
       >
@@ -842,10 +702,10 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
               style={{ cursor: 'pointer' }} />
           </Modal.Header>
 
-         
 
 
-          <Modal.Body>
+
+          <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
             <div className="d-flex align-items-center">
               <div
                 className=""
@@ -874,7 +734,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                       top: 90,
                       left: 80,
                       transform: "translate(-50%, -50%)",
-                      cursor:"pointer"
+                      cursor: "pointer"
                     }}
                   />
                   <input
@@ -935,6 +795,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                   <Form.Control
                     onChange={(e) => handleFirstNameChange(e)}
                     value={first_Name}
+                    ref={firstNameRef}
                     type="text"
                     placeholder="Enter First Name"
                     style={{
@@ -1023,8 +884,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     <Form.Select
                       value={countryCode}
                       id="vendor-select-pg"
-                      // onChange={handleCountryCodeChange}
-                      style={{
+                                           style={{
                         border: "1px solid #D9D9D9",
                         borderRadius: "8px 0 0 8px",
                         height: 50,
@@ -1041,6 +901,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     </Form.Select>
                     <Form.Control
                       value={vendor_Mobile}
+                      ref={mobileRef}
                       onChange={handleMobileChange}
                       type="text"
                       placeholder="9876543210"
@@ -1095,25 +956,25 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     </div>
                   )}
 
-                 
+
                 </Form.Group>
 
                 {vendorPhoneError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {vendorPhoneError}
-              </label>
-            </div>
-          )}
+                  <div className="d-flex align-items-center p-1 mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {vendorPhoneError}
+                    </label>
+                  </div>
+                )}
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
@@ -1129,7 +990,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     }}
                   >
                     Email ID{" "}
-                    {/* <span style={{ color: "red", fontSize: "20px" }}>*</span> */}
+                  
                   </Form.Label>
                   <Form.Control
                     value={email_Id}
@@ -1167,21 +1028,21 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                 </Form.Group>
 
                 {vendorEmailError && (
-            <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {vendorEmailError}
-              </label>
-            </div>
-          )}
+                  <div className="d-flex align-items-center p-1 mb-2">
+                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {vendorEmailError}
+                    </label>
+                  </div>
+                )}
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
@@ -1203,6 +1064,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                     value={business_Name}
                     onChange={(e) => handleBusinessChange(e)}
                     type="text"
+                    ref={businessNameRef}
                     placeholder="Enter Business Name"
                     style={{
                       fontSize: 16,
@@ -1235,11 +1097,10 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
               </div>
 
 
-              {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
+             
+
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
+                <Form.Group className="">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1248,201 +1109,153 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                       fontWeight: 500,
                     }}
                   >
-                    Address{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    Flat , House no , Building , Company , Apartment {" "}
                   </Form.Label>
-                  <Form.Control
-                    value={address}
-                    onChange={(e) => handleAddressChange(e)}
+                  <FormControl
                     type="text"
-                    placeholder="Enter Address"
+                    id="form-controls"
+                    placeholder="Enter House No"
+                    value={house_no}
+                    onChange={(e) => handleHouseNo(e)}
                     style={{
                       fontSize: 16,
                       color: "#4B4B4B",
                       fontFamily: "Gilroy",
-                      fontWeight: address ? 600 : 500,
+                      fontWeight: 500,
                       boxShadow: "none",
                       border: "1px solid #D9D9D9",
                       height: 50,
                       borderRadius: 8,
                     }}
                   />
-                  {addressError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {addressError}
-                      </label>
-                    </div>
-                  )}
                 </Form.Group>
-              </div> */}
+                {house_noError && (
+                  <div style={{ color: "red" }}>
+                    <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                <Form.Group className="">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Area , Street , Sector , Village{" "}
+                  </Form.Label>
+                  <FormControl
+                    type="text"
+                    id="form-controls"
+                    placeholder="Enter Street"
+                    value={street}
+                    onChange={(e) => handleStreetName(e)}
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                  />
+                </Form.Group>
+                {streetError && (
+                  <div style={{ color: "red" }}>
+                    <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                <Form.Group className="">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Landmark{" "}
+                  </Form.Label>
+                  <FormControl
+                    type="text"
+                    id="form-controls"
+                    placeholder="E.g , near appollo hospital"
+                    value={landmark}
+                    onChange={(e) => handleLandmark(e)}
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                  />
+                </Form.Group>
+                {landmarkError && (
+                  <div style={{ color: "red" }}>
+                    <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                    <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
+                  </div>
+                )}
+              </div>
 
 
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                                     <Form.Group className="">
-                                                       <Form.Label
-                                                         style={{
-                                                           fontSize: 14,
-                                                           color: "#222222",
-                                                           fontFamily: "Gilroy",
-                                                           fontWeight: 500,
-                                                         }}
-                                                       >
-                                                         Flat , House no , Building , Company , Apartment {" "}
-                                                       </Form.Label>
-                                                       <FormControl
-                                                         type="text"
-                                                         id="form-controls"
-                                                         placeholder="Enter House No"
-                                                         value={house_no}
-                                                         onChange={(e) => handleHouseNo(e)}
-                                                         style={{
-                                                           fontSize: 16,
-                                                           color: "#4B4B4B",
-                                                           fontFamily: "Gilroy",
-                                                           fontWeight: 500,
-                                                           boxShadow: "none",
-                                                           border: "1px solid #D9D9D9",
-                                                           height: 50,
-                                                           borderRadius: 8,
-                                                         }}
-                                                       />
-                                                     </Form.Group>
-                                                     {house_noError && (
-                                                       <div style={{ color: "red"}}>
-                                                         <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                         <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                                                       </div>
-                                                     )}
-                                                   </div>
-                                       
-                                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                                     <Form.Group className="">
-                                                       <Form.Label
-                                                         style={{
-                                                           fontSize: 14,
-                                                           color: "#222222",
-                                                           fontFamily: "Gilroy",
-                                                           fontWeight: 500,
-                                                         }}
-                                                       >
-                                                         Area , Street , Sector , Village{" "}
-                                                       </Form.Label>
-                                                       <FormControl
-                                                         type="text"
-                                                         id="form-controls"
-                                                         placeholder="Enter Street"
-                                                         value={street}
-                                                         onChange={(e) => handleStreetName(e)}
-                                                         style={{
-                                                           fontSize: 16,
-                                                           color: "#4B4B4B",
-                                                           fontFamily: "Gilroy",
-                                                           fontWeight: 500,
-                                                           boxShadow: "none",
-                                                           border: "1px solid #D9D9D9",
-                                                           height: 50,
-                                                           borderRadius: 8,
-                                                         }}
-                                                       />
-                                                     </Form.Group>
-                                                     {streetError && (
-                                                       <div style={{ color: "red"}}>
-                                                         <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                         <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                                                       </div>
-                                                     )}
-                                                   </div>
-                                       
-                                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                                     <Form.Group className="">
-                                                       <Form.Label
-                                                         style={{
-                                                           fontSize: 14,
-                                                           color: "#222222",
-                                                           fontFamily: "Gilroy",
-                                                           fontWeight: 500,
-                                                         }}
-                                                       >
-                                                         Landmark{" "}
-                                                       </Form.Label>
-                                                       <FormControl
-                                                         type="text"
-                                                         id="form-controls"
-                                                         placeholder="E.g , near appollo hospital"
-                                                         value={landmark}
-                                                         onChange={(e) => handleLandmark(e)}
-                                                         style={{
-                                                           fontSize: 16,
-                                                           color: "#4B4B4B",
-                                                           fontFamily: "Gilroy",
-                                                           fontWeight: 500,
-                                                           boxShadow: "none",
-                                                           border: "1px solid #D9D9D9",
-                                                           height: 50,
-                                                           borderRadius: 8,
-                                                         }}
-                                                       />
-                                                     </Form.Group>
-                                                     {landmarkError && (
-                                                       <div style={{ color: "red"}}>
-                                                         <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                         <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                                                       </div>
-                                                     )}
-                                                   </div>
-                                       
-                                                   
-                                       
-                                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                                     <Form.Group className="">
-                                                       <Form.Label
-                                                         style={{
-                                                           fontSize: 14,
-                                                           color: "#222222",
-                                                           fontFamily: "Gilroy",
-                                                           fontWeight: 500,
-                                                         }}
-                                                       >
-                                                         Town/City{" "}
-                                                         <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                                       </Form.Label>
-                                                       <FormControl
-                                                         type="text"
-                                                         id="form-controls"
-                                                         placeholder="Enter City"
-                                                         value={city}
-                                                         onChange={(e) => handleCity(e)}
-                                                         style={{
-                                                           fontSize: 16,
-                                                           color: "#4B4B4B",
-                                                           fontFamily: "Gilroy",
-                                                           fontWeight: 500,
-                                                           boxShadow: "none",
-                                                           border: "1px solid #D9D9D9",
-                                                           height: 50,
-                                                           borderRadius: 8,
-                                                         }}
-                                                       />
-                                                     </Form.Group>
-                                                     {cityError && (
-                                                       <div style={{ color: "red" }}>
-                                                         <MdError style={{fontSize: '13px',marginRight:"5px"}} />
-                                                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                                                       </div>
-                                                     )}
-                                                   </div>
 
-                                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                <Form.Group className="">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Town/City{" "}
+                    <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  </Form.Label>
+                  <FormControl
+                    type="text"
+                    id="form-controls"
+                    placeholder="Enter City"
+                    value={city}
+                    ref={cityRef} 
+                    onChange={(e) => handleCity(e)}
+                    style={{
+                      fontSize: 16,
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                      height: 50,
+                      borderRadius: 8,
+                    }}
+                  />
+                </Form.Group>
+                {cityError && (
+                  <div style={{ color: "red" }}>
+                    <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
+                  </div>
+                )}
+              </div>
+
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlInput1"
@@ -1460,11 +1273,12 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                   </Form.Label>
                   <Form.Control
                     value={pinCode}
+                    ref={pinCodeRef} 
                     onChange={(e) => handlePinCodeChange(e)}
                     type="tel"
                     maxLength={6}
-                    inputMode="numeric" 
-  pattern="[0-9]*" 
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     placeholder="Enter Pincode"
                     style={{
                       fontSize: 16,
@@ -1497,91 +1311,104 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
 
                 </Form.Group>
               </div>
-                                       
-                                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-  <Form.Group className="" controlId="exampleForm.ControlInput5">
-    <Form.Label
-      style={{
-        fontFamily: "Gilroy",
-        fontSize: 14,
-        fontWeight: 500,
-        color: "#222",
-        fontStyle: "normal",
-        lineHeight: "normal",
-      }}
-    >
-      State    <span style={{ color: "red", fontSize: "20px" }}>*</span>
-    </Form.Label>
 
-    <Select
-      options={indianStates}
-      onChange={(selectedOption) => {
-        setStateName(selectedOption?.value);
-      }}
-      value={
-        state_name ? { value: state_name, label: state_name } : null
-      }
-      placeholder="Select State"
-      classNamePrefix="custom"
-      menuPlacement="auto"
-      noOptionsMessage={() => "No state available"}
-      styles={{
-        control: (base) => ({
-          ...base,
-          height: "50px",
-          border: "1px solid #D9D9D9",
-          borderRadius: "8px",
-          fontSize: "16px",
-          color: "#4B4B4B",
-          fontFamily: "Gilroy",
-          fontWeight: state_name ? 600 : 500,
-          boxShadow: "none",
-        }),
-        menu: (base) => ({
-          ...base,
-          backgroundColor: "#f8f9fa",
-          border: "1px solid #ced4da",
-        }),
-        menuList: (base) => ({
-          ...base,
-          backgroundColor: "#f8f9fa",
-          maxHeight: "120px",
-          padding: 0,
-          scrollbarWidth: "thin",
-          overflowY: "auto",
-        }),
-        placeholder: (base) => ({
-          ...base,
-          color: "#555",
-        }),
-        dropdownIndicator: (base) => ({
-          ...base,
-          color: "#555",
-          cursor: "pointer",
-        }),
-        indicatorSeparator: () => ({
-          display: "none",
-        }),
-        option: (base, state) => ({
-          ...base,
-          cursor: "pointer",
-          backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-          color: "#000",
-        }),
-      }}
-    />
-  </Form.Group>
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Group className="" controlId="exampleForm.ControlInput5">
+                  <Form.Label
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontSize: 14,
+                      fontWeight: 500,
+                      color: "#222",
+                      fontStyle: "normal",
+                      lineHeight: "normal",
+                    }}
+                  >
+                    State    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                  </Form.Label>
 
-  {!state_name && state_nameError && (
-  <div style={{ color: "red" }}>
-    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-      {state_nameError}
-    </span>
-  </div>
-)}
+                  <Select
+                    options={indianStates}
+                    ref={stateRef}
+                    onChange={(selectedOption) => {
+                      setStateName(selectedOption?.value);
+                    }}
+                    onInputChange={(inputValue, { action }) => {
+                      if (action === "input-change") {
+                        const lettersOnly = inputValue.replace(
+                          /[^a-zA-Z\s]/g,
+                          ""
+                        );
+                        return lettersOnly;
+                      }
+                      return inputValue;
+                    }}
+                    value={
+                      state_name ? { value: state_name, label: state_name } : null
+                    }
+                    placeholder="Select State"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    noOptionsMessage={() => "No state available"}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        height: "50px",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        fontSize: "16px",
+                        color: "#4B4B4B",
+                        fontFamily: "Gilroy",
+                        fontWeight: state_name ? 600 : 500,
+                        boxShadow: "none",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                         fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                         fontFamily: "Gilroy",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        cursor: "pointer",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                        color: "#000",
+                      }),
+                    }}
+                  />
+                </Form.Group>
 
-</div>
+                {!state_name && state_nameError && (
+                  <div style={{ color: "red" }}>
+                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                    <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      {state_nameError}
+                    </span>
+                  </div>
+                )}
+
+              </div>
 
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1595,7 +1422,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      marginBottom:'0px'
+                      marginBottom: '0px'
                     }}
                   >
                     Country
@@ -1603,6 +1430,7 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                   </Form.Label>
                   <Form.Control
                     value={country}
+                    ref={countryRef}
                     onChange={(e) => handleCountryChange(e)}
                     type="text"
                     placeholder="Enter Country"
@@ -1633,28 +1461,12 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                       </label>
                     </div>
                   )}
-                {/* {isChangedError && (
-            <div style={{color: "red", marginTop: "15px"}}>
-              <MdError  />
-              <span
-               
-                style={{
-                  // marginTop: "10px",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
                  
-                }}
-              >
-                {isChangedError}
-              </span>
-            </div>
-          )}  */}
 
                 </Form.Group>
               </div>
 
-            
+
             </div>
           </Modal.Body>
           {generalError && (
@@ -1674,30 +1486,15 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
             </div>
           )}
 
-          {/* {isChangedError && (
-            <div style={{ color: "red", marginTop: "30px" }}>
-              <MdError />
-              <span
 
-                style={{
-                  marginTop: "10px",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
+          {isChangedError && (
+            <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
+              <MdError style={{ fontSize: "13px", marginRight: "7px", marginBottom: "15px" }} />
+              <span style={{ fontSize: "14px", fontFamily: "Gilroy", marginBottom: "15px" }}>
                 {isChangedError}
               </span>
             </div>
-          )} */}
-{isChangedError && (
-    <div className="d-flex align-items-center justify-content-center" style={{color:"red"}}>
-        <MdError style={{fontSize: "13px",marginRight:"7px",marginBottom:"15px"}}/>
-        <span style={{ fontSize: "14px", fontFamily: "Gilroy",marginBottom:"15px"}}>
-            {isChangedError}
-        </span>
-    </div>
-)}
+          )}
 
 
           <Modal.Footer style={{ border: "none" }}>
@@ -1710,7 +1507,6 @@ setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
                 fontSize: 16,
                 fontFamily: "Gilroy",
                 padding: 12,
-                marginTop: "-20px"
               }}
               onClick={handleAddVendor}
             >
@@ -1728,8 +1524,6 @@ AddVendor.propTypes = {
   setShow: PropTypes.func.isRequired,
   currentItem: PropTypes.func.isRequired,
 
-  // value: PropTypes.func.isRequired,
-  // onClick: PropTypes.func.isRequired,
 };
 
 export default AddVendor;

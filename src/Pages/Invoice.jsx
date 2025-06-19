@@ -46,8 +46,9 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-import { CloseCircle,ArrowUp2, ArrowDown2, } from "iconsax-react";
+import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import './BillPdfModal.css';
+import AxiosConfig from "../WebService/AxiosConfig";
 
 
 
@@ -73,7 +74,7 @@ const InvoicePage = () => {
     FloorNo: "",
     RoomNo: "",
     date: "",
-      paymentType: "",
+    paymentType: "",
     amount: "",
     balanceDue: "",
     dueDate: "",
@@ -103,7 +104,7 @@ const InvoicePage = () => {
   const [newRows, setNewRows] = useState([])
   const [customererrmsg, setCustomerErrmsg] = useState("");
   const [invoicenumbererrmsg, setInvoicenumberErrmsg] = useState("");
-    const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
+  const [invoicedateerrmsg, setInvoiceDateErrmsg] = useState("");
   const [invoiceduedateerrmsg, setInvoiceDueDateErrmsg] = useState("");
   const [allfielderrmsg, setAllFieldErrmsg] = useState("");
   const [amenityArray, setamenityArray] = useState([]);
@@ -166,13 +167,13 @@ const InvoicePage = () => {
   const [startDate, endDate] = dateRange;
 
   useEffect(() => {
- 
+
     if (state.login.selectedHostel_Id) {
       setHostelId(state.login.selectedHostel_Id);
     }
   }, [state.login.selectedHostel_Id]);
   useEffect(() => {
-      if (hostelId) {
+    if (hostelId) {
       setLoading(true)
       dispatch({
         type: "MANUALINVOICESLIST",
@@ -263,7 +264,7 @@ const InvoicePage = () => {
     dispatch({ type: "GET_REFERENCE_ID" });
   };
 
-  
+
   const handleAccount = (selectedOption) => {
     setAccount(selectedOption?.value || "");
     setAccountError("");
@@ -276,10 +277,10 @@ const InvoicePage = () => {
     setPaymodeErrmsg("");
     setAccount("");
   };
-  
-  
+
+
   const bankingOptions = Array.isArray(state.bankingDetails?.bankingList?.banks)
-  ? state.bankingDetails.bankingList.banks.map((item) => {
+    ? state.bankingDetails.bankingList.banks.map((item) => {
       let label = "";
       if (item.type === "bank") label = "bank";
       else if (item.type === "upi") label = "upi";
@@ -291,15 +292,15 @@ const InvoicePage = () => {
         label: `${item.benificiary_name} - ${label}`,
       };
     })
-  : [];
+    : [];
 
-  
+
   const combinedOptions = [...bankingOptions];
-  
+
 
 
   const handleInvoiceDetail = (item) => {
-   
+
     if (item.User_Id) {
       const originalDate = new Date(item.Date);
       const year = originalDate.getFullYear();
@@ -349,8 +350,8 @@ const InvoicePage = () => {
 
 
   const handleReceiptDetail = (item) => {
-   
-    
+
+
     if (item.user_id) {
 
       dispatch({
@@ -377,18 +378,18 @@ const InvoicePage = () => {
     }
   }, [bills]);
 
-  
+
   const handleStatusFilter = (event) => {
     const selected = event.target.value;
     setStatusfilter(selected);
 
-    
+
     if (selected !== "date") {
       setDateRange([null, null]);
     }
   };
 
- 
+
 
   useEffect(() => {
     let filtered = originalBillsFilter;
@@ -402,7 +403,7 @@ const InvoicePage = () => {
       );
     } else if (statusfilter === "date" && startDate && endDate) {
       filtered = filtered.filter((user) => {
-        const invoiceDate = new Date(user.Date); 
+        const invoiceDate = new Date(user.Date);
         return (
           invoiceDate >= startDate &&
           invoiceDate <= endDate
@@ -422,27 +423,39 @@ const InvoicePage = () => {
     setStatusFilterReceipt(searchTerm);
   };
 
+useEffect(() => {
+  if (statusFilterReceipt !== "date") {
+    setReceiptDateRange([]);
 
-  useEffect(() => {
-    if (statusFilterReceipt !== "date") {
-      setReceiptDateRange([]);
-      if (statusFilterReceipt === "All") {
-        setReceiptData(originalBillsFilterReceipt);
-      } else {
-        const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) =>
-          user.payment_mode.toLowerCase().includes(statusFilterReceipt.toLowerCase())
-        );
-        setReceiptData(filteredItemsReceipt);
-        setCurrentReceiptPage(1)
-      }
+    if (statusFilterReceipt === "All") {
+      setReceiptData(originalBillsFilterReceipt);
+    } else {
+      const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) => {
+        const mode = user.paymentMode?.toLowerCase() || "";
+
+        if (statusFilterReceipt === "Cash") return mode.endsWith("-cash");
+        if (statusFilterReceipt === "UPI") return mode.endsWith("-upi");
+        if (statusFilterReceipt === "Bank") return mode.endsWith("-bank");
+        if (statusFilterReceipt === "Card") return mode.endsWith("-card");
+
+        return false;
+      });
+
+      setReceiptData(filteredItemsReceipt);
+      setCurrentReceiptPage(1);
     }
-  }, [statusFilterReceipt]);
+  }
+}, [statusFilterReceipt]);
+
+
+
+ 
 
   const [receiptDateRange, setReceiptDateRange] = useState([]);
   const handleDateRangeChangeReceipt = (dates) => {
     setReceiptDateRange(dates);
 
-   
+
     if (!dates || dates.length !== 2) {
       setStatusFilterReceipt("All");
       setReceiptData(originalBillsFilterReceipt);
@@ -569,7 +582,7 @@ const InvoicePage = () => {
 
 
   useEffect(() => {
-    
+
     if (invoiceDetails?.ID) {
       setCustomerName(invoiceDetails?.ID);
     }
@@ -648,7 +661,7 @@ const InvoicePage = () => {
       ];
     }
 
-   
+
 
     setNewRows(newRows);
     const types = [];
@@ -657,7 +670,7 @@ const InvoicePage = () => {
       if (row.am_name === "EB") types.push("EB");
     });
     setSelectedTypes(types);
-   
+
   }, [invoiceDetails]);
 
 
@@ -681,32 +694,32 @@ const InvoicePage = () => {
     let isValid = true;
     let hasError = false;
 
-   
+
     setCustomerErrmsg("");
     setInvoicenumberErrmsg("");
-        setInvoiceDateErrmsg("");
+    setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
 
-    
+
     if (!customername) {
       setCustomerErrmsg("Customer is Required");
       isValid = false;
     }
 
-    
+
     if (!invoicenumber) {
       setInvoicenumberErrmsg("Invoice Number is Required");
       isValid = false;
     }
 
-   
+
     if (!invoicedate) {
       setInvoiceDateErrmsg("Invoice Date is Required");
       isValid = false;
     }
 
-   
+
     if (!invoiceduedate) {
       setInvoiceDueDateErrmsg("Due Date is Required");
       isValid = false;
@@ -734,30 +747,30 @@ const InvoicePage = () => {
     if (hasError) {
       return;
     }
-   
+
     let isValiding = true;
     if (
       !customername ||
       !invoicenumber ||
       !invoicedate ||
-      !invoiceduedate 
-    
+      !invoiceduedate
+
     ) {
       setAllFieldErrmsg("Please Fill Out All Required Fields");
       isValiding = false;
     }
 
-    
+
     const formatDate = (date) => {
       if (!date) return "";
       const d = new Date(date);
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
     };
 
-    
+
     const isChanged = (() => {
       const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
-           const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
+      const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
       const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
       const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
       const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
@@ -772,22 +785,22 @@ const InvoicePage = () => {
         invoiceChanged ||
         invoiceDateChanged ||
         dueDateChanged ||
-                rowsCountChanged ||
+        rowsCountChanged ||
         amenitiesChanged
       );
     })();
 
-    
+
     if (!isChanged) {
       setAllFieldErrmsg("No Changes Detected");
       return;
     }
 
-   
+
     if (isValid && isValiding && isChanged) {
       const formattedInvoiceDate = formatDate(invoicedate);
       const formattedDueDate = formatDate(invoiceduedate);
-     
+
       dispatch({
         type: "MANUAL-INVOICE-EDIT",
         payload: {
@@ -796,10 +809,10 @@ const InvoicePage = () => {
           due_date: formattedDueDate,
           id: invoiceDetails.id,
           amenity: amenityArray.length > 0 ? amenityArray : [],
-                 },
+        },
       });
 
-     
+
       setShowManualInvoice(false);
       setShowRecurringBillForm(false);
       setReceiptFormShow(false);
@@ -813,7 +826,7 @@ const InvoicePage = () => {
       setTotalAmount("");
       setNewRows([]);
       setCustomerErrmsg("");
-           setInvoiceDateErrmsg("");
+      setInvoiceDateErrmsg("");
       setInvoiceDueDateErrmsg("");
       setAllFieldErrmsg("");
     }
@@ -826,7 +839,7 @@ const InvoicePage = () => {
 
 
     if (props.item.id !== undefined) {
-      
+
       const dateObject = new Date(props.item.Date);
       const year = dateObject.getFullYear();
       const month = dateObject.getMonth() + 1;
@@ -839,7 +852,7 @@ const InvoicePage = () => {
 
 
 
-      
+
       let value = props.item.Name.split(" ");
       setSelectedUserId(props.item.User_Id);
       const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
@@ -856,21 +869,21 @@ const InvoicePage = () => {
         FloorNo: props.item.Floor_Id,
         RoomNo: props.item.Room_No,
         date: formattedDate,
-                amount: props.item.Amount,
+        amount: props.item.Amount,
         paidAmount: props.item.PaidAmount,
         balanceDue: props.item.BalanceDue === 0 ? "00" : props.item.BalanceDue,
         dueDate: formattedDueDate,
         InvoiceId: props.item.Invoices,
         invoice_type: props.item.invoice_type,
       });
-      
+
     } else {
-           setSelectedUserId("");
-         }
+      setSelectedUserId("");
+    }
   };
 
   const handleCloseForm = () => {
-    
+
     setPaymodeErrmsg("")
     setAccountError("")
     setDateErrmsg("")
@@ -888,7 +901,7 @@ const InvoicePage = () => {
       amount: "",
       balanceDue: "",
       dueDate: "",
-           transaction: "",
+      transaction: "",
       paymentType: "",
     });
     setSelectedDate(null);
@@ -927,7 +940,7 @@ const InvoicePage = () => {
       !formatpaiddate ||
       !invoiceList.transaction
     ) {
-            setTimeout(() => {
+      setTimeout(() => {
         setTotalErrmsg("");
       }, 1000);
       return;
@@ -966,12 +979,12 @@ const InvoicePage = () => {
   const options = {
     dateFormat: "d/m/Y",
     defaultDate: null,
-        maxDate: new Date(),
+    maxDate: new Date(),
     minDate: null,
   };
 
 
-  
+
 
   const handleCustomerName = (selectedOption) => {
     setCustomerName(selectedOption?.value || '');
@@ -983,7 +996,7 @@ const InvoicePage = () => {
     }
     setStartDate("");
     setEndDate("");;
-       setTotalAmount("");
+    setTotalAmount("");
   };
 
   const handleBackBill = () => {
@@ -999,24 +1012,24 @@ const InvoicePage = () => {
     setEndDate("");
     setInvoiceDate("");
     setInvoiceDueDate("");
-        setTotalAmount("");
+    setTotalAmount("");
     setCustomerErrmsg("");
-        setInvoiceDateErrmsg("");
+    setInvoiceDateErrmsg("");
     setInvoiceDueDateErrmsg("");
     setAllFieldErrmsg("");
     setTableErrmsg("");
-        setamenityArray([]);
+    setamenityArray([]);
     setNewRows([]);
     setDropdownValue("")
   };
 
   const formatDateForPayloadmanualinvoice = (date) => {
-    return dayjs(date).format("YYYY-MM-DD"); 
+    return dayjs(date).format("YYYY-MM-DD");
   };
 
 
 
-  
+
 
   const handleInvoiceDate = (selectedDate) => {
     setAllFieldErrmsg("");
@@ -1029,14 +1042,14 @@ const InvoicePage = () => {
 
     setInvoiceDate(selectedDate);
     setInvoiceDateErrmsg("");
-    
+
     const formattedDate = formatDateForPayloadmanualinvoice(selectedDate);
     setFormatInvoiceDate(formattedDate);
   };
 
 
 
-  
+
 
   const handleDueDate = (selectedDates) => {
     setAllFieldErrmsg("");
@@ -1145,7 +1158,7 @@ const InvoicePage = () => {
             transform: "translateY(-50%)",
           }}
           alt="Calendar"
-          onClick={onClick}         />
+          onClick={onClick} />
       </div>
     );
   });
@@ -1193,7 +1206,7 @@ const InvoicePage = () => {
             transform: "translateY(-50%)",
           }}
           alt="Calendar"
-          onClick={onClick} 
+          onClick={onClick}
         />
       </div>
     );
@@ -1240,7 +1253,7 @@ const InvoicePage = () => {
             transform: "translateY(-50%)",
           }}
           alt="Calendar"
-          onClick={onClick} 
+          onClick={onClick}
         />
       </div>
     );
@@ -1250,7 +1263,7 @@ const InvoicePage = () => {
 
 
 
- 
+
   const handleNewRowChange = (index, field, value) => {
     setNewRows((prevRows) =>
       prevRows.map((row, i) => (i === index ? { ...row, [field]: value } : row))
@@ -1270,16 +1283,16 @@ const InvoicePage = () => {
 
     setNewRows((prev) => [...prev, newRow]);
 
-   
+
     if (type !== "Other" && !selectedTypes.includes(type)) {
       setSelectedTypes((prev) => [...prev, type]);
     }
 
-   
+
     setAllFieldErrmsg("");
     setTableErrmsg("");
 
-   
+
     setDropdownValue("");
   };
 
@@ -1290,7 +1303,7 @@ const InvoicePage = () => {
       const deletedRow = prevRows[index];
       const updatedRows = prevRows.filter((_, i) => i !== index);
 
-      
+
       if (deletedRow.am_name === "Room Rent") {
         setSelectedTypes((prevTypes) => prevTypes.filter((type) => type !== "RoomRent"));
       } else if (deletedRow.am_name === "EB") {
@@ -1316,7 +1329,7 @@ const InvoicePage = () => {
   const handleCreateBill = () => {
     let hasError = false;
 
-   
+
     if (!customername) {
       setCustomerErrmsg("Please Select Customer");
       hasError = true;
@@ -1324,7 +1337,7 @@ const InvoicePage = () => {
       setCustomerErrmsg("");
     }
 
-   
+
 
     if (!invoicedate) {
       setInvoiceDateErrmsg("Please Select Invoice Date");
@@ -1340,7 +1353,7 @@ const InvoicePage = () => {
       setInvoiceDueDateErrmsg("");
     }
 
-    
+
     if (!Array.isArray(newRows) || newRows.length === 0) {
       setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
       hasError = true;
@@ -1362,24 +1375,24 @@ const InvoicePage = () => {
     }
 
 
-    
+
     if (hasError) {
       return;
     }
 
-    
+
     const formattedStartDate = startdate ? dayjs(startdate).format("YYYY-MM-DD") : "";
 
     const formattedEndDate = enddate ? dayjs(enddate).format("YYYY-MM-DD") : "";
 
-   
+
     dispatch({
       type: "MANUAL-INVOICE-ADD",
       payload: {
         user_id: customername,
         date: formatinvoicedate,
         due_date: formatduedate,
-       
+
         start_date: invoiceDetails?.action === "advance" ? null : formattedStartDate,
         end_date: invoiceDetails?.action === "advance" ? null : formattedEndDate,
         invoice_id: invoicenumber,
@@ -1393,7 +1406,7 @@ const InvoicePage = () => {
     setReceiptFormShow(false);
     setShowAllBill(true);
 
-   
+
     setCustomerName("");
     setInvoiceNumber("");
     setStartDate("");
@@ -1401,7 +1414,7 @@ const InvoicePage = () => {
     setInvoiceDate("");
     setInvoiceDueDate("");
     setTotalAmount("");
-   
+
     setNewRows([]);
   };
 
@@ -1411,7 +1424,7 @@ const InvoicePage = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  
+
   const currentItems =
     filterInput.length > 0
       ? bills
@@ -1424,36 +1437,36 @@ const InvoicePage = () => {
     setItemsPerPage(Number(event.target.value));
     setCurrentPage(1);
   };
-    const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-      
-        const sortedData = React.useMemo(() => {
-          if (!sortConfig.key) return currentItems;
-      
-          const sorted = [...currentItems].sort((a, b) => {
-            const valueA = a[sortConfig.key];
-            const valueB = b[sortConfig.key];
-      
-      
-            if (!isNaN(valueA) && !isNaN(valueB)) {
-              return sortConfig.direction === 'asc'
-                ? valueA - valueB
-                : valueB - valueA;
-            }
-      
-            if (typeof valueA === 'string' && typeof valueB === 'string') {
-              return sortConfig.direction === 'asc'
-                ? valueA.localeCompare(valueB)
-                : valueB.localeCompare(valueA);
-            }
-      
-            return 0;
-          });
-      
-          return sorted;
-        }, [currentItems, sortConfig]);
-        const handleSort = (key, direction) => {
-          setSortConfig({ key, direction });
-        };
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  const sortedData = React.useMemo(() => {
+    if (!sortConfig.key) return currentItems;
+
+    const sorted = [...currentItems].sort((a, b) => {
+      const valueA = a[sortConfig.key];
+      const valueB = b[sortConfig.key];
+
+
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return sortConfig.direction === 'asc'
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return sortConfig.direction === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      return 0;
+    });
+
+    return sorted;
+  }, [currentItems, sortConfig]);
+  const handleSort = (key, direction) => {
+    setSortConfig({ key, direction });
+  };
 
 
   const [currentRecurePage, setCurrentRecurePage] = useState(1);
@@ -1461,7 +1474,7 @@ const InvoicePage = () => {
   const indexOfLastItemRecure = currentRecurePage * itemsPage;
   const indexOfFirstItemRecure = indexOfLastItemRecure - itemsPage;
 
- 
+
   const currentItem =
     filterInput.length > 0
       ? recurringbills
@@ -1475,7 +1488,7 @@ const InvoicePage = () => {
     setCurrentRecurePage(1);
   };
   const [sortConfigRecure, setSortConfigRecure] = useState({ key: null, direction: null });
-      
+
   const sortedDataRecure = React.useMemo(() => {
     if (!sortConfigRecure.key) return currentItem;
 
@@ -1504,8 +1517,8 @@ const InvoicePage = () => {
   const handleSortRecure = (key, direction) => {
     setSortConfigRecure({ key, direction });
   };
-  const totalPage = Math.ceil(recurringbills.length / itemsPage); 
-  
+  const totalPage = Math.ceil(recurringbills.length / itemsPage);
+
   const [currentreceiptPage, setCurrentReceiptPage] = useState(1);
   const [itemsperPage, setItemsPERPage] = useState(10);
   const indexOfLastItemReceipt = currentreceiptPage * itemsperPage;
@@ -1522,7 +1535,7 @@ const InvoicePage = () => {
 
 
   const [sortConfigReceipt, setSortConfigReceipt] = useState({ key: null, direction: null });
-      
+
   const sortedDataReceipt = React.useMemo(() => {
     if (!sortConfigReceipt.key) return currentReceiptData;
 
@@ -1548,7 +1561,7 @@ const InvoicePage = () => {
 
     return sorted;
   }, [currentReceiptData, sortConfigReceipt]);
-  
+
   const handleSortReceipt = (key, direction) => {
     setSortConfigReceipt({ key, direction });
   };
@@ -1556,9 +1569,9 @@ const InvoicePage = () => {
     setItemsPERPage(Number(event.target.value));
     setCurrentReceiptPage(1);
   };
-  const ReceipttotalPages = Math.ceil(receiptdata.length / itemsperPage); 
+  const ReceipttotalPages = Math.ceil(receiptdata.length / itemsperPage);
 
-  
+
 
   const handleDeleteRecurringbills = (item) => {
     if (item) {
@@ -1610,31 +1623,31 @@ const InvoicePage = () => {
     setEndDate(null);
   };
 
-   
+
 
   const handleDisplayInvoiceDownload = (isVisible, rowData) => {
     setDownloadInvoice(isVisible);
     setShowPdfModal(true);
     setRowData(rowData);
 
-   dispatch({type :'BILL_PDF_DETAILS', payload:{ bill_id :rowData.id}})
+    dispatch({ type: 'BILL_PDF_DETAILS', payload: { bill_id: rowData.id } })
   };
 
- 
-const handleDisplayReceiptDownload = (isVisible, rowData) => { 
-  setDownloadReceipt(isVisible); 
-  setShowPdfReceiptModal(true);  
-  setRowData(rowData);  
-  dispatch({type:"RECEIPTPDF_NEWCHANGES",id:rowData?.id})
-};
-useEffect(()=>{
-    if(state.InvoiceList.statusCodeNewReceiptStatusCode === 200){
+
+  const handleDisplayReceiptDownload = (isVisible, rowData) => {
+    setDownloadReceipt(isVisible);
+    setShowPdfReceiptModal(true);
+    setRowData(rowData);
+    dispatch({ type: "RECEIPTPDF_NEWCHANGES", id: rowData?.id })
+  };
+  useEffect(() => {
+    if (state.InvoiceList.statusCodeNewReceiptStatusCode === 200) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_NEE_RECEIPT_PDF_STATUS_CODE" });
-      },500);
+      }, 500);
     }
-    
-  },[state.InvoiceList.statusCodeNewReceiptStatusCode])
+
+  }, [state.InvoiceList.statusCodeNewReceiptStatusCode])
 
 
 
@@ -1648,7 +1661,7 @@ useEffect(()=>{
   };
 
   useEffect(() => {
-      if (hostelId) {
+    if (hostelId) {
       dispatch({
         type: "BANKINGLIST",
         payload: { hostel_id: hostelId },
@@ -1748,7 +1761,7 @@ useEffect(()=>{
     }
   }, [billrolePermission]);
 
- 
+
 
   useEffect(() => {
     if (hostelId) {
@@ -1813,17 +1826,17 @@ useEffect(()=>{
     state.InvoiceList.statusCodeForReceiptPDf,
   ]);
 
-  
+
 
   useEffect(() => {
     if (
       state.login.UpdateNotificationMessage !== null &&
       state.login.UpdateNotificationMessage !== ""
     ) {
-     
+
       setTimeout(() => {
         dispatch({ type: "AFTER_UPDATE_NOTIFICATION", message: null });
-        
+
       }, 100);
     }
   }, [state.login.UpdateNotificationMessage]);
@@ -1837,35 +1850,96 @@ useEffect(()=>{
       if (pdfUrl) {
         setShowLoader(false);
 
-       
+
         const pdfWindow = window.open("", "_blank");
         if (pdfWindow) {
-          pdfWindow.location.href = pdfUrl; 
+          pdfWindow.location.href = pdfUrl;
           dispatch({ type: "CLEAR_INVOICE_PDF_STATUS_CODE" });
-                  }
+        }
       }
     }
   }, [state.InvoiceList?.statusCodeForPDf]);
 
   useEffect(() => {
-    if (state.InvoiceList?.statusCodeForReceiptPDf === 200) {
-      const pdfUrl = state.InvoiceList.ReceiptPDF;
+    const sendWhatsAppMessage = async () => {
 
-      if (pdfUrl) {
-        setShowLoader(false);
+      if (state.InvoiceList?.statusCodeForReceiptPDf === 200) {
 
-       
-        const pdfWindow = window.open("", "_blank");
-        if (pdfWindow) {
-          pdfWindow.location.href = pdfUrl; 
+        const pdfUrl = state.InvoiceList.ReceiptPDF;
+        const filename = pdfUrl?.split('/').pop();
+        const triggeredBy = state.InvoiceList.triggeredBy;
+        const isReceiptMessageEnabled = state.InvoiceList.whatsappSettings?.[2];
+
+        if (pdfUrl) {
+          setShowLoader(false);
+
+
+          if (triggeredBy === "whatsapp") {
+            if (isReceiptMessageEnabled == true) {
+              setLoading(true);
+
+              const receiptData =
+                state.InvoiceList.newReceiptchanges?.receipt ??
+                state.InvoiceList.BillsPdfDetails;
+
+              const userName = receiptData?.user_details?.name || '';
+              let userPhone = receiptData?.user_details?.phone?.toString() || '';
+
+              if (!userPhone.startsWith("+91")) {
+                if (userPhone.startsWith("91")) {
+                  userPhone = "+" + userPhone;
+                } else {
+                  userPhone = "+91" + userPhone;
+                }
+              }
+              try {
+                const response = await AxiosConfig.post("/send-whatsapp", {
+                  to: userPhone,
+                  templateName: "invoice_notification",
+                  parameters: [userName, filename],
+                });
+                if (response.data.statusCode === 200) {
+                  Swal.fire({
+                    icon: 'success',
+                    text: response.data.message,
+                  });
+                } else {
+                  Swal.fire({
+                    icon: 'warning',
+                    text: "Unexpected response from server.",
+                  });
+                }
+              } catch (error) {
+                Swal.fire({
+                  icon: 'error',
+                  text: error.response?.data?.error || "Failed to send WhatsApp message",
+                });
+              } finally {
+                setLoading(false);
+              }
+
+            } else {
+              Swal.fire({
+                icon: 'info',
+                text: 'WhatsApp notification for Deposit Receipt is not enabled. Please enable it in Settings > Notifications.',
+              });
+            }
+          } else {
+            const pdfWindow = window.open("", "_blank");
+            if (pdfWindow) {
+              pdfWindow.location.href = pdfUrl;
+            }
+          }
+
           dispatch({ type: "CLEAR_RECEIPT_PDF_STATUS_CODE" });
+          dispatch({ type: "CLEAR_TRIGGER_SOURCE" });
         }
 
       }
-    }
-  }, [state.InvoiceList?.statusCodeForReceiptPDf]);
+    };
 
- 
+    sendWhatsAppMessage();
+  }, [state.InvoiceList?.statusCodeForReceiptPDf, state.InvoiceList.triggeredBy, state.InvoiceList.whatsappSettings]);
 
   useEffect(() => {
     if (selectedUserId) {
@@ -1873,7 +1947,7 @@ useEffect(()=>{
         (item) => item.User_Id === selectedUserId
       );
       if (filteredDetails) {
-       
+
         setInvoiceList({
           ...invoiceList,
           firstName: filteredDetails.Name.split(" ")[0] || "",
@@ -1918,14 +1992,14 @@ useEffect(()=>{
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
         setLoading(false);
-      
+
       }, 1000);
     }
   }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
-  useEffect(()=>{
- setBills(state.InvoiceList.ManualInvoices);
-  },[state.InvoiceList.ManualInvoices,])
+  useEffect(() => {
+    setBills(state.InvoiceList.ManualInvoices);
+  }, [state.InvoiceList.ManualInvoices,])
 
 
 
@@ -1962,7 +2036,7 @@ useEffect(()=>{
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
-       
+
         setBills(state.InvoiceList.ManualInvoices);
       }, 1000);
     }
@@ -1974,7 +2048,7 @@ useEffect(()=>{
   useEffect(() => {
     if (state.InvoiceList?.InvoiceListStatusCode === 200) {
       setLoading(false);
-     
+
       setBills(state.InvoiceList.ManualInvoices);
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_LIST" });
@@ -2037,10 +2111,10 @@ useEffect(()=>{
     state.InvoiceList.Manulainvoicenumberstatuscode,
   ]);
 
- 
+
 
   useEffect(() => {
-  
+
     if (newRows) {
       const allRows = newRows
         .map((detail) => ({
@@ -2143,7 +2217,7 @@ useEffect(()=>{
   const handlefilterInput = (e) => {
     setFilterInput(e.target.value);
     setDropdownVisible(e.target.value.length > 0);
-    
+
     setBills(originalBills);
     setRecurringBills(originalRecuiring);
     setReceiptData(originalReceipt);
@@ -2151,10 +2225,30 @@ useEffect(()=>{
   };
 
   const handleUserSelect = (user) => {
+    const searchItem = user.Name
     setFilterInput(user.Name);
-    setBills([user]);
+
+    if (searchItem !== "") {
+      const filteredItems =
+        state.InvoiceList.ManualInvoices &&
+        state.InvoiceList.ManualInvoices.filter(
+          (user) =>
+            user.Name &&
+            user.Name.toLowerCase().includes(searchItem.toLowerCase())
+        );
+      setBills(filteredItems);
+
+    } else {
+      setBills(state.InvoiceList.ManualInvoices);
+    }
+    setCurrentPage(1);
     setDropdownVisible(false);
   };
+
+
+
+
+
 
   const handleCloseSearch = () => {
     setDropdownVisible(false);
@@ -2170,7 +2264,7 @@ useEffect(()=>{
     });
   };
 
- 
+
   useEffect(() => {
     if (receiptdata?.length > 0 && originalReceipt?.length === 0) {
       setOriginalReceipt(receiptdata);
@@ -2189,12 +2283,28 @@ useEffect(()=>{
   }, [recurringbills]);
   const handleSearch = () => {
     setSearch(!search);
-   
+
   };
 
   const handleUserRecuire = (user) => {
     setFilterInput(user.user_name);
-    setRecurringBills([user]);
+    const searchItem = user.user_name
+
+    if (searchItem !== "") {
+      const filteredItems =
+        state.InvoiceList.RecurringBills &&
+        state.InvoiceList.RecurringBills.filter(
+          (user) =>
+            user.user_name &&
+            user.user_name.toLowerCase().includes(searchItem.toLowerCase())
+        );
+      setRecurringBills(filteredItems);
+
+    } else {
+      setRecurringBills(state.InvoiceList.RecurringBills);
+    }
+    setCurrentPage(1);
+
     setDropdownVisible(false);
   };
 
@@ -2203,17 +2313,35 @@ useEffect(()=>{
 
   const handleUserReceipt = (user) => {
     setFilterInput(user.Name);
-    setReceiptData([user]);
+
+
+    const searchItem = user.Name
+
+    if (searchItem !== "") {
+      const filteredItems =
+        state.InvoiceList.ReceiptList &&
+        state.InvoiceList.ReceiptList.filter(
+          (user) =>
+            user.Name &&
+            user.Name.toLowerCase().includes(searchItem.toLowerCase())
+        );
+      setReceiptData(filteredItems);
+
+    } else {
+      setReceiptData(state.InvoiceList.ReceiptList);
+    }
+    setCurrentPage(1);
+
     setDropdownVisible(false);
   };
 
-  
+
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
   };
 
- 
+
   useEffect(() => {
 
     if (hostelId) {
@@ -2247,7 +2375,11 @@ useEffect(()=>{
       state.InvoiceList.ReceiptDeletesuccessStatuscode === 200 ||
       state.InvoiceList.ReceiptEditsuccessStatuscode === 200
     ) {
-     
+
+
+      handleBackBill()
+
+
       dispatch({
         type: "RECEIPTSLIST",
         payload: { hostel_id: hostelId },
@@ -2272,18 +2404,18 @@ useEffect(()=>{
   ]);
 
 
-    useEffect(() => {
-          if (
-            recurringbills.length > 0 &&
-            currentItem.length === 0 &&
-            currentRecurePage > 1
-          ) {
-            setCurrentRecurePage(currentRecurePage - 1);
-          }
-        }, [recurringbills])
+  useEffect(() => {
+    if (
+      recurringbills.length > 0 &&
+      currentItem.length === 0 &&
+      currentRecurePage > 1
+    ) {
+      setCurrentRecurePage(currentRecurePage - 1);
+    }
+  }, [recurringbills])
 
   return (
-    <div style={{height: "100vh", overflowY: "auto",}}>
+    <div style={{ height: "100vh", overflowY: "auto", }}>
       {showAllBill && (
         <>
           <div
@@ -2325,6 +2457,7 @@ useEffect(()=>{
                               outline: "none",
                               borderColor: "rgb(207,213,219)",
                               borderRight: "none",
+                              fontFamily: "Gilroy",
                             }}
                             value={filterInput}
                             onChange={(e) => handlefilterInput(e)}
@@ -2345,7 +2478,7 @@ useEffect(()=>{
                           bills?.length > 0 && (
                             <div
                               style={{
-                                border: "1px solid #d9d9d9 ",
+                                border: "1px solid #d9d9d9",
                                 position: "absolute",
                                 top: 80,
                                 left: 0,
@@ -2356,59 +2489,63 @@ useEffect(()=>{
                                 width: "100%",
                               }}
                             >
-                             
                               <ul
                                 className="show-scroll p-0"
                                 style={{
                                   listStyleType: "none",
                                   maxHeight: 174,
-                                  minHeight:
-                                    bills?.length > 1 ? "100px" : "auto",
-                                  overflowY:
-                                    bills?.length > 3 ? "auto" : "hidden",
+                                  minHeight: bills?.length > 1 ? "100px" : "auto",
+                                  overflowY: bills?.length > 3 ? "auto" : "hidden",
                                   margin: 0,
                                 }}
                               >
-                                {bills?.map((user, index) => (
-                                  <li
-                                    key={index}
-                                    className="d-flex align-items-center"
-                                    style={{
-                                      padding: "10px 5px",
-                                      cursor: "pointer",
-                                      borderBottom:
-                                        index !== bills?.length - 1
-                                          ? "1px solid #eee"
-                                          : "none",
-                                      backgroundColor:
-                                        hoveredIndex === index ? "#1E45E1" : "transparent",
-                                      color:
-                                        hoveredIndex === index ? "white" : "black",
-                                    }}
-                                    onClick={() => handleUserSelect(user)}
-                                    onMouseEnter={() => setHoveredIndex(index)}
-                                    onMouseLeave={() => setHoveredIndex(null)}
-                                  >
-                                    <Image
-                                      src={user.profile || Profile}
-                                      alt={user.Name}
-                                      roundedCircle
+                                {bills
+                                  ?.filter(
+                                    (item, index, self) =>
+                                      index === self.findIndex((t) => t.Name === item.Name)
+                                  )
+                                  .map((user, index) => (
+                                    <li
+                                      key={index}
+                                      className="d-flex align-items-center me-1"
                                       style={{
-                                        height: "30px",
-                                        width: "30px",
-                                        marginRight: "10px",
+                                        padding: "10px 5px",
+                                        cursor: "pointer",
+                                        fontFamily: "Gilroy",
+                                        borderRadius: 8,
+                                        borderBottom:
+                                          index !== bills?.length - 1
+                                            ? "1px solid #eee"
+                                            : "none",
+                                        backgroundColor:
+                                          hoveredIndex === index ? "#1E45E1" : "transparent",
+                                        color: hoveredIndex === index ? "white" : "black",
                                       }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
-                                      }}
-                                    />
-                                    <span>{user.Name}</span>
-                                  </li>
-                                ))}
+                                      onClick={() => handleUserSelect(user)}
+                                      onMouseEnter={() => setHoveredIndex(index)}
+                                      onMouseLeave={() => setHoveredIndex(null)}
+                                    >
+                                      <Image
+                                        src={user.profile || Profile}
+                                        alt={user.Name}
+                                        roundedCircle
+                                        style={{
+                                          height: "30px",
+                                          width: "30px",
+                                          marginRight: "10px",
+                                        }}
+                                        onError={(e) => {
+                                          e.target.onerror = null;
+                                          e.target.src = Profile;
+                                        }}
+                                      />
+                                      <span>{user.Name}</span>
+                                    </li>
+                                  ))}
                               </ul>
                             </div>
                           )}
+
                         {value === "2" && isDropdownVisible && recurringbills?.length > 0 && (
                           <div
                             style={{
@@ -2416,12 +2553,12 @@ useEffect(()=>{
                               position: "absolute",
                               top: 80,
                               left: 0,
-                              zIndex: 9999, 
+                              zIndex: 9999,
                               padding: 10,
                               borderRadius: 8,
                               backgroundColor: "#fff",
                               width: "100%",
-                              pointerEvents: "auto", 
+                              pointerEvents: "auto",
                             }}
                           >
                             <ul
@@ -2440,39 +2577,54 @@ useEffect(()=>{
                               {recurringbills?.length === 0 ? (
                                 <li style={{ padding: "10px" }}>No results found</li>
                               ) : (
-                                recurringbills?.map((user, index) => (
-                                  <li
-                                    key={index}
-                                    className="list-group-item d-flex align-items-center"
-                                    style={{
-                                      cursor: "pointer",
-                                      padding: "10px 5px",
-                                      borderBottom: index !== recurringbills.length - 1 ? "1px solid #eee" : "none",
-                                    }}
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                                                           handleUserRecuire(user);
-                                    }}
-                                  >
-                                    <Image
-                                      src={user.profile || Profile}
-                                      alt={user.user_name || "Default Profile"}
-                                      roundedCircle
-                                      style={{ height: "30px", width: "30px", marginRight: "10px" }}
-                                      onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = Profile;
+                                recurringbills
+                                  ?.filter(
+                                    (item, index, self) =>
+                                      index === self.findIndex((t) => t.user_name === item.user_name)
+                                  )
+                                  .map((user, index) => (
+                                    <li
+                                      key={index}
+                                      className="d-flex align-items-center me-1"
+                                      style={{
+                                        cursor: "pointer",
+                                        fontFamily: "Gilroy",
+                                        borderRadius: 8,
+                                        padding: "10px 5px",
+                                        borderBottom:
+                                          index !== recurringbills.length - 1
+                                            ? "1px solid #eee"
+                                            : "none",
+                                        backgroundColor:
+                                          hoveredIndex === index ? "#1E45E1" : "transparent",
+                                        color: hoveredIndex === index ? "white" : "black",
                                       }}
-                                    />
-                                    <span>{user.user_name}</span>
-                                  </li>
-                                ))
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        handleUserRecuire(user);
+                                      }}
+                                      onMouseEnter={() => setHoveredIndex(index)}
+                                      onMouseLeave={() => setHoveredIndex(null)}
+                                    >
+                                      <Image
+                                        src={user.profile || Profile}
+                                        alt={user.user_name || "Default Profile"}
+                                        roundedCircle
+                                        style={{ height: "30px", width: "30px", marginRight: "10px" }}
+                                        onError={(e) => {
+                                          e.target.onerror = null;
+                                          e.target.src = Profile;
+                                        }}
+                                      />
+                                      <span>{user.user_name}</span>
+                                    </li>
+                                  ))
                               )}
                             </ul>
                           </div>
-
                         )}
+
 
                         {value === "3" &&
                           isDropdownVisible &&
@@ -2504,46 +2656,60 @@ useEffect(()=>{
                                   boxSizing: "border-box",
                                 }}
                               >
-                                {receiptdata?.map((user, index) => {
-                                  const imagedrop = user.profile || Profile;
-                                  return (
-                                    <li
-                                      key={index}
-                                      className="list-group-item d-flex align-items-center"
-                                      style={{
-                                        cursor: "pointer",
-                                        padding: "10px 5px",
-                                        borderBottom: index !== receiptdata?.length - 1 ? "1px solid #eee" : "none",
-                                      }}
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                       
-                                        handleUserReceipt(user);
-                                      }}
-                                    >
-                                      <Image
-                                        src={imagedrop}
-                                        alt={user.Name || "Default Profile"}
-                                        roundedCircle
+                                {receiptdata
+                                  ?.filter(
+                                    (item, index, self) =>
+                                      index === self.findIndex((t) => t.Name === item.Name)
+                                  )
+                                  .map((user, index) => {
+                                    const imagedrop = user.profile || Profile;
+                                    return (
+                                      <li
+                                        key={index}
+                                        className="d-flex align-items-center me-1 "
                                         style={{
-                                          height: "30px",
-                                          width: "30px",
-                                          marginRight: "10px",
+                                          cursor: "pointer",
+                                          fontFamily: "Gilroy",
+                                          borderRadius: 8,
+                                          padding: "10px 5px",
+                                          borderBottom:
+                                            index !== receiptdata?.length - 1
+                                              ? "1px solid #eee"
+                                              : "none",
+                                          backgroundColor:
+                                            hoveredIndex === index ? "#1E45E1" : "transparent",
+                                          color: hoveredIndex === index ? "white" : "black",
                                         }}
-                                        onError={(e) => {
-                                          e.target.onerror = null;
-                                          e.target.src = Profile;
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          handleUserReceipt(user);
                                         }}
-                                      />
-                                      <span>{user.Name}</span>
-                                    </li>
-                                  );
-                                })}
+                                        onMouseEnter={() => setHoveredIndex(index)}
+                                        onMouseLeave={() => setHoveredIndex(null)}
+                                      >
+                                        <Image
+                                          src={imagedrop}
+                                          alt={user.Name || "Default Profile"}
+                                          roundedCircle
+                                          style={{
+                                            height: "30px",
+                                            width: "30px",
+                                            marginRight: "10px",
+                                          }}
+                                          onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = Profile;
+                                          }}
+                                        />
+                                        <span>{user.Name}</span>
+                                      </li>
+                                    );
+                                  })}
                               </ul>
                             </div>
-
                           )}
+
                       </div>
                     </>
                   ) : (
@@ -2653,11 +2819,11 @@ useEffect(()=>{
                         }}
                       >
                         <option value="All">All</option>
-                        <option value="Cash">Cash</option>
-                        <option value="upi">UPI</option>
-                        <option value="Credit Card">Credit Card</option>
-                        <option value="Debit Card">Debit Card</option>
-                        <option value="date">Date</option>
+  <option value="Cash">Cash</option>
+  <option value="UPI">UPI</option>
+  <option value="Bank">Bank</option>
+  <option value="Card">Card</option>
+  <option value="date">Date</option>
                       </Form.Select>
                     </div>
                   )}
@@ -2674,7 +2840,7 @@ useEffect(()=>{
                     </div>
                   )}
 
-                 
+
 
                   <div className="text-center" style={{ paddingRight: 18 }} >
                     {value === "1" && (
@@ -2703,7 +2869,7 @@ useEffect(()=>{
                       <Button
                         disabled={recuringbillAddPermission}
                         onClick={handleRecurrBillShow}
-                       
+
                         style={{
                           fontFamily: "Gilroy",
                           fontSize: "14px",
@@ -2715,7 +2881,7 @@ useEffect(()=>{
                           paddingLeft: 25,
                           marginTop: 18,
                           whiteSpace: "nowrap",
-                                                 }}
+                        }}
                       >
                         {" "}
                         + Recurring Bill
@@ -2726,7 +2892,7 @@ useEffect(()=>{
                       <Button
                         disabled={receiptaddPermission}
                         onClick={handleReceiptShow}
-                       
+
                         style={{
                           fontFamily: "Gilroy",
                           fontSize: "14px",
@@ -2779,7 +2945,7 @@ useEffect(()=>{
                     label="Bills"
                     value="1"
                     style={{
-                                           fontSize: 16,
+                      fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
                       lineHeight: "normal",
@@ -2792,7 +2958,7 @@ useEffect(()=>{
                     label="Recurring Bills"
                     value="2"
                     style={{
-                                           fontSize: 16,
+                      fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
                       lineHeight: "normal",
@@ -2805,7 +2971,7 @@ useEffect(()=>{
                     label="Receipt"
                     value="3"
                     style={{
-                                          fontSize: 16,
+                      fontSize: 16,
                       fontFamily: "Gilroy",
                       color: "#4B4B4B",
                       lineHeight: "normal",
@@ -2828,16 +2994,16 @@ useEffect(()=>{
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
-                                              }}
+                      }}
                     >
-                     
+
                       <img
                         src={Emptystate}
                         alt="Empty State"
                         style={{ maxWidth: "100%", height: "auto" }}
                       />
 
-                     
+
                       {billpermissionError && (
                         <div
                           style={{
@@ -2977,7 +3143,7 @@ useEffect(()=>{
 
                             className="m-0 p-0"
                           >
-                           
+
 
 
                             <Modal.Header
@@ -3065,7 +3231,7 @@ useEffect(()=>{
                                         *
                                       </span>
                                     </Form.Label>
-                                   
+
                                     <Form.Control
                                       type="number"
                                       min="0"
@@ -3137,7 +3303,7 @@ useEffect(()=>{
                                         width: "100%",
                                       }}
                                     >
-                                      
+
                                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                         <DatePicker
                                           style={{ width: "100%", height: 48, cursor: "pointer" }}
@@ -3155,7 +3321,7 @@ useEffect(()=>{
                                     </div>
                                   </Form.Group>
 
-                                 
+
 
                                   {dateerrmsg.trim() !== "" && (
                                     <div>
@@ -3209,63 +3375,63 @@ useEffect(()=>{
                                     </Form.Label>
 
                                     <Select
-  options={combinedOptions}
-  onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
-  value={
-    invoiceList.transaction
-      ? combinedOptions.find(option => option.value === invoiceList.transaction)
-      : null
-  }
-  placeholder="Please Select"
-  classNamePrefix="custom"
-  menuPlacement="auto"
-  noOptionsMessage={() => "No options available"}
-  styles={{
-    control: (base) => ({
-      ...base,
-      height: "49px",
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      fontSize: "14px",
-      color: "#4B4B4B",
-      fontFamily: "Gilroy, sans-serif",
-      fontWeight: 500,
-      boxShadow: "none",
-      marginTop: "6px",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "lightblue" : "white",
-      color: "#000",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer"
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  }}
-/>
+                                      options={combinedOptions}
+                                      onChange={(selectedOption) => handleTransaction(selectedOption?.value)}
+                                      value={
+                                        invoiceList.transaction
+                                          ? combinedOptions.find(option => option.value === invoiceList.transaction)
+                                          : null
+                                      }
+                                      placeholder="Please Select"
+                                      classNamePrefix="custom"
+                                      menuPlacement="auto"
+                                      noOptionsMessage={() => "No options available"}
+                                      styles={{
+                                        control: (base) => ({
+                                          ...base,
+                                          height: "49px",
+                                          border: "1px solid #D9D9D9",
+                                          borderRadius: "8px",
+                                          fontSize: "14px",
+                                          color: "#4B4B4B",
+                                          fontFamily: "Gilroy, sans-serif",
+                                          fontWeight: 500,
+                                          boxShadow: "none",
+                                          marginTop: "6px",
+                                        }),
+                                        menu: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          border: "1px solid #ced4da",
+                                        }),
+                                        menuList: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          maxHeight: "120px",
+                                          padding: 0,
+                                          scrollbarWidth: "thin",
+                                          overflowY: "auto",
+                                        }),
+                                        placeholder: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        option: (base, state) => ({
+                                          ...base,
+                                          cursor: "pointer",
+                                          backgroundColor: state.isFocused ? "lightblue" : "white",
+                                          color: "#000",
+                                        }),
+                                        dropdownIndicator: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                          cursor: "pointer"
+                                        }),
+                                        indicatorSeparator: () => ({
+                                          display: "none",
+                                        }),
+                                      }}
+                                    />
 
 
 
@@ -3296,7 +3462,7 @@ useEffect(()=>{
                                   </Form.Group>
                                 </div>
 
-                              
+
                                 {invoiceList.transaction === "Net Banking" && (
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <Form.Label
@@ -3378,7 +3544,7 @@ useEffect(()=>{
                                           color: "#000",
                                         }),
                                       }}
-                                     
+
                                       noOptionsMessage={() =>
                                         bankking?.length === 0
                                           ? "No accounts available"
@@ -3411,7 +3577,7 @@ useEffect(()=>{
                                     )}
                                   </div>
                                 )}
-                               
+
                               </div>
                               {totalErrormsg.trim() !== "" && (
                                 <div>
@@ -3459,7 +3625,7 @@ useEffect(()=>{
                       </div>
                     )}
 
-                   
+
 
                     <Container fluid className="p-0 table-bills mt-2">
                       <Row
@@ -3482,12 +3648,12 @@ useEffect(()=>{
                               {bills &&
                                 bills.map((item) => (
                                   <>
-                                   
-                                   <div
-  className="mb-3 bg-white shadow-sm rounded"
-  style={{ padding: "12px 16px" }}
->
-<div className="d-flex align-items-start justify-content-between">
+
+                                    <div
+                                      className="mb-3 bg-white shadow-sm rounded"
+                                      style={{ padding: "12px 16px" }}
+                                    >
+                                      <div className="d-flex align-items-start justify-content-between">
                                         <div>
                                           <span>
                                             <img
@@ -3504,76 +3670,76 @@ useEffect(()=>{
                                         </div>
 
                                         <div className="flex-grow-1 ms-3">
-                                        <div className="d-flex justify-content-between align-items-center mb-1">
-                                              <div
-                                                className="Invoice_Name"
-                                                style={{
-                                                  fontFamily: "Gilroy",
-                                                  fontSize: "14px",
-                                                  wordWrap: "break-word",
-                                                  color: "#222",
-                                                  fontStyle: "normal",
-                                                  lineHeight: "normal",
-                                                  fontWeight: 600,
-                                                  cursor: "pointer",
-                                                }}
-                                                onClick={() =>
-                                                  handleDisplayInvoiceDownload(
-                                                    true,
-                                                    item
-                                                  )
-                                                }
-                                              >
-                                                {item.Name}
-                                              </div>
-                                              <div
-                                                style={{
-                                                  fontFamily: "Gilroy",
-                                                  fontSize: "12px",
-                                                  wordWrap: "break-word",
-                                                  color: "#222",
-                                                  fontStyle: "normal",
-                                                  lineHeight: "normal",
-                                                  fontWeight: 600,
-                                                }}
-                                              >
-                                                {item.Amount}
-                                              </div>
+                                          <div className="d-flex justify-content-between align-items-center mb-1">
+                                            <div
+                                              className="Invoice_Name"
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "14px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                                cursor: "pointer",
+                                              }}
+                                              onClick={() =>
+                                                handleDisplayInvoiceDownload(
+                                                  true,
+                                                  item
+                                                )
+                                              }
+                                            >
+                                              {item.Name}
                                             </div>
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {item.Amount}
+                                            </div>
+                                          </div>
 
-                                            <div className="d-flex justify-content-between gap-3 mb-2">
-                                              <div
-                                                style={{
-                                                  fontFamily: "Gilroy",
-                                                  fontSize: "12px",
-                                                  wordWrap: "break-word",
-                                                  color: "#222",
-                                                  fontStyle: "normal",
-                                                  lineHeight: "normal",
-                                                  fontWeight: 600,
-                                                }}
-                                              >
-                                                {item.Invoices === null ||
-                                                  item.Invoices === ""
-                                                  ? "0.00"
-                                                  : item.Invoices}
-                                              </div>
-                                              <div
-                                                style={{
-                                                  fontFamily: "Gilroy",
-                                                  fontSize: "12px",
-                                                  wordWrap: "break-word",
-                                                  color: "#222",
-                                                  fontStyle: "normal",
-                                                  lineHeight: "normal",
-                                                  fontWeight: 600,
-                                                }}
-                                              >
-                                                {moment(item.Date).format(
-                                                  "DD MMM YYYY"
-                                                )}
-                                              </div>
+                                          <div className="d-flex justify-content-between gap-3 mb-2">
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {item.Invoices === null ||
+                                                item.Invoices === ""
+                                                ? "0.00"
+                                                : item.Invoices}
                                             </div>
+                                            <div
+                                              style={{
+                                                fontFamily: "Gilroy",
+                                                fontSize: "12px",
+                                                wordWrap: "break-word",
+                                                color: "#222",
+                                                fontStyle: "normal",
+                                                lineHeight: "normal",
+                                                fontWeight: 600,
+                                              }}
+                                            >
+                                              {moment(item.Date).format(
+                                                "DD MMM YYYY"
+                                              )}
+                                            </div>
+                                          </div>
 
                                           <div className="mb-2">
                                             {item.BalanceDue === 0 ? (
@@ -3608,7 +3774,7 @@ useEffect(()=>{
                                         </div>
                                       </div>
                                     </div>
-                                   
+
                                   </>
                                 ))}
                             </div>
@@ -3617,224 +3783,224 @@ useEffect(()=>{
                               {sortedData && sortedData.length > 0 ? (
 
                                 <div
-                                                      className=" booking-table-userlist  booking-table   ms-2 me-4"
-                                                      style={{ paddingBottom: "20px",marginLeft:"-22px" }}
-                                                    >
-                                                       <div
-                                                        
-                                                         className='show-scrolls'
-                                                         style={{
-                                                          
-                                                           height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "360px" : "auto",
-                                                           overflow: "auto",
-                                                           borderTop: "1px solid #E8E8E8",
-                                                           marginBottom: 20,
-                                                           marginTop: "20px",
-                                                           paddingRight:0,
-                                                           paddingLeft:0
-                                                           
-                                                         }}
-                                                       >
-                                                         <Table
-                                                           responsive="md"
-                                                          
-                                                           style={{
-                                                             fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                             top: 0,
-                                                             zIndex: 1,
-                                                             borderRadius:0
-                                                           }}
-                                                         >
-                                                           <thead style={{
-                                                                        fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                                        top: 0,
-                                                                        zIndex: 1
-                                                                      }}>
-                                      <tr>
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            paddingLeft: "20px",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                                                                     }}
-                                        >
-                                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                     </div>
-                                                                                                                      Name</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 14,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                         <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                    </div>
-                                                                                                                     Invoice Number</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 14,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("action", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("action", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                     </div>
-                                                                                                                      Type</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "center",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 14,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                         <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Date", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Date", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                    </div>
-                                                                                                                     Invoice Date</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "center",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 14,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("DueDate", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("DueDate", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                     </div>
-                                                                                                                      Due Date</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 14,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Amount", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Amount", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                     </div>
-                                                                                                                      Amount</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 14,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("BalanceDue", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("BalanceDue", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                     </div>
-                                                                                                                      Due</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 14,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                       <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("status", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                       <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("status", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                     </div>
-                                                                                                                      Status</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "center",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 14,
-                                            fontWeight: 500,
-                                                                                      }}
-                                        > Action</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody
+                                  className=" booking-table-userlist  booking-table   ms-2 me-4"
+                                  style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+                                >
+                                  <div
+
+                                    className='show-scrolls'
+                                    style={{
+
+                                      height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "360px" : "auto",
+                                      overflow: "auto",
+                                      borderTop: "1px solid #E8E8E8",
+                                      marginBottom: 20,
+                                      marginTop: "20px",
+                                      paddingRight: 0,
+                                      paddingLeft: 0
+
+                                    }}
+                                  >
+                                    <Table
+                                      responsive="md"
+
                                       style={{
-                                        fontSize: "10px",
-                                        minHeight: "200px",
-                                        position: "relative",
+                                        fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                        top: 0,
+                                        zIndex: 1,
+                                        borderRadius: 0
                                       }}
                                     >
-                                      {
-                                        sortedData.map((item) => (
-                                          <InvoiceTable
-                                            key={item.id}
-                                            item={item}
-                                            OnHandleshowform={handleShowForm}
-                                            OnHandleshowEditform={handleEdit}
-                                            OnHandleshowInvoicePdf={
-                                              handleInvoiceDetail
-                                            }
-                                            OnHandleshowDeleteform={
-                                              handleBillDelete
-                                            }
-                                            DisplayInvoice={
-                                              handleDisplayInvoiceDownload
-                                            }
-                                            billAddPermission={
-                                              billAddPermission
-                                            }
-                                            billEditPermission={
-                                              billEditPermission
-                                            }
-                                            billDeletePermission={
-                                              billDeletePermission
-                                            }
-                                          />
-                                        ))}
-                                    </tbody>
-                                  </Table>
-                                </div>
+                                      <thead style={{
+                                        fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                        top: 0,
+                                        zIndex: 1
+                                      }}>
+                                        <tr>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              paddingLeft: "20px",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Name", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Name</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 14,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Invoices", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Invoice Number</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 14,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("action", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("action", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Type</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "center",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 14,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Date", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Date", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Invoice Date</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "center",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 14,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("DueDate", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("DueDate", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Due Date</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 14,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Amount", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("Amount", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Amount</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 14,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("BalanceDue", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("BalanceDue", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Due</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 14,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("status", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("status", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Status</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "center",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 14,
+                                              fontWeight: 500,
+                                            }}
+                                          > Action</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody
+                                        style={{
+                                          fontSize: "10px",
+                                          minHeight: "200px",
+                                          position: "relative",
+                                        }}
+                                      >
+                                        {
+                                          sortedData.map((item) => (
+                                            <InvoiceTable
+                                              key={item.id}
+                                              item={item}
+                                              OnHandleshowform={handleShowForm}
+                                              OnHandleshowEditform={handleEdit}
+                                              OnHandleshowInvoicePdf={
+                                                handleInvoiceDetail
+                                              }
+                                              OnHandleshowDeleteform={
+                                                handleBillDelete
+                                              }
+                                              DisplayInvoice={
+                                                handleDisplayInvoiceDownload
+                                              }
+                                              billAddPermission={
+                                                billAddPermission
+                                              }
+                                              billEditPermission={
+                                                billEditPermission
+                                              }
+                                              billDeletePermission={
+                                                billDeletePermission
+                                              }
+                                            />
+                                          ))}
+                                      </tbody>
+                                    </Table>
+                                  </div>
                                 </div>
                               ) : (
 
@@ -3891,8 +4057,8 @@ useEffect(()=>{
                                     zIndex: 1000,
                                   }}
                                 >
-                                
-                                  
+
+
                                   <div>
                                     <select
                                       value={itemsPerPage}
@@ -3915,7 +4081,7 @@ useEffect(()=>{
                                     </select>
                                   </div>
 
-                                 
+
                                   <ul
                                     style={{
                                       display: "flex",
@@ -3925,7 +4091,7 @@ useEffect(()=>{
                                       padding: 0,
                                     }}
                                   >
-                                    
+
                                     <li style={{ margin: "0 10px" }}>
                                       <button
                                         style={{
@@ -3962,7 +4128,7 @@ useEffect(()=>{
                                       </button>
                                     </li>
 
-                                    
+
                                     <li
                                       style={{
                                         margin: "0 10px",
@@ -3973,7 +4139,7 @@ useEffect(()=>{
                                       {currentPage} of {totalPages}
                                     </li>
 
-                                   
+
                                     <li style={{ margin: "0 10px" }}>
                                       <button
                                         style={{
@@ -4036,16 +4202,16 @@ useEffect(()=>{
                                 rowData={rowData}
                               />
 
-                             
+
                             </Col>
                           </>
                         )}
                       </Row>
                     </Container>
 
-                   
 
-                   
+
+
                   </div>
                 )}
               </>
@@ -4060,17 +4226,17 @@ useEffect(()=>{
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                     
+
                     }}
                   >
-                    
+
                     <img
                       src={Emptystate}
                       alt="Empty State"
                       style={{ maxWidth: "100%", height: "auto" }}
                     />
 
-                    
+
                     {recurringPermission && (
                       <div
                         style={{
@@ -4159,171 +4325,171 @@ useEffect(()=>{
                   }
 
                   {sortedDataRecure && sortedDataRecure.length > 0 && (
-                     <div
-                                         className=" booking-table-userlist  booking-table ms-2 me-4 mt-4"
-                                         style={{ paddingBottom: "20px",marginLeft:"-22px" }}
-                                       >
-                                          <div
-                                           
-                                            className='show-scrolls '
-                                            style={{
-                                             
-                                              height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "350px" : "auto",
-                                              overflow: "auto",
-                                              borderTop: "1px solid #E8E8E8",
-                                              marginBottom: 20,
-                                              marginTop: "20px",
-                                              paddingRight:0,
-                                              paddingLeft:0
-                                            
-                                            }}
-                                          >
-                                            <Table
-                                           
-                                              responsive="md"
-                                             
-                                              style={{
-                                                fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                top: 0,
-                                                zIndex: 1,
-                                                borderRadius:0
-                                              }}
-                                            >
-                                              <thead style={{
-                                                           fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                           top: 0,
-                                                           zIndex: 1
-                                                         }}>
-                          <tr>
-                            <th
-                              style={{
-                                textAlign: "start",
-                               
-                                paddingLeft: "20px",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 12,
-                                fontWeight: 500,
-                               
-                              }}
-                            >
-                              <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                         <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                        </div>
-                                                                                                         Name</div>
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 12,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                                whiteSpace:"nowrap"
-                              }}
-                            >
-                               <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                         <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                        </div>
-                                                                                                         Created</div>
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 12,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                                whiteSpace:"nowrap"
-                              }}
-                            >
-                              <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                         <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                        </div>
-                                                                                                         Due Date</div>
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 12,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                                whiteSpace:"nowrap"
-                              }}
-                            >
-                              <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                         <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                        </div>
-                                                                                                         Next Invoice Date</div>
-                            </th>
-                            <th
-                              style={{
-                                textAlign: "start",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 12,
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                              }}
-                            >
-                               <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                         <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                        </div>
-                                                                                                         Amount</div>
-                            </th>
+                    <div
+                      className=" booking-table-userlist  booking-table ms-2 me-4 mt-4"
+                      style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+                    >
+                      <div
 
-                            <th
-                              style={{
-                                textAlign: "center",
-                                fontFamily: "Gilroy",
-                                color: "rgb(147, 147, 147)",
-                                fontSize: 12,
-                                fontWeight: 500,
-                                                             }}
-                            > Action</th>
-                          </tr>
-                        </thead>
-                        <tbody style={{ fontSize: "10px" }}>
+                        className='show-scrolls '
+                        style={{
+
+                          height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "350px" : "auto",
+                          overflow: "auto",
+                          borderTop: "1px solid #E8E8E8",
+                          marginBottom: 20,
+                          marginTop: "20px",
+                          paddingRight: 0,
+                          paddingLeft: 0
+
+                        }}
+                      >
+                        <Table
+
+                          responsive="md"
+
+                          style={{
+                            fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                            top: 0,
+                            zIndex: 1,
+                            borderRadius: 0
+                          }}
+                        >
+                          <thead style={{
+                            fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                            top: 0,
+                            zIndex: 1
+                          }}>
+                            <tr>
+                              <th
+                                style={{
+                                  textAlign: "start",
+
+                                  paddingLeft: "20px",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontWeight: 500,
+
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("user_name", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Name</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                  whiteSpace: "nowrap"
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("invoice_date", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Created</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                  whiteSpace: "nowrap"
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("DueDate", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Due Date</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                  whiteSpace: "nowrap"
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("next_invoice_date", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Next Invoice Date</div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontStyle: "normal",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                    <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'asc')} style={{ cursor: "pointer" }} />
+                                    <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortRecure("total_amount", 'desc')} style={{ cursor: "pointer" }} />
+                                  </div>
+                                  Amount</div>
+                              </th>
+
+                              <th
+                                style={{
+                                  textAlign: "center",
+                                  fontFamily: "Gilroy",
+                                  color: "rgb(147, 147, 147)",
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                }}
+                              > Action</th>
+                            </tr>
+                          </thead>
+                          <tbody style={{ fontSize: "10px" }}>
 
 
 
-                          {
-                            sortedDataRecure &&
-                            sortedDataRecure.length > 0 &&
-                            sortedDataRecure.map((item) => (
-                              <RecurringBillList
-                                key={item.id}
-                                item={item}
-                                handleDeleteRecurringbills={
-                                  handleDeleteRecurringbills
-                                }
-                                recuringbillAddPermission={
-                                  recuringbillAddPermission
-                                }
-                                billrolePermission={billrolePermission}
-                                OnHandleshowform={handleShowForm}
-                            
-                              />
-                            ))
-                          }
+                            {
+                              sortedDataRecure &&
+                              sortedDataRecure.length > 0 &&
+                              sortedDataRecure.map((item) => (
+                                <RecurringBillList
+                                  key={item.id}
+                                  item={item}
+                                  handleDeleteRecurringbills={
+                                    handleDeleteRecurringbills
+                                  }
+                                  recuringbillAddPermission={
+                                    recuringbillAddPermission
+                                  }
+                                  billrolePermission={billrolePermission}
+                                  OnHandleshowform={handleShowForm}
 
-                        </tbody>
-                      </Table>
-                    </div>
+                                />
+                              ))
+                            }
+
+                          </tbody>
+                        </Table>
+                      </div>
                     </div>
                   )}
 
@@ -4347,8 +4513,8 @@ useEffect(()=>{
                         zIndex: 1000,
                       }}
                     >
-                    
-                      
+
+
                       <div>
                         <select
                           value={itemsPage}
@@ -4371,7 +4537,7 @@ useEffect(()=>{
                         </select>
                       </div>
 
-                     
+
                       <ul
                         style={{
                           display: "flex",
@@ -4381,7 +4547,7 @@ useEffect(()=>{
                           padding: 0,
                         }}
                       >
-                       
+
                         <li style={{ margin: "0 10px" }}>
                           <button
                             style={{
@@ -4414,7 +4580,7 @@ useEffect(()=>{
                           </button>
                         </li>
 
-                       
+
                         <li
                           style={{
                             margin: "0 10px",
@@ -4425,7 +4591,7 @@ useEffect(()=>{
                           {currentRecurePage} of {totalPage}
                         </li>
 
-                       
+
                         <li style={{ margin: "0 10px" }}>
                           <button
                             style={{
@@ -4465,7 +4631,7 @@ useEffect(()=>{
                     </nav>
                   )}
 
-                  
+
                 </>
               )}
             </TabPanel>
@@ -4479,17 +4645,17 @@ useEffect(()=>{
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                     
+
                     }}
                   >
-                   
+
                     <img
                       src={Emptystate}
                       alt="Empty State"
                       style={{ maxWidth: "100%", height: "auto" }}
                     />
 
-                   
+
                     {receiptPermission && (
                       <div
                         style={{
@@ -4511,7 +4677,7 @@ useEffect(()=>{
                 </>
               ) : (
                 <>
-                 
+
 
                   {!loading && receiptLoader &&
                     <div
@@ -4565,88 +4731,88 @@ useEffect(()=>{
                             {receiptdata &&
                               receiptdata.map((item) => (
                                 <>
-                                <div
-  className="mb-3 bg-white shadow-sm rounded"
-  style={{ padding: "12px 16px" }}
->
-  <div className="d-flex align-items-start justify-content-between">
-    <div>
-      <img
-        src={
-          item.user_profile && item.user_profile !== "0"
-            ? item.user_profile
-            : User
-        }
-        alt="User"
-        style={{
-          height: 40,
-          width: 40,
-        
-        }}
-      />
-    </div>
+                                  <div
+                                    className="mb-3 bg-white shadow-sm rounded"
+                                    style={{ padding: "12px 16px" }}
+                                  >
+                                    <div className="d-flex align-items-start justify-content-between">
+                                      <div>
+                                        <img
+                                          src={
+                                            item.user_profile && item.user_profile !== "0"
+                                              ? item.user_profile
+                                              : User
+                                          }
+                                          alt="User"
+                                          style={{
+                                            height: 40,
+                                            width: 40,
 
-    <div className="flex-grow-1 ms-3">
-      <div className="d-flex justify-content-between align-items-center mb-1">
-        <div
-          className="Invoice_Name"
-          style={{
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-            fontWeight: 600,
-            color: "#222",
-            cursor: "pointer",
-          }}
-          onClick={() => handleDisplayInvoiceDownload(true, item)}
-        >
-          {item.Name || "Unnamed"}
-        </div>
-        <div
-          style={{
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-            fontWeight: 600,
-            color: "#222",
-          }}
-        >
-          ₹ {item.amount_received?.toLocaleString("en-IN") || "0"}
-        </div>
-      </div>
+                                          }}
+                                        />
+                                      </div>
 
-      <div className="d-flex justify-content-between align-items-center">
-        <div
-          style={{
-            fontFamily: "Gilroy",
-            fontSize: "12px",
-            fontWeight: 500,
-            color: "#555",
-          }}
-        >
-          {moment(item.payment_date).format("DD MMM YYYY")}
-        </div>
-        <span
-          style={{
-            fontSize: "10px",
-            backgroundColor: "#D9FFD9",
-            color: "#000",
-            borderRadius: "14px",
-            fontFamily: "Gilroy",
-            padding: "4px 10px",
-            height: "24px",
-            lineHeight: "16px",
-            display: "inline-flex",
-            alignItems: "center",
-          }}
-        >
-          Paid
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
+                                      <div className="flex-grow-1 ms-3">
+                                        <div className="d-flex justify-content-between align-items-center mb-1">
+                                          <div
+                                            className="Invoice_Name"
+                                            style={{
+                                              fontFamily: "Gilroy",
+                                              fontSize: "14px",
+                                              fontWeight: 600,
+                                              color: "#222",
+                                              cursor: "pointer",
+                                            }}
+                                            onClick={() => handleDisplayInvoiceDownload(true, item)}
+                                          >
+                                            {item.Name || "Unnamed"}
+                                          </div>
+                                          <div
+                                            style={{
+                                              fontFamily: "Gilroy",
+                                              fontSize: "14px",
+                                              fontWeight: 600,
+                                              color: "#222",
+                                            }}
+                                          >
+                                            ₹ {item.amount_received?.toLocaleString("en-IN") || "0"}
+                                          </div>
+                                        </div>
+
+                                        <div className="d-flex justify-content-between align-items-center">
+                                          <div
+                                            style={{
+                                              fontFamily: "Gilroy",
+                                              fontSize: "12px",
+                                              fontWeight: 500,
+                                              color: "#555",
+                                            }}
+                                          >
+                                            {moment(item.payment_date).format("DD MMM YYYY")}
+                                          </div>
+                                          <span
+                                            style={{
+                                              fontSize: "10px",
+                                              backgroundColor: "#D9FFD9",
+                                              color: "#000",
+                                              borderRadius: "14px",
+                                              fontFamily: "Gilroy",
+                                              padding: "4px 10px",
+                                              height: "24px",
+                                              lineHeight: "16px",
+                                              display: "inline-flex",
+                                              alignItems: "center",
+                                            }}
+                                          >
+                                            Paid
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
 
 
-                                
+
                                 </>
                               ))}
                           </div>
@@ -4654,211 +4820,213 @@ useEffect(()=>{
                           <>
                             {sortedDataReceipt &&
                               sortedDataReceipt.length > 0 && (
-                               <div
-                                                     className=" booking-table-userlist  booking-table ms-2 me-4"
-                                                     style={{ paddingBottom: "20px",marginLeft:"-22px" }}
-                                                   >
-                                                      <div
-                                                       
-                                                        className='show-scrolls'
-                                                        style={{
-                                                         
-                                                          height: sortedDataReceipt?.length >= 5 || sortedDataReceipt?.length >= 5 ? "350px" : "auto",
-                                                          overflow: "auto",
-                                                          borderTop: "1px solid #E8E8E8",
-                                                          marginBottom: 20,
-                                                          marginTop: "20px",
-                                                          paddingRight:0,
-                                                          paddingLeft:0
-                                                         
-                                                        }}
-                                                      >
-                                                        <Table
-                                                          responsive="md"
-                                                          
-                                                          style={{
-                                                            fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                            top: 0,
-                                                            zIndex: 1,
-                                                            borderRadius:0
-                                                          }}
-                                                        >
-                                                          <thead style={{
-                                                                       fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                                                                       top: 0,
-                                                                       zIndex: 1
-                                                                     }}>
-                                      <tr>
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                           
-                                            paddingLeft: "20px",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 12,
-                                            fontWeight: 500,
-                                           
-                                          }}
-                                        >
-                                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("Name", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("Name", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                    </div>
-                                                                                                                     Name</div>
-                                        </th>
+                                <div
+                                  className=" booking-table-userlist  booking-table ms-2 me-4"
+                                  style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+                                >
+                                  <div
 
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 12,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                            whiteSpace:"nowrap"
-                                          }}
-                                        >
+                                    className='show-scrolls'
+                                    style={{
+
+                                      height: sortedDataReceipt?.length >= 5 || sortedDataReceipt?.length >= 5 ? "330px" : "auto",
+                                      overflow: "auto",
+                                      borderTop: "1px solid #E8E8E8",
+                                      marginBottom: 20,
+                                      marginTop: "20px",
+                                      paddingRight: 0,
+                                      paddingLeft: 0
+
+                                    }}
+                                  >
+                                    <Table
+                                      responsive="md"
+
+                                      style={{
+                                        fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                        top: 0,
+                                        zIndex: 1,
+                                        borderRadius: 0
+                                      }}
+                                    >
+                                      <thead style={{
+                                        fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                                        top: 0,
+                                        zIndex: 1
+                                      }}>
+                                        <tr>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+
+                                              paddingLeft: "20px",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 12,
+                                              fontWeight: 500,
+
+                                            }}
+                                          >
                                             <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("reference_id", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("reference_id", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                    </div>
-                                                                                                                     Reference_Id</div>
-                                        </th>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("Name", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("Name", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Name</div>
+                                          </th>
 
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 12,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                            whiteSpace:"nowrap"
-                                          }}
-                                        >
-                                           <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("invoice_number", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("invoice_number", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                    </div>
-                                                                                                                     Invoice Number</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 12,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                            whiteSpace:"nowrap"
-                                          }}
-                                        >
-                                           <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("type", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("type", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                    </div>
-                                                                                                                     Type</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 12,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                            whiteSpace:"nowrap"
-                                          }}
-                                        >
-                                          <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_date", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_date", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                    </div>
-                                                                                                                     Payment Date</div>
-                                        </th>
-
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 12,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                          }}
-                                        >
-                                           <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("amount_received", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("amount_received", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                    </div>
-                                                                                                                     Amount</div>
-                                        </th>
-                                        <th
-                                          style={{
-                                            textAlign: "start",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 12,
-                                            fontStyle: "normal",
-                                            fontWeight: 500,
-                                            whiteSpace:"nowrap"
-                                          }}
-                                        >
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 12,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                              whiteSpace: "nowrap"
+                                            }}
+                                          >
                                             <div className='d-flex gap-1 align-items-center justify-content-start'>
-                                                                                                                     <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                                                                                                                      <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_mode", 'asc')} style={{ cursor: "pointer" }} />
-                                                                                                                      <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_mode", 'desc')} style={{ cursor: "pointer" }} />
-                                                                                                                    </div>
-                                                                                                                     Payment Mode</div>
-                                        </th>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("reference_id", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("reference_id", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Reference_Id</div>
+                                          </th>
 
-                                        <th
-                                          style={{
-                                            textAlign: "center",
-                                            fontFamily: "Gilroy",
-                                            color: "rgb(147, 147, 147)",
-                                            fontSize: 12,
-                                            fontWeight: 500,
-                                            
-                                          }}
-                                        >Action</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody style={{ fontSize: "10px",     minHeight: "200px",
-                                        position: "relative", }}>
-                                      {
-                                        sortedDataReceipt &&
-                                        sortedDataReceipt.length > 0 &&
-                                        sortedDataReceipt.map((item) => (
-                                          <Receipt
-                                            key={item.id}
-                                            item={item}
-                                            receiptaddPermission={
-                                              receiptaddPermission
-                                            }
-                                            billrolePermission={
-                                              billrolePermission
-                                            }
-                                            OnHandleshowform={handleShowForm}
-                                            OnHandleshowInvoicePdf={
-                                              handleReceiptDetail
-                                            }
-                                            onhandleEdit={handleEditReceipt}
-                                           
-                                            DisplayInvoice={handleDisplayReceiptDownload}
-                                          />
-                                        ))
-                                      }
-                                    </tbody>
-                                  </Table>
-                                </div>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 12,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                              whiteSpace: "nowrap"
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("invoice_number", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("invoice_number", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Invoice Number</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 12,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                              whiteSpace: "nowrap"
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("type", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("type", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Type</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 12,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                              whiteSpace: "nowrap"
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_date", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_date", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Payment Date</div>
+                                          </th>
+
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 12,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("amount_received", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("amount_received", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Amount</div>
+                                          </th>
+                                          <th
+                                            style={{
+                                              textAlign: "start",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 12,
+                                              fontStyle: "normal",
+                                              fontWeight: 500,
+                                              whiteSpace: "nowrap"
+                                            }}
+                                          >
+                                            <div className='d-flex gap-1 align-items-center justify-content-start'>
+                                              <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                                                <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_mode", 'asc')} style={{ cursor: "pointer" }} />
+                                                <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSortReceipt("payment_mode", 'desc')} style={{ cursor: "pointer" }} />
+                                              </div>
+                                              Payment Mode</div>
+                                          </th>
+
+                                          <th
+                                            style={{
+                                              textAlign: "center",
+                                              fontFamily: "Gilroy",
+                                              color: "rgb(147, 147, 147)",
+                                              fontSize: 12,
+                                              fontWeight: 500,
+
+                                            }}
+                                          >Action</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody style={{
+                                        fontSize: "10px", minHeight: "200px",
+                                        position: "relative",
+                                      }}>
+                                        {
+                                          sortedDataReceipt &&
+                                          sortedDataReceipt.length > 0 &&
+                                          sortedDataReceipt.map((item) => (
+                                            <Receipt
+                                              key={item.id}
+                                              item={item}
+                                              receiptaddPermission={
+                                                receiptaddPermission
+                                              }
+                                              billrolePermission={
+                                                billrolePermission
+                                              }
+                                              OnHandleshowform={handleShowForm}
+                                              OnHandleshowInvoicePdf={
+                                                handleReceiptDetail
+                                              }
+                                              onhandleEdit={handleEditReceipt}
+
+                                              DisplayInvoice={handleDisplayReceiptDownload}
+                                            />
+                                          ))
+                                        }
+                                      </tbody>
+                                    </Table>
+                                  </div>
                                 </div>
                               )}
 
@@ -4878,7 +5046,7 @@ useEffect(()=>{
                                   zIndex: 1000,
                                 }}
                               >
-                            
+
                                 <div>
                                   <select
                                     value={itemsperPage}
@@ -5042,7 +5210,7 @@ useEffect(()=>{
 
                       {DownloadReceipt && (
                         <>
-                         
+
 
                           <Col
                             lg={9}
@@ -5061,7 +5229,7 @@ useEffect(()=>{
                               rowData={rowData}
                             />
 
-                           
+
                           </Col>
                         </>
                       )}
@@ -5102,7 +5270,7 @@ useEffect(()=>{
                 style={{
                   fontWeight: 500,
                   fontSize: "18px",
-                                    fontFamily: "Gilroy",
+                  fontFamily: "Gilroy",
                   paddingLeft: "10px"
                 }}
               >
@@ -5111,7 +5279,7 @@ useEffect(()=>{
             </div>
           </div>
 
-          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
               <Form.Label
                 style={{
@@ -5125,7 +5293,7 @@ useEffect(()=>{
               >
                 Customer<span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
-            
+
 
               <Select
                 options={
@@ -5186,6 +5354,7 @@ useEffect(()=>{
                     padding: 0,
                     scrollbarWidth: "thin",
                     overflowY: "auto",
+                    fontFamily: "Gilroy"
                   }),
                   placeholder: (base) => ({
                     ...base,
@@ -5289,8 +5458,8 @@ useEffect(()=>{
               )}
             </Form.Group>
           </div>
-         
-          <div style={{ display: "flex", flexDirection: "row",height:"100px" }}>
+
+          <div style={{ display: "flex", flexDirection: "row", height: "100px" }}>
             <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
 
               <p className="mt-1 mb-1" style={{
@@ -5300,7 +5469,7 @@ useEffect(()=>{
                 fontWeight: 500,
               }}>Invoice Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
-              
+
                 <DatePicker
                   style={{ width: "100%", height: 48, cursor: "pointer" }}
                   format="DD/MM/YYYY"
@@ -5385,91 +5554,97 @@ useEffect(()=>{
             </div>
           </div>
 
-       
-          {Array.isArray(newRows) && newRows.length > 0 && (
-  <div className="row ">
-    <div className="col-lg-11 col-md-11 col-12 ">
-      <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-        <Table className="ebtable mt-3" responsive>
-          <thead
-            style={{
-              backgroundColor: "#E7F1FF",
-              position: "sticky",
-              top: 0,
-              zIndex: 1,
-            }}
-          >
-            <tr>
-              <th className="text-center" style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
-                S.No
-              </th>
-              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
-                Description
-              </th>
-              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
-                Total Amount
-              </th>
-              <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {newRows.map((u, index) => (
-              <tr key={`new-${index}`}>
-                <td className="text-center" style={{ fontFamily: "Gilroy" }}>
-                  {serialNumber++}
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    style={{ fontFamily: "Gilroy" }}
-                    placeholder="Enter Description"
-                    value={u.am_name}
-                    onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Total Amount"
-                    value={u.amount}
-                    className={`${u.amount === "" ? "border-danger" : ""}`}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (/^\d*\.?\d*$/.test(value)) {
-                        handleNewRowChange(index, "amount", value);
-                      }
-                    }}
-                  />
-                </td>
-                <td>
-                  <span
-                    style={{
-                      cursor: "pointer",
-                      color: "red",
-                      marginLeft: "10px",
-                    }}
-                    onClick={() => handleDeleteNewRow(index)}
-                  >
-                    <img
-                      src={Closebtn}
-                      height={15}
-                      width={15}
-                      alt="delete"
-                    />
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
-    </div>
-  </div>
-)}
 
-<div className="col-lg-7 col-md-6 col-sm-12 col-xs-12 mt-3">
+          {Array.isArray(newRows) && newRows.length > 0 && (
+            <div className="row mt-3" style={{ width: "100%" }}>
+              <div className="col-lg-12 col-md-12 col-12">
+                <div style={{ maxHeight: "150px", overflowY: "auto", width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
+                  <Table
+                    className="w-100"
+                    responsive
+                    style={{ width: "100%", backgroundColor: "", borderRadius: "10px", }}
+                  >
+                    <thead
+                      style={{
+                        backgroundColor: "#E7F1FF",
+                        position: "sticky",
+                        top: 0,
+                        zIndex: 1,
+                        borderRadius: 10,
+                      }}
+                    >
+                      <tr style={{ borderRadius: 10 }}>
+                        <th className="text-center" style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                          S.No
+                        </th>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                          Description
+                        </th>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                          Total Amount
+                        </th>
+                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {newRows.map((u, index) => (
+                        <tr key={`new-${index}`}>
+                          <td className="text-center" style={{ fontFamily: "Gilroy" }}>
+                            {serialNumber++}
+                          </td>
+                          <td>
+                            <Form.Control
+                              type="text"
+                              style={{ fontFamily: "Gilroy" }}
+                              placeholder="Enter Description"
+                              value={u.am_name}
+                              onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
+                            />
+                          </td>
+                          <td>
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter Total Amount"
+                              value={u.amount}
+                              className={`${u.amount === "" ? "border-danger" : ""}`}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^\d*\.?\d*$/.test(value)) {
+                                  handleNewRowChange(index, "amount", value);
+                                }
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <span
+                              style={{
+                                cursor: "pointer",
+                                color: "red",
+                                marginLeft: "10px",
+                              }}
+                              onClick={() => handleDeleteNewRow(index)}
+                            >
+                              <img
+                                src={Closebtn}
+                                height={15}
+                                width={15}
+                                alt="delete"
+                              />
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
+              </div>
+            </div>
+
+          )}
+
+          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-3">
             <Form.Select
               className="border"
               style={{
@@ -5518,7 +5693,7 @@ useEffect(()=>{
               </div>
             )}
           </div>
-        
+
 
           <div>
             {allfielderrmsg.trim() !== "" && (
@@ -5561,7 +5736,7 @@ useEffect(()=>{
             )}
             <Button
               onClick={isEditing ? handleEditBill : handleCreateBill}
-              className="w-100 mt-3 mb-5"
+              className="w-100 mt-3 mb-2"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 500,
@@ -5571,7 +5746,7 @@ useEffect(()=>{
                 fontFamily: "Gilroy",
                 fontStyle: "normal",
                 lineHeight: "normal",
-                marginTop:"20px"
+                marginTop: "20px"
               }}
             >
               {isEditing ? "Save Changes" : "Create Bill"}
