@@ -69,10 +69,8 @@ export const initialState = {
     BillsPdfSuccessCode: 0,
 
     newReceiptchanges:[],
-    statusCodeNewReceiptStatusCode:0,
     ReceiptErrmsg:'',
     ReceiptAddErrorStatuscode : 0,
-    newReceiptchanges: [],
     statusCodeNewReceiptStatusCode: 0,
 
     triggeredBy: '',  
@@ -337,16 +335,18 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'SET_WHATSAPP_SETTINGS':
             return { ...state, whatsappSettings: action.payload };
 
-        case 'TOGGLE_WHATSAPP_SETTING':
-            const updated = {
-                ...state.whatsappSettings,
-                [action.payload.id]: action.payload.value,
-            };
-            localStorage.setItem('whatsappSettings', JSON.stringify(updated));
-            return {
-                ...state,
-                whatsappSettings: updated,
-            };
+       
+case 'TOGGLE_WHATSAPP_SETTING': {
+  const updated = {
+    ...state.whatsappSettings,
+    [action.payload.id]: action.payload.value,
+  };
+  localStorage.setItem('whatsappSettings', JSON.stringify(updated));
+  return {
+    ...state,
+    whatsappSettings: updated,
+  };
+}
 
         default:
             return state;

@@ -6,11 +6,7 @@ export async function userlist(users) {
       data:users
     })
   }
-// export async function addUser (datum) {
-//   return await AxiosConfig.post('/add/adduser-list',datum,{
-//     data:datum
-//   })
-// }
+
 export async function addUser(params) {
 
   const formData = new FormData();
@@ -116,11 +112,7 @@ export async function deleteBed(bedDetails){
 }
 
 
-// export async function CustomerDetails(datum){
-//   return await AxiosConfig.post('/customer_details',datum,{
-//     data:datum
-//   })
-// }
+
 
 export async function CustomerDetails (datum) {
   return await AxiosConfig.post('/customer_details',datum,{
@@ -181,11 +173,6 @@ export async function getWalkInCustomer(walk) {
 
 
 
-// export async function AddWalkInCustomer(walk) {
-//   return await AxiosConfig.post('/add_walkin-customer',walk,{
-//     data:walk
-//   })
-// }
 export async function AddWalkInCustomer(params) {
 
   const formData = new FormData();
@@ -326,11 +313,6 @@ export async function generateAdvance(datum){
 }
 
 
-// export async function uploadDocument(datum){
-//   return await AxiosConfig.post('/users/upload_doc',datum,{
-//     data:datum
-//   })
-// }
 
 export async function uploadDocument(params) {
 
@@ -368,11 +350,11 @@ export async function hostelDetailsId() {
   })
 }
 
-export async function handleKycVerify(datum){
-  return await AxiosConfig.post('/verify-kyc',datum,{
-    data:datum
-  })
+
+export async function handleKycVerify(datum) {
+  return await AxiosConfig.post('/verify-kyc', datum);
 }
+
 
 export async function handlegetCustomerDetailsKyc(kyc) {
   return await AxiosConfig.post('/getCustomerDetails', kyc);

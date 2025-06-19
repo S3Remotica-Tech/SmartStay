@@ -15,6 +15,7 @@ function DeleteFloor({ show, handleClose, currentItem }) {
 
   const state = useSelector(state => state)
   const dispatch = useDispatch();
+  
 
 
   // const  getFloorName = (floor_Id)=> {

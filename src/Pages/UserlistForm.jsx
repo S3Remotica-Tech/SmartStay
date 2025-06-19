@@ -593,13 +593,13 @@ function UserlistForm(props) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(Email.toLowerCase());
       if (!isValidEmail) {
-        setEmailError("Please Enter Valid Email ID");
-        if (!focusedRef.current && emailRef?.current) {
-          emailRef.current.focus();
-          focusedRef.current = true;
-        }
-        hasError = true;
-      } else {
+  setEmailError("Please Enter Valid Email ID");
+  if (!focusedRef.current ) {
+    focusedRef.current = true;
+  }
+  hasError = true;
+}
+      else {
         setEmailError("");
       }
     } else {

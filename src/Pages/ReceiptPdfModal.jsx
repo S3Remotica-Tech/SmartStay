@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { toWords } from 'number-to-words';
 import "../Pages/Invoices.css";

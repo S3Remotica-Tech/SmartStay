@@ -158,9 +158,9 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     handleClosed()
   }
 
-  const totalStayingDays = userdetails?.joining_date
-    ? moment().diff(moment(userdetails.joining_date), 'days') + 1
-    : 0;
+  // const totalStayingDays = userdetails?.joining_date
+  //   ? moment().diff(moment(userdetails.joining_date), 'days') + 1
+  //   : 0;
 
   const isValid = (value) => {
     return value !== null && value !== undefined && value !== "undefined" && value !== "";

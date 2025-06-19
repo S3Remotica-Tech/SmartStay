@@ -168,14 +168,7 @@ export async function InvoiceSettings(params) {
         "Content-type": "multipart/form-data",
       },
       timeout: 100000000,
-      // params: {
-      //   hostel_Id: params.hostel_Id,
-      //   prefix: params.prefix,
-      //   suffix: params.suffix,
-
-      // },
-      onUploadProgress: (event) => {
-      }
+     
     });
     return response.data;
   } catch (error) {

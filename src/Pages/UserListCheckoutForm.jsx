@@ -735,15 +735,6 @@ useEffect(() => {
 }, [advanceamount, dueamount, fields, conformEdit]);
 
 let visibleIndex = -1;
-const hasAdvanceReturn = fields.some(
-  (item) => item.reason?.toLowerCase() === "advance return"
-);
-
-const visibleFields = hasAdvanceReturn
-  ? fields.filter((item) => item.reason?.toLowerCase() === "advance return")
-  : fields;
-
-
 
 
   const handleInputChange = (index, field, value) => {
