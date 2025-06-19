@@ -880,6 +880,7 @@ function UserListAmenities(props) {
                             borderRadius: "10px",
                             lineHeight: "1.5em",
                             margin: "0",
+                            marginLeft:4,
                             fontSize: 13,
                             fontWeight: 500,
                             fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
@@ -906,7 +907,7 @@ function UserListAmenities(props) {
                         }}
                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                       >
-                         <div className="ps-1">{v.Amount}</div>
+                         <div style={{marginLeft:7}}>{v.Amount}</div>
                       </td>
                       <td
                         style={{

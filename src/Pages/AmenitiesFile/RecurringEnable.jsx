@@ -8,7 +8,6 @@ import Form from 'react-bootstrap/Form';
 import Select from "react-select";
 import PropTypes from "prop-types";
 import { MdError } from "react-icons/md";
-// import { pointer } from '@testing-library/user-event/dist/cjs/pointer/index.js';
 
 function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
 
@@ -25,12 +24,7 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
     const [errorEndDate, setErrorEndDate] = useState('');
     const [errorRecurringDay, setErrorRecurringDay] = useState('');
 
-    // const handleStartDateChange = (e) => {
-    //     setStartDate(e.target.value);
-    //     setErrorStartDate('');
-
-    // };
-
+   
 
 
 
@@ -48,46 +42,56 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
 
   
     const customStyles = {
-        control: (base) => ({
-            ...base,
-            height: "50px",
-            border: "1px solid #ced4da",
-            borderRadius: "7px",
-            fontSize: 14, 
-            color: "#222222", 
-            fontFamily: "Gilroy", 
-            fontWeight: 500
-          }),
-          menu: (base) => ({
-            ...base,
-            backgroundColor: "#f8f9fa",
-            border: "1px solid #ced4da",
-          }),
-          menuList: (base) => ({
-            ...base,
-            backgroundColor: "#f8f9fa",
-            overflowY: "auto",
-            maxHeight: "120px",
-            padding: 0,
-            scrollbarWidth: "thin",
-          }),
-          placeholder: (base) => ({
-            ...base,
-            color: "#555",
-          }),
-          dropdownIndicator: (base) => ({
-            ...base,
-            color: "#555",
-            display: "inline-block",
-            fill: "currentColor",
-            lineHeight: 1,
-            stroke: "currentColor",
-            strokeWidth: 0,
-            cursor:"pointer"
-          }),
-          indicatorSeparator: () => ({
-            display: "none",
-          }),
+    
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            border: "1px solid #ced4da",
+                          }),
+                          option: (provided, state) => ({
+                            ...provided,
+                            padding: "6px 10px",
+                            backgroundColor: state.isFocused
+                              ? "lightblue"
+                              : "white",
+                            color: "#222",
+                            cursor: "pointer",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            maxHeight: "120px",
+                            overflowY: "auto",
+                            scrollbarWidth: "thin",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                          }),
+                          valueContainer: (base) => ({
+                            ...base,
+                            maxHeight: "40px",
+                            overflow: "hidden",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            display: "inline-block",
+                            fill: "currentColor",
+                            lineHeight: 1,
+                            stroke: "currentColor",
+                            strokeWidth: 0,
+                            cursor: "pointer",
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                        
     }
   
     const handleStartDateChange = (selectedOption) => {
@@ -168,9 +172,7 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
                         <Modal.Title style={{ fontSize: 18, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Recurring Enable</Modal.Title>
                         <CloseCircle  cursor="pointer" size="24" color="#000" onClick={handleCloseRecurring}/>
                     </Modal.Header>
-                    {/* {errorStartDate && (
-                        <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorStartDate}</div>
-                    )} */}
+                  
                     
                     {errorRecurringDay && (
                         <div style={{ color: 'red', fontSize: 12, marginLeft: 10, fontFamily: "Gilroy" }}>{errorRecurringDay}</div>
@@ -210,19 +212,7 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
                                    
                                 />
                             </div>
-                            {/* <Form.Select
-                                    value={startDate}
-                                    onChange={handleStartDateChange}
-                                    id="vendor-select"
-                                    style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
-                                >
-                                    <option value="">Start Day</option>
-                                    {dayOptions.map((day) => (
-                                        <option key={day} value={day}>
-                                            {day}
-                                        </option>
-                                    ))}
-                                </Form.Select> */}
+                          
 
 
 
@@ -260,23 +250,7 @@ function RecurringEnable({ show, handleCloseRecurring,amenityDetails }) {
                                     
                                 />
                             </div>
-                            {/* <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
-                                <Form.Select
-                                    value={endDate}
-                                    id="vendor-select"
-                                    style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
-                                    onChange={handleEndDateChange}
-                                >
-                                    <option value="">End day</option>
-                                    {dayOptionsEnd.map((day) => (
-                                        <option key={day} value={day}>
-                                            {day}
-                                        </option>
-                                    ))}
-                                </Form.Select>
-
-
-                            </div> */}
+                          
 
                             <div className='col-lg-8 col-md-8 col-sm-12 col-xs-12'>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
