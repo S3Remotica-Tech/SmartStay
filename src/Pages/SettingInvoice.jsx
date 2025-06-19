@@ -149,9 +149,6 @@ const handleAccountNumberChange = (e) => {
   const numericValue = e.target.value.replace(/[^0-9]/g, ""); 
   setAccount_Number(numericValue);
 
-  // if (numericValue.trim() !== "") {
-  //   setAccNumberErrMsg("");
-  // }
 };
 
 

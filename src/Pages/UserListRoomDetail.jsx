@@ -178,7 +178,7 @@ function UserListRoomDetail(props) {
       }, 100);
     }
   }, [state.UsersList.statusCodeforverifyKYC]);
-  console.log("state.UsersList.statusCodeforverifyKYC",state.UsersList.statusCodeforverifyKYC)
+
   useEffect(() => {
     if (state.UsersList.KYCStatusCode === 201) {
       setTimeout(() => {
