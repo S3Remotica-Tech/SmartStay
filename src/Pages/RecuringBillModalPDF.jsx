@@ -1,4 +1,5 @@
-import { React, useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 
 function RecuringBillPDF(selectedItem) {
     const [isVisible, setIsVisible] = useState(true);

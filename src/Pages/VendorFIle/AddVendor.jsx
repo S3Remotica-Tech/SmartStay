@@ -346,8 +346,7 @@ const focusedRef = { current: false };
 
   if (!countryCode) {
     setCountryCodeError("Please Select Country Code");
-    if (!focusedRef.current && countryCodeRef.current) {
-      countryCodeRef.current.focus();
+    if (!focusedRef.current ) {
       focusedRef.current = true;
     }
     isValid = false;
@@ -380,8 +379,7 @@ const focusedRef = { current: false };
 
   if (emailInvalid) {
     setEmailError("Enter Valid Email ID");
-    if (!focusedRef.current && emailRef.current) {
-      emailRef.current.focus();
+    if (!focusedRef.current ) {
       focusedRef.current = true;
     }
     isValid = false;

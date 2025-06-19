@@ -37,7 +37,6 @@ import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import {CloseCircle} from "iconsax-react";
-import { FaUniversity } from "react-icons/fa";
 import './SettingInvoice.css';
 
 function SettingInvoice({hostelid}) {
@@ -150,9 +149,6 @@ const handleAccountNumberChange = (e) => {
   const numericValue = e.target.value.replace(/[^0-9]/g, ""); 
   setAccount_Number(numericValue);
 
-  if (numericValue.trim() !== "") {
-    setAccNumberErrMsg("");
-  }
 };
 
 
@@ -160,18 +156,14 @@ const handleIfscCodeChange = (e) => {
     const Value = e.target.value  
     setIfscCode(Value)
 
-    if (Value.trim() !== "") {
-    setIfscCodeErrMsg("");
-  }
+  
 }
 
 const handleBankNameChange = (e) => {
     const Value = e.target.value  
     setBankName(Value)
 
-    if (Value.trim() !== "") {
-    setBankErrMsg("");
-  }
+ 
 }
 
  const handleDescription = (e) => {
@@ -291,9 +283,6 @@ const handleTermsChange = (e) => {
     setShowForm(true);
     setCardShow(false)
     setEdit(false);
-    setAccNumberErrMsg("");
-    setIfscCodeErrMsg("");
-    setBankErrMsg("");
     setPrefixErrMsg("");
     setSuffixErrMsg("");
     setTaxErrMsg("");

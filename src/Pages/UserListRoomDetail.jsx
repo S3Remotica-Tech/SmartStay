@@ -39,8 +39,6 @@ import dayjs from "dayjs";
 import { CloseCircle } from "iconsax-react";
 import { RightOutlined } from '@ant-design/icons';
 import timehalf from "../Assets/Images/New_images/time-half past.png";
-import { CiUser } from "react-icons/ci";
-import { MdOutlineLocalPhone } from "react-icons/md";
 import html2canvas from "html2canvas";
 import adhar from "../Assets/Images/New_images/aadharimg.png"
 
@@ -172,6 +170,15 @@ function UserListRoomDetail(props) {
       }, 100);
     }
   }, [state.UsersList.statusCodeForCustomerDetails]);
+   useEffect(() => {
+    if (state.UsersList.statusCodeforverifyKYC === 200) {
+      dispatch({ type: 'KYCCUSTOMERDETAILS', payload: { customer_id: props.id } })
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_KYC_VERIFY_NEW" });
+      }, 100);
+    }
+  }, [state.UsersList.statusCodeforverifyKYC]);
+
   useEffect(() => {
     if (state.UsersList.KYCStatusCode === 201) {
       setTimeout(() => {
@@ -2105,8 +2112,8 @@ const handleDownloadKYC = async () => {
   </div>
 
   
-   <div className="d-flex align-items-start" style={{ justifyContent: "center",marginLeft:"-25px" }}>
-    <img src={adhar} style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10}}></img>
+   <div className="d-flex align-items-start" style={{ justifyContent: "center",marginLeft:"-105px" }}>
+    <img src={adhar} alt="authar" style={{ fontSize: 18, color: "#3D5AFE", marginRight: 10}}></img>
     
     <p style={{ fontSize: 14, color: "#4B4B4B", maxWidth: 220, textAlign: "left" }}>
       Aadhar Number<br/>

@@ -344,7 +344,6 @@ function AddPg({ show, handleClose, currentItem }) {
   if (email && !emailRegex.test(email)) {
     setEmailError("Enter a Valid Email ID");
     if (!focused) {
-      emailRef.current?.focus();
       focused = true;
     }
     hasError = true;

@@ -357,8 +357,7 @@ function BookingModal(props) {
       const isValidEmail = emailRegex.test(Email.toLowerCase());
       if (!isValidEmail) {
         setEmailError("Please Enter a Valid Email ID");
-        if (!focusedRef.current && emailRef?.current) {
-          emailRef.current.focus();
+        if (!focusedRef.current) {
           focusedRef.current = true;
         }
         hasError = true;
