@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import "flatpickr/dist/flatpickr.css";
@@ -34,7 +34,6 @@ const CheckOutForm = ({
   const dispatch = useDispatch();
 
 
-  
   const [checkOutDate, setCheckOutDate] = useState("");
   const [checkOutrequestDate, setCheckOutRequestDate] = useState("");
     const [selectedCustomer, setSelectedCustomer] = useState("");
@@ -48,7 +47,9 @@ const CheckOutForm = ({
   const [fields, setFields] = useState([{ reason: "", amount: "" }]);
   const [noChangeMessage, setNoChangeMessage] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
+  const errorRef = useRef(null);
 
+const nochangeRef = useRef(null)
 
 
 
@@ -649,7 +650,11 @@ const CheckOutForm = ({
       !hasBankIdChanged
     ) {
       setNoChangeMessage("No Changes Detected");
-      return;
+  setTimeout(() => {
+    nochangeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, 100);
+
+  return;
     }
 
     dispatch({
@@ -711,7 +716,11 @@ const CheckOutForm = ({
     }
   }, [state.UsersList.conformChekoutEditError])
   
-
+useEffect(() => {
+  if (conformcheckErr && errorRef.current) {
+    errorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}, [conformcheckErr]);
 
 
 
@@ -750,12 +759,18 @@ let visibleIndex = -1;
 
   const handleAddField = () => {
     setFields([...fields, { reason: "", amount: "" }]);
+    setNoChangeMessage("")
+    setConformCheckErr("")
+    dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   };
 
   const handleRemoveField = (index) => {
     const updatedFields = [...fields];
     updatedFields.splice(index, 1);
     setFields(updatedFields);
+    setConformCheckErr("")
+    setNoChangeMessage("")
+    dispatch({ type: "CLEAR_EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR" });
   };
 
   const labelStyle = {
@@ -800,6 +815,8 @@ let visibleIndex = -1;
         </Modal.Header>
 
         <Modal.Body>
+           <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
+          <div className="d-flex align-items-center">
           <div className="row row-gap-2">
             {!checkouteditaction && (
               <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
@@ -1113,10 +1130,12 @@ let visibleIndex = -1;
 
 
 
-          {isChangedError && (
+         
+</div>
+ {isChangedError && (
             <div
               className="d-flex justify-content-center align-items-center"
-              style={{ color: "red", marginTop: 15 }}
+              style={{ color: "red", }}
             >
               <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
               <span
@@ -1130,7 +1149,7 @@ let visibleIndex = -1;
               </span>
             </div>
           )}
-
+</div>
 
 
 
@@ -1187,7 +1206,8 @@ let visibleIndex = -1;
         </Modal.Header>
 
         <Modal.Body>
-          <div className="row row-gap-2">
+            <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
+          <div className="row row-gap-2 d-flex align-items-center">
 
 
 
@@ -1648,7 +1668,7 @@ let visibleIndex = -1;
             )}
           </div>
           {state.UsersList.errorMessageAddCheckOut && (
-            <div className="d-flex align-items-center p-1 mt-6">
+            <div  ref={errorRef}  className="d-flex align-items-center p-1 mt-6">
               <MdError style={{ color: "red", marginRight: "5px", }} />
               <label
                 className="mb-0"
@@ -1687,6 +1707,7 @@ let visibleIndex = -1;
 
           {conformcheckErr && (
             <div
+            ref={errorRef}
               className="d-flex justify-content-center align-items-center"
               style={{ color: "red", marginTop: 15 }}
             >
@@ -1704,6 +1725,7 @@ let visibleIndex = -1;
           )}
           {noChangeMessage && (
             <div
+            ref={nochangeRef}
               className="d-flex justify-content-center align-items-center"
               style={{ color: "red", marginTop: 15 }}
             >
@@ -1719,7 +1741,7 @@ let visibleIndex = -1;
               </span>
             </div>
           )}
-
+</div>
 
           <Button
             className="mt-3"
