@@ -50,6 +50,7 @@ import newBooking from "../Assets/Images/New_images/NewBooking.png";
 
 function Dashboard() {
   const state = useSelector((state) => state);
+ 
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [dashboardList, setDashboardList] = useState([]);
@@ -781,7 +782,7 @@ const displayText =
           <div className="me-3 text-primary"><img src={currentMatch} alt="currentMatch" width={32} height={32} /></div>
           <div>
             <h6 className="text-muted " style={{fontFamily: "Montserrat"}}>Current Month Profit</h6>
-            <div className="fw-semibold fs-5" style={{fontFamily: "Montserrat"}}>₹ 84,550</div>
+            <div className="fw-semibold fs-5" style={{fontFamily: "Montserrat"}}>₹ {state.PgList?.dashboardDetails?.this_month_profit || 0}</div>
           </div>
         </div>
       </div>
@@ -792,7 +793,7 @@ const displayText =
           <div className="me-3  text-primary"><img src={coinImage} alt="coinImage" width={32} height={32} /></div>
           <div>
             <h6 className="text-muted " style={{fontFamily: "Montserrat"}}>Other Profit</h6>
-            <div className="fw-semibold fs-5" style={{fontFamily: "Montserrat"}}>₹ 73,800</div>
+            <div className="fw-semibold fs-5" style={{fontFamily: "Montserrat"}}>₹ {state.PgList?.dashboardDetails?.this_month_other_income || 0}</div>
           </div>
         </div>
       </div>
