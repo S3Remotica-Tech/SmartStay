@@ -158,9 +158,7 @@ function Sidebar() {
           );
           localStorage.setItem("login", encryptData.toString());
         }
-      } else {
-        console.log("No data found");
-      }
+      } 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ACCOUNT_STATUS_CODE" });
       }, 100);
@@ -181,7 +179,7 @@ function Sidebar() {
         setProfiles(profilePictures);
         setProfileArray(profileName);
       } catch (error) {
-        console.log("Error decrypting loginid", error);
+        console.error("Error decrypting loginid", error);
       }
     }
   }, [
@@ -355,6 +353,7 @@ function Sidebar() {
   const [pgshow, setPgshow] = useState(false);
 
   const handleShowsettingsPG = (settingNewDesign) => {
+     handlePageClick("settingNewDesign");
     handledisplaySettingsPG(settingNewDesign);
     dispatch({ type: "MANAGE_PG" });
     setPgshow(true);
@@ -1220,9 +1219,7 @@ function Sidebar() {
           </Col>
         </Row>
       </Container>
-      {pgshow === true ? (
-        <SettingManage pgshow={pgshow} setPgshow={setPgshow} />
-      ) : null}
+     
 
       <Modal
         show={logoutformshow}

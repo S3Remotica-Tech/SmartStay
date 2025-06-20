@@ -667,18 +667,19 @@ function EBHostelReading(props) {
                                 borderRadius: 10,
                                 display: "flex",
                                 justifyContent: "start",
-                                padding: 10,
+                               
                                 alignItems: "center",
                                 zIndex: 1000 ,
                               }}
                             >
-                              <div>
+                              <div style={{ width: "100%",}}>
                                 <div
-                                  className="mb-3 d-flex justify-content-start align-items-center gap-2"
+                                  className="d-flex justify-content-start align-items-center gap-2"
                                             style={{
                                               cursor: "pointer",
                                               borderRadius: 6,
                                                padding: "8px 12px",
+                                                width: "100%",
                                               transition: "background-color 0.2s ease",
                                             }}
                                             onMouseEnter={(e) =>

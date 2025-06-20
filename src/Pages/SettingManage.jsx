@@ -152,9 +152,7 @@ function SettingManage(props) {
         setKey(lastFloor?.floor_id?.toString() || "");
         setFloorName(lastFloor?.floor_name || "");
 
-        console.log("updatedFloors", updatedFloors, "lastFloor", lastFloor, "showHostelDetails", showHostelDetails);
-        console.log("floorClick", floorClick, "key", key, "floorName", floorName);
-
+      
 
         const newStartIndex = Math.max(0, lastIndex - 2);
         const newEndIndex = lastIndex;
@@ -290,23 +288,18 @@ function SettingManage(props) {
 
   const handleCloses = () => {
     setShowAddPg(false);
-    console.log("props:", props);
-    if (props.setPgshow) {
-      props.setPgshow(false);
-    } else {
-      console.error("setPgshow is not passed correctly.");
-    }
+    dispatch({ type: 'REMOVE_MANAGE_PG'})
+        
   };
 
-  console.log("props", props);
-
+ 
 
   useEffect(() => {
-    if (props.pgshow) {
+    if (state.PgList.isManageEnable) {
       setShowAddPg(true);
-      setEditHostelDetails("");
+            setEditHostelDetails("");
     }
-  }, [props.pgshow]);
+  }, [state.PgList.isManageEnable]);
 
 
 
@@ -644,14 +637,14 @@ function SettingManage(props) {
               height: "100vh",
             }}
           >
-            {/* Image */}
+           
             <img
               src={EmptyState}
               alt="Empty State"
               style={{ maxWidth: "100%", height: "auto" }}
             />
 
-            {/* Permission Error */}
+           
             {permissionError && (
               <div
                 style={{
@@ -706,9 +699,7 @@ function SettingManage(props) {
 
           {hidePgList && (
             <>
-              {/* <div
-                 className=" justify-content-between d-flex align-items-center"
-                 className="d-flex flex-column flex-md-row justify-content-between align-items-center" */}
+             
               <div className="d-flex flex-column flex-md-row justify-content-between align-items-center"
                 style={{
                   position: "sticky",
@@ -772,8 +763,7 @@ function SettingManage(props) {
                 style={{
                   maxHeight: "400px",
                   overflowY: "auto",
-                  overflowX: "hidden"
-                }}
+                                 }}
               >
                 <div className="row row-gap-3">
                   {currentItems?.length > 0 ?
@@ -798,7 +788,7 @@ function SettingManage(props) {
                       );
                     })
                     :
-                    !loading && (
+                    !loading && currentItems.length === 0 && (
                       <div
                         className="d-flex align-items-center justify-content-center fade-in"
                         style={{
