@@ -31,7 +31,7 @@ import './SettingManage.css';
 
 
 
-function SettingManage(props) {
+function SettingManage() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [showHostelDetails, setShowHostelDetails] = useState("");

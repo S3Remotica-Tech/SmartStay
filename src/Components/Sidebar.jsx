@@ -52,7 +52,7 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
-import SettingManage from "../Pages/SettingManage";
+
 
 function Sidebar() {
   const dispatch = useDispatch();
@@ -350,14 +350,13 @@ function Sidebar() {
     state.UsersList.statusCodeForhostelListNewDetails,
   ]);
 
-  const [pgshow, setPgshow] = useState(false);
+ 
 
   const handleShowsettingsPG = (settingNewDesign) => {
      handlePageClick("settingNewDesign");
     handledisplaySettingsPG(settingNewDesign);
     dispatch({ type: "MANAGE_PG" });
-    setPgshow(true);
-    setIsSidebarOpen(false);
+     setIsSidebarOpen(false);
   };
 
   const [hoveredIcon, setHoveredIcon] = useState(null);
