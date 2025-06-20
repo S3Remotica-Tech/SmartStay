@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingElectricity.css";
 
-const SettingElectricity = ({ hostelid }) => {
+const SettingElectricity = ({hostelid}) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [isRecurring, setIsRecurring] = useState(false);

@@ -384,7 +384,7 @@ function Booking(props) {
   const handleCloseDelete = () => {
     setDeleteShow(false);
   };
-  const validateAssignField = (value, fieldName) => {
+  const validateAssignField = (value, fieldName,focusedRef, ref) => {
     if (
       !value ||
       value === "Select a PG"
@@ -416,6 +416,10 @@ function Booking(props) {
         default:
           break;
       }
+       if (!focusedRef.current && ref?.current) {
+      ref.current.focus();
+      focusedRef.current = true;
+    }
       return false;
     } else {
       switch (fieldName) {
@@ -447,6 +451,8 @@ function Booking(props) {
       return true;
     }
   };
+  const nochangeRef = useRef(null)
+
   const handleSubmit = () => {
     let hasError = false;
     const isFirstnameValid = validateAssignField(firstName, "firstName");
@@ -531,12 +537,22 @@ function Booking(props) {
       city !== initialStateAssign.city ||
       state_name !== initialStateAssign.state;
 
-    if (!isChangedBed) {
-      setFormError("No Changes Detected");
-      return;
-    } else {
-      setFormError("");
+       if (!isChangedBed) {
+  setFormError("No Changes Detected");
+
+ 
+  setTimeout(() => {
+    if (nochangeRef.current) {
+      nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      nochangeRef.current.focus();
     }
+  }, 100);
+
+  return;
+} else {
+  setFormError("");
+}
+
 
 
     const formattedDate = moment(joiningDate).format("YYYY-MM-DD");
@@ -1629,7 +1645,9 @@ function Booking(props) {
             style={{ cursor: "pointer" }}
           />
         </Modal.Header>
+        
         <Modal.Body>
+           <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
           <div className="d-flex align-items-center">
             <div
               className=""
@@ -2340,12 +2358,13 @@ function Booking(props) {
 
 
           {formError && (
-            <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
+            <div ref={nochangeRef} className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
               <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
               <span style={{ fontSize: "14px" }}>{formError}</span>
             </div>
           )}
-
+         
+</div>
           <Button
             variant="primary"
             type="submit"
