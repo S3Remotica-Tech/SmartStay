@@ -783,32 +783,56 @@ useEffect(() => {
                  return inputValue;
                    }}
   styles={{
-    control: (base) => ({
-      ...base,
-      padding: "2px",
-      marginTop: "5px",
-      fontSize: "14px",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      color: "#4B4B4B",
-      borderColor: "#ced4da",
-    }),
-    option: (base, state) => ({
-      ...base,
-      backgroundColor: state.isSelected
-        ? "#1e40af" 
-        : state.isFocused
-        ? "#e6f0ff" 
-        : "#fff",   
-      color: state.isSelected ? "#fff" : "#000",
-      fontSize: "14px",
-      fontFamily: "Gilroy",
-    }),
-    menu: (base) => ({
-      ...base,
-      zIndex: 9999, 
-    }),
-  }}
+                                    control: (base) => ({
+                                        ...base,
+                                        borderColor: "#D1D5DB",
+                                        borderRadius: "5px",
+                                        padding: "4px",
+                                        boxShadow: "none",
+                                        cursor: "pointer",
+                                        "&:hover": { borderColor: "#666" },
+                                    }),
+                                    menu: (base) => ({
+                                        ...base,
+                                        maxHeight: billing_types.length > 3 ? "150px" : "auto",
+                                        overflowY: billing_types.length > 3 ? "auto" : "hidden",
+                                        borderRadius: "8px",
+                                        zIndex: 100,
+                                    }),
+                                    menuList: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                        padding: 0,
+                                        scrollbarWidth: "thin",
+                                        "&::-webkit-scrollbar": {
+                                            width: "6px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb": {
+                                            backgroundColor: "#888",
+                                            borderRadius: "4px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb:hover": {
+                                            backgroundColor: "#555",
+                                        },
+                                    }),
+                                    option: (base, state) => ({
+                                        ...base,
+                                        backgroundColor: state.isSelected
+                                            ? '#2563EB'
+                                            : state.isFocused
+                                                ? '#E0ECFF'
+                                                : '#FFFFFF',
+                                        color: state.isSelected ? '#FFFFFF' : '#000000',
+                                        padding: '12px 16px',
+                                        margin: 0,
+                                        borderRadius: 0,
+                                        cursor:'pointer'
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
+                                }}
+
+  
 />
 
                     {billingfreuencyerrormsg.trim() !== "" && (
@@ -1023,57 +1047,55 @@ useEffect(() => {
                       placeholder="Select"
                       classNamePrefix="custom"
                       menuPlacement="auto"
-                     styles={{
-  control: (base) => ({
-    ...base,
-    height: "40px",
-    border: "1px solid #ced4da",
-    fontSize: 14,
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-  }),
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #ced4da",
-    zIndex: 9999, 
-  }),
-  menuList: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    maxHeight: "120px",
-    padding: 0,
-    scrollbarWidth: "thin",
-    overflowY: "auto",
-  }),
-  option: (base, { isFocused, isSelected }) => ({
-    ...base,
-    backgroundColor: isSelected
-      ? "#1E45E1"
-      : isFocused
-      ? "#f0f0f0"
-      : "#fff",
-    color: "#000",
-    fontSize: 14,
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    padding: "10px 12px",
-    cursor: "pointer",
-  }),
-  placeholder: (base) => ({
-    ...base,
-    color: "#555",
-  }),
-  dropdownIndicator: (base) => ({
-    ...base,
-    color: "#555",
-    cursor: "pointer",
-  }),
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-}}
+  styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        borderColor: "#D1D5DB",
+                                        borderRadius: "5px",
+                                        padding: "4px",
+                                        boxShadow: "none",
+                                        cursor: "pointer",
+                                        "&:hover": { borderColor: "#666" },
+                                    }),
+                                    menu: (base) => ({
+                                        ...base,
+                                        maxHeight: options.length > 3 ? "150px" : "auto",
+                                        overflowY: billing_types.length > 3 ? "auto" : "hidden",
+                                        borderRadius: "8px",
+                                        zIndex: 100,
+                                    }),
+                                    menuList: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                        padding: 0,
+                                        scrollbarWidth: "thin",
+                                        "&::-webkit-scrollbar": {
+                                            width: "6px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb": {
+                                            backgroundColor: "#888",
+                                            borderRadius: "4px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb:hover": {
+                                            backgroundColor: "#555",
+                                        },
+                                    }),
+                                    option: (base, state) => ({
+                                        ...base,
+                                        backgroundColor: state.isSelected
+                                            ? '#2563EB'
+                                            : state.isFocused
+                                                ? '#E0ECFF'
+                                                : '#FFFFFF',
+                                        color: state.isSelected ? '#FFFFFF' : '#000000',
+                                        padding: '12px 16px',
+                                        margin: 0,
+                                        borderRadius: 0,
+                                        cursor:'pointer'
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
+                                }}
 
                     />
                     {invoicedateerrmsg.trim() !== "" && (
@@ -1122,57 +1144,55 @@ useEffect(() => {
                       placeholder="Select"
                       classNamePrefix="custom"
                       menuPlacement="auto"
-                    styles={{
-  control: (base) => ({
-    ...base,
-    height: "40px",
-    border: "1px solid #ced4da",
-    fontSize: 14,
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    boxShadow: "none",
-  }),
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    border: "1px solid #ced4da",
-    zIndex: 9999, 
-  }),
-  menuList: (base) => ({
-    ...base,
-    backgroundColor: "#fff",
-    maxHeight: "120px",
-    padding: 0,
-    scrollbarWidth: "thin",
-    overflowY: "auto",
-  }),
-  option: (base, { isFocused, isSelected }) => ({
-    ...base,
-    backgroundColor: isSelected
-      ? "#1E45E1"
-      : isFocused
-      ? "#f0f0f0"
-      : "#fff",
-    color: "#000",
-    fontSize: 14,
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    padding: "10px 12px",
-    cursor: "pointer",
-  }),
-  placeholder: (base) => ({
-    ...base,
-    color: "#555",
-  }),
-  dropdownIndicator: (base) => ({
-    ...base,
-    color: "#555",
-    cursor: "pointer",
-  }),
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-}}
+ styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        borderColor: "#D1D5DB",
+                                        borderRadius: "5px",
+                                        padding: "4px",
+                                        boxShadow: "none",
+                                        cursor: "pointer",
+                                        "&:hover": { borderColor: "#666" },
+                                    }),
+                                    menu: (base) => ({
+                                        ...base,
+                                        maxHeight: options.length > 3 ? "150px" : "auto",
+                                        overflowY: billing_types.length > 3 ? "auto" : "hidden",
+                                        borderRadius: "8px",
+                                        zIndex: 100,
+                                    }),
+                                    menuList: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                        padding: 0,
+                                        scrollbarWidth: "thin",
+                                        "&::-webkit-scrollbar": {
+                                            width: "6px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb": {
+                                            backgroundColor: "#888",
+                                            borderRadius: "4px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb:hover": {
+                                            backgroundColor: "#555",
+                                        },
+                                    }),
+                                    option: (base, state) => ({
+                                        ...base,
+                                        backgroundColor: state.isSelected
+                                            ? '#2563EB'
+                                            : state.isFocused
+                                                ? '#E0ECFF'
+                                                : '#FFFFFF',
+                                        color: state.isSelected ? '#FFFFFF' : '#000000',
+                                        padding: '12px 16px',
+                                        margin: 0,
+                                        borderRadius: 0,
+                                        cursor:'pointer'
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
+                                }}
 
                     />
                     {duedateerrmsg.trim() !== "" && (
@@ -1252,16 +1272,55 @@ useEffect(() => {
                 }
                  return inputValue;
                    }}
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        height: "40px",
-                        border: "1px solid #ced4da",
-                        fontSize: 14,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }),
-                    }}
+ styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        borderColor: "#D1D5DB",
+                                        borderRadius: "5px",
+                                        padding: "4px",
+                                        boxShadow: "none",
+                                        cursor: "pointer",
+                                        "&:hover": { borderColor: "#666" },
+                                    }),
+                                    menu: (base) => ({
+                                        ...base,
+                                        maxHeight: options.length > 3 ? "150px" : "auto",
+                                        overflowY: billing_types.length > 3 ? "auto" : "hidden",
+                                        borderRadius: "8px",
+                                        zIndex: 100,
+                                    }),
+                                    menuList: (base) => ({
+                                        ...base,
+                                        maxHeight: "150px",
+                                        overflowY: "auto",
+                                        padding: 0,
+                                        scrollbarWidth: "thin",
+                                        "&::-webkit-scrollbar": {
+                                            width: "6px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb": {
+                                            backgroundColor: "#888",
+                                            borderRadius: "4px",
+                                        },
+                                        "&::-webkit-scrollbar-thumb:hover": {
+                                            backgroundColor: "#555",
+                                        },
+                                    }),
+                                    option: (base, state) => ({
+                                        ...base,
+                                        backgroundColor: state.isSelected
+                                            ? '#2563EB'
+                                            : state.isFocused
+                                                ? '#E0ECFF'
+                                                : '#FFFFFF',
+                                        color: state.isSelected ? '#FFFFFF' : '#000000',
+                                        padding: '12px 16px',
+                                        margin: 0,
+                                        borderRadius: 0,
+                                        cursor:'pointer'
+                                    }),
+                                    indicatorSeparator: () => ({ display: "none" }),
+                                }}
                   />
 
                   {selectedDays.length > 0 && (
@@ -1276,6 +1335,7 @@ useEffect(() => {
                             border: "1px solid rgba(30, 69, 225, 1)",
                             fontSize: 14,
                             fontFamily: "Gilroy",
+                            cursor:'pointer'
                           }}
                         >
                           {item.label}

@@ -886,16 +886,25 @@ const ComplianceList = (props) => {
                       }}
                       title={props.complaints.complaint_name}
                     >
-                      {props.complaints && props.complaints.complaint_name}{" "}
-                      <span title={props.complaints.Description} style={{
-                        display: "inline-block",
-                        maxWidth: "200px",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        verticalAlign: "middle",
-                        marginTop: "-6px"
-                      }}> - {props.complaints && props.complaints.Description}</span>
+           {props.complaints && props.complaints.complaint_name}
+      {props.complaints?.Description && (
+  <span
+    title={props.complaints.Description}
+    style={{
+      display: "inline-block",
+      maxWidth: "200px",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      verticalAlign: "middle",
+      marginTop: "-6px",
+       paddingLeft:4
+    }}
+  >
+    {" "}  {" - "}{props.complaints.Description}
+  </span>
+)}
+
 
                     </label>
                   </div>

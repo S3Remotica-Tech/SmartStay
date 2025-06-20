@@ -564,20 +564,32 @@ function PayingHostel(props) {
                     props.filteredData[0]?.pincode ||
                     props.filteredData[0]?.state) && (
                       <>
-                        {props.filteredData[0]?.Address
-                          ? props.filteredData[0].Address + ", "
-                          : ""}
-                        {props.filteredData[0]?.area || ""}
-                        {props.filteredData[0]?.city
-                          ? ", " + props.filteredData[0].city
-                          : ""}
-                        {props.filteredData[0]?.pin_code
-                          ? " - " + props.filteredData[0].pin_code
-                          : ""}{" "}
-                        <br></br>
-                        {props.filteredData[0]?.state
-                          ? props.filteredData[0].state
-                          : ""}
+                       {props.filteredData[0] && (
+  <>
+    {props.filteredData[0].Address && (
+      <>
+        {props.filteredData[0].Address}
+        {(props.filteredData[0].area || props.filteredData[0].city) && ", "}
+      </>
+    )}
+
+    {props.filteredData[0].area && (
+      <>
+        {props.filteredData[0].area}
+        {props.filteredData[0].city && ", "}
+      </>
+    )}
+
+    {props.filteredData[0].city && <>{props.filteredData[0].city}</>}
+    {props.filteredData[0].pin_code && (
+      <> - {props.filteredData[0].pin_code}</>
+    )}
+
+    <br />
+    {props.filteredData[0].state && <>{props.filteredData[0].state}</>}
+  </>
+)}
+
                       </>
                     )}
                 </div>
