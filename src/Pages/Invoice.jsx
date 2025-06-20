@@ -49,6 +49,7 @@ import dayjs from "dayjs";
 import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import './BillPdfModal.css';
 import AxiosConfig from "../WebService/AxiosConfig";
+import Swal from 'sweetalert2';
 
 
 
@@ -926,7 +927,7 @@ useEffect(() => {
     }
 
     if (!invoiceList.transaction || invoiceList.transaction === "select") {
-      setPaymodeErrmsg("Please Select a Valid Transaction Type");
+      setPaymodeErrmsg("Please Select Transaction Type");
       return;
     }
 
@@ -1875,7 +1876,7 @@ useEffect(() => {
 
 
           if (triggeredBy === "whatsapp") {
-            if (isReceiptMessageEnabled == true) {
+            if (isReceiptMessageEnabled === "true") {
               setLoading(true);
 
               const receiptData =

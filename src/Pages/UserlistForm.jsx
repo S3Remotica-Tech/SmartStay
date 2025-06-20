@@ -593,13 +593,13 @@ function UserlistForm(props) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(Email.toLowerCase());
       if (!isValidEmail) {
-        setEmailError("Please Enter Valid Email ID");
-        if (!focusedRef.current && emailRef?.current) {
-          emailRef.current.focus();
-          focusedRef.current = true;
-        }
-        hasError = true;
-      } else {
+  setEmailError("Please Enter Valid Email ID");
+  if (!focusedRef.current ) {
+    focusedRef.current = true;
+  }
+  hasError = true;
+}
+      else {
         setEmailError("");
       }
     } else {
@@ -1729,8 +1729,8 @@ function UserlistForm(props) {
                       style={{ cursor: "pointer" }}
                     />
                   </Modal.Header>
-
-                  <div className="row">
+<div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
+                  <div className="row d-flex align-items-center">
                     <div className="col-12">
                       <Form.Label
                         style={{
@@ -2220,6 +2220,7 @@ function UserlistForm(props) {
                         </div>
                       )}
                     </div>
+                  </div>
                   </div>
 
                   <Button

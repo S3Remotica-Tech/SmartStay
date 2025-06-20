@@ -2217,6 +2217,7 @@ function UserList(props) {
                       id="statusselect"
                       style={{
                         color: "rgba(34, 34, 34, 1)",
+                        fontSize:15,
                         fontWeight: 600,
                         fontFamily: "Gilroy",
                       }}

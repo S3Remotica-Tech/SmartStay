@@ -544,6 +544,8 @@ function Expenses({ allPageHostel_Id }) {
     }
   };
 
+  
+
   const [showCategory, setShowCategory] = useState(false);
   const [showPaymentMode, setShowPaymentMode] = useState(false);
   const [showAmount, setShowAmount] = useState(false);
@@ -823,21 +825,16 @@ function Expenses({ allPageHostel_Id }) {
                             value={modeValue}
                             onClick={handleModeValueChange}
                           >
-                            <ListGroup.Item
-                              className="sub_item"
-                              value="UPI/BHIM"
-                            >
-                              UPI/BHIM
-                            </ListGroup.Item>
-                            <ListGroup.Item className="sub_item" value="CASH">
-                              CASH
-                            </ListGroup.Item>
-                            <ListGroup.Item
-                              className="sub_item"
-                              value="Net Banking"
-                            >
-                              Net Banking
-                            </ListGroup.Item>
+                            {state.ExpenseList.expenseList &&
+                              state.ExpenseList.paymentModeList.map((view) => (
+                                <ListGroup.Item
+                                  className="sub_item"
+                                  key={view.id}
+                                  value={view.payment_mode}
+                                >
+                                  {view.paymentModeName}
+                                </ListGroup.Item>
+                              ))}
                           </ListGroup>
                         )}
                       </ListGroup.Item>

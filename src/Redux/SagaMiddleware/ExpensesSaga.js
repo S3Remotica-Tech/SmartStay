@@ -22,8 +22,9 @@ function* handleGetCategory() {
 
 function* handleGetExpenses(action) {
     const response = yield call (GetExpense, action.payload);
+    
     if (response.status === 200 || response.statusCode === 200){
-       yield put ({type : 'EXPENSES_LIST' , payload:{response:response.data.data,  statusCode:response.status || response.statusCode}})
+       yield put ({type : 'EXPENSES_LIST' , payload:{response:response.data.data, paymentmode : response.data.paymentModeList,  statusCode:response.status || response.statusCode}})
      }
     else if (response.status === 201){
        yield put ({type:'NOEXPENSEDATA', payload: {statusCode:response.status}})

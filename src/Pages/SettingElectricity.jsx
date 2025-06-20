@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingElectricity.css";
 
-const SettingElectricity = ({ hostelid }) => {
+const SettingElectricity = ({hostelid}) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [isRecurring, setIsRecurring] = useState(false);
@@ -384,12 +384,7 @@ const SettingElectricity = ({ hostelid }) => {
           className="d-flex justify-content-center justify-content-md-end w-100  mt-md-0"
           style={{ marginTop: -10 }}
         >
-          {/* <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
-          padding:"12px 16px 12px 16px"
-           }} 
-          onClick={handleShowFormElectricity}  disabled={showPopup}>
-            + Electricity
-          </Button> */}
+         
 
           {EbList.length > 0 ? (
             EbList.map((v, i) => (
@@ -471,109 +466,7 @@ const SettingElectricity = ({ hostelid }) => {
                           </label>
                         </div>
 
-                        {/* <div>
-              <div
-                style={{
-                  height: 40,
-                  width: 40,
-                  borderRadius: 100,
-                  border: "1px solid #EFEFEF",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-                onClick={handleShowDots}
-              >
-                <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20, cursor: "pointer" }}
-                />
-
-                {showDots && (
-                  <>
-                    <div
-                      style={{
-                        backgroundColor: "#FFFFFF",
-                        position: "absolute",
-                        right: 0,
-                        top: 50,
-                        width: 163,
-                        height: 92,
-                        border: "1px solid #EBEBEB",
-                        borderRadius: 10,
-                        display: "flex",
-                        justifyContent: "start",
-                        padding: 15,
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>
-                        <div
-                         onClick={()=>handleEditElectricity(v)}
-                          className={"mb-2"}
-                         
-                          style={{
-                            cursor: "pointer",
-                          }}
-                        >
-                          <img
-                            src={Edit}
-                            style={{
-                              height: 16,
-                              width: 16,
-                            }}
-                            alt="Edit"
-                           
-
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#222222",
-                              cursor: "pointer",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            Edit
-                          </label>
-                        </div>
-
-                        <div
-                         onClick={()=> handleDeleteElectricity(v)}
-                          className={"mb-2"}
-                          style={{
-                            cursor: "pointer",
-                          }}
-                        >
-                          <img
-                            src={Delete}
-                            style={{
-                              height: 16,
-                              width: 16,
-                            }}
-                            alt="Delete"
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#FF0000",
-                              cursor: "pointer",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            Delete
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div> */}
+         
                       </div>
                       <hr />
                       <Form>
@@ -598,22 +491,7 @@ const SettingElectricity = ({ hostelid }) => {
                             >
                               ₹ {v.amount}
                             </h6>
-                            {/* {unitErr && (
-                <p 
-                  style={{
-                    color: "red",
-                    fontSize: 14,
-                    display: "flex",
-                    alignItems: "center",
-                    margin: 0,
-                  }}
-                >
-                  <span style={{ fontSize: "20px", marginRight: "5px" }}>
-                    <MdError style={{ fontSize: "15px", marginBottom: "5px" }} />
-                  </span>
-                  {unitErr}
-                </p>
-              )} */}
+                 
                           </Col>
 
                           <Col>
@@ -635,6 +513,7 @@ const SettingElectricity = ({ hostelid }) => {
                               onChange={() => {
                                 handleRoomBased(v);
                               }}
+                              className="custom-switch-pointer"
                             />
                           </Col>
                           <Col>
@@ -652,10 +531,12 @@ const SettingElectricity = ({ hostelid }) => {
                               type="switch"
                               id="hostelBased"
                               label="Enabled"
+                              className="custom-switch-pointer"
                               checked={hostelBasedCalculation}
                               onChange={() => {
                                 handleHostelBased(v);
                               }}
+                             
                             />
                           </Col>
                         </Row>
