@@ -744,76 +744,98 @@ function UserListRoomDetail(props) {
   const [emailError, setEmailError] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
 
-  const validateField = (value, fieldName) => {
-    const stringValue = String(value).trim();
 
-    if (
-      fieldName === "Email" &&
-      ["n/a", "na"].includes(stringValue.toLowerCase())
-    ) {
-      setEmailError("");
-      return true;
-    }
+  const firstnameRef = useRef(null);
+const phoneRef = useRef(null);
+const emailRef = useRef(null);
+const hostelRef = useRef(null);
+const cityRef = useRef(null);
+const pincodeRef = useRef(null);
+const stateRef = useRef(null);
+const nochangeRef = useRef(null)
 
-    if (!stringValue) {
-      switch (fieldName) {
-        case "First Name":
-          setFirstnameError("First Name is Required");
-          break;
-        case "Phone Number":
-          setPhoneError("Phone Number is Required");
-          break;
-        case "Email":
-          setEmailError("Email is Required");
-          break;
-        case "Hostel ID":
-          setHostelIdError("Hostel ID is Required");
-          break;
-        case "City":
-          setCityError("Please Enter City");
-          break;
-        case "Pincode":
-          setPincodeError("Please Enter Pincode");
-          break;
-        case "Statename":
-          setStateNameError("Please Select State");
-          break;
-        default:
-          break;
-      }
-      return false;
-    }
 
+ const validateField = (value, fieldName, focusedRef, ref) => {
+  const stringValue = String(value).trim();
+
+  if (
+    fieldName === "Email" &&
+    ["n/a", "na"].includes(stringValue.toLowerCase())
+  ) {
+    setEmailError("");
+    return true;
+  }
+
+  if (!stringValue) {
+   
     switch (fieldName) {
       case "First Name":
-        setFirstnameError("");
+        setFirstnameError("First Name is Required");
         break;
       case "Phone Number":
-        setPhoneError("");
+        setPhoneError("Phone Number is Required");
         break;
       case "Email":
-        setEmailError("");
+        setEmailError("Email is Required");
         break;
       case "Hostel ID":
-        setHostelIdError("");
+        setHostelIdError("Hostel ID is Required");
         break;
       case "City":
-        setCityError("");
+        setCityError("Please Enter City");
         break;
       case "Pincode":
-        setPincodeError("");
+        setPincodeError("Please Enter Pincode");
         break;
       case "Statename":
-        setStateNameError("");
+        setStateNameError("Please Select State");
         break;
       default:
         break;
     }
 
-    return true;
-  };
+  
+    if (!focusedRef.current && ref?.current) {
+      ref.current.focus();
+      focusedRef.current = true;
+    }
+
+    return false;
+  }
+
+ 
+  switch (fieldName) {
+    case "First Name":
+      setFirstnameError("");
+      break;
+    case "Phone Number":
+      setPhoneError("");
+      break;
+    case "Email":
+      setEmailError("");
+      break;
+    case "Hostel ID":
+      setHostelIdError("");
+      break;
+    case "City":
+      setCityError("");
+      break;
+    case "Pincode":
+      setPincodeError("");
+      break;
+    case "Statename":
+      setStateNameError("");
+      break;
+    default:
+      break;
+  }
+
+  return true;
+};
+
 
   const handleSaveUserlist = () => {
+     const focusedRef = { current: false };
     const normalize = (value) =>
       value === null ||
         value === undefined ||
@@ -839,12 +861,12 @@ function UserListRoomDetail(props) {
 
     let hasError = false;
 
-    if (!validateField(firstname, "First Name")) return;
-    if (!validateField(Phone, "Phone Number")) return;
-    if (!validateField(hostel_Id, "Hostel ID")) return;
-    if (!validateField(city, "City")) return;
-    if (!validateField(pincode, "Pincode")) return;
-    if (!validateField(state_name, "Statename")) return;
+    if (!validateField(firstname, "First Name", focusedRef, firstnameRef)) return;
+if (!validateField(Phone, "Phone Number", focusedRef, phoneRef)) return;
+if (!validateField(hostel_Id, "Hostel ID", focusedRef, hostelRef)) return;
+if (!validateField(city, "City", focusedRef, cityRef)) return;
+if (!validateField(pincode, "Pincode", focusedRef, pincodeRef)) return;
+if (!validateField(state_name, "Statename", focusedRef, stateRef)) return;
 
     if (hostel_Id === "Select a PG" || hostelIdError) {
       setHostelIdError("Please select a valid PG");
@@ -874,11 +896,22 @@ function UserListRoomDetail(props) {
     if (hasError) return;
 
     if (!isChanged) {
-      setFormError("No Changes Detected");
-      return;
-    } else {
-      setFormError("");
+  setFormError("No Changes Detected");
+
+ 
+  setTimeout(() => {
+    if (nochangeRef.current) {
+      nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      nochangeRef.current.focus();
     }
+  }, 100);
+
+  return;
+} else {
+  setFormError("");
+}
+
+
     const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     };
@@ -2758,6 +2791,7 @@ const handleDownloadKYC = async () => {
                                     style={{ cursor: "pointer" }}
                                   />
                                 </Modal.Header>
+                                <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
 
                                 <div className="d-flex align-items-center">
                                   <div
@@ -2860,6 +2894,7 @@ const handleDownloadKYC = async () => {
                                         placeholder="Enter First Name"
                                         type="text"
                                         value={firstname}
+                                        ref={firstnameRef}
                                         onChange={(e) => handleFirstName(e)}
                                         style={{
                                           fontSize: 16,
@@ -2959,6 +2994,7 @@ const handleDownloadKYC = async () => {
                                       <InputGroup>
                                         <Form.Select
                                           value={countryCode}
+                                          ref={phoneRef }
                                           id="vendor-select-pg"
                                           style={{
                                             border: "1px solid #D9D9D9",
@@ -3079,6 +3115,7 @@ const handleDownloadKYC = async () => {
                                         id="form-controls"
                                         placeholder="Enter email address"
                                         value={Email}
+                                        ref={emailRef}
                                         onChange={(e) => handleEmail(e)}
                                         style={{
                                           fontSize: 16,
@@ -3322,6 +3359,7 @@ const handleDownloadKYC = async () => {
                                       </Form.Label>
                                       <Form.Control
                                         value={pincode}
+                                        ref={pincodeRef}
                                         onChange={(e) => handlePinCodeChange(e)}
                                         type="tel"
                                         maxLength={6}
@@ -3391,6 +3429,7 @@ const handleDownloadKYC = async () => {
                                         id="form-controls"
                                         placeholder="Enter City"
                                         value={city}
+                                        ref={cityRef}
                                         onChange={(e) => handleCity(e)}
                                         style={{
                                           fontSize: 16,
@@ -3455,6 +3494,7 @@ const handleDownloadKYC = async () => {
 
                                       <Select
                                         options={indianStates}
+                                        ref={stateRef}
                                         onChange={(selectedOption) => {
                                           setStateName(selectedOption?.value);
                                         }}
@@ -3555,7 +3595,7 @@ const handleDownloadKYC = async () => {
                                 {formError && (
                                   <div
                                     className="d-flex align-items-center justify-content-center"
-                                    style={{ color: "red" }}
+                                   ref={nochangeRef} style={{ color: "red" }}
                                   >
                                     <MdError style={{ marginRight: "5px" }} />
                                     <span
@@ -3570,6 +3610,7 @@ const handleDownloadKYC = async () => {
                                     </span>
                                   </div>
                                 )}
+                                </div>
                                 <Button
                                   className="w-100"
                                   style={{
