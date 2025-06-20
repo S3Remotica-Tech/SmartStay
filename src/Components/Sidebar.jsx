@@ -52,7 +52,7 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
-import SettingManage from "../Pages/SettingManage";
+
 
 function Sidebar() {
   const dispatch = useDispatch();
@@ -158,9 +158,7 @@ function Sidebar() {
           );
           localStorage.setItem("login", encryptData.toString());
         }
-      } else {
-        console.log("No data found");
-      }
+      } 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ACCOUNT_STATUS_CODE" });
       }, 100);
@@ -181,7 +179,7 @@ function Sidebar() {
         setProfiles(profilePictures);
         setProfileArray(profileName);
       } catch (error) {
-        console.log("Error decrypting loginid", error);
+        console.error("Error decrypting loginid", error);
       }
     }
   }, [
@@ -352,13 +350,13 @@ function Sidebar() {
     state.UsersList.statusCodeForhostelListNewDetails,
   ]);
 
-  const [pgshow, setPgshow] = useState(false);
+ 
 
   const handleShowsettingsPG = (settingNewDesign) => {
+     handlePageClick("settingNewDesign");
     handledisplaySettingsPG(settingNewDesign);
     dispatch({ type: "MANAGE_PG" });
-    setPgshow(true);
-    setIsSidebarOpen(false);
+     setIsSidebarOpen(false);
   };
 
   const [hoveredIcon, setHoveredIcon] = useState(null);
@@ -1220,9 +1218,7 @@ function Sidebar() {
           </Col>
         </Row>
       </Container>
-      {pgshow === true ? (
-        <SettingManage pgshow={pgshow} setPgshow={setPgshow} />
-      ) : null}
+     
 
       <Modal
         show={logoutformshow}
