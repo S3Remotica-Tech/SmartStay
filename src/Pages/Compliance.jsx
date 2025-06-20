@@ -1141,6 +1141,7 @@ const Compliance = () => {
                                     fontWeight: 500,
                                     boxShadow: "none",
                                     backgroundColor: edit ? "#E7F1FF" : "#fff",
+                                    cursor:'pointer'
                                   }),
                                   menu: (base) => ({
                                     ...base,
@@ -1254,12 +1255,14 @@ const Compliance = () => {
                                   fontWeight: 500,
                                   boxShadow: "none",
                                   backgroundColor: edit ? "#E7F1FF" : "#fff",
+                                  cursor:'pointer'
                                 }),
                                 menu: (base) => ({
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   border: "1px solid #ced4da",
                                    fontFamily: "Gilroy",
+                                     cursor:'pointer'
                                 }),
                                 menuList: (base) => ({
                                   ...base,
@@ -1268,7 +1271,8 @@ const Compliance = () => {
                                   padding: 0,
                                   scrollbarWidth: "thin",
                                   overflowY: "auto",
-                                   fontFamily: "Gilroy",
+                                  fontFamily: "Gilroy",
+                                  cursor:'pointer'
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
@@ -1286,6 +1290,13 @@ const Compliance = () => {
                                 indicatorSeparator: () => ({
                                   display: "none",
                                 }),
+                                option: (base, state) => ({
+  ...base,
+  cursor: "pointer", 
+  color: state.isSelected ? "#fff" : "#000",
+  fontSize: "14px",
+  fontFamily: "Gilroy",
+}),
                               }}
                             />
 

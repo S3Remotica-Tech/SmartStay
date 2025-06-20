@@ -267,22 +267,13 @@ function SettingExpenses({ hostelid }) {
  
 
   const addType = () => {
-
-
-
-
-
-
-
+    
     if (!selectedOptions.value) {
       setCategoryErrmsg("Please Enter a Category");
       return;
     }
 
-    if (!isSubCategory) {
-      setShowForm(false);
-    }
-    if (isSubCategory) {
+    if (isSubCategory || !isSubCategory) {
       dispatch({
         type: "EXPENCES-CATEGORY-ADD",
         payload: {

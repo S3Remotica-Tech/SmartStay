@@ -2699,9 +2699,32 @@ const handleDownloadKYC = async () => {
                                                         textOverflow: "ellipsis",
                                                       }}
                                                         title={`${v.address}, ${v.area}, ${v.city}, ${v.state} - ${v.pin_code}`}>
-                                                        {v.address} , {v.area} ,{" "}
-                                                        {v.city} ,{" "}
-                                                        {v.state}- {v.pin_code}
+                                  <>
+  {v.address && (
+    <>
+      {v.address}
+      {(v.area || v.city || v.pin_code || v.state) ? ", " : ""}
+    </>
+  )}
+
+  {v.area && (
+    <>
+      {v.area}
+      {(v.city || v.pin_code || v.state) ? ", " : ""}
+    </>
+  )}
+
+  {v.city && (
+    <>
+      {v.city}
+      {v.pin_code ? "- " : (v.state ? "- " : "")}
+    </>
+  )}
+ - {v.pin_code && <>{v.pin_code}{v.state ? ", " : ""}</>}
+  {v.state && <>{v.state}</>}
+</>
+
+
                                                       </p>
                                                     </span>
                                                   </div>
