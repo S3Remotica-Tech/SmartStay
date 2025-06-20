@@ -237,7 +237,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
 
 
-
+const nochangeRef = useRef(null)
 
 
 
@@ -393,10 +393,26 @@ function AddPg({ show, handleClose, currentItem }) {
       String(pincode).trim() !== String(initialState.pincode || "").trim() ||
       state_name !== initialState.state;
 
-    if (!isChanged) {
-      setIsChangedError("No Changes Detected");
-      return;
+    // if (!isChanged) {
+    //   setIsChangedError("No Changes Detected");
+    //   return;
+    // }
+      if (!isChanged) {
+  setIsChangedError("No Changes Detected");
+
+ 
+  setTimeout(() => {
+    if (nochangeRef.current) {
+      nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      nochangeRef.current.focus();
     }
+  }, 100);
+
+  return;
+} else {
+  setIsChangedError("");
+}
+
 
     const MobileNumber = `${countryCode}${mobile}`;
 
@@ -630,7 +646,7 @@ function AddPg({ show, handleClose, currentItem }) {
         )}
 
 
-        <Modal.Body style={{ maxHeight: "420px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+        <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
 
           <div className="d-flex align-items-center">
             <div
@@ -1460,7 +1476,7 @@ function AddPg({ show, handleClose, currentItem }) {
           style={{ border: "none" }}
         >
           {isChangedError && (
-            <div className="d-flex align-items-center justify-content-center p-1 mt-2 mb-2">
+            <div ref={nochangeRef} className="d-flex align-items-center justify-content-center p-1 mt-2 mb-2">
               <MdError
                 style={{ fontSize: "14px", color: "red", marginRight: "5px" }}
               />

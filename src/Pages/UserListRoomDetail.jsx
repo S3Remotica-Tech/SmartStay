@@ -2791,7 +2791,7 @@ const handleDownloadKYC = async () => {
                                     style={{ cursor: "pointer" }}
                                   />
                                 </Modal.Header>
-                                <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
+                                <div style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
 
                                 <div className="d-flex align-items-center">
                                   <div

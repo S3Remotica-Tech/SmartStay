@@ -4,13 +4,11 @@ import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { MdError } from "react-icons/md";
-// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
-// import 'antd/dist/reset.css';
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {CloseCircle} from "iconsax-react";
 dayjs.extend(customParseFormat);
@@ -81,14 +79,12 @@ function CustomerReAssign(props) {
   }, [newFloor]);
   const handleFloor = (selectedOption) => {
     setNewFloor(selectedOption?.value || "");
-    // setRooms("");
-    // setBed("");
+   
     setfloorError("");
   };
   const handleBed = (selectedOption) => {
     setNewBed(selectedOption?.value || "");
-    // setRooms("");
-    // setBed("");
+   
     setBedError("");
   };
   const handleRooms = (selectedOption) => {
@@ -102,7 +98,7 @@ function CustomerReAssign(props) {
         room_id: value,
       },
     });
-    // setRoomRent("");
+    
     setRoomError("");
   };
 
@@ -136,7 +132,6 @@ function CustomerReAssign(props) {
       return false;
     }
 
-    // Clear the error if value is valid
     switch (fieldName) {
       case "newRoomRent":
         setRentError("");
@@ -268,37 +263,7 @@ function CustomerReAssign(props) {
                     >
                       Reassign Bed
                     </div>
-                    {/* <button
-                      type="button"
-                      className="close"
-                      aria-label="Close"
-                      onClick={handleCloseReAssign}
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "16px",
-                        border: "1px solid black",
-                        background: "transparent",
-                        cursor: "pointer",
-                        padding: "0",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "50%",
-                      }}
-                    >
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          fontSize: "30px",
-                          paddingBottom: "6px",
-                        }}
-                      >
-                        &times;
-                      </span>
-                    </button> */}
+                    
                     <CloseCircle size="24" color="#000" onClick={handleCloseReAssign} 
             style={{ cursor: 'pointer' }}/>
                   </Modal.Header>
@@ -325,7 +290,7 @@ function CustomerReAssign(props) {
                           placeholder="Enter name"
                           type="text"
                           value={currentFloor}
-                          //   onChange={(e) => handleFirstName(e)}
+                          
                           style={{
                             fontSize: 16,
                             color: "#4B4B4B",
@@ -339,13 +304,7 @@ function CustomerReAssign(props) {
                           }}
                         />
                       </Form.Group>
-                      {/* {firstnameError && (
-                        <div style={{ color: "red" }}>
-                          {" "}
-                          <MdError style={{ width: 20, height: 20 }} />
-                          {firstnameError}
-                        </div>
-                      )} */}
+                    
                     </div>
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -369,7 +328,7 @@ function CustomerReAssign(props) {
                           placeholder="Enter name"
                           type="text"
                           value={currentRoom}
-                          //   onChange={(e) => handleFirstName(e)}
+                         
                           style={{
                             fontSize: 16,
                             color: "#4B4B4B",
@@ -383,13 +342,7 @@ function CustomerReAssign(props) {
                           }}
                         />
                       </Form.Group>
-                      {/* {firstnameError && (
-                        <div style={{ color: "red" }}>
-                          {" "}
-                          <MdError style={{ width: 20, height: 20 }} />
-                          {firstnameError}
-                        </div>
-                      )} */}
+                     
                     </div>
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -413,7 +366,7 @@ function CustomerReAssign(props) {
                           placeholder="Enter name"
                           type="text"
                           value={currentBed}
-                          //   onChange={(e) => handleFirstName(e)}
+                        
                           style={{
                             fontSize: 16,
                             color: "#4B4B4B",
@@ -427,13 +380,7 @@ function CustomerReAssign(props) {
                           }}
                         />
                       </Form.Group>
-                      {/* {firstnameError && (
-                        <div style={{ color: "red" }}>
-                          {" "}
-                          <MdError style={{ width: 20, height: 20 }} />
-                          {firstnameError}
-                        </div>
-                      )} */}
+                     
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="">
@@ -455,7 +402,6 @@ function CustomerReAssign(props) {
                           id="form-controls"
                           placeholder="Enter Amount"
                           value={currentRoomRent}
-                          //   onChange={(e) => handleAdvanceAmount(e)}
                           style={{
                             fontSize: 16,
                             color: "#4B4B4B",
@@ -469,12 +415,7 @@ function CustomerReAssign(props) {
                           }}
                         />
                       </Form.Group>
-                      {/* {advanceAmountError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {advanceAmountError}
-                        </div>
-                      )} */}
+                    
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Label
@@ -490,31 +431,7 @@ function CustomerReAssign(props) {
                           *{" "}
                         </span>
                       </Form.Label>
-                      {/* <Form.Select
-                        aria-label="Default select example"
-                        placeholder="Select no. of floor"
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
-                        }}
-                        id="form-selects"
-                        className="border"
-                        value={newFloor}
-                        onChange={(e) => handleFloor(e)}
-                      >
-                        <option>Selected Floor</option>
-                        {state.UsersList?.hosteldetailslist?.map((u) => (
-                          <option key={u.floor_id} value={u.floor_id}>
-                            {u.floor_name}
-                          </option>
-                        ))}
-                      </Form.Select> */}
+                    
 
                       <Select
                         options={
@@ -540,7 +457,7 @@ function CustomerReAssign(props) {
                         placeholder="Selected Floor"
                         classNamePrefix="custom"
                         menuPlacement="auto"
-                        noOptionsMessage={() => "No floors available"} // Handles empty state
+                        noOptionsMessage={() => "No floors available"} 
                         styles={{
                           control: (base) => ({
                             ...base,
@@ -561,7 +478,7 @@ function CustomerReAssign(props) {
                           menuList: (base) => ({
                             ...base,
                             backgroundColor: "#f8f9fa",
-                            maxHeight: "120px", // Enables scrolling
+                            maxHeight: "120px", 
                             padding: 0,
                             scrollbarWidth: "thin",
                             overflowY: "auto",
@@ -580,12 +497,7 @@ function CustomerReAssign(props) {
                         }}
                       />
 
-                      {/* {floorError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {floorError}
-                        </div>
-                      )} */}
+                     
                       {floorError && (
                         <div style={{ color: "red", marginTop: "-5px" }}>
                           {" "}
@@ -621,33 +533,7 @@ function CustomerReAssign(props) {
                           *{" "}
                         </span>
                       </Form.Label>
-                      {/* <Form.Select
-                        aria-label="Default select example"
-                        placeholder="Select no. of rooms"
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
-                        }}
-                        value={newRoom}
-                        className="border"
-                        id="form-selects"
-                        onChange={(e) => handleRooms(e)}
-                      >
-                        <option>Selected Room</option>
-
-                        {state.UsersList?.roomdetails &&
-                          state.UsersList.roomdetails.map((item) => (
-                            <option key={item.Room_Id} value={item.Room_Id}>
-                              {item.Room_Name}
-                            </option>
-                          ))}
-                      </Form.Select> */}
+                      
 
                       <Select
                         options={
@@ -673,7 +559,7 @@ function CustomerReAssign(props) {
                         placeholder="Selected Room"
                         classNamePrefix="custom"
                         menuPlacement="auto"
-                        noOptionsMessage={() => "No rooms available"} // Handles empty state
+                        noOptionsMessage={() => "No rooms available"} 
                         styles={{
                           control: (base) => ({
                             ...base,
@@ -694,7 +580,7 @@ function CustomerReAssign(props) {
                           menuList: (base) => ({
                             ...base,
                             backgroundColor: "#f8f9fa",
-                            maxHeight: "120px", // Enables scrolling
+                            maxHeight: "120px", 
                             padding: 0,
                             scrollbarWidth: "thin",
                             overflowY: "auto",
@@ -749,45 +635,7 @@ function CustomerReAssign(props) {
                         </span>
                       </Form.Label>
 
-                      {/* <Form.Select
-                        aria-label="Default select example"
-                        style={{
-                          fontSize: 16,
-                          color: "#4B4B4B",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                          boxShadow: "none",
-                          border: "1px solid #D9D9D9",
-                          height: 50,
-                          borderRadius: 8,
-                        }}
-                        value={newBed}
-                        className="border"
-                        placeholder="Select a bed"
-                        id="form-selects"
-                        onChange={(e) => handleBed(e)}
-                      >
-                        <option value="" selected>
-                          Selected Bed
-                        </option>
-
-                     
-
-                        {state.UsersList?.bednumberdetails?.bed_details &&
-                          state.UsersList?.bednumberdetails?.bed_details
-                            .filter(
-                              (item) =>
-                                item.bed_no !== "0" &&
-                                item.bed_no !== "undefined" &&
-                                item.bed_no !== "" &&
-                                item.bed_no !== "null"
-                            )
-                            .map((item) => (
-                              <option key={item.id} value={item.id}>
-                                {item.bed_no}
-                              </option>
-                            ))}
-                      </Form.Select> */}
+                    
 
                       <Select
                         options={
@@ -822,7 +670,7 @@ function CustomerReAssign(props) {
                         placeholder="Selected Bed"
                         classNamePrefix="custom"
                         menuPlacement="auto"
-                        noOptionsMessage={() => "No beds available"} // Handles empty state
+                        noOptionsMessage={() => "No beds available"} 
                         styles={{
                           control: (base) => ({
                             ...base,
@@ -862,12 +710,7 @@ function CustomerReAssign(props) {
                         }}
                       />
 
-                      {/* {bedError && (
-                        <div style={{ color: "red" }}>
-                          <MdError />
-                          {bedError}
-                        </div>
-                      )} */}
+                     
                       {bedError && (
                         <div style={{ color: "red", marginTop: "-5px" }}>
                           {" "}
@@ -904,25 +747,7 @@ function CustomerReAssign(props) {
                             *
                           </span>
                         </Form.Label>
-                        {/* <div style={{ position: "relative", width: "100%" }}>
-                          <DatePicker
-                            selected={selectedDate}
-                            onChange={(date) => {
-                              setDateError("");
-                              setSelectedDate(date);
-                            }}
-                            dateFormat="dd/MM/yyyy"
-                            minDate={null}
-                            maxDate={null}
-                            customInput={customDateInput({
-                              value:
-                                selectedDate instanceof Date &&
-                                !isNaN(selectedDate.getTime())
-                                  ? selectedDate.toLocaleDateString("en-GB")
-                                  : "",
-                            })}
-                          />
-                        </div> */}
+                      
 
 
                         <div
@@ -945,12 +770,7 @@ function CustomerReAssign(props) {
                                                                   </div>
                       </Form.Group>
 
-                      {/* {dateError && (
-                <div style={{ color: "red" }}>
-                    <MdError />
-                    {dateError}
-                </div>
-            )} */}
+               
                       {dateError && (
                         <div style={{ color: "red", marginTop: "-10px" }}>
                           {" "}
@@ -972,59 +792,7 @@ function CustomerReAssign(props) {
                       )}
                     </div>
 
-                    {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
-                    <Form.Group className="mb-3">
-  <Form.Label
-    style={{
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      display: "flex",
-      alignItems: "center",
-      whiteSpace: "nowrap",
-    }}
-  >
-    New Rent Amount
-    <Form.Check
-      type="checkbox"
-      label={
-        <span
-          style={{
-            color: "#1E45E1",
-            fontWeight: 500,
-            whiteSpace: "nowrap",
-            fontSize: 11,
-            fontFamily: "Gilroy",
-          }}
-        >
-          Same as Current
-        </span>
-      }
-      className="ms-2"
-      onClick={(e) => e.stopPropagation()} 
-    />
-  </Form.Label>
-  <FormControl
-  onChange={(e)=handleNewRoomRent(e)}
-  value={newRoomRent}
-    type="text"
-    id="form-controls"
-    placeholder="Enter amount"
-    style={{
-      fontSize: 16,
-      color: "#4B4B4B",
-      fontFamily: "Gilroy",
-      fontWeight: 500,
-      boxShadow: "none",
-      border: "1px solid #D9D9D9",
-      height: 50,
-      borderRadius: 8,
-      marginTop: 8,
-    }}
-  />
-</Form.Group>
-</div> */}
+                  
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3">
@@ -1087,12 +855,7 @@ function CustomerReAssign(props) {
                           }}
                         />
                       </Form.Group>
-                      {/* {rentError && (
-                <div style={{ color: "red" }}>
-                    <MdError />
-                    {rentError}
-                </div>
-            )} */}
+                
                       {rentError && (
                         <div style={{ color: "red", marginTop: "-20px" }}>
                           {" "}
@@ -1130,7 +893,7 @@ function CustomerReAssign(props) {
                     Reassign Bed
                   </Button>
                 </div>
-                {/* )} */}
+                
               </div>
             </Modal.Body>
 

@@ -131,7 +131,7 @@ function CustomerForm({ show, handleClose, initialData }) {
   })();
 
 
-
+const noChangesRef = useRef(null)
 
   const handleSubmitWalkIn = () => {
 
@@ -164,10 +164,23 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
 
-    if (initialData && !isChanged) {
-      setIsChangedError('No Changes Detected');
-      return;
+   
+        if (initialData && !isChanged) {
+  setIsChangedError("No Changes Detected");
+
+ 
+  setTimeout(() => {
+    if (noChangesRef.current) {
+      noChangesRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      noChangesRef.current.focus();
     }
+  }, 100);
+
+  return;
+} else {
+  setIsChangedError("");
+}
+
 
 
 
@@ -1014,7 +1027,7 @@ function CustomerForm({ show, handleClose, initialData }) {
             </div>
 
             {isChangedError && (
-              <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
+              <div ref={noChangesRef} className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
                 <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
                 <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
                   {isChangedError}
