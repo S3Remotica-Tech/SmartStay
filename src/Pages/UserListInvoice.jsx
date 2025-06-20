@@ -524,9 +524,9 @@ function UserListInvoice(props) {
                           fontFamily: "Gilroy",
                           borderBottom: "1px solid #E8E8E8",
                         }}
-                        className="ps-4 ps-sm-2 ps-md-3 ps-lg-3"
+                        className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                       >
-                        <div className="ps-3">  {view.Invoices}</div>
+                        <div style={{marginLeft:10}}>  {view.Invoices}</div>
 
                       </td>
                       <td
@@ -544,7 +544,7 @@ function UserListInvoice(props) {
                         </div>
 
                       </td>
-                      <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3" >
+                      <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2" >
                         <span
                           style={{
                             backgroundColor: "#EBEBEB",
@@ -553,6 +553,7 @@ function UserListInvoice(props) {
                             paddingRight: "10px",
                             paddingBottom: "3px",
                             borderRadius: "10px",
+                            marginLeft:4,
                             lineHeight: "1.5em",
                             margin: "0",
                             fontSize: "11px",
@@ -565,7 +566,7 @@ function UserListInvoice(props) {
                           {formattedDate}
                         </span>
                       </td>
-                      <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+                      <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2">
                         <span
                           style={{
                             backgroundColor: "#EBEBEB",
@@ -574,6 +575,7 @@ function UserListInvoice(props) {
                             paddingRight: "10px",
                             paddingBottom: "3px",
                             borderRadius: "10px",
+                            marginLeft:4,
                             lineHeight: "1.5em",
                             margin: "0",
                             fontSize: "11px",
@@ -609,7 +611,7 @@ function UserListInvoice(props) {
                       >
                         ₹{view.BalanceDue}
                       </td>
-                      <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-3">
+                      <td style={{ textAlign: "start", borderBottom: "1px solid #E8E8E8" }} className="ps-2 ps-sm-2 ps-md-3 ps-lg-2">
                         <span
                           style={{
                             color: "black",
@@ -620,6 +622,7 @@ function UserListInvoice(props) {
                             fontSize: "11px",
                             fontWeight: 500,
                             borderRadius: "10px",
+                            marginLeft:4
                           }}
                         >
                           {view.Status === "Success" ? "Paid" : "Unpaid"}
