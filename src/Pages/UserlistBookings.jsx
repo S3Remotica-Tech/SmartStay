@@ -452,7 +452,6 @@ function Booking(props) {
     }
   };
   const nochangeRef = useRef(null)
-  const cityRef = useRef(null)
 
   const handleSubmit = () => {
     let hasError = false;
