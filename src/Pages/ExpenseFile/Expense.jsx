@@ -544,6 +544,8 @@ function Expenses({ allPageHostel_Id }) {
     }
   };
 
+  
+
   const [showCategory, setShowCategory] = useState(false);
   const [showPaymentMode, setShowPaymentMode] = useState(false);
   const [showAmount, setShowAmount] = useState(false);
@@ -824,7 +826,7 @@ function Expenses({ allPageHostel_Id }) {
                             onClick={handleModeValueChange}
                           >
                             {state.ExpenseList.expenseList &&
-                              state.ExpenseList.expenseList.map((view) => (
+                              state.ExpenseList.paymentModeList.map((view) => (
                                 <ListGroup.Item
                                   className="sub_item"
                                   key={view.id}

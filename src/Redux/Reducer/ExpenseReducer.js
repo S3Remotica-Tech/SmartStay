@@ -11,7 +11,7 @@ export const initialState = {
     nodataGetExpenseStatusCode: 0,
     transactionHistory: [],
     StatusCodeForAddExpenseTagSuccess: 0,
-    expenceNetBanking: ''
+    expenceNetBanking: '',
 
 }
 
@@ -27,7 +27,7 @@ const ExpenseReducer = (state = initialState, action) => {
         case 'CLEAR_ADD_EXPENSE_SATUS_CODE':
             return { ...state, StatusCodeForAddExpenseSuccess: 0 }
         case 'EXPENSES_LIST':
-            return { ...state, expenseList: action.payload.response, getExpenseStatusCode: action.payload.statusCode }
+            return { ...state, expenseList: action.payload.response, paymentModeList: action.payload.paymentmode, getExpenseStatusCode: action.payload.statusCode }
         case 'CLEAR_EXPENSE_SATUS_CODE':
             return { ...state, getExpenseStatusCode: 0 }
         case 'DELETE_EXPENSE':
