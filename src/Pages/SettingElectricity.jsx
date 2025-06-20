@@ -384,12 +384,7 @@ const SettingElectricity = ({hostelid}) => {
           className="d-flex justify-content-center justify-content-md-end w-100  mt-md-0"
           style={{ marginTop: -10 }}
         >
-          {/* <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
-          padding:"12px 16px 12px 16px"
-           }} 
-          onClick={handleShowFormElectricity}  disabled={showPopup}>
-            + Electricity
-          </Button> */}
+         
 
           {EbList.length > 0 ? (
             EbList.map((v, i) => (
@@ -471,7 +466,7 @@ const SettingElectricity = ({hostelid}) => {
                           </label>
                         </div>
 
-                    
+         
                       </div>
                       <hr />
                       <Form>
@@ -496,7 +491,7 @@ const SettingElectricity = ({hostelid}) => {
                             >
                               ₹ {v.amount}
                             </h6>
-                
+                 
                           </Col>
 
                           <Col>
@@ -514,12 +509,11 @@ const SettingElectricity = ({hostelid}) => {
                               type="switch"
                               id="roomBased"
                               label="Enabled"
-                              className="custom-switch-pointer"
-                              
                               checked={roomBasedCalculation}
                               onChange={() => {
                                 handleRoomBased(v);
                               }}
+                              className="custom-switch-pointer"
                             />
                           </Col>
                           <Col>
@@ -529,7 +523,6 @@ const SettingElectricity = ({hostelid}) => {
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
                                 color: "#939393",
-                                
                               }}
                             >
                               Hostel Based Calculation
@@ -543,6 +536,7 @@ const SettingElectricity = ({hostelid}) => {
                               onChange={() => {
                                 handleHostelBased(v);
                               }}
+                             
                             />
                           </Col>
                         </Row>
