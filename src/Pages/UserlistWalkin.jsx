@@ -669,25 +669,35 @@ function UserlistWalkin(props) {
                                     </span>
                                   </td>
 
-                                  <td
-                                    style={{
-                                      fontSize: 13,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
-                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                                  >
-                                    {v.total_amount}
-                                    {v.comments || ""}
-                                    {v.area ? v.area : ""} {""}{" "}
-                                    {v.city ? v.city : ""} {""}
-                                    <br></br>
-                                    {v?.state ? v.state : ""}{" "}
-                                    {v.pin_code ? -v.pin_code : ""}
-                                  </td>
+  <td
+  style={{
+    fontSize: 13,
+    fontWeight: 500,
+    fontFamily: "Gilroy",
+    textAlign: "start",
+    verticalAlign: "middle",
+    borderBottom: "1px solid #E8E8E8",
+  }}
+  className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+>
+  {(v.comments || v.area || v.city || v.state || v.pin_code)
+    ? (
+      <>
+        {(v.comments || v.area || v.city) && (
+          <>
+            {v.comments || ""}
+            {v.area || ""} {v.city || ""}
+            <br />
+          </>
+        )}
+        
+        {v.state || ""} {v.pin_code || ""}
+      </>
+    )
+    : "N/A"}
+</td>
+
+
                                   <td
                                     style={{
                                       borderBottom: "1px solid #E8E8E8",

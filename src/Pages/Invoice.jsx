@@ -927,7 +927,7 @@ useEffect(() => {
     }
 
     if (!invoiceList.transaction || invoiceList.transaction === "select") {
-      setPaymodeErrmsg("Please Select a Valid Transaction Type");
+      setPaymodeErrmsg("Please Select Transaction Type");
       return;
     }
 

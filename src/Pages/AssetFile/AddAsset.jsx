@@ -281,7 +281,7 @@ const handleAddAsset = () => {
   const focusedRef = { current: false };
 
   if (!assetName) {
-    setAssetError("Please Enter a Valid Asset Name");
+    setAssetError("Please Enter Asset Name");
     if (!focusedRef.current && assetNameRef.current) {
       assetNameRef.current.focus();
       focusedRef.current = true;
@@ -289,7 +289,7 @@ const handleAddAsset = () => {
   }
 
   if (!productName) {
-    setProductNameError("Please Enter a Valid Product Name");
+    setProductNameError("Please Enter Product Name");
     if (!focusedRef.current && productNameRef.current) {
       productNameRef.current.focus();
       focusedRef.current = true;
@@ -305,7 +305,7 @@ const handleAddAsset = () => {
   }
 
   if (!cleanedSerialNumber) {
-    setSerialNumberError("Please Enter a Valid Serial Number");
+    setSerialNumberError("Please Enter Serial Number");
     if (!focusedRef.current && serialNumberRef.current) {
       serialNumberRef.current.focus();
       focusedRef.current = true;
@@ -313,7 +313,7 @@ const handleAddAsset = () => {
   }
 
   if (!selectedDate) {
-    setSelectedDateError("Please Select a Valid Date");
+    setSelectedDateError("Please Select Date");
     if (!focusedRef.current && dateRef.current) {
       dateRef.current.focus();
       focusedRef.current = true;
@@ -323,7 +323,7 @@ const handleAddAsset = () => {
   const numericRegex = /^[0-9]+$/;
 
   if (!price || !numericRegex.test(price) || price <= 0) {
-    setPriceError("Please Enter a Valid Price");
+    setPriceError("Please Enter Price");
     if (!focusedRef.current && priceRef.current) {
       priceRef.current.focus();
       focusedRef.current = true;
@@ -872,7 +872,7 @@ const handleAddAsset = () => {
                       onChange={handleModeOfPaymentChange}
                       disabled={currentItem}
                       style={{
-                        fontSize: 14,
+                        fontSize: 13,
                         color: "rgba(75, 75, 75, 1)",
                         fontFamily: "Gilroy",
                         fontWeight: modeOfPayment ? 600 : 500,
