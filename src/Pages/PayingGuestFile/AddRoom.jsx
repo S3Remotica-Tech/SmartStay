@@ -18,6 +18,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   const [initialState, setInitialState] = useState({});
   const isEditing = !!editRoom && !!editRoom.room_Id;
   const modalTitle = isEditing ? "Edit Room" : "Add Room";
+  const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
@@ -40,6 +41,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
     setRoom(Room_Id);
   };
   const handleCreateRoom = () => {
+     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
     let floorId, hostel_Id, room_Id;
 
     if (isEditing) {
@@ -88,6 +90,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             id: room_Id,
           },
         });
+        setFormLoading(true)
       }
     } else {
       if (floorId && hostel_Id && room) {
@@ -95,9 +98,28 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
           type: "CREATEROOM",
           payload: { hostel_id: hostel_Id, floorId: floorId, roomId: room },
         });
+        setFormLoading(true)
       }
     }
   };
+
+
+useEffect(()=>{
+  if(state.PgList?.alreadyRoomHere){
+    setFormLoading(false)
+  }
+
+},[state.PgList?.alreadyRoomHere])
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div
@@ -168,7 +190,31 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
               </div>
             </div>
           </Modal.Body>
-
+  {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
           {isChangedError && (
             <div className="d-flex align-items- justify-content-center">
               <MdError

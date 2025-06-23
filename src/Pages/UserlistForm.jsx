@@ -67,6 +67,8 @@ function UserlistForm(props) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
 
+ const [formLoading, setFormLoading] = useState(false)
+
   const countryCode = "91";
 
 
@@ -562,6 +564,8 @@ function UserlistForm(props) {
 
 
   const handleSaveUserlist = () => {
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
     let hasError = false;
     const focusedRef = { current: false };
 
@@ -651,6 +655,7 @@ function UserlistForm(props) {
       type: "ADDUSER",
       payload: payload,
     });
+    setFormLoading(true)
   };
 
   const handleAdvaceShowForm = () => {
@@ -2243,7 +2248,32 @@ function UserlistForm(props) {
             </div>
           </Modal.Body>
 
-          {/* <Modal.Footer style={{ border: "none" }}></Modal.Footer> */}
+          {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+                           alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
         </Modal.Dialog>
       </Modal>
 

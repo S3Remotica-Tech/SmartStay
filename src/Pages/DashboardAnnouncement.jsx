@@ -22,7 +22,7 @@ function DashboardAnnouncement() {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
-
+  const [formLoading, setFormLoading] = useState(false)
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -154,15 +154,15 @@ function DashboardAnnouncement() {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
-   
+
     if (hostel_id) {
-       setLoading(true)
+      setLoading(true)
       dispatch({
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
       });
-    }else{
-       setLoading(false)
+    } else {
+      setLoading(false)
     }
   }, [hostel_id]);
 
@@ -278,6 +278,8 @@ function DashboardAnnouncement() {
   };
 
   const handleSaveAnnonce = () => {
+     dispatch({ type: 'CLEAR_SAME_TITLE' });
+    dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
     if (!validateField(title, "title"));
     if (!validateField(description, "description"));
 
@@ -297,11 +299,14 @@ function DashboardAnnouncement() {
           type: "ADDANNOUNCEMENT",
           payload: { id: editDetails.id, hostel_id: hostel_id, title: title, description: description },
         });
+        setFormLoading(true)
+
       } else {
         dispatch({
           type: "ADDANNOUNCEMENT",
           payload: { hostel_id: hostel_id, title: title, description: description },
         });
+        setFormLoading(true)
       }
 
     }
@@ -310,6 +315,7 @@ function DashboardAnnouncement() {
   useEffect(() => {
     if (state.PgList.statuscodeForAddAnnouncement === 200 || state.PgList?.deleteAnnounmentSuccessStatus === 200) {
       handleCloseAnnouncement();
+      setFormLoading(false)
       setDisplayDeletePopUP(false)
       dispatch({
         type: "ANNOUNCEMENTLIST",
@@ -417,6 +423,15 @@ function DashboardAnnouncement() {
       setCurrentPage(currentPage - 1);
     }
   }, [filteredData])
+
+useEffect(() => {
+  if (
+    state.PgList.TitleAlready !== "" ||
+    state.PgList.TittleUnique !== ""
+  ) {
+    setFormLoading(false);
+  }
+}, [state.PgList.TitleAlready, state.PgList.TittleUnique]);
 
 
 
@@ -629,9 +644,9 @@ function DashboardAnnouncement() {
                                   justifyContent: "start",
                                   zIndex: 1001,
                                   alignItems: "flex-start",
-                                                                  }}
+                                }}
                               >
-                              
+
                                 <div
                                   className="d-flex gap-2 align-items-center "
                                   style={{
@@ -639,7 +654,7 @@ function DashboardAnnouncement() {
                                     padding: "8px 12px",
                                     transition: "background 0.2s ease-in-out",
                                     borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
+                                    borderTopRightRadius: 10,
                                   }}
                                   onClick={() => handleEdit(data)}
                                   onMouseEnter={(e) =>
@@ -664,10 +679,10 @@ function DashboardAnnouncement() {
                                   </label>
                                 </div>
 
-                               
+
                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", width: "100%" }} />
 
-                              
+
                                 <div
                                   className="d-flex gap-2 align-items-center "
                                   style={{
@@ -675,7 +690,7 @@ function DashboardAnnouncement() {
                                     padding: "8px 12px",
                                     transition: "background 0.2s ease-in-out",
                                     borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
+                                    borderBottomRightRadius: 10,
                                   }}
                                   onClick={() => handleDelete(data)}
                                   onMouseEnter={(e) =>
@@ -1540,9 +1555,34 @@ function DashboardAnnouncement() {
             </span>
           </button>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{position:"relative"}}>
 
-
+  {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+                           alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
 
 
