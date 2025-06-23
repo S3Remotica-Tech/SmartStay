@@ -1809,6 +1809,12 @@ function UserlistForm(props) {
                             strokeWidth: 0,
                             cursor: "pointer",
                           }),
+                            option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      color: "#000",
+                    }),
                           indicatorSeparator: () => ({
                             display: "none",
                           }),
@@ -1917,6 +1923,12 @@ function UserlistForm(props) {
                           indicatorSeparator: () => ({
                             display: "none",
                           }),
+                            option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      color: "#000",
+                    }),
                         }}
                       />
 
@@ -2029,6 +2041,12 @@ function UserlistForm(props) {
                           indicatorSeparator: () => ({
                             display: "none",
                           }),
+                            option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      color: "#000",
+                    }),
                         }}
                       />
 
@@ -2166,7 +2184,7 @@ function UserlistForm(props) {
                     </div>
 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                      <Form.Group className="mb-1">
+                      <Form.Group >
                         <Form.Label
                           style={{
                             fontSize: 14,
