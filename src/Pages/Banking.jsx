@@ -482,21 +482,29 @@ function Banking() {
     setFilterStatus(!filterStatus);
   };
 
+ 
   const handlefilterInput = (e) => {
-    setFilterInput(e.target.value);
-    setDropdownVisible(e.target.value.length > 0);
-    settransactionFilterddata(originalBillsFilter)
-  };
+  const input = e.target.value;
+  setFilterInput(input);
+  setDropdownVisible(input.length > 0);
 
-
-  const handleUserSelect = (user) => {
-    setFilterInput(user.benificiary_name);
-    const selected = transactionFilterddata.filter(
-      (item) => String(item.benificiary_name) === String(user.benificiary_name)
+  if (input.trim() === "") {
+    settransactionFilterddata([]); 
+  } else {
+    const filtered = originalBillsFilter.filter((item) =>
+      item.benificiary_name.toLowerCase().includes(input.toLowerCase())
     );
-    settransactionFilterddata(selected);
-    setDropdownVisible(false);
-  };
+    settransactionFilterddata(filtered);
+  }
+};
+
+const handleUserSelect = (user) => {
+  setFilterInput(user.benificiary_name);
+ 
+  setDropdownVisible(false);
+};
+
+ 
 
   const [dateRange, setDateRange] = useState(null);
   const handleStatusFilter = (event) => {
@@ -794,7 +802,7 @@ function Banking() {
                 <div className="me-3">
                   <RangePicker
                     value={dateRange}
-                    format="YYYY-MM-DD"
+                    format="DD-MM-YYYY"
                     onChange={handleDateRangeChange}
                     style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
                   />

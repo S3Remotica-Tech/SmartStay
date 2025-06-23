@@ -248,7 +248,7 @@ setError("")
    const cityRef = useRef(null)
    const pincodeRef = useRef(null)
    const stateRef = useRef(null)
-
+const nochangeRef =useRef(null)
 
   const handleSubmitContact = () => {
       let hasError = false;
@@ -283,12 +283,22 @@ const isChanged = (
   state_name !== initialState.state
 );
 
+    
       if (!isChanged) {
-        setFormError("No Changes Detected");
-        return;
-      } else {
-        setFormError("");
-      }
+  setFormError("No Changes Detected");
+
+ 
+  setTimeout(() => {
+    if (nochangeRef.current) {
+      nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      nochangeRef.current.focus();
+    }
+  }, 100);
+
+  return;
+} else {
+  setFormError("");
+}
 
       dispatch({
         type: "CUSTOMERADDCONTACT",
@@ -365,7 +375,7 @@ const isChanged = (
       setGuardianAlreadyError(state.UsersList.contactError);
     }
   }, [state.UsersList.contactError]);
-
+  
   const handleCloseAdditionalForm = () => {
     props.setAdditionalForm(false);
     setUserName("");
@@ -956,8 +966,10 @@ const isChanged = (
 
 
                 </div>
-                  {formError && (
-                          <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
+                 
+</div>
+ {formError && (
+                          <div ref={nochangeRef} className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
                             <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
                             <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
                           </div>
@@ -968,7 +980,6 @@ const isChanged = (
                             <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{guardianAlreadyError}</span>
                           </div>
                         )}
-</div>
 
                 <Button
                   className="w-100"
