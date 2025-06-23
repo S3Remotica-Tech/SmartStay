@@ -808,27 +808,40 @@ function EB_Hostel() {
 
             {search && value === "1" ? (
               <div className="position-relative" style={{ maxWidth: "230px", minWidth: "180px" }}>
-                <div className="input-group">
-                  <span className="input-group-text bg-white border-end-0">
-                    <Image src={searchteam} alt="Search" style={{ height: 20, width: 20 }} />
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control border-start-0"
-                    placeholder="Search"
-                    value={filterInput}
-                    onChange={(e) => handlefilterInput(e)}
-                    style={{ boxShadow: "none", outline: "none", borderRight: "none", fontFamily: "Gilroy" ,border:"1px solid #dcdcdc"}}
-                  />
-                  <span className="input-group-text bg-white">
-                    <img
-                      src={closecircle}
-                      alt="close"
-                      onClick={handleCloseSearch}
-                      style={{ height: 20, width: 20, cursor: "pointer",borderLeft:"none" }}
-                    />
-                  </span>
-                </div>
+              
+                <div className="input-group" style={{ width: "fit-content" }}>
+  <span className="input-group-text bg-white border-end-0">
+    <i className="bi bi-search"></i>
+  </span>
+
+  <input
+    type="text"
+    className="form-control border-start-0 border-end-0"
+    placeholder="Search"
+    value={filterInput}
+    onChange={(e) => handlefilterInput(e)}
+    style={{
+      boxShadow: "none",
+      outline: "none",
+      fontFamily: "Gilroy",
+      borderTop: "1px solid #dcdcdc",
+      borderBottom: "1px solid #dcdcdc",
+    }}
+  />
+
+  <span
+    className="input-group-text bg-white border-start-0"
+    style={{ cursor: "pointer" }}
+    onClick={handleCloseSearch}
+  >
+    <img
+      src={closecircle}
+      alt="close"
+      style={{ height: 20, width: 20 }}
+    />
+  </span>
+</div>
+
 
                 {value === "1" &&
                   isDropdownVisible &&

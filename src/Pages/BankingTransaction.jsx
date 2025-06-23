@@ -9,7 +9,6 @@ import "./BankingAddForm.css";
 import moment from "moment";
 import PropTypes from "prop-types";
 import Select from "react-select";
-// import Select, { components } from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import {CloseCircle} from "iconsax-react";
@@ -26,7 +25,7 @@ function BankingEditTransaction(props) {
   const [accountError, setAccountError] = useState("");
   const [amountError, setAmountError] = useState("");
   const [transError, setTransError] = useState("");
-  // const [describtionError, setdescribtionError] = useState("");
+  
   const [id, setId] = useState("");
   const [error, setError] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
@@ -64,7 +63,7 @@ function BankingEditTransaction(props) {
   };
   const handleDescription = (e) => {
     setDescribtion(e.target.value);
-    // setdescribtionError("");
+   
     setError("");
   };
   const [initialStateAssign, setInitialStateAssign] = useState({
@@ -77,13 +76,9 @@ function BankingEditTransaction(props) {
   
   
   useEffect(() => {
-    // if (props.updateTransaction.dec === "Invoice") {
-    //   setTransaction(1);
-    // } else {
-    //   setTransaction(2);
-    // }
+  
     const resolvedTransaction = props.updateTransaction.desc === "Invoice" ? 1 : 2;
-    console.log("props.updateTransaction",props.updateTransaction)
+   
     setAccount(props.updateTransaction.bank_id);
     setSelectedDate(props.updateTransaction.date || "");
 setTransaction(resolvedTransaction)
@@ -95,7 +90,7 @@ setTransaction(resolvedTransaction)
     setId(props.updateTransaction.id);
     setAmount(props.updateTransaction.amount);
     
-    // setTransaction(props.updateTransaction.type);
+ 
     setDescribtion(props.updateTransaction.description);
 
     setInitialStateAssign({
@@ -127,9 +122,7 @@ setTransaction(resolvedTransaction)
         case "transaction":
           setTransError("Transaction is Required");
           break;
-        // case "describtion":
-        //   setdescribtionError("Description is Required");
-        //   break;
+        
         default:
           break;
       }
@@ -145,7 +138,7 @@ setTransaction(resolvedTransaction)
     if (!validateField(selectedDate, "selectedDate")) isValid = false;
     if (!validateField(amount, "amount")) isValid = false;
     if (!validateField(transaction, "transaction")) isValid = false;
-    // if (!validateField(describtion, "describtion")) isValid = false;
+   
 
     if (!isValid) return;
 
@@ -171,24 +164,22 @@ setTransaction(resolvedTransaction)
     isNaN(Number(account))
       ? String(account).toLowerCase() !== String(initialStateAssign.account).toLowerCase()
       : Number(account) !== Number(initialStateAssign.account);
-  console.log("initialStateAssign",initialStateAssign.account,account)
+ 
   const transactionChanged =
     isNaN(Number(transaction))
       ? String(transaction).toLowerCase() !== String(initialStateAssign.transaction).toLowerCase()
       : Number(transaction) !== Number(initialStateAssign.transaction);
-      console.log("initialStateAssign",initialStateAssign.transaction,transaction)
+    
       const dateChanged =
       formatDate(selectedDate) !== formatDate(initialStateAssign.selectedDate);
-      console.log("initialStateAssign",
-        "initialStateAssign =", formatDate(initialStateAssign.selectedDate),
-        "| selectedDate =", formatDate(selectedDate));
+    
   const amountChanged =
     Number(amount) !== Number(initialStateAssign.amount);
-    console.log("initialStateAssign",initialStateAssign.amount,amount)
+ 
     const descriptionChanged =
     String(describtion || "") !== String(initialStateAssign.describtion || "");
   
-    console.log("initialStateAssign",initialStateAssign.describtion,describtion)
+   
   
   const isChanged =
     accountChanged ||
@@ -236,7 +227,7 @@ setTransaction(resolvedTransaction)
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
-console.log("state.bankingDetails?.bankingList?.banks",state.bankingDetails?.bankingList?.banks)
+
 const DropdownIndicator = () => null;
   return (
     <>
@@ -354,7 +345,7 @@ const DropdownIndicator = () => null;
         color: "#4B4B4B",
         fontWeight:"500",
         fontFamily: "Gilroy",
-        // fontWeight: account ? 600 : 500,
+        
         boxShadow: "none",
         backgroundColor: "rgb(224, 236, 255)",
       }),
@@ -573,7 +564,7 @@ const DropdownIndicator = () => null;
                   }}
                 >
                   Description{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                 
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -593,20 +584,7 @@ const DropdownIndicator = () => null;
                   }}
                 />
               </Form.Group>
-              {/* {describtionError && (
-                <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                  <span
-                    style={{
-                      fontSize: 12,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {describtionError}
-                  </span>
-                </div>
-              )} */}
+            
             </div>
           </div>
         </Modal.Body>
@@ -643,7 +621,7 @@ const DropdownIndicator = () => null;
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Gilroy",
-              // marginBottom: 15
+             
               marginTop: -10,
             }}
             onClick={handleEditSave}
