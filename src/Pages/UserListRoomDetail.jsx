@@ -2891,8 +2891,8 @@ const handleDownloadKYC = async () => {
                                 </div>
 
                                 <div className="row mt-4">
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12  mb-2">
-                                    <Form.Group className="mb-3">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                    <Form.Group className="">
                                       <Form.Label
                                         style={{
                                           fontSize: 14,
@@ -2959,8 +2959,8 @@ const handleDownloadKYC = async () => {
                                       </div>
                                     )}
                                   </div>
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
-                                    <Form.Group className="mb-3">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                    <Form.Group className="">
                                       <Form.Label
                                         style={{
                                           fontSize: 14,
@@ -2992,7 +2992,7 @@ const handleDownloadKYC = async () => {
                                     </Form.Group>
                                   </div>
 
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
                                     <Form.Group>
                                       <Form.Label
                                         style={{
@@ -3121,8 +3121,8 @@ const handleDownloadKYC = async () => {
                                       )}
                                     </Form.Group>
                                   </div>
-                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
-                                    <Form.Group className="mb-3">
+                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                                    <Form.Group className="">
                                       <Form.Label
                                         style={{
                                           fontSize: 14,

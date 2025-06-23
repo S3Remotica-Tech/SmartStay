@@ -305,11 +305,16 @@ function Banking() {
     }
 
     const { top, left } = event.target.getBoundingClientRect();
-    const popupTop = top - 10;
+    const popupTop = top - 35;
     const popupLeft = left - 150;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
+
+
+  
+
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -322,6 +327,8 @@ function Banking() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+
 
   const handleEditTransForm = (item) => {
     setUpdateTransaction(item);
@@ -1586,7 +1593,7 @@ const handleUserSelect = (user) => {
                                     top: popupPosition.top,
                                     left: popupPosition.left,
                                     marginLeft: 10,
-                                    width: 140,
+                                    width: 120,
                                     height: "auto",
                                     border: "1px solid #EBEBEB",
                                     borderRadius: 10,
