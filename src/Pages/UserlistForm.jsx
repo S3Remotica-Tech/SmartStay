@@ -67,8 +67,8 @@ function UserlistForm(props) {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
 
- const [formLoading, setFormLoading] = useState(false)
-
+  const [formLoading, setFormLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const countryCode = "91";
 
 
@@ -192,11 +192,19 @@ function UserlistForm(props) {
   };
 
   useEffect(() => {
-    setphonenumError(state.UsersList.phoneError);
+    if (state.UsersList.phoneError) {
+      setFormLoading(false)
+      setLoading(false)
+      setphonenumError(state.UsersList.phoneError);
+    }
   }, [state.UsersList.phoneError]);
 
   useEffect(() => {
-    setemailIdError(state.UsersList.emailError);
+    if (state.UsersList.emailError) {
+      setFormLoading(false)
+      setLoading(false)
+      setemailIdError(state.UsersList.emailError);
+    }
   }, [state.UsersList.emailError]);
 
 
@@ -521,44 +529,44 @@ function UserlistForm(props) {
   const MobileNumber = `${countryCode}${Phone}`;
 
   const validateField = (value, fieldName, ref, setError, focusedRef) => {
-  const trimmedValue = String(value).trim();
-  if (!trimmedValue) {
-    switch (fieldName) {
-      case "First Name":
-        setError("First Name is Required");
-        break;
-      case "Phone Number":
-        setError("Phone Number is Required");
-        break;
-      case "Email":
-        setError("Email is Required");
-        break;
-      case "Hostel ID":
-        setError("Please select a Valid PG");
-        break;
-      case "City":
-        setError("Please Enter City");
-        break;
-      case "Pincode":
-        setError("Please Enter Pincode");
-        break;
-      case "Statename":
-        setError("Please Select State");
-        break;
-      default:
-        break;
+    const trimmedValue = String(value).trim();
+    if (!trimmedValue) {
+      switch (fieldName) {
+        case "First Name":
+          setError("First Name is Required");
+          break;
+        case "Phone Number":
+          setError("Phone Number is Required");
+          break;
+        case "Email":
+          setError("Email is Required");
+          break;
+        case "Hostel ID":
+          setError("Please select a Valid PG");
+          break;
+        case "City":
+          setError("Please Enter City");
+          break;
+        case "Pincode":
+          setError("Please Enter Pincode");
+          break;
+        case "Statename":
+          setError("Please Select State");
+          break;
+        default:
+          break;
+      }
+
+      if (!focusedRef.current && ref?.current) {
+        ref.current.focus();
+        focusedRef.current = true;
+      }
+      return false;
     }
 
-    if (!focusedRef.current && ref?.current) {
-      ref.current.focus();
-      focusedRef.current = true;
-    }
-    return false;
-  }
-
-  setError("");
-  return true;
-};
+    setError("");
+    return true;
+  };
 
 
 
@@ -597,12 +605,12 @@ function UserlistForm(props) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(Email.toLowerCase());
       if (!isValidEmail) {
-  setEmailError("Please Enter Valid Email ID");
-  if (!focusedRef.current ) {
-    focusedRef.current = true;
-  }
-  hasError = true;
-}
+        setEmailError("Please Enter Valid Email ID");
+        if (!focusedRef.current) {
+          focusedRef.current = true;
+        }
+        hasError = true;
+      }
       else {
         setEmailError("");
       }
@@ -804,6 +812,9 @@ function UserlistForm(props) {
           ID: props.edit === "Edit" ? id : "",
         },
       });
+      setLoading(true)
+
+
     }
     dispatch({ type: "INVOICELIST" });
   };
@@ -877,12 +888,15 @@ function UserlistForm(props) {
         ID: props.edit === "Edit" ? id : "",
       },
     });
+    setLoading(true)
 
     dispatch({ type: "INVOICELIST" });
   };
 
   useEffect(() => {
     if (state.UsersList?.statusCodeForAddUser === 200) {
+      setFormLoading(false)
+      setLoading(false)
       if (props.edit === "Edit") {
         props.setRoomDetail(true);
         props.OnShowTable(true);
@@ -1734,391 +1748,113 @@ function UserlistForm(props) {
                       style={{ cursor: "pointer" }}
                     />
                   </Modal.Header>
-<div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
-                  <div className="row d-flex align-items-center">
-                    <div className="col-12">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          paddingTop: "6px",
-                        }}
-                      >
-                        Floor
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </Form.Label>
-
-                      <Select
-                        options={
-                          state.UsersList?.hosteldetailslist?.map((u) => ({
-                            value: u.floor_id,
-                            label: u.floor_name,
-                          })) || []
-                        }
-                        onChange={handleFloor}
-                        value={
-                          state.UsersList?.hosteldetailslist?.find(
-                            (option) => option.floor_id === Floor
-                          )
-                            ? {
-                              value: Floor,
-                              label: state.UsersList.hosteldetailslist.find(
-                                (option) => option.floor_id === Floor
-                              )?.floor_name,
-                            }
-                            : null
-                        }
-                        placeholder="Select a Floor"
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "50px",
-                            border: "1px solid #D9D9D9",
-                            borderRadius: "8px",
-                            fontSize: "16px",
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
+                  <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
+                    <div className="row d-flex align-items-center">
+                      <div className="col-12">
+                        <Form.Label
+                          style={{
+                            fontSize: 14,
                             fontWeight: 500,
-                            boxShadow: "none",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor: "pointer",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-
-                      {floorError && (
-                        <div style={{ color: "red" }}>
-                          <MdError
-                            style={{ fontSize: "13px", marginRight: "5px" }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {floorError}
-                          </label>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="col-12 mb-1">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        Room{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </Form.Label>
-
-                      <Select
-                        options={
-                          state.UsersList?.roomdetails?.map((item) => ({
-                            value: item.Room_Id,
-                            label: item.Room_Name,
-                          })) || []
-                        }
-                        onChange={(selectedOption) =>
-                          handleRooms(selectedOption?.value)
-                        }
-                        value={
-                          state.UsersList?.roomdetails?.find(
-                            (option) => option.Room_Id === Rooms
-                          )
-                            ? {
-                              value: Rooms,
-                              label: state.UsersList.roomdetails.find(
-                                (option) => option.Room_Id === Rooms
-                              )?.Room_Name,
-                            }
-                            : null
-                        }
-                        placeholder="Select a Room"
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "50px",
-                            border: "1px solid #D9D9D9",
-                            borderRadius: "8px",
-                            fontSize: "16px",
-                            color: "#4B4B4B",
                             fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor: "pointer",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
+                            paddingTop: "6px",
+                          }}
+                        >
+                          Floor
+                          <span style={{ color: "red", fontSize: "20px" }}>
+                            {" "}
+                            *{" "}
+                          </span>
+                        </Form.Label>
 
-                      {roomError && (
-                        <div style={{ color: "red" }}>
-                          <MdError
-                            style={{ fontSize: "13px", marginRight: "5px" }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {roomError}
-                          </label>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                      <Form.Label
-                        style={{
-                          fontSize: 14,
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                        }}
-                      >
-                        Bed{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>
-                          {" "}
-                          *{" "}
-                        </span>
-                      </Form.Label>
-
-                      <Select
-                        options={
-                          state.UsersList?.bednumberdetails?.bed_details
-                            ?.filter(
-                              (item) =>
-                                item.bed_no !== "0" &&
-                                item.bed_no !== "undefined" &&
-                                item.bed_no !== "" &&
-                                item.bed_no !== "null"
-                            )
-                            ?.map((item) => ({
-                              value: item.id,
-                              label: item.bed_no,
+                        <Select
+                          options={
+                            state.UsersList?.hosteldetailslist?.map((u) => ({
+                              value: u.floor_id,
+                              label: u.floor_name,
                             })) || []
-                        }
-                        onChange={handleBed}
-                        value={
-                          state.UsersList?.bednumberdetails?.bed_details?.find(
-                            (option) => option.id === Bed
-                          )
-                            ? {
-                              value: Bed,
-                              label:
-                                state.UsersList.bednumberdetails.bed_details.find(
-                                  (option) => option.id === Bed
-                                )?.bed_no,
-                            }
-                            : null
-                        }
-                        placeholder="Select a Bed"
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "50px",
-                            border: "1px solid #D9D9D9",
-                            borderRadius: "8px",
-                            fontSize: "16px",
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor: "pointer",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                        }}
-                      />
-
-                      {bedError && (
-                        <div style={{ color: "red" }}>
-                          <MdError
-                            style={{ fontSize: "13px", marginRight: "5px" }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
+                          }
+                          onChange={handleFloor}
+                          value={
+                            state.UsersList?.hosteldetailslist?.find(
+                              (option) => option.floor_id === Floor
+                            )
+                              ? {
+                                value: Floor,
+                                label: state.UsersList.hosteldetailslist.find(
+                                  (option) => option.floor_id === Floor
+                                )?.floor_name,
+                              }
+                              : null
+                          }
+                          placeholder="Select a Floor"
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
                               fontFamily: "Gilroy",
                               fontWeight: 500,
-                            }}
-                          >
-                            {bedError}
-                          </label>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                      <Form.Group controlId="purchaseDate">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            color: "#222222",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          Joining Date{" "}
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            *
-                          </span>
-                        </Form.Label>
-
-                        <div
-                          className="datepicker-wrapper"
-                          style={{ position: "relative", width: "100%" }}
-                        >
-                          <DatePicker
-                            style={{
-                              width: "100%",
-                              height: 48,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              display: "inline-block",
+                              fill: "currentColor",
+                              lineHeight: 1,
+                              stroke: "currentColor",
+                              strokeWidth: 0,
                               cursor: "pointer",
-                            }}
-                            format="DD/MM/YYYY"
-                            placeholder="DD/MM/YYYY"
-                            value={selectedDate ? dayjs(selectedDate) : null}
-                            onChange={(date) => {
-                              setDateError("");
-                              setSelectedDate(date ? date.toDate() : null);
-                            }}
-                           getPopupContainer={(triggerNode) =>
-    triggerNode.closest(".show-scroll") || document.body
-  }
-                          />
-                        </div>
-                      </Form.Group>
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                          }}
+                        />
 
-                      {dateError && (
-                        <div style={{ color: "red", marginTop: "-px" }}>
-                          <MdError
-                            style={{ fontSize: "13px", marginRight: "5px" }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {dateError}
-                          </label>
-                        </div>
-                      )}
-                    </div>
+                        {floorError && (
+                          <div style={{ color: "red" }}>
+                            <MdError
+                              style={{ fontSize: "13px", marginRight: "5px" }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {floorError}
+                            </label>
+                          </div>
+                        )}
+                      </div>
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group className="">
+                      <div className="col-12 mb-1">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -2126,52 +1862,106 @@ function UserlistForm(props) {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Advance Amount
+                          Room{" "}
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
                           </span>
                         </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="Enter Amount"
-                          value={AdvanceAmount}
-                          onChange={(e) => handleAdvanceAmount(e)}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                      </Form.Group>
-                      {advanceAmountError && (
-                        <div style={{ color: "red" }}>
-                          <MdError
-                            style={{ fontSize: "13px", marginRight: "5px" }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
+
+                        <Select
+                          options={
+                            state.UsersList?.roomdetails?.map((item) => ({
+                              value: item.Room_Id,
+                              label: item.Room_Name,
+                            })) || []
+                          }
+                          onChange={(selectedOption) =>
+                            handleRooms(selectedOption?.value)
+                          }
+                          value={
+                            state.UsersList?.roomdetails?.find(
+                              (option) => option.Room_Id === Rooms
+                            )
+                              ? {
+                                value: Rooms,
+                                label: state.UsersList.roomdetails.find(
+                                  (option) => option.Room_Id === Rooms
+                                )?.Room_Name,
+                              }
+                              : null
+                          }
+                          placeholder="Select a Room"
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
                               fontFamily: "Gilroy",
                               fontWeight: 500,
-                            }}
-                          >
-                            {advanceAmountError}
-                          </label>
-                        </div>
-                      )}
-                    </div>
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                              fontFamily: "Gilroy",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              display: "inline-block",
+                              fill: "currentColor",
+                              lineHeight: 1,
+                              stroke: "currentColor",
+                              strokeWidth: 0,
+                              cursor: "pointer",
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                          }}
+                        />
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                      <Form.Group className="mb-1">
+                        {roomError && (
+                          <div style={{ color: "red" }}>
+                            <MdError
+                              style={{ fontSize: "13px", marginRight: "5px" }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {roomError}
+                            </label>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
                         <Form.Label
                           style={{
                             fontSize: 14,
@@ -2179,53 +1969,282 @@ function UserlistForm(props) {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Rental Amount
+                          Bed{" "}
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
                           </span>
                         </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="Enter Amount"
-                          value={RoomRent}
-                          onChange={(e) => handleRoomRent(e)}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
+
+                        <Select
+                          options={
+                            state.UsersList?.bednumberdetails?.bed_details
+                              ?.filter(
+                                (item) =>
+                                  item.bed_no !== "0" &&
+                                  item.bed_no !== "undefined" &&
+                                  item.bed_no !== "" &&
+                                  item.bed_no !== "null"
+                              )
+                              ?.map((item) => ({
+                                value: item.id,
+                                label: item.bed_no,
+                              })) || []
+                          }
+                          onChange={handleBed}
+                          value={
+                            state.UsersList?.bednumberdetails?.bed_details?.find(
+                              (option) => option.id === Bed
+                            )
+                              ? {
+                                value: Bed,
+                                label:
+                                  state.UsersList.bednumberdetails.bed_details.find(
+                                    (option) => option.id === Bed
+                                  )?.bed_no,
+                              }
+                              : null
+                          }
+                          placeholder="Select a Bed"
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                              fontFamily: "Gilroy",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              display: "inline-block",
+                              fill: "currentColor",
+                              lineHeight: 1,
+                              stroke: "currentColor",
+                              strokeWidth: 0,
+                              cursor: "pointer",
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
                           }}
                         />
-                      </Form.Group>
-                      {roomrentError && (
-                        <div
-                          className="d-flex align-items-center justify-content-start"
-                          style={{ color: "red" }}
-                        >
-                          <MdError
-                            style={{ fontSize: "13px", marginRight: "5px" }}
-                          />
-                          <label
-                            className="mb-0"
+
+                        {bedError && (
+                          <div style={{ color: "red" }}>
+                            <MdError
+                              style={{ fontSize: "13px", marginRight: "5px" }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {bedError}
+                            </label>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        <Form.Group controlId="purchaseDate">
+                          <Form.Label
                             style={{
-                              color: "red",
-                              fontSize: "12px",
+                              fontSize: 14,
+                              color: "#222222",
                               fontFamily: "Gilroy",
                               fontWeight: 500,
                             }}
                           >
-                            {roomrentError}
-                          </label>
-                        </div>
-                      )}
+                            Joining Date{" "}
+                            <span style={{ color: "red", fontSize: "20px" }}>
+                              *
+                            </span>
+                          </Form.Label>
+
+                          <div
+                            className="datepicker-wrapper"
+                            style={{ position: "relative", width: "100%" }}
+                          >
+                            <DatePicker
+                              style={{
+                                width: "100%",
+                                height: 48,
+                                cursor: "pointer",
+                                fontFamily: "Gilroy"
+                              }}
+                              format="DD/MM/YYYY"
+                              placeholder="DD/MM/YYYY"
+                              value={selectedDate ? dayjs(selectedDate) : null}
+                              onChange={(date) => {
+                                setDateError("");
+                                setSelectedDate(date ? date.toDate() : null);
+                              }}
+                              getPopupContainer={(triggerNode) =>
+                                triggerNode.closest(".show-scroll") || document.body
+                              }
+                            />
+                          </div>
+                        </Form.Group>
+
+                        {dateError && (
+                          <div style={{ color: "red", marginTop: "-px" }}>
+                            <MdError
+                              style={{ fontSize: "13px", marginRight: "5px" }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {dateError}
+                            </label>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <Form.Group className="">
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            Advance Amount
+                            <span style={{ color: "red", fontSize: "20px" }}>
+                              {" "}
+                              *{" "}
+                            </span>
+                          </Form.Label>
+                          <FormControl
+                            type="text"
+                            id="form-controls"
+                            placeholder="Enter Amount"
+                            value={AdvanceAmount}
+                            onChange={(e) => handleAdvanceAmount(e)}
+                            style={{
+                              fontSize: 16,
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              boxShadow: "none",
+                              border: "1px solid #D9D9D9",
+                              height: 50,
+                              borderRadius: 8,
+                            }}
+                          />
+                        </Form.Group>
+                        {advanceAmountError && (
+                          <div style={{ color: "red" }}>
+                            <MdError
+                              style={{ fontSize: "13px", marginRight: "5px" }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {advanceAmountError}
+                            </label>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        <Form.Group className="mb-1">
+                          <Form.Label
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                            }}
+                          >
+                            Rental Amount
+                            <span style={{ color: "red", fontSize: "20px" }}>
+                              {" "}
+                              *{" "}
+                            </span>
+                          </Form.Label>
+                          <FormControl
+                            type="text"
+                            id="form-controls"
+                            placeholder="Enter Amount"
+                            value={RoomRent}
+                            onChange={(e) => handleRoomRent(e)}
+                            style={{
+                              fontSize: 16,
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              boxShadow: "none",
+                              border: "1px solid #D9D9D9",
+                              height: 50,
+                              borderRadius: 8,
+                            }}
+                          />
+                        </Form.Group>
+                        {roomrentError && (
+                          <div
+                            className="d-flex align-items-center justify-content-start"
+                            style={{ color: "red" }}
+                          >
+                            <MdError
+                              style={{ fontSize: "13px", marginRight: "5px" }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {roomrentError}
+                            </label>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
                   </div>
 
                   <Button
@@ -2256,7 +2275,7 @@ function UserlistForm(props) {
               bottom: 0,
               left: 0,
               display: 'flex',
-                           alignItems: 'center',
+              alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: 'transparent',
               opacity: 0.75,
@@ -2274,6 +2293,36 @@ function UserlistForm(props) {
               }}
             ></div>
           </div>}
+
+
+          {loading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+
+
         </Modal.Dialog>
       </Modal>
 
@@ -2341,6 +2390,7 @@ function UserlistForm(props) {
                             width: "100%",
                             height: 48,
                             cursor: "pointer",
+                            fontFamily: "Gilroy"
                           }}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
@@ -2399,6 +2449,7 @@ function UserlistForm(props) {
                             width: "100%",
                             height: 48,
                             cursor: "pointer",
+                            fontFamily: "Gilroy"
                           }}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
@@ -2475,9 +2526,35 @@ function UserlistForm(props) {
                   </div>
                 </div>
               </div>
-              {/* )} */}
+
             </div>
           </Modal.Body>
+          {loading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
           <Modal.Footer style={{ border: "none" }}></Modal.Footer>
         </Modal.Dialog>
