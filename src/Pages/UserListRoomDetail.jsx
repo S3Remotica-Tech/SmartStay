@@ -1714,11 +1714,11 @@ const handleDownloadKYC = async () => {
                                           }}
                                         >
                                           {" "}
-                                          {item.Floor &&
-                                            item.Floor !== "undefined" &&
-                                            item.Floor !== 0 &&
-                                            item.Floor !== "null"
-                                            ? item.Floor
+                                          {item.floor_name &&
+                                            item.floor_name !== "undefined" &&
+                                            item.floor_name !== 0 &&
+                                            item.floor_name !== "null"
+                                            ? item.floor_name
                                             : "N/A"}
                                         </span>
                                       </p>
