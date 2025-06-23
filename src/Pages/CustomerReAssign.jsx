@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl } from "react-bootstrap";
@@ -102,109 +102,100 @@ function CustomerReAssign(props) {
     setRoomError("");
   };
 
-  const validateAssignField = (value, fieldName) => {
-    const isValueEmpty =
-      (typeof value === "string" && value.trim() === "") ||
-      value === undefined ||
-      value === null ||
-      value === "0";
-    if (isValueEmpty) {
-      switch (fieldName) {
-        case "newRoomRent":
-          setRentError("New Rent Amount is Required");
-          break;
-        case "newFloor":
-          setfloorError("New Floor is Required");
-          break;
-        case "newRoom":
-          setRoomError("New Room is Required");
-          break;
-        case "newBed":
-          setBedError("New Bed is Required");
-          break;
-        case "selectedDate":
-          setDateError("Date is Required");
-          break;
+const rentRef = useRef(null);
+const floorRef = useRef(null);
+const roomRef = useRef(null);
+const BedRef = useRef(null);
+const selectedDateRef = useRef(null);
+const focusedRef = useRef(false);
 
-        default:
-          break;
-      }
-      return false;
-    }
+ 
 
+
+const validateAssignField = (value, fieldName, ref, focusedRef, setError) => {
+  const isValueEmpty =
+    (typeof value === "string" && (
+      value.trim() === "" ||
+      value === "Selected Room" ||
+      value === "Selected Floor" ||
+      value === "Selected Bed"
+    )) ||
+    value === undefined ||
+    value === null ||
+    value === "0";
+
+  if (isValueEmpty) {
     switch (fieldName) {
       case "newRoomRent":
-        setRentError("");
+        setError("New Rent Amount is Required");
         break;
       case "newFloor":
-        setfloorError("");
+        setError("New Floor is Required");
         break;
       case "newRoom":
-        setRoomError("");
+        setError("New Room is Required");
         break;
       case "newBed":
-        setBedError("");
+        setError("New Bed is Required");
         break;
       case "selectedDate":
-        setDateError("");
+        setError("Date is Required");
         break;
-
       default:
         break;
     }
 
-    return true;
-  };
-
-  const handleSaveReassignBed = () => {
-    const isreadingValid = validateAssignField(newRoomRent, "newRoomRent");
-    const isDatevalid = validateAssignField(selectedDate, "selectedDate");
-    const isFloorValid = validateAssignField(newFloor, "newFloor");
-    const isRoomValid = validateAssignField(newRoom, "newRoom");
-    const isBedValid = validateAssignField(newBed, "newBed");
-
-    if (newFloor === "Selected Floor" || !isFloorValid) {
-      setfloorError("Please Select a Valid Floor");
-      return;
-    } else {
-      setfloorError("");
+    if (!focusedRef.current && ref?.current) {
+      ref.current.focus();
+      focusedRef.current = true;
     }
-    if (newRoom === "Selected Room" || !isRoomValid) {
+
+    return false;
+  }
+
+  setError("");
+  return true;
+};
+
+const handleSaveReassignBed = () => {
+ focusedRef.current = false;
+  let hasError = false;
+
+  if (!validateAssignField(newRoomRent, "newRoomRent", rentRef, focusedRef, setRentError)) hasError = true;
+  if (!validateAssignField(selectedDate, "selectedDate", selectedDateRef, focusedRef, setDateError)) hasError = true;
+  if (!validateAssignField(newFloor, "newFloor", floorRef, focusedRef, setfloorError)) hasError = true;
+  if (!validateAssignField(newRoom, "newRoom", roomRef, focusedRef, setRoomError)) hasError = true;
+  if (!validateAssignField(newBed, "newBed", BedRef, focusedRef, setBedError)) hasError = true;
+
+  if (hasError) return;
+     if (newRoom === "Selected Room") {
       setRoomError("Please Select a Valid Room");
+      hasError = true;
       return;
     } else {
       setRoomError("");
     }
 
-    if (newBed === "Selected Bed" || !isBedValid) {
-      setBedError("Please Select a Valid Bed");
-      return;
-    } else {
-      setBedError("");
-    }
+  dispatch({
+    type: "CUSTOMERREASSINBED",
+    payload: {
+      hostel_id: currentHostel_id,
+      c_floor: currentFloor,
+      c_room: currentRoomId,
+      c_bed: currentBedId,
+      re_floor: newFloor,
+      re_room: newRoom,
+      re_bed: newBed,
+      re_date: selectedDate,
+      re_rent: newRoomRent,
+      user_id: userId,
+    },
+  });
+};
 
-    if (
-      !isreadingValid ||
-      (!isFloorValid && !isRoomValid && !isDatevalid && !isBedValid)
-    ) {
-      return;
-    }
-    dispatch({
-      type: "CUSTOMERREASSINBED",
-      payload: {
-        hostel_id: currentHostel_id,
-        c_floor: currentFloor,
-        c_room: currentRoomId,
-        c_bed: currentBedId,
-        re_floor: newFloor,
-        re_room: newRoom,
-        re_bed: newBed,
-        re_date: selectedDate,
-        re_rent: newRoomRent,
-        user_id: userId,
-      },
-    });
-  };
+
+
+ 
 
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
@@ -267,8 +258,9 @@ function CustomerReAssign(props) {
                     <CloseCircle size="24" color="#000" onClick={handleCloseReAssign} 
             style={{ cursor: 'pointer' }}/>
                   </Modal.Header>
+                   <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-0">
 
-                  <div className="row mb-3">
+                  <div className="row mb-3 d-flex align-items-center">
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="mb-3">
                         <Form.Label
@@ -443,6 +435,7 @@ function CustomerReAssign(props) {
                             : []
                         }
                         onChange={handleFloor}
+                        ref={floorRef}
                         value={
                           newFloor
                             ? {
@@ -545,6 +538,7 @@ function CustomerReAssign(props) {
                             : []
                         }
                         onChange={handleRooms}
+                        ref={roomRef}
                         value={
                           newRoom
                             ? {
@@ -656,6 +650,7 @@ function CustomerReAssign(props) {
                             : []
                         }
                         onChange={handleBed}
+                        ref={BedRef}
                         value={
                           newBed
                             ? {
@@ -759,6 +754,7 @@ function CustomerReAssign(props) {
                                                                       format="DD/MM/YYYY"
                                                                       placeholder="DD/MM/YYYY"
                                                                       value={selectedDate ? dayjs(selectedDate) : null}
+                                                                      ref={selectedDateRef}
                                                                       onChange={(date) => {
                                                                         setDateError("");
                                                                         setSelectedDate(date ? date.toDate() : null);
@@ -825,6 +821,7 @@ function CustomerReAssign(props) {
                               </span>
                             }
                             className="ms-2"
+                            ref={rentRef}
                             onChange={(e) => {
                               if (e.target.checked) {
                                 setNewRoomRent(currentRoomRent);
@@ -876,6 +873,7 @@ function CustomerReAssign(props) {
                         </div>
                       )}
                     </div>
+                  </div>
                   </div>
 
                   <Button

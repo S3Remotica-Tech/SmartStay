@@ -264,13 +264,7 @@ function AddRole({ showRole,setShowRole, editRoleDetails,addRole }) {
         const hasPermissionRoleChanged = JSON.stringify(normalizedInitial) !== JSON.stringify(normalizedCurrent);
     
 
-console.log("normalizedInitial",normalizedInitial)
-console.log("normalizedCurrent",normalizedCurrent)
-console.log("hasRoleNameChanged",hasRoleNameChanged, initialFormState.current.roleName,currentState.roleName )
-console.log("hasPermissionRoleChanged",hasPermissionRoleChanged)
 
-console.log("Comparison Result:", JSON.stringify(normalizedInitial) !== JSON.stringify(normalizedCurrent));
-console.log("roleName Comparison",initialFormState.current.roleName.trim() !== currentState.roleName.trim())
 
 if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
     setErrorIsChanged("No Changes Detected");
@@ -280,10 +274,6 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
 
 
         if (!isValid) return;
-
-       console.log("isvalid",isValid)
-
-
         const payload = {
             id: editRoleDetails.id || null,
             hostel_id: state.login.selectedHostel_Id,
@@ -329,14 +319,14 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
         className="modal show"
         style={{
           display: "block",
-          position: "fixed", // fixed so it doesn't move on scroll
+          position: "fixed",
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
           zIndex: 1050,
-          overflow: "hidden", // this locks page scroll
-          backgroundColor: "rgba(0, 0, 0, 0.3)", // optional backdrop
+          overflow: "hidden", 
+          backgroundColor: "rgba(0, 0, 0, 0.3)", 
         }}
       >
         <Modal
@@ -361,7 +351,7 @@ if (!hasRoleNameChanged && !hasPermissionRoleChanged) {
 
                     </Modal.Header>
 
-                    <Modal.Body className='pt-0'>
+                    <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3 pt-0">
                    
 
                    

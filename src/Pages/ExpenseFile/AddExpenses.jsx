@@ -318,7 +318,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:'pointer'}} />
           </Modal.Header>
 
-          
+     
 
           {generalError && (
             <div className="d-flex align-items-center p-1 mb-2 mt-2">
@@ -337,8 +337,8 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
             </div>
           )}
 
-          <Modal.Body style={{ padding: 20 }}>
-            <div className="row mt-1">
+          <Modal.Body  style={{ maxHeight: "380px", overflowY: "scroll" ,padding: 20}} className="show-scroll mt-3 me-1">
+            <div className="row" style={{marginTop:"-20px"}}>
              
               {state.Settings.Expences.data &&
                 state.Settings.Expences.data.length === 0 && (
@@ -735,6 +735,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                         fontSize: "12px",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
+                        whiteSpace:"nowrap"
                       }}
                     >
                       {paymentError}

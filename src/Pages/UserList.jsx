@@ -1179,14 +1179,13 @@ function UserList(props) {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems =
-    filterStatus || filterInput.length > 0
-      ? filteredUsers
-      : userListDetail?.slice(indexOfFirstItem, indexOfLastItem);
+ const currentItems = React.useMemo(() => {
+  const source = (search || filterStatus) ? filteredUsers : userListDetail;
+  return source?.slice(indexOfFirstItem, indexOfLastItem);
+}, [search, filterStatus, filteredUsers, userListDetail, indexOfFirstItem, indexOfLastItem]);
 
-  const totalPages = Math.ceil(
-    (search ? filteredUsers?.length : userListDetail?.length) / itemsPerPage
-  );
+const totalItems = (search || filterStatus) ? filteredUsers?.length : userListDetail?.length;
+const totalPages = Math.ceil(totalItems / itemsPerPage);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
@@ -1365,33 +1364,34 @@ function UserList(props) {
     setResetPage(true);
   };
 
-  const handleDateRangeChangeCheckIn = (dates) => {
-    setCheckInDateRange(dates);
+  
 
-    if (!dates || dates.length !== 2) {
-      setFilterStatus(false);
-      setFilteredUsers(state.UsersList.Users);
-      return;
-    }
+const handleDateRangeChangeCheckIn = (dates) => {
+  setCheckInDateRange(dates);
 
-    const [start, end] = dates.map((d) => dayjs(d));
+  if (!dates || dates.length !== 2) {
+    setFilterStatus(false);
+    setCurrentPage(1);
+    return;
+  }
 
-    const filtered = state.UsersList.Users?.filter((item) => {
-      if (!item.joining_Date) return false;
+  const [start, end] = dates;
 
-      const itemDate = dayjs(item.joining_Date).startOf("day");
+  const filtered = userListDetail?.filter((item) => {
+    if (!item.joining_Date || item.joining_Date === "0000-00-00") return false;
 
-      return (
-        itemDate.isSameOrAfter(start.startOf("day")) &&
-        itemDate.isSameOrBefore(end.endOf("day"))
-      );
-    });
+    const itemDate = dayjs(item.joining_Date);
+    return (
+      itemDate.isValid() &&
+      itemDate.isSameOrAfter(start, "day") &&
+      itemDate.isSameOrBefore(end, "day")
+    );
+  });
 
-    setFilteredUsers(filtered);
-    setFilterStatus(true);
-    setResetPage(true);
-  };
-
+  setFilteredUsers(filtered);
+  setFilterStatus(true);
+  setCurrentPage(1); 
+};
 
 
 

@@ -2085,9 +2085,9 @@ function UserlistForm(props) {
                               setDateError("");
                               setSelectedDate(date ? date.toDate() : null);
                             }}
-                            getPopupContainer={(triggerNode) =>
-                              triggerNode.closest(".datepicker-wrapper")
-                            }
+                           getPopupContainer={(triggerNode) =>
+    triggerNode.closest(".show-scroll") || document.body
+  }
                           />
                         </div>
                       </Form.Group>
