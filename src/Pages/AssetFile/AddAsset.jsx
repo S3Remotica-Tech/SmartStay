@@ -274,7 +274,7 @@ function StaticExample({ show, setShow, currentItem }) {
   };
 
  
-
+const nochangeRef = useRef(null)
 
 const handleAddAsset = () => {
   const cleanedSerialNumber = cleanSerialNumber(serialNumber);
@@ -343,10 +343,22 @@ const handleAddAsset = () => {
     Number(initialState.price) !== Number(price) ||
     initialState.productName !== productName;
 
-  if (!isChanged) {
-    setIsChangedError("No Changes Detected");
-    return;
-  }
+  
+     if (!isChanged) {
+  setIsChangedError("No Changes Detected");
+
+ 
+  setTimeout(() => {
+    if (nochangeRef.current) {
+      nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      nochangeRef.current.focus();
+    }
+  }, 100);
+
+  return;
+} else {
+  setIsChangedError("");
+}
 
   if (productName && serialNumber && selectedDate && price && assetName) {
     const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
@@ -435,8 +447,8 @@ const handleAddAsset = () => {
                 </label>
               </div>
             )}
-            <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-3 mt-3 me-3" >
-              <div className="row mt-1">
+            <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-3 me-3" >
+              <div className="row " style={{marginTop:"-20px"}}>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
                   >
@@ -942,7 +954,7 @@ const handleAddAsset = () => {
               </div>
             </Modal.Body>
             {isChangedError && (
-              <div className="d-flex align-items-center justify-content-center mt-4">
+              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center mt-4">
                 <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                 <label
                   className="mb-0"

@@ -116,6 +116,7 @@ const nochangeRef = useRef(null)
   const handleCommentsChange = (event) => {
        setComments(event.target.value);
     setNoChangeMessage("")
+    setIsChangedError("")
   };
 
 
@@ -315,8 +316,8 @@ const nochangeRef = useRef(null)
       const isRequestDateChanged =
         formatDateToRequestDate(currentItem?.req_date) !==
         formatDateToRequestDate(checkOutrequestDate);
-      const isCommentsChanged =
-        comments && comments !== currentItem?.checkout_comment;
+       const isCommentsChanged =
+    (comments || "") !== (currentItem?.checkout_comment || "");
 
       return isCheckoutDateChanged || isRequestDateChanged || isCommentsChanged;
     })();
@@ -968,7 +969,9 @@ let visibleIndex = -1;
                       setIsChangedError("");
                       setCheckOutRequestDate(date ? date.toDate() : null);
                     }}
-                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                      getPopupContainer={(triggerNode) =>
+    triggerNode.closest(".show-scroll") || document.body
+  }
                   />
                 </div>
               </Form.Group>
@@ -1026,7 +1029,9 @@ let visibleIndex = -1;
                       setIsChangedError("");
                       setCheckOutDate(date ? date.toDate() : null);
                     }}
-                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                      getPopupContainer={(triggerNode) =>
+    triggerNode.closest(".show-scroll") || document.body
+  }
                   />
                 </div>
               </Form.Group>
@@ -1132,6 +1137,9 @@ let visibleIndex = -1;
 
          
 </div>
+
+</div>
+
  {isChangedError && (
             <div
               className="d-flex justify-content-center align-items-center"
@@ -1149,9 +1157,6 @@ let visibleIndex = -1;
               </span>
             </div>
           )}
-</div>
-
-
 
           
           <Button
@@ -1309,7 +1314,9 @@ let visibleIndex = -1;
                       setIsChangedError("");
                       setCheckOutDate(date ? date.toDate() : null);
                     }}
-                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                    getPopupContainer={(triggerNode) =>
+    triggerNode.closest(".show-scroll") || document.body
+  }
                     disabled={conformEdit}
                   />
                 </div>

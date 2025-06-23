@@ -678,10 +678,7 @@ const focusedRef = { current: false };
         centered
         backdrop="static"
         className="custom-modal-width-vendor"
-        style={{
-          maxWidth: '90%',
-          margin: 'auto',
-        }}
+       
       >
         <Modal.Dialog className="m-0 p-0">
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
@@ -703,7 +700,7 @@ const focusedRef = { current: false };
 
 
 
-          <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+          <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
             <div className="d-flex align-items-center">
               <div
                 className=""

@@ -1081,7 +1081,7 @@ const Compliance = () => {
                           style={{ cursor: 'pointer' }} />
 
                       </Modal.Header>
-                      <Modal.Body style={{ maxHeight: "430px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+                      <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
                       
 
                         <div className='row '>
