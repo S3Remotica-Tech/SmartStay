@@ -79,6 +79,20 @@ function StaticExample({ show, setShow, currentItem }) {
 
   }, [state.AssetList?.bankAmountError])
 
+  const [serial_number_duplicate_Error , setSerial_Number_DuplicateError] = useState("")
+
+  useEffect(() => {
+    if (state.AssetList?.alreadySerialNumberHere) {
+      setSerial_Number_DuplicateError(state.AssetList?.alreadySerialNumberHere)
+
+      setTimeout(() => {
+         dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
+         setSerial_Number_DuplicateError("")
+      }, 2000);
+    }
+
+  }, [state.AssetList?.alreadySerialNumberHere])
+
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
 
@@ -99,7 +113,9 @@ function StaticExample({ show, setShow, currentItem }) {
     setShow(false)
     setBankingError('')
     setPaymentError("")
+    setSerial_Number_DuplicateError("")
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
+    dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
   }
 
   useEffect(() => {
@@ -360,7 +376,7 @@ const handleAddAsset = () => {
   setIsChangedError("");
 }
 
-  if (productName && serialNumber && selectedDate && price && assetName) {
+  if (productName && serialNumber && selectedDate && price && assetName && modeOfPayment) {
     const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
 
     dispatch({
@@ -728,7 +744,7 @@ const handleAddAsset = () => {
                     </div>
                   )}
 
-                  {state.AssetList?.alreadySerialNumberHere && (
+                  {serial_number_duplicate_Error && (
                     <div className="d-flex align-items-center p-1">
                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
                       <label
@@ -740,7 +756,7 @@ const handleAddAsset = () => {
                           fontWeight: 500,
                         }}
                       >
-                        {state.AssetList?.alreadySerialNumberHere}
+                        {serial_number_duplicate_Error}
                       </label>
                     </div>
                   )}

@@ -480,7 +480,7 @@ function SettingExpenses({ hostelid }) {
     expensesFilterddata?.length / expensesrowsPerPage
   );
 
-    useEffect(() => {
+          useEffect(() => {
               if (
                 expensesFilterddata.length > 0 &&
                 currentRowExpense.length === 0 &&
@@ -598,8 +598,7 @@ function SettingExpenses({ hostelid }) {
     currentRowExpense.map((category) => (
       <div key={category.category_Id} 
     
-      
-       className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2 card-width-sm  "
+      className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2 card-width-sm  "
       style={{ 
         flex: "0 0 48%", 
         position: "relative",
@@ -618,8 +617,7 @@ function SettingExpenses({ hostelid }) {
                 width={15}
                 alt="edit"
                 style={{ 
-                 
-                  cursor: "pointer" }}
+                cursor: "pointer" }}
                 onClick={(e) => { e.stopPropagation(); handleEditCategory(category); }}
               />
               <img
@@ -651,8 +649,7 @@ function SettingExpenses({ hostelid }) {
     border: "1px solid #ddd",
     borderRadius: "0 0 10px 10px",
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    padding: "10px",
-    maxHeight: "250px", 
+    maxHeight: "70px", 
     overflowY: "auto",
     marginTop: "5px"
   }}>
@@ -849,6 +846,7 @@ function SettingExpenses({ hostelid }) {
                               maxHeight: '100px', 
                               overflowY: 'auto', 
                               zIndex: 9999,
+                              cursor:'pointer'
                             }),
                            
                             menuList: (provided) => ({
@@ -876,6 +874,7 @@ function SettingExpenses({ hostelid }) {
                             control: (provided) => ({
                               ...provided,
                               minHeight: '40px',
+                              cursor: "pointer",
                             }),
                           }}
                           menuPlacement="bottom" 

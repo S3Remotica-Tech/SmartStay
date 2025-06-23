@@ -503,6 +503,11 @@ const handleTermsChange = (e) => {
             const handleCloseBankAccount = () => {
                  setBankAccountForm(false)
                  setaccountnameError("")
+                 setAccountName("")
+                 setAccount_Number("")
+                 setIfscCode("")
+                 setBankName("")
+                 setDescription("")
                 }
 
                  useEffect(() => {
@@ -524,6 +529,10 @@ const handleTermsChange = (e) => {
      useEffect(() => {
        if (state.bankingDetails.statusCodeForAddBanking === 200) {
          setAccountName("")
+         setAccount_Number("")
+         setIfscCode("")
+         setBankName("")
+         setDescription("")
          handleCloseBankAccount();
    
          dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
