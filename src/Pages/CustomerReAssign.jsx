@@ -168,7 +168,7 @@ const handleSaveReassignBed = () => {
   if (!validateAssignField(newBed, "newBed", BedRef, focusedRef, setBedError)) hasError = true;
 
   if (hasError) return;
-     if (newRoom === "Selected Room" || !isRoomValid) {
+     if (newRoom === "Selected Room") {
       setRoomError("Please Select a Valid Room");
       hasError = true;
       return;
