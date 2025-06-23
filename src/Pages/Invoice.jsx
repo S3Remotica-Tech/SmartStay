@@ -150,7 +150,7 @@ const InvoicePage = () => {
   const [filterStatus, setFilterStatus] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  let serialNumber = 1;
+  // let serialNumber = 1;
 
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
