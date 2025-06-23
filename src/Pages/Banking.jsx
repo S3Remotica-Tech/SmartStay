@@ -1993,7 +1993,7 @@ function Banking() {
                   fontFamily: "Gilroy",
                 }}
               >
-                Add balance
+                Add Balance
               </div>
               <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance}
                 style={{ cursor: 'pointer' }} />
@@ -2016,7 +2016,7 @@ function Banking() {
                   <FormControl
                     type="text"
                     id="form-controls"
-                    placeholder="Enter amount"
+                    placeholder="Enter Account"
                     value={AddBankName}
 
                     style={{

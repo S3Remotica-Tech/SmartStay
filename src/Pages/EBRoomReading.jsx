@@ -977,7 +977,6 @@ function EBRoomReading(props) {
                   right: "10px",
                   backgroundColor: "#fff",
                   borderRadius: "5px",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                   zIndex: 1000,
                 }}
               >

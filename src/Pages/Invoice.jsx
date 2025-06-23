@@ -150,7 +150,7 @@ const InvoicePage = () => {
   const [filterStatus, setFilterStatus] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  let serialNumber = 1;
+  
 
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
@@ -5556,92 +5556,77 @@ useEffect(() => {
           </div>
 
 
-          {Array.isArray(newRows) && newRows.length > 0 && (
-            <div className="row mt-3" style={{ width: "100%" }}>
-              <div className="col-lg-12 col-md-12 col-12">
-                <div style={{ maxHeight: "150px", overflowY: "auto", width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
-                  <Table
-                    className="w-100"
-                    responsive
-                    style={{ width: "100%", backgroundColor: "", borderRadius: "10px", }}
-                  >
-                    <thead
-                      style={{
-                        backgroundColor: "#E7F1FF",
-                        position: "sticky",
-                        top: 0,
-                        zIndex: 1,
-                        borderRadius: 10,
-                      }}
-                    >
-                      <tr style={{ borderRadius: 10 }}>
-                        <th className="text-center" style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                          S.No
-                        </th>
-                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                          Description
-                        </th>
-                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                          Total Amount
-                        </th>
-                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {newRows.map((u, index) => (
-                        <tr key={`new-${index}`}>
-                          <td className="text-center" style={{ fontFamily: "Gilroy" }}>
-                            {serialNumber++}
-                          </td>
-                          <td>
-                            <Form.Control
-                              type="text"
-                              style={{ fontFamily: "Gilroy" }}
-                              placeholder="Enter Description"
-                              value={u.am_name}
-                              onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
-                            />
-                          </td>
-                          <td>
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter Total Amount"
-                              value={u.amount}
-                              className={`${u.amount === "" ? "border-danger" : ""}`}
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                if (/^\d*\.?\d*$/.test(value)) {
-                                  handleNewRowChange(index, "amount", value);
-                                }
-                              }}
-                            />
-                          </td>
-                          <td>
-                            <span
-                              style={{
-                                cursor: "pointer",
-                                color: "red",
-                                marginLeft: "10px",
-                              }}
-                              onClick={() => handleDeleteNewRow(index)}
-                            >
-                              <img
-                                src={Closebtn}
-                                height={15}
-                                width={15}
-                                alt="delete"
-                              />
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </div>
-              </div>
-            </div>
+         {Array.isArray(newRows) && newRows.length > 0 && (
+ <div style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
+
+  <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+    <thead style={{ backgroundColor: "#E7F1FF" }}>
+      <tr>
+        <th className="text-center" style={{ width: "10%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",borderTopLeftRadius:10 }}>
+          S.No
+        </th>
+        <th style={{ width: "45%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",whiteSpace:"nowrap" }}>
+          Description
+        </th>
+        <th style={{ width: "30%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",whiteSpace:"nowrap" }}>
+          Total Amount
+        </th>
+        <th style={{ width: "15%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",borderTopRightRadius:10 }}>
+          Action
+        </th>
+      </tr>
+    </thead>
+  </Table>
+
+  
+  <div style={{ maxHeight: "150px", overflowY: "auto" }}>
+    <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+      <tbody>
+        {newRows.map((u, index) => (
+          <tr key={index}>
+            <td style={{ width: "10%" }} className="text-center">{index + 1}</td>
+            <td style={{ width: "40%" }}>
+              <Form.Control
+                type="text"
+                value={u.am_name}
+                onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
+                placeholder="Enter Description"
+              />
+            </td>
+            <td style={{ width: "30%" }}>
+              <Form.Control
+                type="text"
+                value={u.amount}
+                placeholder="0"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d*\.?\d*$/.test(value)) {
+                    handleNewRowChange(index, "amount", value);
+                  }
+                }}
+              />
+            </td>
+            <td style={{ width: "15%",paddingLeft:20 }}>
+              <img
+                src={Closebtn}
+                onClick={() => handleDeleteNewRow(index)}
+                style={{ cursor: "pointer" }}
+                height={15}
+                width={15}
+                alt="delete"
+              />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  </div>
+</div>
+
+
+
+
+
 
           )}
 

@@ -853,7 +853,7 @@ function EB_Hostel() {
                           listStyleType: "none",
                           maxHeight: 174,
                           minHeight:
-                            electricityFilterddata?.length > 1 ? "100px" : "auto",
+                            electricityFilterddata?.length > 1 ? "50px" : "auto",
                           overflowY:
                             electricityFilterddata?.length > 3 ? "auto" : "hidden",
                           margin: 0,
@@ -1527,9 +1527,9 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       position: "fixed",
                       bottom: "10px",
                       right: "10px",
-                      backgroundColor: "#fff",
+                      
                       borderRadius: "5px",
-                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                     
                       zIndex: 1000,
                     }}
                   >
