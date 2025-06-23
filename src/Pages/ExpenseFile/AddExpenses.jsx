@@ -95,7 +95,7 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       setSelectedDate(moment(currentItem.purchase_date).toDate());
       setPrice((currentItem && currentItem.unit_amount) || "");
       setCategory((currentItem && currentItem.category_id) || "");
-      setModeOfPayment((currentItem && currentItem.payment_mode) || "");
+      setModeOfPayment((currentItem && Number(currentItem.payment_mode)) || "");
       setDescription((currentItem && currentItem.description) || "");
       setCount((currentItem && currentItem.unit_count) || "");
       setHostelName((currentItem && currentItem.hostel_id) || "");
@@ -108,13 +108,17 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
           : null,
         price: currentItem.unit_amount || "",
         category: currentItem.category_id || "",
-        modeOfPayment: currentItem.payment_mode || "",
+        modeOfPayment: Number(currentItem.payment_mode) || "",
         description: currentItem.description || "",
         count: currentItem.unit_count || "",
         hostelName: currentItem.hostel_id || "",
       });
     }
   }, [currentItem]);
+
+
+ 
+  
 
   useEffect(() => {
     if (customContainerRef.current && calendarRef.current) {
@@ -147,15 +151,22 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
   };
  
 
-  const handleModeOfPaymentChange = (e) => {
-    setModeOfPayment(e.target.value);
-    setGeneralError("");
-    setPaymentError("");
-    setIsChangedError("");
-    setNetPaymentError("")
-    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
-  };
+const handleModeOfPaymentChange = (selectedOption) => {
+  if (!selectedOption) return;
 
+  setModeOfPayment(selectedOption); 
+  setGeneralError("");
+  setPaymentError("");
+  setIsChangedError("");
+  setNetPaymentError("");
+  dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+};
+
+
+
+
+ 
+ 
  
 
   const handlePriceChange = (e) => {
@@ -692,7 +703,102 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       *
                     </span>
                   </Form.Label>
-                    <Form.Select className="border"
+
+
+                  <Select
+  options={
+    Array.isArray(state.bankingDetails?.bankingList?.banks)
+      ? state.bankingDetails.bankingList.banks.map((item) => {
+          let label = "";
+          if (item.type === "bank") label = "Bank";
+          else if (item.type === "upi") label = "UPI";
+          else if (item.type === "card") label = "Card";
+          else if (item.type === "cash") label = "Cash";
+
+          return {
+            value: item.id,
+            label: `${item.benificiary_name} - ${label}`,
+          };
+        })
+      : []
+  }
+  onChange={(selectedOption) =>
+    handleModeOfPaymentChange(selectedOption?.value)
+  }
+  value={
+  modeOfPayment
+    ? (() => {
+        const selected = state.bankingDetails?.bankingList?.banks.find(
+          (item) => item.id === modeOfPayment
+
+        );      
+        if (!selected) return null;
+
+        const labelMap = {
+          bank: "Bank",
+          upi: "UPI",
+          card: "Card",
+          cash: "Cash",
+        };
+        return {
+          value: selected.id,
+          label: `${selected.benificiary_name} - ${labelMap[selected.type]}`,
+        };
+      })()
+    : null
+}
+
+  placeholder="Select Payment"
+  classNamePrefix="custom"
+  isDisabled={currentItem}
+  styles={{
+    control: (base) => ({
+      ...base,
+      fontSize: 14,
+      color: "rgba(75, 75, 75, 1)",
+      fontFamily: "Gilroy",
+      fontWeight: modeOfPayment ? 600 : 500,
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      boxShadow: "none",
+      height: 48,
+      cursor: "pointer",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #ced4da",
+    }),
+    menuList: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      maxHeight: "120px",
+      padding: 0,
+      scrollbarWidth: "thin",
+      overflowY: "auto",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#555",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      cursor: "pointer",
+    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer",
+      backgroundColor: state.isFocused ? "lightblue" : "white",
+      color: "#000",
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+  }}
+  noOptionsMessage={() => "No mode available"}
+/>
+                    {/* <Form.Select className="border "
                     aria-label="Select Mode Of Payment"
                     value={modeOfPayment}
                     onChange={handleModeOfPaymentChange}
@@ -717,13 +823,13 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
                       else if (item.type === "cash") label = "Cash";
                   
                       return (
-                        <option key={item.id} value={item.id}>
+                        <option key={item.id} value={item.id} style={{cursor:'pointer'}}>
                         {`${item.benificiary_name} - ${label}`}
                       </option>                      
                       );
                     })}
                   
-                  </Form.Select>
+                  </Form.Select> */}
                 </Form.Group>
                 {paymentError && (
                   <div className="d-flex align-items-center p-1 mb-2">
