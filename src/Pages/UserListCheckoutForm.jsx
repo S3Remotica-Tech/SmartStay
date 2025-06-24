@@ -398,10 +398,17 @@ const nochangeRef = useRef(null)
       lineHeight: 1,
       stroke: "currentColor",
       strokeWidth: 0,
+      cursor:"pointer"
     }),
     indicatorSeparator: () => ({
       display: "none",
     }),
+     option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      color: "#000",
+                    }),
   };
 
 
@@ -1600,13 +1607,13 @@ let visibleIndex = -1;
 
                 {modeOfPaymentError && (
                   <div
-                    className="d-flex justify-content-center align-items-center"
+                    className="d-flex justify-content-start align-items-start"
                     style={{ color: "red", marginTop: 15 }}
                   >
                     <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
                     <span
                       style={{
-                        fontSize: "14px",
+                        fontSize: "12px",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
                       }}
@@ -1648,6 +1655,7 @@ let visibleIndex = -1;
                 required
                 style={{
                   height: "50px",
+                  
                   borderRadius: "8px",
                   fontSize: 16,
                   color: comments ? "#222" : "#4b4b4b",

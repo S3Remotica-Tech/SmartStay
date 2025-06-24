@@ -1542,7 +1542,7 @@ const ComplianceList = (props) => {
                                   })()
                                   : null
                               }
-                              placeholder="Select a Complaint"
+                              placeholder="Select a User"
                               classNamePrefix="custom"
                               styles={{
                                 control: (base) => ({
