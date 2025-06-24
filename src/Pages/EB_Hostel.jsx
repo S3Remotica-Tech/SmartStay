@@ -80,6 +80,8 @@ function EB_Hostel() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [filterStatus, setFilterStatus] = useState(false);
 
+  const [formLoading, setFormLoading] = useState(false)
+
   useEffect(() => {
     setSelectedHostel(state.login.selectedHostel_Id);
   }, [state.login.selectedHostel_Id]);
@@ -272,7 +274,10 @@ function EB_Hostel() {
   };
 
   useEffect(() => {
+    if(state?.PgList?.ebError){
+      setFormLoading(false)
     setDateError(state?.PgList?.ebError);
+    }
   }, [state?.PgList?.ebError]);
 
   useEffect(() => {
@@ -470,6 +475,7 @@ function EB_Hostel() {
   };
 
   const handleSaveEbBill = () => {
+    dispatch({ type: "CLEAR_EB_ERROR" });
     const isFloorValid = validateAssignField(Floor, "Floor");
     const isRoomValid = validateAssignField(Rooms, "Rooms");
 
@@ -514,10 +520,12 @@ function EB_Hostel() {
           reading: endmeter,
         },
       });
+      setFormLoading(true)
     }
   };
   useEffect(() => {
     if (state.PgList?.AddEBstatusCode === 200) {
+      setFormLoading(false)
       handleClose();
       dispatch({
         type: "CUSTOMEREBLIST",
@@ -1733,6 +1741,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       ...base,
                       backgroundColor: "#f8f9fa",
                       border: "1px solid #ced4da",
+                      fontFamily: "Gilroy"
                     }),
                     menuList: (base) => ({
                       ...base,
@@ -1741,6 +1750,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       padding: 0,
                       scrollbarWidth: "thin",
                       overflowY: "auto",
+                      fontFamily: "Gilroy"
                     }),
                     placeholder: (base) => ({
                       ...base,
@@ -1840,6 +1850,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       ...base,
                       backgroundColor: "#f8f9fa",
                       border: "1px solid #ced4da",
+                      fontFamily: "Gilroy"
                     }),
                     menuList: (base) => ({
                       ...base,
@@ -1848,6 +1859,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                       padding: 0,
                       scrollbarWidth: "thin",
                       overflowY: "auto",
+                      fontFamily: "Gilroy"
                     }),
                     placeholder: (base) => ({
                       ...base,
@@ -1963,7 +1975,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                     style={{ position: "relative", width: "100%" }}
                   >
                     <DatePicker
-                      style={{ width: "100%", height: 48, cursor: "pointer" }}
+                      style={{ width: "100%", height: 48, cursor: "pointer" ,fontFamily: "Gilroy"}}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={selectedDate ? dayjs(selectedDate) : null}
@@ -2011,6 +2023,33 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
               </span>
             </div>
           )}
+
+
+            {formLoading && <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
           <Modal.Footer
             className="d-flex justify-content-center"
             style={{ borderTop: "none" }}

@@ -46,6 +46,7 @@ function EBRoomReading(props) {
   const [dateErrorMesg, setDateErrorMesg] = useState("")
   const [roomelectricity, setRoomElectricity] = useState([])
 
+ const [formLoading, setFormLoading] = useState(false)
 
 
 
@@ -146,9 +147,12 @@ function EBRoomReading(props) {
 
 
   useEffect(() => {
+    if(state?.PgList?.ebEditError){
+      setFormLoading(false)
     setDateError(state?.PgList?.ebEditError);
-
+    }
   }, [state?.PgList?.ebEditError]);
+
   useEffect(() => {
     if (hostelId && Floor) {
       dispatch({
@@ -290,6 +294,7 @@ function EBRoomReading(props) {
     return true;
   };
   const handleSaveChanges = () => {
+     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
     const isreadingValid = validateAssignField(reading, "reading");
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
     const isFloorValid = validateAssignField(Floor, "Floor");
@@ -354,6 +359,7 @@ function EBRoomReading(props) {
         id: id
       },
     });
+    setFormLoading(true)
 
   };
 
@@ -431,6 +437,7 @@ function EBRoomReading(props) {
 
   useEffect(() => {
     if (state.PgList.statusCodeForEditElectricity === 200 || state.PgList.statusCodeForDeleteElectricity === 200) {
+     setFormLoading(false)
       handleCloseDelete()
       handleClose()
       dispatch({ type: "EBSTARTMETERLIST", payload: { hostel_id: hostelId } });
@@ -1154,6 +1161,7 @@ function EBRoomReading(props) {
                     ...base,
                     backgroundColor: "#f8f9fa",
                     border: "1px solid #ced4da",
+                    fontFamily: "Gilroy"
                   }),
                   menuList: (base) => ({
                     ...base,
@@ -1162,6 +1170,7 @@ function EBRoomReading(props) {
                     padding: 0,
                     scrollbarWidth: "thin",
                     overflowY: "auto",
+                    fontFamily: "Gilroy"
                   }),
                   placeholder: (base) => ({
                     ...base,
@@ -1248,6 +1257,7 @@ function EBRoomReading(props) {
                     ...base,
                     backgroundColor: "#f8f9fa",
                     border: "1px solid #ced4da",
+                    fontFamily: "Gilroy"
                   }),
                   menuList: (base) => ({
                     ...base,
@@ -1256,6 +1266,7 @@ function EBRoomReading(props) {
                     padding: 0,
                     scrollbarWidth: "thin",
                     overflowY: "auto",
+                    fontFamily: "Gilroy"
                   }),
                   placeholder: (base) => ({
                     ...base,
@@ -1340,7 +1351,7 @@ function EBRoomReading(props) {
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
                  
                   <DatePicker
-                    style={{ height: 48, width: "100%", cursor: "pointer" }}
+                    style={{ height: 48, width: "100%", cursor: "pointer",fontFamily: "Gilroy" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -1378,6 +1389,33 @@ function EBRoomReading(props) {
             <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
           </div>
         )}
+
+
+           {formLoading && <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
         <Modal.Footer className="d-flex justify-content-center " style={{ borderTop: "none" }}>
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
