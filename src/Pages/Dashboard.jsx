@@ -143,22 +143,10 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
     setSelectAdvance(e.target.value);
   };
 
-  // useEffect(() => {
-  //      setLoading(true);
-  //   dispatch({
-  //     type: "DASHBOARDFILTERCASHBACK",
-  //     payload: {
-  //       type: "cashback",
-  //       range: selectCashback,
-  //       hostel_id: hostel_id,
-  //     },
-  //   });
-  
-  // }, [selectCashback, hostel_id]);
 
     useEffect(() => {
   if (hostel_id) {
-    setLoading(true);
+    setLoading(true); 
     dispatch({
       type: "DASHBOARDFILTERCASHBACK",
       payload: {
