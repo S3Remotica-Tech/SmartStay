@@ -2495,7 +2495,7 @@ useEffect(() => {
                                 style={{
                                   listStyleType: "none",
                                   maxHeight: 174,
-                                  minHeight: bills?.length > 1 ? "100px" : "auto",
+                                  minHeight: bills?.length > 1 ? "50px" : "auto",
                                   overflowY: bills?.length > 3 ? "auto" : "hidden",
                                   margin: 0,
                                 }}
