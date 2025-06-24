@@ -34,7 +34,8 @@ const Compliance = () => {
   const dispatch = useDispatch()
   const { RangePicker } = DatePicker;
   const initialValuesRef = useRef({});
-
+  const [formLoading, setFormLoading] = useState(false)
+ 
   const [id, setId] = useState('')
   const [Complainttype, setComplainttype] = useState('');
   const [description, setDescription] = useState('')
@@ -200,7 +201,7 @@ const Compliance = () => {
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } });
-
+      handleClose()
       setTimeout(() => {
         dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' });
       }, 500);
@@ -313,18 +314,18 @@ const Compliance = () => {
 
 
   const handleStatusFilter = (event) => {
-    
+
     const value = event.target.value;
     setStatusfilter(value);
 
     if (value === "All") {
       setFilteredUsers(state.ComplianceList?.Compliance || []);
-    }  
+    }
 
-   else if (value === "date") {
+    else if (value === "date") {
       setFilteredUsers(state.ComplianceList?.Compliance || []);
-    } 
-    
+    }
+
     else {
       const filtered = (state.ComplianceList?.Compliance || []).filter(item =>
         item.Status?.toLowerCase().includes(value.toLowerCase())
@@ -432,6 +433,7 @@ const Compliance = () => {
   }
   const handleClose = () => {
     setShow(false);
+    setFormLoading(false)
     setSelectedUserName('');
     setComplainttype('');
     setAssign('');
@@ -505,7 +507,9 @@ const Compliance = () => {
       const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
       if (id && hasChanges) {
         dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: Number(beds), Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id } })
-        handleClose()
+        setFormLoading(true)
+
+
         setSelectedUserName('');
         setComplainttype('');
         setAssign('');
@@ -522,7 +526,8 @@ const Compliance = () => {
       }
       else {
         dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status, } })
-        handleClose()
+        setFormLoading(true)
+
         setSelectedUserName('');
         setComplainttype('');
         setAssign('');
@@ -738,7 +743,7 @@ const Compliance = () => {
                 >
                   <div className="d-flex justify-content-between align-items-center flex-wrap" style={{ paddingTop: 11 }}>
                     <div className=" ms-2" >
-                      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, marginTop: 5, marginLeft: 3 }}>Complaints</label>
+                      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, marginTop: 5, marginLeft: 3, fontFamily:"Gilroy" }}>Complaints</label>
                     </div>
 
                     <div className="d-flex flex-wrap align-items-center gap-2">
@@ -955,8 +960,8 @@ const Compliance = () => {
                   }
 
                 </div>
-                { filteredUsers && filteredUsers?.length >= 5 && (
-              
+                {filteredUsers && filteredUsers?.length >= 5 && (
+
                   <nav className="pagination-container mb-0"
                     style={{
                       display: "flex",
@@ -1074,7 +1079,7 @@ const Compliance = () => {
                     backdrop="static">
                     <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px", }} className='m-0 p-0'>
 
-                      <Modal.Header style={{ }}>
+                      <Modal.Header style={{}}>
                         <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
 
                         <CloseCircle size="24" color="#000" onClick={handleClose}
@@ -1082,7 +1087,7 @@ const Compliance = () => {
 
                       </Modal.Header>
                       <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
-                      
+
 
                         <div className='row '>
 
@@ -1141,13 +1146,13 @@ const Compliance = () => {
                                     fontWeight: 500,
                                     boxShadow: "none",
                                     backgroundColor: edit ? "#E7F1FF" : "#fff",
-                                    cursor:'pointer'
+                                    cursor: 'pointer'
                                   }),
                                   menu: (base) => ({
                                     ...base,
                                     backgroundColor: "#f8f9fa",
                                     border: "1px solid #ced4da",
-                                     fontFamily: "Gilroy",
+                                    fontFamily: "Gilroy",
                                   }),
                                   menuList: (base) => ({
                                     ...base,
@@ -1156,7 +1161,7 @@ const Compliance = () => {
                                     padding: 0,
                                     scrollbarWidth: "thin",
                                     overflowY: "auto",
-                                     fontFamily: "Gilroy",
+                                    fontFamily: "Gilroy",
                                   }),
                                   placeholder: (base) => ({
                                     ...base,
@@ -1255,14 +1260,14 @@ const Compliance = () => {
                                   fontWeight: 500,
                                   boxShadow: "none",
                                   backgroundColor: edit ? "#E7F1FF" : "#fff",
-                                  cursor:'pointer'
+                                  cursor: 'pointer'
                                 }),
                                 menu: (base) => ({
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   border: "1px solid #ced4da",
-                                   fontFamily: "Gilroy",
-                                     cursor:'pointer'
+                                  fontFamily: "Gilroy",
+                                  cursor: 'pointer'
                                 }),
                                 menuList: (base) => ({
                                   ...base,
@@ -1272,7 +1277,7 @@ const Compliance = () => {
                                   scrollbarWidth: "thin",
                                   overflowY: "auto",
                                   fontFamily: "Gilroy",
-                                  cursor:'pointer'
+                                  cursor: 'pointer'
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
@@ -1291,12 +1296,12 @@ const Compliance = () => {
                                   display: "none",
                                 }),
                                 option: (base, state) => ({
-  ...base,
-  cursor: "pointer", 
-  color: state.isSelected ? "#fff" : "#000",
-  fontSize: "14px",
-  fontFamily: "Gilroy",
-}),
+                                  ...base,
+                                  cursor: "pointer",
+                                  color: state.isSelected ? "#fff" : "#000",
+                                  fontSize: "14px",
+                                  fontFamily: "Gilroy",
+                                }),
                               }}
                             />
 
@@ -1379,7 +1384,7 @@ const Compliance = () => {
 
                               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                 <DatePicker
-                                  style={{ width: "100%", height: 48, cursor: "pointer" }}
+                                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily:"Gilroy" }}
                                   format="DD/MM/YYYY"
                                   placeholder="DD/MM/YYYY"
                                   value={selectedDate ? dayjs(selectedDate) : null}
@@ -1421,6 +1426,34 @@ const Compliance = () => {
 
 
                       </Modal.Body>
+
+
+                      {formLoading && <div
+                        style={{
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: 'transparent',
+                          opacity: 0.75,
+                          zIndex: 10,
+                        }}
+                      >
+                        <div
+                          style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                          }}
+                        ></div>
+                      </div>}
+
 
                       {totalErrormsg.trim() !== "" && (
                         <div>
@@ -1486,6 +1519,12 @@ const Compliance = () => {
                         </div>
 
                       </Modal.Body>
+
+ 
+
+
+
+
                       <Modal.Footer style={{ border: "none" }}>
 
                         <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}

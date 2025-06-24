@@ -995,7 +995,8 @@ function StaticExample({ show, setShow, currentItem }) {
               </div>
             )}
 
-            {formLoading && <div
+            {formLoading && 
+            <div
               style={{
                 position: 'absolute',
                 top: '50%',
@@ -1019,7 +1020,8 @@ function StaticExample({ show, setShow, currentItem }) {
                   animation: 'spin 1s linear infinite',
                 }}
               ></div>
-            </div>}
+            </div>
+            }
             <Modal.Footer style={{ border: "none" }} className="">
 
 

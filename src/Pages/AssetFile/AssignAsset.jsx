@@ -27,7 +27,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   const [floorError, setFloorError] = useState("");
   const [noChangeError, setNoChangeError] = useState("");
   const [generalError, setGeneralError] = useState("");
-
+ const [formLoading, setFormLoading] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = useRef(null);
   const [roomList, setRoomList] = useState([]);
@@ -133,6 +133,8 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [state.AssetList.getRoomStatusCode]);
 
   const handleAddAssignAsset = () => {
+
+
     setRoomError("");
     setDateError("");
     setFloorError("");
@@ -211,11 +213,13 @@ function StaticExample({ show, handleClose, currentItem }) {
           floor_id: Floor,
         },
       });
+      setFormLoading(true)
     }
   };
 
   useEffect(() => {
     if (state.AssetList.addAssignAssetStatusCode === 200) {
+      setFormLoading(false)
       setPgList("");
       setRoom("");
       setSelectedDate("");
@@ -445,6 +449,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                         ...base,
                         backgroundColor: "#f8f9fa",
                         border: "1px solid #ced4da",
+                         fontFamily: "Gilroy",
                       }),
                       menuList: (base) => ({
                         ...base,
@@ -453,6 +458,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                         padding: 0,
                         scrollbarWidth: "thin",
                         overflowY: "auto",
+                         fontFamily: "Gilroy",
                       }),
                       placeholder: (base) => ({
                         ...base,
@@ -519,7 +525,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                     style={{ position: "relative", width: "100%" }}
                   >
                     <DatePicker
-                      style={{ width: "100%", height: 48 }}
+                      style={{ width: "100%", height: 48,  fontFamily: "Gilroy", }}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={selectedDate ? dayjs(selectedDate) : null}
@@ -560,7 +566,32 @@ function StaticExample({ show, handleClose, currentItem }) {
               </div>
             </div>
           </Modal.Body>
-
+ {formLoading && 
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
           {noChangeError && (
             <div
               className="d-flex align-items-center p-1 mb-2 mt-2"

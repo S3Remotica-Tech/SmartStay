@@ -23,27 +23,14 @@ function DashboardAnnouncement() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [formLoading, setFormLoading] = useState(false)
-
+const [formCommentsLoading, setFormCommentsLoading] = useState(false)
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
-  };
-
   const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
 
-
-
   const state = useSelector((state) => state);
-
-
 
   const dispatch = useDispatch();
   const [showMainModal, setShowMainModal] = useState(false);
@@ -73,7 +60,14 @@ function DashboardAnnouncement() {
 
 
 
+const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
+  };
   const handleCommentsChange = (e) => {
     setComments(e.target.value)
     setDisplayError('')
@@ -87,13 +81,10 @@ function DashboardAnnouncement() {
     }
     if (Comments) {
       dispatch({ type: 'CREATECOMMENTS', payload: { an_id: selectedCard, comment: Comments } })
+      setFormCommentsLoading(true)
     }
-
-
-
     setComments("");
-    setShowCommentModal(false);
-    setCommentsList([]);
+       setCommentsList([]);
 
   }
 
@@ -204,6 +195,8 @@ function DashboardAnnouncement() {
 
   useEffect(() => {
     if (state.PgList?.addCommentsSuccessStatus === 200) {
+      setFormCommentsLoading(false)
+      setShowCommentModal(false);
       if (selectedCard) {
         dispatch({ type: 'GETCOMMENTS', payload: { an_id: selectedCard } })
       }
@@ -235,7 +228,7 @@ function DashboardAnnouncement() {
 
   useEffect(() => {
     if (state.PgList?.addSubCommentsSuccessStatus === 200) {
-
+ setFormCommentsLoading(false)
       if (selectedCard) {
         dispatch({ type: 'GETCOMMENTS', payload: { an_id: selectedCard } })
       }
@@ -1310,7 +1303,7 @@ useEffect(() => {
             <div className="d-flex align-items-center">
 
               <div className="ms-2">
-                <p className="mb-0 fw-bold">Monthly</p>
+                <p className="mb-0 fw-bold" style={{fontFamily:"Gilroy"}}>Monthly</p>
 
               </div>
             </div>
@@ -1328,11 +1321,11 @@ useEffect(() => {
                         : comment.profile
                     } width={30} height={30} alt="profile" />
                     <div className="ms-2">
-                      <p className="mb-0 fw-bold" style={{ fontSize: "14px" }}>{comment.name}</p>
-                      <p className="mb-0 text-muted" style={{ fontSize: "12px" }}>{new Date(comment.created_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}</p>
+                      <p className="mb-0 fw-bold" style={{ fontSize: "14px" ,fontFamily:"Gilroy"}}>{comment.name}</p>
+                      <p className="mb-0 text-muted" style={{ fontSize: "12px",fontFamily:"Gilroy" }}>{new Date(comment.created_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}</p>
                     </div>
                   </div>
-                  <p className="mt-2 mb-1" style={{ fontSize: "14px", color: "#222" }}>{comment.comment}</p>
+                  <p className="mt-2 mb-1" style={{ fontSize: "14px", color: "#222",fontFamily:"Gilroy" }}>{comment.comment}</p>
                 </div>
               ))
             ) : (
@@ -1351,7 +1344,32 @@ useEffect(() => {
             )}
           </Modal.Body>
 
-
+ {formCommentsLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+                           alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
 
           <Modal.Footer style={{ border: "none" }}>

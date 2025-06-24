@@ -18,7 +18,7 @@ function ExpensesListTable(props) {
   const popupRef = useRef(null);
   const state = useSelector(state => state)
   const dispatch = useDispatch();
-
+  const [formLoading, setFormLoading] = useState(false)
   const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
@@ -107,6 +107,8 @@ function ExpensesListTable(props) {
     setAssetNameError("");
     if (assetname) {
       dispatch({ type: 'ADDEXPENSETAG', payload: { id: props.item.id, asset_id: assetname, hostel_id: props.item.hostel_id } })
+
+      setFormLoading(true)
     }
   }
 
@@ -150,9 +152,9 @@ function ExpensesListTable(props) {
         </div>
       </td>
 
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle',  fontSize: 13,  fontWeight: 500, fontFamily: "Gilroy", color: "#000000",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.description || "-"}</td>
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy" ,borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap"}}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_count}</td>
-      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8",whiteSpace:"nowrap" }}  className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_amount}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", color: "#000000", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.description || "-"}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_count}</td>
+      <td style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-4">{props.item.unit_amount}</td>
 
 
       <td style={{ textAlign: 'start', verticalAlign: 'middle', border: "none", borderBottom: "1px solid #E8E8E8", whiteSpace: "nowrap" }} className="ps-0 ps-sm-0 ps-md-3 ps-lg-3">
@@ -166,8 +168,8 @@ function ExpensesListTable(props) {
 
 
 
-     <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"  style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8", }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }} className=''>
-      {props.item.paymentModeName ? props.item.paymentModeName : '-'}
+      <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3" style={{ border: "none", textAlign: 'start', verticalAlign: 'middle', fontSize: 13, fontWeight: 500, color: "#000000", fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8", }}><span style={{ backgroundColor: "#EBEBEB", borderRadius: "60px", lineHeight: "1.5em", fontSize: 13, fontWeight: 500, fontFamily: "Gilroy", padding: "8px 12px" }} className=''>
+        {props.item.paymentModeName ? props.item.paymentModeName : '-'}
 
       </span></td>
 
@@ -237,7 +239,7 @@ function ExpensesListTable(props) {
                   </label>
                 </div>
 
-<div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
                 <div
                   className="d-flex justify-content-start align-items-center gap-2"
                   onClick={() => {
@@ -442,7 +444,7 @@ function ExpensesListTable(props) {
               >
                 {state.AssetList.assetList.length > 0 ? (
                   state.AssetList.assetList.map((view) => (
-                    <MenuItem key={view.asset_id} value={view.asset_name}>
+                    <MenuItem key={view.asset_id} value={view.asset_name} style={{ fontFamily: "Gilroy" }}>
                       {view.asset_name}
                     </MenuItem>
                   ))
@@ -516,6 +518,33 @@ function ExpensesListTable(props) {
             </Button>
           </div>
         </Modal.Body>
+         {formLoading && 
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>
+            }
       </Modal>
     }
 
