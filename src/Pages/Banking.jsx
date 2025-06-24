@@ -374,7 +374,7 @@ function Banking() {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   const handleShowAddBalance = (item) => {
-    setAddBankName(item.bank_name);
+   setAddBankName(`${item.benificiary_name} - ${item.type}`);
 
     setTypeId(item.id);
     setshowAddBalance(true);

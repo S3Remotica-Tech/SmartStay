@@ -2183,7 +2183,7 @@ function UserlistForm(props) {
                       )}
                     </div>
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                       <Form.Group className="mb-1">
                         <Form.Label
                           style={{
