@@ -33,6 +33,8 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const [passwordError, setPasswordError] = useState("");
   const [initialState, setInitialState] = useState({});
   const [error, setError] = useState("");
+      const [formLoading, setFormLoading] = useState(false)
+  
 
   useEffect(() => {
 
@@ -164,7 +166,13 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const clearEmailError = () => ({
     type: "CLEAR_EMAIL_ID_ERROR",
   });
+
+
   const handleSubmit = () => {
+
+dispatch(clearPhoneError());
+    dispatch(clearEmailError());
+
     let isValid = true;
 
     setNameError("");
@@ -250,12 +258,14 @@ function User({ show, editDetails, setAddUserForm, edit }) {
         type: "ADDSTAFFUSER",
         payload,
       });
+      setFormLoading(true)
     }
   };
 
 
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 200) {
+       setFormLoading(false)
       handleCloseForm();
       dispatch({
         type: "GETUSERSTAFF",
@@ -266,6 +276,23 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       }, 200);
     }
   }, [state.Settings.StatusForaddSettingUser]);
+
+
+
+useEffect(()=>{
+  if(state.Settings.emailIdError || state.Settings.phoneNumError){
+     setFormLoading(false)
+  }
+
+},[state.Settings.emailIdError, state.Settings.phoneNumError])
+
+
+
+
+
+
+
+
 
   return (
     <div
@@ -632,7 +659,6 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       </InputGroup.Text>
                     </InputGroup>
                   </Form.Group>
-                  {/* {passwordError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</p>} */}
                   {passwordError && (
                     <p
                       style={{
@@ -709,6 +735,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                         ...base,
                         backgroundColor: "#f8f9fa",
                         border: "1px solid #ced4da",
+                         fontFamily: "Gilroy",
                       }),
                       menuList: (base) => ({
                         ...base,
@@ -717,6 +744,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                         padding: 0,
                         scrollbarWidth: "thin",
                         overflowY: "auto",
+                         fontFamily: "Gilroy",
                       }),
                       placeholder: (base) => ({
                         ...base,
@@ -818,7 +846,33 @@ function User({ show, editDetails, setAddUserForm, edit }) {
               )}
             </div>
           </Modal.Body>
-
+   {formLoading &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderTop: '4px solid #1E45E1',
+                                    borderRight: '4px solid transparent',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    animation: 'spin 1s linear infinite',
+                                }}
+                            ></div>
+                        </div>
+                    }
           <Modal.Footer
             style={{ border: "none", marginBottom: "17px", marginTop: "-10px" }}
           >

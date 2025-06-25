@@ -52,7 +52,7 @@ function BookingModal(props) {
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-
+  const [formLoading, setFormLoading] = useState(false)
 
 
   const firstnameRef = useRef();
@@ -121,6 +121,7 @@ function BookingModal(props) {
 
   useEffect(() => {
     if (state.Booking.bookingPhoneError) {
+      setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_PHONE_ERROR" });
       }, 2000);
@@ -129,6 +130,7 @@ function BookingModal(props) {
 
   useEffect(() => {
     if (state.Booking.bookingEmailError) {
+      setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
       }, 2000);
@@ -137,6 +139,7 @@ function BookingModal(props) {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
+      setFormLoading(false)
       handleAddClose();
       dispatch({
         type: "GET_BOOKING_LIST",
@@ -318,6 +321,10 @@ function BookingModal(props) {
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleSubmit = () => {
+
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+
     let hasError = false;
     const focusedRef = { current: false };
 
@@ -411,9 +418,11 @@ function BookingModal(props) {
         profile: file,
       },
     });
+    setFormLoading(true)
   };
 
   const handleAddClose = () => {
+    setFormLoading(false)
     setFirstName("");
     setLastName("");
     setAmount("");
@@ -1250,6 +1259,35 @@ function BookingModal(props) {
 
 
         </Modal.Body>
+        {formLoading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
+
+
         <Modal.Footer
           className="d-flex align-items-center justify-content-center"
           style={{ border: "none" }}
