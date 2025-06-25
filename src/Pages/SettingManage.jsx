@@ -1368,24 +1368,7 @@ function SettingManage() {
                       >
                         There is no floor added to this paying guest.
                       </div>
-                      <div className="d-flex justify-content-center pb-1 mt-3">
-                        {" "}
-                        <Button
-                          style={{
-                            fontSize: 16,
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            padding: "20px 40px",
-                            fontFamily: "Gilroy",
-                          }}
-                          onClick={() => handleAddFloors(showHostelDetails.id)}
-                        >
-                          {" "}
-                          + Add floor
-                        </Button>
-                      </div>
+                   
                     </div>
                     <div></div>
                   </div>

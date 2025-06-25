@@ -50,7 +50,6 @@ import newBooking from "../Assets/Images/New_images/NewBooking.png";
 
 function Dashboard() {
   const state = useSelector((state) => state);
- 
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [dashboardList, setDashboardList] = useState([]);
@@ -68,7 +67,7 @@ function Dashboard() {
   const [cashBackData, setCashBackData] = useState("");
   const [selectRevenu, setSelectRevenu] = useState("six_month");
   const [hostel_id, setHostel_Id] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
   const [selectAdvance, setSelectAdvance] = useState("six_month");
@@ -144,8 +143,10 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
     setSelectAdvance(e.target.value);
   };
 
-  useEffect(() => {
-       setLoading(true);
+
+    useEffect(() => {
+
+    setLoading(true); 
     dispatch({
       type: "DASHBOARDFILTERCASHBACK",
       payload: {
@@ -155,7 +156,10 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
       },
     });
   
-  }, [selectCashback, hostel_id]);
+}, [selectCashback, hostel_id]);
+
+
+
   useEffect(() => {
     if (hostel_id) {
       dispatch({
@@ -466,23 +470,6 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
     );
   };
 
-
-
-const rawValue = currentvalue?.toString() || "0";
-const formattedValue = `₹${rawValue}`;
-const maxLength = 8;
-const displayText =
-  formattedValue.length > maxLength
-    ? formattedValue.slice(0, maxLength) + "..."
-    : formattedValue;
-
-
-
-
-
-
-
-  
   return (
     <>
       <div className="cotainer px-3 py-3">
@@ -628,27 +615,27 @@ const displayText =
                 <>
                   <div className="mt-4 dashboard-tab-one">
                     <div className=" my-4">
-                      <div className="row g-3" >
-                        <div className="col-md-2  " >
+                      <div className="row g-3">
+                        <div className="col-md-2">
                           <div
-                            className="border rounded-4  shadow-sm text-start d-block align-items-start justify-content-between bg-white gap-4"
-                            style={{height:"auto", padding:"25px 15px"}}
+                            className="border rounded-4 p-4 shadow-sm text-start d-flex flex-column align-items-start justify-content-between bg-white"
+                            style={{ minHeight: 160 }}
                           >
-                            <div className="text-primary mb-3">
+                            <div className="text-primary mb-2">
                               <i className="bi bi-house-door-fill fs-4"></i>
                             </div>
-                            <h6 className="text-muted mb-3" style={{fontFamily: "Montserrat"}}>Total Rooms</h6>
-                            <h5 className="mb-3" style={{fontFamily: "Montserrat"}}>
+                            <h6 className="text-muted mb-1">Total Rooms</h6>
+                            <h5 className="mb-0">
                               {dashboardList[0]?.roomCount || 0}
                             </h5>
                           </div>
                         </div>
 
-                        <div className="col-md-3 d-flex flex-column gap-3 " >
+                        <div className="col-md-3 d-flex flex-column gap-2">
                           <div className="border rounded-4   p-3 shadow-sm d-flex justify-content-between align-items-center bg-white">
                             <div>
-                              <h6 className="text-muted mb-1" style={{fontFamily: "Montserrat"}}>Total Beds</h6>
-                              <h5 className="mb-0" style={{fontFamily: "Montserrat"}}>
+                              <h6 className="text-muted mb-1">Total Beds</h6>
+                              <h5 className="mb-0">
                                 {dashboardList[0]?.TotalBed || 0}
                               </h5>
                             </div>
@@ -661,8 +648,8 @@ const displayText =
                           </div>
                           <div className="border rounded-4 p-3 shadow-sm d-flex justify-content-between align-items-center bg-white">
                             <div>
-                              <h6 className="text-muted mb-1" style={{fontFamily: "Montserrat"}}>Free Beds</h6>
-                              <h5 className="mb-0" style={{fontFamily: "Montserrat"}}>
+                              <h6 className="text-muted mb-1">Free Beds</h6>
+                              <h5 className="mb-0">
                                 {dashboardList[0]?.availableBed || 0}
                               </h5>
                             </div>
@@ -675,50 +662,50 @@ const displayText =
                           </div>
                         </div>
 
-                        <div className="col-md-7 p-0" >
+                        <div className="col-md-7">
                           <div
                             className="p-2 rounded-4"
                             style={{ backgroundColor: "#E0ECFF" }}
                           >
                             <div className="row g-2">
-                              <div className="col-md-9" >
-                                <div className="row g-1">
+                              <div className="col-md-9">
+                                <div className="row g-2">
                                   <div className="col-lg-6 col-md-12 col-sm-12">
                                     <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                                      <h6 className="text-muted contents mb-1" style={{fontFamily: "Montserrat"}}>
+                                      <h6 className="text-muted contents mb-1">
                                         Occupied Beds
                                       </h6>
-                                      <h5 className="mb-0 counts" style={{fontFamily: "Montserrat"}}>
+                                      <h5 className="mb-0 counts">
                                         {dashboardList[0]?.occupied_Bed || 0}
                                       </h5>
                                     </div>
                                   </div>
                                   <div className="col-lg-6 col-md-12 col-sm-12">
                                     <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                                      <h6 className="text-muted mb-1 contents" style={{fontFamily: "Montserrat"}}>
+                                      <h6 className="text-muted mb-1 contents">
                                         Next Month Projection
                                       </h6>
-                                      <h5 className="mb-0 counts" style={{fontFamily: "Montserrat"}}>
+                                      <h5 className="mb-0 counts">
                                         {dashboardList[0]?.project_amount || 0}
                                       </h5>
                                     </div>
                                   </div>
                                   <div className="col-lg-6 col-md-12 col-sm-12">
                                     <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                                      <h6 className="text-muted mb-1 contents" style={{fontFamily: "Montserrat"}}>
+                                      <h6 className="text-muted mb-1 contents">
                                         Total Customers
                                       </h6>
-                                      <h5 className="mb-0 counts" style={{fontFamily: "Montserrat"}}>
+                                      <h5 className="mb-0 counts">
                                         {dashboardList[0]?.customer_count || 0}
                                       </h5>
                                     </div>
                                   </div>
                                   <div className="col-lg-6 col-md-12 col-sm-12">
                                     <div className="border rounded-4 p-3 shadow-sm bg-white text-start">
-                                      <h6 className="text-muted mb-1 contents" style={{fontFamily: "Montserrat"}}>
+                                      <h6 className="text-muted mb-1 contents">
                                         EB Amount
                                       </h6>
-                                      <h5 className="mb-0 counts" style={{fontFamily: "Montserrat"}}>
+                                      <h5 className="mb-0 counts">
                                         {dashboardList[0]?.eb_amount || 0}
                                       </h5>
                                     </div>
@@ -737,11 +724,11 @@ const displayText =
                                   />
                                   <p
                                     className="text-muted mb-1 small"
-                                    style={{fontFamily: "Montserrat"}}
+                                    style={{ fontFamily: "Gilroy" }}
                                   >
                                     Total Asset Value
                                   </p>
-                                  <h5 className="mt-1" style={{fontFamily: "Montserrat"}}>
+                                  <h5 className="mt-1">
                                     {dashboardList[0]?.asset_amount || 0}
                                   </h5>
                                 </div>
@@ -756,33 +743,33 @@ const displayText =
     <div className="row g-3">
 
      
-      <div className="col-12 col-md-6 col-lg-5">
+      <div className="col-12 col-md-6 col-lg-4">
         <div className="d-flex align-items-center p-3 border rounded-4 bg-primary bg-opacity-10">
           <div className="me-3  text-primary"><img src={advancedHand} alt="advancedhand" width={32} height={32} /></div>
           <div>
-            <h6 className="text-muted " style={{fontFamily: "Montserrat"}} >Advance in Hand</h6>
-            <div className="fw-semibold fs-5" style={{fontFamily: "Montserrat"}}>₹ {dashboardList[0]?.advance_inhand || 0}</div>
+            <h6 className="text-muted ">Advance in Hand</h6>
+            <div className="fw-semibold fs-5">₹ {dashboardList[0]?.advance_inhand || 0}</div>
           </div>
         </div>
       </div>
 
      
-      <div className="col-12 col-md-6 col-lg-4 .offset-col-lg-1">
+      <div className="col-12 col-md-6 col-lg-4">
         <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
           <div className="me-3  text-primary"><img src={activeImage} alt="activeImage" width={32} height={32} /></div>
           <div>
-            <h6 className="text-muted " style={{fontFamily: "Montserrat"}}>Active Complaint</h6>
-            <div className="fw-semibold fs-5" style={{fontFamily: "Montserrat"}}>{dashboardList[0]?.active_complaint || 0}</div>
+            <h6 className="text-muted ">Active Complaint</h6>
+            <div className="fw-semibold fs-5">{dashboardList[0]?.active_complaint || 0}</div>
           </div>
         </div>
       </div>
 
-      <div className="col-12 col-md-6 col-lg-3">
+      <div className="col-12 col-md-6 col-lg-4">
         <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
           <div className="me-3 text-primary"><img src={currentMatch} alt="currentMatch" width={32} height={32} /></div>
           <div>
-            <h6 className="text-muted " style={{fontFamily: "Montserrat"}}>Current Month Profit</h6>
-            <div className="fw-semibold fs-5" style={{fontFamily: "Montserrat"}}>₹ {state.PgList?.dashboardDetails?.this_month_profit || 0}</div>
+            <h6 className="text-muted ">Current Month Profit</h6>
+            <div className="fw-semibold fs-5">₹ {state.PgList.dashboardDetails.this_month_profit || 0}</div>
           </div>
         </div>
       </div>
@@ -792,8 +779,8 @@ const displayText =
         <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
           <div className="me-3  text-primary"><img src={coinImage} alt="coinImage" width={32} height={32} /></div>
           <div>
-            <h6 className="text-muted " style={{fontFamily: "Montserrat"}}>Other Profit</h6>
-            <div className="fw-semibold fs-5" style={{fontFamily: "Montserrat"}}>₹ {state.PgList?.dashboardDetails?.this_month_other_income || 0}</div>
+            <h6 className="text-muted ">Other Profit</h6>
+            <div className="fw-semibold fs-5">₹{state.PgList.dashboardDetails.this_month_other_income || 0}</div>
           </div>
         </div>
       </div>
@@ -803,8 +790,8 @@ const displayText =
         <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
           <div className="me-3  text-primary"><img src={pendingimg} alt="coinImage" width={32} height={32} /></div>
           <div>
-            <h6 className="text-muted " style={{fontFamily: "Montserrat"}}>Pending invoice count</h6>
-            <div className="fw-semibold fs-5" style={{fontFamily: "Montserrat"}}>{dashboardList[0]?.pending_invoice || 0}</div>
+            <h6 className="text-muted ">Pending invoice count</h6>
+            <div className="fw-semibold fs-5">{dashboardList[0]?.pending_invoice || 0}</div>
           </div>
         </div>
       </div>
@@ -814,8 +801,8 @@ const displayText =
         <div className="d-flex align-items-center p-3 border rounded-4 bg-white">
           <div className="me-3  text-primary"><img src={newBooking} alt="coinImage" width={32} height={32} /></div>
           <div>
-            <h6 className="text-muted" style={{fontFamily: "Montserrat"}}>New booking</h6>
-            <div className="fw-semibold fs-5" style={{fontFamily: "Montserrat"}}>{dashboardList[0]?.new_booking || 0}</div>
+            <h6 className="text-muted ">New booking</h6>
+            <div className="fw-semibold fs-5">{dashboardList[0]?.new_booking || 0}</div>
           </div>
         </div>
       </div>
@@ -1121,7 +1108,6 @@ const displayText =
                             <div className="d-flex flex-wrap align-items-center">
                              
                               <div
-                            title={formattedValue}
                                 className="flex-shrink-0 me-3"
                                 style={{
                                   width: "40%",
@@ -1131,7 +1117,7 @@ const displayText =
                               >
                                 <CircularProgressbar
                                   value={percentage}
-                                   text={displayText}
+                                  text={`₹${currentvalue || 0}`}
                                   circleRatio={0.5}
                                   styles={buildStyles({
                                     rotation: 0.75,

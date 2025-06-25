@@ -290,6 +290,7 @@ function AssignBooking(props) {
     setAdvanceamount(value);
     setAdavanceError("");
   };
+  console.log("state.Booking?.ErrorAssignBooking",state.Booking?.ErrorAssignBooking)
 
   return (
     <>
@@ -438,6 +439,7 @@ function AssignBooking(props) {
                       lineHeight: 1,
                       stroke: "currentColor",
                       strokeWidth: 0,
+                      cursor:"pointer"
                     }),
                     indicatorSeparator: () => ({
                       display: "none",
@@ -554,6 +556,7 @@ function AssignBooking(props) {
                       lineHeight: 1,
                       stroke: "currentColor",
                       strokeWidth: 0,
+                      cursor:"pointer"
                     }),
                     indicatorSeparator: () => ({
                       display: "none",
@@ -662,6 +665,7 @@ function AssignBooking(props) {
                   dropdownIndicator: (base) => ({
                     ...base,
                     color: "#555",
+                    cursor:"pointer"
                   }),
                   indicatorSeparator: () => ({
                     display: "none",

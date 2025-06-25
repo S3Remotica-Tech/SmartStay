@@ -305,11 +305,16 @@ function Banking() {
     }
 
     const { top, left } = event.target.getBoundingClientRect();
-    const popupTop = top - 10;
+    const popupTop = top - 35;
     const popupLeft = left - 150;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
+
+
+  
+
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -322,6 +327,8 @@ function Banking() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+
 
   const handleEditTransForm = (item) => {
     setUpdateTransaction(item);
@@ -367,7 +374,7 @@ function Banking() {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   const handleShowAddBalance = (item) => {
-    setAddBankName(item.bank_name);
+   setAddBankName(`${item.benificiary_name} - ${item.type}`);
 
     setTypeId(item.id);
     setshowAddBalance(true);
@@ -483,21 +490,29 @@ function Banking() {
     setFilterStatus(!filterStatus);
   };
 
+ 
   const handlefilterInput = (e) => {
-    setFilterInput(e.target.value);
-    setDropdownVisible(e.target.value.length > 0);
-    settransactionFilterddata(originalBillsFilter)
-  };
+  const input = e.target.value;
+  setFilterInput(input);
+  setDropdownVisible(input.length > 0);
 
-
-  const handleUserSelect = (user) => {
-    setFilterInput(user.benificiary_name);
-    const selected = transactionFilterddata.filter(
-      (item) => String(item.benificiary_name) === String(user.benificiary_name)
+  if (input.trim() === "") {
+    settransactionFilterddata([]); 
+  } else {
+    const filtered = originalBillsFilter.filter((item) =>
+      item.benificiary_name.toLowerCase().includes(input.toLowerCase())
     );
-    settransactionFilterddata(selected);
-    setDropdownVisible(false);
-  };
+    settransactionFilterddata(filtered);
+  }
+};
+
+const handleUserSelect = (user) => {
+  setFilterInput(user.benificiary_name);
+ 
+  setDropdownVisible(false);
+};
+
+ 
 
   const [dateRange, setDateRange] = useState(null);
   const handleStatusFilter = (event) => {
@@ -795,7 +810,7 @@ function Banking() {
                 <div className="me-3">
                   <RangePicker
                     value={dateRange}
-                    format="YYYY-MM-DD"
+                    format="DD-MM-YYYY"
                     onChange={handleDateRangeChange}
                     style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
                   />
@@ -1579,7 +1594,7 @@ function Banking() {
                                     top: popupPosition.top,
                                     left: popupPosition.left,
                                     marginLeft: 10,
-                                    width: 140,
+                                    width: 120,
                                     height: "auto",
                                     border: "1px solid #EBEBEB",
                                     borderRadius: 10,
@@ -1994,7 +2009,7 @@ function Banking() {
                   fontFamily: "Gilroy",
                 }}
               >
-                Add balance
+                Add Balance
               </div>
               <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance}
                 style={{ cursor: 'pointer' }} />
@@ -2017,7 +2032,7 @@ function Banking() {
                   <FormControl
                     type="text"
                     id="form-controls"
-                    placeholder="Enter amount"
+                    placeholder="Enter Account"
                     value={AddBankName}
 
                     style={{

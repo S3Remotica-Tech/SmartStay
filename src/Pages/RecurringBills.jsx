@@ -31,6 +31,8 @@ const RecurringBills = (props) => {
   const [newRows, setNewRows] = useState([]);
   const [allFieldErrmsg] = useState('');
   const [recurdisable, setRecurDisable] = useState('')
+      const [error_recurrmessage, setRecurrErrmsg] = useState('')
+
 
 
 
@@ -56,66 +58,42 @@ const RecurringBills = (props) => {
   }
 
 
-  const handleBackBill = () => {
-    props.onhandleback()
-    setAllFieldErrmsg('')
-  }
+      const handleBackBill = () => {
+        props.onhandleback()
+        setAllFieldErrmsg('')
+        setCustomerName('');
+        setInvoiceNumber('');
+        setInvoiceDate('')
+        setInvoiceDueDate('')
+        setTotalAmount('')
+        setBillAmounts([]);
+        setNewRows([]);
+   }
+ 
 
 
 
 
 
-
-  const handleCreateBill = () => {
-
-
-
-    if (!customername) {
-      setCustomerErrmsg('Please Select  Customer')
-      return;
-    }
-
-
-
-
-
-
-    if (customername && invoicenumber) {
-      dispatch({
-        type: 'RECURRING-BILLS-ADD',
-        payload: {
-          user_id: customername,
-          invoice_id: invoicenumber,
-          amenity: [{ key: "total_amount", amount: totalAmount }]
-        }
-      });
-      setFormLoading(true)
-      
-      setCustomerName('');
-      setInvoiceNumber('');
-      setInvoiceDate('')
-      setInvoiceDueDate('')
-           setTotalAmount('')
-      setBillAmounts([]);
-      setNewRows([]);
-    }
-
+     const handleCreateBill = () => {
     
-  }
+          if(!customername){
+           setCustomerErrmsg('Please Select  Customer')
+           return;
+          }
+         
+          if(customername && invoicenumber){
+           dispatch({
+             type: 'RECURRING-BILLS-ADD',
+             payload: { user_id: customername,
+             invoice_id: invoicenumber, 
+               amenity: [{key:"total_amount",amount:totalAmount}]
+             }
+             });
+      setFormLoading(true)
+          }
+     }
 
-
-
-
-
-
-
-
-
-
-
-  // useEffect(()=> {
-  //   dispatch({type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id}})
-  // },[])
 
   useEffect(() => {
     dispatch({ type: "RECURRING-BILLS-LIST" })
@@ -130,85 +108,105 @@ const RecurringBills = (props) => {
   }, [state.InvoiceList.RecurringbillsgetStatuscode]);
 
 
-  useEffect(() => {
-    if (state.InvoiceList.RecurringBillAddStatusCode === 200) {
-      dispatch({ type: 'RECURRING-BILLS-LIST' });
+      useEffect(() => {
+        if (state.InvoiceList.RecurringBillAddStatusCode === 200 ) {
+           props.onhandleback()
+           setFormLoading(false)
+          dispatch({ type: 'RECURRING-BILLS-LIST' });
 
-      setFormLoading(false)
-      props.onhandleback()
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD' });
-      }, 1000);
-    }
-  }, [state.InvoiceList.RecurringBillAddStatusCode]);
-
-
-
-
-  const options = {
-    dateFormat: 'd/m/Y',
-    defaultDate: null,
-    minDate: null,
-  };
-
-  useEffect(() => {
-    if (invoiceRef.current) {
-      invoiceRef.current.flatpickr.set(options);
-    }
-    if (dueRef.current) {
-      dueRef.current.flatpickr.set(options);
-    }
-  }, [invoicedate, invoiceduedate])
+             setCustomerName('');
+             setInvoiceNumber('');
+             setInvoiceDate('')
+             setInvoiceDueDate('')
+             setTotalAmount('')
+             setBillAmounts([]);
+             setNewRows([]);
+      
+          setTimeout(() => {
+            dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD' });
+          }, 1000);
+        }
+      }, [state.InvoiceList.RecurringBillAddStatusCode]); 
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'FILTERRECURRCUSTOMERS', payload: { hostel_id: state.login.selectedHostel_Id } });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (customername) {
-      dispatch({ type: 'MANUAL-INVOICE-NUMBER-GET', payload: { user_id: customername } });
-      dispatch({ type: 'GET-RECURRING-BILL-AMOUNTS', payload: { user_id: customername, hostel_id: state.login.selectedHostel_Id } });
-    }
-  }, [customername]);
-
-
-  useEffect(() => {
-    if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
-
-      setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_MANUAL_INVOICE_NUMBER_GET' });
-      }, 100);
-    }
-  }, [state.InvoiceList.ManualInvoiceNUmber.invoice_number, state.InvoiceList.Manulainvoicenumberstatuscode]);
+      
+      useEffect(() => {
+        if (state.InvoiceList.AddErrorRecurrringStatusCode === 201 ) {
+           setFormLoading(false)
+           setRecurrErrmsg(state.InvoiceList.errorRecuireFile)
+          setTimeout(() => {
+            dispatch({ type: 'REMOVE_ERROR_RECURE' });
+          }, 1000);
+        }
+      }, [state.InvoiceList.AddErrorRecurrringStatusCode]); 
+      
+    
 
 
+      const options = {
+        dateFormat: 'd/m/Y',
+        defaultDate: null,
+        minDate: null,
+      };
+    
+      useEffect(() => {
+        if (invoiceRef.current) {
+          invoiceRef.current.flatpickr.set(options);
+        }
+        if (dueRef.current) {
+          dueRef.current.flatpickr.set(options);
+        }
+    }, [ invoicedate, invoiceduedate ])
 
-  useEffect(() => {
-
-    if (state.InvoiceList.recurrbillamountgetStatuscode === 200) {
-      const totalArray = state?.InvoiceList?.Recurringbillamounts;
-
-      if (totalArray) {
-        setInvoiceTotalAmount(totalArray);
+  
+    useEffect(() => { 
+      if(state.login.selectedHostel_Id){
+        dispatch({ type: 'FILTERRECURRCUSTOMERS', payload: { hostel_id: state.login.selectedHostel_Id } });  
       }
-      setTimeout(() => {
-        dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_INVOICE_AMOUNT' });
-      }, 1000);
-    }
-
-  }, [state.InvoiceList.recurrbillamountgetStatuscode]);
-
-
-
-  useEffect(() => {
-    if (invoicetotalamounts && invoicetotalamounts.length > 0) {
-      setBillAmounts(invoicetotalamounts);
-    }
-  }, [invoicetotalamounts]);
+    }, []);
+    
+      useEffect(() => {
+        if (customername) {
+          dispatch({ type: 'MANUAL-INVOICE-NUMBER-GET', payload: { user_id: customername } });
+          dispatch({ type: 'GET-RECURRING-BILL-AMOUNTS',payload: {user_id: customername , hostel_id: state.login.selectedHostel_Id} });
+        }
+      }, [customername]); 
+      
+     
+      useEffect(() => {
+        if (state.InvoiceList.Manulainvoicenumberstatuscode === 200) {
+    
+          setInvoiceNumber(state.InvoiceList.ManualInvoiceNUmber.invoice_number);
+          setTimeout(() => {
+            dispatch({ type: 'REMOVE_MANUAL_INVOICE_NUMBER_GET' });
+          }, 100);
+        }
+      }, [state.InvoiceList.ManualInvoiceNUmber.invoice_number, state.InvoiceList.Manulainvoicenumberstatuscode]); 
+            
+    
+    
+      useEffect(() => {
+        
+          if (state.InvoiceList.recurrbillamountgetStatuscode === 200) {
+            const totalArray = state?.InvoiceList?.Recurringbillamounts;
+            
+            if (totalArray) {
+              setInvoiceTotalAmount(totalArray); 
+            }
+            setTimeout(() => {
+              dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_INVOICE_AMOUNT' });
+            }, 1000);
+          }
+        
+      }, [ state.InvoiceList.recurrbillamountgetStatuscode ]);
+    
+        
+    
+        useEffect(() => {
+             if (invoicetotalamounts && invoicetotalamounts.length > 0) {
+                setBillAmounts(invoicetotalamounts);
+                }      
+           }, [invoicetotalamounts]);
 
 
   useEffect(() => {
@@ -476,55 +474,76 @@ const RecurringBills = (props) => {
                               fontWeight: 500,
                             }}
 
-                            type="text"
-                            placeholder="Enter amount"
-                            value={u.amount !== undefined ? Math.floor(u.amount) : 0}
+                    type="text"
+                    placeholder="Enter amount"
+                    value={u.amount !== undefined ? Math.floor(u.amount) : 0}
+                  />
+                </Form.Group>
+              </div>
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="3" style={{ textAlign: "center", padding: "20px", fontSize: 14, fontWeight: 500, color: "#888" }}>
+            No data available
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </Table>
+</div>
 
-                          />
-                        </Form.Group>
+
+<div className='col-lg-7 col-md-12 col-sm-12 col-xs-12 mt-2' 
+ style={{ display: "flex",flexDirection:"row", justifyContent:'space-between' }}>
+    <div>
+   
+     </div>
+{recurdisable === 0 && (
+  <div style={{ color: "red", marginBottom: "10px",fontFamily:"Gilroy",fontSize:13 }}>
+    Please Configure Them In The Settings Page
+  </div>
+)}
+
+    {error_recurrmessage.trim() !== "" && (
+                      <div className="d-flex align-items-start p-1">
+                        <MdError
+                          style={{
+                            color: "red",
+                            marginRight: "5px",
+                            fontSize: "14px",
+                          }}
+                        />
+                        <label
+                          className="mb-0"
+                          style={{
+                            color: "red",
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {error_recurrmessage}
+                        </label>
                       </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="3" style={{ textAlign: "center", padding: "20px", fontSize: 14, fontWeight: 500, color: "#888" }}>
-                    No data available
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-        </div>
+                    )}
 
-
-        <div className='col-lg-7 col-md-12 col-sm-12 col-xs-12 mt-2'
-          style={{ display: "flex", flexDirection: "row", justifyContent: 'space-between' }}>
-          <div>
-
-          </div>
-          {recurdisable === 0 && (
-            <div style={{ color: "red", marginBottom: "10px", fontFamily: "Gilroy", fontSize: 13 }}>
-              Please Configure Them In The Settings Page
-            </div>
-          )}
-          <div className="totalamount" >
-            <h5 style={{ fontFamily: "Gilroy" }}> As on Date ₹ {totalAmount} </h5>
-            <Button
-              onClick={handleCreateBill}
-              disabled={recurdisable === 0}
-              className='w-80 mt-3 ' style={{
-                backgroundColor: "#1E45E1", fontWeight: 500, height: 40,
-                borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal'
-              }} >
-              Set As Recure
-            </Button>
-            {allFieldErrmsg && (
-              <p style={{ color: 'red', fontSize: '14px', marginTop: '10px' }}>
-                {allFieldErrmsg}
-              </p>
-            )}
-            {formLoading && <div
+    <div className="totalamount" >
+      <h5 style={{ fontFamily: "Gilroy" }}> As on Date ₹ {totalAmount} </h5>
+      <Button 
+      onClick={handleCreateBill}
+      disabled={recurdisable === 0}
+       className='w-80 mt-3 ' style={{ backgroundColor: "#1E45E1", fontWeight: 500, height: 40,
+       borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", fontStyle: 'normal', lineHeight: 'normal' }} >
+        Set As Recure
+      </Button>
+      {allFieldErrmsg && (
+  <p style={{ color: 'red', fontSize: '14px', marginTop: '10px' }}>
+    {allFieldErrmsg}
+  </p>
+)}
+        {formLoading && <div
               style={{
                 position: 'absolute',
                 top: '50%',
@@ -549,10 +568,10 @@ const RecurringBills = (props) => {
                 }}
               ></div>
             </div>}
-            <div style={{ marginBottom: 30 }}></div>
-          </div>
-        </div>
-      </div>
+      <div style={{marginBottom:30}}></div>
+    </div>
+    </div>
+  </div>
 
 
 

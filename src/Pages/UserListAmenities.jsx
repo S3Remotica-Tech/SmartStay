@@ -488,6 +488,7 @@ function UserListAmenities(props) {
                   fontWeight: 530,
                   fontFamily: "Gilroy",
                   color:"grey",
+                  cursor:"pointer"
                   
                 }}
               >
@@ -508,6 +509,7 @@ function UserListAmenities(props) {
                     fontFamily: "Gilroy",
                     opacity:1,
                     color: "gray",
+                    cursor:"pointer"
                   }}>Active</option>
                 <option value="0"  style={{
                     fontSize: 14,
@@ -515,6 +517,7 @@ function UserListAmenities(props) {
                     fontFamily: "Gilroy",
                     opacity:1,
                     color: "gray",
+                    cursor:"pointer"
                   }}>In Active</option>
               </Form.Select>
               {selectError && (

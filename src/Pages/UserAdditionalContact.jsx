@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl } from "react-bootstrap";
@@ -18,18 +18,17 @@ function UserAdditionalContact(props) {
   const [userName, setUserName] = useState("");
   const [guardian, setGuardian] = useState("");
   const [Phone, setPhone] = useState("");
-  // const [address, setAddress] = useState("");
-  const [house_no, setHouseNo] = useState("");
-  const [street, setStreet] = useState("");
-  const [landmark, setLandmark] = useState("");
-  const [pincode, setPincode] = useState("");
-  const [city, setCity] = useState("")
-  const [state_name, setStateName] = useState("");
+
+   const [house_no, setHouseNo] = useState("");
+    const [street, setStreet] = useState("");
+    const [landmark, setLandmark] = useState("");
+    const [pincode, setPincode] = useState("");
+    const [city, setCity] = useState("")
+    const [state_name, setStateName] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [countryCode, setCountryCode] = useState("91");
   const [contactId, setContactId] = useState("");
   const [formError, setFormError] = useState("");
-  // const [addressError, setAddressError] = useState("");
   const [userNameError, setUserNameError] = useState("");
   const [guardianError, setGuardianError] = useState("");
   const [guardianAlreadyError, setGuardianAlreadyError] = useState("");
@@ -103,8 +102,7 @@ function UserAdditionalContact(props) {
       setUserName(props.contactEdit.user_name);
       setGuardian(props.contactEdit.guardian);
       setPhone(mobileNumber);
-      // setAddress(props.contactEdit.address);
-      // setUserId(props.contactEdit.user_id);
+    
       setContactId(props.contactEdit.id);
       setCountryCode(countryCode);
       setPincode(props.contactEdit.pin_code);
@@ -118,7 +116,7 @@ function UserAdditionalContact(props) {
         userName: props.contactEdit.user_name || "",
         guardian: props.contactEdit.guardian || "",
         Phone: props.contactEdit.mob_no || "",
-        // address: props.contactEdit.address || "",
+      
         house_no: props.contactEdit.address || "",
         street: props.contactEdit.area || "",
         city: props.contactEdit.city || "",
@@ -129,9 +127,7 @@ function UserAdditionalContact(props) {
     }
   }, [props.contactEdit && props.editAdditional]);
 
-  // useEffect(() => {
-  //   dispatch({ type: "COUNTRYLIST" });
-  // }, []);
+ 
 
   const handleUserName = (e) => {
     const value = e.target.value
@@ -153,30 +149,26 @@ function UserAdditionalContact(props) {
     setFormError("");
     setGuardianError("");
   };
-  // const handleAddress = (e) => {
-  //   setAddress(e.target.value);
-  //   setFormError("");
-  //   setAddressError("");
-  // };
+ 
 
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
     setHouse_NoError("")
-    // setFormError("");
+    
   };
 
   const handleStreetName = (e) => {
     setStreet(e.target.value);
     setStreetError("");
 
-
-    // setFormError("");
+    
+    
   }
 
   const handleLandmark = (e) => {
     setLandmark(e.target.value);
     setLandmarkError("");
-    // setFormError("");
+    
   }
 
 
@@ -193,9 +185,8 @@ function UserAdditionalContact(props) {
     } else {
       setPincodeError("");
     }
-
-    // setGeneralError("");
-    // setIsChangedError("");
+  
+    
   };
 
   const handleCity = (e) => {
@@ -208,7 +199,7 @@ function UserAdditionalContact(props) {
     }
   }
 
-  const validateAssignField = (value, fieldName) => {
+  const validateAssignField = (value, fieldName,ref, setError, focusedRef) => {
     const isValueEmpty =
       (typeof value === "string" && value.trim() === "") ||
       value === undefined ||
@@ -217,113 +208,64 @@ function UserAdditionalContact(props) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "gurardian":
-          setGuardianError("Guardian is Required");
+          setError("Guardian is Required");
           break;
         case "userName":
-          setUserNameError("User Name is Required");
+          setError("User Name is Required");
           break;
         case "Phone":
-          setPhoneError("Phone Number is Required");
+          setError("Phone Number is Required");
           break;
-        // case "address":
-        //   setAddressError("Address is Required");
-        //   break;
-        // case "Houseno":
-        //   setHouse_NoError("Please Enter House No/Flat");
-        //   break;
-        // case "Street":
-        //   setStreetError("Please Enter Street");
-        //   break;
-        // case "Landmark":
-        //   setLandmarkError("Please Enter Landmark");
-        //   break;
-        case "City":
-          setCityError("Please Enter City");
-          break;
-        case "Pincode":
-          setPincodeError("Please Enter Pincode");
-          break;
-        case "Statename":
-          setStateNameError("Please Select State");
-          break;
+       
+          case "City":
+            setError("Please Enter City");
+            break;
+          case "Pincode":
+            setError("Please Enter Pincode");
+            break;
+          case "Statename":
+            setError("Please Select State");
+            break;
 
         default:
           break;
       }
-      return false;
+       if (!focusedRef.current && ref?.current) {
+      ref.current.focus();
+      focusedRef.current = true;
+    }
+    return false;
+  
     }
 
-    switch (fieldName) {
-      case "gurardian":
-        setGuardianError("");
-        break;
-      case "userName":
-        setUserNameError("");
-        break;
-      case "Phone":
-        setPhoneError("");
-        break;
-      // case "address":
-      //   setAddressError("");
-      //   break;
-      // case "Houseno":
-      //   setHouse_NoError("");
-      //   break;
-      // case "Street":
-      //   setStreetError("");
-      //   break;
-      // case "Landmark":
-      //   setLandmarkError("");
-      //   break;
-      case "City":
-        setCityError("");
-        break;
-      case "Pincode":
-        setPincodeError("");
-        break;
-      case "Statename":
-        setStateNameError("");
-        break;
-      default:
-        break;
-    }
-
+  
+setError("")
     return true;
   };
 
+  const usernameRef = useRef(null)
+   const guardianRef = useRef(null)
+   const PhoneRef = useRef(null)
+   const cityRef = useRef(null)
+   const pincodeRef = useRef(null)
+   const stateRef = useRef(null)
+const nochangeRef =useRef(null)
+
   const handleSubmitContact = () => {
-    dispatch({ type: "CLEAR_CONTACT_ERROR" });
-    const isUserValid = validateAssignField(userName, "userName");
-    const isGuardianValid = validateAssignField(guardian, "gurardian");
-    const isPhoneValid = validateAssignField(Phone, "Phone");
-    // const isAddressValid = validateAssignField(address, "address");
-    // const isHousenoValid = validateAssignField(house_no, "Houseno");
-    // const isStreetValid = validateAssignField(street, "Street");
-    // const isLandmarkValid = validateAssignField(landmark, "Landmark");
-    const isCityValid = validateAssignField(city, "City");
-    const isPincodeValid = validateAssignField(pincode, "Pincode");
-    const isStatenameValid = validateAssignField(state_name, "Statename");
+     dispatch({ type: "CLEAR_CONTACT_ERROR" });
+      let hasError = false;
+  const focusedRef = { current: false };
 
-    if (!isUserValid || !isGuardianValid || !isPhoneValid ||
-      !isCityValid ||
-      !isPincodeValid ||
-      !isStatenameValid
-    ) {
-      return;
-    }
+  if (!validateAssignField(userName, "userName", usernameRef, setUserNameError, focusedRef)) hasError = true;
+  if (!validateAssignField(guardian, "gurardian", guardianRef, setGuardianError, focusedRef)) hasError = true;
+  if (!validateAssignField(Phone, "Phone", PhoneRef, setPhoneError, focusedRef)) hasError = true;
+  if (!validateAssignField(city, "City", cityRef, setCityError, focusedRef)) hasError = true;
+  if (!validateAssignField(pincode, "Pincode", pincodeRef, setPincodeError, focusedRef)) hasError = true;
+  if (!validateAssignField(state_name, "Statename", stateRef, setStateNameError, focusedRef)) hasError = true;
 
+  if (hasError) return;
     if (props.editAdditional && props.contactEdit.id) {
-      // const isChanged = (
-      //   userName !== initialState.userName ||
-      //   guardian !== initialState.guardian ||
-      //   Number(countryCode + Phone) !== Number(initialState.Phone) ||
-      //   house_no !== initialState.house_no ||
-      //   street !== initialState.street ||
-      //   landmark !== initialState.landmark ||
-      //   city !== initialState.city ||
-      //   String(pincode).trim() !== String(initialState.pinCode || "").trim() ||
-      //   state_name !== initialState.state
-      // );
+     
 
       const normalize = (value) => {
         const val = (value ?? "").toString().trim().toLowerCase();
@@ -331,24 +273,34 @@ function UserAdditionalContact(props) {
       };
 
 
-      const isChanged = (
-        userName !== initialState.userName ||
-        guardian !== initialState.guardian ||
-        Number(countryCode + Phone) !== Number(initialState.Phone) ||
-        normalize(house_no) !== normalize(initialState.house_no) ||
-        normalize(street) !== normalize(initialState.street) ||
-        normalize(landmark) !== normalize(initialState.landmark) ||
-        city !== initialState.city ||
-        String(pincode).trim() !== String(initialState.pinCode || "").trim() ||
-        state_name !== initialState.state
-      );
+const isChanged = (
+  userName !== initialState.userName ||
+  guardian !== initialState.guardian ||
+  Number(countryCode + Phone) !== Number(initialState.Phone) ||
+  normalize(house_no) !== normalize(initialState.house_no) ||
+  normalize(street) !== normalize(initialState.street) ||
+  normalize(landmark) !== normalize(initialState.landmark) ||
+  city !== initialState.city ||
+  String(pincode).trim() !== String(initialState.pinCode || "").trim() ||
+  state_name !== initialState.state
+);
 
+    
       if (!isChanged) {
-        setFormError("No Changes Detected");
-        return;
-      } else {
-        setFormError("");
-      }
+  setFormError("No Changes Detected");
+
+ 
+  setTimeout(() => {
+    if (nochangeRef.current) {
+      nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      nochangeRef.current.focus();
+    }
+  }, 100);
+
+  return;
+} else {
+  setFormError("");
+}
 
       dispatch({
         type: "CUSTOMERADDCONTACT",
@@ -356,7 +308,6 @@ function UserAdditionalContact(props) {
           user_name: userName,
           guardian: guardian,
           mob_no: MobileNumber,
-          // address: address,
           address: house_no,
           area: street,
           landmark: landmark,
@@ -403,15 +354,14 @@ function UserAdditionalContact(props) {
 
   const handlePhone = (e) => {
     const value = e.target.value;
-
-    // Allow only numbers and up to 10 digits
+  
     if (!/^\d{0,10}$/.test(value)) {
       return;
     }
 
     setPhone(value);
-
-    // Clear error if empty (no error on blank input)
+  
+  
     if (value === "") {
       setPhoneError("");
     } else if (value.length === 10) {
@@ -430,17 +380,17 @@ function UserAdditionalContact(props) {
       setGuardianAlreadyError(state.UsersList.contactError);
     }
   }, [state.UsersList.contactError]);
-
+  
   const handleCloseAdditionalForm = () => {
     props.setAdditionalForm(false);
     setUserName("");
     setPhone("");
-    // setAddress("");
+  
     setGuardian("");
     setUserNameError("");
     setGuardianError("");
     setPhoneError("");
-    // setAddressError("");
+   
     setHouseNo("")
     setStreet("")
     setLandmark("")
@@ -499,43 +449,13 @@ function UserAdditionalContact(props) {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    + Add Contact
+                    Add Contact
                   </div>
-                  {/* <button
-                    type="button"
-                    className="close"
-                    aria-label="Close"
-                    onClick={handleCloseAdditionalForm}
-                    style={{
-                      position: "absolute",
-                      right: "10px",
-                      top: "16px",
-                      border: "1px solid black",
-                      background: "transparent",
-                      cursor: "pointer",
-                      padding: "0",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "25px",
-                      height: "25px",
-                      borderRadius: "50%",
-                    }}
-                  >
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        fontSize: "30px",
-                        paddingBottom: "6px",
-                      }}
-                    >
-                      &times;
-                    </span>
-                  </button> */}
-                  <CloseCircle size="24" color="#000" onClick={handleCloseAdditionalForm}
-                    style={{ cursor: 'pointer' }} />
+                 
+                  <CloseCircle size="24" color="#000" onClick={handleCloseAdditionalForm} 
+            style={{ cursor: 'pointer' }}/>
                 </Modal.Header>
-
+ <div style={{ maxHeight: "400px", overflowY: "scroll",overflowX:"hidden" }} className="show-scroll p-2 mt-1 me-0">
                 <div className="row mt-1">
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group className="mb-3">
@@ -560,6 +480,7 @@ function UserAdditionalContact(props) {
                         placeholder="Enter User Name"
                         onChange={(e) => handleUserName(e)}
                         value={userName}
+                        ref={usernameRef}
                         style={{
                           fontSize: 16,
                           color: "#4B4B4B",
@@ -621,6 +542,7 @@ function UserAdditionalContact(props) {
                         placeholder="Enter Guardian Name"
                         onChange={(e) => handleGuardian(e)}
                         value={guardian}
+                        ref={guardianRef}
                         style={{
                           fontSize: 16,
                           color: "#4B4B4B",
@@ -679,8 +601,8 @@ function UserAdditionalContact(props) {
                       <InputGroup>
                         <Form.Select
                           value={countryCode}
+                        
                           id="vendor-select-pg"
-                          // onChange={handleCountryCodeChange}
                           style={{
                             border: "1px solid #D9D9D9",
 
@@ -700,6 +622,7 @@ function UserAdditionalContact(props) {
                         </Form.Select>
                         <Form.Control
                           value={Phone}
+                            ref={PhoneRef}
                           onChange={handlePhone}
                           type="text"
                           placeholder="9876543210"
@@ -881,6 +804,7 @@ function UserAdditionalContact(props) {
                       </Form.Label>
                       <Form.Control
                         value={pincode}
+                                                                                                                                              ref={pincodeRef}
                         onChange={(e) => handlePinCodeChange(e)}
                         type="tel"
                         maxLength={6}
@@ -937,6 +861,7 @@ function UserAdditionalContact(props) {
                         id="form-controls"
                         placeholder="Enter City"
                         value={city}
+                                                                        ref={cityRef}
                         onChange={(e) => handleCity(e)}
                         style={{
                           fontSize: 16,
@@ -979,6 +904,7 @@ function UserAdditionalContact(props) {
                         onChange={(selectedOption) => {
                           setStateName(selectedOption?.value);
                         }}
+                                                                     ref={stateRef}
                         onInputChange={(inputValue, { action }) => {
                           if (action === "input-change") {
                             const lettersOnly = inputValue.replace(
@@ -1061,18 +987,21 @@ function UserAdditionalContact(props) {
 
 
                 </div>
-                {formError && (
-                  <div className=" " style={{ color: "red", textAlign: "center", marginTop: "-13px" }}>
-                    <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
-                    <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
-                  </div>
-                )}
-                {guardianAlreadyError && (
-                  <div className=" " style={{ color: "red", textAlign: "center", marginTop: "-13px" }}>
-                    <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
-                    <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500 }}>{guardianAlreadyError}</span>
-                  </div>
-                )}
+                 
+</div>
+ {formError && (
+                          <div ref={nochangeRef} className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
+                            <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                            <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                          </div>
+                        )}
+                        {guardianAlreadyError && (
+                          <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
+                            <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                            <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{guardianAlreadyError}</span>
+                          </div>
+                        )}
+
                 <Button
                   className="w-100"
                   style={{

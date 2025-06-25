@@ -63,7 +63,8 @@ function BankingEditTransaction(props) {
   };
   const handleDescription = (e) => {
     setDescribtion(e.target.value);
-       setError("");
+   
+    setError("");
   };
   const [initialStateAssign, setInitialStateAssign] = useState({
     account: "",
@@ -174,16 +175,17 @@ function BankingEditTransaction(props) {
       Number(amount) !== Number(initialStateAssign.amount);
     
     const descriptionChanged =
-      String(describtion || "") !== String(initialStateAssign.describtion || "");
-
+    String(describtion || "") !== String(initialStateAssign.describtion || "");
+  
    
-    const isChanged =
-      accountChanged ||
-      transactionChanged ||
-      dateChanged ||
-      amountChanged ||
-      descriptionChanged;
-
+  
+  const isChanged =
+    accountChanged ||
+    transactionChanged ||
+    dateChanged ||
+    amountChanged ||
+    descriptionChanged;
+  
     if (!isChanged) {
       setError("No Changes Detected");
       return;
@@ -225,8 +227,8 @@ function BankingEditTransaction(props) {
     }
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
-  
-  const DropdownIndicator = () => null;
+
+const DropdownIndicator = () => null;
   return (
     <>
       <Modal
@@ -533,7 +535,7 @@ function BankingEditTransaction(props) {
                   }}
                 >
                   Description{" "}
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                 
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -614,7 +616,7 @@ function BankingEditTransaction(props) {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Gilroy",
-              // marginBottom: 15
+             
               marginTop: -10,
             }}
             onClick={handleEditSave}

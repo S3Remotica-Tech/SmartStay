@@ -72,7 +72,7 @@ export const initialState = {
     ReceiptErrmsg:'',
     ReceiptAddErrorStatuscode : 0,
     statusCodeNewReceiptStatusCode: 0,
-
+    AddErrorRecurrringStatusCode : 0,
     triggeredBy: '',  
 
     whatsappSettings:
@@ -101,10 +101,10 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'REMOVE_ALREADY_ASSIGN_ERROR':
             return { ...state, alreadyAssignAmenitiesStatusCode: 0 }
         case 'ERROR_RECURE':
-            return { ...state, errorRecuireFile: action.payload.response }
+            return { ...state, errorRecuireFile: action.payload.response , AddErrorRecurrringStatusCode : action.payload.statusCode }
 
         case 'REMOVE_ERROR_RECURE':
-            return { ...state, errorRecuireFile: '' }
+            return { ...state, errorRecuireFile: '' , AddErrorRecurrringStatusCode: 0}
 
         case 'ERROR_AMENITIES_SETTINGS':
             return { ...state, amnitiessAddError: action.payload.response }
@@ -239,8 +239,7 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'DELETE_MANUAL_ERROR':
             return { ...state, deletemanualError: action.payload }
-        // case 'DELETE_MANUAL_ERROR':
-        //     return { ...state, deletemanualError: '' }
+    
         case 'RECURRING_BILLS_LIST':
             return { ...state, RecurringBills: action.payload.response ? action.payload.response : [], RecurringbillsgetStatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST':

@@ -819,7 +819,7 @@ useEffect(() => {
 
 
       <div>
-        {filteredData.length >= 5 && (
+        {filteredData.length >= 6 && (
           <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
 
             <div>

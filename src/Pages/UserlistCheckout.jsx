@@ -83,10 +83,10 @@ function CheckOut(props) {
   }, [props.customerrolePermission]);
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+    
       setCheckOutLoader(true)
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-    }
+    
   }, [state.login.selectedHostel_Id]);
 
 
@@ -1069,7 +1069,7 @@ function CheckOut(props) {
                 </div>
 
               ) : (!checkoutLoader && currentCustomers?.length === 0 && (
-                <div style={{ marginTop: 30, height: "60vh" }}>
+                <div style={{ marginTop: 30, height: "60vh" }} className="animated-text">
                   <div style={{ textAlign: "center" }}>
                     {" "}
                     <img src={Emptystate} alt="emptystate" />

@@ -403,10 +403,17 @@ const CheckOutForm = ({
       lineHeight: 1,
       stroke: "currentColor",
       strokeWidth: 0,
+      cursor:"pointer"
     }),
     indicatorSeparator: () => ({
       display: "none",
     }),
+     option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      color: "#000",
+                    }),
   };
 
 
@@ -1648,23 +1655,23 @@ const CheckOutForm = ({
                   </Form.Select>
 
 
-                  {modeOfPaymentError && (
-                    <div
-                      className="d-flex justify-content-center align-items-center"
-                      style={{ color: "red", marginTop: 15 }}
+                {modeOfPaymentError && (
+                  <div
+                    className="d-flex justify-content-start align-items-start"
+                    style={{ color: "red", marginTop: 15 }}
+                  >
+                    <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
                     >
-                      <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
-                      <span
-                        style={{
-                          fontSize: "14px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {modeOfPaymentError}
-                      </span>
-                    </div>
-                  )}
+                      {modeOfPaymentError}
+                    </span>
+                  </div>
+                )}
 
 
 
@@ -1674,40 +1681,41 @@ const CheckOutForm = ({
               </div>
 
 
-              <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
-                <label
-                  htmlFor="comments"
-                  className="mt-2"
-                  style={{
-                    fontSize: 14,
-                    color: "rgba(75, 75, 75, 1)",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Comments
-                </label>
-                <input
-                  type="text"
-                  name="comments"
-                  id="comments"
-                  value={comments}
-                  onChange={handleCommentsChange}
-                  className="form-control mt-2"
-                  placeholder="Add Comments"
-                  required
-                  style={{
-                    height: "50px",
-                    borderRadius: "8px",
-                    fontSize: 16,
-                    color: comments ? "#222" : "#4b4b4b",
-                    fontFamily: "Gilroy",
-                    fontWeight: comments ? 600 : 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                  }}
-                />
-              </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
+              <label
+                htmlFor="comments"
+                className="mt-2"
+                style={{
+                  fontSize: 14,
+                  color: "rgba(75, 75, 75, 1)",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                }}
+              >
+                Comments
+              </label>
+              <input
+                type="text"
+                name="comments"
+                id="comments"
+                value={comments}
+                onChange={handleCommentsChange}
+                className="form-control mt-2"
+                placeholder="Add Comments"
+                required
+                style={{
+                  height: "50px",
+                  
+                  borderRadius: "8px",
+                  fontSize: 16,
+                  color: comments ? "#222" : "#4b4b4b",
+                  fontFamily: "Gilroy",
+                  fontWeight: comments ? 600 : 500,
+                  boxShadow: "none",
+                  border: "1px solid #D9D9D9",
+                }}
+              />
+            </div>
 
               {dateDifference !== null && (
                 <div className="col-12 mt-3">
