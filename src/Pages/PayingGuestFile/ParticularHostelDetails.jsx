@@ -581,7 +581,7 @@ function ParticularHostelDetails(props) {
                   <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
                   <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No rooms available</div>
                   <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There is no room added in this floor.</div>
-                  <div className='d-flex justify-content-center pb-1 mt-3'>
+                    <div className='d-flex justify-content-center pb-1 mt-3'>
                     <Button style={{ fontSize: 16, backgroundColor: "#1E45E1", color: "white", fontWeight: 600, borderRadius: 12, padding: "10px 20px", fontFamily: "Gilroy" }} disabled={props.addPermissionError} onClick={() => handleShowAddRoom(props.floorID, props.hostel_Id)}> + Add Room</Button>
 
 

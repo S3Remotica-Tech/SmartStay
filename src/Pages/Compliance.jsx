@@ -335,21 +335,24 @@ const Compliance = () => {
   };
 
   const [selectedDateRange, setSelectedDateRange] = useState([]);
-  const handleDateChange = (dates) => {
-    if (!dates || dates.length === 0) {
-      setSelectedDateRange([]);
-      setStatusfilter("All");
-      setFilteredUsers(state.ComplianceList?.Compliance);
-    } else {
-      setSelectedDateRange(dates);
-      const filtered = state.ComplianceList?.Compliance.filter((item) =>
-        dayjs(item.date).isAfter(dayjs(dates[0]).subtract(1, 'day')) &&
-        dayjs(item.date).isBefore(dayjs(dates[1]).add(1, 'day'))
-      );
-      setFilteredUsers(filtered);
-      setCurrentPage(1)
-    }
-  };
+ const handleDateChange = (dates) => {
+  if (!dates || dates.length === 0) {
+    setSelectedDateRange([]);
+    setStatusfilter("All");
+    setFilteredUsers(state.ComplianceList?.Compliance);
+  } else {
+    setSelectedDateRange(dates);
+    
+    const filtered = (state.ComplianceList?.Compliance || []).filter((item) =>
+      dayjs(item.date).isSameOrAfter(dayjs(dates[0]), 'day') &&
+      dayjs(item.date).isSameOrBefore(dayjs(dates[1]), 'day')
+    );
+
+    setFilteredUsers(filtered);
+    setCurrentPage(1);
+  }
+};
+
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
