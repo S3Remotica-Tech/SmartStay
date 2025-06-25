@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { Button, Form } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import 'react-datepicker/dist/react-datepicker.css';
-// import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from "prop-types";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -332,7 +331,7 @@ function CustomerCheckout(props) {
                     Move Check-Out
                   </Button>
                 </div>
-                {/* )} */}
+               
               </div>
             </Modal.Body>
 
