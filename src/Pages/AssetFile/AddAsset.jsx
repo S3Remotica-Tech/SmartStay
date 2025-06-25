@@ -67,6 +67,9 @@ function StaticExample({ show, setShow, currentItem }) {
     productName: "",
   });
 
+  const VendorList = useSelector((state) => state.ComplianceList.VendorList);
+
+
   useEffect(() => {
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
   }, [state.login.selectedHostel_Id]);
@@ -79,15 +82,15 @@ function StaticExample({ show, setShow, currentItem }) {
 
   }, [state.AssetList?.bankAmountError])
 
-  const [serial_number_duplicate_Error , setSerial_Number_DuplicateError] = useState("")
+  const [serial_number_duplicate_Error, setSerial_Number_DuplicateError] = useState("")
 
   useEffect(() => {
     if (state.AssetList?.alreadySerialNumberHere) {
       setSerial_Number_DuplicateError(state.AssetList?.alreadySerialNumberHere)
 
       setTimeout(() => {
-         dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
-         setSerial_Number_DuplicateError("")
+        dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
+        setSerial_Number_DuplicateError("")
       }, 2000);
     }
 
@@ -289,114 +292,114 @@ function StaticExample({ show, setShow, currentItem }) {
     return serialNumber.trim().replace(/[\t\n\r]+/g, "");
   };
 
- 
-const nochangeRef = useRef(null)
 
-const handleAddAsset = () => {
-  const cleanedSerialNumber = cleanSerialNumber(serialNumber);
-  const focusedRef = { current: false };
+  const nochangeRef = useRef(null)
 
-  if (!assetName) {
-    setAssetError("Please Enter Asset Name");
-    if (!focusedRef.current && assetNameRef.current) {
-      assetNameRef.current.focus();
-      focusedRef.current = true;
+  const handleAddAsset = () => {
+    const cleanedSerialNumber = cleanSerialNumber(serialNumber);
+    const focusedRef = { current: false };
+
+    if (!assetName) {
+      setAssetError("Please Enter Asset Name");
+      if (!focusedRef.current && assetNameRef.current) {
+        assetNameRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!productName) {
-    setProductNameError("Please Enter Product Name");
-    if (!focusedRef.current && productNameRef.current) {
-      productNameRef.current.focus();
-      focusedRef.current = true;
+    if (!productName) {
+      setProductNameError("Please Enter Product Name");
+      if (!focusedRef.current && productNameRef.current) {
+        productNameRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!modeOfPayment) {
-    setPaymentError("Please Select Mode Of Payment");
-    if (!focusedRef.current && paymentRef.current) {
-      paymentRef.current.focus();
-      focusedRef.current = true;
+    if (!modeOfPayment) {
+      setPaymentError("Please Select Mode Of Payment");
+      if (!focusedRef.current && paymentRef.current) {
+        paymentRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!cleanedSerialNumber) {
-    setSerialNumberError("Please Enter Serial Number");
-    if (!focusedRef.current && serialNumberRef.current) {
-      serialNumberRef.current.focus();
-      focusedRef.current = true;
+    if (!cleanedSerialNumber) {
+      setSerialNumberError("Please Enter Serial Number");
+      if (!focusedRef.current && serialNumberRef.current) {
+        serialNumberRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!selectedDate) {
-    setSelectedDateError("Please Select Date");
-    if (!focusedRef.current && dateRef.current) {
-      dateRef.current.focus();
-      focusedRef.current = true;
+    if (!selectedDate) {
+      setSelectedDateError("Please Select Date");
+      if (!focusedRef.current && dateRef.current) {
+        dateRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  const numericRegex = /^[0-9]+$/;
+    const numericRegex = /^[0-9]+$/;
 
-  if (!price || !numericRegex.test(price) || price <= 0) {
-    setPriceError("Please Enter Price");
-    if (!focusedRef.current && priceRef.current) {
-      priceRef.current.focus();
-      focusedRef.current = true;
+    if (!price || !numericRegex.test(price) || price <= 0) {
+      setPriceError("Please Enter Price");
+      if (!focusedRef.current && priceRef.current) {
+        priceRef.current.focus();
+        focusedRef.current = true;
+      }
+      return;
     }
-    return;
-  }
 
-  const isChanged =
-    initialState.assetName !== assetName ||
-    initialState.vendorName !== vendorName ||
-    initialState.brandName !== brandName ||
-    initialState.serialNumber !== serialNumber ||
-    Number(initialState.productCount) !== Number(productCount) ||
-    (initialState.selectedDate &&
-      selectedDate &&
-      initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
-    Number(initialState.price) !== Number(price) ||
-    initialState.productName !== productName;
+    const isChanged =
+      initialState.assetName !== assetName ||
+      initialState.vendorName !== vendorName ||
+      initialState.brandName !== brandName ||
+      initialState.serialNumber !== serialNumber ||
+      Number(initialState.productCount) !== Number(productCount) ||
+      (initialState.selectedDate &&
+        selectedDate &&
+        initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
+      Number(initialState.price) !== Number(price) ||
+      initialState.productName !== productName;
 
-  
-     if (!isChanged) {
-  setIsChangedError("No Changes Detected");
 
- 
-  setTimeout(() => {
-    if (nochangeRef.current) {
-      nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-      nochangeRef.current.focus();
+    if (!isChanged) {
+      setIsChangedError("No Changes Detected");
+
+
+      setTimeout(() => {
+        if (nochangeRef.current) {
+          nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          nochangeRef.current.focus();
+        }
+      }, 100);
+
+      return;
+    } else {
+      setIsChangedError("");
     }
-  }, 100);
 
-  return;
-} else {
-  setIsChangedError("");
-}
+    if (productName && serialNumber && selectedDate && price && assetName && modeOfPayment) {
+      const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
 
-  if (productName && serialNumber && selectedDate && price && assetName && modeOfPayment) {
-    const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
-
-    dispatch({
-      type: "ADDASSET",
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        asset_name: assetName,
-        product_name: productName,
-        vendor_id: vendorName,
-        brand_name: brandName,
-        serial_number: serialNumber,
-        product_count: 1,
-        purchase_date: formattedDate,
-        price: price,
-        payment_type: modeOfPayment,
-        id: id,
-      },
-    });
-  }
-};
+      dispatch({
+        type: "ADDASSET",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          asset_name: assetName,
+          product_name: productName,
+          vendor_id: vendorName,
+          brand_name: brandName,
+          serial_number: serialNumber,
+          product_count: 1,
+          purchase_date: formattedDate,
+          price: price,
+          payment_type: modeOfPayment,
+          id: id,
+        },
+      });
+    }
+  };
 
 
 
@@ -464,7 +467,17 @@ const handleAddAsset = () => {
               </div>
             )}
             <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-3 me-3" >
-              <div className="row " style={{marginTop:"-20px"}}>
+
+              {Array.isArray(VendorList) && VendorList.length === 0 && (
+                <div className="d-flex align-items-center justify-content-center mb-4" style={{ marginTop: "-10px" }}>
+                  <MdError style={{ color: "red", marginRight: "6px", fontSize: "14px", marginBottom: "2px" }} />
+                  <span style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    Please Create Vendor before adding Asset
+                  </span>
+                </div>
+              )}
+
+              <div className="row " style={{ marginTop: "-20px" }}>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
                   >
@@ -784,8 +797,8 @@ const handleAddAsset = () => {
                       style={{ position: "relative", width: "100%" }}
                     >
                       <DatePicker
-                      ref={dateRef}
-                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily:"Gilroy" }}
+                        ref={dateRef}
+                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
                         value={selectedDate ? dayjs(selectedDate) : null}
@@ -966,7 +979,7 @@ const handleAddAsset = () => {
                   )}
                 </div>
 
-               
+
               </div>
             </Modal.Body>
             {isChangedError && (

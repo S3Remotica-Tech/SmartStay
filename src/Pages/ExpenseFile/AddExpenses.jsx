@@ -8,14 +8,14 @@ import "../../Pages/AssetFile/addAsset.css";
 import moment from "moment";
 import "flatpickr/dist/themes/material_blue.css";
 import { MdError } from "react-icons/md";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 
-function StaticExample({ show, currentItem,setShowModal }) {
+function StaticExample({ show, currentItem, setShowModal }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
   const customContainerRef = useRef();
@@ -35,7 +35,7 @@ function StaticExample({ show, currentItem,setShowModal }) {
   const [generalError, setGeneralError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [netPaymentError,setNetPaymentError] = useState("")
+  const [netPaymentError, setNetPaymentError] = useState("")
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -64,14 +64,14 @@ function StaticExample({ show, currentItem,setShowModal }) {
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
   }, []);
-  useEffect(()=>{
-if(state.ExpenseList.expenceNetBanking){
-setNetPaymentError(state.ExpenseList.expenceNetBanking)
-}
-  },[state.ExpenseList.expenceNetBanking])
+  useEffect(() => {
+    if (state.ExpenseList.expenceNetBanking) {
+      setNetPaymentError(state.ExpenseList.expenceNetBanking)
+    }
+  }, [state.ExpenseList.expenceNetBanking])
 
   useEffect(() => {
-    dispatch({ type: "BANKINGLIST",payload:{ hostel_id: state.login.selectedHostel_Id} });
+    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
   }, []);
 
   useEffect(() => {
@@ -117,15 +117,15 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
   }, [currentItem]);
 
 
- 
-  
+
+
 
   useEffect(() => {
     if (customContainerRef.current && calendarRef.current) {
       calendarRef.current.flatpickr.set({
         dateFormat: "d/m/Y",
         defaultDate: selectedDate || new Date(),
-        appendTo: customContainerRef.current, 
+        appendTo: customContainerRef.current,
       });
     }
   }, [customContainerRef.current, selectedDate]);
@@ -139,9 +139,9 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     }
   };
 
-  
 
- 
+
+
 
   const handleCategoryChange = (selectedOption) => {
     setCategory(selectedOption?.value || '');
@@ -149,25 +149,25 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
     setCategoryError("");
     setIsChangedError("");
   };
- 
-
-const handleModeOfPaymentChange = (selectedOption) => {
-  if (!selectedOption) return;
-
-  setModeOfPayment(selectedOption); 
-  setGeneralError("");
-  setPaymentError("");
-  setIsChangedError("");
-  setNetPaymentError("");
-  dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
-};
 
 
+  const handleModeOfPaymentChange = (selectedOption) => {
+    if (!selectedOption) return;
+
+    setModeOfPayment(selectedOption);
+    setGeneralError("");
+    setPaymentError("");
+    setIsChangedError("");
+    setNetPaymentError("");
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
+  };
 
 
- 
- 
- 
+
+
+
+
+
 
   const handlePriceChange = (e) => {
     const value = e.target.value;
@@ -180,8 +180,8 @@ const handleModeOfPaymentChange = (selectedOption) => {
       setPrice(value);
     }
   };
- 
-  
+
+
 
   const handleDescriptionChange = (e) => {
     const value = e.target.value;
@@ -208,24 +208,24 @@ const handleModeOfPaymentChange = (selectedOption) => {
     setPriceError("");
     setPaymentError("");
     setIsChangedError("");
-    
+
     let hasError = false;
-  
+
     if (!category) {
       setCategoryError("Please Select Category");
       hasError = true;
     }
-  
+
     if (!selectedDate) {
       setDateError("Please Select Purchase Date");
       hasError = true;
     }
-  
+
     if (!modeOfPayment) {
       setPaymentError("Please Enter Mode Of Transaction");
       hasError = true;
     }
-  
+
     if (!price) {
       setPriceError("Please Enter Valid Unit Amount");
       hasError = true;
@@ -233,7 +233,7 @@ const handleModeOfPaymentChange = (selectedOption) => {
       setPriceError("Price Must be a Positive Number");
       hasError = true;
     }
-  
+
     if (!count) {
       setCountError("Please Enter Valid Unit Count");
       hasError = true;
@@ -241,9 +241,9 @@ const handleModeOfPaymentChange = (selectedOption) => {
       setCountError("Unit Count Must be a Positive Number");
       hasError = true;
     }
-  
-   
-  
+
+
+
     const isChanged =
       initialState.assetName !== assetName ||
       initialState.vendorName !== vendorName ||
@@ -256,16 +256,16 @@ const handleModeOfPaymentChange = (selectedOption) => {
       initialState.description !== description ||
       Number(initialState.count) !== Number(count) ||
       initialState.hostelName !== hostelName;
-  
+
     if (!isChanged) {
       setIsChangedError("No Changes Detected");
       hasError = true;
     }
-  
+
     if (hasError) {
       return;
     }
-  
+
     const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
     dispatch({
       type: "ADDEXPENSE",
@@ -281,24 +281,24 @@ const handleModeOfPaymentChange = (selectedOption) => {
       },
     });
   };
-  
 
- 
+
+
   const calendarRef = useRef(null);
-  
 
 
-  
 
-  
+
+
+
 
   const handleClose = () => {
     setShowModal(false);
     setNetPaymentError("")
-    dispatch({type: "CLEAR_EXPENCE_NETBANKIG"});
+    dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
 
   }
- 
+
 
   return (
     <div
@@ -309,7 +309,7 @@ const handleModeOfPaymentChange = (selectedOption) => {
         fontFamily: "Gilroy",
       }}
     >
-      <Modal show={show} onHide={handleClose}   dialogClassName="custom-modal" backdrop="static" >
+      <Modal show={show} onHide={handleClose} dialogClassName="custom-modal" backdrop="static" >
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
           className="m-0 p-0"
@@ -326,10 +326,10 @@ const handleModeOfPaymentChange = (selectedOption) => {
               {currentItem ? "Edit Expense" : "Add Expense"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:'pointer'}} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: 'pointer' }} />
           </Modal.Header>
 
-     
+
 
           {generalError && (
             <div className="d-flex align-items-center p-1 mb-2 mt-2">
@@ -348,22 +348,27 @@ const handleModeOfPaymentChange = (selectedOption) => {
             </div>
           )}
 
-          <Modal.Body  style={{ maxHeight: "380px", overflowY: "scroll" ,padding: 20}} className="show-scroll mt-3 me-1">
-            <div className="row" style={{marginTop:"-20px"}}>
-             
+          <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll", padding: 20 }} className="show-scroll mt-3 me-1">
+            <div className="row" style={{ marginTop: "-20px" }}>
+
               {state.Settings.Expences.data &&
                 state.Settings.Expences.data.length === 0 && (
-                  <label
-                  className="pb-1"
-                  style={{
-                    fontSize: 14,
-                    color: "red",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  Please add a &apos;Category&apos; option in Settings, accessible after adding an expenses.
-                </label>
+
+                  <div className="d-flex align-items-center mb-2">
+                    <MdError style={{ color: "red", marginRight: "6px", fontSize: "16px", marginBottom: "26px" }} />
+                    <label
+                      className="pb-1 mb-0"
+                      style={{
+                        fontSize: 14,
+                        color: "red",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Please add a Category option in Settings, accessible after adding an expenses.
+                    </label>
+                  </div>
+
                 )}
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -379,88 +384,88 @@ const handleModeOfPaymentChange = (selectedOption) => {
                     }}
                   >
                     Category{" "}
-                    <span style={{ color: "#FF0000", display: "inline-block",fontSize: "20px" }}>
+                    <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
                       *
                     </span>
                   </Form.Label>
 
-               
-                 
-  <Select
-    options={
-      state.Settings.Expences.data && state.Settings.Expences.data.length > 0
-        ? state.Settings.Expences.data.map((view) => ({
-            value: view.category_Id,
-            label: view.category_Name,
-          }))
-        : []
-    }
-    onChange={handleCategoryChange }
-    value={
-      category
-        ? {
-            value: category,
-            label:
-              state.Settings.Expences.data.find(
-                (view) => view.category_Id === category
-              )?.category_Name || "Select a Category",
-          }
-        : null
-    }
-    placeholder="Select a Category"
-    classNamePrefix="custom"
-    styles={{
-      control: (base) => ({
-        ...base,
-        fontSize: "16px",
-        color: "rgba(75, 75, 75, 1)",
-        fontFamily: "Gilroy",
-        fontWeight: category ? 600 : 500,
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        boxShadow: "none",
-        height:"50px"
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        cursor:"pointer"
-      }),
-      option: (base, state) => ({
-        ...base,
-        cursor: "pointer", 
-        backgroundColor: state.isFocused ? "lightblue" : "white", 
-        color: "#000",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-    noOptionsMessage={() => "No category available"}
-  />
+
+
+                  <Select
+                    options={
+                      state.Settings.Expences.data && state.Settings.Expences.data.length > 0
+                        ? state.Settings.Expences.data.map((view) => ({
+                          value: view.category_Id,
+                          label: view.category_Name,
+                        }))
+                        : []
+                    }
+                    onChange={handleCategoryChange}
+                    value={
+                      category
+                        ? {
+                          value: category,
+                          label:
+                            state.Settings.Expences.data.find(
+                              (view) => view.category_Id === category
+                            )?.category_Name || "Select a Category",
+                        }
+                        : null
+                    }
+                    placeholder="Select a Category"
+                    classNamePrefix="custom"
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        fontSize: "16px",
+                        color: "rgba(75, 75, 75, 1)",
+                        fontFamily: "Gilroy",
+                        fontWeight: category ? 600 : 500,
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        boxShadow: "none",
+                        height: "50px"
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        cursor: "pointer"
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "lightblue" : "white",
+                        color: "#000",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                    }}
+                    noOptionsMessage={() => "No category available"}
+                  />
 
 
                 </Form.Group>
                 {categoryError && (
                   <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -476,10 +481,10 @@ const handleModeOfPaymentChange = (selectedOption) => {
                 )}
               </div>
 
-             
+
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group  controlId="purchaseDate">
+                <Form.Group controlId="purchaseDate">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -491,28 +496,28 @@ const handleModeOfPaymentChange = (selectedOption) => {
                     Purchase Date{" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
-                 
 
 
-                   <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                                                  <DatePicker
-                                                    style={{ width: "100%", height: 48,cursor:"pointer" }}
-                                                    format="DD/MM/YYYY"
-                                                    placeholder="DD/MM/YYYY"
-                                                    value={selectedDate ? dayjs(selectedDate) : null}
-                                                    onChange={(date) => {
-                                                      setGeneralError("");
-                                                      setDateError("");
-                                                      setIsChangedError("");
-                                                      setSelectedDate(date ? date.toDate() : null);
-                                                    }}
-                                                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                                                  />
-                                                </div>
+
+                  <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                    <DatePicker
+                      style={{ width: "100%", height: 48, cursor: "pointer" }}
+                      format="DD/MM/YYYY"
+                      placeholder="DD/MM/YYYY"
+                      value={selectedDate ? dayjs(selectedDate) : null}
+                      onChange={(date) => {
+                        setGeneralError("");
+                        setDateError("");
+                        setIsChangedError("");
+                        setSelectedDate(date ? date.toDate() : null);
+                      }}
+                      getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                    />
+                  </div>
                 </Form.Group>
                 {dateError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -538,14 +543,14 @@ const handleModeOfPaymentChange = (selectedOption) => {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      marginTop:"5px",
+                      marginTop: "5px",
                     }}
                   >
                     Unit Count{" "}
                     <span
                       style={{
                         color: "#FF0000",
-                        fontSize:"20px",
+                        fontSize: "20px",
                       }}
                     >
                       *
@@ -571,7 +576,7 @@ const handleModeOfPaymentChange = (selectedOption) => {
                 </Form.Group>
                 {countError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -596,14 +601,14 @@ const handleModeOfPaymentChange = (selectedOption) => {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                       marginTop:"5px",
+                      marginTop: "5px",
                     }}
                   >
                     Per Unit Amount{" "}
                     <span
                       style={{
                         color: "#FF0000",
-                        fontSize:"20px",
+                        fontSize: "20px",
                       }}
                     >
                       *
@@ -628,7 +633,7 @@ const handleModeOfPaymentChange = (selectedOption) => {
                 </Form.Group>
                 {priceError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -655,7 +660,7 @@ const handleModeOfPaymentChange = (selectedOption) => {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                       marginTop:"15px",
+                      marginTop: "15px",
                     }}
                   >
                     Purchase Amount
@@ -690,14 +695,14 @@ const handleModeOfPaymentChange = (selectedOption) => {
                       color: "#222222",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                       marginTop:"5px",
+                      marginTop: "5px",
                     }}
                   >
                     Mode Of Transaction{" "}
                     <span
                       style={{
                         color: "#FF0000",
-                        fontSize:"20px",
+                        fontSize: "20px",
                       }}
                     >
                       *
@@ -706,134 +711,103 @@ const handleModeOfPaymentChange = (selectedOption) => {
 
 
                   <Select
-  options={
-    Array.isArray(state.bankingDetails?.bankingList?.banks)
-      ? state.bankingDetails.bankingList.banks.map((item) => {
-          let label = "";
-          if (item.type === "bank") label = "Bank";
-          else if (item.type === "upi") label = "UPI";
-          else if (item.type === "card") label = "Card";
-          else if (item.type === "cash") label = "Cash";
+                    options={
+                      Array.isArray(state.bankingDetails?.bankingList?.banks)
+                        ? state.bankingDetails.bankingList.banks.map((item) => {
+                          let label = "";
+                          if (item.type === "bank") label = "Bank";
+                          else if (item.type === "upi") label = "UPI";
+                          else if (item.type === "card") label = "Card";
+                          else if (item.type === "cash") label = "Cash";
 
-          return {
-            value: item.id,
-            label: `${item.benificiary_name} - ${label}`,
-          };
-        })
-      : []
-  }
-  onChange={(selectedOption) =>
-    handleModeOfPaymentChange(selectedOption?.value)
-  }
-  value={
-  modeOfPayment
-    ? (() => {
-        const selected = state.bankingDetails?.bankingList?.banks.find(
-          (item) => item.id === modeOfPayment
+                          return {
+                            value: item.id,
+                            label: `${item.benificiary_name} - ${label}`,
+                          };
+                        })
+                        : []
+                    }
+                    onChange={(selectedOption) =>
+                      handleModeOfPaymentChange(selectedOption?.value)
+                    }
+                    value={
+                      modeOfPayment
+                        ? (() => {
+                          const selected = state.bankingDetails?.bankingList?.banks.find(
+                            (item) => item.id === modeOfPayment
 
-        );      
-        if (!selected) return null;
+                          );
+                          if (!selected) return null;
 
-        const labelMap = {
-          bank: "Bank",
-          upi: "UPI",
-          card: "Card",
-          cash: "Cash",
-        };
-        return {
-          value: selected.id,
-          label: `${selected.benificiary_name} - ${labelMap[selected.type]}`,
-        };
-      })()
-    : null
-}
+                          const labelMap = {
+                            bank: "Bank",
+                            upi: "UPI",
+                            card: "Card",
+                            cash: "Cash",
+                          };
+                          return {
+                            value: selected.id,
+                            label: `${selected.benificiary_name} - ${labelMap[selected.type]}`,
+                          };
+                        })()
+                        : null
+                    }
 
-  placeholder="Select Payment"
-  classNamePrefix="custom"
-  isDisabled={currentItem}
-  styles={{
-    control: (base) => ({
-      ...base,
-      fontSize: 14,
-      color: "rgba(75, 75, 75, 1)",
-      fontFamily: "Gilroy",
-      fontWeight: modeOfPayment ? 600 : 500,
-      border: "1px solid #D9D9D9",
-      borderRadius: "8px",
-      boxShadow: "none",
-      height: 48,
-      cursor: "pointer",
-    }),
-    menu: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      border: "1px solid #ced4da",
-    }),
-    menuList: (base) => ({
-      ...base,
-      backgroundColor: "#f8f9fa",
-      maxHeight: "120px",
-      padding: 0,
-      scrollbarWidth: "thin",
-      overflowY: "auto",
-    }),
-    placeholder: (base) => ({
-      ...base,
-      color: "#555",
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: "#555",
-      cursor: "pointer",
-    }),
-    option: (base, state) => ({
-      ...base,
-      cursor: "pointer",
-      backgroundColor: state.isFocused ? "lightblue" : "white",
-      color: "#000",
-    }),
-    indicatorSeparator: () => ({
-      display: "none",
-    }),
-  }}
-  noOptionsMessage={() => "No mode available"}
-/>
-                    {/* <Form.Select className="border "
-                    aria-label="Select Mode Of Payment"
-                    value={modeOfPayment}
-                    onChange={handleModeOfPaymentChange}
-                    disabled={currentItem}
-                    style={{
-                      fontSize: 14,
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: modeOfPayment ? 600 : 500,
-                      cursor: "pointer",
-                      height: 48,
-                      borderRadius: 8,
+                    placeholder="Select Payment"
+                    classNamePrefix="custom"
+                    isDisabled={currentItem}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        fontSize: 14,
+                        color: "rgba(75, 75, 75, 1)",
+                        fontFamily: "Gilroy",
+                        fontWeight: modeOfPayment ? 600 : 500,
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        boxShadow: "none",
+                        height: 48,
+                        cursor: "pointer",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        cursor: "pointer",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "lightblue" : "white",
+                        color: "#000",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
                     }}
-                  >
-                    <option value="">Select Mode Of Payment</option>
-                    {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
-                    state.bankingDetails?.bankingList?.banks.map((item) => {
-                      let label = "";
-                      if (item.type === "bank") label = 'Bank';
-                      else if (item.type === "upi") label = "UPI";
-                      else if (item.type === "card") label = "Card";
-                      else if (item.type === "cash") label = "Cash";
-                  
-                      return (
-                        <option key={item.id} value={item.id} style={{cursor:'pointer'}}>
-                        {`${item.benificiary_name} - ${label}`}
-                      </option>                      
-                      );
-                    })}
-                  
-                  </Form.Select> */}
+                    noOptionsMessage={() => "No mode available"}
+                  />
+
                 </Form.Group>
                 {paymentError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px",fontSize:"13px",marginBottom:"2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -841,7 +815,7 @@ const handleModeOfPaymentChange = (selectedOption) => {
                         fontSize: "12px",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
-                        whiteSpace:"nowrap"
+                        whiteSpace: "nowrap"
                       }}
                     >
                       {paymentError}
@@ -850,7 +824,7 @@ const handleModeOfPaymentChange = (selectedOption) => {
                 )}
               </div>
 
-             
+
               <div className="col-lg-12 col-md-12  col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-2"
@@ -904,8 +878,8 @@ const handleModeOfPaymentChange = (selectedOption) => {
           )}
 
 
-             {netPaymentError && (
-                                          <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
+          {netPaymentError && (
+            <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
               <MdError style={{ color: "red", marginRight: "5px" }} />
               <label
                 className="mb-0"
@@ -919,9 +893,9 @@ const handleModeOfPaymentChange = (selectedOption) => {
                 {netPaymentError}
               </label>
             </div>
-                                          )}
-               
-              
+          )}
+
+
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
             <Button
               onClick={handleAddExpenses}

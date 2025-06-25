@@ -68,6 +68,10 @@ const Compliance = () => {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
 
+
+  const complaintList = useSelector((state) => state.Settings.Complainttypelist);
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHosId(state.login.selectedHostel_Id)
@@ -313,18 +317,18 @@ const Compliance = () => {
 
 
   const handleStatusFilter = (event) => {
-    
+
     const value = event.target.value;
     setStatusfilter(value);
 
     if (value === "All") {
       setFilteredUsers(state.ComplianceList?.Compliance || []);
-    }  
+    }
 
-   else if (value === "date") {
+    else if (value === "date") {
       setFilteredUsers(state.ComplianceList?.Compliance || []);
-    } 
-    
+    }
+
     else {
       const filtered = (state.ComplianceList?.Compliance || []).filter(item =>
         item.Status?.toLowerCase().includes(value.toLowerCase())
@@ -955,8 +959,8 @@ const Compliance = () => {
                   }
 
                 </div>
-                { filteredUsers && filteredUsers?.length >= 5 && (
-              
+                {filteredUsers && filteredUsers?.length >= 5 && (
+
                   <nav className="pagination-container mb-0"
                     style={{
                       display: "flex",
@@ -1074,7 +1078,7 @@ const Compliance = () => {
                     backdrop="static">
                     <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px", }} className='m-0 p-0'>
 
-                      <Modal.Header style={{ }}>
+                      <Modal.Header style={{}}>
                         <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
 
                         <CloseCircle size="24" color="#000" onClick={handleClose}
@@ -1082,13 +1086,21 @@ const Compliance = () => {
 
                       </Modal.Header>
                       <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
-                      
+
+                        {Array.isArray(complaintList) && complaintList.length === 0 && (
+                          <div className="d-flex align-items-center mb-3" style={{ marginTop: "-12px" }}>
+                            <MdError style={{ color: "red", marginRight: "6px", fontSize: "15px", marginBottom: "22px" }} />
+                            <span style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                              Please Create Complaint Type in Settings Electricity before adding an complaint
+                            </span>
+                          </div>
+                        )}
 
                         <div className='row '>
 
                           <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                              <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
+                              <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "Gilroy", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
                                 Customer <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
 
@@ -1119,6 +1131,8 @@ const Compliance = () => {
                                     }
                                     : null
                                 }
+
+
                                 placeholder="Select a customer"
                                 classNamePrefix="custom"
                                 menuPlacement="auto"
@@ -1141,13 +1155,13 @@ const Compliance = () => {
                                     fontWeight: 500,
                                     boxShadow: "none",
                                     backgroundColor: edit ? "#E7F1FF" : "#fff",
-                                    cursor:'pointer'
+                                    cursor: 'pointer'
                                   }),
                                   menu: (base) => ({
                                     ...base,
                                     backgroundColor: "#f8f9fa",
                                     border: "1px solid #ced4da",
-                                     fontFamily: "Gilroy",
+                                    fontFamily: "Gilroy",
                                   }),
                                   menuList: (base) => ({
                                     ...base,
@@ -1156,7 +1170,7 @@ const Compliance = () => {
                                     padding: 0,
                                     scrollbarWidth: "thin",
                                     overflowY: "auto",
-                                     fontFamily: "Gilroy",
+                                    fontFamily: "Gilroy",
                                   }),
                                   placeholder: (base) => ({
                                     ...base,
@@ -1255,14 +1269,14 @@ const Compliance = () => {
                                   fontWeight: 500,
                                   boxShadow: "none",
                                   backgroundColor: edit ? "#E7F1FF" : "#fff",
-                                  cursor:'pointer'
+                                  cursor: 'pointer'
                                 }),
                                 menu: (base) => ({
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   border: "1px solid #ced4da",
-                                   fontFamily: "Gilroy",
-                                     cursor:'pointer'
+                                  fontFamily: "Gilroy",
+                                  cursor: 'pointer'
                                 }),
                                 menuList: (base) => ({
                                   ...base,
@@ -1272,7 +1286,7 @@ const Compliance = () => {
                                   scrollbarWidth: "thin",
                                   overflowY: "auto",
                                   fontFamily: "Gilroy",
-                                  cursor:'pointer'
+                                  cursor: 'pointer'
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
@@ -1291,12 +1305,12 @@ const Compliance = () => {
                                   display: "none",
                                 }),
                                 option: (base, state) => ({
-  ...base,
-  cursor: "pointer", 
-  color: state.isSelected ? "#fff" : "#000",
-  fontSize: "14px",
-  fontFamily: "Gilroy",
-}),
+                                  ...base,
+                                  cursor: "pointer",
+                                  color: state.isSelected ? "#fff" : "#000",
+                                  fontSize: "14px",
+                                  fontFamily: "Gilroy",
+                                }),
                               }}
                             />
 
