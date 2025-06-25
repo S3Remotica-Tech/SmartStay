@@ -378,9 +378,17 @@ function SettingNewRole({ hostelid }) {
           !loading && (
             <div className="d-flex flex-column align-items-center text-center mt-5">
               <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-              <div className="mt-3 fw-semibold text-secondary" style={{ fontSize: 20 }}>
+              <div  className="pb-1"
+                style={{
+                  textAlign: "center",
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                  fontSize: 20,
+                  color: "rgba(75, 75, 75, 1)",
+                }}>
                 No Role Available
               </div>
+           
             </div>
           )
         )}

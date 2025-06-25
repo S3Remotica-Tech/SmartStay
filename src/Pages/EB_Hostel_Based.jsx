@@ -34,7 +34,7 @@ function EBHostelReading(props) {
   const [formError, setFormError] = useState("");
   const [hostelIdError, setHostelIdError] = useState("");
   const [hosteldeleteId, setHostelDeleteId] = useState("");
-
+  const [formLoading, setFormLoading] = useState(false)
   const [editId, setEditId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
@@ -164,12 +164,17 @@ function EBHostelReading(props) {
 
 
   useEffect(() => {
-    setDateError(state.PgList.dateAlready);
+    if (state.PgList.dateAlready) {
+      setFormLoading(false)
+      setDateError(state.PgList.dateAlready);
+    }
   }, [state.PgList.dateAlready]);
 
   useEffect(() => {
     if (props.editeb) {
+      setFormLoading(false)
       setDateError(state.PgList.editDateAlready);
+
     }
   }, [state.PgList.editDateAlready]);
 
@@ -238,7 +243,9 @@ function EBHostelReading(props) {
     selectedDate: "",
   });
   const handleSaveEb = () => {
-
+    dispatch({ type: "CLEAR_ADD_HOSTEL_BASED" });
+    dispatch({ type: "CLEAR_SAME_DATE_ALREADY" });
+    dispatch({ type: "CLEAR_EDIT_SAME_DATE_ALREADY" });
     const isReadingValid = validateAssignField(reading, "reading");
     const isDateValid = validateAssignField(selectedDate, "selectedDate");
     const isHostelValid = validateAssignField(hos_Name, "Hostel ID");
@@ -279,6 +286,7 @@ function EBHostelReading(props) {
           id: editId,
         },
       });
+      setFormLoading(true)
     } else {
 
       dispatch({
@@ -289,6 +297,7 @@ function EBHostelReading(props) {
           date: formattedDated,
         },
       });
+      setFormLoading(true)
     }
   };
 
@@ -296,6 +305,7 @@ function EBHostelReading(props) {
 
   useEffect(() => {
     if (state.PgList.statusCodeForAddHostelBased === 200) {
+      setFormLoading(false)
       handleCloseHostel();
 
       dispatch({
@@ -315,6 +325,7 @@ function EBHostelReading(props) {
 
   useEffect(() => {
     if (state.PgList.statusCodeForEditHostelBased === 200) {
+      setFormLoading(false)
       handleCloseHostel();
       props.setEditEb(false);
 
@@ -430,7 +441,7 @@ function EBHostelReading(props) {
               >
 
 
-  
+
                 <div
                   className='show-scrolls'
                   style={{
@@ -511,175 +522,175 @@ function EBHostelReading(props) {
                             }
 
 
-                                          return (
-                    <tr key={v.eb_Id}>
+                            return (
+                              <tr key={v.eb_Id}>
 
-                      <td
-                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
-                                          style={{
-                                            paddingTop: 15,
-                                            border: "none",
-                                            textAlign: "start",
-                                            fontSize: "13px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            marginTop: 10,
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
-                                          }}
-                                        >
-                                          <span
-                                            style={{
-                                              paddingTop: "3px",
-                                              paddingLeft: "10px",
-                                              paddingRight: "10px",
-                                              paddingBottom: "3px",
-                                              borderRadius: "60px",
-                                              backgroundColor: "#FFEFCF",
-                                              textAlign: "center",
-                                              fontSize: "11px",
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              marginLeft:10
-                                            }}
-                                          >
-                                            {v.hoatel_Name}
-                                          </span>
-                                        </td>
-                      <td
-                        style={{
-                          fontSize: 13, 
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "start",
-                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                          
-                        }}
-                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                      >
-                       <div style={{marginLeft:5}}>{v.reading}</div> 
-                      </td>
-                     
-                        <td
-                  style={{
-                    paddingTop: "15px",
-                    border: "none",
-                    textAlign: "start",
-                    fontSize: 13, 
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                    verticalAlign: "middle",
-                    whiteSpace: "nowrap",
-                    marginBottom: "-20px",
-                    borderBottom: "1px solid #E8E8E8"
-                  }}
-                   className="ps-0 ps-sm-0 ps-md-1 ps-lg-1"
-                >
-                  <span
-                    style={{
-                      paddingTop: "5px",
-                      paddingLeft: "16px",
-                      paddingRight: "16px",
-                      paddingBottom: "5px",
-                      borderRadius: "60px",
-                      marginLeft:2,
-                      backgroundColor: "#EBEBEB",
-                      textAlign: "start",
-                      fontSize: 13, 
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",
-                      display: "inline-block",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {formattedDate}
-                  </span>
-                </td>
-                      <td
-                        style={{
-                          fontSize: 13, 
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                          textAlign: "start",
-                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                        }}
-                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                      >
-                        <div style={{marginLeft:6}}>{v.total_reading}</div>
-                        
-                      </td>
-                      <td
-                        style={{
-                          fontSize: 13, 
-                          fontWeight: 500,
-                          fontFamily: "Gilroy",
-                          textAlign: "start",
-                          verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-                        }}
-                         className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                      >
+                                <td
+                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
+                                  style={{
+                                    paddingTop: 15,
+                                    border: "none",
+                                    textAlign: "start",
+                                    fontSize: "13px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    marginTop: 10,
+                                    verticalAlign: "middle",
+                                    borderBottom: "1px solid #E8E8E8",
+                                  }}
+                                >
+                                  <span
+                                    style={{
+                                      paddingTop: "3px",
+                                      paddingLeft: "10px",
+                                      paddingRight: "10px",
+                                      paddingBottom: "3px",
+                                      borderRadius: "60px",
+                                      backgroundColor: "#FFEFCF",
+                                      textAlign: "center",
+                                      fontSize: "11px",
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      marginLeft: 10
+                                    }}
+                                  >
+                                    {v.hoatel_Name}
+                                  </span>
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
 
-                       <div style={{marginLeft:6}}>₹{v.total_amount}</div> 
-                      </td>
-                      <td  style={{
-                      textAlign: "start",
-                      color: "#939393",
-                      fontSize: 13, 
-                      fontWeight: 500,
-                      fontFamily: "Gilroy",borderBottom: "1px solid #E8E8E8"
-                    }} 
-                    
-                    >
-                        <div
-                         style={{
-                          cursor: "pointer",
-                          height: 35,
-                          width: 35,
-                          borderRadius: 100,
-                          border: "1px solid #EFEFEF",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          position: "relative",
-                         
-                          backgroundColor: activeRow === v.eb_Id  ? "#E7F1FF"  : "white",
-                        }}
-                          onClick={(e) => handleShowActive(v.eb_Id, e)}
-                        >
-                          <PiDotsThreeOutlineVerticalFill
-                            style={{ height: 20, width: 20,color:"#000000"}}
-                          />
-                          {activeRow === v.eb_Id && (
-                            <div
-                              ref={popupRef}
-                              style={{
-                                cursor: "pointer",
-                                backgroundColor: "#f9f9f9",
-                                position: "fixed",
-                                top: popupPosition.top,
-                                left: popupPosition.left,
-                              
-                                width: 120,
-                                height: "auto",
-                                border: "1px solid #EBEBEB",
-                                borderRadius: 10,
-                                display: "flex",
-                                justifyContent: "start",
-                               
-                                alignItems: "center",
-                                zIndex: 1000 ,
-                              }}
-                            >
-                              <div style={{ width: "100%",}}>
-                                <div
-                                  className="d-flex justify-content-start align-items-center gap-2"
+                                  }}
+                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                >
+                                  <div style={{ marginLeft: 5 }}>{v.reading}</div>
+                                </td>
+
+                                <td
+                                  style={{
+                                    paddingTop: "15px",
+                                    border: "none",
+                                    textAlign: "start",
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    verticalAlign: "middle",
+                                    whiteSpace: "nowrap",
+                                    marginBottom: "-20px",
+                                    borderBottom: "1px solid #E8E8E8"
+                                  }}
+                                  className="ps-0 ps-sm-0 ps-md-1 ps-lg-1"
+                                >
+                                  <span
+                                    style={{
+                                      paddingTop: "5px",
+                                      paddingLeft: "16px",
+                                      paddingRight: "16px",
+                                      paddingBottom: "5px",
+                                      borderRadius: "60px",
+                                      marginLeft: 2,
+                                      backgroundColor: "#EBEBEB",
+                                      textAlign: "start",
+                                      fontSize: 13,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      display: "inline-block",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      whiteSpace: "nowrap",
+                                    }}
+                                  >
+                                    {formattedDate}
+                                  </span>
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+                                  }}
+                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                >
+                                  <div style={{ marginLeft: 6 }}>{v.total_reading}</div>
+
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+                                  }}
+                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                >
+
+                                  <div style={{ marginLeft: 6 }}>₹{v.total_amount}</div>
+                                </td>
+                                <td style={{
+                                  textAlign: "start",
+                                  color: "#939393",
+                                  fontSize: 13,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                                }}
+
+                                >
+                                  <div
+                                    style={{
+                                      cursor: "pointer",
+                                      height: 35,
+                                      width: 35,
+                                      borderRadius: 100,
+                                      border: "1px solid #EFEFEF",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      position: "relative",
+
+                                      backgroundColor: activeRow === v.eb_Id ? "#E7F1FF" : "white",
+                                    }}
+                                    onClick={(e) => handleShowActive(v.eb_Id, e)}
+                                  >
+                                    <PiDotsThreeOutlineVerticalFill
+                                      style={{ height: 20, width: 20, color: "#000000" }}
+                                    />
+                                    {activeRow === v.eb_Id && (
+                                      <div
+                                        ref={popupRef}
+                                        style={{
+                                          cursor: "pointer",
+                                          backgroundColor: "#f9f9f9",
+                                          position: "fixed",
+                                          top: popupPosition.top,
+                                          left: popupPosition.left,
+
+                                          width: 120,
+                                          height: "auto",
+                                          border: "1px solid #EBEBEB",
+                                          borderRadius: 10,
+                                          display: "flex",
+                                          justifyContent: "start",
+
+                                          alignItems: "center",
+                                          zIndex: 1000,
+                                        }}
+                                      >
+                                        <div style={{ width: "100%", }}>
+                                          <div
+                                            className="d-flex justify-content-start align-items-center gap-2"
                                             style={{
                                               cursor: "pointer",
                                               borderRadius: 6,
-                                               padding: "8px 12px",
-                                                width: "100%",
+                                              padding: "8px 12px",
+                                              width: "100%",
                                               transition: "background-color 0.2s ease",
                                             }}
                                             onMouseEnter={(e) =>
@@ -716,7 +727,7 @@ function EBHostelReading(props) {
                                             style={{
                                               cursor: "pointer",
                                               borderRadius: 6,
-                                               padding: "8px 12px",
+                                              padding: "8px 12px",
                                               transition: "background-color 0.2s ease",
                                             }}
                                             onMouseEnter={(e) =>
@@ -1084,7 +1095,7 @@ function EBHostelReading(props) {
                   style={{ position: "relative", width: "100%" }}
                 >
                   <DatePicker
-                    style={{ height: 48, width: "100%", cursor: "pointer" }}
+                    style={{ height: 48, width: "100%", cursor: "pointer", fontFamily: "Gilroy" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -1134,6 +1145,35 @@ function EBHostelReading(props) {
             <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
           </div>
         )}
+
+
+
+        {formLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
+
         <Modal.Footer className="d-flex justify-content-center" style={{ border: "none" }}>
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12 w-100"

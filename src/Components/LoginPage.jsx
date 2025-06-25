@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-// import Eye from "../Assets/Images/new icon/eye.png";
 import './LoginPage.css';
 import { useNavigate } from "react-router-dom";
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -23,14 +22,15 @@ const MyComponent = () => {
   const dispatch = useDispatch()
   const state = useSelector(state => state)
   let navigate = useNavigate();
-
+  const LandingNavigates = useNavigate();
   const [email_Id, setemail_Id] = useState('')
   const [password, setpassword] = useState('')
-  // const [rolePermission,setRolePermission]=useState("")
-  // const [permissionError,setPermissionError]=useState("")
-
   const [showPassword, setShowpassword] = useState(false)
-
+  const [checked, setChecked] = useState(false)
+  const [showOtpVerification, setShowOtpVerification] = useState(false)
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [loading, setLoading] = useState(false)
 
   const togglePasswordVisibility = () => {
     setShowpassword(!showPassword);
@@ -55,71 +55,17 @@ const MyComponent = () => {
     setPasswordError('')
   }
 
-  const [checked, setChecked] = useState(false)
+
 
   const handleCheckboxChange = (e) => {
     setChecked(e.target.checked);
   }
 
 
-  const [showOtpVerification, setShowOtpVerification] = useState(false)
 
-
-
-  useEffect(() => {
-    if (state.login?.otpSuccessStatusCode === 203) {
-      setShowOtpVerification(true)
-    }
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_OTP_STATUSCODE' })
-    }, 100)
-
-  }, [state.login.otpSuccessStatusCode])
-
-
-// useEffect(()=>{
-//   setRolePermission(state.createAccount.accountList)
-// },[state.createAccount.accountList])
-
-// useEffect(()=>{
-// if(rolePermission.is_owner != 1){
-//   setPermissionError('')
-// }
-// else{
-//   setPermissionError('Permission Denied')
-// }
-// },[])
-
-
-
-
-  useEffect(() => {
-    if (state.login.statusCode === 200) {
-
-
-        dispatch({ type: 'LOGIN-SUCCESS' });
-
-      const token = state.login.JWTtoken
-      const cookies = new Cookies()
-      cookies.set('token', token, { path: '/' });
-
-
-      //  dispatch({ type: 'ACCOUNTDETAILS'})
-
-
-
-      setTimeout(() => {
-        dispatch({ type: 'CLEAR_STATUSCODE' });
-      }, 100);
-
-    }
-
-  }, [state.login.statusCode]);
-
-
-
-
-
+  const handleLogoClicks = () => {
+    LandingNavigates("/All_Landing_pages");
+  };
 
 
 
@@ -130,15 +76,12 @@ const MyComponent = () => {
   };
 
 
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+
 
 
   const handleLogin = () => {
-
-
-    // let hasError = false;
-
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+    dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
     setEmailError('');
     setPasswordError('');
 
@@ -146,25 +89,17 @@ const MyComponent = () => {
       setEmailError('Please Enter Email ID');
       setPasswordError('Please Enter Password');
       return
-      // hasError = true;
     } else if (!email_Id) {
       setEmailError('Please Enter Email ID');
-      // hasError = true;
       return
     } else if (!password) {
       setPasswordError('Please Enter Password');
-      // hasError = true;
       return
     }
-
-
     if (email_Id && password) {
       dispatch({ type: 'LOGININFO', payload: { email_Id: email_Id, password: password } });
+      setLoading(true)
     }
-
-
-
-
   };
 
 
@@ -189,21 +124,51 @@ const MyComponent = () => {
     })
   });
 
+  useEffect(() => {
+    if (state.login?.otpSuccessStatusCode === 203) {
+      setShowOtpVerification(true)
+      setLoading(false)
+    }
+    setTimeout(() => {
+      dispatch({ type: 'CLEAR_OTP_STATUSCODE' })
+    }, 100)
 
-  const LandingNavigates = useNavigate();
+  }, [state.login.otpSuccessStatusCode])
 
-  const handleLogoClicks = () => {
-    LandingNavigates("/All_Landing_pages");
-  };
+
+
+
+  useEffect(() => {
+    if (state.login.statusCode === 200) {
+      setLoading(false)
+      dispatch({ type: 'LOGIN-SUCCESS' });
+      const token = state.login.JWTtoken
+      const cookies = new Cookies()
+      cookies.set('token', token, { path: '/' });
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_STATUSCODE' });
+      }, 100);
+    }
+
+  }, [state.login.statusCode]);
+
+  useEffect(() => {
+    if (state.login.errorEmail || state.login.errorPassword) {
+      setLoading(false)
+    }
+  }
+    , [state.login.errorEmail, state.login.errorPassword])
+
+
   return (
 
     <div className='container login_page1 h-100'>
       <div className='row h-100 align-items-center p-3 mt-md-4 pt-md-4 w-100 fade-in'>
-        <div className='col-lg-6 col-md-6 col-sm-12'>
+        <div className='col-lg-6 col-md-6 col-sm-12' style={{ position: "relative" }}>
           <div className="d-flex gap-1 mb-1" >
 
-            <img src={Logo} alt='logo' style={{ height: 25, width: 25 ,cursor:"pointer"}}  onClick={handleLogoClicks}  />
-            <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy",cursor:"pointer" }}  onClick={handleLogoClicks} >
+            <img src={Logo} alt='logo' style={{ height: 25, width: 25, cursor: "pointer" }} onClick={handleLogoClicks} />
+            <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy", cursor: "pointer" }} onClick={handleLogoClicks} >
               Smartstay</label></div>
           </div>
           <div className='mb-3 mt-2' >
@@ -215,7 +180,6 @@ const MyComponent = () => {
           <div className='mt-5'>
             <Form className="Form p-0">
               <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
-              {/* <InputGroup className="mb-3" size="lg" style={{ color: "#D9D9D9" }} > */}
               <Form.Control
                 placeholder="Enter Email ID"
                 aria-label="Recipient's username"
@@ -230,16 +194,16 @@ const MyComponent = () => {
               />
 
               {emailError && <div className='d-flex p-1'>
-                <MdError style={{ color: "red", marginRight: '5px'}} />
+                <MdError style={{ color: "red", marginRight: '5px' }} />
                 <div style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</div>
               </div>
               }
 
 
-              <div className="mb-1 p-1" >{state.login.errorEmail ? 
+              <div className="mb-1 p-1" >{state.login.errorEmail ?
                 <div className='d-flex p-1 '>
-                <MdError style={{ color: "red",marginRight: '5px' }} />
-                <label style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login.errorEmail}</label> </div> : null}</div>
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login.errorEmail}</label> </div> : null}</div>
 
 
 
@@ -263,7 +227,7 @@ const MyComponent = () => {
                     borderRight: "none"
                   }}
                 />
-                <InputGroup.Text  className='mb-1' onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer", borderLeft: "none" }}>
+                <InputGroup.Text className='mb-1' onClick={togglePasswordVisibility} style={{ background: "transparent", border: "1px solid rgba(217, 217, 217, 1)", cursor: "pointer", borderLeft: "none" }}>
                   {showPassword ? (
                     <Eye size="20" color="rgba(30, 69, 225, 1)" />
                   ) : (
@@ -286,7 +250,7 @@ const MyComponent = () => {
               )}
 
               <div className="mb-1 p-1"> {state.login.errorPassword ? <div className='d-flex align-items-center p-1'>
-                <MdError style={{ color: "red" , marginRight: '5px'}} />
+                <MdError style={{ color: "red", marginRight: '5px' }} />
                 <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.login.errorPassword}</label>
               </div>
                 : null}</div>
@@ -309,6 +273,39 @@ const MyComponent = () => {
               </Button>
             </div>
           </div>
+
+
+          {loading && <div
+            style={{
+              position: 'absolute',
+              top: 120,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+              height: "50vh",
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+
+
+
+
         </div>
         <div className='col-lg-6 col-md-6 col-sm-12 mt-md-3'>
           <div className='image_div mt-5'>
@@ -316,9 +313,9 @@ const MyComponent = () => {
           </div>
         </div>
         <div className='d-flex mt-3 gap-1'>
-        <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 16 }}>
-  Don&apos;t have an account?
-</p><span className="create-account-hover" style={{ color: 'rgba(30, 69, 225, 1)', fontWeight: 600, fontSize: '16px', fontFamily: 'Montserrat', cursor: "pointer" }} onClick={handleCreateAccount}>Create an account</span>
+          <p style={{ fontFamily: 'Montserrat', fontWeight: 400, fontSize: 16 }}>
+            Don&apos;t have an account?
+          </p><span className="create-account-hover" style={{ color: 'rgba(30, 69, 225, 1)', fontWeight: 600, fontSize: '16px', fontFamily: 'Montserrat', cursor: "pointer" }} onClick={handleCreateAccount}>Create an account</span>
         </div>
 
       </div>

@@ -38,6 +38,10 @@ const ComplianceList = (props) => {
   const [hostel_id, setHostel_Id] = useState("");
   const [assignId, setAssignId] = useState("");
   const [loading, setLoading] = useState(true);
+  const [formAssignCompliantLoading, setFormAssignCompliantLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
+  const [commentsLoading, setCommentsLoading] = useState(false)
+
 
   const popupRef = useRef(null);
   useEffect(() => {
@@ -148,6 +152,7 @@ const ComplianceList = (props) => {
     if (state.ComplianceList.statusCodeForAddComplianceComment === 200) {
       setComments("");
       setShowCard(false);
+      setCommentsLoading(false)
       dispatch({
         type: "GET_COMPLIANCE_COMMENT",
         payload: { com_id: customer_Id },
@@ -211,6 +216,7 @@ const ComplianceList = (props) => {
         type: "Add_COMPLIANCE_COMMENT",
         payload: { complaint_id: customer_Id, message: comments },
       });
+      setCommentsLoading(true)
     }
   };
   const handleCloseIconClick = () => {
@@ -271,6 +277,7 @@ const ComplianceList = (props) => {
         hostel_id: hostel_id,
       },
     });
+    setFormLoading(true)
   };
 
 
@@ -305,6 +312,7 @@ const ComplianceList = (props) => {
           hostel_id: hostel_id,
         },
       });
+      setFormAssignCompliantLoading(true)
     }
   };
 
@@ -317,6 +325,7 @@ const ComplianceList = (props) => {
       setShowAssignComplaint(false);
       setStatusErrorType("");
       setShowChangeStatus(false);
+      setFormAssignCompliantLoading(false)
 
     }
   }, [state.ComplianceList.complianceAssignChangeStatus]);
@@ -330,6 +339,7 @@ const ComplianceList = (props) => {
       dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id } });
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
       setShowChangeStatus(false);
+      setFormLoading(false)
     }
   }, [state.ComplianceList.complianceChangeStatus]);
 
@@ -460,7 +470,7 @@ const ComplianceList = (props) => {
       ) : (
         <div>
           <Card
-                       style={{ borderRadius: 16, border: "1px solid #E6E6E6", height: 330 }}
+            style={{ borderRadius: 16, border: "1px solid #E6E6E6", height: 330 }}
           >
             <Card.Body style={{ padding: 15 }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap">
@@ -886,24 +896,24 @@ const ComplianceList = (props) => {
                       }}
                       title={props.complaints.complaint_name}
                     >
-           {props.complaints && props.complaints.complaint_name}
-      {props.complaints?.Description && (
-  <span
-    title={props.complaints.Description}
-    style={{
-      display: "inline-block",
-      maxWidth: "200px",
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-      verticalAlign: "middle",
-      marginTop: "-6px",
-       paddingLeft:4
-    }}
-  >
-    {" "}  {" - "}{props.complaints.Description}
-  </span>
-)}
+                      {props.complaints && props.complaints.complaint_name}
+                      {props.complaints?.Description && (
+                        <span
+                          title={props.complaints.Description}
+                          style={{
+                            display: "inline-block",
+                            maxWidth: "200px",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            verticalAlign: "middle",
+                            marginTop: "-6px",
+                            paddingLeft: 4
+                          }}
+                        >
+                          {" "}  {" - "}{props.complaints.Description}
+                        </span>
+                      )}
 
 
                     </label>
@@ -1092,6 +1102,7 @@ const ComplianceList = (props) => {
                                   margin: 0,
                                   fontSize: "14px",
                                   color: "gray",
+                                  fontFamily: "Gilroy",
                                 }}
                               >
                                 {date}
@@ -1185,6 +1196,7 @@ const ComplianceList = (props) => {
                                         margin: 0,
                                         fontSize: "14px",
                                         color: "#666666",
+                                        fontFamily: "Gilroy",
                                       }}
                                     >
                                       {formattedDate}
@@ -1202,6 +1214,7 @@ const ComplianceList = (props) => {
                                     fontSize: "16px",
                                     fontWeight: "400",
                                     color: "#333",
+                                    fontFamily: "Gilroy",
                                   }}
                                 >
                                   {item.comment}
@@ -1225,6 +1238,36 @@ const ComplianceList = (props) => {
 
                       </div>
                     </Modal.Body>
+
+    {commentsLoading && <div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                        }}
+                      ></div>
+                    </div>}
+
+
+
+
                     {commentError && (
                       <div style={{ color: "red", textAlign: "center" }}>
                         <MdError />
@@ -1394,6 +1437,7 @@ const ComplianceList = (props) => {
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
                                 }),
                                 menuList: (base) => ({
                                   ...base,
@@ -1402,6 +1446,7 @@ const ComplianceList = (props) => {
                                   padding: 0,
                                   scrollbarWidth: "thin",
                                   overflowY: "auto",
+                                  fontFamily: "Gilroy",
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
@@ -1438,6 +1483,31 @@ const ComplianceList = (props) => {
                       </div>
                     </Modal.Body>
 
+                    {formLoading && <div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                        }}
+                      ></div>
+                    </div>}
                     <Modal.Footer style={{ border: "none" }}>
                       <Button
                         className="w-100"
@@ -1560,6 +1630,7 @@ const ComplianceList = (props) => {
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
                                 }),
                                 menuList: (base) => ({
                                   ...base,
@@ -1568,6 +1639,7 @@ const ComplianceList = (props) => {
                                   padding: 0,
                                   scrollbarWidth: "thin",
                                   overflowY: "auto",
+                                  fontFamily: "Gilroy",
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
@@ -1605,7 +1677,31 @@ const ComplianceList = (props) => {
                         </div>
                       </div>
                     </Modal.Body>
-
+                    {formAssignCompliantLoading && <div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                        }}
+                      ></div>
+                    </div>}
                     <Modal.Footer style={{ border: "none" }}>
                       <Button
                         className="w-100"

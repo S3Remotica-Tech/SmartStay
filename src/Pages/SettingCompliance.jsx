@@ -36,6 +36,8 @@ function SettingCompliance({ hostelid }) {
   const [complianceFilterddata, setComplianceFilterddata] = useState([]);
   const [compliancecurrentPage, setCompliancecurrentPage] = useState(1);
   const [planExpiredCompliance, setPlanExpiredCompliance] = useState("");
+  const [formLoading, setFormLoading] = useState(false)
+  
 
   const handleDeleteClick = () => {
     setShowPopup(true);
@@ -128,6 +130,10 @@ function SettingCompliance({ hostelid }) {
   };
 
   const handleAddComplaintType = () => {
+     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
+    dispatch({ type: "CLEAR_PLAN-EXPIRED" })
+    
+
     if (!complaintTypeName) {
       setComplaintError("Please Enter Complaint Type");
     } else {
@@ -135,11 +141,15 @@ function SettingCompliance({ hostelid }) {
         type: "COMPLAINT-TYPE-ADD",
         payload: { complaint_name: complaintTypeName, hostel_id: hostelid },
       });
+      setFormLoading(true)
       setComplaintError("");
     }
   };
 
   const handleEditType = () => {
+     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
+    dispatch({ type: "CLEAR_PLAN-EXPIRED" })
+
     if (complaintTypeName === originalComplaintTypeName) {
       setIsChangedError("No Changes Detected");
     } else {
@@ -151,6 +161,7 @@ function SettingCompliance({ hostelid }) {
           id: id,
         },
       });
+       setFormLoading(true)
       setIsChangedError("");
     }
   };
@@ -180,6 +191,8 @@ function SettingCompliance({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings.errorCompliants) {
+
+      setFormLoading(false)
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_ERROR_COMPLIANTS" });
@@ -187,8 +200,26 @@ function SettingCompliance({ hostelid }) {
     }
   }, [state.Settings.errorCompliants]);
 
+
+  useEffect(()=>{
+    if(state.Settings.alreadytypeerror){
+      setFormLoading(false)
+    }
+
+  },[state.Settings.alreadytypeerror])
+
+
+
+
+
+
+
+
+
+
   useEffect(() => {
     if (state.Settings.addComplaintSuccessStatusCode === 200) {
+      setFormLoading(false)
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
         payload: { hostel_id: hostelid },
@@ -215,6 +246,7 @@ function SettingCompliance({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings.editComplaintSuccessStatusCode === 200) {
+      setFormLoading(false)
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
         payload: { hostel_id: hostelid },
@@ -728,6 +760,33 @@ function SettingCompliance({ hostelid }) {
             Edit Complaint Type
           </Button>
         </Modal.Body>
+        {formLoading &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderTop: '4px solid #1E45E1',
+                                    borderRight: '4px solid transparent',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    animation: 'spin 1s linear infinite',
+                                }}
+                            ></div>
+                        </div>
+                    }
       </Modal>
 
       <Modal
@@ -815,6 +874,36 @@ function SettingCompliance({ hostelid }) {
             </div>
           </div>
         </Modal.Body>
+
+ {formLoading &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderTop: '4px solid #1E45E1',
+                                    borderRight: '4px solid transparent',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    animation: 'spin 1s linear infinite',
+                                }}
+                            ></div>
+                        </div>
+                    }
+
+
         {planExpiredCompliance && (
           <div
             style={{

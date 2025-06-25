@@ -36,6 +36,8 @@ function StaticExample({ show, currentItem,setShowModal }) {
   const [isChangedError, setIsChangedError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [netPaymentError,setNetPaymentError] = useState("")
+   const [formLoading, setFormLoading] = useState(false)
+    const calendarRef = useRef(null);
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -129,6 +131,8 @@ setNetPaymentError(state.ExpenseList.expenceNetBanking)
       });
     }
   }, [customContainerRef.current, selectedDate]);
+
+  
   const handleCountChange = (e) => {
     setGeneralError("");
     setCountError("");
@@ -280,11 +284,12 @@ const handleModeOfPaymentChange = (selectedOption) => {
         id: currentItem ? currentItem.id : null,
       },
     });
+    setFormLoading(true)
   };
   
 
  
-  const calendarRef = useRef(null);
+ 
   
 
 
@@ -425,6 +430,7 @@ const handleModeOfPaymentChange = (selectedOption) => {
         ...base,
         backgroundColor: "#f8f9fa",
         border: "1px solid #ced4da",
+         fontFamily: "Gilroy",
       }),
       menuList: (base) => ({
         ...base,
@@ -433,6 +439,7 @@ const handleModeOfPaymentChange = (selectedOption) => {
         padding: 0,
         scrollbarWidth: "thin",
         overflowY: "auto",
+         fontFamily: "Gilroy",
       }),
       placeholder: (base) => ({
         ...base,
@@ -496,7 +503,7 @@ const handleModeOfPaymentChange = (selectedOption) => {
 
                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                                   <DatePicker
-                                                    style={{ width: "100%", height: 48,cursor:"pointer" }}
+                                                    style={{ width: "100%", height: 48,cursor:"pointer", fontFamily: "Gilroy", }}
                                                     format="DD/MM/YYYY"
                                                     placeholder="DD/MM/YYYY"
                                                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -886,6 +893,41 @@ const handleModeOfPaymentChange = (selectedOption) => {
               </div>
             </div>
           </Modal.Body>
+
+
+
+ {formLoading && 
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
+
+
+
+
+
+
           {currentItem && isChangedError && (
             <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
               <MdError style={{ color: "red", marginRight: "5px" }} />

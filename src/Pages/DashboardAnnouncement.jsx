@@ -22,28 +22,15 @@ function DashboardAnnouncement() {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
-
-
+  const [formLoading, setFormLoading] = useState(false)
+const [formCommentsLoading, setFormCommentsLoading] = useState(false)
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
-  };
-
   const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
 
-
-
   const state = useSelector((state) => state);
-
-
 
   const dispatch = useDispatch();
   const [showMainModal, setShowMainModal] = useState(false);
@@ -73,7 +60,14 @@ function DashboardAnnouncement() {
 
 
 
+const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
+  };
   const handleCommentsChange = (e) => {
     setComments(e.target.value)
     setDisplayError('')
@@ -87,13 +81,10 @@ function DashboardAnnouncement() {
     }
     if (Comments) {
       dispatch({ type: 'CREATECOMMENTS', payload: { an_id: selectedCard, comment: Comments } })
+      setFormCommentsLoading(true)
     }
-
-
-
     setComments("");
-    setShowCommentModal(false);
-    setCommentsList([]);
+       setCommentsList([]);
 
   }
 
@@ -154,15 +145,15 @@ function DashboardAnnouncement() {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
   useEffect(() => {
-   
+
     if (hostel_id) {
-       setLoading(true)
+      setLoading(true)
       dispatch({
         type: "ANNOUNCEMENTLIST",
         payload: { hostel_id: hostel_id },
       });
-    }else{
-       setLoading(false)
+    } else {
+      setLoading(false)
     }
   }, [hostel_id]);
 
@@ -204,6 +195,8 @@ function DashboardAnnouncement() {
 
   useEffect(() => {
     if (state.PgList?.addCommentsSuccessStatus === 200) {
+      setFormCommentsLoading(false)
+      setShowCommentModal(false);
       if (selectedCard) {
         dispatch({ type: 'GETCOMMENTS', payload: { an_id: selectedCard } })
       }
@@ -235,7 +228,7 @@ function DashboardAnnouncement() {
 
   useEffect(() => {
     if (state.PgList?.addSubCommentsSuccessStatus === 200) {
-
+ setFormCommentsLoading(false)
       if (selectedCard) {
         dispatch({ type: 'GETCOMMENTS', payload: { an_id: selectedCard } })
       }
@@ -278,6 +271,8 @@ function DashboardAnnouncement() {
   };
 
   const handleSaveAnnonce = () => {
+     dispatch({ type: 'CLEAR_SAME_TITLE' });
+    dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
     if (!validateField(title, "title"));
     if (!validateField(description, "description"));
 
@@ -297,11 +292,14 @@ function DashboardAnnouncement() {
           type: "ADDANNOUNCEMENT",
           payload: { id: editDetails.id, hostel_id: hostel_id, title: title, description: description },
         });
+        setFormLoading(true)
+
       } else {
         dispatch({
           type: "ADDANNOUNCEMENT",
           payload: { hostel_id: hostel_id, title: title, description: description },
         });
+        setFormLoading(true)
       }
 
     }
@@ -310,6 +308,7 @@ function DashboardAnnouncement() {
   useEffect(() => {
     if (state.PgList.statuscodeForAddAnnouncement === 200 || state.PgList?.deleteAnnounmentSuccessStatus === 200) {
       handleCloseAnnouncement();
+      setFormLoading(false)
       setDisplayDeletePopUP(false)
       dispatch({
         type: "ANNOUNCEMENTLIST",
@@ -417,6 +416,15 @@ function DashboardAnnouncement() {
       setCurrentPage(currentPage - 1);
     }
   }, [filteredData])
+
+useEffect(() => {
+  if (
+    state.PgList.TitleAlready !== "" ||
+    state.PgList.TittleUnique !== ""
+  ) {
+    setFormLoading(false);
+  }
+}, [state.PgList.TitleAlready, state.PgList.TittleUnique]);
 
 
 
@@ -629,9 +637,9 @@ function DashboardAnnouncement() {
                                   justifyContent: "start",
                                   zIndex: 1001,
                                   alignItems: "flex-start",
-                                                                  }}
+                                }}
                               >
-                              
+
                                 <div
                                   className="d-flex gap-2 align-items-center "
                                   style={{
@@ -639,7 +647,7 @@ function DashboardAnnouncement() {
                                     padding: "8px 12px",
                                     transition: "background 0.2s ease-in-out",
                                     borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
+                                    borderTopRightRadius: 10,
                                   }}
                                   onClick={() => handleEdit(data)}
                                   onMouseEnter={(e) =>
@@ -664,10 +672,10 @@ function DashboardAnnouncement() {
                                   </label>
                                 </div>
 
-                               
+
                                 <div style={{ height: 1, backgroundColor: "#F0F0F0", width: "100%" }} />
 
-                              
+
                                 <div
                                   className="d-flex gap-2 align-items-center "
                                   style={{
@@ -675,7 +683,7 @@ function DashboardAnnouncement() {
                                     padding: "8px 12px",
                                     transition: "background 0.2s ease-in-out",
                                     borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
+                                    borderBottomRightRadius: 10,
                                   }}
                                   onClick={() => handleDelete(data)}
                                   onMouseEnter={(e) =>
@@ -1295,7 +1303,7 @@ function DashboardAnnouncement() {
             <div className="d-flex align-items-center">
 
               <div className="ms-2">
-                <p className="mb-0 fw-bold">Monthly</p>
+                <p className="mb-0 fw-bold" style={{fontFamily:"Gilroy"}}>Monthly</p>
 
               </div>
             </div>
@@ -1313,11 +1321,11 @@ function DashboardAnnouncement() {
                         : comment.profile
                     } width={30} height={30} alt="profile" />
                     <div className="ms-2">
-                      <p className="mb-0 fw-bold" style={{ fontSize: "14px" }}>{comment.name}</p>
-                      <p className="mb-0 text-muted" style={{ fontSize: "12px" }}>{new Date(comment.created_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}</p>
+                      <p className="mb-0 fw-bold" style={{ fontSize: "14px" ,fontFamily:"Gilroy"}}>{comment.name}</p>
+                      <p className="mb-0 text-muted" style={{ fontSize: "12px",fontFamily:"Gilroy" }}>{new Date(comment.created_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}</p>
                     </div>
                   </div>
-                  <p className="mt-2 mb-1" style={{ fontSize: "14px", color: "#222" }}>{comment.comment}</p>
+                  <p className="mt-2 mb-1" style={{ fontSize: "14px", color: "#222",fontFamily:"Gilroy" }}>{comment.comment}</p>
                 </div>
               ))
             ) : (
@@ -1336,7 +1344,32 @@ function DashboardAnnouncement() {
             )}
           </Modal.Body>
 
-
+ {formCommentsLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+                           alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
 
           <Modal.Footer style={{ border: "none" }}>
@@ -1540,9 +1573,34 @@ function DashboardAnnouncement() {
             </span>
           </button>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{position:"relative"}}>
 
-
+  {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: 100,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              display: 'flex',
+                           alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
 
 
 

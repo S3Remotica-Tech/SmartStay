@@ -2,12 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { Button,Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl } from "react-bootstrap";
 import "./UserList.css";
-import { InputGroup} from "react-bootstrap";
+import { InputGroup } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import PropTypes from "prop-types";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import Select from "react-select";
 
 
@@ -32,24 +32,25 @@ function UserAdditionalContact(props) {
   const [userNameError, setUserNameError] = useState("");
   const [guardianError, setGuardianError] = useState("");
   const [guardianAlreadyError, setGuardianAlreadyError] = useState("");
-    const [house_noError, setHouse_NoError] = useState("");
-    const [streetError, setStreetError] = useState("");
-    const [landmarkError, setLandmarkError] = useState("");
-    const [pincodeError, setPincodeError] = useState("");
-    const [cityError, setCityError] = useState("");
-    const [state_nameError, setStateNameError] = useState("");
+  const [house_noError, setHouse_NoError] = useState("");
+  const [streetError, setStreetError] = useState("");
+  const [landmarkError, setLandmarkError] = useState("");
+  const [pincodeError, setPincodeError] = useState("");
+  const [cityError, setCityError] = useState("");
+  const [state_nameError, setStateNameError] = useState("");
   const MobileNumber = `${countryCode}${Phone}`;
+  const [formLoading, setFormLoading] = useState(false)
 
   const [initialState, setInitialState] = useState({
     userName: "",
     guardiaz: "",
     Phone: "",
     address: "",
-    house_no:"",
-    street:"",
-    city:"",
-    landmark:"",
-    state:"",
+    house_no: "",
+    street: "",
+    city: "",
+    landmark: "",
+    state: "",
     pinCode: "",
   });
 
@@ -121,7 +122,7 @@ function UserAdditionalContact(props) {
         city: props.contactEdit.city || "",
         landmark: props.contactEdit.landmark || "",
         state: props.contactEdit.state || "",
-        pinCode:props.contactEdit.pin_code || "",
+        pinCode: props.contactEdit.pin_code || "",
       });
     }
   }, [props.contactEdit && props.editAdditional]);
@@ -170,14 +171,14 @@ function UserAdditionalContact(props) {
     
   }
 
-  
+
 
   const handlePinCodeChange = (e) => {
     const value = e.target.value;
     if (!/^\d{0,6}$/.test(value)) {
       return;
     }
-  
+
     setPincode(value);
     if (value.length > 0 && value.length < 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
@@ -189,13 +190,13 @@ function UserAdditionalContact(props) {
   };
 
   const handleCity = (e) => {
-        const value = e.target.value;
-  const regex = /^[a-zA-Z\s]*$/;
-  if (regex.test(value)) {
-    setCity(value);
-    setCityError("");
-    setFormError("");
-  }
+    const value = e.target.value;
+    const regex = /^[a-zA-Z\s]*$/;
+    if (regex.test(value)) {
+      setCity(value);
+      setCityError("");
+      setFormError("");
+    }
   }
 
   const validateAssignField = (value, fieldName,ref, setError, focusedRef) => {
@@ -251,6 +252,7 @@ setError("")
 const nochangeRef =useRef(null)
 
   const handleSubmitContact = () => {
+     dispatch({ type: "CLEAR_CONTACT_ERROR" });
       let hasError = false;
   const focusedRef = { current: false };
 
@@ -269,7 +271,7 @@ const nochangeRef =useRef(null)
         const val = (value ?? "").toString().trim().toLowerCase();
         return val === "null" || val === "undefined" ? "" : val;
       };
-      
+
 
 const isChanged = (
   userName !== initialState.userName ||
@@ -307,15 +309,16 @@ const isChanged = (
           guardian: guardian,
           mob_no: MobileNumber,
           address: house_no,
-          area : street,
-          landmark : landmark,
-          city : city,
-          pin_code : pincode,
-          state:state_name,
+          area: street,
+          landmark: landmark,
+          city: city,
+          pin_code: pincode,
+          state: state_name,
           user_id: props.id,
           id: contactId,
         },
       });
+      setFormLoading(true)
     } else {
       dispatch({
         type: "CUSTOMERADDCONTACT",
@@ -324,19 +327,21 @@ const isChanged = (
           guardian: guardian,
           mob_no: MobileNumber,
           address: house_no,
-          area : street,
-          landmark : landmark,
-          city : city,
-          pin_code : pincode,
-          state:state_name,
+          area: street,
+          landmark: landmark,
+          city: city,
+          pin_code: pincode,
+          state: state_name,
           user_id: props.id,
         },
       });
+      setFormLoading(true)
     }
   };
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerCoatact === 200) {
+      setFormLoading(false)
       handleCloseAdditionalForm();
       dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
       setTimeout(() => {
@@ -345,7 +350,7 @@ const isChanged = (
     }
   }, [state.UsersList.statusCodeForCustomerCoatact]);
 
-  
+
 
   const handlePhone = (e) => {
     const value = e.target.value;
@@ -353,7 +358,7 @@ const isChanged = (
     if (!/^\d{0,10}$/.test(value)) {
       return;
     }
-  
+
     setPhone(value);
   
   
@@ -364,12 +369,12 @@ const isChanged = (
     } else {
       setPhoneError("Invalid Mobile Number");
     }
-  
+
     setFormError("");
     dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
-  
-  
+
+
   useEffect(() => {
     if (state.UsersList.contactError) {
       setGuardianAlreadyError(state.UsersList.contactError);
@@ -397,6 +402,20 @@ const isChanged = (
     dispatch({ type: "CLEAR_CONTACT_ERROR" });
   };
 
+
+  useEffect(()=>{
+    if(state.UsersList.contactError){
+      setFormLoading(false)
+    }
+
+  },[state.UsersList.contactError])
+
+
+
+
+
+
+
   return (
     <div>
       <Modal
@@ -421,7 +440,7 @@ const isChanged = (
                 {/* <div className="row mb-3"></div> */}
 
                 <Modal.Header
-                  style={{ position: "relative" ,paddingTop:"-0px"}}
+                  style={{ position: "relative", paddingTop: "-0px" }}
                 >
                   <div
                     style={{
@@ -654,315 +673,317 @@ const isChanged = (
                   </div>
 
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                                                                    <Form.Group className="">
-                                                                      <Form.Label
-                                                                        style={{
-                                                                          fontSize: 14,
-                                                                          color: "#222222",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                        }}
-                                                                      >
-                                                                        Flat , House no , Building , Company , Apartment {" "}
-                                                                      </Form.Label>
-                                                                      <FormControl
-                                                                        type="text"
-                                                                        id="form-controls"
-                                                                        placeholder="Enter House No"
-                                                                        value={house_no}
-                                                                        onChange={(e) => handleHouseNo(e)}
-                                                                        style={{
-                                                                          fontSize: 16,
-                                                                          color: "#4B4B4B",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                          boxShadow: "none",
-                                                                          border: "1px solid #D9D9D9",
-                                                                          height: 50,
-                                                                          borderRadius: 8,
-                                                                        }}
-                                                                      />
-                                                                    </Form.Group>
-                                                                    {house_noError && (
-                                                                      <div style={{ color: "red"}}>
-                                                                        <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                                        <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
-                                                                      </div>
-                                                                    )}
-                                                                  </div>
-                                                      
-                                                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                                                    <Form.Group className="">
-                                                                      <Form.Label
-                                                                        style={{
-                                                                          fontSize: 14,
-                                                                          color: "#222222",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                        }}
-                                                                      >
-                                                                        Area , Street , Sector , Village{" "}
-                                                                      </Form.Label>
-                                                                      <FormControl
-                                                                        type="text"
-                                                                        id="form-controls"
-                                                                        placeholder="Enter Street"
-                                                                        value={street}
-                                                                        onChange={(e) => handleStreetName(e)}
-                                                                        style={{
-                                                                          fontSize: 16,
-                                                                          color: "#4B4B4B",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                          boxShadow: "none",
-                                                                          border: "1px solid #D9D9D9",
-                                                                          height: 50,
-                                                                          borderRadius: 8,
-                                                                        }}
-                                                                      />
-                                                                    </Form.Group>
-                                                                    {streetError && (
-                                                                      <div style={{ color: "red"}}>
-                                                                        <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                                        <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
-                                                                      </div>
-                                                                    )}
-                                                                  </div>
-                                                      
-                                                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                                                    <Form.Group className="">
-                                                                      <Form.Label
-                                                                        style={{
-                                                                          fontSize: 14,
-                                                                          color: "#222222",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                        }}
-                                                                      >
-                                                                        Landmark{" "}
-                                                                      </Form.Label>
-                                                                      <FormControl
-                                                                        type="text"
-                                                                        id="form-controls"
-                                                                        placeholder="E.g , near appollo hospital"
-                                                                        value={landmark}
-                                                                        onChange={(e) => handleLandmark(e)}
-                                                                        style={{
-                                                                          fontSize: 16,
-                                                                          color: "#4B4B4B",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                          boxShadow: "none",
-                                                                          border: "1px solid #D9D9D9",
-                                                                          height: 50,
-                                                                          borderRadius: 8,
-                                                                        }}
-                                                                      />
-                                                                    </Form.Group>
-                                                                    {landmarkError && (
-                                                                      <div style={{ color: "red"}}>
-                                                                        <MdError style={{fontFamily: "Gilroy",fontSize: '13px',marginRight:"5px",marginBottom:"1px"}} />
-                                                                        <span style={{ fontSize: '12px',  fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
-                                                                      </div>
-                                                                    )}
-                                                                  </div>
-                                                      
-                                           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                           <Form.Group
-                                                                         className="mb-3"
-                                                                                               controlId="exampleForm.ControlInput1"
-                                                                                                                                          >
-                                                                                                                                            <Form.Label
-                                                                                                                                              style={{
-                                                                                                                                                fontSize: 14,
-                                                                                                                                                color: "#222222",
-                                                                                                                                                fontFamily: "Gilroy",
-                                                                                                                                                fontWeight: 500,
-                                                                                                                                              }}
-                                                                                                                                            >
-                                                                                                                                              Pincode
-                                                                                                                                              <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                                                                                                                                            </Form.Label>
-                                                                                                                                            <Form.Control
-                                                                                                                                              value={pincode}
+                    <Form.Group className="">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Flat , House no , Building , Company , Apartment {" "}
+                      </Form.Label>
+                      <FormControl
+                        type="text"
+                        id="form-controls"
+                        placeholder="Enter House No"
+                        value={house_no}
+                        onChange={(e) => handleHouseNo(e)}
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #D9D9D9",
+                          height: 50,
+                          borderRadius: 8,
+                        }}
+                      />
+                    </Form.Group>
+                    {house_noError && (
+                      <div style={{ color: "red" }}>
+                        <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                        <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                    <Form.Group className="">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Area , Street , Sector , Village{" "}
+                      </Form.Label>
+                      <FormControl
+                        type="text"
+                        id="form-controls"
+                        placeholder="Enter Street"
+                        value={street}
+                        onChange={(e) => handleStreetName(e)}
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #D9D9D9",
+                          height: 50,
+                          borderRadius: 8,
+                        }}
+                      />
+                    </Form.Group>
+                    {streetError && (
+                      <div style={{ color: "red" }}>
+                        <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                        <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                    <Form.Group className="">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Landmark{" "}
+                      </Form.Label>
+                      <FormControl
+                        type="text"
+                        id="form-controls"
+                        placeholder="E.g , near appollo hospital"
+                        value={landmark}
+                        onChange={(e) => handleLandmark(e)}
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #D9D9D9",
+                          height: 50,
+                          borderRadius: 8,
+                        }}
+                      />
+                    </Form.Group>
+                    {landmarkError && (
+                      <div style={{ color: "red" }}>
+                        <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                        <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Pincode
+                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      </Form.Label>
+                      <Form.Control
+                        value={pincode}
                                                                                                                                               ref={pincodeRef}
-                                                                                                                                              onChange={(e) => handlePinCodeChange(e)}
-                                                                                                                                              type="tel"
-                                                                                                                                              maxLength={6}
-                                                                                                                                              inputMode="numeric" 
-                                                                                                                                              pattern="[0-9]*" 
-                                                                                                                                              placeholder="Enter Pincode"
-                                                                                                                                              style={{
-                                                                                                                                                fontSize: 16,
-                                                                                                                                                color: "#4B4B4B",
-                                                                                                                                                fontFamily: "Gilroy",
-                                                                                                                                                fontWeight: pincode ? 600 : 500,
-                                                                                                                                                boxShadow: "none",
-                                                                                                                                                border: "1px solid #D9D9D9",
-                                                                                                                                                height: 50,
-                                                                                                                                                borderRadius: 8,
-                                                                                                                                              }}
-                                                                                                                                            />
-                                                                                                                                            {pincodeError && (
-                                                                                                                                              <div className="d-flex align-items-center p-1 mb-2">
-                                                                                                                                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                                                                                                                <label
-                                                                                                                                                  className="mb-0"
-                                                                                                                                                  style={{
-                                                                                                                                                    color: "red",
-                                                                                                                                                    fontSize: "12px",
-                                                                                                                                                    fontFamily: "Gilroy",
-                                                                                                                                                    fontWeight: 500,
-                                                                                                                                                  }}
-                                                                                                                                                >
-                                                                                                                                                  {pincodeError}
-                                                                                                                                                </label>
-                                                                                                                                              </div>
-                                                                                                                                            )}
-                                                                                                                          
-                                                                                                                          
-                                                                                                                                          </Form.Group>
-                                                                                                                                        </div>
-                                                      
-                                                                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                                                                    <Form.Group className="">
-                                                                      <Form.Label
-                                                                        style={{
-                                                                          fontSize: 14,
-                                                                          color: "#222222",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                        }}
-                                                                      >
-                                                                        Town/City{" "}
-                                                                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                                                      </Form.Label>
-                                                                      <FormControl
-                                                                        type="text"
-                                                                        id="form-controls"
-                                                                        placeholder="Enter City"
-                                                                        value={city}
+                        onChange={(e) => handlePinCodeChange(e)}
+                        type="tel"
+                        maxLength={6}
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        placeholder="Enter Pincode"
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: pincode ? 600 : 500,
+                          boxShadow: "none",
+                          border: "1px solid #D9D9D9",
+                          height: 50,
+                          borderRadius: 8,
+                        }}
+                      />
+                      {pincodeError && (
+                        <div className="d-flex align-items-center p-1 mb-2">
+                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {pincodeError}
+                          </label>
+                        </div>
+                      )}
+
+
+                    </Form.Group>
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+                    <Form.Group className="">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Town/City{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                      </Form.Label>
+                      <FormControl
+                        type="text"
+                        id="form-controls"
+                        placeholder="Enter City"
+                        value={city}
                                                                         ref={cityRef}
-                                                                        onChange={(e) => handleCity(e)}
-                                                                        style={{
-                                                                          fontSize: 16,
-                                                                          color: "#4B4B4B",
-                                                                          fontFamily: "Gilroy",
-                                                                          fontWeight: 500,
-                                                                          boxShadow: "none",
-                                                                          border: "1px solid #D9D9D9",
-                                                                          height: 50,
-                                                                          borderRadius: 8,
-                                                                        }}
-                                                                      />
-                                                                    </Form.Group>
-                                                                    {cityError && (
-                                                                      <div style={{ color: "red" }}>
-                                                                        <MdError style={{fontSize: '13px',marginRight:"5px"}} />
-                                                                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
-                                                                      </div>
-                                                                    )}
-                                                                  </div>
-                                                      
-                                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-                                                                   <Form.Label
-                                                                     style={{
-                                                                       fontFamily: "Gilroy",
-                                                                       fontSize: 14,
-                                                                       fontWeight: 500,
-                                                                       color: "#222",
-                                                                       fontStyle: "normal",
-                                                                       lineHeight: "normal",
-                                                                     }}
-                                                                   >
-                                                                     State
-                                                                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                                                                   </Form.Label>
-                                                               
-                                                                   <Select
-                                                                     options={indianStates}
-                                                                     onChange={(selectedOption) => {
-                                                                       setStateName(selectedOption?.value);
-                                                                     }}
+                        onChange={(e) => handleCity(e)}
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #D9D9D9",
+                          height: 50,
+                          borderRadius: 8,
+                        }}
+                      />
+                    </Form.Group>
+                    {cityError && (
+                      <div style={{ color: "red" }}>
+                        <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                        <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                      <Form.Label
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          fontWeight: 500,
+                          color: "#222",
+                          fontStyle: "normal",
+                          lineHeight: "normal",
+                        }}
+                      >
+                        State
+                        <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                      </Form.Label>
+
+                      <Select
+                        options={indianStates}
+                        onChange={(selectedOption) => {
+                          setStateName(selectedOption?.value);
+                        }}
                                                                      ref={stateRef}
-                                                                       onInputChange={(inputValue, { action }) => {
-                                                                    if (action === "input-change") {
-                                                                          const lettersOnly = inputValue.replace(
-                                                                  /[^a-zA-Z\s]/g,
-                                                                       ""
-                                                                          );
-                                                                 return lettersOnly;
-                                                                       }
-                                                                 return inputValue;
-                                                                   }}
-                                                                     value={
-                                                                       state_name ? { value: state_name, label: state_name } : null
-                                                                     }
-                                                                     placeholder="Select State"
-                                                                     classNamePrefix="custom"
-                                                                     menuPlacement="auto"
-                                                                     noOptionsMessage={() => "No state available"}
-                                                                     styles={{
-                                                                       control: (base) => ({
-                                                                         ...base,
-                                                                         height: "50px",
-                                                                         border: "1px solid #D9D9D9",
-                                                                         borderRadius: "8px",
-                                                                         fontSize: "16px",
-                                                                         color: "#4B4B4B",
-                                                                         fontFamily: "Gilroy",
-                                                                         fontWeight: state_name ? 600 : 500,
-                                                                         boxShadow: "none",
-                                                                       }),
-                                                                       menu: (base) => ({
-                                                                         ...base,
-                                                                         backgroundColor: "#f8f9fa",
-                                                                         border: "1px solid #ced4da",
-                                                                       }),
-                                                                       menuList: (base) => ({
-                                                                         ...base,
-                                                                         backgroundColor: "#f8f9fa",
-                                                                         maxHeight: "120px",
-                                                                         padding: 0,
-                                                                         scrollbarWidth: "thin",
-                                                                         overflowY: "auto",
-                                                                       }),
-                                                                       placeholder: (base) => ({
-                                                                         ...base,
-                                                                         color: "#555",
-                                                                       }),
-                                                                       dropdownIndicator: (base) => ({
-                                                                         ...base,
-                                                                         color: "#555",
-                                                                         cursor: "pointer",
-                                                                       }),
-                                                                       indicatorSeparator: () => ({
-                                                                         display: "none",
-                                                                       }),
-                                                                       option: (base, state) => ({
-                                                                         ...base,
-                                                                         cursor: "pointer",
-                                                                         backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                                                                         color: "#000",
-                                                                       }),
-                                                                     }}
-                                                                   />
-                                                                   
-                                                                 {!state_name && state_nameError && (
-                                                                   <div style={{ color: "red" }}>
-                                                                     <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
-                                                                     <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                                       {state_nameError}
-                                                                     </span>
-                                                                   </div>
-                                                                 )}
-                                                                 </Form.Group>
-                                                               
-                                                               </div>
+                        onInputChange={(inputValue, { action }) => {
+                          if (action === "input-change") {
+                            const lettersOnly = inputValue.replace(
+                              /[^a-zA-Z\s]/g,
+                              ""
+                            );
+                            return lettersOnly;
+                          }
+                          return inputValue;
+                        }}
+                        value={
+                          state_name ? { value: state_name, label: state_name } : null
+                        }
+                        placeholder="Select State"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        noOptionsMessage={() => "No state available"}
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "50px",
+                            border: "1px solid #D9D9D9",
+                            borderRadius: "8px",
+                            fontSize: "16px",
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: state_name ? 600 : 500,
+                            boxShadow: "none",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                            fontFamily: "Gilroy",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "120px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                            fontFamily: "Gilroy",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#555",
+                            cursor: "pointer",
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            cursor: "pointer",
+                            backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                            color: "#000",
+                          }),
+                        }}
+                      />
+
+                      {!state_name && state_nameError && (
+                        <div style={{ color: "red" }}>
+                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                          <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            {state_nameError}
+                          </span>
+                        </div>
+                      )}
+                    </Form.Group>
+
+                  </div>
 
 
-              
+
 
 
                 </div>
@@ -990,7 +1011,7 @@ const isChanged = (
                     borderRadius: 12,
                     fontSize: 16,
                     fontFamily: "Montserrat",
-                    marginTop:"8px"
+                    marginTop: "8px"
                   }}
                   onClick={handleSubmitContact}
                 >
@@ -1000,6 +1021,32 @@ const isChanged = (
             </div>
           </Modal.Body>
 
+                                {formLoading && <div
+                                  style={{
+                                    position: 'absolute',
+                                    top: 100,
+                                    right: 0,
+                                    bottom: 0,
+                                    left: 0,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: 'transparent',
+                                    opacity: 0.75,
+                                    zIndex: 10,
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      borderTop: '4px solid #1E45E1',
+                                      borderRight: '4px solid transparent',
+                                      borderRadius: '50%',
+                                      width: '40px',
+                                      height: '40px',
+                                      animation: 'spin 1s linear infinite',
+                                    }}
+                                  ></div>
+                                </div>}
           <Modal.Footer style={{ border: "none" }}></Modal.Footer>
         </Modal.Dialog>
       </Modal>

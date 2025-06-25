@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Pages/AssetFile/addAsset.css";
 import { MdError } from "react-icons/md";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 
 function StaticExample({
@@ -21,6 +21,7 @@ function StaticExample({
   const [isChangedError, setIsChangedError] = useState("");
   const [floorError, setFloorError] = useState("");
   const [floorId, setFloorId] = useState("");
+  const [formLoading, setFormLoading] = useState(false)
   const [initialState, setInitialState] = useState({
     floorNo: "",
   });
@@ -59,6 +60,7 @@ function StaticExample({
   useEffect(() => {
     if (state.UsersList.createFloorSuccessStatusCode === 200) {
       setFloorNo("");
+      setFormLoading(false)
     }
   }, [state.UsersList.createFloorSuccessStatusCode]);
   const handleFloorChange = (e) => {
@@ -69,14 +71,12 @@ function StaticExample({
     setIsChangedError("");
   };
 
-  
+
 
   const handleCreateFloor = () => {
+    dispatch({ type: "CLEAR_ALREADY_FLOOR_ERROR" });
+    dispatch({ type: "CLEAR_UPDATE_FLOOR_ERROR" });
     setFloorId("");
-    // if (!floorNo || !/^[1-9]\d*$/.test(floorNo)) {
-    //                setFloorError('Please enter a valid Floor no.(must be a positive number greater than 0)')
-    //     return;
-    //   }
     const isChanged = floorNo !== initialState.floorNo;
 
     if (!floorNo) {
@@ -104,15 +104,35 @@ function StaticExample({
             id: editFloor.floor_Id,
           },
         });
+        setFormLoading(true)
       } else {
         dispatch({
           type: "CREATEFLOOR",
           payload: { hostel_Id: hostelFloor, floor_Id: floorNo },
         });
+        setFormLoading(true)
       }
     }
 
   };
+
+
+
+  useEffect(() => {
+    if (state.UsersList?.alreadyFloorHere || state.PgList?.alreadyfloorNameHere) {
+      setFormLoading(false)
+    }
+
+  }, [state.UsersList?.alreadyFloorHere, state.PgList?.alreadyfloorNameHere])
+
+
+
+
+
+
+
+
+
 
   return (
     <div
@@ -129,7 +149,6 @@ function StaticExample({
           className="m-0 p-0"
         >
           <Modal.Header
-            // closeButton closeLabel="close-button"
             style={{ border: "1px solid #E7E7E7" }}
           >
             <Modal.Title
@@ -143,13 +162,12 @@ function StaticExample({
               {updateFloor ? " Edit Floor" : "Add Floor"}
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
-          <Modal.Body style={{ paddingTop: 10, paddingLeft:10, paddingRight:10, paddingBottom:10 }}>
+          <Modal.Body style={{ paddingTop: 10, paddingLeft: 10, paddingRight: 10, paddingBottom: 10 }}>
             <div className="row mt-1">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
-                  // className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -181,11 +199,35 @@ function StaticExample({
                   />
                 </Form.Group>
               </div>
-              
-            
+
+
             </div>
           </Modal.Body>
-{/*  p-1 mb-2 */}
+          {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
           {floorId && (
             <div className="d-flex align-items-center">
               <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
@@ -254,17 +296,17 @@ function StaticExample({
 
           {isChangedError && (
             <div className="d-flex align-items-center  justify-content-center">
-              <MdError style={{ fontSize: "14px",color: "red", marginRight: "6px", marginLeft: "10px" , fontFamily:"Gilroy"}} />
+              <MdError style={{ fontSize: "14px", color: "red", marginRight: "6px", marginLeft: "10px", fontFamily: "Gilroy" }} />
               <label
                 className="mb-0"
-                style={{ color: "red", fontSize: "12px", fontWeight: 500,fontFamily:"Gilroy" }}
+                style={{ color: "red", fontSize: "12px", fontWeight: 500, fontFamily: "Gilroy" }}
               >
                 {isChangedError}
               </label>
             </div>
           )}
-          
-          
+
+
 
           <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
             <Button

@@ -24,6 +24,9 @@ const SettingElectricity = ({hostelid}) => {
   const [recurringform, setRecurringForm] = useState(false);
   const [calculatedstartdate, setCalculatedstartdate] = useState(null);
   const [calculatedenddate, setCalculatedEnddate] = useState("");
+const [formLoading, setFormLoading] = useState(false)
+const [formRecurringLoading, setFormRecurringLoading] = useState(false)
+
   const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] =
     useState("");
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
@@ -56,6 +59,7 @@ const SettingElectricity = ({hostelid}) => {
         type: "EB-BILLING-UNIT-LIST",
         payload: { hostel_id: hostelid },
       });
+      setFormLoading(false)
       handleClose();
 
       setTimeout(() => {
@@ -150,6 +154,7 @@ const SettingElectricity = ({hostelid}) => {
           hostel_based: hostelBasedCalculation ? 1 : 0,
         },
       });
+      setFormLoading(true)
     } else if (!edit && amount !== "") {
       dispatch({
         type: "EB-BILLING-UNIT-ADD",
@@ -162,6 +167,7 @@ const SettingElectricity = ({hostelid}) => {
           hostel_based: hostelBasedCalculation ? 1 : 0,
         },
       });
+      setFormLoading(true)
     }
   };
 
@@ -218,6 +224,7 @@ const SettingElectricity = ({hostelid}) => {
           end_date: Number(calculatedenddate),
         },
       });
+      setFormRecurringLoading(true)
       setIsRecurring(false);
     }
   };
@@ -226,7 +233,7 @@ const SettingElectricity = ({hostelid}) => {
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
       setCalculatedstartdate("");
       setCalculatedEnddate("");
-
+ setFormRecurringLoading(false)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: { hostel_id: hostelid },
@@ -300,6 +307,8 @@ const SettingElectricity = ({hostelid}) => {
 
   useEffect(() => {
     if (state.Settings?.errorEbUnitStatusCode) {
+      setFormLoading(false)
+      setFormRecurringLoading(false)
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_ERROR_EB_BILLING_UNIT_LIST" });
@@ -808,6 +817,33 @@ const SettingElectricity = ({hostelid}) => {
           </div>
         </Modal.Body>
 
+{formLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
+
+
         <Modal.Footer
           className="d-flex justify-content-center"
           style={{ borderTop: "none", marginBottom: "20px" }}
@@ -1092,7 +1128,31 @@ const SettingElectricity = ({hostelid}) => {
                   </div>
                 </div>
               </Modal.Body>
-
+{formRecurringLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
               <Modal.Footer style={{ borderTop: "none" }}>
                 <Button
                   className="w-100"

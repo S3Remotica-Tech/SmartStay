@@ -38,7 +38,7 @@ function StaticExample({ show, setShow, currentItem }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [bankking, setBanking] = useState("")
   const [bankingError, setBankingError] = useState("")
-
+  const [formLoading, setFormLoading] = useState(false)
 
 
 
@@ -74,6 +74,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (state.AssetList?.bankAmountError) {
+      setFormLoading(false)
       setBankingError(state.AssetList?.bankAmountError)
     }
 
@@ -167,6 +168,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (state.AssetList.addAssetStatusCode === 200) {
+      setFormLoading(false)
       setAssetName("");
       setVendorName("");
       setBrandName("");
@@ -289,114 +291,118 @@ function StaticExample({ show, setShow, currentItem }) {
     return serialNumber.trim().replace(/[\t\n\r]+/g, "");
   };
 
- 
-const nochangeRef = useRef(null)
 
-const handleAddAsset = () => {
-  const cleanedSerialNumber = cleanSerialNumber(serialNumber);
-  const focusedRef = { current: false };
+  const nochangeRef = useRef(null)
 
-  if (!assetName) {
-    setAssetError("Please Enter Asset Name");
-    if (!focusedRef.current && assetNameRef.current) {
-      assetNameRef.current.focus();
-      focusedRef.current = true;
+  const handleAddAsset = () => {
+    dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
+    dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
+    dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
+    const cleanedSerialNumber = cleanSerialNumber(serialNumber);
+    const focusedRef = { current: false };
+
+    if (!assetName) {
+      setAssetError("Please Enter Asset Name");
+      if (!focusedRef.current && assetNameRef.current) {
+        assetNameRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!productName) {
-    setProductNameError("Please Enter Product Name");
-    if (!focusedRef.current && productNameRef.current) {
-      productNameRef.current.focus();
-      focusedRef.current = true;
+    if (!productName) {
+      setProductNameError("Please Enter Product Name");
+      if (!focusedRef.current && productNameRef.current) {
+        productNameRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!modeOfPayment) {
-    setPaymentError("Please Select Mode Of Payment");
-    if (!focusedRef.current && paymentRef.current) {
-      paymentRef.current.focus();
-      focusedRef.current = true;
+    if (!modeOfPayment) {
+      setPaymentError("Please Select Mode Of Payment");
+      if (!focusedRef.current && paymentRef.current) {
+        paymentRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!cleanedSerialNumber) {
-    setSerialNumberError("Please Enter Serial Number");
-    if (!focusedRef.current && serialNumberRef.current) {
-      serialNumberRef.current.focus();
-      focusedRef.current = true;
+    if (!cleanedSerialNumber) {
+      setSerialNumberError("Please Enter Serial Number");
+      if (!focusedRef.current && serialNumberRef.current) {
+        serialNumberRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!selectedDate) {
-    setSelectedDateError("Please Select Date");
-    if (!focusedRef.current && dateRef.current) {
-      dateRef.current.focus();
-      focusedRef.current = true;
+    if (!selectedDate) {
+      setSelectedDateError("Please Select Date");
+      if (!focusedRef.current && dateRef.current) {
+        dateRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  const numericRegex = /^[0-9]+$/;
+    const numericRegex = /^[0-9]+$/;
 
-  if (!price || !numericRegex.test(price) || price <= 0) {
-    setPriceError("Please Enter Price");
-    if (!focusedRef.current && priceRef.current) {
-      priceRef.current.focus();
-      focusedRef.current = true;
+    if (!price || !numericRegex.test(price) || price <= 0) {
+      setPriceError("Please Enter Price");
+      if (!focusedRef.current && priceRef.current) {
+        priceRef.current.focus();
+        focusedRef.current = true;
+      }
+      return;
     }
-    return;
-  }
 
-  const isChanged =
-    initialState.assetName !== assetName ||
-    initialState.vendorName !== vendorName ||
-    initialState.brandName !== brandName ||
-    initialState.serialNumber !== serialNumber ||
-    Number(initialState.productCount) !== Number(productCount) ||
-    (initialState.selectedDate &&
-      selectedDate &&
-      initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
-    Number(initialState.price) !== Number(price) ||
-    initialState.productName !== productName;
+    const isChanged =
+      initialState.assetName !== assetName ||
+      initialState.vendorName !== vendorName ||
+      initialState.brandName !== brandName ||
+      initialState.serialNumber !== serialNumber ||
+      Number(initialState.productCount) !== Number(productCount) ||
+      (initialState.selectedDate &&
+        selectedDate &&
+        initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
+      Number(initialState.price) !== Number(price) ||
+      initialState.productName !== productName;
 
-  
-     if (!isChanged) {
-  setIsChangedError("No Changes Detected");
 
- 
-  setTimeout(() => {
-    if (nochangeRef.current) {
-      nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-      nochangeRef.current.focus();
+    if (!isChanged) {
+      setIsChangedError("No Changes Detected");
+
+
+      setTimeout(() => {
+        if (nochangeRef.current) {
+          nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          nochangeRef.current.focus();
+        }
+      }, 100);
+
+      return;
+    } else {
+      setIsChangedError("");
     }
-  }, 100);
-
-  return;
-} else {
-  setIsChangedError("");
-}
 
   if (productName && serialNumber && selectedDate && price && assetName && modeOfPayment) {
     const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
 
-    dispatch({
-      type: "ADDASSET",
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        asset_name: assetName,
-        product_name: productName,
-        vendor_id: vendorName,
-        brand_name: brandName,
-        serial_number: serialNumber,
-        product_count: 1,
-        purchase_date: formattedDate,
-        price: price,
-        payment_type: modeOfPayment,
-        id: id,
-      },
-    });
-  }
-};
+      dispatch({
+        type: "ADDASSET",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          asset_name: assetName,
+          product_name: productName,
+          vendor_id: vendorName,
+          brand_name: brandName,
+          serial_number: serialNumber,
+          product_count: 1,
+          purchase_date: formattedDate,
+          price: price,
+          payment_type: modeOfPayment,
+          id: id,
+        },
+      });
+      setFormLoading(true)
+    }
+  };
 
 
 
@@ -412,6 +418,25 @@ const handleAddAsset = () => {
     defaultDate: selectedDate || new Date(),
     maxDate: "today",
   };
+
+
+
+  useEffect(() => {
+    if (state.AssetList?.alreadyAssetNameHere || state.AssetList?.alreadySerialNumberHere) {
+      setFormLoading(false)
+    }
+
+  }, [state.AssetList?.alreadyAssetNameHere, state.AssetList?.alreadySerialNumberHere])
+
+
+
+
+
+
+
+
+
+
 
 
   return (
@@ -464,7 +489,7 @@ const handleAddAsset = () => {
               </div>
             )}
             <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-3 me-3" >
-              <div className="row " style={{marginTop:"-20px"}}>
+              <div className="row " style={{ marginTop: "-20px" }}>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
                   >
@@ -784,8 +809,8 @@ const handleAddAsset = () => {
                       style={{ position: "relative", width: "100%" }}
                     >
                       <DatePicker
-                      ref={dateRef}
-                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily:"Gilroy" }}
+                        ref={dateRef}
+                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
                         value={selectedDate ? dayjs(selectedDate) : null}
@@ -966,7 +991,7 @@ const handleAddAsset = () => {
                   )}
                 </div>
 
-               
+
               </div>
             </Modal.Body>
             {isChangedError && (
@@ -985,6 +1010,34 @@ const handleAddAsset = () => {
                 </label>
               </div>
             )}
+
+            {formLoading && 
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>
+            }
             <Modal.Footer style={{ border: "none" }} className="">
 
 
