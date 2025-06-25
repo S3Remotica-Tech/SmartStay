@@ -995,10 +995,10 @@ function* handleAddAnnounce(action) {
 
   else if(response.data.statusCode === 201){
     
-    yield put({ type: 'SAME_TITLE', payload: {response:response.data.message}})
+    yield put({ type: 'SAME_TITLE', payload: {response:response.data.message, statusCode:response.data.statusCode}})
   } else if (response.data.statusCode === 202) {
    
-    yield put({ type: 'TITTLE_UNIQUE', payload: { response: response.data.message } });
+    yield put({ type: 'TITTLE_UNIQUE', payload: { response: response.data.message ,statusCode:response.data.statusCode} });
   }
   if(response){
      refreshToken(response)

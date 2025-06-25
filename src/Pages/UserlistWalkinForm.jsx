@@ -46,6 +46,7 @@ function CustomerForm({ show, handleClose, initialData }) {
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
+  const [formLoading, setFormLoading] = useState(false)
 
 
 
@@ -131,10 +132,10 @@ function CustomerForm({ show, handleClose, initialData }) {
   })();
 
 
-const noChangesRef = useRef(null)
+  const noChangesRef = useRef(null)
 
   const handleSubmitWalkIn = () => {
-
+ dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
 
     if (!name && !mobile && !countryCode && !walkInDate) {
       setGeneralError('Please Fill in All The Required Fields');
@@ -164,22 +165,22 @@ const noChangesRef = useRef(null)
 
 
 
-   
-        if (initialData && !isChanged) {
-  setIsChangedError("No Changes Detected");
 
- 
-  setTimeout(() => {
-    if (noChangesRef.current) {
-      noChangesRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-      noChangesRef.current.focus();
+    if (initialData && !isChanged) {
+      setIsChangedError("No Changes Detected");
+
+
+      setTimeout(() => {
+        if (noChangesRef.current) {
+          noChangesRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          noChangesRef.current.focus();
+        }
+      }, 100);
+
+      return;
+    } else {
+      setIsChangedError("");
     }
-  }, 100);
-
-  return;
-} else {
-  setIsChangedError("");
-}
 
 
 
@@ -194,21 +195,21 @@ const noChangesRef = useRef(null)
       }
     }
 
-   if (!mobile) {
-  setMobileError('Please Enter Mobile Number');
-  if (!focusedRef.current && mobileRef.current) {
-    mobileRef.current.focus();
-    focusedRef.current = true;
-  }
-} else if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
-  setMobileError('Please Enter a Valid 10-digit Mobile Number');
-  if (!focusedRef.current && mobileRef.current) {
-    mobileRef.current.focus();
-    focusedRef.current = true;
-  }
-} else {
-  setMobileError('');
-}
+    if (!mobile) {
+      setMobileError('Please Enter Mobile Number');
+      if (!focusedRef.current && mobileRef.current) {
+        mobileRef.current.focus();
+        focusedRef.current = true;
+      }
+    } else if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
+      setMobileError('Please Enter a Valid 10-digit Mobile Number');
+      if (!focusedRef.current && mobileRef.current) {
+        mobileRef.current.focus();
+        focusedRef.current = true;
+      }
+    } else {
+      setMobileError('');
+    }
 
     if (!countryCode) {
       setCountryCodeError('Please select Country Code');
@@ -231,7 +232,7 @@ const noChangesRef = useRef(null)
       return;
     }
 
-  
+
     const Mobile_Number = `${countryCode}${mobile}`
     const formattedDate = moment(walkInDate).format('YYYY-MM-DD');
 
@@ -256,10 +257,12 @@ const noChangesRef = useRef(null)
           id: initialData ? initialData.id : ''
         }
       });
+      setFormLoading(true)
     }
 
 
   };
+
 
 
   const handleNameChange = (e) => {
@@ -414,6 +417,7 @@ const noChangesRef = useRef(null)
     if (
       state.UsersList.addWalkInCustomerStatusCode === 200
     ) {
+      setFormLoading(false)
       dispatch({
         type: "WALKINCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -432,6 +436,7 @@ const noChangesRef = useRef(null)
 
 
   const handleFormClose = () => {
+     setFormLoading(false)
     setEmailError("")
     setNameError("")
     setMobileError("")
@@ -451,6 +456,12 @@ const noChangesRef = useRef(null)
     setStateNameError("")
   }
 
+
+  useEffect(()=>{
+    if(state.UsersList.alreadyHere){
+setFormLoading(false)
+    }
+  },[state.UsersList.alreadyHere])
 
 
 
@@ -597,7 +608,7 @@ const noChangesRef = useRef(null)
                   </Form.Select>
                   <Form.Control
                     value={mobile}
-                    ref={mobileRef} 
+                    ref={mobileRef}
                     onChange={handlePhone}
                     type="text"
                     placeholder="9876543210"
@@ -946,6 +957,7 @@ const noChangesRef = useRef(null)
                       ...base,
                       backgroundColor: "#f8f9fa",
                       border: "1px solid #ced4da",
+                      fontFamily: "Gilroy",
                     }),
                     menuList: (base) => ({
                       ...base,
@@ -954,6 +966,7 @@ const noChangesRef = useRef(null)
                       padding: 0,
                       scrollbarWidth: "thin",
                       overflowY: "auto",
+                      fontFamily: "Gilroy",
                     }),
                     placeholder: (base) => ({
                       ...base,
@@ -1000,8 +1013,8 @@ const noChangesRef = useRef(null)
 
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                   <DatePicker
-                  ref={walkInDateRef}
-                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily:"Gilroy" }}
+                    ref={walkInDateRef}
+                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={walkInDate ? dayjs(walkInDate) : null}
@@ -1037,6 +1050,35 @@ const noChangesRef = useRef(null)
           </div>
 
         </Modal.Body>
+
+
+        {formLoading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
         <Modal.Footer style={{ border: "none", paddingBottom: 0, }} className='mt-1 pt-1' >
           {generalError && (
             <div className="d-flex align-items-center p-1 mb-2 mt-2">
@@ -1046,6 +1088,7 @@ const noChangesRef = useRef(null)
               </label>
             </div>
           )}
+
 
 
           <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >

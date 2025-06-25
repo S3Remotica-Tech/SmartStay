@@ -21,7 +21,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   const [errorAmenity, setErrorAmenity] = useState("");
   const [errorAmount, setErrorAmount] = useState("");
   const [amnitiesError,setAmnitiesError] = useState("")
-
+  const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
     if (editDetails) {
@@ -62,10 +62,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     setIsChangedError("");
   };
 
-  // const handleToggle = (e) => {
-  //   setIsChecked(e.target.checked);
-  //   setIsChangedError("");
-  // };
+ 
 const handleCloseForm=()=>{
   handleClose()
   setAmnitiesError("")
@@ -74,12 +71,14 @@ const handleCloseForm=()=>{
 
 useEffect(()=>{
   if(state.InvoiceList.amnitiessAddError){
+    setFormLoading(false)
 setAmnitiesError(state.InvoiceList.amnitiessAddError)
   }
 
 },[state.InvoiceList.amnitiessAddError])
 
   const handleSubmit = () => {
+     dispatch({type:'REMOVE_ERROR_AMENITIES_SETTINGS'})
     let isValid = true;
 
     if (!hostelid) {
@@ -124,6 +123,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
             Hostel_Id: state.login.selectedHostel_Id,
           },
         });
+        setFormLoading(true)
       } else {
         dispatch({
           type: "AMENITIESSETTINGS",
@@ -134,6 +134,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
             Hostel_Id: state.login.selectedHostel_Id,
           },
         });
+        setFormLoading(true)
       }
     }
   };
@@ -142,7 +143,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
 
   return (
     <>
-      {/* Add Amenities Popup */}
+ 
       <div
         className="modal show"
         style={{
@@ -290,32 +291,39 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                   )}
                 </div>
 
-                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Set as Default
-                      </label>
-                    </div>
-                    <div>
-                      <Form.Check
-                        type="switch"
-                        id="custom-switch"
-                        checked={isChecked}
-                        onChange={(e) => handleToggle(e)}
-                      ></Form.Check>
-                    </div>
-                  </div>
-                </div> */}
+                
               </div>
             </Modal.Body>
+
+
+{formLoading &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderTop: '4px solid #1E45E1',
+                                    borderRight: '4px solid transparent',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    animation: 'spin 1s linear infinite',
+                                }}
+                            ></div>
+                        </div>
+                    }
+
                            {amnitiesError && (
               <div className="d-flex justify-content-center align-items-center gap-2 ">
                 <MdError style={{ color: "red" }} />
@@ -380,7 +388,7 @@ AddAmenities.propTypes = {
   handleClose: PropTypes.func.isRequired,
   hostelid: PropTypes.func.isRequired,
   editDetails: PropTypes.func.isRequired,
-  // handleToggle: PropTypes.func.isRequired 
+   
 };
 
 export default AddAmenities;

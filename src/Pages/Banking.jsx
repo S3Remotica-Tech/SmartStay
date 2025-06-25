@@ -74,7 +74,7 @@ function Banking() {
   const [bankking, setBanking] = useState("")
   const [selfTranfer, setSelfTransfer] = useState(false)
 
-
+  const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
@@ -222,7 +222,7 @@ function Banking() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
-
+      setFormLoading(false)
       setShowAccountTypeOptions(null);
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -233,7 +233,7 @@ function Banking() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
-
+      setFormLoading(false)
       handleCloseAddBalance();
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -406,6 +406,7 @@ function Banking() {
       type: "ADDBANKAMOUNT",
       payload: { id: typeId, amount: AddBankAmount, hostel_id: hostel_id },
     });
+    setFormLoading(true)
   };
 
   const [transactionrowsPerPage, setTransactionrowsPerPage] = useState(5);
@@ -1074,7 +1075,7 @@ const handleUserSelect = (user) => {
                       </p>
 
                       <div className="d-flex justify-content-between align-items-center mb-2">
-                        <div>
+                        <div style={{ fontFamily: "Gilroy", }}>
                           <p
                             className="text-muted mb-0"
                             style={{
@@ -1442,107 +1443,107 @@ const handleUserSelect = (user) => {
 
                         let formattedDate = `${day} ${formattedMonth} ${year}`;
 
-                      return (
-                        <tr
-                          key={user.id}
-                          style={{
-                            fontSize: "13px",
-                            fontWeight: 600,
-                            textAlign: "center",
-                            marginTop: 10,
-                          }}
-                        >
-                          <td
+                        return (
+                          <tr
+                            key={user.id}
                             style={{
-                              border: "none",
-                              textAlign: "start",
                               fontSize: "13px",
                               fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              paddingTop: 15,
-                              marginLeft:20
-                            }}
-                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
-                            <div className="ps-2 ps-lg-2">
-   {user.benificiary_name} - {user.type}
-                            </div>
-                         
-                          </td>
-                          <td
-                            style={{
-                              paddingTop: 15,
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
+                              textAlign: "center",
                               marginTop: 10,
-                              whiteSpace: "nowrap",
-                              
                             }}
-                            className="ps-2 ps-lg-2"
                           >
-                            <span
+                            <td
                               style={{
-                                paddingTop: "3px",
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
-                                marginLeft:8,
-                                paddingBottom: "3px",
-                                borderRadius: "60px",
-                                textAlign: "center",
-                                fontSize: "11px",
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                paddingTop: 15,
+                                marginLeft: 20
+                              }}
+                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                            >
+                              <div className="ps-2 ps-lg-2">
+                                {user.benificiary_name} - {user.type}
+                              </div>
+
+                            </td>
+                            <td
+                              style={{
+                                paddingTop: 15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "13px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                backgroundColor: "#EBEBEB",
+                                marginTop: 10,
+                                whiteSpace: "nowrap",
+
                               }}
+                              className="ps-2 ps-lg-2"
                             >
-                              {formattedDate}
-                            </span>
-                          </td>
-                          <td
-                            style={{
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              paddingTop: 15,
-                            }}
-                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
-                            {user.amount}
-                          </td>
-                          <td
-                            style={{
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              paddingTop: 15,
-                            }}
-                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
-                            {user.desc}
-                          </td>
-                          <td
-                            style={{
-                              paddingTop: 15,
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              whiteSpace: "nowrap",
-                            }}
-                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                          >
-                            <span
+                              <span
+                                style={{
+                                  paddingTop: "3px",
+                                  paddingLeft: "10px",
+                                  paddingRight: "10px",
+                                  marginLeft: 8,
+                                  paddingBottom: "3px",
+                                  borderRadius: "60px",
+                                  textAlign: "center",
+                                  fontSize: "11px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  backgroundColor: "#EBEBEB",
+                                }}
+                              >
+                                {formattedDate}
+                              </span>
+                            </td>
+                            <td
                               style={{
-                                padding: "3px 10px",
-                                borderRadius: "60px",
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                paddingTop: 15,
+                              }}
+                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                            >
+                              {user.amount}
+                            </td>
+                            <td
+                              style={{
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                paddingTop: 15,
+                              }}
+                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                            >
+                              {user.desc}
+                            </td>
+                            <td
+                              style={{
+                                paddingTop: 15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                whiteSpace: "nowrap",
+                              }}
+                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                            >
+                              <span
+                                style={{
+                                  padding: "3px 10px",
+                                  borderRadius: "60px",
 
                                   backgroundColor: "#EBEBEB",
 
@@ -1571,8 +1572,8 @@ const handleUserSelect = (user) => {
                                 alignItems: "center",
                                 position: "relative",
                                 marginTop: 10,
-                                marginLeft:5,
-                              backgroundColor:
+                                marginLeft: 5,
+                                backgroundColor:
                                   EditTransaction === user.id
                                     ? "#E7F1FF"
                                     : "white",
@@ -1606,7 +1607,7 @@ const handleUserSelect = (user) => {
                                 >
                                   <div style={{ width: "100%", borderRadius: 10, backgroundColor: "#F9F9F9" }}>
 
-                               
+
                                     <div
                                       className="d-flex justify-content-start align-items-center gap-2"
                                       onClick={() => {
@@ -1646,7 +1647,7 @@ const handleUserSelect = (user) => {
                                       </label>
                                     </div>
 
-                                    
+
                                     <div style={{ height: 1, backgroundColor: "#F0F0F0" }} />
 
                                     <div
@@ -2079,6 +2080,14 @@ const handleUserSelect = (user) => {
                   />
                 </Form.Group>
 
+
+
+
+
+
+
+
+
                 {amountError && (
                   <div style={{ color: "red", fontSize: "14px", marginTop: "5px", textAlign: "center" }}>
                     <MdError style={{ fontSize: "14", marginRight: "5px" }} />
@@ -2101,7 +2110,31 @@ const handleUserSelect = (user) => {
               </div>
 
             </Modal.Body>
-
+            {formLoading && <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
           </Modal>
 
           <Modal

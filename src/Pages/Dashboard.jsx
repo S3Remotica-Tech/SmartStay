@@ -67,7 +67,7 @@ function Dashboard() {
   const [cashBackData, setCashBackData] = useState("");
   const [selectRevenu, setSelectRevenu] = useState("six_month");
   const [hostel_id, setHostel_Id] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [daysLeft, setDaysLeft] = useState(null);
   const [selectAdvance, setSelectAdvance] = useState("six_month");
@@ -145,7 +145,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
 
 
     useEffect(() => {
-  if (hostel_id) {
+
     setLoading(true); 
     dispatch({
       type: "DASHBOARDFILTERCASHBACK",
@@ -155,7 +155,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
         hostel_id: hostel_id,
       },
     });
-  }
+  
 }, [selectCashback, hostel_id]);
 
 
@@ -769,7 +769,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
           <div className="me-3 text-primary"><img src={currentMatch} alt="currentMatch" width={32} height={32} /></div>
           <div>
             <h6 className="text-muted ">Current Month Profit</h6>
-            <div className="fw-semibold fs-5">₹ 84,550</div>
+            <div className="fw-semibold fs-5">₹ {state.PgList.dashboardDetails.this_month_profit || 0}</div>
           </div>
         </div>
       </div>
@@ -780,7 +780,7 @@ const formattedChart = state.PgList?.dashboardFilterAdvance.advance_data?.map(it
           <div className="me-3  text-primary"><img src={coinImage} alt="coinImage" width={32} height={32} /></div>
           <div>
             <h6 className="text-muted ">Other Profit</h6>
-            <div className="fw-semibold fs-5">₹ 73,800</div>
+            <div className="fw-semibold fs-5">₹{state.PgList.dashboardDetails.this_month_other_income || 0}</div>
           </div>
         </div>
       </div>

@@ -38,7 +38,7 @@ function StaticExample({ show, setShow, currentItem }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [bankking, setBanking] = useState("")
   const [bankingError, setBankingError] = useState("")
-
+  const [formLoading, setFormLoading] = useState(false)
 
 
 
@@ -77,6 +77,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (state.AssetList?.bankAmountError) {
+      setFormLoading(false)
       setBankingError(state.AssetList?.bankAmountError)
     }
 
@@ -170,6 +171,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (state.AssetList.addAssetStatusCode === 200) {
+      setFormLoading(false)
       setAssetName("");
       setVendorName("");
       setBrandName("");
@@ -296,6 +298,9 @@ function StaticExample({ show, setShow, currentItem }) {
   const nochangeRef = useRef(null)
 
   const handleAddAsset = () => {
+    dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
+    dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
+    dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
     const cleanedSerialNumber = cleanSerialNumber(serialNumber);
     const focusedRef = { current: false };
 
@@ -398,6 +403,7 @@ function StaticExample({ show, setShow, currentItem }) {
           id: id,
         },
       });
+      setFormLoading(true)
     }
   };
 
@@ -415,6 +421,25 @@ function StaticExample({ show, setShow, currentItem }) {
     defaultDate: selectedDate || new Date(),
     maxDate: "today",
   };
+
+
+
+  useEffect(() => {
+    if (state.AssetList?.alreadyAssetNameHere || state.AssetList?.alreadySerialNumberHere) {
+      setFormLoading(false)
+    }
+
+  }, [state.AssetList?.alreadyAssetNameHere, state.AssetList?.alreadySerialNumberHere])
+
+
+
+
+
+
+
+
+
+
 
 
   return (
@@ -998,6 +1023,34 @@ function StaticExample({ show, setShow, currentItem }) {
                 </label>
               </div>
             )}
+
+            {formLoading && 
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>
+            }
             <Modal.Footer style={{ border: "none" }} className="">
 
 

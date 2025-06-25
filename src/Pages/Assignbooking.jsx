@@ -26,6 +26,7 @@ function AssignBooking(props) {
   const [rentError, setRentError] = useState("");
   const [advanceError, setAdavanceError] = useState("");
   const [hostalId, setHostalId] = useState(null);
+   const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
     dispatch({ type: "REMOVE_ERROR_ASSIGN_BOOKING" });
@@ -42,6 +43,7 @@ function AssignBooking(props) {
   }, [props.HostelID]);
 
   const handleAssignClose = () => {
+     setFormLoading(false)
     props.setModalType(false);
     dispatch({ type: "REMOVE_ERROR_ASSIGN_BOOKING" });
     setFloor("");
@@ -125,6 +127,7 @@ function AssignBooking(props) {
   };
 
   const handleSubmit = (event) => {
+    dispatch({ type: "REMOVE_ERROR_ASSIGN_BOOKING" });
     event.preventDefault();
 
     const isFloorvalid = validateAssignField(floor, "floor");
@@ -173,10 +176,12 @@ function AssignBooking(props) {
       type: "ASSIGN_BOOKING",
       payload: payload,
     });
+    setFormLoading(true)
   };
 
   useEffect(() => {
     if (state.Booking.statusCodeForAssignBooking === 200) {
+      setFormLoading(false)
       handleAssignClose();
 
       dispatch({
@@ -860,6 +865,37 @@ function AssignBooking(props) {
 
           <Row></Row>
         </Modal.Body>
+
+{formLoading &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderTop: '4px solid #1E45E1',
+                                    borderRight: '4px solid transparent',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    animation: 'spin 1s linear infinite',
+                                }}
+                            ></div>
+                        </div>
+                    }
+
+
+
         <Modal.Footer style={{ borderTop: "none" }}>
           <Button
             onClick={handleSubmit}

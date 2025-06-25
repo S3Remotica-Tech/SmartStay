@@ -35,7 +35,9 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const [generalError, setGeneralError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [netPaymentError, setNetPaymentError] = useState("")
+  const [netPaymentError,setNetPaymentError] = useState("")
+   const [formLoading, setFormLoading] = useState(false)
+    const calendarRef = useRef(null);
   const [initialState, setInitialState] = useState({
     assetName: "",
     vendorName: "",
@@ -129,6 +131,8 @@ function StaticExample({ show, currentItem, setShowModal }) {
       });
     }
   }, [customContainerRef.current, selectedDate]);
+
+  
   const handleCountChange = (e) => {
     setGeneralError("");
     setCountError("");
@@ -280,12 +284,13 @@ function StaticExample({ show, currentItem, setShowModal }) {
         id: currentItem ? currentItem.id : null,
       },
     });
+    setFormLoading(true)
   };
 
 
-
-  const calendarRef = useRef(null);
-
+ 
+ 
+  
 
 
 
@@ -389,77 +394,79 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     </span>
                   </Form.Label>
 
-
-
-                  <Select
-                    options={
-                      state.Settings.Expences.data && state.Settings.Expences.data.length > 0
-                        ? state.Settings.Expences.data.map((view) => ({
-                          value: view.category_Id,
-                          label: view.category_Name,
-                        }))
-                        : []
-                    }
-                    onChange={handleCategoryChange}
-                    value={
-                      category
-                        ? {
-                          value: category,
-                          label:
-                            state.Settings.Expences.data.find(
-                              (view) => view.category_Id === category
-                            )?.category_Name || "Select a Category",
-                        }
-                        : null
-                    }
-                    placeholder="Select a Category"
-                    classNamePrefix="custom"
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        fontSize: "16px",
-                        color: "rgba(75, 75, 75, 1)",
-                        fontFamily: "Gilroy",
-                        fontWeight: category ? 600 : 500,
-                        border: "1px solid #D9D9D9",
-                        borderRadius: "8px",
-                        boxShadow: "none",
-                        height: "50px"
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        border: "1px solid #ced4da",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "120px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                      }),
-                      placeholder: (base) => ({
-                        ...base,
-                        color: "#555",
-                      }),
-                      dropdownIndicator: (base) => ({
-                        ...base,
-                        color: "#555",
-                        cursor: "pointer"
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused ? "lightblue" : "white",
-                        color: "#000",
-                      }),
-                      indicatorSeparator: () => ({
-                        display: "none",
-                      }),
-                    }}
-                    noOptionsMessage={() => "No category available"}
-                  />
+               
+                 
+  <Select
+    options={
+      state.Settings.Expences.data && state.Settings.Expences.data.length > 0
+        ? state.Settings.Expences.data.map((view) => ({
+            value: view.category_Id,
+            label: view.category_Name,
+          }))
+        : []
+    }
+    onChange={handleCategoryChange }
+    value={
+      category
+        ? {
+            value: category,
+            label:
+              state.Settings.Expences.data.find(
+                (view) => view.category_Id === category
+              )?.category_Name || "Select a Category",
+          }
+        : null
+    }
+    placeholder="Select a Category"
+    classNamePrefix="custom"
+    styles={{
+      control: (base) => ({
+        ...base,
+        fontSize: "16px",
+        color: "rgba(75, 75, 75, 1)",
+        fontFamily: "Gilroy",
+        fontWeight: category ? 600 : 500,
+        border: "1px solid #D9D9D9",
+        borderRadius: "8px",
+        boxShadow: "none",
+        height:"50px"
+      }),
+      menu: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        border: "1px solid #ced4da",
+         fontFamily: "Gilroy",
+      }),
+      menuList: (base) => ({
+        ...base,
+        backgroundColor: "#f8f9fa",
+        maxHeight: "120px",
+        padding: 0,
+        scrollbarWidth: "thin",
+        overflowY: "auto",
+         fontFamily: "Gilroy",
+      }),
+      placeholder: (base) => ({
+        ...base,
+        color: "#555",
+      }),
+      dropdownIndicator: (base) => ({
+        ...base,
+        color: "#555",
+        cursor:"pointer"
+      }),
+      option: (base, state) => ({
+        ...base,
+        cursor: "pointer", 
+        backgroundColor: state.isFocused ? "lightblue" : "white", 
+        color: "#000",
+      }),
+      indicatorSeparator: () => ({
+        display: "none",
+      }),
+    }}
+    noOptionsMessage={() => "No category available"}
+  />
 
 
                 </Form.Group>
@@ -499,21 +506,21 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
 
-                  <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                    <DatePicker
-                      style={{ width: "100%", height: 48, cursor: "pointer" }}
-                      format="DD/MM/YYYY"
-                      placeholder="DD/MM/YYYY"
-                      value={selectedDate ? dayjs(selectedDate) : null}
-                      onChange={(date) => {
-                        setGeneralError("");
-                        setDateError("");
-                        setIsChangedError("");
-                        setSelectedDate(date ? date.toDate() : null);
-                      }}
-                      getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                    />
-                  </div>
+                   <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                                                  <DatePicker
+                                                    style={{ width: "100%", height: 48,cursor:"pointer", fontFamily: "Gilroy", }}
+                                                    format="DD/MM/YYYY"
+                                                    placeholder="DD/MM/YYYY"
+                                                    value={selectedDate ? dayjs(selectedDate) : null}
+                                                    onChange={(date) => {
+                                                      setGeneralError("");
+                                                      setDateError("");
+                                                      setIsChangedError("");
+                                                      setSelectedDate(date ? date.toDate() : null);
+                                                    }}
+                                                    getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                                  />
+                                                </div>
                 </Form.Group>
                 {dateError && (
                   <div className="d-flex align-items-center p-1 mb-2">
@@ -860,6 +867,41 @@ function StaticExample({ show, currentItem, setShowModal }) {
               </div>
             </div>
           </Modal.Body>
+
+
+
+ {formLoading && 
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
+
+
+
+
+
+
           {currentItem && isChangedError && (
             <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
               <MdError style={{ color: "red", marginRight: "5px" }} />

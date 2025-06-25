@@ -13,30 +13,19 @@ function* Login(args) {
       yield put({ type: 'LOGIN-INFO', payload:{ response:response.data,statusCode:response.status || response.statusCode } });
           }
      else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ERROR_EMAIL', payload: response.data.message });
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Error',
-      //   text: response.data.message,
-      // });
-
+      yield put({ type: 'ERROR_EMAIL', payload: {response:response.data.message ,statusCode:response.status || response.statusCode }});
+     
     } else if (response.status === 202 || response.statusCode === 202 ) {
-      yield put({ type: 'ERROR_PASSWORD', payload: response.data.message });
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Error',
-      //   text: response.data.message,
-      // });
-
+      yield put({ type: 'ERROR_PASSWORD', payload: {response:response.data.message ,statusCode:response.status || response.statusCode } });
+      
     } 
     else if (response.status === 203 || response.statusCode === 203 ) {
       yield put({ type: 'OTP_SUCCESS', payload: {response: response.data, statusCode:response.status || response.statusCode} });
          }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     
-    // yield put({ type: 'ERROR', payload: 'An error occurred.' });
-  }
+      }
 }
 
 

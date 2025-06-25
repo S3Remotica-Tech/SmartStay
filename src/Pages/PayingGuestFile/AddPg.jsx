@@ -43,7 +43,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [hostel_Id, setHostel_Id] = useState("");
-
+  const [formLoading, setFormLoading] = useState(false)
 
   const pgNameRef = useRef(null);
   const countryCodeRef = useRef(null);
@@ -52,6 +52,7 @@ function AddPg({ show, handleClose, currentItem }) {
   const pincodeRef = useRef(null);
   const stateNameRef = useRef(null);
 
+  const [images, setImages] = useState(Array(4).fill({ image: null }));
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -232,143 +233,143 @@ function AddPg({ show, handleClose, currentItem }) {
   }, []);
 
 
-  
 
 
 
 
-const nochangeRef = useRef(null)
+
+  const nochangeRef = useRef(null)
 
 
 
   const handleCreatePayingGuest = () => {
-   let hasError = false;
-  let focused = false;
+    let hasError = false;
+    let focused = false;
 
-  setGeneralError("");
-  setPgNameError("");
-  setMobileError("");
-  setCountryCodeError("");
-  setEmailError("");
-  setHouse_NoError("");
-  setStreetError("");
-  setCityError("");
-  setLandmarkError("");
-  setPincodeError("");
-  setStateNameError("");
-  setIsChangedError("");
+    setGeneralError("");
+    setPgNameError("");
+    setMobileError("");
+    setCountryCodeError("");
+    setEmailError("");
+    setHouse_NoError("");
+    setStreetError("");
+    setCityError("");
+    setLandmarkError("");
+    setPincodeError("");
+    setStateNameError("");
+    setIsChangedError("");
 
-  if (!pgName) {
-    setPgNameError("Please Enter PG Name");
-    if (!focused) {
-      pgNameRef.current?.focus();
-      focused = true;
+    if (!pgName) {
+      setPgNameError("Please Enter PG Name");
+      if (!focused) {
+        pgNameRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  }
 
-  if (!countryCode) {
-    setCountryCodeError("Please Select Country Code");
-    if (!focused) {
-      countryCodeRef.current?.focus();
-      focused = true;
+    if (!countryCode) {
+      setCountryCodeError("Please Select Country Code");
+      if (!focused) {
+        countryCodeRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  }
 
-  if (!mobile) {
-    setMobileError("Please Enter Mobile Number");
-    if (!focused) {
-      mobileRef.current?.focus();
-      focused = true;
+    if (!mobile) {
+      setMobileError("Please Enter Mobile Number");
+      if (!focused) {
+        mobileRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  }
 
-  if (mobile && mobile.length !== 10) {
-    setMobileError("Please Enter Valid Mobile No");
-    if (!focused) {
-      mobileRef.current?.focus();
-      focused = true;
+    if (mobile && mobile.length !== 10) {
+      setMobileError("Please Enter Valid Mobile No");
+      if (!focused) {
+        mobileRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  }
 
- 
 
-  const pinString = String(pincode).trim();
-  if (!pinString) {
-    setPincodeError("Please Enter Pincode");
-    if (!focused) {
-      pincodeRef.current?.focus();
-      focused = true;
+
+    const pinString = String(pincode).trim();
+    if (!pinString) {
+      setPincodeError("Please Enter Pincode");
+      if (!focused) {
+        pincodeRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
+    } else if (!/^\d+$/.test(pinString)) {
+      setPincodeError("Pin Code Must Be Numeric");
+      if (!focused) {
+        pincodeRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
+    } else if (pinString.length !== 6) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      if (!focused) {
+        pincodeRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  } else if (!/^\d+$/.test(pinString)) {
-    setPincodeError("Pin Code Must Be Numeric");
-    if (!focused) {
-      pincodeRef.current?.focus();
-      focused = true;
+
+    if (!city) {
+      setCityError("Please Enter City");
+      if (!focused) {
+        cityRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  } else if (pinString.length !== 6) {
-    setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    if (!focused) {
-      pincodeRef.current?.focus();
-      focused = true;
+
+
+
+    if (!state_name) {
+      setStateNameError("Please Select State");
+      if (!focused) {
+        stateNameRef.current?.focus();
+        focused = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  }
 
- if (!city) {
-    setCityError("Please Enter City");
-    if (!focused) {
-      cityRef.current?.focus();
-      focused = true;
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
+    if (email && !emailRegex.test(email)) {
+      setEmailError("Enter a Valid Email ID");
+      if (!focused) {
+        focused = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  }
 
-
-
-  if (!state_name) {
-    setStateNameError("Please Select State");
-    if (!focused) {
-      stateNameRef.current?.focus();
-      focused = true;
+    if (
+      !pgName &&
+      !mobile &&
+      !countryCode &&
+      !house_no &&
+      !street &&
+      !landmark &&
+      !city &&
+      !pincode &&
+      !state_name
+    ) {
+      setGeneralError("Please Fill In All The Required Fields");
+      if (!focused) {
+        pgNameRef.current?.focus();
+        focused = true;
+      }
+      return;
     }
-    hasError = true;
-  }
 
-  const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
-  if (email && !emailRegex.test(email)) {
-    setEmailError("Enter a Valid Email ID");
-    if (!focused) {
-      focused = true;
-    }
-    hasError = true;
-  }
-
-  if (
-    !pgName &&
-    !mobile &&
-    !countryCode &&
-    !house_no &&
-    !street &&
-    !landmark &&
-    !city &&
-    !pincode &&
-    !state_name
-  ) {
-    setGeneralError("Please Fill In All The Required Fields");
-    if (!focused) {
-      pgNameRef.current?.focus();
-      focused = true;
-    }
-    return;
-  }
-
-  if (hasError) return;
+    if (hasError) return;
 
 
     const arraysAreEqual = (arr1, arr2) => {
@@ -393,25 +394,21 @@ const nochangeRef = useRef(null)
       String(pincode).trim() !== String(initialState.pincode || "").trim() ||
       state_name !== initialState.state;
 
-    // if (!isChanged) {
-    //   setIsChangedError("No Changes Detected");
-    //   return;
-    // }
-      if (!isChanged) {
-  setIsChangedError("No Changes Detected");
+    if (!isChanged) {
+      setIsChangedError("No Changes Detected");
 
- 
-  setTimeout(() => {
-    if (nochangeRef.current) {
-      nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-      nochangeRef.current.focus();
+
+      setTimeout(() => {
+        if (nochangeRef.current) {
+          nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          nochangeRef.current.focus();
+        }
+      }, 100);
+
+      return;
+    } else {
+      setIsChangedError("");
     }
-  }, 100);
-
-  return;
-} else {
-  setIsChangedError("");
-}
 
 
     const MobileNumber = `${countryCode}${mobile}`;
@@ -445,6 +442,7 @@ const nochangeRef = useRef(null)
       },
     });
 
+    setFormLoading(true)
     setFile("");
     setPgName("");
     setMobile("");
@@ -528,7 +526,7 @@ const nochangeRef = useRef(null)
     }
   }, [currentItem]);
 
-  const [images, setImages] = useState(Array(4).fill({ image: null }));
+
 
   const handleFileChange = (index) => async (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -599,6 +597,21 @@ const nochangeRef = useRef(null)
     });
   };
 
+
+  useEffect(() => {
+    if (state.PgList.createPgStatusCode === 200) {
+      setFormLoading(false)
+    }
+  }, [state.PgList.createPgStatusCode])
+
+
+
+
+
+
+
+
+
   return (
     <div
       className="modal show"
@@ -647,6 +660,9 @@ const nochangeRef = useRef(null)
 
 
         <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+
+
+
 
           <div className="d-flex align-items-center">
             <div
@@ -1469,8 +1485,33 @@ const nochangeRef = useRef(null)
               );
             })}
           </div>
-        </Modal.Body>
 
+        </Modal.Body>
+        {formLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
         <Modal.Footer
           className="d-flex align-items-center justify-content-center"
           style={{ border: "none" }}

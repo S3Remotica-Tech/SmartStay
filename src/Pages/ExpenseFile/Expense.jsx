@@ -51,7 +51,7 @@ function Expenses({ allPageHostel_Id }) {
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const handleClickOutside = (event) => {

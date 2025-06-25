@@ -722,6 +722,8 @@ function* handleManualInvoiceDelete (params) {
 
 function* handleRecurrBillsAdd (params) {
    const response = yield call (AddRecurringBill,params.payload);
+
+   
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'RECURRING_BILLS_ADD' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
       var toastStyle = { backgroundColor: "#E6F6E6", color: "black", width: "100%", borderRadius: "60px", height: "20px", fontFamily: "Gilroy",
@@ -747,8 +749,8 @@ function* handleRecurrBillsAdd (params) {
        })
    }
 
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ERROR_RECURE', payload: { response: response.message, statusCode: response.status || response.statusCode } })
+   else if (response.status === 201 || response.data.statusCode === 201) {
+      yield put({ type: 'ERROR_RECURE', payload: { response: response.data.message, statusCode: response.status || response.data.statusCode } })
    }
 
    else {

@@ -13,7 +13,7 @@ import CreatableSelect from "react-select/creatable";
 import { ArrowLeft2, ArrowRight2, } from "iconsax-react";
 import './Settingexpense.css';
 import PropTypes from "prop-types";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 
 
 function SettingExpenses({ hostelid }) {
@@ -21,6 +21,7 @@ function SettingExpenses({ hostelid }) {
   const state = useSelector(state => state)
   const dispatch = useDispatch()
 
+  const [formLoading, setFormLoading] = useState(false)
 
   const [type, setType] = useState([]);
   const [subType, setSubType] = useState('');
@@ -41,10 +42,10 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  
 
 
- 
+
+
   const [showPopup, setShowPopup] = useState(false);
   const handleShow = () => {
     setCategoryErrmsg('')
@@ -87,14 +88,14 @@ function SettingExpenses({ hostelid }) {
   const [deletesubcat, setDeleteSubCat] = useState(false)
 
   const handleDeleteSubCategory = (item) => {
-   
+
 
     setDeleteSubCatItems(item)
     setShowModal(true)
     setDeleteSubCat(true)
   }
 
-  
+
 
 
 
@@ -120,7 +121,7 @@ function SettingExpenses({ hostelid }) {
     }
     setShowModal(false);
 
-  
+
 
   };
 
@@ -144,25 +145,25 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     setLoading(true);
-    
-  
+
+
     dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } });
-  
-   
+
+
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 4000); 
-  
-    return () => clearTimeout(timeout); 
+    }, 4000);
+
+    return () => clearTimeout(timeout);
   }, [hostelid]);
-  
+
 
 
   useEffect(() => {
     if (state.Settings.getExpensesStatuscode === 200) {
       setExpensesFilterddata(state.Settings.Expences.data);
       setLoading(false)
-      
+
       setTimeout(() => {
         dispatch({ type: 'CLEAR_GET_EXPENSES_STATUS_CODE' })
       }, 100)
@@ -179,14 +180,14 @@ function SettingExpenses({ hostelid }) {
 
   }, [state.Settings.categoryError])
 
-  
+
 
 
 
   useEffect(() => {
     if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
 
-      
+      setFormLoading(false)
       setCategoryErrmsg('')
       if (state.Settings.editexpencesStatuscode === 200) {
         setShowForm(false)
@@ -213,38 +214,31 @@ function SettingExpenses({ hostelid }) {
 
 
 
- 
+
 
 
 
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [options, setOptions] = useState([]);
-  const [formError,  setFormError] = useState('')
-  const [formCategoryError,  setFormCategoryError] = useState('')
+  const [formError, setFormError] = useState('')
+  const [formCategoryError, setFormCategoryError] = useState('')
 
   const [initialSubCategory, setInitialSubCategory] = useState({});
   const [initialCategory, setInitialCategory] = useState({});
 
   const updateType = () => {
 
-
-    
-
-
-   
-
+    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
     if (subcategory_Id && subType) {
       if (subType === initialSubCategory.name) {
         setFormError("No Changes Detected");
         return;
       } else {
-        setFormError(""); 
+        setFormError("");
       }
-  
-
 
       dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: subcategory_Id, hostel_id: hostelid, name: subType, type: 2 } })
-
+      setFormLoading(true)
       setIsSubCategory(false)
       setSubType('')
     }
@@ -255,19 +249,19 @@ function SettingExpenses({ hostelid }) {
         setFormCategoryError("No Changes Detected");
         return;
       } else {
-        setFormCategoryError(""); 
+        setFormCategoryError("");
       }
 
       dispatch({ type: 'EDIT_EXPENCES_CATEGORY', payload: { id: type.value, hostel_id: hostelid, name: type.label, type: 1 } })
-
+      setFormLoading(true)
     }
   }
 
 
- 
+
 
   const addType = () => {
-    
+    dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
     if (!selectedOptions.value) {
       setCategoryErrmsg("Please Enter a Category");
       return;
@@ -283,6 +277,7 @@ function SettingExpenses({ hostelid }) {
           sub_Category: subType?.trim() || ''
         },
       });
+      setFormLoading(true)
       setSelectedOptions([])
 
 
@@ -310,14 +305,14 @@ function SettingExpenses({ hostelid }) {
 
   const handleEditCategory = (item) => {
 
-  
+
 
     setEdit(true);
     setShowForm(true);
     if (item.category_Id && item.category_Name) {
       setType({ value: item.category_Id, label: item.category_Name });
       setSelectedOptions({ value: item.category_Id, label: item.category_Name })
-      
+
       setEditsubCat(false)
       setIsSubCategory(false);
       setInitialCategory({ id: item.category_Id, name: item.category_Name });
@@ -339,13 +334,13 @@ function SettingExpenses({ hostelid }) {
 
   const handleChange = (selected) => {
     setSelectedOptions(selected);
-   
+
     setType(selected)
     setCategoryErrmsg("")
   };
 
 
- 
+
 
 
 
@@ -354,7 +349,7 @@ function SettingExpenses({ hostelid }) {
   const handleCreate = (inputValue) => {
 
     const existingCategoryIndex = options.findIndex(option => option.value === selectedOptions?.value);
-   
+
 
     if (existingCategoryIndex !== -1) {
 
@@ -392,7 +387,7 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     if (!state.Settings?.Expences?.data || !Array.isArray(state.Settings.Expences.data)) {
-     
+
       return;
     }
 
@@ -401,7 +396,7 @@ function SettingExpenses({ hostelid }) {
         (view) => selectedOptions?.label && view.category_Name?.toLowerCase() === selectedOptions.label.toLowerCase()
       );
 
-     
+
 
       if (TakeCategoryId.length > 0) {
         setType({ value: TakeCategoryId[0]?.category_Id, label: TakeCategoryId[0]?.category_Name });
@@ -448,18 +443,18 @@ function SettingExpenses({ hostelid }) {
     }
   }
 
-  
-  const [expandedCategoryId, setExpandedCategoryId] = useState(null); 
+
+  const [expandedCategoryId, setExpandedCategoryId] = useState(null);
   const handleToggleDropdown = (categoryId) => {
     if (expandedCategoryId === categoryId) {
       setExpandedCategoryId(null);
-    } else { 
+    } else {
       setExpandedCategoryId(categoryId);
     }
   };
-  
 
- 
+
+
   const indexOfLastRowExpense = expensescurrentPage * expensesrowsPerPage;
   const indexOfFirstRowExpense = indexOfLastRowExpense - expensesrowsPerPage;
   const currentRowExpense = expensesFilterddata?.slice(
@@ -480,100 +475,108 @@ function SettingExpenses({ hostelid }) {
     expensesFilterddata?.length / expensesrowsPerPage
   );
 
-          useEffect(() => {
-              if (
-                expensesFilterddata.length > 0 &&
-                currentRowExpense.length === 0 &&
-                expensescurrentPage > 1
-              ) {
-                setExpensescurrentPage(expensescurrentPage - 1);
-              }
-            }, [expensesFilterddata])
+  useEffect(() => {
+    if (
+      expensesFilterddata.length > 0 &&
+      currentRowExpense.length === 0 &&
+      expensescurrentPage > 1
+    ) {
+      setExpensescurrentPage(expensescurrentPage - 1);
+    }
+  }, [expensesFilterddata])
 
 
+
+
+  useEffect(() => {
+    if (state.Settings?.alreadycategoryerror) {
+      setFormLoading(false)
+    }
+  }, [state.Settings?.alreadycategoryerror])
 
   return (
-    <div  style={{
+    <div style={{
       position: "relative", maxHeight: "570px",
-      overflowY: "auto",paddingRight:10,paddingLeft:10
+      overflowY: "auto", paddingRight: 10, paddingLeft: 10
     }}>
 
 
-{loading && (
-  <div
-  style={{
-    position: 'fixed',
-    top: '48%',
-    left: '68%',
-    transform: 'translate(-50%, -50%)',
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    zIndex: 1050,
-  }}
->
-  <div
-    style={{
-      borderTop: '4px solid #1E45E1',
-      borderRight: '4px solid transparent',
-      borderRadius: '50%',
-      width: '40px',
-      height: '40px',
-      animation: 'spin 1s linear infinite',
-    }}
-  ></div>
-</div>
-)}
+      {loading && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '48%',
+            left: '68%',
+            transform: 'translate(-50%, -50%)',
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            zIndex: 1050,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>
+      )}
 
 
 
 
 
 
-     
-      <div 
-  className="container-fluid"
-  style={{
-    position: 'sticky',
-    top: 0,
-    zIndex: 1000,
-    backgroundColor: "#FFFFFF",
-    height: 'auto',
-  }}
->
-  <div 
-    className="row align-items-center justify-content-between"
-   
-    style={{ marginTop: 20}}
-  >
-      
-            <div className="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
-          <h3 style={{ fontFamily: "Gilroy", 
-            fontSize: 20, color: "#222", 
-            fontWeight: 600, marginLeft:-11,marginTop:18
+
+      <div
+        className="container-fluid"
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 1000,
+          backgroundColor: "#FFFFFF",
+          height: 'auto',
+        }}
+      >
+        <div
+          className="row align-items-center justify-content-between"
+
+          style={{ marginTop: 20 }}
+        >
+
+          <div className="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
+            <h3 style={{
+              fontFamily: "Gilroy",
+              fontSize: 20, color: "#222",
+              fontWeight: 600, marginLeft: -11, marginTop: 18
             }}>
               Expenses Category</h3></div>
-      
-    <div  className="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
-          <Button onClick={handleShow}
-            style={{
-              fontFamily: "Gilroy",
-              fontSize: 14,
-              backgroundColor: "#1E45E1",
-              color: "white",
-              fontWeight: 600,
-              borderRadius: 8,
-              height:45,
-              width:146,
-              marginTop:5,
-              marginRight:-12
-            }}
-            disabled={showPopup}
-          >+ Category</Button></div>
-</div>
+
+          <div className="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
+            <Button onClick={handleShow}
+              style={{
+                fontFamily: "Gilroy",
+                fontSize: 14,
+                backgroundColor: "#1E45E1",
+                color: "white",
+                fontWeight: 600,
+                borderRadius: 8,
+                height: 45,
+                width: 146,
+                marginTop: 5,
+                marginRight: -12
+              }}
+              disabled={showPopup}
+            >+ Category</Button></div>
+        </div>
       </div>
 
 
@@ -584,7 +587,7 @@ function SettingExpenses({ hostelid }) {
             Please add a hostel before adding Expense information.
           </p>
 
-        
+
 
         </div>
 
@@ -592,7 +595,7 @@ function SettingExpenses({ hostelid }) {
       )}
 
 
-<div className="mt-4 d-flex flex-wrap justify-content-between scroll-issue" style={{ gap: "20px", alignItems: "flex-start" }}>
+      <div className="mt-4 d-flex flex-wrap justify-content-between scroll-issue" style={{ gap: "20px", alignItems: "flex-start" }}>
 
   {currentRowExpense && currentRowExpense.length > 0 ? (
     currentRowExpense.map((category) => (
@@ -638,455 +641,482 @@ function SettingExpenses({ hostelid }) {
           </div>
         </Card>
 
-        {expandedCategoryId === category.category_Id && (
-  <div className="dropdown-content" style={{
-    position: "absolute",
-    top: "100%",
-    left: 0,
-    width: "100%",
-    zIndex: 999,
-    backgroundColor: "#fff",
-    border: "1px solid #ddd",
-    borderRadius: "0 0 10px 10px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    maxHeight: "70px", 
-    overflowY: "auto",
-    marginTop: "5px"
-  }}>
-    <ul className="p-2 m-0">
-      {category.subcategory?.length > 0 ? (
-        category.subcategory.map((sub) => (
-          <li key={sub.subcategory_Id} className="d-flex justify-content-between align-items-center mb-2">
-            {sub.subcategory}
-            <span>
-              <img src={Editbtn} height={15} width={15} alt="edit" style={{ cursor: "pointer" }} onClick={() => handleEditCategory(sub)} />
-              <img src={Closebtn} height={15} width={15} alt="delete" style={{ cursor: "pointer", marginLeft: 10 }} onClick={() => handleDeleteSubCategory(sub)} />
-            </span>
-          </li>
-        ))
-      ) : (
-        <span className="text-muted">No Subcategories Available</span>
-      )}
-    </ul>
-  </div>
-)}
-
-      </div>
-    ))
-  ) : !loading && (
-    <div style={{ marginTop: 85, alignItems: "center", justifyContent: "center", marginLeft: '270px' }}>
-      <div className="d-flex justify-content-center">
-        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-      </div>
-      <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>
-        No Expense available
-      </div>
-    </div>
-  )}
-
-
-      {expensesFilterddata?.length >= 5 && (
-         <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
-                  <div>
-                    <select
-                      value={expensesrowsPerPage}
-                      onChange={handleItemsPerPageChange}
-                      style={{
-                        padding: "5px",
-                        border: "1px solid #1E45E1",
-                        borderRadius: "5px",
-                        color: "#1E45E1",
-                        fontWeight: "bold",
-                        cursor: "pointer",
-                        outline: "none",
-                        boxShadow: "none",
-                      }}
-                    >
-                      <option value={5}>5</option>
-                      <option value={10}>10</option>
-                      <option value={50}>50</option>
-                      <option value={100}>100</option>
-                    </select>
-                  </div>
-        
-                  <ul
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      listStyleType: "none",
-                      margin: 0,
-                      padding: 0,
-                    }}
-                  >
-                    <li style={{ margin: "0 10px" }}>
-                      <button
-                        style={{
-                          padding: "5px",
-                          textDecoration: "none",
-                          color: expensescurrentPage === 1 ? "#ccc" : "#1E45E1",
-                          cursor: expensescurrentPage === 1 ? "not-allowed" : "pointer",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          minWidth: "30px",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border: "none",
-                        }}
-                        onClick={() => handlePageChange(expensescurrentPage - 1)}
-                        disabled={expensescurrentPage === 1}
-                      >
-                        <ArrowLeft2
-                          size="16"
-                          color={expensescurrentPage === 1 ? "#ccc" : "#1E45E1"}
-                        />
-                      </button>
-                    </li>
-        
-                    <li
-                      style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
-                    >
-                      {expensescurrentPage} of {totalPagesGeneral}
-                    </li>
-        
-                    <li style={{ margin: "0 10px" }}>
-                      <button
-                        style={{
-                          padding: "5px",
-                          textDecoration: "none",
-                          color: expensescurrentPage === totalPagesGeneral ? "#ccc" : "#1E45E1",
-                          cursor:
-                            expensescurrentPage === totalPagesGeneral ? "not-allowed" : "pointer",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          minWidth: "30px",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border: "none",
-                        }}
-                        onClick={() => handlePageChange(expensescurrentPage + 1)}
-                        disabled={expensescurrentPage === totalPagesGeneral}
-                      >
-                        <ArrowRight2
-                          size="16"
-                          color={expensescurrentPage === totalPagesGeneral ? "#ccc" : "#1E45E1"}
-                        />
-                      </button>
-                    </li>
+              {expandedCategoryId === category.category_Id && (
+                <div className="dropdown-content" style={{
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  width: "100%",
+                  zIndex: 999,
+                  backgroundColor: "#fff",
+                  border: "1px solid #ddd",
+                  borderRadius: "0 0 10px 10px",
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                  padding: "10px",
+                  maxHeight: "250px",
+                  overflowY: "auto",
+                  marginTop: "5px"
+                }}>
+                  <ul className="p-2 m-0">
+                    {category.subcategory?.length > 0 ? (
+                      category.subcategory.map((sub) => (
+                        <li key={sub.subcategory_Id} className="d-flex justify-content-between align-items-center mb-2">
+                          {sub.subcategory}
+                          <span>
+                            <img src={Editbtn} height={15} width={15} alt="edit" style={{ cursor: "pointer" }} onClick={() => handleEditCategory(sub)} />
+                            <img src={Closebtn} height={15} width={15} alt="delete" style={{ cursor: "pointer", marginLeft: 10 }} onClick={() => handleDeleteSubCategory(sub)} />
+                          </span>
+                        </li>
+                      ))
+                    ) : (
+                      <span className="text-muted">No Subcategories Available</span>
+                    )}
                   </ul>
-                </nav>
-      )}
-
-
-
-      {showform && (
-        <div
-          className="modal show"
-          style={{
-            display: "block",
-            position: "initial",
-            fontFamily: "Gilroy,sans-serif",
-          }}
-        >
-          <Modal
-            show={showform}
-            onHide={handleCloseForm}
-            centered
-            backdrop="static"
-            dialogClassName="custom-modal"
-          >
-            <Modal.Dialog
-              style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
-              className="m-0 p-0"
-            >
-              <div>
-                <Modal.Header
-                  style={{ position: "relative" }}
-                >
-                  <div
-                    style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
-                  >
-                 
-
-                    {edit ? "Edit Category" : "Add Category"}
-
-
-                  </div>
-                 
-                  <CloseCircle size="24" color="#000" onClick={handleCloseForm} 
-            style={{ cursor: 'pointer' }}/>
-
-                 
-                </Modal.Header>
-              </div>
-              <Modal.Body>
-
-                <div className="row ">
-
-
-
-
-                  <div className='d-flex flex-column '>
-                    <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
-                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Category
-                          <span style={{ color: "red", fontSize: "20px" }}> * </span>
-                        </Form.Label>
-
-
-                        <CreatableSelect
-                          isDisabled={editsubcat}
-                          options={options}
-                          value={selectedOptions}
-                          onChange={handleChange}
-                          onCreateOption={handleCreate}
-                          placeholder="Select / Create Category"
-                          styles={{
-                            menu: (provided) => ({
-                              ...provided,
-                              maxHeight: '100px', 
-                              overflowY: 'auto', 
-                              zIndex: 9999,
-                              cursor:'pointer'
-                            }),
-                           
-                            menuList: (provided) => ({
-                              ...provided,
-                              maxHeight: '100px', 
-      minHeight: '80px', 
-      overflowY: 'scroll', 
-      scrollbarWidth: 'thin', 
-      scrollbarColor: '#888 #f0f0f0', 
-                            }),
-                            dropdownIndicator: (base) => ({
-                              ...base,
-                              color: "#555",
-                              opacity: 1,
-                              cursor: edit ? "not-allowed" : "pointer",
-                            }),
-                            option: (provided, state) => ({
-                              ...provided,
-                              padding: '6px 10px',
-                              backgroundColor: state.isFocused ? "lightblue" : "white",
-                              color: "#222",
-                              cursor: "pointer",
-                            }),
-                            
-                            control: (provided) => ({
-                              ...provided,
-                              minHeight: '40px',
-                              cursor: "pointer",
-                            }),
-                          }}
-                          menuPlacement="bottom" 
-                        />
-
-
-
-                        {cateogoryerrmsg.trim() !== "" && (
-                          <div>
-                            <p style={{ fontSize: '12px', color: 'red', marginTop: '5px', fontFamily: "Gilroy" }}>
-                              {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: "3px" }} />} {cateogoryerrmsg}
-                            </p>
-                          </div>
-                        )}
-                      </Form.Group>
-                    </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                      <input
-                        type='checkbox'
-                        disabled={editsubcat === false}
-                        className='mb-3 me-2'
-                        checked={isSubCategory}
-                        onChange={() => setIsSubCategory(!isSubCategory)}
-                        style={{ width: '20px', height: '20px', border: '1px solid #ced4da', borderRadius: '4px' }}
-                      />
-                      <p className='' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Make Sub-Category</p>
-                    </div>
-
-                  
-                    <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12  ms-xs-0'>
-
-                      <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-                        <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : '#222', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Sub-Category</Form.Label>
-                        <Form.Control
-                          style={{ padding: '10px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
-                          className={!isSubCategory ? 'custom-disabled' : 'white !important'}
-                          type="text"
-                          placeholder="Enter Sub-Category"
-                          value={subType}
-                          onChange={(e) => handlesubcategoryAdd(e)}
-                          disabled={!isSubCategory}
-                        />
-
-
-                        {subcateogoryerrmsg.trim() !== "" && (
-                          <div>
-                            <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy" }}>
-                              {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {subcateogoryerrmsg}
-                            </p>
-                          </div>
-                        )}
-                      </Form.Group>
-                    </div>
-                   
-                  </div>
-
-
-
-
-                  {totalErrormsg.trim() !== "" && (
-                    <div>
-                      <p style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy",fontWeight:500 }}>
-                        {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
-                      </p>
-                    </div>
-                  )}
-
-                  {state.Settings?.alreadycategoryerror && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: '5px',fontSize:14 }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {state.Settings?.alreadycategoryerror}
-                      </label>
-                    </div>
-                  )}
-
-{formError && (
-                    <div className="" style={{textAlign:"center"}}>
-                      <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px", }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {formError}
-                      </label>
-                    </div>
-                  )}
-
-
-
-{formCategoryError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px", }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                        {formCategoryError}
-                      </label>
-                    </div>
-                  )}
                 </div>
-              </Modal.Body>
+              )}
+
+            </div>
+          ))
+        ) : !loading && (
+          <div style={{ marginTop: 85, alignItems: "center", justifyContent: "center", marginLeft: '270px' }}>
+            <div className="d-flex justify-content-center">
+              <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+            </div>
+            <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>
+              No Expense available
+            </div>
+          </div>
+        )}
 
 
+        {expensesFilterddata?.length >= 5 && (
+          <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+            <div>
+              <select
+                value={expensesrowsPerPage}
+                onChange={handleItemsPerPageChange}
+                style={{
+                  padding: "5px",
+                  border: "1px solid #1E45E1",
+                  borderRadius: "5px",
+                  color: "#1E45E1",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  outline: "none",
+                  boxShadow: "none",
+                }}
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
 
-
-              <Modal.Footer style={{ border: "none" }}>
-                <Button
-                  disabled={editsubcat === false}
-                  className="w-100"
+            <ul
+              style={{
+                display: "flex",
+                alignItems: "center",
+                listStyleType: "none",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              <li style={{ margin: "0 10px" }}>
+                <button
                   style={{
-                    backgroundColor: "#1E45E1",
-                    fontWeight: 500,
-                    height: 50,
-                    borderRadius: 12,
-                    fontSize: 16,
-                    fontFamily: "Gilroy",
-                    fontStyle: "normal",
-                    lineHeight: "normal",
-                    marginTop:"-15px"
+                    padding: "5px",
+                    textDecoration: "none",
+                    color: expensescurrentPage === 1 ? "#ccc" : "#1E45E1",
+                    cursor: expensescurrentPage === 1 ? "not-allowed" : "pointer",
+                    borderRadius: "50%",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
                   }}
-
-                  onClick={edit ? updateType : addType}
+                  onClick={() => handlePageChange(expensescurrentPage - 1)}
+                  disabled={expensescurrentPage === 1}
                 >
-                  {edit ? "Save Changes" : "Save"}
-                 
-                </Button>
-              </Modal.Footer>
-            </Modal.Dialog>
-          </Modal>
-        </div>
-      )}
+                  <ArrowLeft2
+                    size="16"
+                    color={expensescurrentPage === 1 ? "#ccc" : "#1E45E1"}
+                  />
+                </button>
+              </li>
+
+              <li
+                style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}
+              >
+                {expensescurrentPage} of {totalPagesGeneral}
+              </li>
+
+              <li style={{ margin: "0 10px" }}>
+                <button
+                  style={{
+                    padding: "5px",
+                    textDecoration: "none",
+                    color: expensescurrentPage === totalPagesGeneral ? "#ccc" : "#1E45E1",
+                    cursor:
+                      expensescurrentPage === totalPagesGeneral ? "not-allowed" : "pointer",
+                    borderRadius: "50%",
+                    display: "inline-block",
+                    minWidth: "30px",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                  onClick={() => handlePageChange(expensescurrentPage + 1)}
+                  disabled={expensescurrentPage === totalPagesGeneral}
+                >
+                  <ArrowRight2
+                    size="16"
+                    color={expensescurrentPage === totalPagesGeneral ? "#ccc" : "#1E45E1"}
+                  />
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
 
 
-      <Modal
-        show={showModal} onHide={cancelDelete}
-        centered
-        backdrop="static"
-       dialogClassName="custom-delete-modal"
-        
-      >
-        <Modal.Header style={{ borderBottom: 'none' }}>
-          <Modal.Title
-          className="w-100 text-center mt-2"
+
+        {showform && (
+          <div
+            className="modal show"
             style={{
-              fontSize: '18px',
-              fontFamily: 'Gilroy',
-              
-              fontWeight: 600,
-              color: '#222222',
-              
+              display: "block",
+              position: "initial",
+              fontFamily: "Gilroy,sans-serif",
             }}
           >
-            {deletesubcat?"Delete Sub-Category?":"Delete Category?"}
-          </Modal.Title>
-        </Modal.Header>
+            <Modal
+              show={showform}
+              onHide={handleCloseForm}
+              centered
+              backdrop="static"
+              dialogClassName="custom-modal"
+            >
+              <Modal.Dialog
+                style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px" }}
+                className="m-0 p-0"
+              >
+                <div>
+                  <Modal.Header
+                    style={{ position: "relative" }}
+                  >
+                    <div
+                      style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}
+                    >
 
-        <Modal.Body
-        className="text-center"
-          style={{
-            fontSize: 14,
-            fontWeight: 500,
-            fontFamily: 'Gilroy',
-            color: '#646464',
-            
-            marginTop: '-27px'
-          }}
+
+                      {edit ? "Edit Category" : "Add Category"}
+
+
+                    </div>
+
+                    <CloseCircle size="24" color="#000" onClick={handleCloseForm}
+                      style={{ cursor: 'pointer' }} />
+
+
+                  </Modal.Header>
+                </div>
+                <Modal.Body>
+
+                  <div className="row ">
+
+
+
+
+                    <div className='d-flex flex-column '>
+                      <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                          <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Category
+                            <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                          </Form.Label>
+
+
+                          <CreatableSelect
+                            isDisabled={editsubcat}
+                            options={options}
+                            value={selectedOptions}
+                            onChange={handleChange}
+                            onCreateOption={handleCreate}
+                            placeholder="Select / Create Category"
+                            styles={{
+                              menu: (provided) => ({
+                                ...provided,
+                                maxHeight: '100px',
+                                overflowY: 'auto',
+                                zIndex: 9999,
+                              cursor:'pointer'
+                              }),
+
+                              menuList: (provided) => ({
+                                ...provided,
+                                maxHeight: '100px',
+                                minHeight: '80px',
+                                overflowY: 'scroll',
+                                scrollbarWidth: 'thin',
+                                scrollbarColor: '#888 #f0f0f0',
+                              }),
+                              dropdownIndicator: (base) => ({
+                                ...base,
+                                color: "#555",
+                                opacity: 1,
+                                cursor: edit ? "not-allowed" : "pointer",
+                              }),
+                              option: (provided, state) => ({
+                                ...provided,
+                                padding: '6px 10px',
+                                backgroundColor: state.isFocused ? "lightblue" : "white",
+                                color: "#222",
+                                cursor: "pointer",
+                              }),
+
+                              control: (provided) => ({
+                                ...provided,
+                                minHeight: '40px',
+                              cursor: "pointer",
+                              }),
+                            }}
+                            menuPlacement="bottom"
+                          />
+
+
+
+                          {cateogoryerrmsg.trim() !== "" && (
+                            <div>
+                              <p style={{ fontSize: '12px', color: 'red', marginTop: '5px', fontFamily: "Gilroy" }}>
+                                {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: "3px" }} />} {cateogoryerrmsg}
+                              </p>
+                            </div>
+                          )}
+                        </Form.Group>
+                      </div>
+
+                      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <input
+                          type='checkbox'
+                          disabled={editsubcat === false}
+                          className='mb-3 me-2'
+                          checked={isSubCategory}
+                          onChange={() => setIsSubCategory(!isSubCategory)}
+                          style={{ width: '20px', height: '20px', border: '1px solid #ced4da', borderRadius: '4px' }}
+                        />
+                        <p className='' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Make Sub-Category</p>
+                      </div>
+
+
+                      <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12  ms-xs-0'>
+
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                          <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : '#222', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Sub-Category</Form.Label>
+                          <Form.Control
+                            style={{ padding: '10px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                            className={!isSubCategory ? 'custom-disabled' : 'white !important'}
+                            type="text"
+                            placeholder="Enter Sub-Category"
+                            value={subType}
+                            onChange={(e) => handlesubcategoryAdd(e)}
+                            disabled={!isSubCategory}
+                          />
+
+
+                          {subcateogoryerrmsg.trim() !== "" && (
+                            <div>
+                              <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy" }}>
+                                {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {subcateogoryerrmsg}
+                              </p>
+                            </div>
+                          )}
+                        </Form.Group>
+                      </div>
+
+                    </div>
+
+
+
+
+                    {totalErrormsg.trim() !== "" && (
+                      <div>
+                        <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+                        </p>
+                      </div>
+                    )}
+
+                    {state.Settings?.alreadycategoryerror && (
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {state.Settings?.alreadycategoryerror}
+                        </label>
+                      </div>
+                    )}
+
+                    {formError && (
+                      <div className="" style={{ textAlign: "center" }}>
+                        <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px", }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {formError}
+                        </label>
+                      </div>
+                    )}
+
+
+
+                    {formCategoryError && (
+                      <div className="d-flex align-items-center p-1 mb-2">
+                        <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px", }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                          {formCategoryError}
+                        </label>
+                      </div>
+                    )}
+                  </div>
+                </Modal.Body>
+
+                {formLoading &&
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: '4px solid #1E45E1',
+                        borderRight: '4px solid transparent',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        animation: 'spin 1s linear infinite',
+                      }}
+                    ></div>
+                  </div>
+                }
+
+
+                <Modal.Footer style={{ border: "none" }}>
+                  <Button
+                    disabled={editsubcat === false}
+                    className="w-100"
+                    style={{
+                      backgroundColor: "#1E45E1",
+                      fontWeight: 500,
+                      height: 50,
+                      borderRadius: 12,
+                      fontSize: 16,
+                      fontFamily: "Gilroy",
+                      fontStyle: "normal",
+                      lineHeight: "normal",
+                      marginTop: "-15px"
+                    }}
+
+                    onClick={edit ? updateType : addType}
+                  >
+                    {edit ? "Save Changes" : "Save"}
+
+                  </Button>
+                </Modal.Footer>
+              </Modal.Dialog>
+            </Modal>
+          </div>
+        )}
+
+
+        <Modal
+          show={showModal} onHide={cancelDelete}
+          centered
+          backdrop="static"
+          dialogClassName="custom-delete-modal"
+
         >
-          {deletesubcat ?"Are you sure you want to delete this Expences-Sub-category?":"Are you sure you want to delete this Expences-Category?"}
-        </Modal.Body>
+          <Modal.Header style={{ borderBottom: 'none' }}>
+            <Modal.Title
+              className="w-100 text-center mt-2"
+              style={{
+                fontSize: '18px',
+                fontFamily: 'Gilroy',
 
-        <Modal.Footer 
-        className="d-flex justify-content-center"
-        style={{  borderTop: 'none', marginTop: '-10px' }}>
-          <Button
-          className="me-2"
-          style={{
-            width: "100%",
-            maxWidth: 160,
-            height: 52,
-            borderRadius: 8,
-            padding: "12px 20px",
-            background: "#fff",
-            color: "#1E45E1",
-            border: "1px solid #1E45E1",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-          }}
-            onClick={cancelDelete} 
-          >
-            Cancel
-          </Button>
-          <Button
-           style={{
-            width: "100%",
-            maxWidth: 160,
-            height: 52,
-            borderRadius: 8,
-            padding: "12px 20px",
-            background: "#1E45E1",
-            color: "#FFFFFF",
-            fontWeight: 600,
-            fontFamily: "Gilroy",
-            fontSize: "14px",
-          }}
-            onClick={confirmDelete}  
-          >
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
+                fontWeight: 600,
+                color: '#222222',
 
-   
+              }}
+            >
+              {deletesubcat ? "Delete Sub-Category?" : "Delete Category?"}
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body
+            className="text-center"
+            style={{
+              fontSize: 14,
+              fontWeight: 500,
+              fontFamily: 'Gilroy',
+              color: '#646464',
+
+              marginTop: '-27px'
+            }}
+          >
+            {deletesubcat ? "Are you sure you want to delete this Expences-Sub-category?" : "Are you sure you want to delete this Expences-Category?"}
+          </Modal.Body>
+
+          <Modal.Footer
+            className="d-flex justify-content-center"
+            style={{ borderTop: 'none', marginTop: '-10px' }}>
+            <Button
+              className="me-2"
+              style={{
+                width: "100%",
+                maxWidth: 160,
+                height: 52,
+                borderRadius: 8,
+                padding: "12px 20px",
+                background: "#fff",
+                color: "#1E45E1",
+                border: "1px solid #1E45E1",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+              }}
+              onClick={cancelDelete}
+            >
+              Cancel
+            </Button>
+            <Button
+              style={{
+                width: "100%",
+                maxWidth: 160,
+                height: 52,
+                borderRadius: 8,
+                padding: "12px 20px",
+                background: "#1E45E1",
+                color: "#FFFFFF",
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: "14px",
+              }}
+              onClick={confirmDelete}
+            >
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+
+      </div>
     </div>
-  </div>
   )
 }
 

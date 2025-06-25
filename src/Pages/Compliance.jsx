@@ -34,7 +34,8 @@ const Compliance = () => {
   const dispatch = useDispatch()
   const { RangePicker } = DatePicker;
   const initialValuesRef = useRef({});
-
+  const [formLoading, setFormLoading] = useState(false)
+ 
   const [id, setId] = useState('')
   const [Complainttype, setComplainttype] = useState('');
   const [description, setDescription] = useState('')
@@ -204,7 +205,7 @@ const Compliance = () => {
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } });
-
+      handleClose()
       setTimeout(() => {
         dispatch({ type: 'CLEAR_COMPLIANCE_STATUS_CODE' });
       }, 500);
@@ -339,21 +340,24 @@ const Compliance = () => {
   };
 
   const [selectedDateRange, setSelectedDateRange] = useState([]);
-  const handleDateChange = (dates) => {
-    if (!dates || dates.length === 0) {
-      setSelectedDateRange([]);
-      setStatusfilter("All");
-      setFilteredUsers(state.ComplianceList?.Compliance);
-    } else {
-      setSelectedDateRange(dates);
-      const filtered = state.ComplianceList?.Compliance.filter((item) =>
-        dayjs(item.date).isAfter(dayjs(dates[0]).subtract(1, 'day')) &&
-        dayjs(item.date).isBefore(dayjs(dates[1]).add(1, 'day'))
-      );
-      setFilteredUsers(filtered);
-      setCurrentPage(1)
-    }
-  };
+ const handleDateChange = (dates) => {
+  if (!dates || dates.length === 0) {
+    setSelectedDateRange([]);
+    setStatusfilter("All");
+    setFilteredUsers(state.ComplianceList?.Compliance);
+  } else {
+    setSelectedDateRange(dates);
+    
+    const filtered = (state.ComplianceList?.Compliance || []).filter((item) =>
+      dayjs(item.date).isSameOrAfter(dayjs(dates[0]), 'day') &&
+      dayjs(item.date).isSameOrBefore(dayjs(dates[1]), 'day')
+    );
+
+    setFilteredUsers(filtered);
+    setCurrentPage(1);
+  }
+};
+
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
@@ -436,6 +440,7 @@ const Compliance = () => {
   }
   const handleClose = () => {
     setShow(false);
+    setFormLoading(false)
     setSelectedUserName('');
     setComplainttype('');
     setAssign('');
@@ -509,7 +514,9 @@ const Compliance = () => {
       const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
       if (id && hasChanges) {
         dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: Number(beds), Room: Rooms, hostelname: hostelname, Floor_id: Floor, Status: Status, User_id: userid, id: id } })
-        handleClose()
+        setFormLoading(true)
+
+
         setSelectedUserName('');
         setComplainttype('');
         setAssign('');
@@ -526,7 +533,8 @@ const Compliance = () => {
       }
       else {
         dispatch({ type: 'COMPLIANCE-ADD', payload: { Name: selectedUsername, Complainttype: Complainttype, Assign: Assign, Description: description, date: formattedDate, Hostel_id: hostel_Id, Bed: beds, Room: Rooms, hostelname: hostelname, Floor_id: Floor, User_id: userid, Status: Status, } })
-        handleClose()
+        setFormLoading(true)
+
         setSelectedUserName('');
         setComplainttype('');
         setAssign('');
@@ -742,7 +750,7 @@ const Compliance = () => {
                 >
                   <div className="d-flex justify-content-between align-items-center flex-wrap" style={{ paddingTop: 11 }}>
                     <div className=" ms-2" >
-                      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, marginTop: 5, marginLeft: 3 }}>Complaints</label>
+                      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, marginTop: 5, marginLeft: 3, fontFamily:"Gilroy" }}>Complaints</label>
                     </div>
 
                     <div className="d-flex flex-wrap align-items-center gap-2">
@@ -1393,7 +1401,7 @@ const Compliance = () => {
 
                               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                 <DatePicker
-                                  style={{ width: "100%", height: 48, cursor: "pointer" }}
+                                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily:"Gilroy" }}
                                   format="DD/MM/YYYY"
                                   placeholder="DD/MM/YYYY"
                                   value={selectedDate ? dayjs(selectedDate) : null}
@@ -1435,6 +1443,34 @@ const Compliance = () => {
 
 
                       </Modal.Body>
+
+
+                      {formLoading && <div
+                        style={{
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: 'transparent',
+                          opacity: 0.75,
+                          zIndex: 10,
+                        }}
+                      >
+                        <div
+                          style={{
+                            borderTop: '4px solid #1E45E1',
+                            borderRight: '4px solid transparent',
+                            borderRadius: '50%',
+                            width: '40px',
+                            height: '40px',
+                            animation: 'spin 1s linear infinite',
+                          }}
+                        ></div>
+                      </div>}
+
 
                       {totalErrormsg.trim() !== "" && (
                         <div>
@@ -1500,6 +1536,12 @@ const Compliance = () => {
                         </div>
 
                       </Modal.Body>
+
+ 
+
+
+
+
                       <Modal.Footer style={{ border: "none" }}>
 
                         <Button className='w-100' style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Montserrat" }}

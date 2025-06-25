@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 
 function BankingEditTransaction(props) {
   const state = useSelector((state) => state);
@@ -25,10 +25,10 @@ function BankingEditTransaction(props) {
   const [accountError, setAccountError] = useState("");
   const [amountError, setAmountError] = useState("");
   const [transError, setTransError] = useState("");
-  
   const [id, setId] = useState("");
   const [error, setError] = useState("");
   const [hostel_id, setHostel_Id] = useState("");
+  const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
@@ -45,7 +45,7 @@ function BankingEditTransaction(props) {
   const handleAmount = (e) => {
     const value = (e.target.value)
     if (!/^\d*$/.test(value)) {
-      return; 
+      return;
     }
     setAmount(value);
     setAmountError("");
@@ -73,15 +73,15 @@ function BankingEditTransaction(props) {
     transaction: "",
     describtion: "",
   });
-  
-  
+
+
   useEffect(() => {
-  
+    
     const resolvedTransaction = props.updateTransaction.desc === "Invoice" ? 1 : 2;
-   
+ 
     setAccount(props.updateTransaction.bank_id);
     setSelectedDate(props.updateTransaction.date || "");
-setTransaction(resolvedTransaction)
+    setTransaction(resolvedTransaction)
     setSelectedDate(
       props.updateTransaction.date
         ? moment(props.updateTransaction.date).toDate("")
@@ -89,15 +89,15 @@ setTransaction(resolvedTransaction)
     );
     setId(props.updateTransaction.id);
     setAmount(props.updateTransaction.amount);
-    
- 
+
+  
     setDescribtion(props.updateTransaction.description);
 
     setInitialStateAssign({
       account: props.updateTransaction.bank_id || "",
       selectedDate: props.updateTransaction.date || "",
       amount: props.updateTransaction.amount || "",
-      transaction:resolvedTransaction || "",
+      transaction: resolvedTransaction || "",
       describtion: props.updateTransaction.description || "",
     });
   }, []);
@@ -122,8 +122,7 @@ setTransaction(resolvedTransaction)
         case "transaction":
           setTransError("Transaction is Required");
           break;
-        
-        default:
+               default:
           break;
       }
       return false;
@@ -139,7 +138,6 @@ setTransaction(resolvedTransaction)
     if (!validateField(amount, "amount")) isValid = false;
     if (!validateField(transaction, "transaction")) isValid = false;
    
-
     if (!isValid) return;
 
     if (
@@ -161,21 +159,21 @@ setTransaction(resolvedTransaction)
       return isValidDate(d) ? d.toISOString().split("T")[0] : "";
     };
     const accountChanged =
-    isNaN(Number(account))
-      ? String(account).toLowerCase() !== String(initialStateAssign.account).toLowerCase()
-      : Number(account) !== Number(initialStateAssign.account);
- 
-  const transactionChanged =
-    isNaN(Number(transaction))
-      ? String(transaction).toLowerCase() !== String(initialStateAssign.transaction).toLowerCase()
-      : Number(transaction) !== Number(initialStateAssign.transaction);
+      isNaN(Number(account))
+        ? String(account).toLowerCase() !== String(initialStateAssign.account).toLowerCase()
+        : Number(account) !== Number(initialStateAssign.account);
     
-      const dateChanged =
+    const transactionChanged =
+      isNaN(Number(transaction))
+        ? String(transaction).toLowerCase() !== String(initialStateAssign.transaction).toLowerCase()
+        : Number(transaction) !== Number(initialStateAssign.transaction);
+   
+    const dateChanged =
       formatDate(selectedDate) !== formatDate(initialStateAssign.selectedDate);
     
-  const amountChanged =
-    Number(amount) !== Number(initialStateAssign.amount);
- 
+    const amountChanged =
+      Number(amount) !== Number(initialStateAssign.amount);
+    
     const descriptionChanged =
     String(describtion || "") !== String(initialStateAssign.describtion || "");
   
@@ -207,10 +205,12 @@ setTransaction(resolvedTransaction)
         desc: describtion,
       },
     });
+    setFormLoading(true)
   };
 
   useEffect(() => {
     if (state.bankingDetails.statusEditTrasactionCode === 200) {
+       setFormLoading(false)
       handleCloseTransactionEdit();
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -247,39 +247,9 @@ const DropdownIndicator = () => null;
           >
             Edit Transaction
           </div>
-          {/* <button
-            type="button"
-            className="close"
-            aria-label="Close"
-            onClick={handleCloseTransactionEdit}
-            style={{
-              position: "absolute",
-              right: "15px",
-              marginTop: -5,
-              border: "1px solid black",
-              background: "transparent",
-              cursor: "pointer",
-              padding: "0",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "25px",
-              height: "25px",
-              borderRadius: "50%",
-            }}
-          >
-          <span
-                    aria-hidden="true"
-                    style={{
-                      fontSize: "30px",
-                      paddingBottom: "5px",
-                    }}
-                  >
-                    &times;
-                  </span>
-          </button> */}
-          <CloseCircle size="24" color="#000" onClick={handleCloseTransactionEdit} 
-            style={{ cursor: 'pointer' }}/>
+         
+          <CloseCircle size="24" color="#000" onClick={handleCloseTransactionEdit}
+            style={{ cursor: 'pointer' }} />
         </Modal.Header>
         <Modal.Body>
           <div className="row ">
@@ -302,86 +272,87 @@ const DropdownIndicator = () => null;
                   *{" "}
                 </span>
               </Form.Label>
-             
-             
-  <Select
-   isDisabled={true}
-   components={{DropdownIndicator}}
-    options={
-      state.bankingDetails?.bankingList?.banks?.length > 0
-        ? state.bankingDetails.bankingList.banks.map((u) => ({
-            value: u.id,
-            label: `${u.benificiary_name} - ${u.type}`,
-          }))
-        : []
-    }
-    
-    onChange={ handleAccount}
-  
-    value={
-      account
-        ? {
-            value: account,
-            label: `${state.bankingDetails?.bankingList?.banks?.find(
-              (b) => b.id === account
-            )?.benificiary_name || "Selected"} - ${state.bankingDetails?.bankingList?.banks?.find(
-              (b) => b.id === account
-            )?.type || "Account"}`
-          }
-        : null
-    }
-    
-    placeholder="Selected Account"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    noOptionsMessage={() => "No accounts available"}
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "50px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontWeight:"500",
-        fontFamily: "Gilroy",
-        
-        boxShadow: "none",
-        backgroundColor: "rgb(224, 236, 255)",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "120px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        cursor:"pointer"
-      }),
-      option: (base, state) => ({
-        ...base,
-        cursor: "pointer", 
-        backgroundColor: state.isFocused ? "lightblue" : "white", 
-        color: "#000",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
+
+
+              <Select
+                isDisabled={true}
+                components={{ DropdownIndicator }}
+                options={
+                  state.bankingDetails?.bankingList?.banks?.length > 0
+                    ? state.bankingDetails.bankingList.banks.map((u) => ({
+                      value: u.id,
+                      label: `${u.benificiary_name} - ${u.type}`,
+                    }))
+                    : []
+                }
+
+                onChange={handleAccount}
+
+                value={
+                  account
+                    ? {
+                      value: account,
+                      label: `${state.bankingDetails?.bankingList?.banks?.find(
+                        (b) => b.id === account
+                      )?.benificiary_name || "Selected"} - ${state.bankingDetails?.bankingList?.banks?.find(
+                        (b) => b.id === account
+                      )?.type || "Account"}`
+                    }
+                    : null
+                }
+
+                placeholder="Selected Account"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No accounts available"}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    height: "50px",
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "8px",
+                    fontSize: "16px",
+                    color: "#4B4B4B",
+                    fontWeight: "500",
+                    fontFamily: "Gilroy",
+                                      boxShadow: "none",
+                    backgroundColor: "rgb(224, 236, 255)",
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                    fontFamily: "Gilroy",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "120px",
+                    padding: 0,
+                    scrollbarWidth: "thin",
+                    overflowY: "auto",
+                    fontFamily: "Gilroy",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#555",
+                    cursor: "pointer"
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer",
+                    backgroundColor: state.isFocused ? "lightblue" : "white",
+                    color: "#000",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                }}
+              />
 
 
               {accountError && (
@@ -413,10 +384,10 @@ const DropdownIndicator = () => null;
                 >
                   Date<span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
-              
+
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                   <DatePicker
-                    style={{ width: "100%", height: 48,cursor:"pointer" }}
+                    style={{ width: "100%", height: 48, cursor: "pointer",fontFamily: "Gilroy", }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -515,7 +486,7 @@ const DropdownIndicator = () => null;
                 </span>
               </Form.Label>
               <Form.Select
-                  disabled
+                disabled
                 aria-label="Default select example"
                 className="border"
                 style={{
@@ -527,8 +498,8 @@ const DropdownIndicator = () => null;
                   border: "1px solid #D9D9D9",
                   height: 50,
                   borderRadius: 8,
-                  cursor:"pointer",
-                  backgroundColor:"rgb(224, 236, 255)"
+                  cursor: "pointer",
+                  backgroundColor: "rgb(224, 236, 255)"
                 }}
                 value={transaction}
                 onChange={(e) => handleTransaction(e)}
@@ -584,11 +555,35 @@ const DropdownIndicator = () => null;
                   }}
                 />
               </Form.Group>
-            
+
             </div>
           </div>
         </Modal.Body>
-
+        {formLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
         {error && (
           <div
             className=""

@@ -65,6 +65,8 @@ const InvoicePage = () => {
   const [loading, setLoading] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [bankking, setBanking] = useState("");
+  const [formLoading, setFormLoading] = useState(false)
+  const [formRecordLoading, setFormRecordLoading] = useState(false)
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
     lastName: "",
@@ -424,33 +426,33 @@ const InvoicePage = () => {
     setStatusFilterReceipt(searchTerm);
   };
 
-useEffect(() => {
-  if (statusFilterReceipt !== "date") {
-    setReceiptDateRange([]);
+  useEffect(() => {
+    if (statusFilterReceipt !== "date") {
+      setReceiptDateRange([]);
 
-    if (statusFilterReceipt === "All") {
-      setReceiptData(originalBillsFilterReceipt);
-    } else {
-      const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) => {
-        const mode = user.paymentMode?.toLowerCase() || "";
+      if (statusFilterReceipt === "All") {
+        setReceiptData(originalBillsFilterReceipt);
+      } else {
+        const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) => {
+          const mode = user.paymentMode?.toLowerCase() || "";
 
-        if (statusFilterReceipt === "Cash") return mode.endsWith("-cash");
-        if (statusFilterReceipt === "UPI") return mode.endsWith("-upi");
-        if (statusFilterReceipt === "Bank") return mode.endsWith("-bank");
-        if (statusFilterReceipt === "Card") return mode.endsWith("-card");
+          if (statusFilterReceipt === "Cash") return mode.endsWith("-cash");
+          if (statusFilterReceipt === "UPI") return mode.endsWith("-upi");
+          if (statusFilterReceipt === "Bank") return mode.endsWith("-bank");
+          if (statusFilterReceipt === "Card") return mode.endsWith("-card");
 
-        return false;
-      });
+          return false;
+        });
 
-      setReceiptData(filteredItemsReceipt);
-      setCurrentReceiptPage(1);
+        setReceiptData(filteredItemsReceipt);
+        setCurrentReceiptPage(1);
+      }
     }
-  }
-}, [statusFilterReceipt]);
+  }, [statusFilterReceipt]);
 
 
 
- 
+
 
   const [receiptDateRange, setReceiptDateRange] = useState([]);
   const handleDateRangeChangeReceipt = (dates) => {
@@ -691,147 +693,7 @@ useEffect(() => {
     setShowDeleteform(false);
   };
 
-  const handleEditBill = () => {
-    let isValid = true;
-    let hasError = false;
 
-
-    setCustomerErrmsg("");
-    setInvoicenumberErrmsg("");
-    setInvoiceDateErrmsg("");
-    setInvoiceDueDateErrmsg("");
-    setAllFieldErrmsg("");
-
-
-    if (!customername) {
-      setCustomerErrmsg("Customer is Required");
-      isValid = false;
-    }
-
-
-    if (!invoicenumber) {
-      setInvoicenumberErrmsg("Invoice Number is Required");
-      isValid = false;
-    }
-
-
-    if (!invoicedate) {
-      setInvoiceDateErrmsg("Invoice Date is Required");
-      isValid = false;
-    }
-
-
-    if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Due Date is Required");
-      isValid = false;
-    }
-    if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
-      hasError = true;
-    } else if (
-      newRows.some(
-        (row) =>
-          !row.am_name?.trim() ||
-          row.amount === "" ||
-          row.amount === null ||
-          row.amount === undefined ||
-          isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0
-      )
-    ) {
-      setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
-      hasError = true;
-    } else {
-      setTableErrmsg("");
-    }
-
-    if (hasError) {
-      return;
-    }
-
-    let isValiding = true;
-    if (
-      !customername ||
-      !invoicenumber ||
-      !invoicedate ||
-      !invoiceduedate
-
-    ) {
-      setAllFieldErrmsg("Please Fill Out All Required Fields");
-      isValiding = false;
-    }
-
-
-    const formatDate = (date) => {
-      if (!date) return "";
-      const d = new Date(date);
-      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    };
-
-
-    const isChanged = (() => {
-      const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
-      const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
-      const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
-      const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
-      const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
-
-      const amenitiesChanged = newRows.some((row, index) => {
-        const originalRow = invoiceDetails?.amenity?.[index] || {};
-        return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
-      });
-
-      return (
-        userChanged ||
-        invoiceChanged ||
-        invoiceDateChanged ||
-        dueDateChanged ||
-        rowsCountChanged ||
-        amenitiesChanged
-      );
-    })();
-
-
-    if (!isChanged) {
-      setAllFieldErrmsg("No Changes Detected");
-      return;
-    }
-
-
-    if (isValid && isValiding && isChanged) {
-      const formattedInvoiceDate = formatDate(invoicedate);
-      const formattedDueDate = formatDate(invoiceduedate);
-
-      dispatch({
-        type: "MANUAL-INVOICE-EDIT",
-        payload: {
-          user_id: customername,
-          date: formattedInvoiceDate,
-          due_date: formattedDueDate,
-          id: invoiceDetails.id,
-          amenity: amenityArray.length > 0 ? amenityArray : [],
-        },
-      });
-
-
-      setShowManualInvoice(false);
-      setShowRecurringBillForm(false);
-      setReceiptFormShow(false);
-      setShowAllBill(true);
-      setCustomerName("");
-      setInvoiceNumber("");
-      setStartDate("");
-      setEndDate("");
-      setInvoiceDate("");
-      setInvoiceDueDate("");
-      setTotalAmount("");
-      setNewRows([]);
-      setCustomerErrmsg("");
-      setInvoiceDateErrmsg("");
-      setInvoiceDueDateErrmsg("");
-      setAllFieldErrmsg("");
-    }
-  };
 
 
   const handleShowForm = (props) => {
@@ -968,8 +830,8 @@ useEffect(() => {
           bank_id: account,
         },
       });
+      setFormRecordLoading(true)
 
-      setShowform(false);
       setSelectedDate(null);
       setAmountErrmsg("");
       setDateErrmsg("");
@@ -1001,6 +863,7 @@ useEffect(() => {
   };
 
   const handleBackBill = () => {
+    setFormLoading(false)
     setShowManualInvoice(false);
     setShowRecurringBillForm(false);
     setReceiptFormShow(false);
@@ -1327,6 +1190,9 @@ useEffect(() => {
     setSelectedTypes(types);
   }, []);
 
+
+
+
   const handleCreateBill = () => {
     let hasError = false;
 
@@ -1401,11 +1267,8 @@ useEffect(() => {
         amenity: amenityArray.length > 0 ? amenityArray : [],
       },
     });
+    setFormLoading(true)
 
-    setShowManualInvoice(false);
-    setShowRecurringBillForm(false);
-    setReceiptFormShow(false);
-    setShowAllBill(true);
 
 
     setCustomerName("");
@@ -1419,6 +1282,145 @@ useEffect(() => {
     setNewRows([]);
   };
 
+  const handleEditBill = () => {
+    let isValid = true;
+    let hasError = false;
+
+
+    setCustomerErrmsg("");
+    setInvoicenumberErrmsg("");
+    setInvoiceDateErrmsg("");
+    setInvoiceDueDateErrmsg("");
+    setAllFieldErrmsg("");
+
+
+    if (!customername) {
+      setCustomerErrmsg("Customer is Required");
+      isValid = false;
+    }
+
+
+    if (!invoicenumber) {
+      setInvoicenumberErrmsg("Invoice Number is Required");
+      isValid = false;
+    }
+
+
+    if (!invoicedate) {
+      setInvoiceDateErrmsg("Invoice Date is Required");
+      isValid = false;
+    }
+
+
+    if (!invoiceduedate) {
+      setInvoiceDueDateErrmsg("Due Date is Required");
+      isValid = false;
+    }
+    if (!Array.isArray(newRows) || newRows.length === 0) {
+      setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
+      hasError = true;
+    } else if (
+      newRows.some(
+        (row) =>
+          !row.am_name?.trim() ||
+          row.amount === "" ||
+          row.amount === null ||
+          row.amount === undefined ||
+          isNaN(row.amount) ||
+          parseFloat(row.amount) <= 0
+      )
+    ) {
+      setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
+      hasError = true;
+    } else {
+      setTableErrmsg("");
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    let isValiding = true;
+    if (
+      !customername ||
+      !invoicenumber ||
+      !invoicedate ||
+      !invoiceduedate
+
+    ) {
+      setAllFieldErrmsg("Please Fill Out All Required Fields");
+      isValiding = false;
+    }
+
+
+    const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    };
+
+
+    const isChanged = (() => {
+      const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
+      const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
+      const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
+      const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
+      const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
+
+      const amenitiesChanged = newRows.some((row, index) => {
+        const originalRow = invoiceDetails?.amenity?.[index] || {};
+        return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
+      });
+
+      return (
+        userChanged ||
+        invoiceChanged ||
+        invoiceDateChanged ||
+        dueDateChanged ||
+        rowsCountChanged ||
+        amenitiesChanged
+      );
+    })();
+
+
+    if (!isChanged) {
+      setAllFieldErrmsg("No Changes Detected");
+      return;
+    }
+
+
+    if (isValid && isValiding && isChanged) {
+      const formattedInvoiceDate = formatDate(invoicedate);
+      const formattedDueDate = formatDate(invoiceduedate);
+      setFormLoading(true)
+      dispatch({
+        type: "MANUAL-INVOICE-EDIT",
+        payload: {
+          user_id: customername,
+          date: formattedInvoiceDate,
+          due_date: formattedDueDate,
+          id: invoiceDetails.id,
+          amenity: amenityArray.length > 0 ? amenityArray : [],
+        },
+      });
+
+
+
+
+      setCustomerName("");
+      setInvoiceNumber("");
+      setStartDate("");
+      setEndDate("");
+      setInvoiceDate("");
+      setInvoiceDueDate("");
+      setTotalAmount("");
+      setNewRows([]);
+      setCustomerErrmsg("");
+      setInvoiceDateErrmsg("");
+      setInvoiceDueDateErrmsg("");
+      setAllFieldErrmsg("");
+    }
+  };
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -1683,6 +1685,8 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
+      setFormRecordLoading(false)
+      setShowform(false)
       dispatch({
         type: "MANUALINVOICESLIST",
         payload: { hostel_id: hostelId },
@@ -1984,6 +1988,11 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
+      setShowManualInvoice(false)
+      setFormLoading(false)
+      setShowRecurringBillForm(false);
+      setReceiptFormShow(false);
+      setShowAllBill(true);
       dispatch({
         type: "MANUALINVOICESLIST",
         payload: { hostel_id: hostelId },
@@ -2010,6 +2019,11 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
+      setShowManualInvoice(false)
+      setFormLoading(false)
+      setShowRecurringBillForm(false);
+      setReceiptFormShow(false);
+      setShowAllBill(true);
       dispatch({
         type: "MANUALINVOICESLIST",
         payload: { hostel_id: hostelId },
@@ -2495,7 +2509,7 @@ useEffect(() => {
                                 style={{
                                   listStyleType: "none",
                                   maxHeight: 174,
-                                  minHeight: bills?.length > 1 ? "100px" : "auto",
+                                  minHeight: bills?.length > 1 ? "50px" : "auto",
                                   overflowY: bills?.length > 3 ? "auto" : "hidden",
                                   margin: 0,
                                 }}
@@ -2820,11 +2834,11 @@ useEffect(() => {
                         }}
                       >
                         <option value="All">All</option>
-  <option value="Cash">Cash</option>
-  <option value="UPI">UPI</option>
-  <option value="Bank">Bank</option>
-  <option value="Card">Card</option>
-  <option value="date">Date</option>
+                        <option value="Cash">Cash</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Bank">Bank</option>
+                        <option value="Card">Card</option>
+                        <option value="date">Date</option>
                       </Form.Select>
                     </div>
                   )}
@@ -3202,6 +3216,9 @@ useEffect(() => {
                                     </Form.Label>
                                     <Form.Control
                                       type="text"
+                                      style={{
+                                        fontFamily: "Gilroy",
+                                      }}
                                       placeholder="Enter Amount"
                                       value={invoiceList.balanceDue}
                                       readOnly
@@ -3237,6 +3254,9 @@ useEffect(() => {
                                       type="number"
                                       min="0"
                                       step="1"
+                                      style={{
+                                        fontFamily: "Gilroy",
+                                      }}
                                       placeholder="Enter Amount"
                                       className="no-spinner"
                                       value={invoiceList.payableAmount || ""}
@@ -3307,7 +3327,7 @@ useEffect(() => {
 
                                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                         <DatePicker
-                                          style={{ width: "100%", height: 48, cursor: "pointer" }}
+                                          style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                                           format="DD/MM/YYYY"
                                           placeholder="DD/MM/YYYY"
                                           value={selectedDate ? dayjs(selectedDate) : null}
@@ -3404,6 +3424,7 @@ useEffect(() => {
                                           ...base,
                                           backgroundColor: "#f8f9fa",
                                           border: "1px solid #ced4da",
+                                          fontFamily: "Gilroy, sans-serif",
                                         }),
                                         menuList: (base) => ({
                                           ...base,
@@ -3412,6 +3433,7 @@ useEffect(() => {
                                           padding: 0,
                                           scrollbarWidth: "thin",
                                           overflowY: "auto",
+                                          fontFamily: "Gilroy, sans-serif",
                                         }),
                                         placeholder: (base) => ({
                                           ...base,
@@ -3605,6 +3627,35 @@ useEffect(() => {
                                 </div>
                               )}
                             </Modal.Body>
+
+                            {formRecordLoading && <div
+                              style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                              }}
+                            >
+                              <div
+                                style={{
+                                  borderTop: '4px solid #1E45E1',
+                                  borderRight: '4px solid transparent',
+                                  borderRadius: '50%',
+                                  width: '40px',
+                                  height: '40px',
+                                  animation: 'spin 1s linear infinite',
+                                }}
+                              ></div>
+                            </div>}
+
+
+
                             <Modal.Footer style={{ border: "none" }}>
                               <Button
                                 className="w-100"
@@ -5244,7 +5295,7 @@ useEffect(() => {
       )}
 
       {showmanualinvoice && (
-        <div className="mt-4" style={{ paddingLeft: 25 }}>
+        <div className="mt-4" style={{ paddingLeft: 25, position: "relative" }}>
           <div
             className="container justify-content-start  d-flex align-items-start"
             style={{
@@ -5472,7 +5523,7 @@ useEffect(() => {
               <div style={{ position: "relative", width: "100%" }}>
 
                 <DatePicker
-                  style={{ width: "100%", height: 48, cursor: "pointer" }}
+                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={invoicedate ? dayjs(invoicedate) : null}
@@ -5517,7 +5568,7 @@ useEffect(() => {
               }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
                 <DatePicker
-                  style={{ width: "100%", height: 48, cursor: "pointer" }}
+                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={invoiceduedate ? dayjs(invoiceduedate) : null}
@@ -5710,9 +5761,36 @@ useEffect(() => {
               </div>
             )}
           </div>
-          <div>
 
-          </div>
+          {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: '80%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+
+
+
+
 
           <div style={{ float: "right", marginRight: "130px" }}>
             {Array.isArray(newRows) && newRows.length > 0 && (
