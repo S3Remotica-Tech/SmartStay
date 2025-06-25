@@ -81,17 +81,83 @@ function SettingsBills() {
 
 
 
-  const dates = Array.from({ length: 31 }, (_, i) => i + 1);
+const getDaysInCurrentMonth = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const totalDays = new Date(year, month + 1, 0).getDate();
+  return Array.from({ length: totalDays }, (_, i) => i + 1);
+};
+
+
+const [dates, setDates] = useState([]);
+const [lastdates, setLastDates] = useState([]);
+
+useEffect(() => {
+  setDates(getDaysInCurrentMonth());
+}, []);
+
+const getLastDateOfCurrentMonth = () => {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); 
+};
+
+
+ const lastDayOfmonth = getLastDateOfCurrentMonth()
+
+useEffect(() => {
+  const lastDay = getLastDateOfCurrentMonth();  
+  const daysArray = Array.from({ length: lastDay }, (_, i) => i + 1); 
+  setLastDates(daysArray);
+}, []);
+
+
+
+const getDaysInMonth = (year, month) => {
+  const totalDays = new Date(year, month + 1, 0).getDate(); 
+  return Array.from({ length: totalDays }, (_, i) => i + 1);
+};
+
+
+
+useEffect(() => {
+  const now = new Date();
+  const currentMonth = now.getMonth(); 
+  const currentYear = now.getFullYear();
+
+  if (edit && recurring_bills) {
+    const editDate = new Date(recurring_bills.created_at);
+    const editMonth = editDate.getMonth(); 
+    const editYear = editDate.getFullYear();
+
+    const fromMaxDay = getDaysInMonth(editYear, editMonth);
+    setDates(fromMaxDay);
+
+    const toMaxDay = getDaysInMonth(editYear, editMonth);
+    setLastDates(toMaxDay);
+
+    setSelectedFrom(Number(recurring_bills.calculationFromDate));
+    setSelectedTo(Number(recurring_bills.calculationToDate));
+  } else {
+    setDates(getDaysInMonth(currentYear, currentMonth));
+    setLastDates(getDaysInMonth(currentYear, currentMonth));
+  }
+}, [edit, recurring_bills]);
+
+
+
+
 
   const handleFromClick = (date) => {
     setSelectedFrom(date);
     setIsFromOpen(false);
   };
 
-  const handleToClick = (date) => {
+  const handleToClick = (date) => {    
     setSelectedTo(date);
     setIsToOpen(false);
   };
+
 
   const handleToggle = () => setIsOn(!isOn);
 
@@ -414,8 +480,8 @@ if (edit && JSON.stringify(currentData) === JSON.stringify(originalData)) {
 
     setRecurringName(recurring_bills.recurringName || '');
     setBilling_Frequency(recurring_bills.billFrequency || '');
-    setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? recurring_bills.calculationFromDate : '');
-    setSelectedTo(recurring_bills.calculationToDate !== "0000-00-00" ? recurring_bills.calculationToDate : '');
+    setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? Number(recurring_bills.calculationFromDate) : '');
+    setSelectedTo(recurring_bills.calculationToDate !== "0000-00-00" ? Number(recurring_bills.calculationToDate) : '');
     setInvoiceDate(recurring_bills.billingDateOfMonth || '');
     setInvoiceDueDate(recurring_bills.dueDateOfMonth || '');
     setIsOn(recurring_bills.isAutoSend === 1); 
@@ -500,8 +566,8 @@ useEffect(() => {
   if (recurring_bills) {
     setRecurringName(recurring_bills.recurringName || '');
     setBilling_Frequency(recurring_bills.billFrequency || '');
-    setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? recurring_bills.calculationFromDate : '');
-    setSelectedTo(recurring_bills.calculationToDate !== "0000-00-00" ? recurring_bills.calculationToDate : '');
+    setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? Number(recurring_bills.calculationFromDate) : '');
+    setSelectedTo(recurring_bills.calculationToDate !== "0000-00-00" ? Number(recurring_bills.calculationToDate) : '');
     setInvoiceDate(recurring_bills.billingDateOfMonth || '');
     setInvoiceDueDate(recurring_bills.dueDateOfMonth || '');
     setIsOn(recurring_bills.isAutoSend === 1); 
@@ -715,7 +781,7 @@ useEffect(() => {
                         fontWeight: 500,
                       }}
                       type="text"
-                      placeholder="recurring_name"
+                      placeholder="Enter Recurring Name"
                       value={recurring_name}
                       onChange={(e) => handleRecurrName(e)}
                     />
@@ -766,7 +832,7 @@ useEffect(() => {
 
                                     <Select
   options={billing_types}
-  placeholder="Select the frequency of bill"
+  placeholder="Select The Frequency Of Bill"
   value={billing_types.find((opt) => opt.value === billing_frequency)}
   onChange={(selected) => {
     setBilling_Frequency(selected.value);
@@ -894,7 +960,8 @@ useEffect(() => {
                       onClick={() => setIsFromOpen(!isFromOpen)}
                       className="btn btn-white border w-100 d-flex justify-content-between align-items-center"
                     >
-                      {selectedFrom ? `${selectedFrom}` : "Select a date"}
+                     {selectedFrom ? selectedFrom : "Select a date"}
+
                       <img src={DatepickerIcon} alt="datepicker" />
                     </button>
 
@@ -918,10 +985,10 @@ useEffect(() => {
                           ))}
                         </div>
                         <div className="date-picker-footer">
-                          <span className="startmonthone">
+                          <span className="startmonthone" onClick={() => handleFromClick(1)}>
                             Start of the month
                           </span>
-                          <span className="Endmonthone">End of the month</span>
+                      
                         </div>
                       </div>
                     )}
@@ -966,7 +1033,7 @@ useEffect(() => {
                       onClick={() => setIsToOpen(!isToOpen)}
                       className="btn btn-white border w-100 d-flex justify-content-between align-items-center"
                     >
-                      {selectedTo ? `${selectedTo}` : "Select a date"}
+                     {selectedTo ? selectedTo : "Select a date"} 
                       <img src={DatepickerIcon} alt="datepicker" />
                     </button>
 
@@ -976,7 +1043,7 @@ useEffect(() => {
                           <h3>Select date</h3>
                         </div>
                         <div className="date-grid">
-                          {dates.map((date, index) => (
+                          {lastdates.map((date, index) => (
                             <div
                               key={index}
                               className={`date-cell ${
@@ -989,10 +1056,8 @@ useEffect(() => {
                           ))}
                         </div>
                         <div className="date-picker-footer">
-                          <button className="startmonthtwo">
-                            Start of the month
-                          </button>
-                          <button disabled className="Endmonthtwo">
+                         
+                          <button  className="Endmonthtwo"  onClick={() => handleToClick(lastDayOfmonth)}>
                             End of the month
                           </button>
                         </div>
@@ -1047,7 +1112,7 @@ useEffect(() => {
                       placeholder="Select"
                       classNamePrefix="custom"
                       menuPlacement="auto"
-  styles={{
+                          styles={{
                                     control: (base) => ({
                                         ...base,
                                         borderColor: "#D1D5DB",
@@ -1272,7 +1337,7 @@ useEffect(() => {
                 }
                  return inputValue;
                    }}
- styles={{
+                              styles={{
                                     control: (base) => ({
                                         ...base,
                                         borderColor: "#D1D5DB",
