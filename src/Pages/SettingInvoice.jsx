@@ -72,6 +72,7 @@ function SettingInvoice({hostelid}) {
   const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
 
   const [accountNameError, setaccountnameError] = useState("");
+  const [bankid_Error, setBankIdError] = useState("");
   const [prefix_errmsg , setPrefixErrMsg] = useState('')
   const [suffix_errmsg , setSuffixErrMsg] = useState('')
   const [tax_errmsg , setTaxErrMsg] = useState('')
@@ -315,9 +316,19 @@ const handleTermsChange = (e) => {
     setPrefix("")
     setSuffix("")
     setTax("")
+    setSignature(null)
+    setSelectedBankId(null)
     setSignaturePreview(null)
-
+    setBankIdError("")
   }
+
+
+  useEffect(()=> {
+            if(InvoiceList?.invoiceSettings?.signatureFile && signature){
+                setIsSignatureConfirmed(true)
+                setSignatureErrMsg("")
+            }
+  },[signature])
 
 
 
@@ -325,13 +336,14 @@ const handleTermsChange = (e) => {
 
   const handleSaveInvoice = () => {
  if (
-  !prefix || !suffix || !tax || !notes || !terms || !signature || !isSignatureConfirmed
+  !prefix || !suffix || !tax || !notes || !terms || !signature || !isSignatureConfirmed || !selectedBankId
 ) {
   if (!prefix) setPrefixErrMsg("Please Enter Prefix");
   if (!suffix) setSuffixErrMsg("Please Enter Suffix");
   if (!tax) setTaxErrMsg("Please Enter Tax");
   if (!notes) setNotesErrMsg("Please Enter Notes");
   if (!terms) setTermsErrMsg("Please Enter Terms");
+  if(!selectedBankId)setBankIdError("Please Add or select bank")
   if (!signature) {
     setSignatureErrMsg("Please select signature");
   } else if (!isSignatureConfirmed) {
@@ -366,6 +378,7 @@ const handleTermsChange = (e) => {
     JSON.stringify(currentData) === JSON.stringify(originalData)
   ) {
     setEditErrMessage("No changes detected");
+    setSignatureErrMsg("")
     return;
   }
 
@@ -439,6 +452,13 @@ const handleTermsChange = (e) => {
     useEffect(() => {
     if (state.Settings?.settingsInvoicegetErrorStatuscode === 201) {
         setLoading(false)
+        setSelectedBankId(null)
+        setPrefix("")
+        setSuffix("")
+        setTax("")
+        setSignature(null)
+        setSignaturePreview(null)
+        setBankIdError("")
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ERROR_SETTINGS_GETINVOICE_STATUS_CODE" });
@@ -1854,10 +1874,33 @@ useEffect(() => {
             Add
           </button>
         </div>
+
+
       )}
     </>
               
-
+ {bankid_Error.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {bankid_Error}
+                                                </label>
+                                              </div>
+                                            )}
                 </div>
 
                 <div className="border p-3 mb-3" style={{borderRadius:'10px' , overflowY:'auto', }}>
