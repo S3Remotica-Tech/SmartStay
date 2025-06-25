@@ -669,29 +669,21 @@ function UserList(props) {
     setUniqostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setLoading(true);
-      dispatch({
-        type: "USERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
-  }, [state.login.selectedHostel_Id]);
+ 
 
+  const [userListDetail, setUserListDetail] = useState([]);
 
-
-  const [userListDetail, setUserListDetail] = useState("");
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
-      setLoading(false);
+      setLoading(false)
       setUserListDetail(state.UsersList.Users);
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 1000);
     }
   }, [state.UsersList?.UserListStatusCode]);
+  
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
       setIsEditing(true);
@@ -994,11 +986,12 @@ function UserList(props) {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
+        setLoading(true)
         dispatch({
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-      } else if (value === "2") {
+      }  if (value === "2") {
         dispatch({
           type: "GET_BOOKING_LIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
@@ -1169,6 +1162,7 @@ function UserList(props) {
       document.removeEventListener("mousedown", handleClickOutsideAccount);
     };
   }, []);
+ 
 
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState(false);
@@ -1212,6 +1206,7 @@ const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     return sorted;
   }, [currentItems, sortConfig]);
+  
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
@@ -1259,6 +1254,7 @@ const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   useEffect(() => {
     if (state.UsersList?.NoUserListStatusCode === 201) {
+      setLoading(false)
       setUserDetails([]);
       setFilteredUsers([]);
       setTimeout(() => {
@@ -3293,8 +3289,8 @@ const handleDateRangeChangeCheckIn = (dates) => {
                   </>
                 )}
 
-                {!loading && currentItems && currentItems?.length === 0 && (
-                  <div style={{ marginTop: 30 }}>
+                {!loading && currentItems && currentItems?.length === 0 &&  (
+                  <div style={{ marginTop: 30 }} className="animated-text">
                     <div style={{ textAlign: "center" }}>
                       <img src={Emptystate} alt="emptystate" />
                     </div>

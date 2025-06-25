@@ -71,13 +71,13 @@ function UserlistWalkin(props) {
   const [walkinLoader, setWalkingLoader] = useState(true);
 
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+   
       setWalkingLoader(true);
       dispatch({
         type: "WALKINCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
-    }
+    
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -845,7 +845,7 @@ function UserlistWalkin(props) {
             )}
 
             {!walkinLoader && currentCustomers?.length === 0 && (
-              <div style={{ marginTop: 30 }}>
+              <div style={{ marginTop: 30 }} className="animated-text">
                 <div style={{ textAlign: "center" }}>
                   <img src={Emptystate} alt="emptystate" />
                 </div>
