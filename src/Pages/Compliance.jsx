@@ -69,6 +69,10 @@ const Compliance = () => {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
 
+
+  const complaintList = useSelector((state) => state.Settings.Complainttypelist);
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHosId(state.login.selectedHostel_Id)
@@ -1091,12 +1095,20 @@ const Compliance = () => {
                       </Modal.Header>
                       <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
 
+                        {Array.isArray(complaintList) && complaintList.length === 0 && (
+                          <div className="d-flex align-items-center mb-3" style={{ marginTop: "-12px" }}>
+                            <MdError style={{ color: "red", marginRight: "6px", fontSize: "15px", marginBottom: "22px" }} />
+                            <span style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                              Please Create Complaint Type in Settings Electricity before adding an complaint
+                            </span>
+                          </div>
+                        )}
 
                         <div className='row '>
 
                           <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                              <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
+                              <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "Gilroy", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
                                 Customer <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
 
@@ -1127,6 +1139,8 @@ const Compliance = () => {
                                     }
                                     : null
                                 }
+
+
                                 placeholder="Select a customer"
                                 classNamePrefix="custom"
                                 menuPlacement="auto"

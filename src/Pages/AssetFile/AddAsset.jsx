@@ -67,6 +67,9 @@ function StaticExample({ show, setShow, currentItem }) {
     productName: "",
   });
 
+  const VendorList = useSelector((state) => state.ComplianceList.VendorList);
+
+
   useEffect(() => {
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
   }, [state.login.selectedHostel_Id]);
@@ -80,15 +83,15 @@ function StaticExample({ show, setShow, currentItem }) {
 
   }, [state.AssetList?.bankAmountError])
 
-  const [serial_number_duplicate_Error , setSerial_Number_DuplicateError] = useState("")
+  const [serial_number_duplicate_Error, setSerial_Number_DuplicateError] = useState("")
 
   useEffect(() => {
     if (state.AssetList?.alreadySerialNumberHere) {
       setSerial_Number_DuplicateError(state.AssetList?.alreadySerialNumberHere)
 
       setTimeout(() => {
-         dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
-         setSerial_Number_DuplicateError("")
+        dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
+        setSerial_Number_DuplicateError("")
       }, 2000);
     }
 
@@ -381,8 +384,8 @@ function StaticExample({ show, setShow, currentItem }) {
       setIsChangedError("");
     }
 
-  if (productName && serialNumber && selectedDate && price && assetName && modeOfPayment) {
-    const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
+    if (productName && serialNumber && selectedDate && price && assetName && modeOfPayment) {
+      const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
 
       dispatch({
         type: "ADDASSET",
@@ -489,6 +492,16 @@ function StaticExample({ show, setShow, currentItem }) {
               </div>
             )}
             <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-3 me-3" >
+
+              {Array.isArray(VendorList) && VendorList.length === 0 && (
+                <div className="d-flex align-items-center justify-content-center mb-4" style={{ marginTop: "-10px" }}>
+                  <MdError style={{ color: "red", marginRight: "6px", fontSize: "14px", marginBottom: "2px" }} />
+                  <span style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                    Please Create Vendor before adding Asset
+                  </span>
+                </div>
+              )}
+
               <div className="row " style={{ marginTop: "-20px" }}>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
