@@ -72,6 +72,7 @@ const MyComponent = () => {
 
 
   const handleCloseModal = () => {
+    dispatch({ type: 'CLEAR_ERROR_OTP_CODE' })
     setShowOtpVerification(false);
   };
 
