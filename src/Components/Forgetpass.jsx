@@ -185,6 +185,8 @@ function ForgetPasswordPage() {
   }
 
   const handleCloseModal = () => {
+    dispatch({ type: 'CLEAR_ERROR_OTP_CODE' })
+     dispatch({ type: 'CLEAR_OTP_INVALID_ERROR' })
     setShowOtpVerification(false);
   };
   const hanldeBackToLogin = () => {
