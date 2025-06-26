@@ -1585,7 +1585,7 @@ function EB_Hostel() {
                           boxShadow: "none",
                         }}
                       >
-                        {/* <option value={}>5</option> */}
+                       
                         <option value={10}>10</option>
                         <option value={50}>50</option>
                         <option value={100}>100</option>
