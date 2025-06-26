@@ -25,7 +25,6 @@ import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
 import "./Settings.css";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import PropTypes from "prop-types";
 import './SettingManage.css';
 
@@ -332,22 +331,7 @@ function SettingManage() {
     setHidePgList(isVisible);
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
-  };
 
 
 
@@ -841,99 +825,7 @@ function SettingManage() {
 
                 </div>
               </div>
-              {/* {filteredData.length >= 5 && (
-                <nav
-                  className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
-               
-                >
-                
-                  <div>
-                    <select
-                      value={itemsPerPage}
-                      onChange={handleItemsPerPageChange}
-                      style={{
-                        padding: "5px",
-                        border: "1px solid #1E45E1",
-                        borderRadius: "5px",
-                        color: "#1E45E1",
-                        fontWeight: "bold",
-                        cursor: "pointer",
-                        outline: "none",
-                        boxShadow: "none",
-
-                      }}
-                    >
-                      <option value={5}>5</option>
-                      <option value={10}>10</option>
-                      <option value={50}>50</option>
-                      <option value={100}>100</option>
-                    </select>
-                  </div>
-
-                 
-                  <ul
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      listStyleType: "none",
-                      margin: 0,
-                      padding: 0,
-                    }}
-                  >
-                   
-                    <li style={{ margin: "0 10px" }}>
-                      <button
-                        style={{
-                          padding: "5px",
-                          textDecoration: "none",
-                          color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                          cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          minWidth: "30px",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border: "none",
-                        }}
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      >
-                        <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                      </button>
-                    </li>
-
-                   
-                    <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                      {currentPage} of {totalPages}
-                    </li>
-
-                    
-                    <li style={{ margin: "0 10px" }}>
-                      <button
-                        style={{
-                          padding: "5px",
-                          textDecoration: "none",
-                          color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                          cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          minWidth: "30px",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border: "none",
-                        }}
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                      >
-                        <ArrowRight2
-                          size="16"
-                          color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                        />
-                      </button>
-                    </li>
-                  </ul>
-                </nav>
-              )} */}
+           
 
 
             </>
