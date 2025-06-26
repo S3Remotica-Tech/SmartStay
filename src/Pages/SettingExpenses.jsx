@@ -363,7 +363,7 @@ function SettingExpenses({ hostelid }) {
         type: 'EDIT_EXPENCES_CATEGORY',
         payload: { id: selectedOptions.value, hostel_id: hostelid, name: inputValue, type: 1 }
       });
-
+setFormLoading(true)
 
 
     } else {
@@ -377,6 +377,7 @@ function SettingExpenses({ hostelid }) {
         type: 'EXPENCES-CATEGORY-ADD',
         payload: { hostel_id: hostelid, category_Name: inputValue, sub_Category: '' }
       });
+      setFormLoading(true)
     }
   };
 
