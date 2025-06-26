@@ -211,14 +211,22 @@ const hanldeSuffix = (e) => {
 }
 
 
-const handleTaxChange = (e) => {
-     const Value =  e.target.value.replace(/[^0-9]/g, ""); 
-    setTax(Value)
 
-    if (Value.trim() !== "") {
+
+const handleTaxChange = (e) => {
+  const inputValue = e.target.value;
+
+  const formattedValue = inputValue
+    .replace(/[^0-9.]/g, '')    
+    .replace(/^([^.]*\.)|\./g, '$1'); 
+
+  setTax(formattedValue);
+
+  if (formattedValue.trim() !== "") {
     setTaxErrMsg("");
   }
-}
+};
+
 
 const handleNotesChange = (e) => {
     const Value = e.target.value  
