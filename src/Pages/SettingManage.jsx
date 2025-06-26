@@ -759,20 +759,21 @@ function SettingManage() {
               </div>
 
               
-              <div className="scroll-issue"
+              <div className="show-scrolls-sidebar"
                 style={{
-                  maxHeight: "400px",
+                  maxHeight: "530px",
                   overflowY: "auto",
+                  overflowX:"hidden"
                                  }}
               >
                 <div className="row row-gap-3">
-                  {currentItems?.length > 0 ?
-                    currentItems.map((hostel) => {
+                  {filteredData?.length > 0 ?
+                    filteredData.map((hostel) => {
                       return (
                         <>
                           <div
                             key={hostel.id}
-                            className="col-lg-12 col-md-12 col-xs-12 col-sm-12 col-12 settingmanage"
+                            className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12   settingmanage me-0" style={{paddingRight:30}}
                           >
                             <PayingGuest
                               hostel={hostel}
@@ -788,7 +789,7 @@ function SettingManage() {
                       );
                     })
                     :
-                    !loading && currentItems.length === 0 && (
+                    !loading && filteredData.length === 0 && (
                       <div
                         className="d-flex align-items-center justify-content-center fade-in"
                         style={{
@@ -840,7 +841,7 @@ function SettingManage() {
 
                 </div>
               </div>
-              {filteredData.length >= 5 && (
+              {/* {filteredData.length >= 5 && (
                 <nav
                   className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
                
@@ -932,7 +933,7 @@ function SettingManage() {
                     </li>
                   </ul>
                 </nav>
-              )}
+              )} */}
 
 
             </>
