@@ -481,6 +481,7 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     if (state.UsersList.emailError) {
       setFormLoading(false)
+      setLoading(false)
       setEmailErrorMessage(state.UsersList.emailError);
     }
 
@@ -1230,6 +1231,8 @@ function UserListRoomDetail(props) {
   useEffect(() => {
     if (state.UsersList.statusCodeForAddUser === 200) {
       setFormLoading(false)
+      setLoading(false)
+      
       handleCloseEditcustomer();
       dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
       dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
