@@ -163,6 +163,13 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   }, [currentItem]);
 
+  const getMinDate = () => {
+  if (currentItem?.purchase_date) {
+    return dayjs(currentItem.purchase_date).startOf("day");
+  }
+  return dayjs().startOf("day");
+};
+
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -835,6 +842,9 @@ function StaticExample({ show, setShow, currentItem }) {
                         getPopupContainer={(triggerNode) =>
                           triggerNode.closest(".datepicker-wrapper")
                         }
+                         disabledDate={(current) =>
+                         current && current < getMinDate()
+                             }
                       />
                     </div>
                   </Form.Group>
