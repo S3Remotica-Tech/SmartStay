@@ -111,6 +111,8 @@ function PayingHostel(props) {
     setHoverPgCard(false);
   };
 
+
+  
   return (
     <>
       {props.filteredData[0] && (
@@ -228,11 +230,11 @@ function PayingHostel(props) {
                             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                             width: 140,
                             zIndex: 1000,
-                          
+
                           }}
                         >
-                          <div style={{ borderRadius: 10,}}>
-                                                       <div
+                          <div style={{ borderRadius: 10, }}>
+                            <div
                               className="d-flex gap-2 align-items-center"
                               onClick={
                                 !props.editPermissionError
@@ -243,7 +245,7 @@ function PayingHostel(props) {
                                 padding: "8px 12px",
                                 width: "100%",
                                 borderTopLeftRadius: 10,
-                          borderTopRightRadius: 10,
+                                borderTopRightRadius: 10,
                                 pointerEvents: props.editPermissionError ? "none" : "auto",
                                 opacity: props.editPermissionError ? 0.5 : 1,
                                 cursor: props.editPermissionError ? "not-allowed" : "pointer",
@@ -267,10 +269,10 @@ function PayingHostel(props) {
                               </span>
                             </div>
 
-                       
+
                             <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
-                          
+
                             <div
                               className="d-flex gap-2 align-items-center menu-option"
                               onClick={
@@ -282,7 +284,7 @@ function PayingHostel(props) {
                                 padding: "8px 12px",
                                 width: "100%",
                                 borderBottomLeftRadius: 10,
-                          borderBottomRightRadius: 10,
+                                borderBottomRightRadius: 10,
                                 pointerEvents: props.editPermissionError ? "none" : "auto",
                                 opacity: props.editPermissionError ? 0.5 : 1,
                                 cursor: props.editPermissionError ? "not-allowed" : "pointer",
@@ -420,8 +422,9 @@ function PayingHostel(props) {
                 </div>
               </div>
 
-              <div className="d-flex justify-content-between align-items-center mb-1 mt-1 flex-wrap">
-                <div className="pb-1" style={{ lineHeight: 1 }}>
+              <div className="d-flex justify-content-between align-items-center mb-1 mt-1 flex-wrap ps-2">
+
+                <div className="pb-1" style={{ width: "33.33%", lineHeight: 1 }}>
                   <div className="pb-1">
                     <label
                       style={{
@@ -431,7 +434,7 @@ function PayingHostel(props) {
                         fontFamily: "Gilroy",
                       }}
                     >
-                      Email ID{" "}
+                      Email ID
                     </label>
                   </div>
                   <div>
@@ -445,7 +448,7 @@ function PayingHostel(props) {
                         whiteSpace: "nowrap",
                         display: "block",
                         overflow: "hidden",
-                        width: 200,
+                        width: "100%",
                       }}
                     >
                       {props.filteredData[0]?.email_id &&
@@ -456,20 +459,21 @@ function PayingHostel(props) {
                   </div>
                 </div>
 
-                <div className="pb-1" style={{ lineHeight: 1 }}>
-                  <div className="">
+                <div className="pb-1" style={{ width: "33.33%", lineHeight: 1 }}>
+                  <div style={{ marginLeft: "50px" }}>
                     <label
                       style={{
                         color: "#000000",
                         fontSize: 12,
                         fontWeight: 500,
                         fontFamily: "Gilroy",
+
                       }}
                     >
                       Floor
                     </label>
                   </div>
-                  <div className="text-center">
+                  <div style={{ marginLeft: "55px" }}>
                     <label
                       style={{
                         color: "#222222",
@@ -478,15 +482,13 @@ function PayingHostel(props) {
                         fontFamily: "Gilroy",
                       }}
                     >
-                      {" "}
-                      {props.filteredData[0] &&
-                        props.filteredData[0].floorcount}
+                      {props.filteredData[0]?.floorcount}
                     </label>
                   </div>
                 </div>
 
-                <div className="pb-1" style={{ lineHeight: 1 }}>
-                  <div className="">
+                <div className="pb-1" style={{ width: "33.33%", lineHeight: 1 }}>
+                  <div style={{ marginLeft: "20px" }}>
                     <label
                       style={{
                         color: "#000000",
@@ -498,7 +500,7 @@ function PayingHostel(props) {
                       Contact Number
                     </label>
                   </div>
-                  <div>
+                  <div style={{ marginLeft: "15px" }}>
                     <label
                       style={{
                         color: "#222222",
@@ -511,8 +513,7 @@ function PayingHostel(props) {
                       {props.filteredData[0] &&
                         String(props.filteredData[0].hostel_PhoneNo).slice(
                           0,
-                          String(props.filteredData[0].hostel_PhoneNo).length -
-                          10
+                          String(props.filteredData[0].hostel_PhoneNo).length - 10
                         )}{" "}
                       {props.filteredData[0] &&
                         String(props.filteredData[0].hostel_PhoneNo).slice(-10)}
@@ -521,7 +522,8 @@ function PayingHostel(props) {
                 </div>
               </div>
 
-              <div className="mb-2" style={{ lineHeight: 1 }}>
+
+              <div className="mb-2 ps-2" style={{ lineHeight: 1 }}>
                 <div className="mb-1" style={{}}>
                   <label
                     style={{
@@ -564,31 +566,31 @@ function PayingHostel(props) {
                     props.filteredData[0]?.pincode ||
                     props.filteredData[0]?.state) && (
                       <>
-                       {props.filteredData[0] && (
-  <>
-    {props.filteredData[0].Address && (
-      <>
-        {props.filteredData[0].Address}
-        {(props.filteredData[0].area || props.filteredData[0].city) && ", "}
-      </>
-    )}
+                        {props.filteredData[0] && (
+                          <>
+                            {props.filteredData[0].Address && (
+                              <>
+                                {props.filteredData[0].Address}
+                                {(props.filteredData[0].area || props.filteredData[0].city) && ", "}
+                              </>
+                            )}
 
-    {props.filteredData[0].area && (
-      <>
-        {props.filteredData[0].area}
-        {props.filteredData[0].city && ", "}
-      </>
-    )}
+                            {props.filteredData[0].area && (
+                              <>
+                                {props.filteredData[0].area}
+                                {props.filteredData[0].city && ", "}
+                              </>
+                            )}
 
-    {props.filteredData[0].city && <>{props.filteredData[0].city}</>}
-    {props.filteredData[0].pin_code && (
-      <> - {props.filteredData[0].pin_code}</>
-    )}
+                            {props.filteredData[0].city && <>{props.filteredData[0].city}</>}
+                            {props.filteredData[0].pin_code && (
+                              <> - {props.filteredData[0].pin_code}</>
+                            )}
 
-    <br />
-    {props.filteredData[0].state && <>{props.filteredData[0].state}</>}
-  </>
-)}
+                            <br />
+                            {props.filteredData[0].state && <>{props.filteredData[0].state}</>}
+                          </>
+                        )}
 
                       </>
                     )}
