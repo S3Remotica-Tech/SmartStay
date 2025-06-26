@@ -1175,7 +1175,7 @@ const CheckOutForm = ({
               <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
               <span
                 style={{
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
                 }}
