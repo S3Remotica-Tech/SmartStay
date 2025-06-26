@@ -654,8 +654,8 @@ setFormLoading(true)
                   border: "1px solid #ddd",
                   borderRadius: "0 0 10px 10px",
                   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                  padding: "10px",
-                  maxHeight: "250px",
+                  // padding: "10px",
+                  maxHeight: "70px",
                   overflowY: "auto",
                   marginTop: "5px"
                 }}>
