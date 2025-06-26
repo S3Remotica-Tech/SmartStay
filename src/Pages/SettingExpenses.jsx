@@ -226,6 +226,7 @@ function SettingExpenses({ hostelid }) {
   const [initialSubCategory, setInitialSubCategory] = useState({});
   const [initialCategory, setInitialCategory] = useState({});
 
+ 
   const updateType = () => {
 
     dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
@@ -342,7 +343,7 @@ function SettingExpenses({ hostelid }) {
 
 
 
-
+  const [inputValue, setInputValue] = useState("");
 
 
 
@@ -597,49 +598,51 @@ function SettingExpenses({ hostelid }) {
 
       <div className="mt-4 d-flex flex-wrap justify-content-between scroll-issue" style={{ gap: "20px", alignItems: "flex-start" }}>
 
-  {currentRowExpense && currentRowExpense.length > 0 ? (
-    currentRowExpense.map((category) => (
-      <div key={category.category_Id} 
-    
-      className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2 card-width-sm  "
-      style={{ 
-        flex: "0 0 48%", 
-        position: "relative",
-        paddingBottom: "30px"
-        }}>
-        <Card className="d-flex justify-content-between border-0 card-height-sm" 
-        style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}>
-       
-          <div className="d-flex justify-content-between align-items-center border-0 gap-4 flex-wrap card-inner">
-            <div className="category-title">{category.category_Name}</div>
-           
-            <div className="d-flex align-items-center " style={{ gap: "10px" }}>
-              <img
-                src={Editbtn}
-                height={15}
-                width={15}
-                alt="edit"
-                style={{ 
-                cursor: "pointer" }}
-                onClick={(e) => { e.stopPropagation(); handleEditCategory(category); }}
-              />
-              <img
-                src={Closebtn}
-                height={15}
-                width={15}
-                alt="delete"
-                style={{ 
-                  cursor: "pointer" }}
-                onClick={(e) => { e.stopPropagation(); handleDeleteExpensesCategory(category); }}
-              />
-              <i
-                onClick={(event) => handleToggleDropdown(category.category_Id, event)}
-                className={`bi ${expandedCategoryId === category.category_Id ? "bi-chevron-up" : "bi-chevron-down"}`}
-                style={{ cursor: "pointer" }}
-              />
-            </div>
-          </div>
-        </Card>
+        {currentRowExpense && currentRowExpense.length > 0 ? (
+          currentRowExpense.map((category) => (
+            <div key={category.category_Id}
+
+              className="col-12 col-md-6 col-lg-5 col-xl-4 border rounded p-2 card-width-sm  "
+              style={{
+                flex: "0 0 48%",
+                position: "relative",
+                paddingBottom: "30px"
+              }}>
+              <Card className="d-flex justify-content-between border-0 card-height-sm"
+                style={{ fontFamily: "Gilroy", fontSize: 16, fontWeight: 500 }}>
+
+                <div className="d-flex justify-content-between align-items-center border-0 gap-4 flex-wrap card-inner">
+                  <div className="category-title">{category.category_Name}</div>
+
+                  <div className="d-flex align-items-center " style={{ gap: "10px" }}>
+                    <img
+                      src={Editbtn}
+                      height={15}
+                      width={15}
+                      alt="edit"
+                      style={{
+                        cursor: "pointer"
+                      }}
+                      onClick={(e) => { e.stopPropagation(); handleEditCategory(category); }}
+                    />
+                    <img
+                      src={Closebtn}
+                      height={15}
+                      width={15}
+                      alt="delete"
+                      style={{
+                        cursor: "pointer"
+                      }}
+                      onClick={(e) => { e.stopPropagation(); handleDeleteExpensesCategory(category); }}
+                    />
+                    <i
+                      onClick={(event) => handleToggleDropdown(category.category_Id, event)}
+                      className={`bi ${expandedCategoryId === category.category_Id ? "bi-chevron-up" : "bi-chevron-down"}`}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </div>
+                </div>
+              </Card>
 
               {expandedCategoryId === category.category_Id && (
                 <div className="dropdown-content" style={{
@@ -660,7 +663,7 @@ function SettingExpenses({ hostelid }) {
                   <ul className="p-2 m-0">
                     {category.subcategory?.length > 0 ? (
                       category.subcategory.map((sub) => (
-                        <li key={sub.subcategory_Id} className="d-flex justify-content-between align-items-center mb-2">
+                        <li key={sub.subcategory_Id} className="d-flex justify-content-between align-items-center mb-2" style={{fontFamily:"Gilroy"}}>
                           {sub.subcategory}
                           <span>
                             <img src={Editbtn} height={15} width={15} alt="edit" style={{ cursor: "pointer" }} onClick={() => handleEditCategory(sub)} />
@@ -669,7 +672,7 @@ function SettingExpenses({ hostelid }) {
                         </li>
                       ))
                     ) : (
-                      <span className="text-muted">No Subcategories Available</span>
+                      <span className="text-muted" style={{fontFamily:"Gilroy"}}>No Subcategories Available</span>
                     )}
                   </ul>
                 </div>
@@ -844,13 +847,18 @@ function SettingExpenses({ hostelid }) {
                             onChange={handleChange}
                             onCreateOption={handleCreate}
                             placeholder="Select / Create Category"
+                            formatCreateLabel={(inputValue) =>
+                              edit ? `Edit category "${inputValue}"` : `Create category "${inputValue}"`
+                            }
+
                             styles={{
                               menu: (provided) => ({
                                 ...provided,
                                 maxHeight: '100px',
                                 overflowY: 'auto',
                                 zIndex: 9999,
-                              cursor:'pointer'
+                                cursor: 'pointer',
+                                fontFamily: 'Gilroy'
                               }),
 
                               menuList: (provided) => ({
@@ -860,6 +868,7 @@ function SettingExpenses({ hostelid }) {
                                 overflowY: 'scroll',
                                 scrollbarWidth: 'thin',
                                 scrollbarColor: '#888 #f0f0f0',
+                                fontFamily: 'Gilroy'
                               }),
                               dropdownIndicator: (base) => ({
                                 ...base,
@@ -873,17 +882,18 @@ function SettingExpenses({ hostelid }) {
                                 backgroundColor: state.isFocused ? "lightblue" : "white",
                                 color: "#222",
                                 cursor: "pointer",
+                                fontFamily: 'Gilroy'
                               }),
 
                               control: (provided) => ({
                                 ...provided,
                                 minHeight: '40px',
-                              cursor: "pointer",
+                                cursor: "pointer",
+                                fontFamily: 'Gilroy'
                               }),
                             }}
                             menuPlacement="bottom"
                           />
-
 
 
                           {cateogoryerrmsg.trim() !== "" && (
