@@ -273,6 +273,7 @@ function SettingCompliance({ hostelid }) {
 
   const handleItemsPerPageChange = (event) => {
     setCompliancerowsPerPage(Number(event.target.value));
+    setCompliancecurrentPage(1)
   };
 
   const totalPagesGeneral = Math.ceil(
