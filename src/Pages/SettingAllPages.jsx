@@ -260,7 +260,7 @@ function SettingAllPages() {
                   marginTop: 20,
                   marginLeft: 30,
                   maxWidth: '201px',
-                  maxHeight: '250px',
+                  maxHeight: '290px',
 
                 }} >
                 <p

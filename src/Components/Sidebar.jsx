@@ -573,16 +573,16 @@ function Sidebar() {
               )}
 
               <ul
-                className="first p-0 show-scrolls"
+                className="first p-0 show-scrolls-sidebar"
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "start",
                   position: "relative",
                   marginBottom: "20px",
-                  maxHeight: manageOpen ? "310px" : "unset",
+                  maxHeight: manageOpen ? "400px" : "500px",
                   overflowY: manageOpen ? "auto" : "hidden",
-                  paddingBottom: "30px",
+                  paddingBottom: "10px",
                 }}
               >
                 <li
@@ -647,6 +647,8 @@ function Sidebar() {
                     listStyleType: "none",
                     display: "flex",
                     position: "relative",
+                    marginTop:manageOpen ?"2px":"10px"
+                    
                   }}
                 >
                   <img
@@ -778,7 +780,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "banking" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("banking")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop:manageOpen ?"2px":"10px"  }}
                 >
                   <img
                     src={currentPage === "banking" ? bank : bankblank}
@@ -803,7 +805,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "invoice" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("invoice")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex" ,marginTop:manageOpen ?"2px":"10px" }}
                 >
                   <img
                     src={currentPage === "invoice" ? Invoice2 : Invo}
@@ -828,7 +830,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "eb" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("eb")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex",marginTop:manageOpen ?"2px":"8px"  }}
                 >
                   <img
                     src={currentPage === "eb" ? Eb2 : Eb}
@@ -852,12 +854,12 @@ function Sidebar() {
                   className={` align-items-center list-Item ${currentPage === "compliance" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("compliance")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop:manageOpen ?"2px":"8px" }}
                 >
                   <img
                     src={currentPage === "compliance" ? Compl2 : Compl}
                     alt="compliance"
-                    style={{ height: 20, width: 20 }}
+                    style={{ height: 20, width: 20,  }}
                   />
                   <span
                     className=" Title"
@@ -875,7 +877,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "expenses" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("expenses")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop:manageOpen ?"2px":"8px"}}
                 >
                   <img
                     src={currentPage === "expenses" ? Expense2 : Expense}
@@ -899,7 +901,7 @@ function Sidebar() {
                   className={` align-items-center list-Item ${currentPage === "reports" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("reports")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop:manageOpen ?"2px":"8px"  }}
                 >
                   <img
                     src={currentPage === "reports" ? Repo2 : Repo}
@@ -922,7 +924,7 @@ function Sidebar() {
             </div>
 
             <div
-              className="mb-3 sidebar-bottom"
+              className="mb-0 sidebar-bottom"
               style={{
                 position: "absolute",
                 bottom: 0,
@@ -931,9 +933,10 @@ function Sidebar() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                height:"auto"
               }}
             >
-              <ul className=" p-0">
+              <ul className=" ">
                 <li
                   className={` align-items-center list-Items ${currentPage === "profile" ? "active" : ""
                     }`}
