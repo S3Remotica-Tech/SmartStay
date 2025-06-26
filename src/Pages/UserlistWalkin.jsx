@@ -70,14 +70,18 @@ function UserlistWalkin(props) {
   const [walkInCustomer, setWalkInCustomer] = useState([]);
   const [walkinLoader, setWalkingLoader] = useState(true);
 
+
+  const calledOnceRef = useRef(false);
+  
   useEffect(() => {
-   
+    if (state.login.selectedHostel_Id && !calledOnceRef.current) {
       setWalkingLoader(true);
       dispatch({
         type: "WALKINCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
-    
+      calledOnceRef.current = true;
+    }
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -106,12 +110,14 @@ function UserlistWalkin(props) {
       state.UsersList.addWalkInCustomerStatusCode === 200 ||
       state.UsersList.deleteWalkInCustomerStatusCode === 200
     ) {
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
 
-      setShowForm(false);
+       setShowForm(false);
+       calledOnceRef.current = true;
+
+         if(state.UsersList.deleteWalkInCustomerStatusCode === 200){
+            dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id }, });
+         }
+     
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });

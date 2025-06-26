@@ -1373,9 +1373,9 @@ const Compliance = () => {
                           </div>
 
 
-
+                          
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+                            <Form.Group className="" controlId="exampleForm.ControlInput1">
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
                               >
@@ -1394,14 +1394,14 @@ const Compliance = () => {
 
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                            <Form.Group className='mb-1' controlId="purchaseDate">
-                              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            <Form.Group className='' controlId="purchaseDate">
+                              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 , marginBottom:'2px' ,}}>
                                 Complaint Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
 
                               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                 <DatePicker
-                                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily:"Gilroy" }}
+                                  style={{ width: "100%", height: 50, cursor: "pointer", fontFamily:"Gilroy" }}
                                   format="DD/MM/YYYY"
                                   placeholder="DD/MM/YYYY"
                                   value={selectedDate ? dayjs(selectedDate) : null}
@@ -1412,9 +1412,7 @@ const Compliance = () => {
                                   getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                                 />
                               </div>
-                            </Form.Group>
-
-                            {dateerrmsg.trim() !== "" && (
+                                 {dateerrmsg.trim() !== "" && (
                               <div className="d-flex align-items-center">
                                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
@@ -1422,14 +1420,19 @@ const Compliance = () => {
                                 </label>
                               </div>
                             )}
+                            </Form.Group>
+
+                         
 
                           </div>
 
+                       
 
 
 
 
-                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+
+                          <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2'>
                             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                               <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>Description</Form.Label>
                               <Form.Control
