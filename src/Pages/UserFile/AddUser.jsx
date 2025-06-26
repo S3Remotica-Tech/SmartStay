@@ -33,8 +33,8 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const [passwordError, setPasswordError] = useState("");
   const [initialState, setInitialState] = useState({});
   const [error, setError] = useState("");
-      const [formLoading, setFormLoading] = useState(false)
-  
+  const [formLoading, setFormLoading] = useState(false)
+
 
   useEffect(() => {
 
@@ -135,10 +135,29 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     setError("");
   };
 
+  // const handlePassword = (e) => {
+  //   setPassword(e.target.value);
+  //   setPasswordError("");
+  //   setError("");
+  // };
+
   const handlePassword = (e) => {
-    setPassword(e.target.value);
-    setPasswordError("");
+    const newPassword = e.target.value;
+    setPassword(newPassword);
     setError("");
+
+
+    const hasUppercase = /[A-Z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
+    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setPasswordError(
+        "Password must include at least 1 capital letter, 1 number, and 1 special character."
+      );
+    } else {
+      setPasswordError("");
+    }
   };
 
   const handleCloseForm = () => {
@@ -170,7 +189,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
 
   const handleSubmit = () => {
 
-dispatch(clearPhoneError());
+    dispatch(clearPhoneError());
     dispatch(clearEmailError());
 
     let isValid = true;
@@ -265,7 +284,7 @@ dispatch(clearPhoneError());
 
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 200) {
-       setFormLoading(false)
+      setFormLoading(false)
       handleCloseForm();
       dispatch({
         type: "GETUSERSTAFF",
@@ -279,12 +298,12 @@ dispatch(clearPhoneError());
 
 
 
-useEffect(()=>{
-  if(state.Settings.emailIdError || state.Settings.phoneNumError){
-     setFormLoading(false)
-  }
+  useEffect(() => {
+    if (state.Settings.emailIdError || state.Settings.phoneNumError) {
+      setFormLoading(false)
+    }
 
-},[state.Settings.emailIdError, state.Settings.phoneNumError])
+  }, [state.Settings.emailIdError, state.Settings.phoneNumError])
 
 
 
@@ -659,7 +678,7 @@ useEffect(()=>{
                       </InputGroup.Text>
                     </InputGroup>
                   </Form.Group>
-                  {passwordError && (
+                  {/* {passwordError && (
                     <p
                       style={{
                         color: "red",
@@ -676,7 +695,29 @@ useEffect(()=>{
                       </span>
                       {passwordError}
                     </p>
+                  )} */}
+
+                  {passwordError && (
+                    <p
+                      style={{
+                        color: "red",
+                        fontSize: 12,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "5px",
+                        margin: 0,
+                        marginTop: "6px",
+                      }}
+                    >
+                      <span style={{ fontSize: "15px", lineHeight: 1 }}>
+                        <MdError />
+                      </span>
+                      {passwordError}
+                    </p>
                   )}
+
                 </div>
               )}
 
@@ -710,11 +751,11 @@ useEffect(()=>{
                         (option) => option.id === role
                       )
                         ? {
-                            value: role,
-                            label: state.Settings.getsettingRoleList.find(
-                              (option) => option.id === role
-                            )?.role_name,
-                          }
+                          value: role,
+                          label: state.Settings.getsettingRoleList.find(
+                            (option) => option.id === role
+                          )?.role_name,
+                        }
                         : null
                     }
                     placeholder="Select a Role"
@@ -735,7 +776,7 @@ useEffect(()=>{
                         ...base,
                         backgroundColor: "#f8f9fa",
                         border: "1px solid #ced4da",
-                         fontFamily: "Gilroy",
+                        fontFamily: "Gilroy",
                       }),
                       menuList: (base) => ({
                         ...base,
@@ -744,7 +785,7 @@ useEffect(()=>{
                         padding: 0,
                         scrollbarWidth: "thin",
                         overflowY: "auto",
-                         fontFamily: "Gilroy",
+                        fontFamily: "Gilroy",
                       }),
                       placeholder: (base) => ({
                         ...base,
@@ -846,33 +887,33 @@ useEffect(()=>{
               )}
             </div>
           </Modal.Body>
-   {formLoading &&
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: 'transparent',
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderTop: '4px solid #1E45E1',
-                                    borderRight: '4px solid transparent',
-                                    borderRadius: '50%',
-                                    width: '40px',
-                                    height: '40px',
-                                    animation: 'spin 1s linear infinite',
-                                }}
-                            ></div>
-                        </div>
-                    }
+          {formLoading &&
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>
+          }
           <Modal.Footer
             style={{ border: "none", marginBottom: "17px", marginTop: "-10px" }}
           >

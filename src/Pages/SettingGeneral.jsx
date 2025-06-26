@@ -400,11 +400,25 @@ const [changeLoading, setChangeLoading] = useState(false)
   }
 
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-    setPasswordError("");
+const handlePassword = (e) => {
+  const newPassword = e.target.value;
+  setPassword(newPassword);
+  setPasswordError("");
 
-  };
+  const hasUppercase = /[A-Z]/.test(newPassword);
+  const hasNumber = /[0-9]/.test(newPassword);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
+  if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+    setPasswordError(
+      "Password must include a capital letter, a number, and a special character."
+    );
+  } else {
+    setPasswordError("");
+  }
+};
+
+
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEditGeneralUser = (user) => {
@@ -1639,7 +1653,7 @@ const [changeLoading, setChangeLoading] = useState(false)
                 </Form.Group>
                 {!edit && passwordError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: '13px', marginRight: "5px", marginTop: "1px" }} />
+                    <MdError style={{ fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
                     <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
                   </div>
                 )}
