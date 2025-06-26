@@ -152,16 +152,20 @@ function Booking(props) {
   }, [props.uniqueostel_Id]);
   const [customerBooking, setCustomerBooking] = useState([])
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setLoader(true)
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-    }
+const calledOnceRef = useRef(false);
 
-  }, [state.login.selectedHostel_Id]);
+useEffect(() => {
+  if (state.login.selectedHostel_Id && !calledOnceRef.current) {
+    setLoader(true);
+    dispatch({
+      type: "GET_BOOKING_LIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    calledOnceRef.current = true;
+  }
+}, [state.login.selectedHostel_Id]);
+
+  
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
       setLoader(false)
@@ -709,22 +713,24 @@ function Booking(props) {
       }, 500);
     }
   }, [state?.Booking?.statusCodeForDeleteBooking]);
+
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
+       calledOnceRef.current = false;
       dispatch({ type: "CLEAR_EMAIL_ERROR" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
       setBookingLoading(false)
       handleCloseForm();
 
-      dispatch({
-        type: "GET_BOOKING_LIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+      
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);
     }
   }, [state?.Booking?.statusCodeForAddBooking]);
+
+
+  
 
   const [file, setFile] = useState(null);
 

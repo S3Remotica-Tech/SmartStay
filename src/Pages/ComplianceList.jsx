@@ -300,7 +300,7 @@ const ComplianceList = (props) => {
     }
 
     if (compliant === "") {
-      setStatusErrorType("Please Select Compliant Type");
+      setStatusErrorType("Please Select a User");
     } else {
       dispatch({
         type: "COMPLIANCEASSIGN",
@@ -1664,16 +1664,16 @@ const ComplianceList = (props) => {
 
 
 
-
-                          </Form.Group>
-
                           {statusErrorType.trim() !== "" && (
-                            <div style={{ marginTop: 25 }}>
-                              <p className='text-center' style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
+                            <div >
+                              <p className='text-start' style={{ fontSize: '14px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
                                 {statusErrorType !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
                               </p>
                             </div>
                           )}
+
+                          </Form.Group>
+
                         </div>
                       </div>
                     </Modal.Body>
@@ -1702,7 +1702,7 @@ const ComplianceList = (props) => {
                         }}
                       ></div>
                     </div>}
-                    <Modal.Footer style={{ border: "none" }}>
+                    <Modal.Footer style={{ border: "none", marginTop:'15px' }}>
                       <Button
                         className="w-100"
                         style={{
