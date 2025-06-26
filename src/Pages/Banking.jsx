@@ -312,7 +312,7 @@ function Banking() {
   };
 
 
-  
+
 
 
   useEffect(() => {
@@ -374,7 +374,7 @@ function Banking() {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   const handleShowAddBalance = (item) => {
-   setAddBankName(`${item.benificiary_name} - ${item.type}`);
+    setAddBankName(`${item.benificiary_name} - ${item.type}`);
 
     setTypeId(item.id);
     setshowAddBalance(true);
@@ -490,29 +490,29 @@ function Banking() {
     setFilterStatus(!filterStatus);
   };
 
- 
+
   const handlefilterInput = (e) => {
-  const input = e.target.value;
-  setFilterInput(input);
-  setDropdownVisible(input.length > 0);
+    const input = e.target.value;
+    setFilterInput(input);
+    setDropdownVisible(input.length > 0);
 
-  if (input.trim() === "") {
-    settransactionFilterddata([]); 
-  } else {
-    const filtered = originalBillsFilter.filter((item) =>
-      item.benificiary_name.toLowerCase().includes(input.toLowerCase())
-    );
-    settransactionFilterddata(filtered);
-  }
-};
+    if (input.trim() === "") {
+      settransactionFilterddata([]);
+    } else {
+      const filtered = originalBillsFilter.filter((item) =>
+        item.benificiary_name.toLowerCase().includes(input.toLowerCase())
+      );
+      settransactionFilterddata(filtered);
+    }
+  };
 
-const handleUserSelect = (user) => {
-  setFilterInput(user.benificiary_name);
- 
-  setDropdownVisible(false);
-};
+  const handleUserSelect = (user) => {
+    setFilterInput(user.benificiary_name);
 
- 
+    setDropdownVisible(false);
+  };
+
+
 
   const [dateRange, setDateRange] = useState(null);
   const handleStatusFilter = (event) => {
@@ -2338,13 +2338,25 @@ const handleUserSelect = (user) => {
                   type="text"
                   className="form-control border-start-0 rounded-end"
                   placeholder="Enter amount"
-                  style={{ boxShadow: 'none', outline: "none" }}
+                  onKeyPress={(e) => {
+                    if (!/^\d$/.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  onPaste={(e) => {
+
+                    const paste = e.clipboardData.getData('text');
+                    if (!/^\d+$/.test(paste)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  style={{ boxShadow: 'none', outline: "none", fontFamily: "Gilroy", border:"1px solid #DCDCDC" }}
                 />
               </div>
 
 
               <div className="text-end mt-3">
-                <Button variant="primary" >
+                <Button variant="primary" style={{ fontFamily: "Gilroy"}} >
                   Transfer
                 </Button>
               </div>
