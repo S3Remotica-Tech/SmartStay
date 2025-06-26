@@ -176,7 +176,7 @@ const [changeLoading, setChangeLoading] = useState(false)
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "checkPassword":
-          setPassError("Current Password is Required");
+          setPassError("Please Enter Current Password");
           break;
 
 
