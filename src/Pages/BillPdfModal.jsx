@@ -20,6 +20,7 @@ import Barcode from '../Assets/Images/invoice_barcode.svg'
 import Gpay from '../Assets/Images/gpay.png'
 import Phonepe from '../Assets/Images/phonepe.png'
 import Paytm from '../Assets/Images/paytm.png'
+import User from '../Assets/Images/user.png'
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import PropTypes from "prop-types";
@@ -393,7 +394,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
                   <div className="row px-4 mt-3">
                     <div className="col-md-6 mb-3">
                       <p className="  mb-1" style={{ color: 'rgba(48, 80, 210, 1)', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill to:</p>
-                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}>Mr. <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{userdetails?.name}</span></p>
+                      <p className="ms-1 mb-1 " style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={User} alt="user" /> <span className="ms-2" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)',marginLeft:8 }}>{userdetails?.name}</span></p>
                       <p className="mb-1"><img src={Dial} alt="mob" />
 
                         <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>  + {userdetails &&

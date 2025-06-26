@@ -5,7 +5,7 @@ function LoaderComponent() {
     <div
     style={{
       position: 'absolute',
-        top: 200,
+        top: 180,
         right: 0,
         bottom: 0,
         left: 0,
