@@ -343,7 +343,7 @@ function SettingExpenses({ hostelid }) {
 
 
 
-  const [inputValue, setInputValue] = useState("");
+
 
 
 
