@@ -119,6 +119,14 @@ function StaticExample({ show, currentItem, setShowModal }) {
   }, [currentItem]);
 
 
+   const getMinDate = () => {
+    if (currentItem?.purchase_date) {
+      return dayjs(currentItem.purchase_date).startOf("day");
+    }
+    return dayjs().startOf("day");
+  };
+
+
 
 
 
@@ -519,6 +527,9 @@ function StaticExample({ show, currentItem, setShowModal }) {
                         setSelectedDate(date ? date.toDate() : null);
                       }}
                       getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                       disabledDate={(current) =>
+                         current && current < getMinDate()
+                             }
                     />
                   </div>
                 </Form.Group>
