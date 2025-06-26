@@ -1189,7 +1189,7 @@ function EB_Hostel() {
                       style={{
 
 
-                        height: sortedData.length >= 5 || sortedData.length >= 5 ? "340px" : "auto",
+                        height: sortedData.length >= 5 || sortedData.length >= 7 ? "450px" : "auto",
 
                         overflow: "auto",
                         marginBottom: 20,
@@ -1552,7 +1552,7 @@ function EB_Hostel() {
                     </div>
                   )}
 
-                {electricityFilterddata?.length >= 5 && (
+                {electricityFilterddata?.length >= 7 && (
                   <nav
 
                     style={{
@@ -1585,7 +1585,7 @@ function EB_Hostel() {
                           boxShadow: "none",
                         }}
                       >
-                        <option value={5}>5</option>
+                       
                         <option value={10}>10</option>
                         <option value={50}>50</option>
                         <option value={100}>100</option>

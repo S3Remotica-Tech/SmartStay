@@ -446,7 +446,7 @@ function EBHostelReading(props) {
                   className='show-scrolls'
                   style={{
 
-                    height: sortedData.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
+                    height: sortedData.length >= 8 || sortedData.length >= 8 ? "410px" : "auto",
                     overflow: "auto",
                     borderTop: "1px solid #E8E8E8",
                     marginBottom: 20,

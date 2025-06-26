@@ -74,14 +74,14 @@ function UserlistWalkin(props) {
   const calledOnceRef = useRef(false);
   
   useEffect(() => {
-    if (state.login.selectedHostel_Id && !calledOnceRef.current) {
+  
       setWalkingLoader(true);
       dispatch({
         type: "WALKINCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
       calledOnceRef.current = true;
-    }
+    
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
