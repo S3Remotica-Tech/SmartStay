@@ -451,17 +451,17 @@ const [changeLoading, setChangeLoading] = useState(false)
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "firstName":
-          setFirstNameError("First Name Required");
+          setFirstNameError("Please Enter First Name");
           break;
         case "emilId":
-          setEmailError("Email Id Required");
+          setEmailError("Please Enter Email Id ");
           break;
         case "Phone":
-          setPhoneError("Phone Number Required");
+          setPhoneError("Please Enter Phone Number");
           break;
 
         case "password":
-          setPasswordError("Password Required");
+          setPasswordError("Please Enter Password");
           break;
 
         case "City":
@@ -524,7 +524,7 @@ const [changeLoading, setChangeLoading] = useState(false)
 
 
     if (!Phone) {
-      setPhoneError("Mobile Number Required"); hasError = true;
+      setPhoneError("Please Enter Mobile Number"); hasError = true;
     } else if (!/^\d{10}$/.test(Phone)) {
       setPhoneError("Please Enter Valid Mobile Number"); hasError = true;
     } else setPhoneError("");
@@ -717,10 +717,10 @@ const [changeLoading, setChangeLoading] = useState(false)
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "newPassword":
-          setNewPassError("New Password is Required");
+          setNewPassError("Please Enter New Password");
           break;
         case "confirmPassword":
-          setConformPasswordError("Confirm Password is Required");
+          setConformPasswordError("Please Enter Confirm Password");
           break;
 
         default:
