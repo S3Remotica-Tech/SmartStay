@@ -136,7 +136,7 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings?.alreadycategoryerror) {
-
+      setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
       }, 3000);
@@ -145,11 +145,9 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     setLoading(true);
-
-
-    dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } });
-
-
+    if (hostelid) {
+      dispatch({ type: 'EXPENCES-CATEGORY-LIST', payload: { hostel_id: hostelid } });
+    }
     const timeout = setTimeout(() => {
       setLoading(false);
     }, 4000);
@@ -226,7 +224,7 @@ function SettingExpenses({ hostelid }) {
   const [initialSubCategory, setInitialSubCategory] = useState({});
   const [initialCategory, setInitialCategory] = useState({});
 
- 
+
   const updateType = () => {
 
     dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
@@ -663,7 +661,7 @@ function SettingExpenses({ hostelid }) {
                   <ul className="p-2 m-0">
                     {category.subcategory?.length > 0 ? (
                       category.subcategory.map((sub) => (
-                        <li key={sub.subcategory_Id} className="d-flex justify-content-between align-items-center mb-2" style={{fontFamily:"Gilroy"}}>
+                        <li key={sub.subcategory_Id} className="d-flex justify-content-between align-items-center mb-2" style={{ fontFamily: "Gilroy" }}>
                           {sub.subcategory}
                           <span>
                             <img src={Editbtn} height={15} width={15} alt="edit" style={{ cursor: "pointer" }} onClick={() => handleEditCategory(sub)} />
@@ -672,7 +670,7 @@ function SettingExpenses({ hostelid }) {
                         </li>
                       ))
                     ) : (
-                      <span className="text-muted" style={{fontFamily:"Gilroy"}}>No Subcategories Available</span>
+                      <span className="text-muted" style={{ fontFamily: "Gilroy" }}>No Subcategories Available</span>
                     )}
                   </ul>
                 </div>
