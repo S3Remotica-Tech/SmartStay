@@ -300,7 +300,7 @@ const ComplianceList = (props) => {
     }
 
     if (compliant === "") {
-      setStatusErrorType("Please Select a User");
+      setStatusErrorType("Please Select User");
     } else {
       dispatch({
         type: "COMPLIANCEASSIGN",

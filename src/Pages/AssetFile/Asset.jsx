@@ -596,7 +596,7 @@ dayjs.extend(isSameOrBefore);
                         onChange={handlePriceRangeChange}
                         className='' id="vendor-select" style={{
                           color: "rgba(34, 34, 34, 1)", fontWeight: 600,
-                          fontFamily: "Gilroy", height: "40px"
+                          fontFamily: "Gilroy", height: "40px",cursor:"pointer"
                         }}>
                         <option value="All">All</option>
                         <option value="0-100">0-100</option>
