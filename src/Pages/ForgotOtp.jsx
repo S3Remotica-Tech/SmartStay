@@ -1,4 +1,4 @@
-
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
   const dispatch = useDispatch();
   const [otpValue, setOtpValue] = useState('');
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
 
 
@@ -41,22 +41,22 @@ const OtpVerificationModal = ({ show, handleModalClose, Email_Id }) => {
   };
 
 
-const handleInternalClose = () => {
-  setOtpErrors('');
-  dispatch({ type: 'CLEAR_OTP_INVALID_ERROR' }); 
-  setOtpValue('');
-  inputRefs.forEach(ref => {
-    if (ref.current) ref.current.value = '';
-  });
-  handleModalClose(); 
-};
+  const handleInternalClose = () => {
+    setOtpErrors('');
+    dispatch({ type: 'CLEAR_OTP_INVALID_ERROR' });
+    setOtpValue('');
+    inputRefs.forEach(ref => {
+      if (ref.current) ref.current.value = '';
+    });
+    handleModalClose();
+  };
 
 
 
 
 
   const handleOtpVerify = () => {
-    dispatch({ type: 'CLEAR_OTP_INVALID_ERROR'})
+    dispatch({ type: 'CLEAR_OTP_INVALID_ERROR' })
     if (!otpValue) {
       setOtpErrors("Please enter valid otp");
       return;
@@ -67,13 +67,13 @@ const handleInternalClose = () => {
         payload: { Email_Id: Email_Id, OTP: otpValue },
       });
       setLoading(true)
-       if (inputRefs) {
-      inputRefs.forEach((ref) => {
-        if (ref.current) ref.current.value = null;
-      });
+      if (inputRefs) {
+        inputRefs.forEach((ref) => {
+          if (ref.current) ref.current.value = null;
+        });
+      }
     }
-    }
-   
+
   };
 
 
@@ -83,6 +83,41 @@ const handleInternalClose = () => {
     }
 
   }, [state.NewPass?.otpInvalidError])
+
+
+  const handleSendOtp = () => {
+    if (Email_Id) {
+      dispatch({ type: 'OTPSEND', payload: { email: Email_Id } });
+      setLoading(true)
+    }
+  }
+
+
+  useEffect(() => {
+    if (state.NewPass?.statusCode === 200) {
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_OTP_STATUS_CODE' })
+      }, 1000)
+
+    }
+
+  }, [state.NewPass?.statusCode])
+
+
+
+  const handleKeyDown = (e, index) => {
+    if (
+      (e.key === 'Backspace' || e.key === 'Delete') &&
+      e.target.value === '' &&
+      index > 0
+    ) {
+      inputRefs[index - 1].current.focus();
+    }
+  };
+
+
+
 
   return (
     <Modal show={show} onHide={handleInternalClose} backdrop="static">
@@ -102,33 +137,7 @@ const handleInternalClose = () => {
         </div>
         <div className='d-flex justify-content-evenly mt-2 ' style={{ position: "relative" }}>
 
-          {loading && <div
-            style={{
-              position: 'absolute',
-              top: -100,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              display: 'flex',
-              height: "50vh",
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
+
           {inputRefs.map((ref, index) => (
             <div key={index}>
               <input
@@ -138,6 +147,7 @@ const handleInternalClose = () => {
                 aria-label=".form-control-lg example"
                 maxLength={1}
                 onChange={(e) => handleOtpInputChange(e, index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
                 ref={ref}
                 autoFocus={index === 0}
               />
@@ -145,6 +155,34 @@ const handleInternalClose = () => {
           ))}
         </div>
       </Modal.Body>
+
+
+      {loading && <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'transparent',
+          opacity: 0.75,
+          zIndex: 10,
+        }}
+      >
+        <div
+          style={{
+            borderTop: '4px solid #1E45E1',
+            borderRight: '4px solid transparent',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            animation: 'spin 1s linear infinite',
+          }}
+        ></div>
+      </div>}
+
 
       {otpErrors ? <div className='d-flex align-items-center p-1'>
         <MdError style={{ color: "red", marginRight: '5px' }} />
@@ -164,8 +202,10 @@ const handleInternalClose = () => {
 
 
       <Modal.Footer>
-
-        <Button onClick={handleOtpVerify} style={{ backgroundColor: "#1E45E1", fontWeight: 600, height: 50, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" }}>
+        <Button onClick={handleSendOtp} style={{ padding: "10px 15px", width: 130, backgroundColor: "#DCDCDC", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", border: "1px solid  #DCDCDC", color: "#222" }}>
+          Resend Otp
+        </Button>
+        <Button onClick={handleOtpVerify} style={{ padding: "10px 15px", width: 130, backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy" }}>
           Verify
         </Button>
       </Modal.Footer>
