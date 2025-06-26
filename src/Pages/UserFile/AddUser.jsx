@@ -135,12 +135,6 @@ function User({ show, editDetails, setAddUserForm, edit }) {
     setError("");
   };
 
-  // const handlePassword = (e) => {
-  //   setPassword(e.target.value);
-  //   setPasswordError("");
-  //   setError("");
-  // };
-
   const handlePassword = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
@@ -678,24 +672,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       </InputGroup.Text>
                     </InputGroup>
                   </Form.Group>
-                  {/* {passwordError && (
-                    <p
-                      style={{
-                        color: "red",
-                        fontSize: 12,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        display: "flex",
-                        alignItems: "center",
-                        margin: 0,
-                      }}
-                    >
-                      <span style={{ fontSize: "15px", marginRight: "5px" }}>
-                        <MdError style={{ marginBottom: "4px" }} />
-                      </span>
-                      {passwordError}
-                    </p>
-                  )} */}
+                 
 
                   {passwordError && (
                     <p
