@@ -621,6 +621,11 @@ function EB_Hostel() {
     setSelectedDate(date);
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
+
+   const getMinDate = () => {
+    return dayjs().startOf("day");
+  };
+  
   const handleSearch = () => {
     setSearch(!search);
   };
@@ -2029,6 +2034,8 @@ function EB_Hostel() {
                         triggerNode.closest(".datepicker-wrapper")
                       }
                       dropdownClassName="custom-datepicker-popup"
+                         disabledDate={(current) =>
+                    current && current < getMinDate() }
                     />
                   </div>
                 </Form.Group>
