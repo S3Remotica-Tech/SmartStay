@@ -213,6 +213,9 @@ function EBRoomReading(props) {
     reading: "",
     selectedDate: "",
   });
+  
+  
+
   const handleEditRoomReading = (item) => {
     setUnitAmount('')
     setebEditShow(true);
@@ -241,6 +244,15 @@ function EBRoomReading(props) {
       selectedDate: item.date || "",
     });
   };
+
+
+  const getMinDate = () => {
+  if (initialStateAssign.selectedDate) {
+    return dayjs(initialStateAssign.selectedDate).startOf("day");
+  }
+  return dayjs().startOf("day");
+};
+
 
 
 
@@ -1363,6 +1375,8 @@ function EBRoomReading(props) {
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                     dropdownClassName="custom-datepicker-popup"
+                  disabledDate={(current) =>
+                    current && current < getMinDate() }
                   />
 
                 </div>
