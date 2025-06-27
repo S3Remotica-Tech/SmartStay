@@ -9,7 +9,15 @@
   color: rgba(30, 69, 225, 1)!important; 
 }
 
-
+.Profile_Hover:hover{
+   background-color:  #FFFFFF!important; 
+   padding: 10px;
+  border-radius: 8px;
+  margin-right: 4px;
+}
+.Profile_Hover{
+   padding: 10px;
+}
 .sidebar::-webkit-scrollbar {
   display: none !important;
 }

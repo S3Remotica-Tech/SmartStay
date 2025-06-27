@@ -158,7 +158,7 @@ function Sidebar() {
           );
           localStorage.setItem("login", encryptData.toString());
         }
-      } 
+      }
       setTimeout(() => {
         dispatch({ type: "CLEAR_ACCOUNT_STATUS_CODE" });
       }, 100);
@@ -350,13 +350,13 @@ function Sidebar() {
     state.UsersList.statusCodeForhostelListNewDetails,
   ]);
 
- 
+
 
   const handleShowsettingsPG = (settingNewDesign) => {
-     handlePageClick("settingNewDesign");
+    handlePageClick("settingNewDesign");
     handledisplaySettingsPG(settingNewDesign);
     dispatch({ type: "MANAGE_PG" });
-     setIsSidebarOpen(false);
+    setIsSidebarOpen(false);
   };
 
   const [hoveredIcon, setHoveredIcon] = useState(null);
@@ -411,6 +411,7 @@ function Sidebar() {
               left: 0,
               overflowY: "auto",
               zIndex: 1000,
+              minWidth: 210,
             }}
           >
             <div className="container" style={{ position: "relative" }}>
@@ -647,8 +648,8 @@ function Sidebar() {
                     listStyleType: "none",
                     display: "flex",
                     position: "relative",
-                    marginTop:manageOpen ?"2px":"10px"
-                    
+                    marginTop: manageOpen ? "2px" : "10px"
+
                   }}
                 >
                   <img
@@ -780,7 +781,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "banking" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("banking")}
-                  style={{ listStyleType: "none", display: "flex", marginTop:manageOpen ?"2px":"10px"  }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                 >
                   <img
                     src={currentPage === "banking" ? bank : bankblank}
@@ -805,7 +806,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "invoice" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("invoice")}
-                  style={{ listStyleType: "none", display: "flex" ,marginTop:manageOpen ?"2px":"10px" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                 >
                   <img
                     src={currentPage === "invoice" ? Invoice2 : Invo}
@@ -830,7 +831,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "eb" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("eb")}
-                  style={{ listStyleType: "none", display: "flex",marginTop:manageOpen ?"2px":"8px"  }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
                     src={currentPage === "eb" ? Eb2 : Eb}
@@ -854,12 +855,12 @@ function Sidebar() {
                   className={` align-items-center list-Item ${currentPage === "compliance" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("compliance")}
-                  style={{ listStyleType: "none", display: "flex", marginTop:manageOpen ?"2px":"8px" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
                     src={currentPage === "compliance" ? Compl2 : Compl}
                     alt="compliance"
-                    style={{ height: 20, width: 20,  }}
+                    style={{ height: 20, width: 20, }}
                   />
                   <span
                     className=" Title"
@@ -877,7 +878,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "expenses" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("expenses")}
-                  style={{ listStyleType: "none", display: "flex", marginTop:manageOpen ?"2px":"8px"}}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
                     src={currentPage === "expenses" ? Expense2 : Expense}
@@ -901,7 +902,7 @@ function Sidebar() {
                   className={` align-items-center list-Item ${currentPage === "reports" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("reports")}
-                  style={{ listStyleType: "none", display: "flex", marginTop:manageOpen ?"2px":"8px"  }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
                     src={currentPage === "reports" ? Repo2 : Repo}
@@ -924,7 +925,6 @@ function Sidebar() {
             </div>
 
             <div
-              className="mb-0 sidebar-bottom"
               style={{
                 position: "absolute",
                 bottom: 0,
@@ -933,16 +933,35 @@ function Sidebar() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                height:"auto"
+                justifyContent: "center",
+                height: "auto",
+                padding: "12px 0",
+
               }}
             >
-              <ul className=" ">
-                <li
-                  className={` align-items-center list-Items ${currentPage === "profile" ? "active" : ""
-                    }`}
-                  style={{ listStyleType: "none", display: "flex", width: 190 }}
-                >
-                  <div className="mr-3" style={{ cursor: "pointer" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  height: "fit-content",
+                  width: "100%",
+                  padding: 16,
+                  marginBottom: 12,
+                }}
+              >
+                <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "-20px auto" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column", 
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%", 
+                      textAlign: "center",
+                      margin: "0 auto"
+                    }}
+                  >
                     <Image
                       src={
                         profiles === "null" ||
@@ -961,25 +980,29 @@ function Sidebar() {
                     />
                   </div>
 
-                  <div style={{ display: "flex", flexDirection: "column" }}>
+                  <div style={{ display: "flex", flexDirection: "column", marginLeft: 12 }}>
                     <span
-                      className="ms-3 Title"
+
+                      title={profilename}
                       style={{
                         fontSize: 14,
                         fontWeight: 600,
-                        display: "inline-block",
                         fontFamily: "Gilroy",
                         textTransform: "capitalize",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "inline-block",
+                        maxWidth: 120,
                       }}
+
                     >
                       {profilename}
                     </span>
                     <span
-                      className="ms-3 Title"
                       style={{
                         fontSize: 12,
                         fontWeight: 600,
-                        display: "inline-block",
                         fontFamily: "Gilroy",
                         color: "blue",
                       }}
@@ -987,18 +1010,23 @@ function Sidebar() {
                       Admin
                     </span>
                   </div>
-                </li>
-              </ul>
-              <div style={{ border: "1px solid white " }}></div>
+                </div>
+              </div>
+
 
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-around",
+                  width: "100%",
+                  marginTop: 8,
+                  zIndex: 1000,
+                  overflow: "visible"
+
                 }}
-                className="w-100 four-icons"
               >
+
                 <div
                   onMouseEnter={() => handleMouseEnter("settings")}
                   onMouseLeave={handleMouseLeave}
@@ -1018,7 +1046,7 @@ function Sidebar() {
                         top: "-30px",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        backgroundColor: "White",
+                        backgroundColor: "white",
                         color: "black",
                         padding: "4px 8px",
                         borderRadius: "4px",
@@ -1031,8 +1059,8 @@ function Sidebar() {
                   )}
                 </div>
 
+
                 <div
-                  className="logout"
                   onMouseEnter={() => handleMouseEnter("logout")}
                   onMouseLeave={handleMouseLeave}
                   onClick={handleShowLogout}
@@ -1042,11 +1070,7 @@ function Sidebar() {
                     cursor: "pointer",
                   }}
                 >
-                  <img
-                    src={Logout}
-                    alt="Logout Icon"
-                    style={{ width: 24, height: 24 }}
-                  />
+                  <img src={Logout} alt="Logout Icon" style={{ width: 24, height: 24 }} />
                   {hoveredIcon === "logout" && (
                     <span
                       style={{
@@ -1055,7 +1079,7 @@ function Sidebar() {
                         top: "-30px",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        backgroundColor: "White",
+                        backgroundColor: "white",
                         color: "black",
                         padding: "5px 8px",
                         borderRadius: "4px",
@@ -1067,6 +1091,7 @@ function Sidebar() {
                     </span>
                   )}
                 </div>
+
 
                 <div
                   onMouseEnter={() => handleMouseEnter("helpDoc")}
@@ -1086,7 +1111,7 @@ function Sidebar() {
                         top: "-30px",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        backgroundColor: "White",
+                        backgroundColor: "white",
                         color: "black",
                         padding: "5px 8px",
                         borderRadius: "4px",
@@ -1099,6 +1124,7 @@ function Sidebar() {
                   )}
                 </div>
 
+
                 <div
                   onMouseEnter={() => handleMouseEnter("helpVideo")}
                   onMouseLeave={handleMouseLeave}
@@ -1106,6 +1132,9 @@ function Sidebar() {
                     position: "relative",
                     display: "inline-block",
                     cursor: "pointer",
+                    zIndex: 10,
+                    overflow: "visible"
+
                   }}
                 >
                   <img src={HelpVideoIcon} alt="Help Video Icon" />
@@ -1115,14 +1144,15 @@ function Sidebar() {
                         display: "block",
                         position: "absolute",
                         top: "-30px",
-                        left: "50%",
+                        left: "0%",
                         transform: "translateX(-50%)",
-                        backgroundColor: "White",
+                        backgroundColor: "white",
                         color: "black",
                         padding: "5px 8px",
                         borderRadius: "4px",
                         fontSize: "12px",
                         whiteSpace: "nowrap",
+                        zIndex: 1000,
                       }}
                     >
                       Help Video
@@ -1131,6 +1161,7 @@ function Sidebar() {
                 </div>
               </div>
             </div>
+
           </Col>
           <Col
             className="bg-white main-content"
@@ -1138,10 +1169,11 @@ function Sidebar() {
             md={{ span: 10, offset: 2 }}
             sm={{ span: 9, offset: 3 }}
             xs={{ span: 9, offset: 3 }}
-             style={{
-        height: "100vh",
-        overflowY: "auto", 
-      }}
+            style={{
+              height: "100vh",
+              overflowY: "auto",
+              zIndex: 10,
+            }}
           >
             {currentPage === "dashboard" && (
               <Dashboards
@@ -1221,7 +1253,7 @@ function Sidebar() {
           </Col>
         </Row>
       </Container>
-     
+
 
       <Modal
         show={logoutformshow}

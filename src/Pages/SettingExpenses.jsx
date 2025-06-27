@@ -184,7 +184,7 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
-
+setShowForm(false)
       setFormLoading(false)
       setCategoryErrmsg('')
       if (state.Settings.editexpencesStatuscode === 200) {
@@ -654,8 +654,7 @@ setFormLoading(true)
                   border: "1px solid #ddd",
                   borderRadius: "0 0 10px 10px",
                   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                  // padding: "10px",
-                  maxHeight: "70px",
+                                   maxHeight: "70px",
                   overflowY: "auto",
                   marginTop: "5px"
                 }}>
