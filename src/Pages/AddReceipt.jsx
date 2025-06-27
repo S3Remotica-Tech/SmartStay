@@ -19,7 +19,7 @@ const AddReceiptForm = (props) => {
   const dispatch = useDispatch()
 
   const [customerinvoicefilter, setCustomerInvoiceFilter] = useState([])
-const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
   const [customername, setCustomerName] = useState('');
   const [reference_id, setReferenceId] = useState('')
   const [invoicenumber, setInvoiceNumber] = useState('')
@@ -41,7 +41,6 @@ const [formLoading, setFormLoading] = useState(false)
   const [paymentError, setPaymentError] = useState("");
 
   const [allfielderrmsg, setAllFieldErrmsg] = useState('')
-
 
   const receiptRef = useRef(null);
 
@@ -327,7 +326,17 @@ const [formLoading, setFormLoading] = useState(false)
       setAllFieldErrmsg("No Changes Detected");
       return;
     }
+const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedPaymentDate = dayjs(formatpaymentdate).format("YYYY-MM-DD");
+
+      if (dayjs(formattedPaymentDate).isBefore(joiningDate)) {
+        setPaymentDateErrmsg("Before join date not allowed");
+        return;
+      }
+    }
 
 
     if (!edit && customername && invoicenumber && formatpaymentdate && reference_id && received_amount && modeOfPayment) {
@@ -339,7 +348,7 @@ const [formLoading, setFormLoading] = useState(false)
 
         }
       });
-setFormLoading(true)
+      setFormLoading(true)
 
     }
 
@@ -392,7 +401,7 @@ setFormLoading(true)
 
   useEffect(() => {
     if (state.InvoiceList.ReceiptAddErrorStatuscode === 201) {
-setFormLoading(false)
+      setFormLoading(false)
       setAllFieldErrmsg(state.InvoiceList.ReceiptErrmsg);
       setTimeout(() => {
         dispatch({ type: 'REMOVE_STATUS_ERROR_RECEIPTS_ADD' });
@@ -750,7 +759,7 @@ setFormLoading(false)
 
 
                 <DatePicker
-                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily:"Gilroy" }}
+                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={payment_date ? dayjs(payment_date) : null}
@@ -893,34 +902,34 @@ setFormLoading(false)
 
         </div>
 
-  {formLoading && <div
+        {formLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
             style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
             }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
+          ></div>
+        </div>}
         {allfielderrmsg.trim() !== "" && (
           <div>
-            <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', textAlign: "center" , fontFamily:"Gilroy"}}>
+            <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', textAlign: "center", fontFamily: "Gilroy" }}>
               {allfielderrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: 2 }} />} {allfielderrmsg}
             </p>
           </div>
