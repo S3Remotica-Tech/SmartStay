@@ -659,7 +659,7 @@ function AddPg({ show, handleClose, currentItem }) {
         )}
 
 
-        <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+        <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-1 me-3">
 
 
 
