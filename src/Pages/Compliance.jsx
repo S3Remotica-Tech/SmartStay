@@ -35,7 +35,7 @@ const Compliance = () => {
   const { RangePicker } = DatePicker;
   const initialValuesRef = useRef({});
   const [formLoading, setFormLoading] = useState(false)
- 
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [id, setId] = useState('')
   const [Complainttype, setComplainttype] = useState('');
   const [description, setDescription] = useState('')
@@ -69,7 +69,7 @@ const Compliance = () => {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
 
-  
+
 
   const complaintList = useSelector((state) => state.Settings.Complainttypelist);
 
@@ -195,12 +195,12 @@ const Compliance = () => {
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setLoading(true)
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: state.login.selectedHostel_Id} })
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       dispatch({
         type: "USERLIST",
-        payload: { hostel_id: hosId },
+        payload: { hostel_id: state.login.selectedHostel_Id },
       });
-    }else{
+    } else {
       setFilteredUsers([]);
       setLoading(false)
     }
@@ -208,16 +208,16 @@ const Compliance = () => {
   }, [state.login.selectedHostel_Id])
 
 
-useEffect(() => {
-  const interval = setInterval(() => {
-    if (!state.login.selectedHostel_Id) {
-      setFilteredUsers([]);
-      setLoading(false);
-    }
-  }, 100); 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!state.login.selectedHostel_Id) {
+        setFilteredUsers([]);
+        setLoading(false);
+      }
+    }, 100);
 
-  return () => clearInterval(interval); 
-}, []);
+    return () => clearInterval(interval);
+  }, []);
 
 
 
@@ -362,23 +362,23 @@ useEffect(() => {
   };
 
   const [selectedDateRange, setSelectedDateRange] = useState([]);
- const handleDateChange = (dates) => {
-  if (!dates || dates.length === 0) {
-    setSelectedDateRange([]);
-    setStatusfilter("All");
-    setFilteredUsers(state.ComplianceList?.Compliance);
-  } else {
-    setSelectedDateRange(dates);
-    
-    const filtered = (state.ComplianceList?.Compliance || []).filter((item) =>
-      dayjs(item.date).isSameOrAfter(dayjs(dates[0]), 'day') &&
-      dayjs(item.date).isSameOrBefore(dayjs(dates[1]), 'day')
-    );
+  const handleDateChange = (dates) => {
+    if (!dates || dates.length === 0) {
+      setSelectedDateRange([]);
+      setStatusfilter("All");
+      setFilteredUsers(state.ComplianceList?.Compliance);
+    } else {
+      setSelectedDateRange(dates);
 
-    setFilteredUsers(filtered);
-    setCurrentPage(1);
-  }
-};
+      const filtered = (state.ComplianceList?.Compliance || []).filter((item) =>
+        dayjs(item.date).isSameOrAfter(dayjs(dates[0]), 'day') &&
+        dayjs(item.date).isSameOrBefore(dayjs(dates[1]), 'day')
+      );
+
+      setFilteredUsers(filtered);
+      setCurrentPage(1);
+    }
+  };
 
 
   useEffect(() => {
@@ -461,6 +461,7 @@ useEffect(() => {
     setShow(true);
   }
   const handleClose = () => {
+    setJoingDateErrmsg('');
     setShow(false);
     setFormLoading(false)
     setSelectedUserName('');
@@ -513,22 +514,39 @@ useEffect(() => {
       }, 10000);
       return;
     }
-
-
-
-
+    let isValid = true;
 
     if (!selectedUsername) {
       setUserErrmsg('Please Select  Customer')
+      isValid = false;
     }
 
     if (!Complainttype) {
       setComplaintTypeErrmsg('Please Select  Complaint Type')
+      isValid = false;
     }
 
     if (!selectedDate) {
       setDateErrmsg('Please Select date')
+      isValid = false;
     }
+    if (selectedDate && userid) {
+      const selectedUser = state.UsersList.Users.find(item => item.User_Id === userid);
+      if (selectedUser) {
+        const joiningDate = new Date(selectedUser.user_join_date);
+        const complaintDate = new Date(selectedDate);
+        const joinDateOnly = new Date(joiningDate.toDateString());
+        const complaintDateOnly = new Date(complaintDate.toDateString());
+        if (complaintDateOnly < joinDateOnly) {
+          setJoingDateErrmsg('Before joining date not allowed');
+          isValid = false;
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
+
+    if (!isValid) return;
 
     setEdit(false)
 
@@ -772,7 +790,7 @@ useEffect(() => {
                 >
                   <div className="d-flex justify-content-between align-items-center flex-wrap" style={{ paddingTop: 11 }}>
                     <div className=" ms-2" >
-                      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, marginTop: 5, marginLeft: 3, fontFamily:"Gilroy" }}>Complaints</label>
+                      <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, marginTop: 5, marginLeft: 3, fontFamily: "Gilroy" }}>Complaints</label>
                     </div>
 
                     <div className="d-flex flex-wrap align-items-center gap-2">
@@ -1106,7 +1124,7 @@ useEffect(() => {
                     onHide={handleClose}
                     centered
                     backdrop="static">
-                    <Modal.Dialog style={{ maxWidth: 950, paddingRight: "10px", borderRadius: "30px", }} className='m-0 p-0'>
+                    <Modal.Dialog style={{ minWidth: "auto", paddingRight: "10px", borderRadius: "30px", }} className='m-0 p-0'>
 
                       <Modal.Header style={{}}>
                         <div style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }}>{edit ? "Edit Compliant" : "Add an complaint"}</div>
@@ -1395,7 +1413,7 @@ useEffect(() => {
                           </div>
 
 
-                          
+
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                             <Form.Group className="" controlId="exampleForm.ControlInput1">
                               <Form.Label
@@ -1417,38 +1435,48 @@ useEffect(() => {
 
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                             <Form.Group className='' controlId="purchaseDate">
-                              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 , marginBottom:'2px' ,}}>
+                              <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500, marginBottom: '2px', }}>
                                 Complaint Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
 
                               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                 <DatePicker
-                                  style={{ width: "100%", height: 50, cursor: "pointer", fontFamily:"Gilroy" }}
+                                  style={{ width: "100%", height: 50, cursor: "pointer", fontFamily: "Gilroy" }}
                                   format="DD/MM/YYYY"
                                   placeholder="DD/MM/YYYY"
                                   value={selectedDate ? dayjs(selectedDate) : null}
                                   onChange={(date) => {
                                     setDateErrmsg('')
+                                    setJoingDateErrmsg('')
                                     setSelectedDate(date ? date.toDate() : null);
                                   }}
                                   getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                                 />
                               </div>
-                                 {dateerrmsg.trim() !== "" && (
-                              <div className="d-flex align-items-center">
-                                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                  {dateerrmsg}
-                                </label>
-                              </div>
-                            )}
+                              {dateerrmsg.trim() !== "" && (
+                                <div className="d-flex align-items-center">
+                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {dateerrmsg}
+                                  </label>
+                                </div>
+                              )}
+                              {joiningDateErrmsg.trim() !== "" && (
+                                <div className="d-flex align-items-center">
+                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                    {joiningDateErrmsg}
+                                  </label>
+                                </div>
+                              )}
+
                             </Form.Group>
 
-                         
+
 
                           </div>
 
-                       
+
 
 
 
@@ -1562,7 +1590,7 @@ useEffect(() => {
 
                       </Modal.Body>
 
- 
+
 
 
 
