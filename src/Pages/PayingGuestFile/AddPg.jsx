@@ -898,17 +898,19 @@ function AddPg({ show, handleClose, currentItem }) {
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label
+                  <Form.Label
                   style={{
                     fontSize: 14,
                     color: "#222222",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
+                    marginTop: "8px",
+                    marginBottom: "9px",
                   }}
                 >
-                  Email ID{" "}
-                  <span style={{ color: "white", fontSize: "20px" }}>*</span>
-                </Form.Label>
+                  Email ID
+                 
+                </Form.Label>  
                 <Form.Control
                   value={email}
                   onChange={handleEmailChange}

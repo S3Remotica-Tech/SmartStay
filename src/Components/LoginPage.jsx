@@ -81,6 +81,7 @@ const MyComponent = () => {
 
 
   const handleLogin = () => {
+    dispatch({ type: 'RESET_ALL' });
     dispatch({ type: 'CLEAR_EMAIL_ERROR' });
     dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
     setEmailError('');

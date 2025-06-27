@@ -235,6 +235,12 @@ function CreateAccountPage() {
     navigates("/All_Landing_pages");
   };
   const handleCreateAccount = async () => {
+    dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
+    dispatch({ type: 'CLEAR_MOBILE_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+
+
     let hasError = false;
 
     if (!firstName && !phoneNo && !emailID && !password && !confirmpassword && !countryCode) {
@@ -309,6 +315,19 @@ function CreateAccountPage() {
     });
     setLoading(true)
   };
+
+
+  useEffect(() => {
+    if (state.createAccount?.emailError || state.createAccount?.mobileError || state.createAccount?.passwordDoesnotMatchError || state.createAccount?.email_mobile_Error) {
+      setLoading(false)
+    }
+
+  }, [state.createAccount?.emailError, state.createAccount?.mobileError, state.createAccount?.passwordDoesnotMatchError, state.createAccount?.email_mobile_Error])
+
+
+
+
+
 
 
   return (

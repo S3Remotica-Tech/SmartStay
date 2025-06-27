@@ -17,7 +17,6 @@ function PayingHostel(props) {
   const dispatch = useDispatch();
 
   const [showDots, setShowDots] = useState(null);
-
   const [hoverPgCard, setHoverPgCard] = useState(false);
   const popupRef = useRef(null);
   const [pgDeleteError, setPgDeleteError] = useState("");
@@ -40,8 +39,6 @@ function PayingHostel(props) {
   const handleDotsClick = () => {
     setShowDots(!showDots);
   };
-
-
 
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -116,21 +113,17 @@ function PayingHostel(props) {
       {props.filteredData[0] && (
         <div>
           <Card
-            className="animated-text ms-0 h-100 "
+            className="animated-text ms-0 h-100"
             style={{
               borderRadius: 16,
               border: hoverPgCard
-                ? " 1px solid #1E45E1"
-                : hoverPgCard
-                  ? "1px solid #e6e6e6"
-                  : "1px solid #E6E6E6",
+                ? "1px solid #1E45E1"
+                : "1px solid #E6E6E6",
               transition: "border 0.3s ease, box-shadow 0.3s ease",
               height: "auto",
               boxShadow: hoverPgCard
                 ? "0px 4px 10px rgba(30, 69, 225, 0.4)"
-                : hoverPgCard
-                  ? "0px 4px 10px rgba(156, 156, 156, 0.3)"
-                  : "0px 2px 5px rgba(0, 0, 0, 0.1)",
+                : "0px 2px 5px rgba(0, 0, 0, 0.1)",
             }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -138,13 +131,13 @@ function PayingHostel(props) {
             <Card.Body style={{ padding: 10 }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap">
                 <div className="d-flex gap-2 align-items-center">
-                  <div className="">
+                  <div>
                     <Image
                       src={
-                        props.filteredData[0] &&
-                          props.filteredData[0].profile !== undefined &&
-                          props.filteredData[0].profile !== null &&
-                          props.filteredData[0].profile !== "0"
+                        props.filteredData[0]?.profile &&
+                        props.filteredData[0].profile !== "undefined" &&
+                        props.filteredData[0].profile !== null &&
+                        props.filteredData[0].profile !== "0"
                           ? props.filteredData[0].profile
                           : Vendors
                       }
@@ -155,9 +148,7 @@ function PayingHostel(props) {
                   <div>
                     <div
                       className="pb-2"
-                      onClick={() =>
-                        handleSelectedHostel(props.filteredData[0]?.id)
-                      }
+                      onClick={() => handleSelectedHostel(props.filteredData[0]?.id)}
                     >
                       <label
                         className="hover-hostel-name"
@@ -169,7 +160,7 @@ function PayingHostel(props) {
                           textDecoration: "underline",
                         }}
                       >
-                        {props.filteredData[0] && props.filteredData[0].Name}
+                        {props.filteredData[0]?.Name}
                       </label>
                     </div>
                     <div>
@@ -206,121 +197,124 @@ function PayingHostel(props) {
                       zIndex: showDots ? 1000 : "auto",
                       backgroundColor: showDots ? "#E7F1FF" : "#fff",
                     }}
-                    onClick={() => handleDotsClick()}
+                    onClick={handleDotsClick}
                   >
-                    <PiDotsThreeOutlineVerticalFill
-                      style={{ height: 20, width: 20 }}
-                    />
-
+                    <PiDotsThreeOutlineVerticalFill style={{ height: 20, width: 20 }} />
                     {showDots && (
-                      <>
+                      <div
+                        ref={popupRef}
+                        className="pg-card"
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor: "#fff",
+                          position: "absolute",
+                          right: 50,
+                          top: 30,
+                          border: "1px solid #E0E0E0",
+                          borderRadius: 10,
+                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                          width: 140,
+                          zIndex: 1000,
+                        }}
+                      >
                         <div
-                          ref={popupRef}
-                          className="pg-card"
+                          className="d-flex gap-2 align-items-center"
+                          onClick={
+                            !props.editPermissionError
+                              ? () => handleEdit(props.filteredData[0])
+                              : undefined
+                          }
                           style={{
-                            cursor: "pointer",
-                            backgroundColor: "#fff",
-                            position: "absolute",
-                            right: 50,
-                            top: 30,
-                            border: "1px solid #E0E0E0",
-                            borderRadius: 10,
-                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                            width: 140,
-                            zIndex: 1000,
-
+                            padding: "8px 12px",
+                            width: "100%",
+                            borderTopLeftRadius: 10,
+                            borderTopRightRadius: 10,
+                            pointerEvents: props.editPermissionError ? "none" : "auto",
+                            opacity: props.editPermissionError ? 0.5 : 1,
+                            cursor: props.editPermissionError ? "not-allowed" : "pointer",
+                            transition: "background 0.2s ease-in-out",
                           }}
+                          onMouseEnter={(e) =>
+                            !props.editPermissionError &&
+                            (e.currentTarget.style.backgroundColor = "#F0F4FF")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.currentTarget.style.backgroundColor = "transparent")
+                          }
                         >
-                          <div style={{ borderRadius: 10, }}>
-                            <div
-                              className="d-flex gap-2 align-items-center"
-                              onClick={
-                                !props.editPermissionError
-                                  ? () => handleEdit(props.filteredData[0])
-                                  : undefined
-                              }
-                              style={{
-                                padding: "8px 12px",
-                                width: "100%",
-                                borderTopLeftRadius: 10,
-                                borderTopRightRadius: 10,
-                                pointerEvents: props.editPermissionError ? "none" : "auto",
-                                opacity: props.editPermissionError ? 0.5 : 1,
-                                cursor: props.editPermissionError ? "not-allowed" : "pointer",
-                                transition: "background 0.2s ease-in-out",
-                              }}
-                              onMouseEnter={(e) =>
-                                !props.editPermissionError && (e.currentTarget.style.backgroundColor = "#F0F4FF")
-                              }
-                              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
-                            >
-                              <Edit size="16" color={props.editPermissionError ? "#A0A0A0" : "#1E45E1"} />
-                              <span
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  color: props.editPermissionError ? "#A0A0A0" : "#1E45E1",
-                                }}
-                              >
-                                Edit
-                              </span>
-                            </div>
-
-
-                            <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
-
-                            <div
-                              className="d-flex gap-2 align-items-center menu-option"
-                              onClick={
-                                !props.editPermissionError
-                                  ? () => handleDelete(props.filteredData[0])
-                                  : undefined
-                              }
-                              style={{
-                                padding: "8px 12px",
-                                width: "100%",
-                                borderBottomLeftRadius: 10,
-                                borderBottomRightRadius: 10,
-                                pointerEvents: props.editPermissionError ? "none" : "auto",
-                                opacity: props.editPermissionError ? 0.5 : 1,
-                                cursor: props.editPermissionError ? "not-allowed" : "pointer",
-                                transition: "background 0.2s ease-in-out",
-                              }}
-                              onMouseEnter={(e) =>
-                                !props.editPermissionError && (e.currentTarget.style.backgroundColor = "#FFF3F3")
-                              }
-                              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
-                            >
-                              <Trash size="16" color={props.editPermissionError ? "#A0A0A0" : "#FF0000"} />
-                              <span
-                                style={{
-                                  fontSize: 14,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  color: props.editPermissionError ? "#A0A0A0" : "#FF0000",
-                                }}
-                              >
-                                Delete
-                              </span>
-                            </div>
-                          </div>
+                          <Edit
+                            size="16"
+                            color={props.editPermissionError ? "#A0A0A0" : "#1E45E1"}
+                          />
+                          <span
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: props.editPermissionError ? "#A0A0A0" : "#1E45E1",
+                            }}
+                          >
+                            Edit
+                          </span>
                         </div>
 
-                      </>
+                        <div
+                          style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }}
+                        />
+
+                        <div
+                          className="d-flex gap-2 align-items-center menu-option"
+                          onClick={
+                            !props.editPermissionError
+                              ? () => handleDelete(props.filteredData[0])
+                              : undefined
+                          }
+                          style={{
+                            padding: "8px 12px",
+                            width: "100%",
+                            borderBottomLeftRadius: 10,
+                            borderBottomRightRadius: 10,
+                            pointerEvents: props.editPermissionError ? "none" : "auto",
+                            opacity: props.editPermissionError ? 0.5 : 1,
+                            cursor: props.editPermissionError ? "not-allowed" : "pointer",
+                            transition: "background 0.2s ease-in-out",
+                          }}
+                          onMouseEnter={(e) =>
+                            !props.editPermissionError &&
+                            (e.currentTarget.style.backgroundColor = "#FFF3F3")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.currentTarget.style.backgroundColor = "transparent")
+                          }
+                        >
+                          <Trash
+                            size="16"
+                            color={props.editPermissionError ? "#A0A0A0" : "#FF0000"}
+                          />
+                          <span
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 500,
+                              fontFamily: "Gilroy",
+                              color: props.editPermissionError ? "#A0A0A0" : "#FF0000",
+                            }}
+                          >
+                            Delete
+                          </span>
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
               </div>
               <hr style={{ border: "1px solid #E7E7E7", margin: "0.5rem 0" }} />
 
-              <div className="row g-2  d-flex justify-content-between m-0">
+              <div className="row g-2 d-flex justify-content-between m-0">
                 <div className="col-lg-4 col-md-4 col-xs-12 col-sm-12 h-100">
                   <Card
-                    className="pt-2 ps-3  m-0"
+                    className="pt-2 ps-3 m-0"
                     style={{
-                      border: "1px solid  rgba(220, 220, 220, 1)",
+                      border: "1px solid rgba(220, 220, 220, 1)",
                       borderRadius: 12,
                     }}
                   >
@@ -334,7 +328,7 @@ function PayingHostel(props) {
                     >
                       Available Beds
                     </label>
-                    <div className="">
+                    <div>
                       <label
                         style={{
                           color: "#222222",
@@ -344,7 +338,7 @@ function PayingHostel(props) {
                           textAlign: "center",
                         }}
                       >
-                        {props.filteredData[0] && props.filteredData[0].Bed}
+                        {props.filteredData[0]?.Bed}
                       </label>
                     </div>
                   </Card>
@@ -353,7 +347,7 @@ function PayingHostel(props) {
                   <Card
                     className="pt-2 ps-3 m-0"
                     style={{
-                      border: "1px solid  rgba(220, 220, 220, 1)",
+                      border: "1px solid rgba(220, 220, 220, 1)",
                       borderRadius: 12,
                     }}
                   >
@@ -367,7 +361,7 @@ function PayingHostel(props) {
                     >
                       Total Rooms
                     </label>
-                    <div className="">
+                    <div>
                       <label
                         style={{
                           color: "#222222",
@@ -377,8 +371,7 @@ function PayingHostel(props) {
                           textAlign: "center",
                         }}
                       >
-                        {props.filteredData[0] &&
-                          props.filteredData[0].roomCount}
+                        {props.filteredData[0]?.roomCount}
                       </label>
                     </div>
                   </Card>
@@ -387,7 +380,7 @@ function PayingHostel(props) {
                   <Card
                     className="pt-2 ps-3 m-0"
                     style={{
-                      border: "1px solid  rgba(220, 220, 220, 1)",
+                      border: "1px solid rgba(220, 220, 220, 1)",
                       borderRadius: 12,
                     }}
                   >
@@ -401,7 +394,7 @@ function PayingHostel(props) {
                     >
                       Occupied Beds
                     </label>
-                    <div className="">
+                    <div>
                       <label
                         style={{
                           color: "#222222",
@@ -411,19 +404,27 @@ function PayingHostel(props) {
                           textAlign: "center",
                         }}
                       >
-                        {" "}
-                        {props.filteredData[0] &&
-                          props.filteredData[0].occupied_Bed}
+                        {props.filteredData[0]?.occupied_Bed}
                       </label>
                     </div>
                   </Card>
                 </div>
               </div>
 
-              <div className="d-flex justify-content-between align-items-start w-100" style={{ gap: '10px' }}>
+              <div
+                className="d-flex justify-content-between align-items-start w-100"
+                style={{ gap: "10px" }}
+              >
                 <div className="pb-1 ps-2" style={{ lineHeight: 1, flex: 1 }}>
                   <div className="pb-1">
-                    <label style={{ color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                    <label
+                      style={{
+                        color: "#000000",
+                        fontSize: 12,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
                       Email ID
                     </label>
                   </div>
@@ -440,7 +441,8 @@ function PayingHostel(props) {
                         overflow: "hidden",
                       }}
                     >
-                      {props.filteredData[0]?.email_id && props.filteredData[0]?.email_id !== "undefined"
+                      {props.filteredData[0]?.email_id &&
+                      props.filteredData[0]?.email_id !== "undefined"
                         ? props.filteredData[0]?.email_id
                         : "N/A"}
                     </label>
@@ -449,7 +451,14 @@ function PayingHostel(props) {
 
                 <div className="pb-1 text-center" style={{ lineHeight: 1, flex: 1 }}>
                   <div>
-                    <label style={{ color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                    <label
+                      style={{
+                        color: "#000000",
+                        fontSize: 12,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
                       Floor
                     </label>
                   </div>
@@ -469,7 +478,14 @@ function PayingHostel(props) {
 
                 <div className="pb-1" style={{ lineHeight: 1, flex: 1 }}>
                   <div>
-                    <label style={{ color: "#000000", fontSize: 12, fontWeight: 500, fontFamily: "Gilroy" }}>
+                    <label
+                      style={{
+                        color: "#000000",
+                        fontSize: 12,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
                       Contact Number
                     </label>
                   </div>
@@ -495,9 +511,8 @@ function PayingHostel(props) {
                 </div>
               </div>
 
-
               <div className="mb-2 ps-2" style={{ lineHeight: 1 }}>
-                <div className="mb-1" style={{}}>
+                <div className="mb-1">
                   <label
                     style={{
                       color: "#000000",
@@ -506,11 +521,9 @@ function PayingHostel(props) {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    {" "}
                     Address
                   </label>
                 </div>
-
                 <div
                   style={{
                     lineHeight: 1.5,
@@ -523,50 +536,36 @@ function PayingHostel(props) {
                     fontFamily: "Gilroy",
                   }}
                   title={`
-    ${props.filteredData[0]?.Address || ""}
-    ${props.filteredData[0]?.area ? ", " + props.filteredData[0].area : ""}
-    ${props.filteredData[0]?.city ? ", " + props.filteredData[0].city : ""}
-    ${props.filteredData[0]?.pincode
-                      ? " - " + props.filteredData[0].pincode
-                      : ""
-                    }
-    ${props.filteredData[0]?.state ? ", " + props.filteredData[0].state : ""}
-  `}
+                    ${props.filteredData[0]?.Address || ""}
+                    ${props.filteredData[0]?.area ? ", " + props.filteredData[0].area : ""}
+                    ${props.filteredData[0]?.city ? ", " + props.filteredData[0].city : ""}
+                    ${props.filteredData[0]?.pincode ? " - " + props.filteredData[0].pincode : ""}
+                    ${props.filteredData[0]?.state ? ", " + props.filteredData[0].state : ""}
+                  `}
                 >
                   {(props.filteredData[0]?.Address ||
                     props.filteredData[0]?.area ||
                     props.filteredData[0]?.city ||
                     props.filteredData[0]?.pincode ||
                     props.filteredData[0]?.state) && (
-                      <>
-                        {props.filteredData[0] && (
-                          <>
-                            {props.filteredData[0].Address && (
-                              <>
-                                {props.filteredData[0].Address}
-                                {(props.filteredData[0].area || props.filteredData[0].city) && ", "}
-                              </>
-                            )}
-
-                            {props.filteredData[0].area && (
-                              <>
-                                {props.filteredData[0].area}
-                                {props.filteredData[0].city && ", "}
-                              </>
-                            )}
-
-                            {props.filteredData[0].city && <>{props.filteredData[0].city}</>}
-                            {props.filteredData[0].pin_code && (
-                              <> - {props.filteredData[0].pin_code}</>
-                            )}
-
-                            <br />
-                            {props.filteredData[0].state && <>{props.filteredData[0].state}</>}
-                          </>
-                        )}
-
-                      </>
-                    )}
+                    <>
+                      {props.filteredData[0]?.Address && (
+                        <>
+                          {props.filteredData[0].Address}
+                          {(props.filteredData[0].area || props.filteredData[0].city) && ", "}
+                        </>
+                      )}
+                      {props.filteredData[0]?.area && (
+                        <>
+                          {props.filteredData[0].area}
+                          {props.filteredData[0].city && ", "}
+                        </>
+                      )}
+                      {props.filteredData[0]?.city && <>{props.filteredData[0].city}</>}
+                      {props.filteredData[0]?.pin_code && <> - {props.filteredData[0].pin_code}</>}
+                      {props.filteredData[0]?.state && <>, {props.filteredData[0].state}</>}
+                    </>
+                  )}
                 </div>
               </div>
             </Card.Body>
@@ -582,11 +581,7 @@ function PayingHostel(props) {
           backdrop="static"
           dialogClassName="custom-delete-modal"
         >
-          <Modal.Header
-            style={{
-              borderBottom: "none",
-            }}
-          >
+          <Modal.Header style={{ borderBottom: "none" }}>
             <Modal.Title
               style={{
                 fontSize: 18,
@@ -599,7 +594,6 @@ function PayingHostel(props) {
               Delete paying guest?
             </Modal.Title>
           </Modal.Header>
-
           <Modal.Body
             style={{
               fontSize: 14,
@@ -612,7 +606,7 @@ function PayingHostel(props) {
             Are you sure you want to delete this paying guest?
           </Modal.Body>
           {pgDeleteError && (
-            <div className="d-flex justify-content-center align-items-center gap-2 ">
+            <div className="d-flex justify-content-center align-items-center gap-2">
               <MdError style={{ color: "red" }} />
               <label
                 className="mb-0"
@@ -628,7 +622,6 @@ function PayingHostel(props) {
               </label>
             </div>
           )}
-
           <Modal.Footer
             style={{
               justifyContent: "center",
@@ -677,11 +670,13 @@ function PayingHostel(props) {
     </>
   );
 }
+
 PayingHostel.propTypes = {
   OnEditHostel: PropTypes.func.isRequired,
   OnSelectHostel: PropTypes.func.isRequired,
   onRowVisiblity: PropTypes.func.isRequired,
-  filteredData: PropTypes.func.isRequired,
-  editPermissionError: PropTypes.func.isRequired,
+  filteredData: PropTypes.array.isRequired,
+  editPermissionError: PropTypes.bool.isRequired,
 };
+
 export default PayingHostel;
