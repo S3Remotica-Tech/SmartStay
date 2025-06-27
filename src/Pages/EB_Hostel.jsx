@@ -226,6 +226,11 @@ function EB_Hostel() {
     }
   }, [state.login.selectedHostel_Id]);
 
+
+
+
+
+
   useEffect(() => {
     if (state.PgList?.statusCodeForEbRoomList === 200) {
       setLoader(false);
@@ -236,6 +241,17 @@ function EB_Hostel() {
       }, 1000);
     }
   }, [state.PgList.statusCodeForEbRoomList]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!state.login.selectedHostel_Id) {
+        setelectricityFilterd([]);
+        setRoomElect([])
+              }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (state.login.selectedHostel_Id && value === "2") {
@@ -289,9 +305,9 @@ function EB_Hostel() {
   };
 
   useEffect(() => {
-    if(state?.PgList?.ebError){
+    if (state?.PgList?.ebError) {
       setFormLoading(false)
-    setDateError(state?.PgList?.ebError);
+      setDateError(state?.PgList?.ebError);
     }
   }, [state?.PgList?.ebError]);
 
@@ -1590,7 +1606,7 @@ function EB_Hostel() {
                           boxShadow: "none",
                         }}
                       >
-                       
+
                         <option value={10}>10</option>
                         <option value={50}>50</option>
                         <option value={100}>100</option>
@@ -2025,7 +2041,7 @@ function EB_Hostel() {
                     style={{ position: "relative", width: "100%" }}
                   >
                     <DatePicker
-                      style={{ width: "100%", height: 48, cursor: "pointer" ,fontFamily: "Gilroy"}}
+                      style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={selectedDate ? dayjs(selectedDate) : null}
@@ -2061,31 +2077,31 @@ function EB_Hostel() {
 
 
 
-            {formLoading && <div
+          {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
               style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
-                opacity: 0.75,
-                zIndex: 10,
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
               }}
-            >
-              <div
-                style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
-                }}
-              ></div>
-            </div>}
+            ></div>
+          </div>}
           <Modal.Footer
             className="d-flex justify-content-center"
             style={{ borderTop: "none" }}

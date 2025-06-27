@@ -69,6 +69,7 @@ const Compliance = () => {
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
 
+  
 
   const complaintList = useSelector((state) => state.Settings.Complainttypelist);
 
@@ -192,16 +193,37 @@ const Compliance = () => {
   }, [state.ComplianceList.statusCodeForDeleteCompliance])
 
   useEffect(() => {
-    if (hosId) {
+    if (state.login.selectedHostel_Id) {
       setLoading(true)
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: state.login.selectedHostel_Id} })
       dispatch({
         type: "USERLIST",
         payload: { hostel_id: hosId },
       });
+    }else{
+      setFilteredUsers([]);
+      setLoading(false)
     }
 
-  }, [hosId])
+  }, [state.login.selectedHostel_Id])
+
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    if (!state.login.selectedHostel_Id) {
+      setFilteredUsers([]);
+      setLoading(false);
+    }
+  }, 100); 
+
+  return () => clearInterval(interval); 
+}, []);
+
+
+
+
+
+
   useEffect(() => {
     if (state.ComplianceList.statusCodeForAddCompliance === 200) {
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } });

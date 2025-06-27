@@ -82,7 +82,8 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, twoStepOtpError: action.payload }
       case 'CLEAR_ERROR_OTP_CODE':
          return { ...state, twoStepOtpError: '' }
-
+case 'RESET_ALL':
+      return initialState;
          default:
             return state;
    }
