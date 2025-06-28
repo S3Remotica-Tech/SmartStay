@@ -361,8 +361,8 @@ function StaticExample({ show, currentItem, setShowModal }) {
             </div>
           )}
 
-          <Modal.Body style={{ maxHeight: "380px",overflowY: "scroll", padding: 20 }} className="show-scroll mt-3 me-1">
-            <div className="row" style={{ marginTop: "-20px" }}>
+          <Modal.Body style={{ maxHeight: "380px",overflowY: "scroll", padding: 20 }} className="show-scroll pt-1 mt-2 me-1">
+            <div className="row" style={{  }}>
 
               {state.Settings.Expences.data &&
                 state.Settings.Expences.data.length === 0 && (

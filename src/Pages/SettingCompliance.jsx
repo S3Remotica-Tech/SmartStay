@@ -330,7 +330,7 @@ function SettingCompliance({ hostelid }) {
       )}
 
       <div
-        className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+        className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-2"
         style={{
           position: "sticky",
           top: 0,
@@ -688,7 +688,7 @@ function SettingCompliance({ hostelid }) {
             style={{ cursor: "pointer" }}
           />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="pt-1">
           <div className="col">
             <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12 ">
               <Form.Group>
@@ -813,7 +813,7 @@ function SettingCompliance({ hostelid }) {
             style={{ cursor: "pointer" }}
           />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="pt-1">
           <div className="col">
             <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">

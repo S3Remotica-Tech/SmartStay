@@ -1720,7 +1720,7 @@ function EB_Hostel() {
           backdrop="static"
           centered
         >
-          <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
+          <Modal.Header style={{ position: "relative" }}>
             <div
               style={{
                 fontSize: 20,
@@ -1734,7 +1734,7 @@ function EB_Hostel() {
             <CloseCircle size="24" color="#000" onClick={handleClose}
               style={{ cursor: 'pointer' }} />
           </Modal.Header>
-          <Modal.Body style={{ marginTop: "-10px" }}>
+          <Modal.Body className="pt-2">
             {dateError && (
               <div
                 className="d-flex justify-content-center align-items-center mt-2 mb-2"

@@ -365,7 +365,7 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
       )}
 
       <div
-        className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+        className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3"
         style={{
           position: "sticky",
           top: 0,
@@ -709,7 +709,7 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
             style={{ cursor: "pointer" }}
           />
         </Modal.Header>
-        <Modal.Body style={{ marginBottom: "0px" }}>
+        <Modal.Body className="pt-1" style={{ marginBottom: "0px" }}>
           <div className="col">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">

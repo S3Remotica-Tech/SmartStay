@@ -706,7 +706,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
 
 
-          <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+          <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-2 mt-2 me-3">
             <div className="d-flex align-items-center">
               <div
                 className=""

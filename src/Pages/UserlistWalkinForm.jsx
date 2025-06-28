@@ -478,7 +478,7 @@ setFormLoading(false)
 
 
 
-        <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-3 mt-3 me-3">
+        <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll pt-3 mt-2 me-3">
 
           <div className='d-flex align-items-center'>
 

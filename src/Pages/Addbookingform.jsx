@@ -493,7 +493,7 @@ function BookingModal(props) {
             style={{ cursor: "pointer" }}
           />
         </Modal.Header>
-        <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+        <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-2 me-3 pt-2">
           <div className="d-flex align-items-center" >
             <div
               className=""

@@ -152,20 +152,20 @@ function Booking(props) {
   }, [props.uniqueostel_Id]);
   const [customerBooking, setCustomerBooking] = useState([])
 
-const calledOnceRef = useRef(false);
+  const calledOnceRef = useRef(false);
 
-useEffect(() => {
-  if (state.login.selectedHostel_Id && !calledOnceRef.current) {
-    setLoader(true);
-    dispatch({
-      type: "GET_BOOKING_LIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-    calledOnceRef.current = true;
-  }
-}, [state.login.selectedHostel_Id]);
+  useEffect(() => {
+    if (state.login.selectedHostel_Id && !calledOnceRef.current) {
+      setLoader(true);
+      dispatch({
+        type: "GET_BOOKING_LIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      calledOnceRef.current = true;
+    }
+  }, [state.login.selectedHostel_Id]);
 
-  
+
   useEffect(() => {
     if (state.Booking.statusCodeGetBooking === 200) {
       setLoader(false)
@@ -716,13 +716,13 @@ useEffect(() => {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
-       calledOnceRef.current = false;
+      calledOnceRef.current = false;
       dispatch({ type: "CLEAR_EMAIL_ERROR" });
       dispatch({ type: "CLEAR_PHONE_ERROR" });
       setBookingLoading(false)
       handleCloseForm();
 
-      
+
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_USER_BOOKING" });
       }, 500);
@@ -730,7 +730,7 @@ useEffect(() => {
   }, [state?.Booking?.statusCodeForAddBooking]);
 
 
-  
+
 
   const [file, setFile] = useState(null);
 
@@ -1475,7 +1475,7 @@ useEffect(() => {
                   <img src={Emptystate} alt="emptystate" />
                 </div>
                 <div
-                 className="pb-1"
+                  className="pb-1"
                   style={{
                     textAlign: "center",
                     fontWeight: 600,
@@ -1668,8 +1668,8 @@ useEffect(() => {
           />
         </Modal.Header>
 
-        <Modal.Body>
-          <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
+        <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll pt-2 mt-2 me-3">
+          <div  >
             <div className="d-flex align-items-center">
               <div
                 className=""
@@ -2389,25 +2389,7 @@ useEffect(() => {
             )}
 
           </div>
-          <Button
-            variant="primary"
-            type="submit"
-            className="w-100"
-            style={{
-              borderRadius: 12,
-              padding: "12px",
-              border: "1px solid rgba(36, 0, 255, 1)",
-              backgroundColor: "#1E45E1",
-              color: "#fff",
-              fontSize: 16,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              marginTop: 20
-            }}
-            onClick={handleSubmit}
-          >
-            Save Changes
-          </Button>
+
 
         </Modal.Body>
 
@@ -2439,8 +2421,30 @@ useEffect(() => {
             ></div>
           </div>
         }
-
-
+        <Modal.Footer
+          className="d-flex align-items-center justify-content-center"
+          style={{ border: "none" }}
+        >
+          <Button
+            variant="primary"
+            type="submit"
+            className="w-100"
+            style={{
+              borderRadius: 12,
+              padding: "12px",
+              border: "1px solid rgba(36, 0, 255, 1)",
+              backgroundColor: "#1E45E1",
+              color: "#fff",
+              fontSize: 16,
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+              marginTop: 20
+            }}
+            onClick={handleSubmit}
+          >
+            Save Changes
+          </Button>
+        </Modal.Footer>
 
 
 

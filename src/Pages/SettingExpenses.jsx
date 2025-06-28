@@ -823,7 +823,7 @@ setFormLoading(true)
 
                   </Modal.Header>
                 </div>
-                <Modal.Body>
+                <Modal.Body className='pt-2'>
 
                   <div className="row ">
 

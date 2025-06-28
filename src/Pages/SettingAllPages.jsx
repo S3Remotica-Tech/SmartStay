@@ -62,7 +62,7 @@ function SettingAllPages() {
   return (
     <>
       <div className="container-fluid">
-        <div className="row " style={{ position: "relative" }}>
+        <div className="row gap-0" style={{ position: "relative" }}>
 
           <div
             className="col-12 d-block d-md-none"

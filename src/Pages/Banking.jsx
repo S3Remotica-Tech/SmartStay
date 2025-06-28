@@ -2000,7 +2000,7 @@ const handleUserSelect = (user) => {
             }}
           >
             <Modal.Header
-              style={{ marginBottom: "30px", position: "relative" }}
+              style={{ position: "relative" }}
             >
               <div
                 style={{
@@ -2015,8 +2015,8 @@ const handleUserSelect = (user) => {
                 style={{ cursor: 'pointer' }} />
 
             </Modal.Header>
-            <Modal.Body>
-              <div className="col-12" style={{ marginTop: "-35px" }}>
+            <Modal.Body className="pt-2">
+              <div className="col-12">
                 <Form.Group className="mb-3">
                   <Form.Label
                     style={{

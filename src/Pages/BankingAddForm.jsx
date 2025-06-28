@@ -337,7 +337,7 @@ function BankingAddForm(props) {
       }, 1000);
     }
   }, [state.bankingDetails.statusCodeForAddBanking]);
-  
+
   const [activeTab, setActiveTab] = useState("bank");
   const tabStyle = {
     fontFamily: "Gilroy",
@@ -385,7 +385,7 @@ function BankingAddForm(props) {
             setError("");
           }}
 
-          className="justify-content-start mb-3 ms-1"
+          className="justify-content-start ms-2 me-2"
         >
           {["bank", "upi", "card", "cash"].map((tab) => (
             <Nav.Item key={tab}>
@@ -398,16 +398,20 @@ function BankingAddForm(props) {
                   ...tabStyle,
                   backgroundColor: activeTab === tab ? "#1E45E1" : "",
                   color: activeTab === tab ? "#fff" : tabStyle.color,
-                  borderRadius: 8,
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  borderBottomLeftRadius:0,
+                  borderBottomRightRadius:0,
                   opacity:
-                    props.editAddBank?.id && props.editAddBank.type !== tab
-                      ? 0.6
-                      : 1,
+                    props.editAddBank?.id && props.editAddBank.type !== tab ? 0.6 : 1,
                   cursor:
                     props.editAddBank?.id && props.editAddBank.type !== tab
                       ? "not-allowed"
                       : "pointer",
+                      width:120,
+                      textAlign:"center",
                 }}
+
               >
                 {tab === "bank"
                   ? "Bank Name"

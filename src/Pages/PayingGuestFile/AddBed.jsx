@@ -166,8 +166,8 @@ function AddBed({ show, setShowBed, currentItem }) {
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
 
-          <Modal.Body style={{ paddingBottom: "0px" }} >
-            <div className="row mt-2 mb-0">
+          <Modal.Body style={{ padding:"8px 13px" }} >
+            <div className="row mb-0">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-2"
@@ -337,10 +337,10 @@ function AddBed({ show, setShowBed, currentItem }) {
             ></div>
           </div>}
 
-          <Modal.Footer style={{ border: "none", paddingTop: 5 }}>
+          <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
             <Button
               onClick={() => { handleSubmit() }}
-              className="w-100 mt-3"
+              className="w-100 mt-1"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 600,

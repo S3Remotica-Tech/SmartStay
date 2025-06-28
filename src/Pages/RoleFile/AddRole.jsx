@@ -358,7 +358,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
                     </Modal.Header>
 
-                    <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3 pt-0">
+                    <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll pt-1 mt-1 me-3 pt-0">
 
 
 

@@ -952,7 +952,7 @@ function UserlistForm(props) {
                       style={{ cursor: "pointer" }}
                     />
                   </Modal.Header>
-                  <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
+                  <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-2 me-3">
                     <div className="d-flex align-items-center mt-1">
                       <div
                         className=""
