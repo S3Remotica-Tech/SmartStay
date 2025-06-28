@@ -163,6 +163,14 @@ function EBHostelReading(props) {
   };
 
 
+    const getMinDate = () => {
+     if (initialStateAssign.selectedDate) {
+       return dayjs(initialStateAssign.selectedDate).startOf("day");
+     }
+     return dayjs().startOf("day");
+   };
+
+
   useEffect(() => {
     if (state.PgList.dateAlready) {
       setFormLoading(false)
@@ -446,7 +454,7 @@ function EBHostelReading(props) {
                   className='show-scrolls'
                   style={{
 
-                    height: sortedData.length >= 8 || sortedData.length >= 8 ? "350px" : "auto",
+                    height: sortedData.length >= 8 || sortedData.length >= 8 ? "410px" : "auto",
                     overflow: "auto",
                     borderTop: "1px solid #E8E8E8",
                     marginBottom: 20,
@@ -1109,6 +1117,8 @@ function EBHostelReading(props) {
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                     dropdownClassName="custom-datepicker-popup"
+                    disabledDate={(current) =>
+                    current && current < getMinDate() }
                   />
                 </div>
               </Form.Group>

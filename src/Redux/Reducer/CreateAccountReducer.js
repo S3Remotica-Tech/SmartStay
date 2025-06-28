@@ -25,6 +25,8 @@ const CreateAccountReducer = (state = initialState, action) => {
 
 
    switch (action.type) {
+      case 'RESET_ALL':
+            return initialState;
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
       case 'CREATEACCOUNTPAGE':

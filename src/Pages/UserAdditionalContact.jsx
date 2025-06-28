@@ -437,9 +437,7 @@ const isChanged = (
           <Modal.Body>
             <div className="d-flex align-items-center">
               <div className="container">
-                {/* <div className="row mb-3"></div> */}
-
-                <Modal.Header
+                   <Modal.Header
                   style={{ position: "relative", paddingTop: "-0px" }}
                 >
                   <div
@@ -468,7 +466,7 @@ const isChanged = (
                           alignItems: "center",
                         }}
                       >
-                        User Name{" "}
+                        User Names{" "}
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
                           *{" "}

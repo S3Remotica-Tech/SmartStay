@@ -27,7 +27,9 @@ import frameblue from "../Assets/Images/New_images/Frameblue.png";
 import paidfull from '../Assets/Images/New_images/paidfull.png'
 import { useDispatch, useSelector } from "react-redux";
 import Logo from '../Assets/Images/get.png'
-import receiptLogo from '../Assets/Images/New_images/receiptlogo.png'
+import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
+import User from '../Assets/Images/user.png'
+import PaymentUser from '../Assets/Images/usertwo.png'
 
 
 
@@ -389,7 +391,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="row px-4 mt-2">
                     <div className="col-md-7 mb-3">
                       <p className="mb-1" style={{ fontSize: '13px', color: '#1E45E1', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To:</p>
-                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}>Mr. <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', }}>{receiptDataNew?.user_details?.name}</span></p>
+                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={User} alt="user" /> <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',marginLeft:8 }}>{receiptDataNew?.user_details?.name}</span></p>
                       <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12} />
                         <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>  + {receiptDataNew &&
                           String(receiptDataNew?.user_details?.phone)?.slice(
@@ -563,7 +565,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="row px-4 mt-3">
                     <div className="col-md-7 mb-3">
                       <p className=" mb-1" style={{ color: 'rgba(0, 163, 46, 1)', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To :</p>
-                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}>Mr. <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', }}>{receiptDataNew?.user_details?.name}</span></p>
+                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={PaymentUser} alt="user" /><span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', marginLeft:12}}>{receiptDataNew?.user_details?.name}</span></p>
                       <p className="mb-1"><img src={mob} alt="mob" width={12} height={12} />
                         <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>  + {receiptDataNew &&
                           String(receiptDataNew?.user_details?.phone)?.slice(

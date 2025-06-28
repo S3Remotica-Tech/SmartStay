@@ -26,7 +26,8 @@ function AssignBooking(props) {
   const [rentError, setRentError] = useState("");
   const [advanceError, setAdavanceError] = useState("");
   const [hostalId, setHostalId] = useState(null);
-   const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
+
 
   useEffect(() => {
     dispatch({ type: "REMOVE_ERROR_ASSIGN_BOOKING" });
@@ -43,7 +44,7 @@ function AssignBooking(props) {
   }, [props.HostelID]);
 
   const handleAssignClose = () => {
-     setFormLoading(false)
+    setFormLoading(false)
     props.setModalType(false);
     dispatch({ type: "REMOVE_ERROR_ASSIGN_BOOKING" });
     setFloor("");
@@ -160,6 +161,23 @@ function AssignBooking(props) {
       setDateError("Date is Required");
       return;
     }
+
+    const bookingDate = props.assignBooking.createdat;
+    const formattedBookingDate = dayjs(bookingDate).format("YYYY-MM-DD");
+
+
+    if (dayjs(formattedDate).isBefore(formattedBookingDate)) {
+      setDateError("Before booking date not allowed");
+      return;
+    }
+
+
+
+
+
+
+
+
     const payload = {
       floor: floor,
       room: room,
@@ -290,7 +308,18 @@ function AssignBooking(props) {
     setAdvanceamount(value);
     setAdavanceError("");
   };
-  console.log("state.Booking?.ErrorAssignBooking",state.Booking?.ErrorAssignBooking)
+
+
+  useEffect(()=>{
+    if(state.Booking?.ErrorAssignBooking){
+      setFormLoading(false)
+    }
+
+  },[state.Booking?.ErrorAssignBooking])
+
+
+
+
 
   return (
     <>
@@ -411,12 +440,14 @@ function AssignBooking(props) {
                       border: "1px solid #D9D9D9",
                       zIndex: 1000,
                       scrollbarWidth: "thin",
+                      fontFamily: "Gilroy",
                     }),
                     menuList: (base) => ({
                       ...base,
                       maxHeight: "150px",
                       padding: 0,
                       overflowY: "auto",
+                      fontFamily: "Gilroy",
                     }),
                     option: (base, { isFocused, isSelected }) => ({
                       ...base,
@@ -439,7 +470,7 @@ function AssignBooking(props) {
                       lineHeight: 1,
                       stroke: "currentColor",
                       strokeWidth: 0,
-                      cursor:"pointer"
+                      cursor: "pointer"
                     }),
                     indicatorSeparator: () => ({
                       display: "none",
@@ -528,12 +559,14 @@ function AssignBooking(props) {
                       border: "1px solid #D9D9D9",
                       zIndex: 1000,
                       scrollbarWidth: "thin",
+                      fontFamily: "Gilroy",
                     }),
                     menuList: (base) => ({
                       ...base,
                       maxHeight: "150px",
                       padding: 0,
                       overflowY: "auto",
+                      fontFamily: "Gilroy",
                     }),
                     option: (base, { isFocused, isSelected }) => ({
                       ...base,
@@ -556,7 +589,7 @@ function AssignBooking(props) {
                       lineHeight: 1,
                       stroke: "currentColor",
                       strokeWidth: 0,
-                      cursor:"pointer"
+                      cursor: "pointer"
                     }),
                     indicatorSeparator: () => ({
                       display: "none",
@@ -649,6 +682,7 @@ function AssignBooking(props) {
                     ...base,
                     backgroundColor: "#f8f9fa",
                     border: "1px solid #ced4da",
+                    fontFamily: "Gilroy",
                   }),
                   menuList: (base) => ({
                     ...base,
@@ -657,6 +691,7 @@ function AssignBooking(props) {
                     padding: 0,
                     scrollbarWidth: "thin",
                     overflowY: "auto",
+                    fontFamily: "Gilroy",
                   }),
                   placeholder: (base) => ({
                     ...base,
@@ -665,7 +700,7 @@ function AssignBooking(props) {
                   dropdownIndicator: (base) => ({
                     ...base,
                     color: "#555",
-                    cursor:"pointer"
+                    cursor: "pointer"
                   }),
                   indicatorSeparator: () => ({
                     display: "none",
@@ -717,7 +752,7 @@ function AssignBooking(props) {
                   style={{ position: "relative", width: "100%", marginTop: 6 }}
                 >
                   <DatePicker
-                    style={{ width: "100%", height: 48, cursor: "pointer" }}
+                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={joiningDate ? dayjs(joiningDate) : null}
@@ -866,33 +901,33 @@ function AssignBooking(props) {
           <Row></Row>
         </Modal.Body>
 
-{formLoading &&
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: 'transparent',
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderTop: '4px solid #1E45E1',
-                                    borderRight: '4px solid transparent',
-                                    borderRadius: '50%',
-                                    width: '40px',
-                                    height: '40px',
-                                    animation: 'spin 1s linear infinite',
-                                }}
-                            ></div>
-                        </div>
-                    }
+        {formLoading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
 
 
 

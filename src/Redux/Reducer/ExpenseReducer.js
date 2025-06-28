@@ -18,6 +18,8 @@ export const initialState = {
 const ExpenseReducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'RESET_ALL':
+              return initialState;
         case 'CATEGORY_LIST':
             return { ...state, categoryList: action.payload.response }
         case 'TRANSACTION_HISTORY':

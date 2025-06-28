@@ -221,7 +221,7 @@ useEffect(() => {
       setRecurringName(inputValue);
 
       if (!inputValue) {
-        setRecurr_NameErrmsg("Please Enter Recurr Name");
+        setRecurr_NameErrmsg("Please Enter Recurring Name");
       } else {
         setRecurr_NameErrmsg("");
       }
@@ -243,7 +243,7 @@ useEffect(() => {
       selectedDays.length === 0
     ) {
       if (!recurring_name) {
-        setRecurr_NameErrmsg("Please Enter Recurr Name");
+        setRecurr_NameErrmsg("Please Enter Recurring Name");
       }
       if (!billing_frequency) {
         setBillingFrequencyErrmsg("Please Select Frequncy");

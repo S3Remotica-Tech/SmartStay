@@ -165,18 +165,36 @@ const [changeLoading, setChangeLoading] = useState(false)
 
   };
 
-  const handleCheckPassword = (e) => {
-    setCheckPassword(e.target.value);
-    setPassError("");
+ 
 
-    dispatch({ type: "CLEAR_PASSWORD_ERROR" });
-  };
+const handleCheckPassword = (e) => {
+  const value = e.target.value;
+  setCheckPassword(value);
+  setPassError("");
+
+  dispatch({ type: "CLEAR_PASSWORD_ERROR" });
+
+  const capitalLetter = /[A-Z]/;
+  const number = /[0-9]/;
+  const specialChar = /[!@#$%^&*(),.?":{}|<>]/;
+
+  if (
+    !capitalLetter.test(value) ||
+    !number.test(value) ||
+    !specialChar.test(value)
+  ) {
+    setPassError(
+      "Password must contain at least one capital letter, one number, and one special character."
+    );
+  }
+};
+
 
   const CheckvalidateField = (value, fieldName) => {
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "checkPassword":
-          setPassError("Current Password is Required");
+          setPassError("Please Enter Current Password");
           break;
 
 
@@ -400,11 +418,25 @@ const [changeLoading, setChangeLoading] = useState(false)
   }
 
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-    setPasswordError("");
+const handlePassword = (e) => {
+  const newPassword = e.target.value;
+  setPassword(newPassword);
+  setPasswordError("");
 
-  };
+  const hasUppercase = /[A-Z]/.test(newPassword);
+  const hasNumber = /[0-9]/.test(newPassword);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
+  if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+    setPasswordError(
+      "Password must include a capital letter, a number, and a special character."
+    );
+  } else {
+    setPasswordError("");
+  }
+};
+
+
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleEditGeneralUser = (user) => {
@@ -451,17 +483,17 @@ const [changeLoading, setChangeLoading] = useState(false)
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "firstName":
-          setFirstNameError("First Name Required");
+          setFirstNameError("Please Enter First Name");
           break;
         case "emilId":
-          setEmailError("Email Id Required");
+          setEmailError("Please Enter Email Id ");
           break;
         case "Phone":
-          setPhoneError("Phone Number Required");
+          setPhoneError("Please Enter Phone Number");
           break;
 
         case "password":
-          setPasswordError("Password Required");
+          setPasswordError("Please Enter Password");
           break;
 
         case "City":
@@ -524,7 +556,7 @@ const [changeLoading, setChangeLoading] = useState(false)
 
 
     if (!Phone) {
-      setPhoneError("Mobile Number Required"); hasError = true;
+      setPhoneError("Please Enter Mobile Number"); hasError = true;
     } else if (!/^\d{10}$/.test(Phone)) {
       setPhoneError("Please Enter Valid Mobile Number"); hasError = true;
     } else setPhoneError("");
@@ -717,10 +749,10 @@ const [changeLoading, setChangeLoading] = useState(false)
     if (!value || (typeof value === "string" && value.trim() === "")) {
       switch (fieldName) {
         case "newPassword":
-          setNewPassError("New Password is Required");
+          setNewPassError("Please Enter New Password");
           break;
         case "confirmPassword":
-          setConformPasswordError("Confirm Password is Required");
+          setConformPasswordError("Please Enter Confirm Password");
           break;
 
         default:
@@ -1639,7 +1671,7 @@ const [changeLoading, setChangeLoading] = useState(false)
                 </Form.Group>
                 {!edit && passwordError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: '13px', marginRight: "5px", marginTop: "1px" }} />
+                    <MdError style={{ fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
                     <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</span>
                   </div>
                 )}
@@ -2200,7 +2232,7 @@ const [changeLoading, setChangeLoading] = useState(false)
           </Form.Group>
           {passError && (
             <div className="text-danger" style={{ color: "red" }}>
-              <MdError />
+              <MdError style={{ fontSize: '14px', marginRight: "3px", marginBottom: "2px", color: "red" }} />
 
               <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passError}</span>
             </div>

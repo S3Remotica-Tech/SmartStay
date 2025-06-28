@@ -151,7 +151,7 @@ const InvoicePage = () => {
   const [filterStatus, setFilterStatus] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  
+
 
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
@@ -850,7 +850,8 @@ const InvoicePage = () => {
 
 
   const handleCustomerName = (selectedOption) => {
-    setCustomerName(selectedOption?.value || '');
+
+      setCustomerName(selectedOption?.value || '');
     setAllFieldErrmsg("");
     if (!selectedOption) {
       setCustomerErrmsg("Please Select Name");
@@ -1241,7 +1242,23 @@ const InvoicePage = () => {
       setTableErrmsg("");
     }
 
+    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+
+      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+        setInvoiceDueDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+    }
 
     if (hasError) {
       return;
@@ -1335,6 +1352,27 @@ const InvoicePage = () => {
     } else {
       setTableErrmsg("");
     }
+
+
+    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
+
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+
+      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+        setInvoiceDueDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+    }
+
+
 
     if (hasError) {
       return;
@@ -5607,72 +5645,74 @@ const InvoicePage = () => {
           </div>
 
 
-         {Array.isArray(newRows) && newRows.length > 0 && (
- <div style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
+          {Array.isArray(newRows) && newRows.length > 0 && (
+            <div className="mt-3" style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
 
-  <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
-    <thead style={{ backgroundColor: "#E7F1FF" }}>
-      <tr>
-        <th className="text-center" style={{ width: "10%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",borderTopLeftRadius:10 }}>
-          S.No
-        </th>
-        <th style={{ width: "45%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",whiteSpace:"nowrap" }}>
-          Description
-        </th>
-        <th style={{ width: "30%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",whiteSpace:"nowrap" }}>
-          Total Amount
-        </th>
-        <th style={{ width: "15%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy",borderTopRightRadius:10 }}>
-          Action
-        </th>
-      </tr>
-    </thead>
-  </Table>
+              <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+                <thead style={{ backgroundColor: "#E7F1FF" }}>
+                  <tr>
+                    <th className="text-center" style={{ width: "10%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopLeftRadius: 10 }}>
+                      S.No
+                    </th>
+                    <th style={{ width: "45%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
+                      Description
+                    </th>
+                    <th style={{ width: "30%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
+                      Total Amount
+                    </th>
+                    <th style={{ width: "15%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopRightRadius: 10 }}>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+              </Table>
 
-  
-  <div style={{ maxHeight: "150px", overflowY: "auto" }}>
-    <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
-      <tbody>
-        {newRows.map((u, index) => (
-          <tr key={index}>
-            <td style={{ width: "10%" }} className="text-center">{index + 1}</td>
-            <td style={{ width: "40%" }}>
-              <Form.Control
-                type="text"
-                value={u.am_name}
-                onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
-                placeholder="Enter Description"
-              />
-            </td>
-            <td style={{ width: "30%" }}>
-              <Form.Control
-                type="text"
-                value={u.amount}
-                placeholder="0"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (/^\d*\.?\d*$/.test(value)) {
-                    handleNewRowChange(index, "amount", value);
-                  }
-                }}
-              />
-            </td>
-            <td style={{ width: "15%",paddingLeft:20 }}>
-              <img
-                src={Closebtn}
-                onClick={() => handleDeleteNewRow(index)}
-                style={{ cursor: "pointer" }}
-                height={15}
-                width={15}
-                alt="delete"
-              />
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  </div>
-</div>
+
+              <div style={{ maxHeight: "150px", overflowY: "auto" }}>
+                <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+                  <tbody>
+                    {newRows.map((u, index) => (
+                      <tr key={index}>
+                        <td style={{ width: "10%" }} className="text-center">{index + 1}</td>
+                        <td style={{ width: "40%" }}>
+                          <Form.Control
+                            type="text"
+                            style={{ fontFamily: "Gilroy" }}
+                            value={u.am_name}
+                            onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
+                            placeholder="Enter Description"
+                          />
+                        </td>
+                        <td style={{ width: "30%" }}>
+                          <Form.Control
+                            type="text"
+                            style={{ fontFamily: "Gilroy" }}
+                            value={u.amount}
+                            placeholder="0"
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (/^\d*\.?\d*$/.test(value)) {
+                                handleNewRowChange(index, "amount", value);
+                              }
+                            }}
+                          />
+                        </td>
+                        <td style={{ width: "15%", paddingLeft: 20 }}>
+                          <img
+                            src={Closebtn}
+                            onClick={() => handleDeleteNewRow(index)}
+                            style={{ cursor: "pointer" }}
+                            height={15}
+                            width={15}
+                            alt="delete"
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </div>
 
 
 

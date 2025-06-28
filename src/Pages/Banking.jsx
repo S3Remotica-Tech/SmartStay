@@ -479,6 +479,7 @@ function Banking() {
     setSearch(false);
     setFilterInput("");
     settransactionFilterddata(originalBills);
+    setDropdownVisible(false);
   };
 
   const handleSearch = () => {
@@ -489,15 +490,13 @@ function Banking() {
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
   };
-
- 
-  const handlefilterInput = (e) => {
+ const handlefilterInput = (e) => {
   const input = e.target.value;
   setFilterInput(input);
   setDropdownVisible(input.length > 0);
 
   if (input.trim() === "") {
-    settransactionFilterddata([]); 
+    settransactionFilterddata(originalBillsFilter); 
   } else {
     const filtered = originalBillsFilter.filter((item) =>
       item.benificiary_name.toLowerCase().includes(input.toLowerCase())
@@ -506,13 +505,19 @@ function Banking() {
   }
 };
 
-const handleUserSelect = (user) => {
-  setFilterInput(user.benificiary_name);
  
-  setDropdownVisible(false);
-};
 
+
+ const handleUserSelect = (user) => {
+     setFilterInput(user.benificiary_name);
  
+     const selectedUserData = originalBillsFilter?.filter(
+       (item) => item.benificiary_name === user.benificiary_name
+     );
+     settransactionFilterddata(selectedUserData);
+ 
+     setDropdownVisible(false);
+   };
 
   const [dateRange, setDateRange] = useState(null);
   const handleStatusFilter = (event) => {

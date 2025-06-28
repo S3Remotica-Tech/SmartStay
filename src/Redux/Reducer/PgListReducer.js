@@ -99,6 +99,8 @@ const PgListReducer = (state = initialState, action) => {
 
 
     switch (action.type) {
+        case 'RESET_ALL':
+              return initialState;
         case 'MANAGE_PG':
             return { ...state, isManageEnable: true }
 

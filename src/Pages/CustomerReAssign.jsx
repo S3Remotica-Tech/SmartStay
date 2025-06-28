@@ -34,7 +34,6 @@ function CustomerReAssign(props) {
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
   const [rentError, setRentError] = useState("");
-  const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
     setCurrentFloor(props.reAssignDetail.Floor);
@@ -158,6 +157,8 @@ function CustomerReAssign(props) {
     return true;
   };
 
+
+
   const handleSaveReassignBed = () => {
     focusedRef.current = false;
     let hasError = false;
@@ -168,6 +169,8 @@ function CustomerReAssign(props) {
     if (!validateAssignField(newRoom, "newRoom", roomRef, focusedRef, setRoomError)) hasError = true;
     if (!validateAssignField(newBed, "newBed", BedRef, focusedRef, setBedError)) hasError = true;
 
+
+
     if (hasError) return;
     if (newRoom === "Selected Room") {
       setRoomError("Please Select a Valid Room");
@@ -176,6 +179,16 @@ function CustomerReAssign(props) {
     } else {
       setRoomError("");
     }
+    const joiningDate = props.reAssignDetail.user_join_date
+    const formattedJoinDate = dayjs(joiningDate).format("YYYY-MM-DD");
+    const formattedSelectedDate = dayjs(selectedDate).format("YYYY-MM-DD");
+
+    if (dayjs(formattedSelectedDate).isBefore(formattedJoinDate)) {
+      setDateError("Before join date not allowed");
+      return;
+    }
+
+
 
     dispatch({
       type: "CUSTOMERREASSINBED",
@@ -192,7 +205,6 @@ function CustomerReAssign(props) {
         user_id: userId,
       },
     });
-    setFormLoading(true)
   };
 
 
@@ -201,7 +213,6 @@ function CustomerReAssign(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
-      setFormLoading(false)
       handleCloseReAssign();
       dispatch({
         type: "USERLIST",
@@ -488,9 +499,17 @@ function CustomerReAssign(props) {
                             dropdownIndicator: (base) => ({
                               ...base,
                               color: "#555",
+                              cursor: "pointer"
                             }),
                             indicatorSeparator: () => ({
                               display: "none",
+
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
                             }),
                           }}
                         />
@@ -593,9 +612,16 @@ function CustomerReAssign(props) {
                             dropdownIndicator: (base) => ({
                               ...base,
                               color: "#555",
+                              cursor: "pointer"
                             }),
                             indicatorSeparator: () => ({
                               display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
                             }),
                           }}
                         />
@@ -707,9 +733,16 @@ function CustomerReAssign(props) {
                             dropdownIndicator: (base) => ({
                               ...base,
                               color: "#555",
+                              cursor: "pointer"
                             }),
                             indicatorSeparator: () => ({
                               display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
                             }),
                           }}
                         />
@@ -759,7 +792,7 @@ function CustomerReAssign(props) {
                             style={{ position: "relative", width: "100%" }}
                           >
                             <DatePicker
-                              style={{ width: "100%", height: 48, border: "1px solid lightgrey", cursor: "pointer" ,fontFamily: "Gilroy",}}
+                              style={{ width: "100%", height: 48, border: "1px solid lightgrey", cursor: "pointer",fontFamily: "Gilroy", }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
                               value={selectedDate ? dayjs(selectedDate) : null}
@@ -884,36 +917,6 @@ function CustomerReAssign(props) {
                       </div>
                     </div>
                   </div>
-
-
-                  {formLoading &&
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'transparent',
-                        opacity: 0.75,
-                        zIndex: 10,
-                      }}
-                    >
-                      <div
-                        style={{
-                          borderTop: '4px solid #1E45E1',
-                          borderRight: '4px solid transparent',
-                          borderRadius: '50%',
-                          width: '40px',
-                          height: '40px',
-                          animation: 'spin 1s linear infinite',
-                        }}
-                      ></div>
-                    </div>
-                  }
-
 
                   <Button
                     className="w-100"
