@@ -112,6 +112,9 @@ function UserListRoomDetail(props) {
   const [advanceDueDate, setAdvanceDueDate] = useState("");
   const [advanceDateError, setAdvanceDateError] = useState("");
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
+  const [customerDetails, setCustomerDetails] = useState([])
+
+
 
 
   const [formLoading, setFormLoading] = useState(false)
@@ -165,6 +168,37 @@ function UserListRoomDetail(props) {
     { value: "Lakshadweep", label: "Lakshadweep" },
     { value: "Puducherry", label: "Puducherry" },
   ];
+
+  useEffect(() => {
+    if (state.UsersList?.UserListStatusCode === 200) {
+
+      const ParticularUserDetails = state.UsersList.Users.filter((item) => {
+        return item.User_Id === props.customerUser_Id;
+      });
+
+      setTimeout(() => {
+        dispatch({ type: "REMOVE_STATUS_CODE_USER" });
+      }, 1000);
+
+      setCustomerDetails(ParticularUserDetails)
+
+    }
+  }, [state.UsersList?.UserListStatusCode])
+
+
+  useEffect(() => {
+    const ParticularUserDetails = state.UsersList.Users.filter((item) => {
+      return item.User_Id === props.customerUser_Id;
+    });
+
+    setTimeout(() => {
+      dispatch({ type: "REMOVE_STATUS_CODE_USER" });
+    }, 1000);
+
+    setCustomerDetails(ParticularUserDetails)
+
+  }, []);
+
 
 
   useEffect(() => {
@@ -429,6 +463,13 @@ function UserListRoomDetail(props) {
       });
     }
   };
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (hostel_Id && Floor) {
@@ -1230,12 +1271,14 @@ function UserListRoomDetail(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForAddUser === 200) {
+      dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
+      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
       setFormLoading(false)
       setLoading(false)
 
       handleCloseEditcustomer();
-      dispatch({ type: "USERLIST", payload: { hostel_id: hostel_Id } });
-      dispatch({ type: "CUSTOMERALLDETAILS", payload: { user_id: props.id } });
+
+
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_STATUS_CODES" });
@@ -1358,6 +1401,7 @@ function UserListRoomDetail(props) {
     if (!kycCard) return;
 
 
+
     await new Promise((res) => setTimeout(res, 300));
 
     html2canvas(kycCard).then((canvas) => {
@@ -1375,8 +1419,8 @@ function UserListRoomDetail(props) {
     <>
       {props.roomDetail && (
         <>
-          {props.userDetails &&
-            props.userDetails.map((item) => {
+          {customerDetails &&
+            customerDetails.map((item) => {
               const imageUrl = item.profile || Profiles;
               return (
                 <div
@@ -1519,10 +1563,11 @@ function UserListRoomDetail(props) {
                                   display: "flex",
                                   alignItems: "center",
                                   fontSize: "14px",
+                                  fontFamily: "Gilroy",
                                 }}
                                 onClick={handleKYCSubmit}
                               >
-                                Verify KYC <RightOutlined style={{ fontSize: "12px", marginLeft: 6 }} />
+                                Verify KYC <RightOutlined style={{ fontSize: "12px", marginLeft: 6, fontFamily: "Gilroy", }} />
                               </Button>
                               <p
                                 style={{
@@ -1557,7 +1602,7 @@ function UserListRoomDetail(props) {
                         }}
                         onClick={() => {
                           if (!props.customerEditPermission) {
-                            handleShowEditBed(props.userDetails);
+                            handleShowEditBed(customerDetails);
                           }
                         }}
                       >
@@ -1675,7 +1720,7 @@ function UserListRoomDetail(props) {
                                     <div
                                       onClick={() => {
                                         if (!props.customerEditPermission) {
-                                          handleEditUser(props.userDetails);
+                                          handleEditUser(customerDetails);
                                         }
                                       }}
                                       style={{
@@ -1756,7 +1801,7 @@ function UserListRoomDetail(props) {
                                         onClick={() => {
                                           if (!props.customerEditPermission) {
                                             handleShowEditBed(
-                                              props.userDetails
+                                              customerDetails
                                             );
                                           }
                                         }}
@@ -1815,7 +1860,7 @@ function UserListRoomDetail(props) {
                                         onClick={() => {
                                           if (!props.customerEditPermission) {
                                             handleShowEditBed(
-                                              props.userDetails
+                                              customerDetails
                                             );
                                           }
                                         }}
@@ -1946,7 +1991,7 @@ function UserListRoomDetail(props) {
                                             fontFamily: "Gilroy",
                                           }}
                                         >
-                                          ₹ {props.userDetails[0].RoomRent}
+                                          ₹ {customerDetails[0].RoomRent}
                                         </span>
                                       </p>
                                     </div>
@@ -1977,43 +2022,43 @@ function UserListRoomDetail(props) {
                                           color="#1E45E1"
                                           style={{ marginBottom: "2px" }}
                                         />
+                                        {(customerDetails[0].Address ||
+                                          customerDetails[0].area ||
+                                          customerDetails[0].landmark ||
+                                          customerDetails[0].city ||
+                                          customerDetails[0].pincode ||
+                                          customerDetails[0].state) && (
+                                            <div
+                                              style={{
+                                                fontSize: 14,
+                                                fontWeight: 600,
+                                                fontFamily: "Gilroy",
+                                                lineHeight: "1.5em",
+                                              }}
+                                            >
+                                              {(customerDetails[0].Address || customerDetails[0].area) && (
+                                                <>
+                                                  {customerDetails[0].Address ? customerDetails[0].Address + ", " : ""}
+                                                  {customerDetails[0].area || ""}
+                                                  <br />
+                                                </>
+                                              )}
 
-                                        <div
-                                          style={{
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            lineHeight: "1.5em",
-                                          }}
-                                        >
-                                          {(props.userDetails[0].Address ||
-                                            props.userDetails[0].area) && (
-                                              <>
-                                                {props.userDetails[0].Address
-                                                  ? props.userDetails[0].Address +
-                                                  ", "
-                                                  : ""}
-                                                {props.userDetails[0].area || ""}
-                                                <br />
-                                              </>
-                                            )}
+                                              {(customerDetails[0].landmark ||
+                                                customerDetails[0].city ||
+                                                customerDetails[0].pincode ||
+                                                customerDetails[0].state) && (
+                                                  <>
+                                                    {customerDetails[0].landmark ? customerDetails[0].landmark + ", " : ""}
+                                                    {customerDetails[0].city ? customerDetails[0].city + ", " : ""}
+                                                    {customerDetails[0].pincode ? customerDetails[0].pincode + " - " : ""}
+                                                    {customerDetails[0].state || ""}
+                                                  </>
+                                                )}
+                                            </div>
+                                          )}
 
-                                          {(props.userDetails[0].city ||
-                                            props.userDetails[0].pincode ||
-                                            props.userDetails[0].state) && (
-                                              <>
-                                                {props.userDetails[0].city
-                                                  ? props.userDetails[0].city +
-                                                  ", "
-                                                  : ""}
-                                                {props.userDetails[0].pincode
-                                                  ? props.userDetails[0].pincode +
-                                                  " - "
-                                                  : ""}
-                                                {props.userDetails[0].state || ""}
-                                              </>
-                                            )}
-                                        </div>
+
                                       </div>
                                     </div>
                                   </div>
@@ -2025,7 +2070,7 @@ function UserListRoomDetail(props) {
                                 className="card"
                                 style={{
                                   borderRadius: "20px",
-                                  padding: "30px",
+                                  padding: "20px",
                                   marginTop: 30,
                                   marginLeft: "20px",
                                 }}
@@ -2066,6 +2111,7 @@ function UserListRoomDetail(props) {
                                         fontSize: 14,
                                         fontWeight: 500,
                                         marginBottom: "10px",
+                                        fontFamily: "Gilroy"
                                       }}
                                     >
                                       Aadhar Card
@@ -2079,6 +2125,7 @@ function UserListRoomDetail(props) {
                                         padding: "10px 20px",
                                         fontSize: "14px",
                                         border: "1px solid #D9D9D9",
+                                        fontFamily: "Gilroy"
                                       }}
                                       onClick={() => handleUploadClick(aadharInputRef)}
                                     >
@@ -2229,6 +2276,7 @@ function UserListRoomDetail(props) {
                                         fontSize: 14,
                                         fontWeight: 500,
                                         marginBottom: "10px",
+                                        fontFamily: "Gilroy",
                                       }}
                                     >
                                       Other Document
@@ -2239,6 +2287,7 @@ function UserListRoomDetail(props) {
                                         borderRadius: "10px",
                                         padding: "10px 20px",
                                         fontSize: "14px",
+                                        fontFamily: "Gilroy",
                                         border: "1px solid #D9D9D9",
                                       }}
                                       onClick={() =>
@@ -2322,7 +2371,7 @@ function UserListRoomDetail(props) {
                                   </div>
 
                                   <div className="card-body">
-                                    {props.userDetails[0]?.AdvanceAmount > 0 ? (
+                                    {customerDetails[0]?.AdvanceAmount > 0 ? (
                                       <div className="row mb-3">
                                         <div className="col-sm-4 d-flex flex-column align-items-start">
                                           <div
@@ -2344,7 +2393,7 @@ function UserListRoomDetail(props) {
                                             <img src={Money} alt="Money Icon" />{" "}
                                             ₹
                                             {
-                                              props.userDetails[0]
+                                              customerDetails[0]
                                                 ?.AdvanceAmount
                                             }
                                           </p>
@@ -2604,21 +2653,24 @@ function UserListRoomDetail(props) {
                                                       <p className="mb-1 small fw-medium">
                                                         Address
                                                       </p>
-                                                      <span className="d-flex gap-2" style={{ width: "100%" }}>
+                                                      <span className="d-flex gap-2" style={{ width: 100 }}>
                                                         <Buildings
                                                           size="20"
                                                           color="#1E45E1"
                                                         />
                                                         <p className="mb-0 fw-semibold text-start" style={{
-                                                          width: "100%",
+                                                          width: 400,
                                                           whiteSpace: "nowrap",
                                                           overflow: "hidden",
                                                           textOverflow: "ellipsis",
                                                         }}
-                                                          title={`${v.address}, ${v.area}, ${v.city}, ${v.state} - ${v.pin_code}`}>
-                                                          {v.address} , {v.area} ,{" "}
-                                                          {v.city} ,{" "}
-                                                          {v.state}- {v.pin_code}
+                                                          title={`${v.address}, ${v.area},${v.landmark}, ${v.city}, ${v.state} - ${v.pin_code}`}>
+                                                          {(v.address || "")}
+                                                          {v.area ? ", " + v.area : ""}
+                                                          {v.landmark ? ", " + v.landmark : ""}
+                                                          {v.city ? ", " + v.city : ""}
+                                                          {v.state ? ", " + v.state : ""}
+                                                          {v.pin_code ? " - " + v.pin_code : ""}
                                                         </p>
                                                       </span>
                                                     </div>
@@ -2732,44 +2784,19 @@ function UserListRoomDetail(props) {
                                                       <p
                                                         className="mb-0 fw-semibold text-start"
                                                         style={{
-                                                          width: "100%",
+                                                          width: 400,
                                                           whiteSpace: "nowrap",
                                                           overflow: "hidden",
                                                           textOverflow: "ellipsis",
                                                         }}
-                                                        title={`${v.address}, ${v.area}, ${v.city}, ${v.pin_code} - ${v.state}`}
+                                                        title={`${v.address}, ${v.area},${v.landmark}, ${v.city}, ${v.pin_code} - ${v.state}`}
                                                       >
-                                                        <>
-                                                          {v.address && (
-                                                            <>
-                                                              {v.address}
-                                                              {(v.area || v.city || v.pin_code || v.state) ? ", " : ""}
-                                                            </>
-                                                          )}
-
-                                                          {v.area && (
-                                                            <>
-                                                              {v.area}
-                                                              {(v.city || v.pin_code || v.state) ? ", " : ""}
-                                                            </>
-                                                          )}
-
-                                                          {v.city && (
-                                                            <>
-                                                              {v.city}
-                                                              {(v.pin_code || v.state) ? ", " : ""}
-                                                            </>
-                                                          )}
-
-                                                          {v.pin_code && (
-                                                            <>
-                                                              {v.pin_code}
-                                                              {v.state ? " - " : ""}
-                                                            </>
-                                                          )}
-
-                                                          {v.state && <>{v.state}</>}
-                                                        </>
+                                                        {(v.address || "")}
+                                                        {v.area ? "," + v.area : ""}
+                                                        {v.landmark ? ", " + v.landmark : ""}
+                                                        {v.city ? ", " + v.city : ""}
+                                                        {v.state ? ", " + v.state : ""}
+                                                        {v.pin_code ? " - " + v.pin_code : ""}
                                                       </p>
 
                                                     </span>
