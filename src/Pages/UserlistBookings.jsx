@@ -1673,7 +1673,7 @@ function Booking(props) {
             <div className="d-flex align-items-center">
               <div
                 className=""
-                style={{ height: 100, width: 100, position: "relative" }}
+                style={{ height: 100, width: 100, position: "relative",cursor: "pointer" }}
               >
                 <Image
                   src={
@@ -1684,7 +1684,7 @@ function Booking(props) {
                         : file || Profile2
                   }
                   roundedCircle
-                  style={{ height: 100, width: 100 }}
+                  style={{ height: 100, width: 100, cursor: "pointer" }}
                 />
 
                 <label htmlFor="imageInput" className="">
@@ -1698,6 +1698,7 @@ function Booking(props) {
                       top: 90,
                       left: 80,
                       transform: "translate(-50%, -50%)",
+                      cursor: "pointer",
                     }}
                   />
                   <input
@@ -1825,7 +1826,7 @@ function Booking(props) {
                       id="vendor-select-pg"
                       style={{
                         border: "1px solid #D9D9D9",
-
+                         cursor: "pointer",
                         borderRadius: "8px 0 0 8px",
                         height: 50,
                         fontSize: 16,

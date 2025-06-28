@@ -967,7 +967,7 @@ function UserlistForm(props) {
                               : Profile
                           }
                           roundedCircle
-                          style={{ height: 100, width: 100 }}
+                          style={{ height: 100, width: 100,cursor: "pointer" }}
                         />
 
                         <label htmlFor="imageInput" className="">
@@ -981,6 +981,7 @@ function UserlistForm(props) {
                               top: 90,
                               left: 80,
                               transform: "translate(-50%, -50%)",
+                              cursor: "pointer"
                             }}
                           />
                           <input
@@ -1147,6 +1148,7 @@ function UserlistForm(props) {
                               backgroundColor: "#fff",
                               maxWidth: 90,
                               paddingRight: 10,
+                              cursor: "pointer"
                             }}
                           >
                             <option>{countryCode}</option>
