@@ -74,14 +74,15 @@ function UserlistWalkin(props) {
   const calledOnceRef = useRef(false);
   
   useEffect(() => {
-  
-      setWalkingLoader(true);
+       if(!calledOnceRef) {
+        setWalkingLoader(true);
       dispatch({
         type: "WALKINCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
-      calledOnceRef.current = true;
-    
+   
+       }
+        calledOnceRef.current = true;
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -249,6 +250,9 @@ function UserlistWalkin(props) {
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
+
+  
+  
 
   return (
     <>
@@ -686,21 +690,25 @@ function UserlistWalkin(props) {
   }}
   className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
 >
-  {(v.comments || v.area || v.city || v.state || v.pin_code)
-    ? (
-      <>
-        {(v.comments || v.area || v.city) && (
-          <>
-            {v.comments || ""}
-            {v.area || ""} {v.city || ""}
-            <br />
-          </>
-        )}
-        
-        {v.state || ""} {v.pin_code || ""}
-      </>
-    )
-    : "N/A"}
+ {(v.comments || v.area || v.landmark || v.city || v.state || v.pin_code)
+  ? (
+    <>
+      {(v.comments || v.area || v.landmark) && (
+        <>
+          {v.comments && `${v.comments} , `}
+          
+          {v.area && `${v.area} `}
+
+          {v.landmark || ""}
+          <br />
+        </>
+      )}
+     {v.city || ""} {v.state || ""} {(v.pin_code && `- ${v.pin_code}`) || ""}
+
+    </>
+  )
+  : "N/A"}
+
 </td>
 
 

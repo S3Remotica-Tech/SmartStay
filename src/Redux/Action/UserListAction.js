@@ -183,7 +183,7 @@ export async function AddWalkInCustomer(params) {
   if (params.area) formData.append("area", params.area)
   if (params.landmark) formData.append("landmark", params.landmark)
   if (params.city) formData.append("city", params.city)
-  if (params.pin_code) formData.append("pincode", params.pincode)
+  if (params.pin_code) formData.append("pin_code", params.pin_code)
   if (params.state) formData.append("state", params.state)
   if (params.hostel_id) formData.append("hostel_id", params.hostel_id)
   if (params.email_Id) formData.append("email_Id", params.email_Id)
