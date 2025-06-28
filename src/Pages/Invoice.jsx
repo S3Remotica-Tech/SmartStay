@@ -127,8 +127,7 @@ const InvoicePage = () => {
   const [billAddPermission, setBillAddPermission] = useState("");
   const [billDeletePermission, setBillDeletePermission] = useState("");
   const [billEditPermission, setBillEditPermission] = useState("");
-  const [recuringbillAddPermission, setRecuringBillAddPermission] =
-    useState("");
+  const [recuringbillAddPermission, setRecuringBillAddPermission] = useState("");
   const [recurringPermission, setRecurringPermission] = useState("");
   const [receiptPermission, setReceiptPermission] = useState("");
   const [receiptaddPermission, setReceiptAddPermission] = useState("");
@@ -168,6 +167,8 @@ const InvoicePage = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [startDate, endDate] = dateRange;
+
+  const [tabDisabled, setTabDisabled] = useState(false);
 
   useEffect(() => {
 
@@ -2956,7 +2957,7 @@ const InvoicePage = () => {
 
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
-                  <Tab
+                  <Tab  disabled={showLoader}
                     label="Bills"
                     value="1"
                     style={{
@@ -2969,7 +2970,7 @@ const InvoicePage = () => {
                       textTransform: "none",
                     }}
                   />
-                  <Tab
+                  <Tab   disabled={showLoader}
                     label="Recurring Bills"
                     value="2"
                     style={{
@@ -2982,7 +2983,7 @@ const InvoicePage = () => {
                       textTransform: "none",
                     }}
                   />
-                  <Tab
+                  <Tab   disabled={showLoader}
                     label="Receipt"
                     value="3"
                     style={{
