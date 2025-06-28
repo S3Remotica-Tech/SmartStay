@@ -368,15 +368,14 @@ function EBHostelReading(props) {
 
 
 
-  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
+  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
     indexOfLastRowelectricity - electricityrowsPerPage;
 
-  const dataSource =
-    props.value === "3" && props.filterStatus ? props.electricityHostel : hostelEbList;
+  const dataSource = props.filterStatus ? props.electricityHostel : hostelEbList;
 
   const currentRowelectricity = dataSource?.slice(
     indexOfFirstRowelectricity,
@@ -790,7 +789,7 @@ function EBHostelReading(props) {
 
           </>
         ) :
-          props.value === "3" && !props.loading && currentRowelectricity && currentRowelectricity?.length === 0 ? (
+        !props.loading && dataSource?.length === 0  ? (
             <div>
               <div style={{ textAlign: "center" }}>
                 <img src={emptyimg} width={240} height={240} alt="No readings" />
