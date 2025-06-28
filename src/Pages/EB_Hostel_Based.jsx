@@ -966,7 +966,7 @@ function EBHostelReading(props) {
       >
 
 
-        <Modal.Header style={{ marginBottom: "10px", position: "relative" }}>
+        <Modal.Header style={{  position: "relative" }}>
           <div
             style={{
               fontSize: 20,
@@ -981,7 +981,7 @@ function EBHostelReading(props) {
           <CloseCircle size="24" color="#000" onClick={handleCloseHostel}
             style={{ cursor: 'pointer' }} />
         </Modal.Header>
-        <Modal.Body style={{ marginTop: "-13px" }}>
+        <Modal.Body className="pt-2">
           <div className="row ">
 
 

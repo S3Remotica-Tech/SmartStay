@@ -257,7 +257,7 @@ function CustomerReAssign(props) {
                   <div className="row mb-3"></div>
 
                   <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
+                    style={{ marginBottom: "8px", position: "relative" }}
                   >
                     <div
                       style={{
@@ -272,7 +272,7 @@ function CustomerReAssign(props) {
                     <CloseCircle size="24" color="#000" onClick={handleCloseReAssign}
                       style={{ cursor: 'pointer' }} />
                   </Modal.Header>
-                  <div style={{ maxHeight: "390px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-0">
+                  <div style={{ maxHeight: "390px", overflowY: "scroll" }} className="show-scroll p-2 mt-0 me-0">
 
                     <div className="row mb-3 d-flex align-items-center">
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">

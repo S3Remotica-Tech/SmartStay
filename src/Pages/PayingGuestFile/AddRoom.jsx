@@ -135,7 +135,7 @@ useEffect(()=>{
           style={{ maxWidth: 850, width: "100%" }}
           className="m-0 p-0"
         >
-          <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
+          <Modal.Header className="m-0" style={{ border: "1px solid #E7E7E7" }}>
             <Modal.Title
               style={{
                 fontSize: 18,
@@ -303,7 +303,7 @@ useEffect(()=>{
           <Modal.Footer style={{ border: "none" }}>
             <Button
               onClick={handleCreateRoom}
-              className="w-100 mt-3"
+              className="w-100 mt-0"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 600,

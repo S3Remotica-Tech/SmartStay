@@ -251,7 +251,7 @@ const DropdownIndicator = () => null;
           <CloseCircle size="24" color="#000" onClick={handleCloseTransactionEdit}
             style={{ cursor: 'pointer' }} />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="pt-2">
           <div className="row ">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Label

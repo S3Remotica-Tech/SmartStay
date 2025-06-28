@@ -950,16 +950,16 @@ function Sidebar() {
                   marginBottom: 12,
                 }}
               >
-                <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "-20px auto" }}>
+                <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "-20px auto" , gap:10}}>
                   <div
                     style={{
                       display: "flex",
                       flexDirection: "column", 
                       alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%", 
+                      justifyContent: "start",
+                      width: "fit-content", 
                       textAlign: "center",
-                      margin: "0 auto"
+                      
                     }}
                   >
                     <Image
@@ -980,7 +980,7 @@ function Sidebar() {
                     />
                   </div>
 
-                  <div style={{ display: "flex", flexDirection: "column", marginLeft: 12 }}>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
                     <span
 
                       title={profilename}

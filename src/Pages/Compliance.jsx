@@ -1143,7 +1143,7 @@ const Compliance = () => {
                           style={{ cursor: 'pointer' }} />
 
                       </Modal.Header>
-                      <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+                      <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 mt-2 me-3">
 
                         {Array.isArray(complaintList) && complaintList.length === 0 && (
                           <div className="d-flex align-items-center mb-3" style={{ marginTop: "-12px" }}>

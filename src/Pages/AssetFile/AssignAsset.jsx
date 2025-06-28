@@ -275,7 +275,7 @@ function StaticExample({ show, handleClose, currentItem }) {
               style={{ cursor: "pointer" }}
             />
           </Modal.Header>
-          <Modal.Body style={{ padding: 20 }}>
+          <Modal.Body style={{ padding: "10px 15px" }}>
 
             {generalError && (
               <div className="d-flex align-items-center p-1 mb-2">

@@ -669,21 +669,22 @@ function UserList(props) {
     setUniqostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
 
- 
+
 
   const [userListDetail, setUserListDetail] = useState([]);
 
 
   useEffect(() => {
     if (state.UsersList?.UserListStatusCode === 200) {
-      setLoading(false)
+
       setUserListDetail(state.UsersList.Users);
+      setLoading(false)
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_USER" });
       }, 1000);
     }
   }, [state.UsersList?.UserListStatusCode]);
-  
+
   useEffect(() => {
     if (state.UsersList.userRoomfor) {
       setIsEditing(true);
@@ -991,7 +992,7 @@ function UserList(props) {
           type: "USERLIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
         });
-      }  if (value === "2") {
+      } if (value === "2") {
         dispatch({
           type: "GET_BOOKING_LIST",
           payload: { hostel_id: state.login.selectedHostel_Id },
@@ -1008,7 +1009,7 @@ function UserList(props) {
         });
       }
     }
-  }, [value]);
+  }, [value, state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (value === "1") {
@@ -1162,7 +1163,7 @@ function UserList(props) {
       document.removeEventListener("mousedown", handleClickOutsideAccount);
     };
   }, []);
- 
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState(false);
@@ -1173,13 +1174,13 @@ function UserList(props) {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
- const currentItems = React.useMemo(() => {
-  const source = (search || filterStatus) ? filteredUsers : userListDetail;
-  return source?.slice(indexOfFirstItem, indexOfLastItem);
-}, [search, filterStatus, filteredUsers, userListDetail, indexOfFirstItem, indexOfLastItem]);
+  const currentItems = React.useMemo(() => {
+    const source = (search || filterStatus) ? filteredUsers : userListDetail;
+    return source?.slice(indexOfFirstItem, indexOfLastItem);
+  }, [search, filterStatus, filteredUsers, userListDetail, indexOfFirstItem, indexOfLastItem]);
 
-const totalItems = (search || filterStatus) ? filteredUsers?.length : userListDetail?.length;
-const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const totalItems = (search || filterStatus) ? filteredUsers?.length : userListDetail?.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
@@ -1206,7 +1207,7 @@ const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     return sorted;
   }, [currentItems, sortConfig]);
-  
+
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
@@ -1316,6 +1317,16 @@ const totalPages = Math.ceil(totalItems / itemsPerPage);
     }
   }, [state.UsersList?.statusCodeForAddUser]);
 
+
+
+
+  useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+      setLoading(true)
+    }
+  }, [])
+
   const handleBack = () => {
     setUserList(true);
     setRoomDetail(false);
@@ -1360,34 +1371,34 @@ const totalPages = Math.ceil(totalItems / itemsPerPage);
     setResetPage(true);
   };
 
-  
 
-const handleDateRangeChangeCheckIn = (dates) => {
-  setCheckInDateRange(dates);
 
-  if (!dates || dates.length !== 2) {
-    setFilterStatus(false);
+  const handleDateRangeChangeCheckIn = (dates) => {
+    setCheckInDateRange(dates);
+
+    if (!dates || dates.length !== 2) {
+      setFilterStatus(false);
+      setCurrentPage(1);
+      return;
+    }
+
+    const [start, end] = dates;
+
+    const filtered = userListDetail?.filter((item) => {
+      if (!item.joining_Date || item.joining_Date === "0000-00-00") return false;
+
+      const itemDate = dayjs(item.joining_Date);
+      return (
+        itemDate.isValid() &&
+        itemDate.isSameOrAfter(start, "day") &&
+        itemDate.isSameOrBefore(end, "day")
+      );
+    });
+
+    setFilteredUsers(filtered);
+    setFilterStatus(true);
     setCurrentPage(1);
-    return;
-  }
-
-  const [start, end] = dates;
-
-  const filtered = userListDetail?.filter((item) => {
-    if (!item.joining_Date || item.joining_Date === "0000-00-00") return false;
-
-    const itemDate = dayjs(item.joining_Date);
-    return (
-      itemDate.isValid() &&
-      itemDate.isSameOrAfter(start, "day") &&
-      itemDate.isSameOrBefore(end, "day")
-    );
-  });
-
-  setFilteredUsers(filtered);
-  setFilterStatus(true);
-  setCurrentPage(1); 
-};
+  };
 
 
 
@@ -2213,7 +2224,7 @@ const handleDateRangeChangeCheckIn = (dates) => {
                       id="statusselect"
                       style={{
                         color: "rgba(34, 34, 34, 1)",
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: 600,
                         fontFamily: "Gilroy",
                       }}
@@ -3289,7 +3300,7 @@ const handleDateRangeChangeCheckIn = (dates) => {
                   </>
                 )}
 
-                {!loading && currentItems && currentItems?.length === 0 &&  (
+                {!loading && currentItems && currentItems?.length === 0 && (
                   <div style={{ marginTop: 30 }} className="animated-text">
                     <div style={{ textAlign: "center" }}>
                       <img src={Emptystate} alt="emptystate" />

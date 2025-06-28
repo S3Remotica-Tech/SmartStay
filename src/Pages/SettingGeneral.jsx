@@ -821,7 +821,7 @@ const handlePassword = (e) => {
         }}
       >
 
-        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-3">
+        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-0">
           <div>
             <label
               style={{
@@ -838,11 +838,11 @@ const handlePassword = (e) => {
           </div>
         </div>
         <div
-          className="d-flex justify-content-center justify-content-md-end w-100 mt-3 mt-md-0"
+          className="d-flex justify-content-center justify-content-md-end w-100 mt-0 mt-md-0"
 
         >
 
-          <div style={{ marginTop: 6 }}
+          <div 
           >
             <Button
 
@@ -858,7 +858,7 @@ const handlePassword = (e) => {
                 height: 45,
                 width: 146,
                 whiteSpace: "nowrap",
-                marginTop: 5
+                marginTop: 0
 
               }}
 
@@ -870,9 +870,8 @@ const handlePassword = (e) => {
         </div>
       </div>
 
-      <div className="container scroll-issue" style={{
+      <div className="container scroll-issue mt-0" style={{
         position: "relative",
-
         overflowY: "auto",
       }}>
 
@@ -916,7 +915,7 @@ const handlePassword = (e) => {
 
 
               <div
-                className="card p-3 settingGreneral mt-3 "
+                className="card p-3 settingGreneral mt-3"
                 style={{
                   borderRadius: 16,
 

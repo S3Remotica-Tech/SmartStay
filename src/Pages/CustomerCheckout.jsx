@@ -130,6 +130,7 @@ function CustomerCheckout(props) {
           onHide={handleCloseCheckout}
           backdrop="static"
           centered
+         
         >
           <Modal.Dialog
             style={{
@@ -146,7 +147,7 @@ function CustomerCheckout(props) {
                   <div className="row mb-3"></div>
 
                   <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative", paddingRight: 1, paddingLeft: 1 }}
+                    style={{ marginBottom: "10px", position: "relative", paddingRight: 1, paddingLeft: 1 }}
                   >
                     <div
                       style={{

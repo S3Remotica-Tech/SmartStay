@@ -171,7 +171,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
               <CloseCircle size="24" color="#000" onClick={handleCloseForm}  style={{cursor:"pointer"}}/>
             </Modal.Header>
 
-            <Modal.Body>
+            <Modal.Body className="pt-2">
              
 
               {hostelError && (

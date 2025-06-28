@@ -3,7 +3,10 @@
     
   }
 
-
+.custom-switch-pointer input[type="checkbox"], .custom-switch-pointer label {
+    cursor: pointer !important;
+    font-family: 'Gilroy' !important;
+}
   .pagination-container {
     position: fixed;
     bottom: 0;

@@ -67,6 +67,8 @@ const CheckOutForm = ({
     setCheckOutRequestDateError("");
     setDateDifference(null);
     SetDueAmount('')
+    setFormLoading(false)
+    setFormCheckoutLoading(false)
 
   };
 
@@ -249,9 +251,11 @@ const CheckOutForm = ({
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
 
+  console.log("selectedCustomer", selectedCustomer)
 
 
   const handleCheckOutCustomer = () => {
+
     dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER_LIST_ERROR" });
     const formattedDate = moment(checkOutDate, "DD-MM-YYYY").format(
       "YYYY-MM-DD"
@@ -284,8 +288,15 @@ const CheckOutForm = ({
       return;
     }
 
+    const filteruserlist = state.UsersList.Users?.filter(
+      (u) => u.ID === selectedCustomer
+    );
 
-
+    const joining_Date = filteruserlist[0].user_join_date
+    if (moment(checkOutDate, "DD-MM-YYYY").isBefore(moment(joining_Date, "YYYY-MM-DD"))) {
+      setCheckOutDateError("Before joining Date is not allowed");
+      return;
+    }
 
     const formatDateTocheckoutDate = (startdate) => {
       if (!startdate) return "";
@@ -403,17 +414,17 @@ const CheckOutForm = ({
       lineHeight: 1,
       stroke: "currentColor",
       strokeWidth: 0,
-      cursor:"pointer"
+      cursor: "pointer"
     }),
     indicatorSeparator: () => ({
       display: "none",
     }),
-     option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer",
+      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+      color: "#000",
+    }),
   };
 
 
@@ -457,6 +468,7 @@ const CheckOutForm = ({
 
   useEffect(() => {
     if (state.UsersList.statusCodegetConfirmCheckout === 200) {
+      setFormLoading(false)
       setAdvanceAmount(
         state?.UsersList?.GetconfirmcheckoutUserDetails?.advance_amount
       );
@@ -524,6 +536,19 @@ const CheckOutForm = ({
     }
 
     if (hasError) {
+      return;
+    }
+    const filterUserList = state.UsersList.Users?.filter(
+      (u) => u.ID === selectedCustomer
+    );
+
+    const joiningDate = filterUserList?.[0]?.user_join_date;
+
+    if (
+      joiningDate &&
+      moment(checkOutDate, "DD-MM-YYYY").isBefore(moment(joiningDate, "YYYY-MM-DD"))
+    ) {
+      setCheckOutDateError("Before join date not allowed");
       return;
     }
 
@@ -605,6 +630,19 @@ const CheckOutForm = ({
     }
 
     if (hasError) return;
+    const filterUserList = state.UsersList.Users?.filter(
+      (u) => u.ID === selectedCustomer
+    );
+
+    const joiningDate = filterUserList?.[0]?.user_join_date;
+
+    if (
+      joiningDate &&
+      moment(checkOutDate, "DD-MM-YYYY").isBefore(moment(joiningDate, "YYYY-MM-DD"))
+    ) {
+      setNoChangeMessage("Before join date not allowed");
+      return;
+    }
 
     const formattedDate = moment(checkOutDate).format("YYYY-MM-DD");
 
@@ -699,6 +737,7 @@ const CheckOutForm = ({
   useEffect(() => {
     if (state.UsersList.statusCodeAddConfirmCheckout === 200) {
       setFormCheckoutLoading(false)
+      setFormLoading(false)
       handleCloseConfirmFormPage()
       setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CONFIRM_CHECK_OUT_CUSTOMER" });
@@ -711,6 +750,7 @@ const CheckOutForm = ({
   useEffect(() => {
     if (state.UsersList.statusCodeConformEdit === 200) {
       setFormCheckoutLoading(false)
+      setFormLoading(false)
       handleCloseConfirmFormPage()
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       setTimeout(() => {
@@ -819,87 +859,489 @@ const CheckOutForm = ({
     border: "1px solid #D9D9D9",
   };
 
-
+useEffect(() => {
+    if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
+      setFormLoading(false)
+            setTimeout(() => {
+        dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
+      }, 2000);
+    }
+  }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
 
   return (
     <>
-      <Modal show={show} onHide={handlecloseform} centered backdrop="static">
-        <Modal.Header className="d-flex justify-content-between align-items-center">
-          <Modal.Title
-            style={{
-              fontWeight: "600",
-              fontSize: "18px",
-              fontFamily: "Gilroy",
-            }}
-          >
-            {
-              currentItem && checkouteditaction
-                ? "Edit Check-Out"
-                : "Add Check-Out"}
-          </Modal.Title>
-          <CloseCircle size="24" color="#000" onClick={handlecloseform}
-            style={{ cursor: 'pointer' }} />
-        </Modal.Header>
+      <Modal show={show} onHide={handlecloseform} centered backdrop="static"
+        style={{
+                    width:"100%",
+                    paddingRight: "10px",
+                    borderRadius: "30px",
+                  }}>
+        <Modal.Dialog
+          style={{
+            minWidth: 500,
+            paddingRight: "10px",
+            borderRadius: "30px",
+          }}
+          className="m-0 p-0"
+        >
+          <Modal.Header className="d-flex justify-content-between align-items-center">
+            <Modal.Title
+              style={{
+                fontWeight: "600",
+                fontSize: "18px",
+                fontFamily: "Gilroy",
+              }}
+            >
+              {
+                currentItem && checkouteditaction
+                  ? "Edit Check-Out"
+                  : "Add Check-Out"}
+            </Modal.Title>
+            <CloseCircle size="24" color="#000" onClick={handlecloseform}
+              style={{ cursor: 'pointer' }} />
+          </Modal.Header>
 
-        <Modal.Body>
-          <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
-            <div className="d-flex align-items-center">
-              <div className="row row-gap-2">
-                {!checkouteditaction && (
-                  <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
-                    <div className="form-group">
-                      <label
-                        className="mt-2"
+          <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll pt-0 mt-2 me-3">
+            <div >
+              <div className="d-flex align-items-center">
+                <div className="row row-gap-2">
+                  {!checkouteditaction && (
+                    <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
+                      <div className="form-group">
+                        <label
+                          className="mt-2"
+                          style={{
+                            fontSize: 14,
+                            color: "rgba(75, 75, 75, 1)",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          Customer{" "}
+                          <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                        </label>
+                        <Select
+                          styles={customStyles}
+                          value={formatOptions().find(
+                            (opt) => opt.value === selectedCustomer
+                          )}
+                          onChange={handleCustomerChange}
+                          options={formatOptions()}
+                          placeholder="Select a customer"
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+
+
+                        />
+
+                        {customerWError && (
+                          <div className="d-flex align-items-center p-1 mb-2">
+                            <MdError
+                              style={{
+                                color: "red",
+                                marginRight: "5px",
+                                fontSize: "12px",
+                              }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {customerWError}
+                            </label>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-3">
+                      <Form.Label
                         style={{
                           fontSize: 14,
-                          color: "rgba(75, 75, 75, 1)",
+                          color: "#222222",
                           fontFamily: "Gilroy",
                           fontWeight: 500,
                         }}
                       >
-                        Customer{" "}
-                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                      </label>
-                      <Select
-                        styles={customStyles}
-                        value={formatOptions().find(
-                          (opt) => opt.value === selectedCustomer
-                        )}
-                        onChange={handleCustomerChange}
-                        options={formatOptions()}
-                        placeholder="Select a customer"
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
+                        Current Floor{" "}
 
+                      </Form.Label>
+                      <FormControl
+                        id="form-controls"
+                        placeholder="Enter Name"
+                        type="text"
+                        value={floorname}
 
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #E7F1FF",
+                          height: 50,
+                          borderRadius: 8,
+                          backgroundColor: "#E7F1FF",
+                        }}
                       />
+                    </Form.Group>
+                  </div>
 
-                      {customerWError && (
-                        <div className="d-flex align-items-center p-1 mb-2">
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginRight: "5px",
-                              fontSize: "12px",
-                            }}
-                          />
-                          <label
-                            className="mb-0"
-                            style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
-                              fontWeight: 500,
-                            }}
-                          >
-                            {customerWError}
-                          </label>
-                        </div>
-                      )}
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-3">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Current Bed{" "}
+                      </Form.Label>
+                      <FormControl
+                        id="form-controls"
+                        placeholder="Enter name"
+                        type="text"
+                        value={bedname}
+
+                        style={{
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          boxShadow: "none",
+                          border: "1px solid #E7F1FF",
+                          height: 50,
+                          borderRadius: 8,
+                          backgroundColor: "#E7F1FF",
+                        }}
+                      />
+                    </Form.Group>
+                  </div>
+
+
+
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-2" controlId="purchaseDate">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Request Date{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      </Form.Label>
+
+
+                      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                        <DatePicker
+                          style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
+                          format="DD/MM/YYYY"
+                          placeholder="DD/MM/YYYY"
+                          value={checkOutrequestDate ? dayjs(checkOutrequestDate) : null}
+                          onChange={(date) => {
+                            setCheckOutRequestDateError("");
+                            setIsChangedError("");
+                            setCheckOutRequestDate(date ? date.toDate() : null);
+                          }}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.closest(".show-scroll") || document.body
+                          }
+                        />
+                      </div>
+                    </Form.Group>
+                    {checkoUtrequestDateError && (
+                      <div
+                        className="d-flex align-items-center p-1 mb-2"
+                        style={{ marginTop: "-6px" }}
+                      >
+                        <MdError
+                          style={{
+                            color: "red",
+                            marginRight: "5px",
+                            fontSize: "12px",
+                          }}
+                        />
+                        <label
+                          className="mb-0"
+                          style={{
+                            color: "red",
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {checkoUtrequestDateError}
+                        </label>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-2" controlId="purchaseDate">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Check-Out Date{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      </Form.Label>
+
+
+
+                      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                        <DatePicker
+                          style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
+                          format="DD/MM/YYYY"
+                          placeholder="DD/MM/YYYY"
+                          value={checkOutDate ? dayjs(checkOutDate) : null}
+                          onChange={(date) => {
+                            setCheckOutDateError('');
+                            setIsChangedError("");
+                            setCheckOutDate(date ? date.toDate() : null);
+                          }}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.closest(".show-scroll") || document.body
+                          }
+                        />
+                      </div>
+                    </Form.Group>
+                    {checkoUtDateError && (
+                      <div
+                        className="d-flex align-items-center p-1"
+                        style={{ marginTop: "-6px" }}
+                      >
+                        <MdError
+                          style={{
+                            color: "red",
+                            marginRight: "5px",
+                            fontSize: "12px",
+                          }}
+                        />
+                        <label
+                          className="mb-0"
+                          style={{
+                            color: "red",
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            whiteSpace: "nowrap"
+                          }}
+                        >
+                          {checkoUtDateError}
+                        </label>
+                      </div>
+                    )}
+                  </div>
+
+
+
+                  <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
+                    <label
+                      htmlFor="comments"
+                      className="mt-2"
+                      style={{
+                        fontSize: 14,
+                        color: "rgba(75, 75, 75, 1)",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Comments
+                    </label>
+                    <input
+                      type="text"
+                      name="comments"
+                      id="comments"
+                      value={comments}
+                      onChange={handleCommentsChange}
+                      className="form-control mt-2"
+                      placeholder="Add Comments"
+                      required
+                      style={{
+                        height: "50px",
+                        borderRadius: "8px",
+                        fontSize: 16,
+                        color: comments ? "#222" : "#4b4b4b",
+                        fontFamily: "Gilroy",
+                        fontWeight: comments ? 600 : 500,
+                        boxShadow: "none",
+                        border: "1px solid #D9D9D9",
+                      }}
+                    />
+                  </div>
+
+                  {dateDifference !== null && (
+                    <div className="col-12 mt-3">
+                      <p
+                        style={{
+                          fontSize: 15,
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                          color: "#1E45E1",
+                        }}
+                      >
+                        ( Notice Days* - {dateDifference} days )
+                      </p>
                     </div>
+                  )}
+                </div>
+                {state.UsersList.errorMessageAddCheckOut && (
+                  <div className="d-flex align-items-center p-1 mt-6">
+                    <MdError style={{ color: "red", marginRight: "5px", }} />
+                    <label
+                      className="mb-0"
+                      style={{
+                        color: "red",
+                        fontSize: "12px",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+
+                      }}
+                    >
+                      {state.UsersList.errorMessageAddCheckOut}
+                    </label>
                   </div>
                 )}
+
+
+
+
+              </div>
+
+            </div>
+
+            {isChangedError && (
+              <div
+                className="d-flex justify-content-center align-items-center"
+                style={{ color: "red", }}
+              >
+                <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                <span
+                  style={{
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {isChangedError}
+                </span>
+              </div>
+            )}
+
+
+
+          </Modal.Body>
+
+          {formLoading &&
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>
+          }
+          <Modal.Footer
+            className="d-flex align-items-center justify-content-center"
+            style={{ border: "none" }}
+          >
+            <Button
+              className="mt-3"
+              style={{
+                borderRadius: "8px",
+                fontFamily: "Gilroy",
+                fontWeight: "600",
+                fontSize: "14px",
+                padding: "16px 24px",
+                width: "100%",
+                backgroundColor: "#1E45E1",
+              }}
+
+              onClick={() => {
+                if (checkouteditaction) {
+                  handleCheckOutCustomer();
+                } else {
+                  handleCheckOutCustomer();
+                }
+              }}
+            >
+              {currentItem && checkouteditaction
+                ? "Save Changes"
+                : "Add Check-Out"}
+            </Button>
+          </Modal.Footer>
+        </Modal.Dialog>
+      </Modal>
+
+
+
+      <Modal show={cofirmForm} onHide={handleCloseConfirmFormPage} centered backdrop="static"
+       >
+        <Modal.Dialog
+          style={{
+                        paddingRight: "10px",
+            borderRadius: "30px",
+          }}
+          className="m-0 p-0"
+        >
+          <Modal.Header className="d-flex justify-content-between align-items-center">
+            <Modal.Title
+              style={{
+                fontWeight: "600",
+                fontSize: "18px",
+                fontFamily: "Gilroy",
+              }}
+            >
+              Confirm Check-Out
+            </Modal.Title>
+            <img
+              src={Closecircle}
+              alt="Close"
+              style={{ cursor: "pointer", width: "24px", height: "24px" }}
+              onClick={handleCloseConfirmFormPage}
+            />
+          </Modal.Header>
+
+          <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll pt-2 mt-2 me-3">
+            <div >
+              <div className="row row-gap-2 d-flex align-items-center">
+
+
 
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-3">
@@ -968,67 +1410,6 @@ const CheckOutForm = ({
                   </Form.Group>
                 </div>
 
-
-
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-2" controlId="purchaseDate">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Request Date{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                    </Form.Label>
-
-
-                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                      <DatePicker
-                        style={{ width: "100%", height: 48, cursor: "pointer" }}
-                        format="DD/MM/YYYY"
-                        placeholder="DD/MM/YYYY"
-                        value={checkOutrequestDate ? dayjs(checkOutrequestDate) : null}
-                        onChange={(date) => {
-                          setCheckOutRequestDateError("");
-                          setIsChangedError("");
-                          setCheckOutRequestDate(date ? date.toDate() : null);
-                        }}
-                        getPopupContainer={(triggerNode) =>
-                          triggerNode.closest(".show-scroll") || document.body
-                        }
-                      />
-                    </div>
-                  </Form.Group>
-                  {checkoUtrequestDateError && (
-                    <div
-                      className="d-flex align-items-center p-1 mb-2"
-                      style={{ marginTop: "-6px" }}
-                    >
-                      <MdError
-                        style={{
-                          color: "red",
-                          marginRight: "5px",
-                          fontSize: "12px",
-                        }}
-                      />
-                      <label
-                        className="mb-0"
-                        style={{
-                          color: "red",
-                          fontSize: "12px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {checkoUtrequestDateError}
-                      </label>
-                    </div>
-                  )}
-                </div>
-
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-2" controlId="purchaseDate">
                     <Form.Label
@@ -1045,9 +1426,14 @@ const CheckOutForm = ({
 
 
 
-                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", }}>
                       <DatePicker
-                        style={{ width: "100%", height: 48, cursor: "pointer" }}
+                        style={{
+                          width: "100%", height: 48, cursor: "pointer",
+                          backgroundColor: conformEdit ? "#E7F1FF" : "#fff",
+                          color: conformEdit ? "#000" : "#000",
+                          fontFamily: "Gilroy"
+                        }}
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
                         value={checkOutDate ? dayjs(checkOutDate) : null}
@@ -1059,6 +1445,7 @@ const CheckOutForm = ({
                         getPopupContainer={(triggerNode) =>
                           triggerNode.closest(".show-scroll") || document.body
                         }
+                        disabled={conformEdit}
                       />
                     </div>
                   </Form.Group>
@@ -1081,7 +1468,6 @@ const CheckOutForm = ({
                           fontSize: "12px",
                           fontFamily: "Gilroy",
                           fontWeight: 500,
-                          whiteSpace: "nowrap"
                         }}
                       >
                         {checkoUtDateError}
@@ -1090,6 +1476,280 @@ const CheckOutForm = ({
                   )}
                 </div>
 
+
+                <div className="col-lg-6 col-md-6 col-sm-12 colxs-12 mt-2">
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <label
+                      htmlFor="Advance"
+                      style={{
+                        fontSize: 14,
+                        color: "rgba(75, 75, 75, 1)",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Total Advance
+                    </label>
+
+
+                  </div>
+
+                  <input
+                    type="text"
+                    name="Advance"
+                    id="Advance"
+                    value={advanceamount}
+
+                    className="form-control mt-2"
+                    placeholder="Add Advance Amount"
+                    required
+                    style={{
+                      height: "50px",
+                      borderRadius: "8px",
+                      fontSize: 16,
+                      color: comments ? "#222" : "#4b4b4b",
+                      fontFamily: "Gilroy",
+                      fontWeight: comments ? 600 : 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                    }}
+                  />
+                </div>
+
+
+                <h6>Advance Deduction</h6>
+
+                <div className="row align-items-center">
+
+                  {fields.map((item, index) => {
+                    const isHidden = index !== 0 && item.reason?.toLowerCase() === 'advance return';
+                    if (isHidden) return null;
+
+                    visibleIndex++;
+
+                    const isLastVisible = visibleIndex === fields.filter(f => f.reason?.toLowerCase() !== 'advance return' || fields.indexOf(f) === 0).length - 1;
+
+                    return (
+                      <React.Fragment key={index}>
+                        <div className="col-lg-5 col-md-6 col-sm-12">
+                          <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
+                            {index === 0 ? 'DueAmount ' : 'Reason'}
+                          </label>
+                          <input
+                            type="text"
+                            id={`reason-${index}`}
+                            name={`reason-${index}`}
+                            placeholder={index === 0 ? 'Due Reason' : 'Enter Reason'}
+                            value={item.reason}
+                            onChange={(e) => handleInputChange(index, "reason", e.target.value)}
+                            className="form-control"
+                            style={inputStyle}
+                            disabled={index === 0}
+                          />
+                        </div>
+
+                        <div className="col-lg-5 col-md-6 col-sm-12">
+                          <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
+                            Amount
+                          </label>
+                          <input
+                            type="text"
+                            id={`amount-${index}`}
+                            name={`amount-${index}`}
+                            placeholder={index === 0 ? `₹${dueamount || 0}` : 'Enter Amount'}
+                            value={index === 0 ? (fields[0].amount || dueamount || "") : item.amount}
+                            onChange={(e) => handleInputChange(index, "amount", e.target.value)}
+                            className="form-control"
+                            style={inputStyle}
+                            disabled={index === 0}
+                          />
+                        </div>
+
+                        <div
+                          className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-center align-items-center gap-2"
+                          style={{ marginTop: 30 }}
+                        >
+                          {isLastVisible && (
+                            <img
+                              src={PlusIcon}
+                              alt="plus"
+                              width={25}
+                              height={25}
+                              style={{ cursor: "pointer" }}
+                              onClick={handleAddField}
+                            />
+                          )}
+                          {fields.length > 1 && index !== 0 && (
+                            <img
+                              src={Delete}
+                              alt="remove"
+                              width={20}
+                              height={20}
+                              style={{ cursor: "pointer" }}
+                              onClick={() => handleRemoveField(index)}
+                            />
+                          )}
+                        </div>
+                      </React.Fragment>
+                    );
+                  })}
+
+
+
+                </div>
+
+                {(conformEdit) && (
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <Form.Group className="mb-2" controlId="purchaseDate">
+                      <Form.Label
+                        style={{
+                          fontSize: 14,
+                          color: "#222222",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Payment Date{" "}
+                        <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                      </Form.Label>
+
+                      <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                        <DatePicker
+                          style={{ width: "100%", height: 48, cursor: "pointer" }}
+                          format="DD/MM/YYYY"
+                          placeholder="DD/MM/YYYY"
+                          value={paymentDate ? dayjs(paymentDate) : null}
+                          onChange={(date) => {
+                            setIsChangedError("");
+                            setNoChangeMessage("")
+                            setPaymentDate(date ? date.toDate() : null);
+                          }}
+                          getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                        />
+                      </div>
+                    </Form.Group>
+
+
+                  </div>
+                )}
+
+
+                <div className="col-lg-6 col-md-6 col-sm-12">
+                  <label
+                    htmlFor="amount"
+                    className="form-label"
+                    style={{
+                      fontSize: 14,
+                      color: "rgba(75, 75, 75, 1)",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    ReturnAmount
+                  </label>
+                  <input
+                    type="text"
+                    id="amount"
+                    name="amount"
+                    placeholder="Enter Return Amount"
+                    className="form-control"
+                    disabled
+
+                    value={returnAmount}
+                    style={{
+                      height: "50px",
+                      borderRadius: "8px",
+                      fontSize: 16,
+                      color: "#222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                      border: "1px solid #D9D9D9",
+                    }}
+                  />
+                </div>
+
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <Form.Group
+                    className="mb-1"
+                    controlId="exampleForm.ControlInput1"
+                  >
+                    <Form.Label
+                      style={{
+                        fontSize: 14,
+                        color: "#222222",
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Mode of Transaction{" "}
+                      <span
+                        style={{
+                          color: "#FF0000",
+                          display: modeOfPayment ? "none" : "inline-block",
+                        }}
+                      >
+                        *
+                      </span>
+                    </Form.Label>
+                    <Form.Select
+                      aria-label="Default select example"
+                      value={modeOfPayment}
+                      onChange={handleModeOfPaymentChange}
+                      className=""
+                      id="vendor-select"
+                      style={{
+                        fontSize: 16,
+                        color: "rgba(75, 75, 75, 1)",
+                        fontFamily: "Gilroy",
+                        fontWeight: modeOfPayment ? 600 : 500,
+                        cursor: "pointer"
+                      }}
+                    >
+
+                      <option value="">Select Mode Of Payment</option>
+                      {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
+                        state.bankingDetails?.bankingList?.banks.map((item) => {
+                          let label = "";
+                          if (item.type === "bank") label = 'Bank';
+                          else if (item.type === "upi") label = "UPI";
+                          else if (item.type === "card") label = "Card";
+                          else if (item.type === "cash") label = "Cash";
+
+                          return (
+                            <option key={item.id} value={item.id}>
+                              {`${item.benificiary_name} - ${label}`}
+                            </option>
+                          );
+                        })}
+
+                    </Form.Select>
+
+
+                    {modeOfPaymentError && (
+                      <div
+                        className="d-flex justify-content-start align-items-start"
+                        style={{ color: "red", marginTop: 15 }}
+                      >
+                        <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {modeOfPaymentError}
+                        </span>
+                      </div>
+                    )}
+
+
+
+
+                  </Form.Group>
+
+                </div>
 
 
                 <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
@@ -1116,6 +1776,7 @@ const CheckOutForm = ({
                     required
                     style={{
                       height: "50px",
+
                       borderRadius: "8px",
                       fontSize: 16,
                       color: comments ? "#222" : "#4b4b4b",
@@ -1143,7 +1804,7 @@ const CheckOutForm = ({
                 )}
               </div>
               {state.UsersList.errorMessageAddCheckOut && (
-                <div className="d-flex align-items-center p-1 mt-6">
+                <div ref={errorRef} className="d-flex align-items-center p-1 mt-6">
                   <MdError style={{ color: "red", marginRight: "5px", }} />
                   <label
                     className="mb-0"
@@ -1162,705 +1823,126 @@ const CheckOutForm = ({
 
 
 
+              {isChangedError && (
+                <div
+                  className="d-flex justify-content-center align-items-center"
+                  style={{ color: "red", marginTop: 15 }}
+                >
+                  <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                  <span
+                    style={{
+                      fontSize: "14px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {isChangedError}
+                  </span>
+                </div>
+              )}
 
+              {conformcheckErr && (
+                <div
+                  ref={errorRef}
+                  className="d-flex justify-content-center align-items-center"
+                  style={{ color: "red", marginTop: 15 }}
+                >
+                  <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {conformcheckErr}
+                  </span>
+                </div>
+              )}
+              {noChangeMessage && (
+                <div
+                  ref={nochangeRef}
+                  className="d-flex justify-content-center align-items-center"
+                  style={{ color: "red", marginTop: 15 }}
+                >
+                  <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                  <span
+                    style={{
+                      fontSize: "14px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {noChangeMessage}
+                  </span>
+                </div>
+              )}
             </div>
 
-          </div>
 
-          {isChangedError && (
+          </Modal.Body>
+          {formCheckoutLoading &&
             <div
-              className="d-flex justify-content-center align-items-center"
-              style={{ color: "red", }}
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
             >
-              <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
-              <span
+              <div
                 style={{
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
                 }}
-              >
-                {isChangedError}
-              </span>
+              ></div>
             </div>
-          )}
-
-
-          <Button
-            className="mt-3"
-            style={{
-              borderRadius: "8px",
-              fontFamily: "Gilroy",
-              fontWeight: "600",
-              fontSize: "14px",
-              padding: "16px 24px",
-              width: "100%",
-              backgroundColor: "#1E45E1",
-            }}
-
-            onClick={() => {
-              if (checkouteditaction) {
-                handleCheckOutCustomer();
-              } else {
-                handleCheckOutCustomer();
-              }
-            }}
-
-
-
+          }
+          <Modal.Footer
+            className="d-flex align-items-center justify-content-center"
+            style={{ border: "none" }}
           >
-            {currentItem && checkouteditaction
-              ? "Save Changes"
-              : "Add Check-Out"}
-          </Button>
-        </Modal.Body>
 
-        {formLoading &&
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
+            <Button
+              className="mt-3"
               style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
+                borderRadius: "8px",
+                fontFamily: "Gilroy",
+                fontWeight: "600",
+                fontSize: "14px",
+                padding: "16px 24px",
+                width: "100%",
+                backgroundColor: "#1E45E1",
               }}
-            ></div>
-          </div>
-        }
 
 
-      </Modal>
 
+              onClick={conformEdit ? handleConfirmEditCheckout : handleConfirmCheckout}
 
 
-      <Modal show={cofirmForm} onHide={handleCloseConfirmFormPage} centered backdrop="static">
-        <Modal.Header className="d-flex justify-content-between align-items-center">
-          <Modal.Title
-            style={{
-              fontWeight: "600",
-              fontSize: "18px",
-              fontFamily: "Gilroy",
-            }}
-          >
-            Confirm Check-Out
-          </Modal.Title>
-          <img
-            src={Closecircle}
-            alt="Close"
-            style={{ cursor: "pointer", width: "24px", height: "24px" }}
-            onClick={handleCloseConfirmFormPage}
-          />
-        </Modal.Header>
 
-        <Modal.Body>
-          <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
-            <div className="row row-gap-2 d-flex align-items-center">
+            >
+              {conformEdit
+                ? "Save Changes"
 
+                : "Confirm Check-Out"}
 
+            </Button>
 
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-3">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Current Floor{" "}
+          </Modal.Footer>
 
-                  </Form.Label>
-                  <FormControl
-                    id="form-controls"
-                    placeholder="Enter Name"
-                    type="text"
-                    value={floorname}
+        </Modal.Dialog>
 
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #E7F1FF",
-                      height: 50,
-                      borderRadius: 8,
-                      backgroundColor: "#E7F1FF",
-                    }}
-                  />
-                </Form.Group>
-              </div>
-
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-3">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Current Bed{" "}
-                  </Form.Label>
-                  <FormControl
-                    id="form-controls"
-                    placeholder="Enter name"
-                    type="text"
-                    value={bedname}
-
-                    style={{
-                      fontSize: 16,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                      border: "1px solid #E7F1FF",
-                      height: 50,
-                      borderRadius: 8,
-                      backgroundColor: "#E7F1FF",
-                    }}
-                  />
-                </Form.Group>
-              </div>
-
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="mb-2" controlId="purchaseDate">
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Check-Out Date{" "}
-                    <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                  </Form.Label>
-
-
-
-                  <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%", }}>
-                    <DatePicker
-                      style={{
-                        width: "100%", height: 48, cursor: "pointer",
-                        backgroundColor: conformEdit ? "#E7F1FF" : "#fff",
-                        color: conformEdit ? "#000" : "#000"
-                      }}
-                      format="DD/MM/YYYY"
-                      placeholder="DD/MM/YYYY"
-                      value={checkOutDate ? dayjs(checkOutDate) : null}
-                      onChange={(date) => {
-                        setCheckOutDateError('');
-                        setIsChangedError("");
-                        setCheckOutDate(date ? date.toDate() : null);
-                      }}
-                      getPopupContainer={(triggerNode) =>
-                        triggerNode.closest(".show-scroll") || document.body
-                      }
-                      disabled={conformEdit}
-                    />
-                  </div>
-                </Form.Group>
-                {checkoUtDateError && (
-                  <div
-                    className="d-flex align-items-center p-1"
-                    style={{ marginTop: "-6px" }}
-                  >
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "12px",
-                      }}
-                    />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {checkoUtDateError}
-                    </label>
-                  </div>
-                )}
-              </div>
-
-
-              <div className="col-lg-6 col-md-6 col-sm-12 colxs-12 mt-2">
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <label
-                    htmlFor="Advance"
-                    style={{
-                      fontSize: 14,
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Total Advance
-                  </label>
-
-
-                </div>
-
-                <input
-                  type="text"
-                  name="Advance"
-                  id="Advance"
-                  value={advanceamount}
-
-                  className="form-control mt-2"
-                  placeholder="Add Advance Amount"
-                  required
-                  style={{
-                    height: "50px",
-                    borderRadius: "8px",
-                    fontSize: 16,
-                    color: comments ? "#222" : "#4b4b4b",
-                    fontFamily: "Gilroy",
-                    fontWeight: comments ? 600 : 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                  }}
-                />
-              </div>
-
-
-              <h6>Advance Deduction</h6>
-
-              <div className="row align-items-center">
-
-                {fields.map((item, index) => {
-                  const isHidden = index !== 0 && item.reason?.toLowerCase() === 'advance return';
-                  if (isHidden) return null;
-
-                  visibleIndex++;
-
-                  const isLastVisible = visibleIndex === fields.filter(f => f.reason?.toLowerCase() !== 'advance return' || fields.indexOf(f) === 0).length - 1;
-
-                  return (
-                    <React.Fragment key={index}>
-                      <div className="col-lg-5 col-md-6 col-sm-12">
-                        <label htmlFor={`reason-${index}`} className="form-label" style={labelStyle}>
-                          {index === 0 ? 'DueAmount ' : 'Reason'}
-                        </label>
-                        <input
-                          type="text"
-                          id={`reason-${index}`}
-                          name={`reason-${index}`}
-                          placeholder={index === 0 ? 'Due Reason' : 'Enter Reason'}
-                          value={item.reason}
-                          onChange={(e) => handleInputChange(index, "reason", e.target.value)}
-                          className="form-control"
-                          style={inputStyle}
-                          disabled={index === 0}
-                        />
-                      </div>
-
-                      <div className="col-lg-5 col-md-6 col-sm-12">
-                        <label htmlFor={`amount-${index}`} className="form-label" style={labelStyle}>
-                          Amount
-                        </label>
-                        <input
-                          type="text"
-                          id={`amount-${index}`}
-                          name={`amount-${index}`}
-                          placeholder={index === 0 ? `₹${dueamount || 0}` : 'Enter Amount'}
-                          value={index === 0 ? (fields[0].amount || dueamount || "") : item.amount}
-                          onChange={(e) => handleInputChange(index, "amount", e.target.value)}
-                          className="form-control"
-                          style={inputStyle}
-                          disabled={index === 0}
-                        />
-                      </div>
-
-                      <div
-                        className="col-lg-2 col-md-12 col-sm-12 d-flex justify-content-center align-items-center gap-2"
-                        style={{ marginTop: 30 }}
-                      >
-                        {isLastVisible && (
-                          <img
-                            src={PlusIcon}
-                            alt="plus"
-                            width={25}
-                            height={25}
-                            style={{ cursor: "pointer" }}
-                            onClick={handleAddField}
-                          />
-                        )}
-                        {fields.length > 1 && index !== 0 && (
-                          <img
-                            src={Delete}
-                            alt="remove"
-                            width={20}
-                            height={20}
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleRemoveField(index)}
-                          />
-                        )}
-                      </div>
-                    </React.Fragment>
-                  );
-                })}
-
-
-
-              </div>
-
-              {(conformEdit) && (
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-2" controlId="purchaseDate">
-                    <Form.Label
-                      style={{
-                        fontSize: 14,
-                        color: "#222222",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      Payment Date{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>*</span>
-                    </Form.Label>
-
-                    <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                      <DatePicker
-                        style={{ width: "100%", height: 48, cursor: "pointer" }}
-                        format="DD/MM/YYYY"
-                        placeholder="DD/MM/YYYY"
-                        value={paymentDate ? dayjs(paymentDate) : null}
-                        onChange={(date) => {
-                          setIsChangedError("");
-                          setNoChangeMessage("")
-                          setPaymentDate(date ? date.toDate() : null);
-                        }}
-                        getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                      />
-                    </div>
-                  </Form.Group>
-
-
-                </div>
-              )}
-
-
-              <div className="col-lg-6 col-md-6 col-sm-12">
-                <label
-                  htmlFor="amount"
-                  className="form-label"
-                  style={{
-                    fontSize: 14,
-                    color: "rgba(75, 75, 75, 1)",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  ReturnAmount
-                </label>
-                <input
-                  type="text"
-                  id="amount"
-                  name="amount"
-                  placeholder="Enter Return Amount"
-                  className="form-control"
-                  disabled
-
-                  value={returnAmount}
-                  style={{
-                    height: "50px",
-                    borderRadius: "8px",
-                    fontSize: 16,
-                    color: "#222",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                    boxShadow: "none",
-                    border: "1px solid #D9D9D9",
-                  }}
-                />
-              </div>
-
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-1"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Mode of Transaction{" "}
-                    <span
-                      style={{
-                        color: "#FF0000",
-                        display: modeOfPayment ? "none" : "inline-block",
-                      }}
-                    >
-                      *
-                    </span>
-                  </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    value={modeOfPayment}
-                    onChange={handleModeOfPaymentChange}
-                    className=""
-                    id="vendor-select"
-                    style={{
-                      fontSize: 16,
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: modeOfPayment ? 600 : 500,
-                      cursor: "pointer"
-                    }}
-                  >
-
-                    <option value="">Select Mode Of Payment</option>
-                    {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
-                      state.bankingDetails?.bankingList?.banks.map((item) => {
-                        let label = "";
-                        if (item.type === "bank") label = 'Bank';
-                        else if (item.type === "upi") label = "UPI";
-                        else if (item.type === "card") label = "Card";
-                        else if (item.type === "cash") label = "Cash";
-
-                        return (
-                          <option key={item.id} value={item.id}>
-                            {`${item.benificiary_name} - ${label}`}
-                          </option>
-                        );
-                      })}
-
-                  </Form.Select>
-
-
-                {modeOfPaymentError && (
-                  <div
-                    className="d-flex justify-content-start align-items-start"
-                    style={{ color: "red", marginTop: 15 }}
-                  >
-                    <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {modeOfPaymentError}
-                    </span>
-                  </div>
-                )}
-
-
-
-
-                </Form.Group>
-
-              </div>
-
-
-            <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
-              <label
-                htmlFor="comments"
-                className="mt-2"
-                style={{
-                  fontSize: 14,
-                  color: "rgba(75, 75, 75, 1)",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                Comments
-              </label>
-              <input
-                type="text"
-                name="comments"
-                id="comments"
-                value={comments}
-                onChange={handleCommentsChange}
-                className="form-control mt-2"
-                placeholder="Add Comments"
-                required
-                style={{
-                  height: "50px",
-                  
-                  borderRadius: "8px",
-                  fontSize: 16,
-                  color: comments ? "#222" : "#4b4b4b",
-                  fontFamily: "Gilroy",
-                  fontWeight: comments ? 600 : 500,
-                  boxShadow: "none",
-                  border: "1px solid #D9D9D9",
-                }}
-              />
-            </div>
-
-              {dateDifference !== null && (
-                <div className="col-12 mt-3">
-                  <p
-                    style={{
-                      fontSize: 15,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      color: "#1E45E1",
-                    }}
-                  >
-                    ( Notice Days* - {dateDifference} days )
-                  </p>
-                </div>
-              )}
-            </div>
-            {state.UsersList.errorMessageAddCheckOut && (
-              <div ref={errorRef} className="d-flex align-items-center p-1 mt-6">
-                <MdError style={{ color: "red", marginRight: "5px", }} />
-                <label
-                  className="mb-0"
-                  style={{
-                    color: "red",
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-
-                  }}
-                >
-                  {state.UsersList.errorMessageAddCheckOut}
-                </label>
-              </div>
-            )}
-
-
-
-            {isChangedError && (
-              <div
-                className="d-flex justify-content-center align-items-center"
-                style={{ color: "red", marginTop: 15 }}
-              >
-                <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {isChangedError}
-                </span>
-              </div>
-            )}
-
-            {conformcheckErr && (
-              <div
-                ref={errorRef}
-                className="d-flex justify-content-center align-items-center"
-                style={{ color: "red", marginTop: 15 }}
-              >
-                <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
-                <span
-                  style={{
-                    fontSize: "12px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {conformcheckErr}
-                </span>
-              </div>
-            )}
-            {noChangeMessage && (
-              <div
-                ref={nochangeRef}
-                className="d-flex justify-content-center align-items-center"
-                style={{ color: "red", marginTop: 15 }}
-              >
-                <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
-                <span
-                  style={{
-                    fontSize: "14px",
-                    fontFamily: "Gilroy",
-                    fontWeight: 500,
-                  }}
-                >
-                  {noChangeMessage}
-                </span>
-              </div>
-            )}
-          </div>
-
-          <Button
-            className="mt-3"
-            style={{
-              borderRadius: "8px",
-              fontFamily: "Gilroy",
-              fontWeight: "600",
-              fontSize: "14px",
-              padding: "16px 24px",
-              width: "100%",
-              backgroundColor: "#1E45E1",
-            }}
-
-
-
-            onClick={conformEdit ? handleConfirmEditCheckout : handleConfirmCheckout}
-
-
-
-          >
-            {conformEdit
-              ? "Save Changes"
-
-              : "Confirm Check-Out"}
-
-          </Button>
-        </Modal.Body>
-        {formCheckoutLoading &&
-          <div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>
-        }
       </Modal>
 
     </>

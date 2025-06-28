@@ -376,7 +376,7 @@ function AssignBooking(props) {
           </div>
         )}
 
-        <Modal.Body>
+        <Modal.Body className="pt-2">
           <Row className="mb-3">
             <Col md={6}>
               <Form.Group controlId="formFloor">
