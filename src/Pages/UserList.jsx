@@ -1294,6 +1294,7 @@ function UserList(props) {
   const [hostelIds, setHostelIds] = useState("");
 
   const [userDetails, setUserDetails] = useState([]);
+
   useEffect(() => {
     const users = Array.isArray(userListDetail) ? userListDetail : [];
 
