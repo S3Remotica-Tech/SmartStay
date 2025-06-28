@@ -270,7 +270,7 @@ const Compliance = () => {
 
 
 
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -286,6 +286,7 @@ const Compliance = () => {
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
 
   const handlePageChange = (pageNumber) => {
@@ -445,6 +446,8 @@ const Compliance = () => {
       setUserErrmsg('')
     }
   };
+
+
 
 
 
@@ -635,6 +638,13 @@ const Compliance = () => {
       };
     }
   };
+
+  const getMinDate = () => {
+       if (initialValuesRef.current.selectedDate) {
+         return dayjs(initialValuesRef.current.selectedDate).startOf("day");
+       }
+       return dayjs().startOf("day");
+     };
 
   let hasChanges =
     Assign !== initialValuesRef.current.Assign ||
@@ -1007,7 +1017,7 @@ const Compliance = () => {
                   }
 
                 </div>
-                {filteredUsers && filteredUsers?.length >= 5 && (
+                {filteredUsers && filteredUsers?.length >= 6 && (
 
                   <nav className="pagination-container mb-0"
                     style={{
@@ -1041,7 +1051,7 @@ const Compliance = () => {
 
                         }}
                       >
-                        <option value={5}>5</option>
+                        <option value={6}>6</option>
                         <option value={10}>10</option>
                         <option value={50}>50</option>
                         <option value={100}>100</option>
@@ -1451,6 +1461,8 @@ const Compliance = () => {
                                     setSelectedDate(date ? date.toDate() : null);
                                   }}
                                   getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                      disabledDate={(current) =>
+                                       current && current < getMinDate() }
                                 />
                               </div>
                               {dateerrmsg.trim() !== "" && (
