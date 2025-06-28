@@ -530,7 +530,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
                   <div
                     className="datepicker-wrapper"
-                    style={{ position: "relative", width: "100%" }}
+                    style={{ position: "relative", width: "100%",cursor: "pointer" }}
                   >
                     <DatePicker
                       style={{ width: "100%", height: 48,  fontFamily: "Gilroy", }}

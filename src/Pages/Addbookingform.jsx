@@ -508,7 +508,7 @@ function BookingModal(props) {
                     : Profile2
                 }
                 roundedCircle
-                style={{ height: 100, width: 100 }}
+                style={{ height: 100, width: 100,cursor: "pointer" }}
               />
 
               <label htmlFor="imageInput" className="">
@@ -522,6 +522,7 @@ function BookingModal(props) {
                     top: 90,
                     left: 80,
                     transform: "translate(-50%, -50%)",
+                    cursor: "pointer"
                   }}
                 />
                 <input
@@ -664,7 +665,7 @@ function BookingModal(props) {
                     id="vendor-select-pg"
                     style={{
                       border: "1px solid #D9D9D9",
-
+                      cursor: "pointer",
                       borderRadius: "8px 0 0 8px",
                       height: 50,
                       fontSize: 16,

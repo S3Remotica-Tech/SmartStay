@@ -481,7 +481,7 @@ setFormLoading(false)
 
 
 
-        <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll pt-3 mt-2 me-3">
+        <Modal.Body style={{ maxHeight: "420px", overflowY: "scroll" }} className="show-scroll pt-3 mt-2 me-3">
 
           <div className='d-flex align-items-center'>
 
@@ -489,10 +489,10 @@ setFormLoading(false)
             <div className="" style={{ height: 100, width: 100, position: "relative" }}>
 
               <Image src={file ? typeof file === 'string' ? file : URL.createObjectURL(file) : Profile}
-                roundedCircle style={{ height: 100, width: 100 }} />
+                roundedCircle style={{ height: 100, width: 100, cursor: "pointer" }} />
 
               <label htmlFor="imageInput" className='' >
-                <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
+                <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)',cursor: "pointer" }} />
                 <input
                   type="file"
                   accept="image/*"
@@ -604,7 +604,8 @@ setFormLoading(false)
                       boxShadow: "none",
                       backgroundColor: "#fff",
                       maxWidth: 90,
-                      paddingRight: 10
+                      paddingRight: 10,
+                      cursor: "pointer",
                     }}
                   >
                     <option>+{countryCode}</option>
@@ -868,7 +869,7 @@ setFormLoading(false)
               </Form.Group>
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="">
                 <Form.Label
                   style={{
@@ -1003,18 +1004,15 @@ setFormLoading(false)
               )}
             </div>
 
-
-
-
-            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{marginTop:"-5px"}}>
               <Form.Group controlId="purchaseDate">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                   Walk-In Date
-                  <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                  <span style={{ color: 'red', fontSize: '20px',  }}>*</span>
                 </Form.Label>
 
 
-                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%",marginTop:"-2px" }}>
                   <DatePicker
                     ref={walkInDateRef}
                     style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
@@ -1082,7 +1080,7 @@ setFormLoading(false)
             ></div>
           </div>
         }
-        <Modal.Footer style={{ border: "none", paddingBottom: 0, }} className='mt-1 pt-1' >
+        <Modal.Footer style={{ border: "none", paddingBottom: 0, }} className='pt-1' >
           {generalError && (
             <div className="d-flex align-items-center p-1 mb-2 mt-2">
               <MdError style={{ color: "red", marginRight: '5px' }} />
@@ -1094,7 +1092,7 @@ setFormLoading(false)
 
 
 
-          <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
+          <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12, marginBottom:"10px" }} >
             {initialData ? 'Save Changes' : 'Add Walk-In'}
           </Button>
         </Modal.Footer>
