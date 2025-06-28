@@ -165,30 +165,12 @@ const [changeLoading, setChangeLoading] = useState(false)
 
   };
 
- 
+  const handleCheckPassword = (e) => {
+    setCheckPassword(e.target.value);
+    setPassError("");
 
-const handleCheckPassword = (e) => {
-  const value = e.target.value;
-  setCheckPassword(value);
-  setPassError("");
-
-  dispatch({ type: "CLEAR_PASSWORD_ERROR" });
-
-  const capitalLetter = /[A-Z]/;
-  const number = /[0-9]/;
-  const specialChar = /[!@#$%^&*(),.?":{}|<>]/;
-
-  if (
-    !capitalLetter.test(value) ||
-    !number.test(value) ||
-    !specialChar.test(value)
-  ) {
-    setPassError(
-      "Password must contain at least one capital letter, one number, and one special character."
-    );
-  }
-};
-
+    dispatch({ type: "CLEAR_PASSWORD_ERROR" });
+  };
 
   const CheckvalidateField = (value, fieldName) => {
     if (!value || (typeof value === "string" && value.trim() === "")) {
@@ -926,7 +908,7 @@ const handlePassword = (e) => {
 
                   className="d-flex flex-wrap justify-content-between align-items-center w-100"
                 >
-                  <div className="d-flex align-items-center flex-wrap mt-2">
+                  <div className="d-flex align-items-center flex-wrap">
                     <Image
                       src={imageUrl}
                       alt={item.first_name || "Default Profile"}
@@ -940,7 +922,7 @@ const handlePassword = (e) => {
                         e.target.src = Profile;
                       }}
                     />
-                    <div className="ms-2 mt-2">
+                    <div className="ms-2 ">
                       <p
                         className="mb-0 text-break"
                         style={{
@@ -1078,7 +1060,7 @@ const handlePassword = (e) => {
                     </div>
                   </div>
                 </div>
-                <hr />
+                <hr/>
                 <div className="row">
                   <div className="col-md-6">
                     <p
@@ -2231,7 +2213,7 @@ const handlePassword = (e) => {
           </Form.Group>
           {passError && (
             <div className="text-danger" style={{ color: "red" }}>
-              <MdError style={{ fontSize: '14px', marginRight: "3px", marginBottom: "2px", color: "red" }} />
+              <MdError />
 
               <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passError}</span>
             </div>
@@ -2491,7 +2473,16 @@ const handlePassword = (e) => {
         </Modal.Footer>
 
       </Modal>
+
+      
     </>
   );
 }
-export default SettingGeneral;
+export default SettingGeneral;    
+
+
+
+
+
+
+ 
