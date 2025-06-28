@@ -24,7 +24,7 @@ export const initialState = {
 }
 const CreateAccountReducer = (state = initialState, action) => {
 
-console.log(action)
+
    switch (action.type) {
 
       case 'NETWORK_ERROR':

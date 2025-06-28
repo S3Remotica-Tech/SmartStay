@@ -83,7 +83,7 @@ function* CreateAccountPage(action) {
       refreshToken(response)
     }
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
   }
 }
 
@@ -115,7 +115,8 @@ function* ProfileUpdate(action) {
 
       };
 
-      // Use the toast with the defined style
+     
+      
       toast.success(response.message, {
         position: "bottom-center",
         autoClose: 2000,
@@ -132,7 +133,7 @@ function* ProfileUpdate(action) {
       refreshToken(response)
     }
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
   }
 }
 
@@ -166,22 +167,15 @@ function* handlepasswordUpdate(action) {
         style: toastStyle
       })
 
-
-      // Swal.fire({
-      //   icon: 'success',
-      //   text: response.data.message,
-      //   confirmButtonText: 'Ok'
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      //   }
-      // });
+     
+      
 
     }
     if (response) {
       refreshToken(response)
     }
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
   }
 }
 
@@ -208,7 +202,6 @@ function* HandleTwoStepVerification(action) {
 
     };
 
-    // Use the toast with the defined style
     toast.success(response.data.message, {
       position: "bottom-center",
       autoClose: 2000,
@@ -292,7 +285,6 @@ function refreshToken(response) {
   } else if (response.status === 206) {
     const message = response.status
     const cookies = new Cookies()
-
     cookies.set('access-denied', message, { path: '/' });
 
   }
