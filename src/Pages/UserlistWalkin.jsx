@@ -703,7 +703,8 @@ function UserlistWalkin(props) {
           <br />
         </>
       )}
-      {v.city || ""} {v.state || ""} {v.pin_code && `- ${v.pin_code} ` || ""}
+     {v.city || ""} {v.state || ""} {(v.pin_code && `- ${v.pin_code}`) || ""}
+
     </>
   )
   : "N/A"}
