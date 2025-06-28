@@ -296,6 +296,7 @@ function Banking() {
   };
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+
   const handleEditTrans = (id, event) => {
 
     if (EditTransaction === id) {
@@ -304,16 +305,14 @@ function Banking() {
       setEditTransaction(id);
     }
 
-    const { top, left } = event.target.getBoundingClientRect();
-    const popupTop = top - 35;
-    const popupLeft = left - 150;
+    const { top, left, height } = event.target.getBoundingClientRect();
+    const popupTop = top + height / 2;
+    const popupLeft = left - 200;
 
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
 
-
-  
-
+ 
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -321,12 +320,24 @@ function Banking() {
         setEditTransaction(null);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const [showAbove, setShowAbove] = useState(false);
+
+useEffect(() => {
+  if (popupRef.current) {
+    const popupHeight = popupRef.current.offsetHeight;
+    const windowHeight = window.innerHeight;
+    const spaceBelow = windowHeight - popupPosition.top;
+    
+    setShowAbove(spaceBelow < popupHeight + 20);
+  }
+}, [popupPosition]);
 
 
 
@@ -1590,26 +1601,24 @@ function Banking() {
                                 style={{ height: 17, width: 17 }}
                               />
                               {EditTransaction === user.id && (
-                                <div
-                                  ref={popupRef}
-                                  style={{
-                                    cursor: "pointer",
-                                    backgroundColor: "#F9F9F9",
-                                    position: "fixed",
-                                    top: popupPosition.top,
-                                    left: popupPosition.left,
-                                    marginLeft: 10,
-                                    width: 120,
-                                    height: "auto",
-                                    border: "1px solid #EBEBEB",
-                                    borderRadius: 10,
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "start",
-                                    zIndex: 1000,
-                                    padding: 0,
-                                  }}
-                                >
+                              <div
+                                              ref={popupRef}
+                                               style={{
+                                                
+  position: "fixed",
+  top: showAbove
+    ? popupPosition.top - (popupRef.current?.offsetHeight || 200) - 10
+    : popupPosition.top - 25,
+  left: popupPosition.left,
+  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+  width: 140,
+  backgroundColor: "#F9F9F9",
+  border: "1px solid #EBEBEB",
+  borderRadius: "10px",
+  zIndex: 1000,
+}}
+
+                                              >
                                   <div style={{ width: "100%", borderRadius: 10, backgroundColor: "#F9F9F9" }}>
 
 
