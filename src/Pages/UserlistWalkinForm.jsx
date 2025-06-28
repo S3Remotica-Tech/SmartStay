@@ -89,7 +89,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       const mobileNumber = phoneNumber.slice(-10);
 
 
-      setCountryCode(countryCode);
+      setCountryCode(countryCode || 91 );
       setMobile(mobileNumber);
       setHouseNo(initialData.comments || '');
       setStreet(initialData.area || '');
@@ -133,6 +133,8 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
   const noChangesRef = useRef(null)
+
+  
 
   const handleSubmitWalkIn = () => {
  dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
@@ -264,6 +266,7 @@ function CustomerForm({ show, handleClose, initialData }) {
   };
 
 
+  
 
   const handleNameChange = (e) => {
     const value = e.target.value;

@@ -82,11 +82,15 @@ function CheckOut(props) {
     }
   }, [props.customerrolePermission]);
 
+  const calledOnceRef = useRef(false);
+
   useEffect(() => {
-    
+      if(!calledOnceRef){
       setCheckOutLoader(true)
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-    
+      }
+      calledOnceRef.current = true;
+
   }, [state.login.selectedHostel_Id]);
 
 
