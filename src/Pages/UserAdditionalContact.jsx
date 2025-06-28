@@ -208,13 +208,13 @@ function UserAdditionalContact(props) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "gurardian":
-          setError("Guardian is Required");
+          setError("Please Enter Guardian Name");
           break;
         case "userName":
-          setError("");
+          setError("Please Enter User Name");
           break;
         case "Phone":
-          setError("Phone Number is Required");
+          setError("Please Enter your Phone No");
           break;
        
           case "City":
@@ -505,7 +505,7 @@ const isChanged = (
                         />
                         <span
                           style={{
-                            fontSize: "13px",
+                            fontSize: "12px",
                             color: "red",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
@@ -567,7 +567,7 @@ const isChanged = (
                         />
                         <span
                           style={{
-                            fontSize: "13px",
+                            fontSize: "12px",
                             color: "red",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
@@ -642,11 +642,11 @@ const isChanged = (
                       </InputGroup>
                       <p
                         id="MobileNumberError"
-                        style={{ color: "red", fontSize: 11, marginTop: 5 }}
+                        style={{ color: "red", fontSize: 12, marginTop: 5 }}
                       ></p>
 
                       {phoneError && (
-                        <div style={{ marginTop: "-15px", color: "red" }}>
+                        <div style={{ marginTop: "-15px", color: "red", marginBottom: "15px" }}>
                           <MdError
                             style={{
                               fontSize: "12px",
@@ -657,7 +657,7 @@ const isChanged = (
                           />
                           <span
                             style={{
-                              fontSize: "13px",
+                              fontSize: "12px",
                               color: "red",
                               fontFamily: "Gilroy",
                               fontWeight: 500,
@@ -702,7 +702,7 @@ const isChanged = (
                     </Form.Group>
                     {house_noError && (
                       <div style={{ color: "red" }}>
-                        <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                        <MdError style={{ fontFamily: "Gilroy", fontSize: '12px', marginRight: "5px", marginBottom: "1px" }} />
                         <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
                       </div>
                     )}
@@ -822,7 +822,7 @@ const isChanged = (
                       />
                       {pincodeError && (
                         <div className="d-flex align-items-center p-1 mb-2">
-                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "12px", marginBottom: "2px" }} />
                           <label
                             className="mb-0"
                             style={{
@@ -875,7 +875,7 @@ const isChanged = (
                     </Form.Group>
                     {cityError && (
                       <div style={{ color: "red" }}>
-                        <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                        <MdError style={{ fontSize: '12px', marginRight: "5px" }} />
                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                       </div>
                     )}
@@ -970,7 +970,7 @@ const isChanged = (
 
                       {!state_name && state_nameError && (
                         <div style={{ color: "red" }}>
-                          <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                          <MdError style={{ fontSize: "12px", marginRight: "5px" }} />
                           <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                             {state_nameError}
                           </span>
@@ -989,13 +989,13 @@ const isChanged = (
 </div>
  {formError && (
                           <div ref={nochangeRef} className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
-                            <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                            <MdError style={{fontSize: '12px',marginRight:"6px"}}/>
                             <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
                           </div>
                         )}
                         {guardianAlreadyError && (
                           <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
-                            <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                            <MdError style={{fontSize: '12px',marginRight:"6px"}}/>
                             <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{guardianAlreadyError}</span>
                           </div>
                         )}
