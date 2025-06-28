@@ -1,5 +1,5 @@
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount,GetAllNotification,UpdateNotification , UpdateProfile , UpdatePassword} from '../Action/smartStayAction';
+import { CreateAccountAction, TwoStepVerification, AccountDetails, Addaccount, GetAllNotification, UpdateNotification, UpdateProfile, UpdatePassword } from '../Action/smartStayAction';
 import Swal from 'sweetalert2';
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
@@ -21,13 +21,13 @@ function* CreateNewAccount(args) {
       fontSize: 14,
       textAlign: "start",
       display: "flex",
-      alignItems: "center", 
+      alignItems: "center",
       padding: "10px",
-     
+
     };
-   
-      if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode} });
+
+    if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'CREATEACCOUNTPAGE', payload: { response: response.data, statusCode: response.status || response.statusCode } });
 
       toast.success('created successfully', {
         position: "bottom-center",
@@ -43,48 +43,26 @@ function* CreateNewAccount(args) {
     } else if (response.status === 210 || response.statusCode === 210) {
 
       yield put({ type: 'PASSWORD_DOESNT_ERROR', payload: response.data.message });
-    //   Swal.fire({
-    //    icon: 'warning',
-    //    title: 'Error',
-    //    html: ` This ${response.data.message}`,
-    //    confirmButtonText: 'Ok',
-       
-    //  });
     }
     else if (response.status === 201 || response.statusCode === 201) {
-
       yield put({ type: 'EMAIL_ERROR', payload: response.data.message });
 
-      //  Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Error',
-      //   html: `<span style="color: red">${args.payload.emailId}</span> This ${response.data.message}`,
-      //   confirmButtonText: 'Ok'
-      // });
     } else if (response.status === 202 || response.statusCode === 202) {
       yield put({ type: 'MOBILE_ERROR', payload: response.data.message });
 
-    //  Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Error',
-    //     html: `<span style="color: red">${args.payload.mobileNo}</span> This ${response.data.message}`,
-    //     confirmButtonText: 'Ok'
-    //   });
     } else if (response.status === 203 || response.statusCode === 203) {
       yield put({ type: 'EMAIL_MOBILE_ERROR', payload: response.data.message });
 
-    //  Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Error',
-    //     html: `<span style="color: red">${args.payload.mobileNo} & ${args.payload.emailId}</span> This ${response.data.message}`,
-    //     confirmButtonText: 'Ok'
-    //   });
     }
-    if(response){
+    if (response) {
       refreshToken(response)
-   }
+    }
   } catch (error) {
-    console.log("error", error);
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred'  });
+    }
   }
 }
 
@@ -92,32 +70,32 @@ function* CreateNewAccount(args) {
 function* CreateAccountPage(action) {
   try {
     const response = yield call(CreateAccountAction, action.payload);
-       
+
     if (response.statusCode === 200 || response.status === 200) {
       yield put({
         type: 'CREATEACCOUNT',
         payload: { response: response.data, statusCode: response.statusCode || response.status }
       });
 
-     
+
     }
-    if(response){
+    if (response) {
       refreshToken(response)
-   }
+    }
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
   }
 }
 
 function* ProfileUpdate(action) {
   try {
     const response = yield call(UpdateProfile, action.payload);
-       
+
 
     if (response.statusCode === 200 || response.status === 200) {
       yield put({
         type: 'PROFILEUPDATE',
-        payload: { response: response.data, statusCode: response.statusCode || response.status }  
+        payload: { response: response.data, statusCode: response.statusCode || response.status }
       });
 
 
@@ -132,29 +110,30 @@ function* ProfileUpdate(action) {
         fontSize: 14,
         textAlign: "start",
         display: "flex",
-        alignItems: "center", 
+        alignItems: "center",
         padding: "10px",
-       
+
       };
 
-      // Use the toast with the defined style
+     
+      
       toast.success(response.message, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeButton: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle
       })
     }
-    if(response){
+    if (response) {
       refreshToken(response)
-   }
+    }
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
   }
 }
 
@@ -162,48 +141,41 @@ function* ProfileUpdate(action) {
 function* handlepasswordUpdate(action) {
   try {
     const response = yield call(UpdatePassword, action.payload);
-       
 
-    if (response.statusCode === 200 || response.status === 200 ) {
+
+    if (response.statusCode === 200 || response.status === 200) {
       yield put({
         type: 'PASSWORD-UPDATE',
-        payload: { response: response.data, statusCode: response.statusCode || response.status, message : response.data.message }
+        payload: { response: response.data, statusCode: response.statusCode || response.status, message: response.data.message }
 
       });
 
       var toastStyle = {
-        backgroundColor: 'green', 
-     color: 'white', 
-     width:"100%"
-   };
+        backgroundColor: 'green',
+        color: 'white',
+        width: "100%"
+      };
 
-   toast.success(response.data.message, {
-    position: 'top-center',
-    autoClose: 2000, 
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    style: toastStyle
-  })
+      toast.success(response.data.message, {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: toastStyle
+      })
 
-
-      // Swal.fire({
-      //   icon: 'success',
-      //   text: response.data.message,
-      //   confirmButtonText: 'Ok'
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      //   }
-      // });
      
+      
+
     }
-    if(response){
+    if (response) {
       refreshToken(response)
-   }
+    }
   } catch (error) {
-    console.log("error", error);
+    console.error("error", error);
   }
 }
 
@@ -211,7 +183,7 @@ function* handlepasswordUpdate(action) {
 
 function* HandleTwoStepVerification(action) {
   const response = yield call(TwoStepVerification, action.payload)
- 
+
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: 'TWO_STEP_VERIFY', payload: { response: response.data, statusCode: response.status || response.statusCode } })
     var toastStyle = {
@@ -225,68 +197,67 @@ function* HandleTwoStepVerification(action) {
       fontSize: 14,
       textAlign: "start",
       display: "flex",
-      alignItems: "center", 
+      alignItems: "center",
       padding: "10px",
-     
+
     };
 
-      // Use the toast with the defined style
-      toast.success(response.data.message, {
-        position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      })
+    toast.success(response.data.message, {
+      position: "bottom-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeButton: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: toastStyle,
+    })
   }
   else {
     yield put({ type: 'ERROR', payload: response.data.message })
   }
-  if(response){
+  if (response) {
     refreshToken(response)
- }
+  }
 }
 
 function* handleAccountDetails(args) {
   try {
-   const response = yield call(AccountDetails,args.payload)
+    const response = yield call(AccountDetails, args.payload)
+
+    if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+    }
+    else {
+      yield put({ type: 'ERROR', payload: response.data.message })
+    }
+    if (response) {
+      refreshToken(response)
+    }
+  } catch (error) {
+    console.error("Error in handleAccountDetails:", error);
+    yield put({ type: 'ERROR', payload: 'Failed to fetch account details' });
+  }
+}
+
+
+function* handlenotificationlist(action) {
+  const response = yield call(GetAllNotification, action.payload);
 
   if (response.status === 200 || response.statusCode === 200) {
-    yield put({ type: 'ACCOUNT_DETAILS', payload: { response: response.data, statusCode: response.status || response.statusCode}})
-     }
-  else {
-    yield put({ type: 'ERROR', payload: response.data.message })
-  }
-  if(response){
-    refreshToken(response)
- }
-} catch (error) {
-  console.error("Error in handleAccountDetails:", error);
-    yield put({ type: 'ERROR', payload: 'Failed to fetch account details' });
-}
-}
+    yield put({ type: 'ALL_NOTIFICATION_LIST', payload: response.data.notification })
 
-
-function* handlenotificationlist (action){
-  const response = yield call (GetAllNotification, action.payload);
-  
-  if (response.status === 200 || response.statusCode === 200){
-     yield put ({type : 'ALL_NOTIFICATION_LIST' , payload:response.data.notification})
-
-  }else if(response.status === 401 || response.statusCode === 401){
+  } else if (response.status === 401 || response.statusCode === 401) {
 
     Swal.fire({
-       icon: 'warning',
-       title: 'Error',
-       text: response.data.message,
-     });
+      icon: 'warning',
+      title: 'Error',
+      text: response.data.message,
+    });
   }
   else {
-     yield put ({type:'ERROR', payload:response.data.message})
+    yield put({ type: 'ERROR', payload: response.data.message })
   }
   refreshToken(response)
 }
@@ -294,10 +265,10 @@ function* handlenotificationlist (action){
 
 function* HandleUpdateNotification(action) {
   const response = yield call(UpdateNotification, action.payload)
- 
+
   if (response.status === 200 || response.statusCode === 200) {
 
-    yield put({ type: 'UPDATE_NOTIFICATION', payload: { response: response.data.message, statusCode: response.status || response.statusCode} })
+    yield put({ type: 'UPDATE_NOTIFICATION', payload: { response: response.data.message, statusCode: response.status || response.statusCode } })
 
   }
   else {
@@ -306,20 +277,19 @@ function* HandleUpdateNotification(action) {
   refreshToken(response)
 }
 
-function refreshToken(response){
-  if(response.data && response.data.refresh_token){
-     const refreshTokenGet = response.data.refresh_token
-     const cookies = new Cookies()
-     cookies.set('token', refreshTokenGet, { path: '/' });
-  }else if (response.status === 206) {
+function refreshToken(response) {
+  if (response.data && response.data.refresh_token) {
+    const refreshTokenGet = response.data.refresh_token
+    const cookies = new Cookies()
+    cookies.set('token', refreshTokenGet, { path: '/' });
+  } else if (response.status === 206) {
     const message = response.status
     const cookies = new Cookies()
-    
     cookies.set('access-denied', message, { path: '/' });
-  
- }
-  
+
   }
+
+}
 
 
 

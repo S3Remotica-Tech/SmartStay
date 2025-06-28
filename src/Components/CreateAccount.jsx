@@ -318,15 +318,22 @@ function CreateAccountPage() {
 
 
   useEffect(() => {
-    if (state.createAccount?.emailError || state.createAccount?.mobileError || state.createAccount?.passwordDoesnotMatchError || state.createAccount?.email_mobile_Error) {
+    if (state.createAccount?.networkError || state.createAccount?.emailError || state.createAccount?.mobileError || state.createAccount?.passwordDoesnotMatchError || state.createAccount?.email_mobile_Error) {
       setLoading(false)
     }
 
-  }, [state.createAccount?.emailError, state.createAccount?.mobileError, state.createAccount?.passwordDoesnotMatchError, state.createAccount?.email_mobile_Error])
+  }, [state.createAccount?.networkError || state.createAccount?.emailError, state.createAccount?.mobileError, state.createAccount?.passwordDoesnotMatchError, state.createAccount?.email_mobile_Error])
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
-
+  
 
 
 
@@ -701,6 +708,14 @@ function CreateAccountPage() {
                 {state.createAccount?.email_mobile_Error ? <div className='d-flex align-items-center p-1'>
                   <MdError style={{ color: "red", marginRight: '5px' }} />
                   <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount.email_mobile_Error}</label>
+                </div>
+                  : null}
+
+
+
+                {state.createAccount?.networkError ? <div className='d-flex align-items-center p-1'>
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                 </div>
                   : null}
 
