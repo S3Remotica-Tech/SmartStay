@@ -168,7 +168,6 @@ const InvoicePage = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [startDate, endDate] = dateRange;
 
-  const [tabDisabled, setTabDisabled] = useState(false);
 
   useEffect(() => {
 
