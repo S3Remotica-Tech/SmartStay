@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState, useRef } from "react";
 import { FormControl, InputGroup, Table, Modal } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -95,14 +95,14 @@ function Expenses({ allPageHostel_Id }) {
         setIsDownloadTriggered(false);
       }, 500);
     }
-  }, [excelDownload && isDownloadTriggered]);
+  }, [excelDownload , isDownloadTriggered]);
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportExpence === 200) {
       setTimeout(() => {
         dispatch({ type: "CLEAR_EXPORT_EXPENSE_DETAILS" });
       }, 200);
     }
-  }, [state.UsersList?.statusCodeForExportExpence]);
+  }, [state.UsersList?.statusCodeForExportExpence, dispatch]);
 
   useEffect(() => {
     setExpenceRolePermission(state.createAccount.accountList);
@@ -154,27 +154,6 @@ function Expenses({ allPageHostel_Id }) {
   const [dates, setDates] = useState([]);
 
   const [pickerKey, setPickerKey] = useState(0);
-  const handleDateChange = (selectedDates) => {
-    if (!selectedDates || selectedDates.length !== 2) {
-      setDates([]);
-      setSelectedValue("All");
-      setPickerKey((prevKey) => prevKey + 1);
-
-      setTimeout(() => {
-        dispatch({
-          type: "EXPENSELIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-      }, 0);
-
-      return;
-    }
-
-    const newStartDate = dayjs(selectedDates[0]).startOf("day");
-    const newEndDate = dayjs(selectedDates[1]).endOf("day");
-
-    setDates([newStartDate, newEndDate]);
-  };
 
   useEffect(() => {
     if (dates.length === 2) {
@@ -192,7 +171,7 @@ function Expenses({ allPageHostel_Id }) {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [dates, state.login.selectedHostel_Id]);
+  }, [dates, state.login.selectedHostel_Id, dispatch]);
 
   useEffect(() => {
     if (selectedValue === "All") {
@@ -307,6 +286,8 @@ function Expenses({ allPageHostel_Id }) {
     dates,
     minAmount,
     maxAmount,
+     dispatch,
+  state.login.selectedHostel_Id,
   ]);
 
   useEffect(() => {
@@ -316,7 +297,7 @@ function Expenses({ allPageHostel_Id }) {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id, dispatch]);
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -387,18 +368,20 @@ function Expenses({ allPageHostel_Id }) {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id, dispatch]);
 
-  useEffect(() => {
-    if (state.ExpenseList.getExpenseStatusCode === 200) {
-      setLoading(false);
-      setGetData(state.ExpenseList.expenseList);
+  const { getExpenseStatusCode } = state.ExpenseList;
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
-      }, 4000);
-    }
-  }, [state.ExpenseList.getExpenseStatusCode]);
+useEffect(() => {
+  if (getExpenseStatusCode === 200) {
+    setLoading(false);
+    setGetData(state.ExpenseList.expenseList);
+
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
+    }, 4000);
+  }
+}, [getExpenseStatusCode, dispatch]);
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
@@ -408,7 +391,7 @@ function Expenses({ allPageHostel_Id }) {
         dispatch({ type: "CLEAR_NOEXPENSEdATA" });
       }, 200);
     }
-  }, [state.ExpenseList.nodataGetExpenseStatusCode]);
+  }, [state.ExpenseList.nodataGetExpenseStatusCode, dispatch]);
 
   useEffect(() => {
     if (
@@ -428,10 +411,14 @@ function Expenses({ allPageHostel_Id }) {
         dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
       }, 2000);
     }
-  }, [
-    state.ExpenseList.StatusCodeForAddExpenseSuccess,
-    state.ExpenseList.deleteExpenseStatusCode,
-  ]);
+  },
+[
+  state.ExpenseList.StatusCodeForAddExpenseSuccess,
+  state.ExpenseList.deleteExpenseStatusCode,
+  dispatch,
+  state.login.selectedHostel_Id,
+]
+);
 
   const filterByPriceRange = (data) => {
     switch (selectedPriceRange) {
@@ -463,15 +450,22 @@ function Expenses({ allPageHostel_Id }) {
   let filteredData = [];
 
   filteredData = filterByPriceRange(getData) || [];
-  const currentItems =
-    filteredData && filteredData.length > 0
-      ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
-      : [];
-  const totalPages = Math.ceil(
-    filteredData &&
-    filteredData.length > 0 &&
-    filteredData.length / itemsPerPage
-  );
+
+  const [currentItems, setCurrentItems] = useState([]);
+const [totalPages, setTotalPages] = useState(0);
+
+useEffect(() => {
+  if (filteredData && filteredData.length > 0) {
+    const slicedItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    const pages = Math.ceil(filteredData.length / itemsPerPage);
+
+    setCurrentItems(slicedItems);
+    setTotalPages(pages);
+  } else {
+    setCurrentItems([]);
+    setTotalPages(0);
+  }
+}, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -635,6 +629,93 @@ function Expenses({ allPageHostel_Id }) {
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+
+  const handleDateChange = (selectedDates) => {
+  if (!selectedDates || selectedDates.length !== 2) {
+    setDates([]);
+    setSelectedValue("All");
+    setCategoryValue("");
+    setModeValue("");
+    setAmountValue("");
+    setMinAmount("");
+    setMaxAmount("");
+    setAssetValue("");
+    setVendorValue("");
+    setPickerKey((prevKey) => prevKey + 1);
+    setCurrentPage(1);
+
+    dispatch({
+      type: "EXPENSELIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    return;
+  }
+
+  const newStartDate = dayjs(selectedDates[0]).startOf("day");
+  const newEndDate = dayjs(selectedDates[1]).endOf("day");
+  setDates([newStartDate, newEndDate]);
+  setCurrentPage(1);
+};
+
+useEffect(() => {
+  if (!state.login.selectedHostel_Id) return;
+
+  const payload = { hostel_id: state.login.selectedHostel_Id };
+  if (dates.length === 2) {
+    payload.start_date = dates[0].format("YYYY-MM-DD");
+    payload.end_date = dates[1].format("YYYY-MM-DD");
+  }
+  dispatch({ type: "EXPENSELIST", payload });
+}, [dates, state.login.selectedHostel_Id, dispatch]);
+
+useEffect(() => {
+  if (!state.login.selectedHostel_Id) return;
+
+  const payload = { hostel_id: state.login.selectedHostel_Id };
+
+  if (selectedValue === "All") {
+    dispatch({ type: "EXPENSELIST", payload });
+  } else if (categoryValue) {
+    payload.category = categoryValue;
+    dispatch({ type: "EXPENSELIST", payload });
+  } else if (modeValue) {
+    payload.payment_mode = modeValue;
+    dispatch({ type: "EXPENSELIST", payload });
+  } else if (amountValue) {
+    const [minAmount, maxAmount] = amountValue.split("-").map(Number);
+    payload.min_amount = minAmount;
+    payload.max_amount = maxAmount;
+    dispatch({ type: "EXPENSELIST", payload });
+  } else if (assetValue) {
+    payload.asset_id = assetValue;
+    dispatch({ type: "EXPENSELIST", payload });
+  } else if (vendorValue) {
+    payload.vendor_id = vendorValue;
+    dispatch({ type: "EXPENSELIST", payload });
+  }
+}, [selectedValue, categoryValue, modeValue, amountValue, assetValue, vendorValue, state.login.selectedHostel_Id, dispatch]);
+
+useEffect(() => {
+  if (state.ExpenseList.getExpenseStatusCode === 200) {
+    setGetData(state.ExpenseList.expenseList || []);
+    setLoading(false);
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
+    }, 1000);
+  }
+}, [state.ExpenseList.getExpenseStatusCode, state.ExpenseList.expenseList, dispatch]);
+
+
+useEffect(() => {
+  if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
+    setGetData([]);
+    setLoading(false);
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_NOEXPENSEdATA" });
+    }, 1000);
+  }
+}, [state.ExpenseList.nodataGetExpenseStatusCode, dispatch]);
 
 
   return (

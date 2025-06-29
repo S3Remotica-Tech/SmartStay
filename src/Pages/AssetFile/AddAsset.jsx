@@ -67,9 +67,6 @@ function StaticExample({ show, setShow, currentItem }) {
     productName: "",
   });
 
-  const VendorList = useSelector((state) => state.ComplianceList.VendorList);
-
-
   useEffect(() => {
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
   }, [state.login.selectedHostel_Id]);
@@ -474,7 +471,7 @@ function StaticExample({ show, setShow, currentItem }) {
                   fontWeight: 600,
                 }}
               >
-                {currentItem ? "Edit an Asset" : "Add Asset"}
+                {currentItem ? "Edit an Asset" : "Add Assets"}
               </Modal.Title>
 
               <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
@@ -499,15 +496,6 @@ function StaticExample({ show, setShow, currentItem }) {
               </div>
             )}
             <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-3 me-3" >
-
-              {Array.isArray(VendorList) && VendorList.length === 0 && (
-                <div className="d-flex align-items-center justify-content-center mb-4" style={{ marginTop: "-10px" }}>
-                  <MdError style={{ color: "red", marginRight: "6px", fontSize: "14px", marginBottom: "2px" }} />
-                  <span style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    Please Create Vendor before adding Asset
-                  </span>
-                </div>
-              )}
 
               <div className="row " style={{ marginTop: "-20px" }}>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">

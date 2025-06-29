@@ -162,7 +162,7 @@ function VendorListMap(props) {
                   >
                     <div style={{ width: "100%", backgroundColor: "#F9F9F9", borderRadius: 10 }}>
 
-                     
+
                       <div
                         onClick={() => {
                           if (!props.vendorEditPermission) {
@@ -204,10 +204,10 @@ function VendorListMap(props) {
                         </label>
                       </div>
 
-                      
+
                       <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
 
-                    
+
                       <div
                         onClick={() => {
                           if (!props.vendorDeletePermission) {
@@ -267,7 +267,7 @@ function VendorListMap(props) {
                 <label
                   style={{
                     color: "#939393",
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 500,
                     fontFamily: "Gilroy",
                   }}
@@ -297,7 +297,7 @@ function VendorListMap(props) {
                 <label
                   style={{
                     color: "#939393",
-                    fontSize: 12,
+                    fontSize: 13,
                     fontWeight: 500,
                     fontFamily: "Gilroy",
                   }}
@@ -314,7 +314,7 @@ function VendorListMap(props) {
                     fontFamily: "Gilroy",
                   }}
                 >
-                 
+
                   {props.vendor &&
                     String(props.vendor.Vendor_Mobile).slice(
                       0,
@@ -327,7 +327,7 @@ function VendorListMap(props) {
             </div>
           </div>
 
-          <div className="mb-2" style={{ lineHeight: 1 }}>
+          {/* <div className="mb-2" style={{ lineHeight: 1 }}>
             <div className="pb-1">
               <label
                 style={{
@@ -362,7 +362,76 @@ function VendorListMap(props) {
 
               </label>
             </div>
+          </div> */}
+
+          <div className="mb-2" style={{ lineHeight: 1 }}>
+            <div className="d-flex justify-content-between flex-wrap">
+              {/* Address Label and Value */}
+              <div style={{ maxWidth: "75%" }}>
+                <div className="pb-1">
+                  <label
+                    style={{
+                      color: "#939393",
+                      fontSize: 13,
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Address
+                  </label>
+                </div>
+                <label
+                  style={{
+                    color: "#222222",
+                    fontSize: 16,
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  <>
+                    {isValid(props.vendor?.Vendor_Address) && <>{props.vendor.Vendor_Address}, </>}
+                    {isValid(props.vendor?.area) && <>{props.vendor.area}, </>}
+                    {isValid(props.vendor?.city) && <>{props.vendor.city}, </>}
+                    {isValid(props.vendor?.state) && <>{props.vendor.state}</>}
+                    <br />
+                    {isValid(props.vendor?.Pincode) && <>{props.vendor.Pincode}</>}
+                  </>
+                </label>
+              </div>
+
+              {isValid(props.vendor?.landmark) && (
+                <div style={{ maxWidth: "22%", textAlign: "right" }}>
+                  <div>
+                    <label
+                      style={{
+                        color: "#939393",
+                        fontSize: 13,
+                        fontWeight: 500,
+                        fontFamily: "Gilroy",
+                      }}
+                    >
+                      Landmark
+                    </label>
+                  </div>
+                  <label
+                    style={{
+                      color: "#222222",
+                      fontSize: 16,
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {props.vendor.landmark}
+                  </label>
+                </div>
+              )}
+            </div>
           </div>
+
+
+
         </Card.Body>
       </Card>
     </>
