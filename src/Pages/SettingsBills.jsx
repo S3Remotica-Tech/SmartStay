@@ -25,16 +25,13 @@ function SettingsBills() {
   const [invoicedueDate, setInvoiceDueDate] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [isFromOpen, setIsFromOpen] = useState(false);
-  const [isToOpen, setIsToOpen] = useState(false);
   const [selectedFrom, setSelectedFrom] = useState(null);
-  const [selectedTo, setSelectedTo] = useState(null);
   const [recurring_name, setRecurringName] = useState("");
   const [billing_frequency, setBilling_Frequency] = useState("");
   const [billing_types, setBilling_FrequencyTypes] = useState(null);
   const [recurr_nameerrormsg, setRecurr_NameErrmsg] = useState("");
   const [billingfreuencyerrormsg, setBillingFrequencyErrmsg] = useState("");
   const [selectedFromerrmsg, setSelectedFromErrmsg] = useState("");
-  const [selectedToerrmsg, setSelectedToErrMsg] = useState("");
   const [selectedremainderdayserrmsg, setSelectedRemainderDaysErrMsg] = useState("");
   const [showform, setShowForm] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -92,24 +89,9 @@ const getDaysInCurrentMonth = () => {
 
 
 const [dates, setDates] = useState([]);
-const [lastdates, setLastDates] = useState([]);
 
 useEffect(() => {
   setDates(getDaysInCurrentMonth());
-}, []);
-
-const getLastDateOfCurrentMonth = () => {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate(); 
-};
-
-
- const lastDayOfmonth = getLastDateOfCurrentMonth()
-
-useEffect(() => {
-  const lastDay = getLastDateOfCurrentMonth();  
-  const daysArray = Array.from({ length: lastDay }, (_, i) => i + 1); 
-  setLastDates(daysArray);
 }, []);
 
 
@@ -134,14 +116,11 @@ useEffect(() => {
     const fromMaxDay = getDaysInMonth(editYear, editMonth);
     setDates(fromMaxDay);
 
-    const toMaxDay = getDaysInMonth(editYear, editMonth);
-    setLastDates(toMaxDay);
+   
 
     setSelectedFrom(Number(recurring_bills.calculationFromDate));
-    setSelectedTo(Number(recurring_bills.calculationToDate));
   } else {
     setDates(getDaysInMonth(currentYear, currentMonth));
-    setLastDates(getDaysInMonth(currentYear, currentMonth));
   }
 }, [edit, recurring_bills]);
 
@@ -154,10 +133,7 @@ useEffect(() => {
     setIsFromOpen(false);
   };
 
-  const handleToClick = (date) => {    
-    setSelectedTo(date);
-    setIsToOpen(false);
-  };
+ 
 
 
   const handleToggle = () => setIsOn(!isOn);
@@ -191,13 +167,12 @@ useEffect(() => {
 
 
   const handleCloseForm = () => {
-      setFormLoading(false)
+    setFormLoading(false)
     setShowForm(false);
     setEdit(false)
     setRecurr_NameErrmsg("");
     setBillingFrequencyErrmsg("");
     setSelectedFromErrmsg("");
-    setSelectedToErrMsg("");
     setInvoiceDateErrmsg("");
     setDueDateErrmsg("");
     setSelectedRemainderDaysErrMsg("");
@@ -205,14 +180,12 @@ useEffect(() => {
     setRecurringName("");
     setBilling_Frequency("");
     setSelectedFrom(null);
-    setSelectedTo(null);
     setInvoiceDate("");
     setInvoiceDueDate("");
     setIsOn(false);
     setSelectedDays([]);
     setNotifications({});
     setIsFromOpen(false);
-    setIsToOpen(false);
   };
 
   const handleRecurrName = (e) => {
@@ -237,7 +210,6 @@ useEffect(() => {
       !recurring_name ||
       !billing_frequency ||
       !selectedFrom ||
-      !selectedTo ||
       !invoiceDate ||
       !invoicedueDate ||
       selectedDays.length === 0
@@ -250,9 +222,6 @@ useEffect(() => {
       }
       if (!selectedFrom) {
         setSelectedFromErrmsg("Please Select Date");
-      }
-      if (!selectedTo) {
-        setSelectedToErrMsg("Please Select Date");
       }
       if (!invoiceDate) {
         setInvoiceDateErrmsg("Please Select Date");
@@ -275,7 +244,6 @@ useEffect(() => {
       recurringName: recurring_name,
       billFrequency: billing_frequency,
       calculationFromDate: selectedFrom,
-      calculationToDate: selectedTo,
       billingDateOfMonth: Number(invoiceDate),
       dueDateOfMonth: Number(invoicedueDate),
       isAutoSend: isOn ? 1 : 0,
@@ -286,14 +254,14 @@ useEffect(() => {
     const originalData = {
       recurringName: recurring_bills.recurringName || '',
       billFrequency: recurring_bills.billFrequency || '',
-      calculationFromDate: recurring_bills.calculationFromDate || '',
-      calculationToDate: recurring_bills.calculationToDate || '',
+      calculationFromDate: Number(recurring_bills.calculationFromDate) || '',
       billingDateOfMonth: Number(recurring_bills.billingDateOfMonth),
       dueDateOfMonth: Number(recurring_bills.dueDateOfMonth),
       isAutoSend: Number(recurring_bills.isAutoSend),
       remainderDates: (recurring_bills.remainderDates || []).map(Number),
       billDeliveryChannels: (recurring_bills.billDeliveryChannels || []).map(Number),
     };
+
 
     if (edit && JSON.stringify(currentData) === JSON.stringify(originalData)) {
       setEditErrmessage("No changes detected");
@@ -310,7 +278,6 @@ useEffect(() => {
         recurringName: recurring_name,
         billFrequency: billing_frequency,
         calculationFromDate: selectedFrom,
-        calculationToDate: selectedTo,
         billingDateOfMonth: invoiceDate,
         dueDateOfMonth: invoicedueDate,
         isAutoSend: isOn === true ? 1 : 0,
@@ -332,14 +299,13 @@ useEffect(() => {
       setRecurr_NameErrmsg("");
       setBillingFrequencyErrmsg("");
       setSelectedFromErrmsg("");
-      setSelectedToErrMsg("");
       setInvoiceDateErrmsg("");
       setDueDateErrmsg("");
       setSelectedRemainderDaysErrMsg("");
+      setEditErrmessage("")
       setRecurringName("");
       setBilling_Frequency("");
       setSelectedFrom(null);
-      setSelectedTo(null);
       setInvoiceDate("");
       setInvoiceDueDate("");
       setIsOn(false);
@@ -485,7 +451,6 @@ useEffect(() => {
     setRecurringName(recurring_bills.recurringName || '');
     setBilling_Frequency(recurring_bills.billFrequency || '');
     setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? Number(recurring_bills.calculationFromDate) : '');
-    setSelectedTo(recurring_bills.calculationToDate !== "0000-00-00" ? Number(recurring_bills.calculationToDate) : '');
     setInvoiceDate(recurring_bills.billingDateOfMonth || '');
     setInvoiceDueDate(recurring_bills.dueDateOfMonth || '');
     setIsOn(recurring_bills.isAutoSend === 1); 
@@ -524,7 +489,6 @@ useEffect(() => {
       recurringName: recurring_name,
       billFrequency: billing_frequency,
       calculationFromDate: selectedFrom,
-      calculationToDate: selectedTo,
       billingDateOfMonth: Number(invoiceDate),
       dueDateOfMonth: Number(invoicedueDate),
       isAutoSend: isOn ? 1 : 0,
@@ -536,7 +500,6 @@ useEffect(() => {
       recurringName: recurring_bills?.recurringName || '',
       billFrequency: recurring_bills?.billFrequency || '',
       calculationFromDate: recurring_bills?.calculationFromDate || '',
-      calculationToDate: recurring_bills?.calculationToDate || '',
       billingDateOfMonth: Number(recurring_bills?.billingDateOfMonth),
       dueDateOfMonth: Number(recurring_bills?.dueDateOfMonth),
       isAutoSend: Number(recurring_bills?.isAutoSend),
@@ -551,7 +514,6 @@ useEffect(() => {
     recurring_name,
     billing_frequency,
     selectedFrom,
-    selectedTo,
     invoiceDate,
     invoicedueDate,
     selectedDays,
@@ -571,7 +533,6 @@ useEffect(() => {
     setRecurringName(recurring_bills.recurringName || '');
     setBilling_Frequency(recurring_bills.billFrequency || '');
     setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? Number(recurring_bills.calculationFromDate) : '');
-    setSelectedTo(recurring_bills.calculationToDate !== "0000-00-00" ? Number(recurring_bills.calculationToDate) : '');
     setInvoiceDate(recurring_bills.billingDateOfMonth || '');
     setInvoiceDueDate(recurring_bills.dueDateOfMonth || '');
     setIsOn(recurring_bills.isAutoSend === 1); 
@@ -1023,76 +984,6 @@ useEffect(() => {
                     )}
                   </div>
 
-                  <div className="col-6 position-relative mb-4" style={{ zIndex: isFromOpen ? 20 : 10 }}>
-                    <label
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        color: "#000",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      To
-                    </label>
-                    <button
-                      onClick={() => setIsToOpen(!isToOpen)}
-                      className="btn btn-white border w-100 d-flex justify-content-between align-items-center"
-                    >
-                     {selectedTo ? selectedTo : "Select a date"} 
-                      <img src={DatepickerIcon} alt="datepicker" />
-                    </button>
-
-                    {isToOpen && (
-                      <div className="date-picker-container">
-                        <div className="d-flex justify-content-center">
-                          <h3>Select date</h3>
-                        </div>
-                        <div className="date-grid">
-                          {lastdates.map((date, index) => (
-                            <div
-                              key={index}
-                              className={`date-cell ${date === selectedTo ? "selected" : ""
-                                }`}
-                              onClick={() => handleToClick(date)}
-                            >
-                              {date}
-                            </div>
-                          ))}
-                        </div>
-                        <div className="date-picker-footer">
-                         
-                          <button  className="Endmonthtwo"  onClick={() => handleToClick(lastDayOfmonth)}>
-                            End of the month
-                          </button>
-                        </div>
-                      </div>
-                    )}
-
-                    {!selectedTo && selectedToerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {selectedToerrmsg}
-                        </label>
-                      </div>
-                    )}
-                  </div>
                 </div>
 
                 <div className="row">
