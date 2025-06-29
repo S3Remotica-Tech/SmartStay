@@ -372,6 +372,7 @@ function Expenses({ allPageHostel_Id }) {
 
   const { getExpenseStatusCode } = state.ExpenseList;
 
+
 useEffect(() => {
   if (getExpenseStatusCode === 200) {
     setLoading(false);
@@ -381,7 +382,8 @@ useEffect(() => {
       dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
     }, 4000);
   }
-}, [getExpenseStatusCode, dispatch]);
+}, [getExpenseStatusCode, dispatch, state.ExpenseList.expenseList]);
+                             
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
@@ -447,9 +449,25 @@ useEffect(() => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  let filteredData = [];
 
-  filteredData = filterByPriceRange(getData) || [];
+
+  const filteredData = React.useMemo(
+  () => filterByPriceRange(getData) || [],
+  [getData] 
+);
+
+  useEffect(() => {
+  if (filteredData && filteredData.length > 0) {
+    const slicedItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    const pages = Math.ceil(filteredData.length / itemsPerPage);
+
+    setCurrentItems(slicedItems);
+    setTotalPages(pages);
+  } else {
+    setCurrentItems([]);
+    setTotalPages(0);
+  }
+}, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
 
   const [currentItems, setCurrentItems] = useState([]);
 const [totalPages, setTotalPages] = useState(0);
