@@ -170,6 +170,9 @@ function SettingSubscription() {
     setChangePlan(true);
   };
 
+ 
+
+
   useEffect(() => {
     if (changePlan) {
       handleClosePlanChange();
@@ -211,14 +214,7 @@ function SettingSubscription() {
   const handleCloseCurrentPlan = () => {
     setChangePlan(false);
     setHostelCountError("");
-    const modalElement = document.getElementById("changePlanModal");
-    if (modalElement) {
-      modalElement.classList.remove("show");
-      modalElement.setAttribute("aria-hidden", "true");
-      modalElement.style.display = "none";
-    }
 
-    document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
   };
 
   return (
@@ -610,7 +606,7 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
-                                    marginLeft:4,
+                                    marginLeft:5,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -637,7 +633,7 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
-                                    marginLeft:4,
+                                    marginLeft:5,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -664,7 +660,7 @@ function SettingSubscription() {
                                     backgroundColor: "#D9FFD9",
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
-                                    marginLeft:3,
+                                    marginLeft:4,
                                     fontSize: "11px",
                                     fontWeight: 500,
                                     borderRadius: "10px",
@@ -691,28 +687,47 @@ function SettingSubscription() {
         )}
       </div>
 
-      {
-        changePlan &&
+     
+
+           <Modal
+           show={changePlan}
+           onHide={handleCloseCurrentPlan}
+           backdrop="static"
+           centered
+           size="lg" 
+           className="change-plan-modal" >
+       
+                <Modal.Header
+                  style={{ marginBottom: "30px", position: "relative", paddingLeft:40, paddingRight:40 }}
+                >
+                  <div
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Change Plan
+                  </div>
+              
 
 
-        <div
-          className="modal fade"
-          ref={modalRef}
-          data-bs-backdrop="static"
-          tabIndex="-1"
-        >
-          <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" style={{ fontFamily: "Gilroy" }}>Change Plan</h5>
-                <CloseCircle
-                  size="24"
-                  color="#000"
-                  onClick={handleCloseCurrentPlan}
-                  style={{ cursor: "pointer" }}
-                />
-              </div>
-              <div className="modal-body">
+                  <CloseCircle
+                    size="24"
+                    color="#000"
+                    onClick={handleCloseCurrentPlan}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Modal.Header>
+
+
+          <Modal.Body  className="modal-scroll-body">
+       
+            
+            
+
+
+               <div className="modal-body">
                 <div className="row g-3">
                   <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
                     <div
@@ -1099,10 +1114,17 @@ function SettingSubscription() {
                   </div>
                 </div>
               )}
-            </div>
-          </div>
-        </div>
-      }
+
+              
+          
+            
+            
+          </Modal.Body>
+
+          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+       
+      </Modal>
+
       <Modal
         show={plan}
         onHide={handleClosePlanChange}
@@ -1185,7 +1207,7 @@ function SettingSubscription() {
                       <Select
                         options={filteredOptions}
                         placeholder="Select Hostel"
-                        value={null} // Always reset to placeholder
+                        value={null} 
                         onChange={handleHostelSelect}
                         classNamePrefix="custom"
                         menuPlacement="auto"
@@ -1204,7 +1226,6 @@ function SettingSubscription() {
                         }}
                       />
 
-                      {/* Tag Chips below */}
                       {selectedHostels.length > 0 && (
                         <div className="mt-3 d-flex flex-wrap gap-2">
                           {selectedHostels.map((hostel) => (
@@ -1346,7 +1367,6 @@ function SettingSubscription() {
                         id="form-controls"
                         placeholder="Select Payment"
                         value={amount}
-                        // onChange={(e) => handleLastName(e)}
                         style={{
                           fontSize: 16,
                           color: "#4B4B4B",
@@ -1430,7 +1450,6 @@ function SettingSubscription() {
                   Buy Now
                 </Button>
               </div>
-              {/* )} */}
             </div>
           </Modal.Body>
 

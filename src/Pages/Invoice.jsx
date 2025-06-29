@@ -2392,6 +2392,8 @@ const InvoicePage = () => {
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
+    setBills(originalBillsFilter)
+    setReceiptData(originalBillsFilterReceipt);
   };
 
 
