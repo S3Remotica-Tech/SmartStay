@@ -500,6 +500,7 @@ useEffect(() => {
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
+    settransactionFilterddata(originalBillsFilter);
   };
  const handlefilterInput = (e) => {
   const input = e.target.value;

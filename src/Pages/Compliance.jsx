@@ -316,6 +316,7 @@ const Compliance = () => {
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
+    setFilteredUsers(state.ComplianceList?.Compliance);
   }
 
 
@@ -363,23 +364,31 @@ const Compliance = () => {
   };
 
   const [selectedDateRange, setSelectedDateRange] = useState([]);
+
   const handleDateChange = (dates) => {
-    if (!dates || dates.length === 0) {
-      setSelectedDateRange([]);
-      setStatusfilter("All");
-      setFilteredUsers(state.ComplianceList?.Compliance);
-    } else {
-      setSelectedDateRange(dates);
+  if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
+    setSelectedDateRange([]);
+    setStatusfilter("All");
+    setFilteredUsers(state.ComplianceList?.Compliance);
+    return;
+  }
 
-      const filtered = (state.ComplianceList?.Compliance || []).filter((item) =>
-        dayjs(item.date).isSameOrAfter(dayjs(dates[0]), 'day') &&
-        dayjs(item.date).isSameOrBefore(dayjs(dates[1]), 'day')
-      );
+  setSelectedDateRange(dates);
 
-      setFilteredUsers(filtered);
-      setCurrentPage(1);
-    }
-  };
+  const filtered = (state.ComplianceList?.Compliance || []).filter((item) => {
+    const itemDate = dayjs(item.date);
+    return (
+      itemDate.isSameOrAfter(dayjs(dates[0]), 'day') &&
+      itemDate.isSameOrBefore(dayjs(dates[1]), 'day')
+    );
+  });
+
+  setFilteredUsers(filtered);
+  setCurrentPage(1);
+};
+
+
+
 
 
   useEffect(() => {
