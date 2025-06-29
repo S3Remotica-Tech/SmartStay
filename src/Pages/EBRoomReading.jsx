@@ -46,7 +46,7 @@ function EBRoomReading(props) {
   const [dateErrorMesg, setDateErrorMesg] = useState("")
   const [roomelectricity, setRoomElectricity] = useState([])
 
- const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
 
 
 
@@ -139,7 +139,7 @@ function EBRoomReading(props) {
     setUnitAmount(FilterEbAmount);
     if (Array.isArray(FilterEbAmount) && FilterEbAmount.length > 0) {
       setUnitAmount(FilterEbAmount[0]?.amount);
-    } 
+    }
   }, [state.Settings.EBBillingUnitlist.eb_settings, hostelId]);
 
 
@@ -147,9 +147,9 @@ function EBRoomReading(props) {
 
 
   useEffect(() => {
-    if(state?.PgList?.ebEditError){
+    if (state?.PgList?.ebEditError) {
       setFormLoading(false)
-    setDateError(state?.PgList?.ebEditError);
+      setDateError(state?.PgList?.ebEditError);
     }
   }, [state?.PgList?.ebEditError]);
 
@@ -213,8 +213,8 @@ function EBRoomReading(props) {
     reading: "",
     selectedDate: "",
   });
-  
-  
+
+
 
   const handleEditRoomReading = (item) => {
     setUnitAmount('')
@@ -247,11 +247,11 @@ function EBRoomReading(props) {
 
 
   const getMinDate = () => {
-  if (initialStateAssign.selectedDate) {
-    return dayjs(initialStateAssign.selectedDate).startOf("day");
-  }
-  return dayjs().startOf("day");
-};
+    if (initialStateAssign.selectedDate) {
+      return dayjs(initialStateAssign.selectedDate).startOf("day");
+    }
+    return dayjs().startOf("day");
+  };
 
 
 
@@ -306,7 +306,7 @@ function EBRoomReading(props) {
     return true;
   };
   const handleSaveChanges = () => {
-     dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
+    dispatch({ type: "CLEAR_ERROR_EDIT_ELECTRICITY" });
     const isreadingValid = validateAssignField(reading, "reading");
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
     const isFloorValid = validateAssignField(Floor, "Floor");
@@ -385,10 +385,7 @@ function EBRoomReading(props) {
 
   const dataSource = props.filterStatus ? props.RoomElect : roomelectricity;
 
-  const currentRowelectricity = dataSource?.slice(
-    indexOfFirstRowelectricity,
-    indexOfLastRowelectricity
-  );
+  const currentRowelectricity = dataSource?.slice(indexOfFirstRowelectricity,indexOfLastRowelectricity);
 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
@@ -449,7 +446,7 @@ function EBRoomReading(props) {
 
   useEffect(() => {
     if (state.PgList.statusCodeForEditElectricity === 200 || state.PgList.statusCodeForDeleteElectricity === 200) {
-     setFormLoading(false)
+      setFormLoading(false)
       handleCloseDelete()
       handleClose()
       dispatch({ type: "EBSTARTMETERLIST", payload: { hostel_id: hostelId } });
@@ -473,7 +470,7 @@ function EBRoomReading(props) {
   }, [state.PgList.statusCodeForEbRoomList])
 
 
- 
+
 
 
 
@@ -544,7 +541,7 @@ function EBRoomReading(props) {
                   >
 
 
-   
+
 
                     <thead style={{
                       fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
@@ -620,150 +617,150 @@ function EBRoomReading(props) {
                               <tr key={v.id}>
 
 
- <td
-                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
-                                          style={{
-                                            paddingTop: 15,
-                                            border: "none",
-                                            textAlign: "start",
-                                            fontSize: "13px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            marginTop: 10,
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
-                                          }}
-                                        >
-                                          <span
-                                            style={{
-                                              paddingTop: "3px",
-                                              paddingLeft: "10px",
-                                              paddingRight: "10px",
-                                              paddingBottom: "3px",
-                                              borderRadius: "60px",
-                                              backgroundColor: "#FFEFCF",
-                                              textAlign: "center",
-                                              fontSize: "11px",
-                                              fontWeight: 500,
-                                              fontFamily: "Gilroy",
-                                              marginLeft:10
-                                            }}
-                                          >
-                                            {v.hoatel_Name}
-                                          </span>
-                                        </td>
-    <td
-      style={{
-        fontSize: 13, 
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-        textAlign: "start",
-        verticalAlign: "middle",
-        borderBottom: "1px solid #E8E8E8",
-        paddingLeft:20,
-        whiteSpace:"nowrap"
-      }}
-    >
-      {v.floor_name}
-    </td>
-    <td
-      style={{
-        fontSize: 13, 
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-        textAlign: "start",
-        verticalAlign: "middle"
-        ,borderBottom: "1px solid #E8E8E8",
-        paddingLeft:20,
-        whiteSpace:"nowrap"
-      }}
-    >
-      <div style={{marginLeft:2}}>  {v.Room_Id}</div>
-    
-    </td>
+                                <td
+                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
+                                  style={{
+                                    paddingTop: 15,
+                                    border: "none",
+                                    textAlign: "start",
+                                    fontSize: "13px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    marginTop: 10,
+                                    verticalAlign: "middle",
+                                    borderBottom: "1px solid #E8E8E8",
+                                  }}
+                                >
+                                  <span
+                                    style={{
+                                      paddingTop: "3px",
+                                      paddingLeft: "10px",
+                                      paddingRight: "10px",
+                                      paddingBottom: "3px",
+                                      borderRadius: "60px",
+                                      backgroundColor: "#FFEFCF",
+                                      textAlign: "center",
+                                      fontSize: "11px",
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      marginLeft: 10
+                                    }}
+                                  >
+                                    {v.hoatel_Name}
+                                  </span>
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle",
+                                    borderBottom: "1px solid #E8E8E8",
+                                    paddingLeft: 20,
+                                    whiteSpace: "nowrap"
+                                  }}
+                                >
+                                  {v.floor_name}
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle"
+                                    , borderBottom: "1px solid #E8E8E8",
+                                    paddingLeft: 20,
+                                    whiteSpace: "nowrap"
+                                  }}
+                                >
+                                  <div style={{ marginLeft: 2 }}>  {v.Room_Id}</div>
+
+                                </td>
 
 
-    <td
-      style={{
-        fontSize: 13, 
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-        textAlign: "start",
-        verticalAlign: "middle",
-       borderBottom: "1px solid #E8E8E8",
-       paddingLeft:20,
-       whiteSpace:"nowrap",
-       marginLeft:13
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle",
+                                    borderBottom: "1px solid #E8E8E8",
+                                    paddingLeft: 20,
+                                    whiteSpace: "nowrap",
+                                    marginLeft: 13
 
-      }}
-    >
-      <div style={{marginLeft:2}}>{v.reading}</div>
-    
-    </td>
-    <td
-      style={{
-        textAlign: "start",
-        verticalAlign: "middle", 
-        borderBottom: "1px solid #E8E8E8",
-               whiteSpace:"nowrap"
-        
-      }}
-    >
-      <span
-        style={{
-          backgroundColor: "#EBEBEB",
-          paddingTop: "5px",
-          paddingLeft: "16px",
-          paddingRight: "16px",
-          paddingBottom: "5px",
-          marginLeft:-4,
-          borderRadius: "60px",
-          fontSize: 13, 
-          fontWeight: 500,
-          fontFamily: "Gilroy",
-          whiteSpace:"nowrap"
-        }}
-      >
-        {formattedDate}
-      </span>
-    </td>
-    <td
-      style={{
-        fontSize: 13, 
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-        textAlign: "start",
-        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
-        paddingLeft:20,
-        whiteSpace:"nowrap"
-       
-      }}
-    >
-      <div style={{marginLeft:2}}>{v.total_reading}</div>
-      
-    </td>
-    <td
-      style={{
-        fontSize: 13, 
-        fontWeight: 500,
-        fontFamily: "Gilroy",
-        textAlign: "start",
-        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8",
-        paddingLeft:20,
-        whiteSpace:"nowrap"
-        
-      }}
-    >
-        <div style={{marginLeft:2}}>₹{v.total_amount}</div>
-   
-    </td>
-    <td  style={{
-       fontSize: 13, 
-       fontWeight: 500,
-       fontFamily: "Gilroy",
-        textAlign: "start",
-        verticalAlign: "middle",borderBottom: "1px solid #E8E8E8"
-      }}>
+                                  }}
+                                >
+                                  <div style={{ marginLeft: 2 }}>{v.reading}</div>
+
+                                </td>
+                                <td
+                                  style={{
+                                    textAlign: "start",
+                                    verticalAlign: "middle",
+                                    borderBottom: "1px solid #E8E8E8",
+                                    whiteSpace: "nowrap"
+
+                                  }}
+                                >
+                                  <span
+                                    style={{
+                                      backgroundColor: "#EBEBEB",
+                                      paddingTop: "5px",
+                                      paddingLeft: "16px",
+                                      paddingRight: "16px",
+                                      paddingBottom: "5px",
+                                      marginLeft: -4,
+                                      borderRadius: "60px",
+                                      fontSize: 13,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      whiteSpace: "nowrap"
+                                    }}
+                                  >
+                                    {formattedDate}
+                                  </span>
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8",
+                                    paddingLeft: 20,
+                                    whiteSpace: "nowrap"
+
+                                  }}
+                                >
+                                  <div style={{ marginLeft: 2 }}>{v.total_reading}</div>
+
+                                </td>
+                                <td
+                                  style={{
+                                    fontSize: 13,
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    textAlign: "start",
+                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8",
+                                    paddingLeft: 20,
+                                    whiteSpace: "nowrap"
+
+                                  }}
+                                >
+                                  <div style={{ marginLeft: 2 }}>₹{v.total_amount}</div>
+
+                                </td>
+                                <td style={{
+                                  fontSize: 13,
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  textAlign: "start",
+                                  verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+                                }}>
 
                                   <div
                                     style={{
@@ -813,7 +810,7 @@ function EBRoomReading(props) {
                                               borderTopRightRadius: 10,
                                               backgroundColor: "#F9F9F9",
                                               padding: "8px 12px",
-                                              width:"100%",
+                                              width: "100%",
                                             }}
                                             onClick={() => {
                                               if (!props.ebEditPermission) {
@@ -859,7 +856,7 @@ function EBRoomReading(props) {
                                               borderBottomRightRadius: 10,
                                               backgroundColor: "#F9F9F9",
                                               padding: "8px 12px",
-                                              width:"100%",
+                                              width: "100%",
                                             }}
                                             onClick={() => {
                                               if (!props.ebDeletePermission) {
@@ -900,7 +897,7 @@ function EBRoomReading(props) {
                                     )}
                                   </div>
 
-                                
+
                                 </td>
                               </tr>
                             );
@@ -917,39 +914,39 @@ function EBRoomReading(props) {
                 </div>
               </div>
 
-            ):
-                     props.value === "2" && !props.loading && roomelectricity && roomelectricity?.length === 0 ? (
-                        <div style={{marginTop:60}}>
-                          <div style={{ textAlign: "center" }}>
-                            <img src={emptyimg} width={240} height={240} alt="No readings" />
-                          </div>
-                          <div
-                            className="pb-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              fontSize: 20,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            No room readings
-                          </div>
-                          <div
-                            className="pb-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              fontSize: 16,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            There are no room readings available.
-                          </div>
-            
-                        </div>
-                      ) : null}
+            ) :
+              !props.loading && dataSource?.length === 0 ? (
+                <div style={{ marginTop: 60 }}>
+                  <div style={{ textAlign: "center" }}>
+                    <img src={emptyimg} width={240} height={240} alt="No readings" />
+                  </div>
+                  <div
+                    className="pb-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: 20,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    No room readings
+                  </div>
+                  <div
+                    className="pb-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      fontSize: 16,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    There are no room readings available.
+                  </div>
+
+                </div>
+              ) : null}
 
 
 
@@ -999,7 +996,7 @@ function EBRoomReading(props) {
                   zIndex: 1000,
                 }}
               >
-              
+
                 <div>
                   <select
                     value={electricityrowsPerPage}
@@ -1023,7 +1020,7 @@ function EBRoomReading(props) {
                   </select>
                 </div>
 
-             
+
                 <ul
                   style={{
                     display: "flex",
@@ -1033,7 +1030,7 @@ function EBRoomReading(props) {
                     padding: 0,
                   }}
                 >
-                
+
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1055,12 +1052,12 @@ function EBRoomReading(props) {
                     </button>
                   </li>
 
-                 
+
                   <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                     {electricitycurrentPage} of {totalPagesinvoice}
                   </li>
 
-                  
+
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -1109,7 +1106,7 @@ function EBRoomReading(props) {
           >
             Edit Reading
           </div>
-        
+
           <CloseCircle size="24" color="#000" onClick={handleClose}
             style={{ cursor: 'pointer' }} />
         </Modal.Header>
@@ -1128,7 +1125,7 @@ function EBRoomReading(props) {
                 Floor{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
-             
+
 
               <Select
                 options={
@@ -1224,7 +1221,7 @@ function EBRoomReading(props) {
                 Room{" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
-              
+
 
               <Select
                 options={
@@ -1360,9 +1357,9 @@ function EBRoomReading(props) {
                   Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
-                 
+
                   <DatePicker
-                    style={{ height: 48, width: "100%", cursor: "pointer",fontFamily: "Gilroy" }}
+                    style={{ height: 48, width: "100%", cursor: "pointer", fontFamily: "Gilroy" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -1375,8 +1372,8 @@ function EBRoomReading(props) {
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                     dropdownClassName="custom-datepicker-popup"
-                  disabledDate={(current) =>
-                    current && current < getMinDate() }
+                    disabledDate={(current) =>
+                      current && current < getMinDate()}
                   />
 
                 </div>
@@ -1404,31 +1401,31 @@ function EBRoomReading(props) {
         )}
 
 
-           {formLoading && <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
-                opacity: 0.75,
-                zIndex: 10,
-              }}
-            >
-              <div
-                style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
-                }}
-              ></div>
-            </div>}
+        {formLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
         <Modal.Footer className="d-flex justify-content-center " style={{ borderTop: "none" }}>
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"

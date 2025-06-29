@@ -32,6 +32,7 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
 import isBetween from "dayjs/plugin/isBetween";
 import Filters from "../Assets/Images/Filters.svg";
 import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
@@ -39,10 +40,13 @@ import { CloseCircle } from "iconsax-react";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 function EB_Hostel() {
+
+ 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const theme = useTheme();
   const { RangePicker } = DatePicker;
+  dayjs.extend(utc);
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   dayjs.extend(isBetween);
@@ -247,7 +251,7 @@ function EB_Hostel() {
       if (!state.login.selectedHostel_Id) {
         setelectricityFilterd([]);
         setRoomElect([])
-              }
+      }
     }, 100);
 
     return () => clearInterval(interval);
@@ -265,7 +269,7 @@ function EB_Hostel() {
 
 
 
-  const [RoomElect, setRoomElect] = useState("")
+  const [RoomElect, setRoomElect] = useState([])
 
 
   useEffect(() => {
@@ -625,8 +629,8 @@ function EB_Hostel() {
   };
 
   const [originalElec, setOriginalElec] = useState("");
-  const [originalRoomElec, setOriginalRoomElec] = useState("")
-  const [originalHostelElec, setOriginalHostelElec] = useState("")
+  const [originalRoomElec, setOriginalRoomElec] = useState([])
+  const [originalHostelElec, setOriginalHostelElec] = useState([])
 
 
 
@@ -638,10 +642,10 @@ function EB_Hostel() {
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
-   const getMinDate = () => {
+  const getMinDate = () => {
     return dayjs().startOf("day");
   };
-  
+
   const handleSearch = () => {
     setSearch(!search);
   };
@@ -652,6 +656,7 @@ function EB_Hostel() {
   };
 
   const handleDateRangeChangeEb = (dates) => {
+
     setCustomerDateRange(dates);
 
     if (!dates || dates.length !== 2) {
@@ -663,18 +668,13 @@ function EB_Hostel() {
     const [start, end] = dates;
 
     const filtered = originalElec?.filter((item) => {
-
       if (!item.reading_date || typeof item.reading_date !== 'string') {
         return false;
       }
-
       const itemDate = dayjs(item.reading_date);
-
-
       if (!itemDate.isValid()) {
         return false;
       }
-
       return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
     });
 
@@ -687,12 +687,12 @@ function EB_Hostel() {
   const [roomBasedFilter, setRoomBasedFilter] = useState("")
 
   const handleDateRoomRangeChangeEb = (dates) => {
-
     setRoomBasedFilter(dates);
 
     if (!dates || dates?.length !== 2) {
       setFilterStatus(false);
       setRoomElect(originalRoomElec);
+      setelectricityFilterd(originalRoomElec)
       return;
     }
 
@@ -703,17 +703,12 @@ function EB_Hostel() {
       if (!item.date || typeof item.date !== 'string') {
         return false;
       }
-
       const itemDate = dayjs(item.date);
-
-
       if (!itemDate.isValid()) {
         return false;
       }
-
       return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
     });
-
     setRoomElect(filtered);
     setFilterStatus(true);
   };
@@ -722,39 +717,35 @@ function EB_Hostel() {
   const [hostelBasedFilter, setHostelBasedFilter] = useState("")
 
 
+const handleDateHostelRangeChangeEb = (dates) => {
+  setHostelBasedFilter(dates);
 
-  const handleDateHostelRangeChangeEb = (dates) => {
+  if (!dates || dates.length !== 2) {
+    setFilterStatus(false);
+    setelectricityHostel(originalHostelElec);
+    return;
+  }
 
-    setHostelBasedFilter(dates);
+  const [startRaw, endRaw] = dates;
+  const start = dayjs(startRaw).startOf("day");
+  const end = dayjs(endRaw).endOf("day");
 
+  const filtered = originalHostelElec?.filter((item) => {
+    if (!item.date || typeof item.date !== "string") return false;
 
-    if (!dates || dates?.length !== 2) {
-      setFilterStatus(false);
-      setelectricityHostel(originalHostelElec);
-      return;
-    }
+    const itemDate = dayjs.utc(item.date).local().startOf("day");
+    if (!itemDate.isValid()) return false;
 
-    const [start, end] = dates;
-
-    const filtered = originalHostelElec?.filter((item) => {
-
-      if (!item.date || typeof item.date !== 'string') {
-        return false;
-      }
-
-      const itemDate = dayjs(item.date);
+    return itemDate.isSameOrAfter(start) && itemDate.isSameOrBefore(end);
+  });
 
 
-      if (!itemDate.isValid()) {
-        return false;
-      }
+  setelectricityHostel(filtered);
+  setFilterStatus(true);
+};
 
-      return itemDate.isSameOrAfter(start, 'day') && itemDate.isSameOrBefore(end, 'day');
-    });
 
-    setelectricityHostel(filtered);
-    setFilterStatus(true);
-  };
+
 
 
   const handleUserSelect = (user) => {
@@ -993,8 +984,8 @@ function EB_Hostel() {
                 <RangePicker
                   value={customerDateRange}
                   onChange={handleDateRangeChangeEb}
-                  format="DD/MM/YYYY"
-                  style={{ height: 40, cursor: "pointer", fontFamily: "Gilroy" }}
+                  format="DD/MM/YY"
+                  style={{ height: 40, cursor: "pointer", fontFamily: "Gilroy", }}
                 />
               </div>
             )}
@@ -1014,7 +1005,7 @@ function EB_Hostel() {
                   value={hostelBasedFilter}
                   onChange={handleDateHostelRangeChangeEb}
                   format="DD/MM/YYYY"
-                  style={{ height: 40, cursor: "pointer" }}
+                  style={{ height: 40, cursor: "pointer", fontFamily: "Gilroy" }}
                 />
               </div>
             )}
@@ -2050,8 +2041,8 @@ function EB_Hostel() {
                         triggerNode.closest(".datepicker-wrapper")
                       }
                       dropdownClassName="custom-datepicker-popup"
-                         disabledDate={(current) =>
-                    current && current < getMinDate() }
+                      disabledDate={(current) =>
+                        current && current < getMinDate()}
                     />
                   </div>
                 </Form.Group>
