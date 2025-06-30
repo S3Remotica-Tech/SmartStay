@@ -358,7 +358,7 @@ function UserEb(props) {
 
         </div>
       ):
-      <div style={{ marginTop: 20 }}>
+      <div style={{ marginTop: 25 }}>
                           <div style={{ textAlign: "center" }}>
                             <img src={Emptystate} alt="emptystate" />
                           </div>

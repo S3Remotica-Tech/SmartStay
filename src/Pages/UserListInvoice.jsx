@@ -805,7 +805,7 @@ function UserListInvoice(props) {
               </tbody>
             </Table>
           </div>
-        ) : <div style={{ marginTop: 30 }}>
+        ) : <div>
           <div style={{ textAlign: "center" }}>
             <img src={Emptystate} alt="emptystate" />
           </div>
@@ -815,7 +815,7 @@ function UserListInvoice(props) {
               textAlign: "center",
               fontWeight: 600,
               fontFamily: "Gilroy",
-              fontSize: 20,
+              fontSize: 16,
               color: "rgba(75, 75, 75, 1)",
             }}
           >
@@ -827,7 +827,7 @@ function UserListInvoice(props) {
               textAlign: "center",
               fontWeight: 500,
               fontFamily: "Gilroy",
-              fontSize: 16,
+              fontSize: 14,
               color: "rgba(75, 75, 75, 1)",
             }}
           >
