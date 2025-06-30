@@ -368,7 +368,7 @@ function Sidebar() {
     <>
       <Container fluid className="p-0">
         <Row className="g-0 m-0">
-          <Col xs={12} sm={12} className="d-md-none p-2 bg-white">
+          <Col xs={12} sm={12} className="d-md-none p-2 bg-white position-relative">
             <button
               onClick={toggleSidebar}
               style={{
@@ -414,6 +414,7 @@ function Sidebar() {
               minWidth: 210,
             }}
           >
+           
             <div className="container" style={{ position: "relative" }}>
               <div
                 className="d-flex align-items-center justify-content-between"
@@ -574,7 +575,7 @@ function Sidebar() {
               )}
 
               <ul
-                className="first p-0 show-scrolls-sidebar"
+                className="first p-2 show-scrolls-sidebar"
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -587,7 +588,7 @@ function Sidebar() {
                 }}
               >
                 <li
-                  className={`align-items-center list-Item ${currentPage === "dashboard" ? "active" : ""
+                  className={`align-items-center  list-Item ${currentPage === "dashboard" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("dashboard")}
                   style={{
@@ -922,6 +923,8 @@ function Sidebar() {
                   </span>
                 </li>
               </ul>
+
+
             </div>
 
             <div
@@ -936,6 +939,7 @@ function Sidebar() {
                 justifyContent: "center",
                 height: "auto",
                 padding: "12px 0",
+                backgroundColor: "#E0ECFF",
 
               }}
             >
