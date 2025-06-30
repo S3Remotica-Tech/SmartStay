@@ -163,12 +163,7 @@ function EBHostelReading(props) {
   };
 
 
-  const getMinDate = () => {
-    if (initialStateAssign.selectedDate) {
-      return dayjs(initialStateAssign.selectedDate).startOf("day");
-    }
-    return dayjs().startOf("day");
-  };
+ 
 
 
   useEffect(() => {
@@ -263,7 +258,7 @@ function EBHostelReading(props) {
     }
 
 
-    const isValidDate = (date) => !isNaN(Date.parse(date));
+   
     const formattedDated = moment(selectedDate).format("YYYY-MM-DD");
     if (props.editeb && editId) {
 

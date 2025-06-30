@@ -249,12 +249,7 @@ function EBRoomReading(props) {
   };
 
 
-  const getMinDate = () => {
-    if (initialStateAssign.selectedDate) {
-      return dayjs(initialStateAssign.selectedDate).startOf("day");
-    }
-    return dayjs().startOf("day");
-  };
+ 
 
 
 
@@ -340,9 +335,7 @@ function EBRoomReading(props) {
       return;
     }
 
-    const isValidDate = (date) => {
-      return !isNaN(Date.parse(date));
-    };
+   
    const isChangedBed =
   String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase() ||
   String(Rooms).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase() ||

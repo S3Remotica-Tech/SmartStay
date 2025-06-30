@@ -649,9 +649,7 @@ function EB_Hostel() {
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
-  const getMinDate = () => {
-    return dayjs().startOf("day");
-  };
+ 
 
   const handleSearch = () => {
     setSearch(!search);
