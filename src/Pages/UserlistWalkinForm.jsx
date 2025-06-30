@@ -239,8 +239,8 @@ function CustomerForm({ show, handleClose, initialData }) {
         const WalkinDateOnly = new Date(WalkinDate.toDateString());
         if (WalkinDateOnly < HostelCreateDateOnly) {
           setJoingDateErrmsg('Before Hostel Create date not allowed');
-          if (!focusedRef.current && dateRef.current) {
-        dateRef.current.focus();
+          if (!focusedRef.current && walkInDateRef.current) {
+        walkInDateRef.current.focus();
         focusedRef.current = true;
 
         return

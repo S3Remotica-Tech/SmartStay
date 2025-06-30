@@ -537,7 +537,6 @@ function Booking(props) {
 
 
 
-    const isValidDate = (date) => !isNaN(Date.parse(date));
 
     const normalize = (value) => {
       const val = (value ?? "").toString().trim().toLowerCase();
