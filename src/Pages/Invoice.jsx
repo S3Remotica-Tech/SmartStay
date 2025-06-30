@@ -4142,7 +4142,7 @@ const InvoicePage = () => {
                                 currentItems &&
                                 currentItems?.length === 0 && (
 
-                                  <div>
+                                  <div className="mt-2">
                                     <div style={{ textAlign: "center" }}>
                                       {" "}
                                       <img src={Emptystate} alt="emptystate" />
