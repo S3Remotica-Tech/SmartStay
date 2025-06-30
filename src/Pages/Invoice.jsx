@@ -3408,7 +3408,7 @@ const InvoicePage = () => {
                                             setSelectedDate(date ? date.toDate() : null);
                                           }}
                                           disabledDate={(current) => {
-                                            const selectedUser = state.UsersList?.Users.find((u) => u.ID == invoiceValue.ID);
+                                            const selectedUser = state.UsersList?.Users.find((u) => u.ID === invoiceValue.ID);
                                             const joiningDate = moment(selectedUser.user_join_date, "YYYY-MM-DD");
                                             return current && current.isBefore(joiningDate, "day");
                                           }}
