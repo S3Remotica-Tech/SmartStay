@@ -36,6 +36,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const [isChangedError, setIsChangedError] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [netPaymentError, setNetPaymentError] = useState("")
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
   const [formLoading, setFormLoading] = useState(false)
   const calendarRef = useRef(null);
   const [initialState, setInitialState] = useState({
@@ -58,6 +59,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
       type: "EXPENCES-CATEGORY-LIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+   dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id  } })
   }, []);
 
   useEffect(() => {
@@ -119,12 +121,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   }, [currentItem]);
 
 
-   const getMinDate = () => {
-    if (currentItem?.purchase_date) {
-      return dayjs(currentItem.purchase_date).startOf("day");
-    }
-    return dayjs().startOf("day");
-  };
+  
 
 
 
@@ -233,6 +230,24 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
+     if (selectedDate ) {
+      const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
+      if (selectedHostel) {
+        const HostelCreateDate = new Date(selectedHostel.create_At);
+        const ExpenseDate = new Date(selectedDate);
+        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+        const ExpenseDateOnly = new Date(ExpenseDate.toDateString());
+        if (ExpenseDateOnly < HostelCreateDateOnly) {
+          setJoingDateErrmsg('Before Hostel Create date not allowed');
+          hasError = true;
+      
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
+
+
     if (!modeOfPayment) {
       setPaymentError("Please Select Mode Of Transaction");
       hasError = true;
@@ -256,12 +271,14 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
 
 
+
+
     const isChanged =
       initialState.assetName !== assetName ||
       initialState.vendorName !== vendorName ||
-      (initialState.selectedDate &&
-        selectedDate &&
-        initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
+      (initialState.selectedDate && selectedDate &&
+        moment(initialState.selectedDate).format("YYYY-MM-DD") !==
+        moment(selectedDate).format("YYYY-MM-DD")) ||
       Number(initialState.price) !== Number(price) ||
       initialState.category !== category ||
       initialState.modeOfPayment !== modeOfPayment ||
@@ -308,6 +325,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   const handleClose = () => {
     setShowModal(false);
     setNetPaymentError("")
+    setJoingDateErrmsg("")
     dispatch({ type: "CLEAR_EXPENCE_NETBANKIG" });
 
   }
@@ -524,12 +542,11 @@ function StaticExample({ show, currentItem, setShowModal }) {
                         setGeneralError("");
                         setDateError("");
                         setIsChangedError("");
+                        setJoingDateErrmsg("")
                         setSelectedDate(date ? date.toDate() : null);
                       }}
                       getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                       disabledDate={(current) =>
-                         current && current < getMinDate()
-                             }
+                       
                     />
                   </div>
                 </Form.Group>
@@ -549,6 +566,15 @@ function StaticExample({ show, currentItem, setShowModal }) {
                     </label>
                   </div>
                 )}
+
+                  {joiningDateErrmsg.trim() !== "" && (
+                                                                  <div className="d-flex align-items-center">
+                                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                                      {joiningDateErrmsg}
+                                                                    </label>
+                                                                  </div>
+                                                                )}
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
