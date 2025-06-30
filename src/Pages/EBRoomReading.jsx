@@ -53,11 +53,14 @@ function EBRoomReading(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
-    props.setLoader(true)
-    dispatch({
+     props.setLoader(true)
+    if(state.login.selectedHostel_Id){
+       dispatch({
       type: "EBSTARTMETERLIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
+    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+  }
 
   }, [state.login.selectedHostel_Id]);
 
@@ -340,15 +343,13 @@ function EBRoomReading(props) {
     const isValidDate = (date) => {
       return !isNaN(Date.parse(date));
     };
-    const isChangedBed =
-      (String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase()) ||
-      (String(Rooms).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase()) ||
-      (String(hostelId).toLowerCase() !== String(initialStateAssign.selectedHostel).toLowerCase()) ||
-      (isValidDate(selectedDate) && isValidDate(initialStateAssign.selectedDate)
-        ? new Date(selectedDate).toISOString().split("T")[0] !==
-        new Date(initialStateAssign.selectedDate).toISOString().split("T")[0]
-        : selectedDate !== initialStateAssign.selectedDate) ||
-      String(reading) !== String(initialStateAssign.reading)
+   const isChangedBed =
+  String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase() ||
+  String(Rooms).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase() ||
+  String(hostelId).toLowerCase() !== String(initialStateAssign.selectedHostel).toLowerCase() ||
+  !moment(selectedDate).isSame(moment(initialStateAssign.selectedDate), "day") ||
+  String(reading) !== String(initialStateAssign.reading);
+
 
 
 
@@ -1372,8 +1373,17 @@ function EBRoomReading(props) {
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                     dropdownClassName="custom-datepicker-popup"
-                    disabledDate={(current) =>
-                      current && current < getMinDate()}
+                    disabledDate={(current) => {
+                                           const Hostel = state.UsersList?.hotelDetailsinPg?.find(
+                                             (u) => Number(u.id) === Number(state.login.selectedHostel_Id)
+                                           );
+                                           if (!Hostel || !Hostel.create_At) return false; 
+                   
+                                           const createDate = moment(Hostel.create_At, "YYYY-MM-DD");
+                                           if (!createDate.isValid()) return false;
+                   
+                                           return current && current.isBefore(createDate, "day");
+                                         }}
                   />
 
                 </div>

@@ -50,7 +50,7 @@ function EBHostelReading(props) {
       });
     }
 
-
+    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
   }, [selectedHostel]);
 
   useEffect(() => {
@@ -163,12 +163,12 @@ function EBHostelReading(props) {
   };
 
 
-    const getMinDate = () => {
-     if (initialStateAssign.selectedDate) {
-       return dayjs(initialStateAssign.selectedDate).startOf("day");
-     }
-     return dayjs().startOf("day");
-   };
+  const getMinDate = () => {
+    if (initialStateAssign.selectedDate) {
+      return dayjs(initialStateAssign.selectedDate).startOf("day");
+    }
+    return dayjs().startOf("day");
+  };
 
 
   useEffect(() => {
@@ -268,14 +268,12 @@ function EBHostelReading(props) {
     if (props.editeb && editId) {
 
       const isChangedBed =
-        (isValidDate(selectedDate) &&
-          isValidDate(initialStateAssign.selectedDate)
-          ? new Date(selectedDate).toISOString().split("T")[0] !==
-          new Date(initialStateAssign.selectedDate)
-            .toISOString()
-            .split("T")[0]
-          : selectedDate !== initialStateAssign.selectedDate) ||
-        String(reading) !== String(initialStateAssign.reading);
+  (moment(selectedDate).isValid() &&
+    moment(initialStateAssign.selectedDate).isValid()
+    ? !moment(selectedDate).isSame(moment(initialStateAssign.selectedDate), "day")
+    : selectedDate !== initialStateAssign.selectedDate) ||
+  String(reading) !== String(initialStateAssign.reading);
+
 
       if (!isChangedBed) {
         setFormError("No Changes Detected");
@@ -789,7 +787,7 @@ function EBHostelReading(props) {
 
           </>
         ) :
-        !props.loading && props.value === "3" && dataSource?.length === 0  ? (
+          !props.loading && props.value === "3" && dataSource?.length === 0 ? (
             <div>
               <div style={{ textAlign: "center" }}>
                 <img src={emptyimg} width={240} height={240} alt="No readings" />
@@ -965,7 +963,7 @@ function EBHostelReading(props) {
       >
 
 
-        <Modal.Header style={{  position: "relative" }}>
+        <Modal.Header style={{ position: "relative" }}>
           <div
             style={{
               fontSize: 20,
@@ -1116,8 +1114,17 @@ function EBHostelReading(props) {
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                     dropdownClassName="custom-datepicker-popup"
-                    disabledDate={(current) =>
-                    current && current < getMinDate() }
+                    disabledDate={(current) => {
+                      const Hostel = state.UsersList?.hotelDetailsinPg?.find(
+                        (u) => Number(u.id) === Number(state.login.selectedHostel_Id)
+                      );
+                      if (!Hostel || !Hostel.create_At) return false;
+
+                      const createDate = moment(Hostel.create_At, "YYYY-MM-DD");
+                      if (!createDate.isValid()) return false;
+
+                      return current && current.isBefore(createDate, "day");
+                    }}
                   />
                 </div>
               </Form.Group>
