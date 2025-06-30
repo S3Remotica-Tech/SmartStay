@@ -2769,39 +2769,26 @@ function UserListRoomDetail(props) {
 
                                                 </div>
 
-                                                <div className="row " style={{ backgroundColor: "" }}>
+                                                <div className="row">
                                                   <div className="col-sm-12 col-lg-12 col-md-12 text-start" style={{ width: "100%" }}>
-                                                    <p className="mb-1 small fw-medium">
-                                                      Address
-                                                    </p>
+                                                    <p className="mb-1 small fw-medium">Address</p>
                                                     <span className="d-flex gap-2" style={{ width: "100%" }}>
-                                                      <Buildings
-                                                        size="20"
-                                                        color="#1E45E1"
-                                                      />
-
-
+                                                      <Buildings size="20" color="#1E45E1" />
                                                       <p
                                                         className="mb-0 fw-semibold text-start"
-                                                        style={{
-                                                          width: 400,
-                                                          whiteSpace: "nowrap",
-                                                          overflow: "hidden",
-                                                          textOverflow: "ellipsis",
-                                                        }}
-                                                        title={`${v.address}, ${v.area},${v.landmark}, ${v.city}, ${v.pin_code} - ${v.state}`}
+                                                        style={{ width: "100%", wordBreak: "break-word" }}
                                                       >
                                                         {(v.address || "")}
-                                                        {v.area ? "," + v.area : ""}
+                                                        {v.area ? ", " + v.area : ""}
                                                         {v.landmark ? ", " + v.landmark : ""}
                                                         {v.city ? ", " + v.city : ""}
                                                         {v.state ? ", " + v.state : ""}
                                                         {v.pin_code ? " - " + v.pin_code : ""}
                                                       </p>
-
                                                     </span>
                                                   </div>
                                                 </div>
+
                                               </div>
                                             )
                                           )}
