@@ -502,6 +502,10 @@ useEffect(() => {
     setFilterStatus(!filterStatus);
     settransactionFilterddata(originalBillsFilter);
   };
+
+ 
+
+
  const handlefilterInput = (e) => {
   const input = e.target.value;
   setFilterInput(input);
@@ -532,6 +536,7 @@ useEffect(() => {
    };
 
   const [dateRange, setDateRange] = useState(null);
+
   const handleStatusFilter = (event) => {
     const value = event.target.value;
     setStatusfilter(value);
@@ -576,6 +581,12 @@ useEffect(() => {
     settransactionFilterddata(filtered);
   };
 
+   useEffect(() => {
+      if (!filterStatus) {
+         setStatusfilter("All");
+         setDateRange(null);
+      }
+    }, [filterStatus]);
 
 
   useEffect(() => {

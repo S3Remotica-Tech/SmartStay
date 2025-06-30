@@ -1429,6 +1429,13 @@ function UserList(props) {
     }
   };
 
+   useEffect(() => {
+          if (!filterStatus) {
+             setStatusFilterCheckout("All");
+             setCheckoutDateRange(null);
+          }
+        }, [filterStatus]);
+
   const handleDateRangeChangeCheckout = (dates) => {
     setCheckoutDateRange(dates);
 

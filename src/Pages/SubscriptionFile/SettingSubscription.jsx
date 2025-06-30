@@ -548,21 +548,25 @@ function SettingSubscription() {
                       {getPlanActive.length > 0 &&
                         getPlanActive[0]?.hostel_details.length > 0 &&
                         getPlanActive[0]?.hostel_details.map((view, index) => {
-                          let Dated = new Date(view.plan_start);
+                       let formattedDate = "-";
+                    if (view.plan_start) {
+                      const Dated = new Date(view.plan_start);
+                      const day = Dated.getDate();
+                      const month = Dated.getMonth() + 1;
+                      const year = Dated.getFullYear();
+                      formattedDate = `${day}/${month}/${year}`;
+                            }
 
-                          let day = Dated.getDate();
-                          let month = Dated.getMonth() + 1;
-                          let year = Dated.getFullYear();
 
-                          let formattedDate = `${day}/${month}/${year}`;
+                          let DueformattedDate = "-";
+                   if (view.plan_end) {
+                         const dueDated = new Date(view.plan_end);
+                         const daydue = dueDated.getDate();
+                          const monthdue = dueDated.getMonth() + 1;
+                         const yeardue = dueDated.getFullYear();
+                           DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
+                           }
 
-                          let dueDated = new Date(view.plan_end);
-
-                          let daydue = dueDated.getDate();
-                          let monthdue = dueDated.getMonth() + 1;
-                          let yeardue = dueDated.getFullYear();
-
-                          let DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
 
                           return (
                             <tr key={index} style={{ marginTop: "20px" }}>
@@ -606,7 +610,7 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
-                                    marginLeft:5,
+                                    marginLeft:6,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -633,7 +637,7 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
-                                    marginLeft:5,
+                                    marginLeft:6,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",

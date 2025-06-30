@@ -561,6 +561,8 @@ function PayingHostel(props) {
                           {props.filteredData[0].city && ", "}
                         </>
                       )}
+                      {props.filteredData[0]?.landmark && <>{props.filteredData[0].landmark}</>}
+                      <br></br>
                       {props.filteredData[0]?.city && <>{props.filteredData[0].city}</>}
                       {props.filteredData[0]?.pin_code && <> - {props.filteredData[0].pin_code}</>}
                       {props.filteredData[0]?.state && <>, {props.filteredData[0].state}</>}

@@ -78,6 +78,8 @@ function PayingGuestMap(props) {
     setShow(true);
   };
 
+  
+
 
   useEffect(() => {
     if (state.PgList?.deletePgError) {
@@ -568,20 +570,20 @@ function PayingGuestMap(props) {
                         ${props.hostel?.state ? ", " + props.hostel.state : ""}
                       `}
             >
-              {(props.hostel?.Address ||
-                props.hostel?.area ||
+              {(
                 props.hostel?.city ||
                 props.hostel?.pincode ||
                 props.hostel?.state) && (
                   <>
                     {props.hostel?.Address ? props.hostel.Address + ", " : ""}
                     {props.hostel?.area || ""}
-                    {props.hostel?.city ? ", " + props.hostel.city : ""}
+                    {props.hostel?.landmark || ""}<br></br>
+                    {props.hostel?.city ?  props.hostel.city : ""}
                     {props.hostel?.pin_code
                       ? " - " + props.hostel.pin_code
-                      : ""}{" "}
+                      : ""}{" "} {props.hostel?.state ? props.hostel.state : ""}
                     <br></br>
-                    {props.hostel?.state ? props.hostel.state : ""}
+                    
                   </>
                 )}
             </div>

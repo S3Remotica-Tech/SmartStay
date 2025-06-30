@@ -2396,6 +2396,15 @@ const InvoicePage = () => {
     setReceiptData(originalBillsFilterReceipt);
   };
 
+    useEffect(() => {
+        if (!filterStatus) {
+           setStatusfilter("All");
+           setDateRange([null, null]);
+           setStatusFilterReceipt("All");
+           setReceiptDateRange([]);
+        }
+      }, [filterStatus]);
+
 
   useEffect(() => {
 
