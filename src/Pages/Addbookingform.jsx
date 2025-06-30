@@ -508,7 +508,7 @@ function BookingModal(props) {
                     : Profile2
                 }
                 roundedCircle
-                style={{ height: 100, width: 100,cursor: "pointer" }}
+                style={{ height: 100, width: 100, cursor: "pointer" }}
               />
 
               <label htmlFor="imageInput" className="">
@@ -1184,6 +1184,9 @@ function BookingModal(props) {
                       setJoiningDate(date ? date.toDate() : null);
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                    disabledDate={(current) => {
+                      return current && current < dayjs().startOf('day');
+                    }}
                   />
                 </div>
               </Form.Group>
