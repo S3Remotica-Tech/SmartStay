@@ -33,7 +33,7 @@ function SettingGeneral() {
   const popupRef = useRef(null);
   const [formLoading, setFormLoading] = useState(false)
   const [verifyLoading, setVerfifyLoading] = useState(false)
-const [changeLoading, setChangeLoading] = useState(false)
+  const [changeLoading, setChangeLoading] = useState(false)
 
   const [showFormGeneral, setShowFormGeneral] = useState(false);
   const [file, setFile] = useState(null);
@@ -188,7 +188,7 @@ const [changeLoading, setChangeLoading] = useState(false)
     return true;
   };
   const handleCheckPasswordChange = () => {
-   dispatch({ type: 'CLEAR_PASSWORD_ERROR'})
+    dispatch({ type: 'CLEAR_PASSWORD_ERROR' })
     if (!CheckvalidateField(checkPassword, "checkPassword"));
     if (checkPassword) {
       dispatch({
@@ -400,23 +400,23 @@ const [changeLoading, setChangeLoading] = useState(false)
   }
 
 
-const handlePassword = (e) => {
-  const newPassword = e.target.value;
-  setPassword(newPassword);
-  setPasswordError("");
-
-  const hasUppercase = /[A-Z]/.test(newPassword);
-  const hasNumber = /[0-9]/.test(newPassword);
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
-
-  if (!hasUppercase || !hasNumber || !hasSpecialChar) {
-    setPasswordError(
-      "Password must include a capital letter, a number, and a special character."
-    );
-  } else {
+  const handlePassword = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
     setPasswordError("");
-  }
-};
+
+    const hasUppercase = /[A-Z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
+    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setPasswordError(
+        "Password must include a capital letter, a number, and a special character."
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
 
 
   const MobileNumber = `${countryCode}${Phone}`;
@@ -519,8 +519,8 @@ const handlePassword = (e) => {
 
 
   const handleSave = () => {
-     dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
-     dispatch({ type: 'CLEAR_MOBILE_ERROR'})
+    dispatch({ type: 'CLEAR_GENERAL_EMAIL_ERROR' })
+    dispatch({ type: 'CLEAR_MOBILE_ERROR' })
     let hasError = false;
     const normalizedPhoneNumber = MobileNumber.replace(/\s+/g, "");
     const normalize = (v) => (v ?? "");
@@ -648,16 +648,16 @@ const handlePassword = (e) => {
   }, []);
 
   useEffect(() => {
-    if(state.Settings?.generalEmailError){
+    if (state.Settings?.generalEmailError) {
       setFormLoading(false)
-    setEmailAlready(state.Settings?.generalEmailError);
+      setEmailAlready(state.Settings?.generalEmailError);
     }
   }, [state.Settings?.generalEmailError]);
 
   useEffect(() => {
-    if(state.Settings?.generalMobileError){
-       setFormLoading(false)
-    setPhoneAlready(state.Settings?.generalMobileError);
+    if (state.Settings?.generalMobileError) {
+      setFormLoading(false)
+      setPhoneAlready(state.Settings?.generalMobileError);
     }
   }, [state.Settings?.generalMobileError]);
 
@@ -746,7 +746,7 @@ const handlePassword = (e) => {
   };
 
   const handleSavePassword = () => {
-    dispatch({ type: 'CLEAR_CONFORM_PASSWORD_MATCHES'})
+    dispatch({ type: 'CLEAR_CONFORM_PASSWORD_MATCHES' })
     if (!ConformvalidateField(newPassword, "newPassword"));
     if (!ConformvalidateField(confirmPassword, "confirmPassword"));
 
@@ -824,7 +824,7 @@ const handlePassword = (e) => {
 
         >
 
-          <div 
+          <div
           >
             <Button
 
@@ -1060,7 +1060,7 @@ const handlePassword = (e) => {
                     </div>
                   </div>
                 </div>
-                <hr/>
+                <hr />
                 <div className="row">
                   <div className="col-md-6">
                     <p
@@ -1112,7 +1112,7 @@ const handlePassword = (e) => {
                       {item && String(item.mobileNo).slice(-10)}
                     </p>
                   </div>
-                  <div className="col-12">
+                  {/* <div className="col-12">
                     <p
                       className="mb-1"
                       style={{
@@ -1135,7 +1135,36 @@ const handlePassword = (e) => {
                       {item.area ? item.area : ''} {""} {item.city ? item.city : ''} {""} {item.state ? item.state : ''} <br></br>
                       {item.pin_code ? item.pin_code : ''}
                     </p>
+                  </div> */}
+                  <div className="col-12">
+                    <p
+                      className="mb-1"
+                      style={{
+                        fontSize: 12,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        color: "#939393",
+                      }}
+                    >
+                      Address
+                    </p>
+                    <p
+                      style={{
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {(item.Address ? item.Address : '') +
+                        (item.area ? ' ' + item.area : '') +
+                         (item.landmark ? ', ' + item.landmark : '') +
+                        (item.city ? ', ' + item.city : '') +
+                        (item.state ? ', ' + item.state : '')}
+                      <br />
+                      {item.pin_code ? item.pin_code : ''}
+                    </p>
                   </div>
+
                 </div>
               </div>
 
@@ -2221,7 +2250,7 @@ const handlePassword = (e) => {
 
 
         </Modal.Body>
-         {verifyLoading && <div
+        {verifyLoading && <div
           style={{
             position: 'absolute',
             top: '50%',
@@ -2259,7 +2288,7 @@ const handlePassword = (e) => {
               fontFamily: "Montserrat, sans-serif",
               marginTop: "-5px",
             }}
-            onClick={()=>handleCheckPasswordChange()}
+            onClick={() => handleCheckPasswordChange()}
           >
             Verify
           </Button>
@@ -2429,31 +2458,31 @@ const handlePassword = (e) => {
 
           </div>
         </Modal.Body>
-         {changeLoading && <div
+        {changeLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
             style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'transparent',
-              opacity: 0.75,
-              zIndex: 10,
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
             }}
-          >
-            <div
-              style={{
-                borderTop: '4px solid #1E45E1',
-                borderRight: '4px solid transparent',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                animation: 'spin 1s linear infinite',
-              }}
-            ></div>
-          </div>}
+          ></div>
+        </div>}
         <Modal.Footer className="d-flex justify-content-center">
           <Button
             className="col-12"
@@ -2474,15 +2503,15 @@ const handlePassword = (e) => {
 
       </Modal>
 
-      
+
     </>
   );
 }
-export default SettingGeneral;    
+export default SettingGeneral;
 
 
 
 
 
 
- 
+
