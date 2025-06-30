@@ -71,7 +71,7 @@ function UserlistWalkin(props) {
   const [walkinLoader, setWalkingLoader] = useState(false);
 
 
-  const calledOnceRef = useRef(false);
+  
   
   useEffect(() => {
        if(state.login.selectedHostel_Id) {

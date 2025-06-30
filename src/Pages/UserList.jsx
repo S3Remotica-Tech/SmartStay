@@ -2531,7 +2531,7 @@ function UserList(props) {
 ) : !loading && currentItems && currentItems.length === 0 ? (
   <div style={{ marginTop: 30 }} className="animated-text">
     <div style={{ textAlign: "center" }}>
-      <img src={Emptystate} />
+      <img src={Emptystate} alt="emptystate"/>
     </div>
     <div
       className="pb-1"

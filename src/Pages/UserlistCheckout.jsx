@@ -82,7 +82,6 @@ function CheckOut(props) {
     }
   }, [props.customerrolePermission]);
 
-  const calledOnceRef = useRef(false);
 
   useEffect(() => {
       if(state.login.selectedHostel_Id){
