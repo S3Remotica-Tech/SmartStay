@@ -2322,6 +2322,9 @@ function Booking(props) {
                         setJoiningDate(date ? date.toDate() : null);
                       }}
                       getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                       disabledDate={(current) => {
+                                            return current && current < dayjs().startOf('day');
+                                          }}
                     />
                   </div>
                 </Form.Group>
