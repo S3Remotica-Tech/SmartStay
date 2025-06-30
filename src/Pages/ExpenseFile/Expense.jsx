@@ -1356,24 +1356,24 @@ useEffect(() => {
                   />
                 </div>
                 <div
-                  className="pb-1 mt-3"
+                  className="pb-1 "
                   style={{
                     textAlign: "center",
                     fontWeight: 600,
                     fontFamily: "Gilroy",
-                    fontSize: 20,
+                    fontSize: 18,
                     color: "rgba(75, 75, 75, 1)",
                   }}
                 >
                   No expenses available
                 </div>
                 <div
-                  className="pb-1 mt-2"
+                  className="pb-1"
                   style={{
                     textAlign: "center",
                     fontWeight: 500,
                     fontFamily: "Gilroy",
-                    fontSize: 16,
+                    fontSize: 14,
                     color: "rgba(75, 75, 75, 1)",
                   }}
                 >

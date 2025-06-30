@@ -106,6 +106,21 @@ function EBHostelReading(props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  const [showAbove, setShowAbove] = useState(false);
+top: showAbove
+  ? popupPosition.top - popupRef.current?.offsetHeight - 10
+  : popupPosition.top - 25,
+useEffect(() => {
+  if (popupRef.current) {
+    const popupHeight = popupRef.current.offsetHeight;
+    const windowHeight = window.innerHeight;
+    const spaceBelow = windowHeight - popupPosition.top;
+    
+    
+    setShowAbove(spaceBelow < popupHeight + 20);
+  }
+}, [popupPosition]);
+
 
 
   const handleDeleteEb = (item) => {
@@ -440,7 +455,7 @@ function EBHostelReading(props) {
       <div>
         {props.value === "3" && sortedData?.length > 0 ? (
           <>
-            {sortedData && sortedData.length > 0 && (
+            {props.value === "3" && sortedData &&  sortedData.length > 0 && (
 
               <div
                 className="p-0 booking-table-userlist  booking-table ms-2 me-4"
@@ -453,7 +468,7 @@ function EBHostelReading(props) {
                   className='show-scrolls'
                   style={{
 
-                    height: sortedData.length >= 8 || sortedData.length >= 8 ? "410px" : "auto",
+                    height: sortedData.length >= 8 || sortedData.length >= 8 ? "440px" : "auto",
                     overflow: "auto",
                     borderTop: "1px solid #E8E8E8",
                     marginBottom: 20,
@@ -676,7 +691,10 @@ function EBHostelReading(props) {
                                           cursor: "pointer",
                                           backgroundColor: "#f9f9f9",
                                           position: "fixed",
-                                          top: popupPosition.top,
+                                         
+                                           top: showAbove
+    ? popupPosition.top - (popupRef.current?.offsetHeight || 200) - 10
+    : popupPosition.top - 25,
                                           left: popupPosition.left,
 
                                           width: 120,
@@ -800,7 +818,7 @@ function EBHostelReading(props) {
                   textAlign: "center",
                   fontWeight: 600,
                   fontFamily: "Gilroy",
-                  fontSize: 20,
+                  fontSize: 18,
                   color: "rgba(75, 75, 75, 1)",
                 }}
               >
@@ -812,7 +830,7 @@ function EBHostelReading(props) {
                   textAlign: "center",
                   fontWeight: 500,
                   fontFamily: "Gilroy",
-                  fontSize: 16,
+                  fontSize: 14,
                   color: "rgba(75, 75, 75, 1)",
                 }}
               >

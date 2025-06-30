@@ -516,7 +516,7 @@ function EBRoomReading(props) {
           <>
 
 
-            {sortedData && sortedData.length > 0 ? (
+            {props.value === "2" && sortedData && sortedData.length > 0 ? (
 
               <div
                 className="p-0 booking-table-userlist  booking-table ps-2 ms-0 me-4"
@@ -915,7 +915,7 @@ function EBRoomReading(props) {
               </div>
 
             ) :
-              !props.loading && dataSource?.length === 0 ? (
+              !props.loading && props.value === "2" && dataSource?.length === 0 ? (
                 <div style={{ marginTop: 60 }}>
                   <div style={{ textAlign: "center" }}>
                     <img src={emptyimg} width={240} height={240} alt="No readings" />
@@ -926,7 +926,7 @@ function EBRoomReading(props) {
                       textAlign: "center",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      fontSize: 20,
+                      fontSize: 18,
                       color: "rgba(75, 75, 75, 1)",
                     }}
                   >
@@ -938,7 +938,7 @@ function EBRoomReading(props) {
                       textAlign: "center",
                       fontWeight: 500,
                       fontFamily: "Gilroy",
-                      fontSize: 16,
+                      fontSize: 14,
                       color: "rgba(75, 75, 75, 1)",
                     }}
                   >
