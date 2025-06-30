@@ -1321,12 +1321,7 @@ function UserList(props) {
 
 
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-      setLoading(true)
-    }
-  }, [])
+ 
 
   const handleBack = () => {
     setUserList(true);
@@ -2511,41 +2506,69 @@ function UserList(props) {
                     ></div>
                   </div>
                 )}
-                {customerpermissionError && customerpermissionError ? (
-                  <>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <img
-                        src={Emptystate}
-                        alt="Empty State"
-                        style={{ maxWidth: "100%", height: "auto" }}
-                      />
+   {!loading && customerpermissionError ? (
+  <div
+  
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      
+    }}
+  >
+    <img
+      src={Emptystate}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+    <div
+      style={{
+        color: "red",
+        display: "flex",
+        alignItems: "center",
+        gap: "0.5rem",
+        marginTop: "1rem",
+      }}
+    >
+      <MdError size={20} />
+      <span>{customerpermissionError}</span>
+    </div>
+  </div>
+) : !loading && currentItems && currentItems.length === 0 ? (
+  <div style={{ marginTop: 30 }} className="animated-text">
+    <div style={{ textAlign: "center" }}>
+      <img src={Emptystate} alt="emptystate"/>
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        fontSize: 18,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      No Customers available
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        fontSize: 14,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      There are no Customer added.
+    </div>
+  </div>
+) : null}
 
-                      {customerpermissionError && (
-                        <div
-                          style={{
-                            color: "red",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "0.5rem",
-                            marginTop: "1rem",
-                          }}
-                        >
-                          <MdError size={20} />
-                          <span>{customerpermissionError}</span>
-                        </div>
-                      )}
-                    </div>
-                  </>
-                ) : (
                   <>
-                    {sortedData && sortedData.length > 0 && (
+                    {sortedData && sortedData.length > 0 && 
                       <div
                         className=" booking-table-userlist  booking-table  me-4"
                         style={{ paddingBottom: "20px", marginLeft: "-14px" }}
@@ -3304,42 +3327,11 @@ function UserList(props) {
                           </Table>
                         </div>
                       </div>
-                    )}
+                    }
                   </>
-                )}
+               
 
-                {!loading && currentItems && currentItems?.length === 0 && (
-                  <div style={{ marginTop: 30 }} className="animated-text">
-                    <div style={{ textAlign: "center" }}>
-                      <img src={Emptystate} alt="emptystate" />
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 20,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      No Customers available
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 16,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      There are no Customer added.
-                    </div>
-                  </div>
-                )}
-
+             
                 {
                   (search || filterStatus
                     ? filteredUsers?.length

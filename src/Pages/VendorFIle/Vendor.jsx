@@ -563,10 +563,10 @@ function Vendor() {
                         <div className='d-flex justify-content-center'>
                           <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
                         </div>
-                        <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
                           No vendor available
                         </div>
-                        <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
                           There are no Vendors added.
                         </div>
                       </div>

@@ -4120,7 +4120,7 @@ const InvoicePage = () => {
                                         textAlign: "center",
                                         fontWeight: 600,
                                         fontFamily: "Gilroy",
-                                        fontSize: 20,
+                                        fontSize:18,
                                         color: "rgba(75, 75, 75, 1)",
                                       }}
                                     >
@@ -4132,7 +4132,7 @@ const InvoicePage = () => {
                                         textAlign: "center",
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         color: "rgba(75, 75, 75, 1)",
                                       }}
                                     >
@@ -4371,7 +4371,7 @@ const InvoicePage = () => {
                           textAlign: "center",
                           fontWeight: 600,
                           fontFamily: "Gilroy",
-                          fontSize: 20,
+                          fontSize: 18,
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
@@ -4383,7 +4383,7 @@ const InvoicePage = () => {
                           textAlign: "center",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          fontSize: 16,
+                          fontSize: 14,
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
@@ -5285,7 +5285,7 @@ const InvoicePage = () => {
                                       textAlign: "center",
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                      fontSize: 20,
+                                      fontSize:18,
                                       color: "rgba(75, 75, 75, 1)",
                                     }}
                                   >
@@ -5297,7 +5297,7 @@ const InvoicePage = () => {
                                       textAlign: "center",
                                       fontWeight: 500,
                                       fontFamily: "Gilroy",
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       color: "rgba(75, 75, 75, 1)",
                                     }}
                                   >
