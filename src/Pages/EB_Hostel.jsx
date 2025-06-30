@@ -39,9 +39,10 @@ import { ArrowUp2, ArrowDown2 } from 'iconsax-react';
 import { CloseCircle } from "iconsax-react";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import moment from "moment";
 function EB_Hostel() {
 
- 
+
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const theme = useTheme();
@@ -227,7 +228,13 @@ function EB_Hostel() {
         type: "CUSTOMEREBLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
+
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+
+
     }
+
+
   }, [state.login.selectedHostel_Id]);
 
 
@@ -642,9 +649,7 @@ function EB_Hostel() {
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
-  const getMinDate = () => {
-    return dayjs().startOf("day");
-  };
+ 
 
   const handleSearch = () => {
     setSearch(!search);
@@ -717,32 +722,32 @@ function EB_Hostel() {
   const [hostelBasedFilter, setHostelBasedFilter] = useState("")
 
 
-const handleDateHostelRangeChangeEb = (dates) => {
-  setHostelBasedFilter(dates);
+  const handleDateHostelRangeChangeEb = (dates) => {
+    setHostelBasedFilter(dates);
 
-  if (!dates || dates.length !== 2) {
-    setFilterStatus(false);
-    setelectricityHostel(originalHostelElec);
-    return;
-  }
+    if (!dates || dates.length !== 2) {
+      setFilterStatus(false);
+      setelectricityHostel(originalHostelElec);
+      return;
+    }
 
-  const [startRaw, endRaw] = dates;
-  const start = dayjs(startRaw).startOf("day");
-  const end = dayjs(endRaw).endOf("day");
+    const [startRaw, endRaw] = dates;
+    const start = dayjs(startRaw).startOf("day");
+    const end = dayjs(endRaw).endOf("day");
 
-  const filtered = originalHostelElec?.filter((item) => {
-    if (!item.date || typeof item.date !== "string") return false;
+    const filtered = originalHostelElec?.filter((item) => {
+      if (!item.date || typeof item.date !== "string") return false;
 
-    const itemDate = dayjs.utc(item.date).local().startOf("day");
-    if (!itemDate.isValid()) return false;
+      const itemDate = dayjs.utc(item.date).local().startOf("day");
+      if (!itemDate.isValid()) return false;
 
-    return itemDate.isSameOrAfter(start) && itemDate.isSameOrBefore(end);
-  });
+      return itemDate.isSameOrAfter(start) && itemDate.isSameOrBefore(end);
+    });
 
 
-  setelectricityHostel(filtered);
-  setFilterStatus(true);
-};
+    setelectricityHostel(filtered);
+    setFilterStatus(true);
+  };
 
 
 
@@ -2041,8 +2046,18 @@ const handleDateHostelRangeChangeEb = (dates) => {
                         triggerNode.closest(".datepicker-wrapper")
                       }
                       dropdownClassName="custom-datepicker-popup"
-                      disabledDate={(current) =>
-                        current && current < getMinDate()}
+                      disabledDate={(current) => {
+                        const Hostel = state.UsersList?.hotelDetailsinPg?.find(
+                          (u) => Number(u.id) === Number(state.login.selectedHostel_Id)
+                        );
+                        if (!Hostel || !Hostel.create_At) return false; 
+
+                        const createDate = moment(Hostel.create_At, "YYYY-MM-DD");
+                        if (!createDate.isValid()) return false;
+
+                        return current && current.isBefore(createDate, "day");
+                      }}
+
                     />
                   </div>
                 </Form.Group>
