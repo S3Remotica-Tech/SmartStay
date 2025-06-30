@@ -638,6 +638,10 @@ General Styles
   background-color: #d0e3ff; 
 }
 
+.ant-picker-dropdown {
+  z-index: 2000 !important;
+}
+
 
 
   

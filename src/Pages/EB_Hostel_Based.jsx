@@ -789,7 +789,7 @@ function EBHostelReading(props) {
 
           </>
         ) :
-        !props.loading && dataSource?.length === 0  ? (
+        !props.loading && props.value === "3" && dataSource?.length === 0  ? (
             <div>
               <div style={{ textAlign: "center" }}>
                 <img src={emptyimg} width={240} height={240} alt="No readings" />

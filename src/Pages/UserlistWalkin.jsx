@@ -68,13 +68,13 @@ function UserlistWalkin(props) {
   const [customerToDelete, setCustomerToDelete] = useState(null);
 
   const [walkInCustomer, setWalkInCustomer] = useState([]);
-  const [walkinLoader, setWalkingLoader] = useState(true);
+  const [walkinLoader, setWalkingLoader] = useState(false);
 
 
   const calledOnceRef = useRef(false);
   
   useEffect(() => {
-       if(!calledOnceRef) {
+       if(state.login.selectedHostel_Id) {
         setWalkingLoader(true);
       dispatch({
         type: "WALKINCUSTOMERLIST",
@@ -82,7 +82,7 @@ function UserlistWalkin(props) {
       });
    
        }
-        calledOnceRef.current = true;
+        
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -106,32 +106,7 @@ function UserlistWalkin(props) {
     }
   }, [state.UsersList.NoDataWalkInCustomerStatusCode]);
 
-  useEffect(() => {
-    if (
-      state.UsersList.addWalkInCustomerStatusCode === 200 ||
-      state.UsersList.deleteWalkInCustomerStatusCode === 200
-    ) {
-
-       setShowForm(false);
-       calledOnceRef.current = true;
-
-         if(state.UsersList.deleteWalkInCustomerStatusCode === 200){
-            dispatch({ type: "WALKINCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id }, });
-         }
-     
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
-      }, 4000);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_WALK_IN_CUSTOMER" });
-      }, 4000);
-      setShowDeleteModal(false);
-    }
-  }, [
-    state.UsersList.addWalkInCustomerStatusCode,
-    state.UsersList.deleteWalkInCustomerStatusCode,
-  ]);
+  
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -869,7 +844,7 @@ function UserlistWalkin(props) {
                     textAlign: "center",
                     fontWeight: 600,
                     fontFamily: "Gilroy",
-                    fontSize: 20,
+                    fontSize: 18,
                     color: "rgba(75, 75, 75, 1)",
                   }}
                 >
@@ -881,7 +856,7 @@ function UserlistWalkin(props) {
                     textAlign: "center",
                     fontWeight: 500,
                     fontFamily: "Gilroy",
-                    fontSize: 16,
+                    fontSize: 14,
                     color: "rgba(75, 75, 75, 1)",
                   }}
                 >

@@ -1056,9 +1056,7 @@ useEffect(() => {
                             setIsChangedError("");
                             setCheckOutRequestDate(date ? date.toDate() : null);
                           }}
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".show-scroll") || document.body
-                          }
+                          getPopupContainer={() => document.body}
                         />
                       </div>
                     </Form.Group>
@@ -1106,20 +1104,23 @@ useEffect(() => {
 
 
                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                        <DatePicker
-                          style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
-                          format="DD/MM/YYYY"
-                          placeholder="DD/MM/YYYY"
-                          value={checkOutDate ? dayjs(checkOutDate) : null}
-                          onChange={(date) => {
-                            setCheckOutDateError('');
-                            setIsChangedError("");
-                            setCheckOutDate(date ? date.toDate() : null);
-                          }}
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".show-scroll") || document.body
-                          }
-                        />
+                      <DatePicker
+  style={{
+    width: "100%",
+    height: 48,
+    cursor: "pointer",
+    fontFamily: "Gilroy",
+  }}
+  format="DD/MM/YYYY"
+  placeholder="DD/MM/YYYY"
+  value={checkOutDate ? dayjs(checkOutDate) : null}
+  onChange={(date) => {
+    setCheckOutDateError('');
+    setIsChangedError('');
+    setCheckOutDate(date ? date.toDate() : null);
+  }}
+  getPopupContainer={() => document.body} // ✅ This avoids clipping
+/>
                       </div>
                     </Form.Group>
                     {checkoUtDateError && (

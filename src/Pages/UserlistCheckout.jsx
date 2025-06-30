@@ -40,7 +40,7 @@ function CheckOut(props) {
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
   const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
   const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
-  const [checkoutLoader, setCheckOutLoader] = useState(true)
+  const [checkoutLoader, setCheckOutLoader] = useState(false)
   const [cofirmForm, setConfirmForm] = useState(false)
 
 
@@ -85,11 +85,11 @@ function CheckOut(props) {
   const calledOnceRef = useRef(false);
 
   useEffect(() => {
-      if(!calledOnceRef){
+      if(state.login.selectedHostel_Id){
       setCheckOutLoader(true)
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       }
-      calledOnceRef.current = true;
+     
 
   }, [state.login.selectedHostel_Id]);
 
@@ -1084,7 +1084,7 @@ function CheckOut(props) {
                       textAlign: "center",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      fontSize: 20,
+                      fontSize: 18,
                       color: "rgba(75, 75, 75, 1)",
                     }}
                   >
@@ -1096,7 +1096,7 @@ function CheckOut(props) {
                       textAlign: "center",
                       fontWeight: 500,
                       fontFamily: "Gilroy",
-                      fontSize: 16,
+                      fontSize: 14,
                       color: "rgba(75, 75, 75, 1)",
                     }}
                   >
