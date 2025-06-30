@@ -47,13 +47,15 @@ function CustomerForm({ show, handleClose, initialData }) {
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [formLoading, setFormLoading] = useState(false)
-
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
 
 
   const nameRef = useRef();
   const mobileRef = useRef();
   const countryCodeRef = useRef();
   const walkInDateRef = useRef();
+
+
 
 
 
@@ -226,6 +228,26 @@ function CustomerForm({ show, handleClose, initialData }) {
       if (!focusedRef.current && walkInDateRef.current) {
         walkInDateRef.current.focus();
         focusedRef.current = true;
+      }
+    }
+     if (walkInDate ) {
+      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
+      if (selectedHostel) {
+        const HostelCreateDate = new Date(selectedHostel.create_At);
+        const WalkinDate = new Date(walkInDate);
+        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+        const WalkinDateOnly = new Date(WalkinDate.toDateString());
+        if (WalkinDateOnly < HostelCreateDateOnly) {
+          setJoingDateErrmsg('Before Hostel Create date not allowed');
+          if (!focusedRef.current && walkInDateRef.current) {
+        walkInDateRef.current.focus();
+        focusedRef.current = true;
+
+        return
+      }
+        } else {
+          setJoingDateErrmsg('');
+        }
       }
     }
 
@@ -421,6 +443,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       state.UsersList.addWalkInCustomerStatusCode === 200
     ) {
       setFormLoading(false)
+      setJoingDateErrmsg("")
       dispatch({
         type: "WALKINCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -457,6 +480,7 @@ function CustomerForm({ show, handleClose, initialData }) {
     setLandmarkError("")
     setPincodeError("")
     setStateNameError("")
+    setJoingDateErrmsg("")
   }
 
 
@@ -1023,6 +1047,7 @@ setFormLoading(false)
                       setGeneralError('')
                       setIsChangedError('')
                       setWalkInDateError('')
+                      setJoingDateErrmsg("")
                       setWalkInDate(date ? date.toDate() : null);
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
@@ -1037,6 +1062,14 @@ setFormLoading(false)
                   </label>
                 </div>
               )}
+                   {joiningDateErrmsg.trim() !== "" && (
+                                                  <div className="d-flex align-items-center">
+                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                      {joiningDateErrmsg}
+                                                    </label>
+                                                  </div>
+                                                )}
 
             </div>
 

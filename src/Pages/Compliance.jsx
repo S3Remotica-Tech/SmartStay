@@ -653,12 +653,7 @@ const Compliance = () => {
     }
   };
 
-  const getMinDate = () => {
-       if (initialValuesRef.current.selectedDate) {
-         return dayjs(initialValuesRef.current.selectedDate).startOf("day");
-       }
-       return dayjs().startOf("day");
-     };
+
 
   let hasChanges =
     Assign !== initialValuesRef.current.Assign ||
@@ -1475,8 +1470,7 @@ const Compliance = () => {
                                     setSelectedDate(date ? date.toDate() : null);
                                   }}
                                   getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                                      disabledDate={(current) =>
-                                       current && current < getMinDate() }
+                                    
                                 />
                               </div>
                               {dateerrmsg.trim() !== "" && (

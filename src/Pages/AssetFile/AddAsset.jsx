@@ -39,7 +39,7 @@ function StaticExample({ show, setShow, currentItem }) {
   const [bankking, setBanking] = useState("")
   const [bankingError, setBankingError] = useState("")
   const [formLoading, setFormLoading] = useState(false)
-
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
 
 
   const assetNameRef = useRef(null);
@@ -66,9 +66,12 @@ function StaticExample({ show, setShow, currentItem }) {
     price: "",
     productName: "",
   });
+   
 
   useEffect(() => {
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id  } })
+
   }, [state.login.selectedHostel_Id]);
 
 
@@ -115,6 +118,7 @@ function StaticExample({ show, setShow, currentItem }) {
     setBankingError('')
     setPaymentError("")
     setSerial_Number_DuplicateError("")
+    setJoingDateErrmsg('')
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
     dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
   }
@@ -160,12 +164,7 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   }, [currentItem]);
 
-  const getMinDate = () => {
-  if (currentItem?.purchase_date) {
-    return dayjs(currentItem.purchase_date).startOf("day");
-  }
-  return dayjs().startOf("day");
-};
+
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -184,6 +183,7 @@ function StaticExample({ show, setShow, currentItem }) {
       setPrice("");
       handleClose();
       setBankingError("")
+      setJoingDateErrmsg('')
     }
   }, [state.AssetList.addAssetStatusCode]);
 
@@ -358,6 +358,28 @@ function StaticExample({ show, setShow, currentItem }) {
       }
       return;
     }
+   if (selectedDate ) {
+      const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
+      if (selectedHostel) {
+        const HostelCreateDate = new Date(selectedHostel.create_At);
+        const AssetDate = new Date(selectedDate);
+        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+        const AssetDateOnly = new Date(AssetDate.toDateString());
+        if (AssetDateOnly < HostelCreateDateOnly) {
+          setJoingDateErrmsg('Before Hostel Create date not allowed');
+          if (!focusedRef.current && dateRef.current) {
+        dateRef.current.focus();
+        focusedRef.current = true;
+
+        return
+      }
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
+
+   
 
     const isChanged =
       initialState.assetName !== assetName ||
@@ -365,9 +387,9 @@ function StaticExample({ show, setShow, currentItem }) {
       initialState.brandName !== brandName ||
       initialState.serialNumber !== serialNumber ||
       Number(initialState.productCount) !== Number(productCount) ||
-      (initialState.selectedDate &&
-        selectedDate &&
-        initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
+      (initialState.selectedDate && selectedDate &&
+        moment(initialState.selectedDate).format("YYYY-MM-DD") !==
+        moment(selectedDate).format("YYYY-MM-DD")) ||
       Number(initialState.price) !== Number(price) ||
       initialState.productName !== productName;
 
@@ -825,14 +847,12 @@ function StaticExample({ show, setShow, currentItem }) {
                         onChange={(date) => {
                           setIsChangedError("");
                           setSelectedDateError("");
+                          setJoingDateErrmsg('')
                           setSelectedDate(date ? date.toDate() : null);
                         }}
                         getPopupContainer={(triggerNode) =>
                           triggerNode.closest(".datepicker-wrapper")
                         }
-                         disabledDate={(current) =>
-                         current && current < getMinDate()
-                             }
                       />
                     </div>
                   </Form.Group>
@@ -852,6 +872,15 @@ function StaticExample({ show, setShow, currentItem }) {
                       </label>
                     </div>
                   )}
+
+                    {joiningDateErrmsg.trim() !== "" && (
+                                                  <div className="d-flex align-items-center">
+                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                      {joiningDateErrmsg}
+                                                    </label>
+                                                  </div>
+                                                )}
                 </div>
 
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">

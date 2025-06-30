@@ -82,7 +82,7 @@ function Booking(props) {
     useState("");
   const [loader, setLoader] = useState(false)
   const [bookingLoading, setBookingLoading] = useState(false)
-
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
 
 
   const [initialStateAssign, setInitialStateAssign] = useState({
@@ -502,6 +502,23 @@ function Booking(props) {
       setEmailError("");
     }
 
+       if (joiningDate ) {
+      const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
+      if (selectedHostel) {
+        const HostelCreateDate = new Date(selectedHostel.create_At);
+        const BookingJoiningDate = new Date(joiningDate);
+        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+        const BookingJoiningDateOnly = new Date(BookingJoiningDate.toDateString());
+        if (BookingJoiningDateOnly < HostelCreateDateOnly) {
+          setJoingDateErrmsg('Before Hostel Create date not allowed');
+          hasError = true;
+      
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
+
     if (hasError) return;
 
     if (
@@ -520,7 +537,6 @@ function Booking(props) {
 
 
 
-    const isValidDate = (date) => !isNaN(Date.parse(date));
 
     const normalize = (value) => {
       const val = (value ?? "").toString().trim().toLowerCase();
@@ -529,10 +545,10 @@ function Booking(props) {
 
 
     const isChangedBed =
-      (isValidDate(joiningDate) && isValidDate(initialStateAssign.joiningDate)
-        ? new Date(joiningDate).toISOString().split("T")[0] !==
-        new Date(initialStateAssign.joiningDate).toISOString().split("T")[0]
-        : joiningDate !== initialStateAssign.joiningDate) ||
+         (initialStateAssign.joiningDate && joiningDate &&
+                moment(initialStateAssign.joiningDate).format("YYYY-MM-DD") !==
+                moment(joiningDate).format("YYYY-MM-DD")) ||
+
       Number(amount) !== Number(initialStateAssign.amount) ||
       String(firstName) !== String(initialStateAssign.firstName) ||
       String(Email) !== String(initialStateAssign.Email) ||
@@ -630,6 +646,7 @@ function Booking(props) {
     setLandmarkError("");
     setStreetError("");
     setHouse_NoError("");
+    setJoingDateErrmsg('');
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
     dispatch({ type: "CLEAR_PHONE_ERROR" });
   };
@@ -721,6 +738,7 @@ function Booking(props) {
       dispatch({ type: "CLEAR_PHONE_ERROR" });
       setBookingLoading(false)
       handleCloseForm();
+      setJoingDateErrmsg('');
 
 
       setTimeout(() => {
@@ -2320,6 +2338,7 @@ function Booking(props) {
                         setDateError("");
                         setFormError("");
                         setJoiningDate(date ? date.toDate() : null);
+                        setJoingDateErrmsg('');
                       }}
                       getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                        disabledDate={(current) => {
@@ -2343,6 +2362,16 @@ function Booking(props) {
                     </span>
                   </div>
                 )}
+
+                
+                                {joiningDateErrmsg.trim() !== "" && (
+                                      <div className="d-flex align-items-center">
+                                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                      {joiningDateErrmsg}
+                                        </label>
+                                          </div>
+                                       )}
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group >

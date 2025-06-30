@@ -53,6 +53,7 @@ function BookingModal(props) {
   const [state_nameError, setStateNameError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [formLoading, setFormLoading] = useState(false)
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
 
 
   const firstnameRef = useRef();
@@ -112,6 +113,11 @@ function BookingModal(props) {
   ];
 
 
+  
+
+   useEffect(() => {
+     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id  } })
+    }, []);
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -141,6 +147,7 @@ function BookingModal(props) {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
       setFormLoading(false)
       handleAddClose();
+      setJoingDateErrmsg('');
       dispatch({
         type: "GET_BOOKING_LIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -375,6 +382,24 @@ function BookingModal(props) {
       setEmailError("");
     }
 
+    
+     if (joiningDate ) {
+      const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
+      if (selectedHostel) {
+        const HostelCreateDate = new Date(selectedHostel.create_At);
+        const BookingJoiningDate = new Date(joiningDate);
+        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+        const BookingJoiningDateOnly = new Date(BookingJoiningDate.toDateString());
+        if (BookingJoiningDateOnly < HostelCreateDateOnly) {
+          setJoingDateErrmsg('Before Hostel Create date not allowed');
+          hasError = true;
+      
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
+
     if (hasError) return;
     if (
       !isFirstnameValid ||
@@ -387,6 +412,8 @@ function BookingModal(props) {
     ) {
       return;
     }
+
+    
 
     let formattedDate = null;
     try {
@@ -444,7 +471,7 @@ function BookingModal(props) {
     setLandmarkError("");
     setStreetError("");
     setHouse_NoError("");
-
+    setJoingDateErrmsg('');
     setEmail("");
     setEmailError("");
     setEmailErrorMessage("");
@@ -1182,6 +1209,7 @@ function BookingModal(props) {
                     onChange={(date) => {
                       setDateError("");
                       setJoiningDate(date ? date.toDate() : null);
+                      setJoingDateErrmsg('');
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                     disabledDate={(current) => {
@@ -1205,6 +1233,15 @@ function BookingModal(props) {
                   </span>
                 </div>
               )}
+
+                {joiningDateErrmsg.trim() !== "" && (
+                      <div className="d-flex align-items-center">
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      {joiningDateErrmsg}
+                        </label>
+                          </div>
+                       )}
             </Col>
 
             <Col md={6}>

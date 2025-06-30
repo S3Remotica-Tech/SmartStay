@@ -601,7 +601,7 @@ function SettingSubscription() {
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
                                 <span
                                   style={{
@@ -610,7 +610,6 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
-                                    marginLeft:6,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -628,7 +627,7 @@ function SettingSubscription() {
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
                                 <span
                                   style={{
@@ -637,7 +636,6 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
-                                    marginLeft:6,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -1226,6 +1224,7 @@ function SettingSubscription() {
                             color: "rgba(34, 34, 34, 1)",
                             borderColor: "#ced4da",
                             minHeight: "40px",
+                            cursor:'pointer'
                           }),
                         }}
                       />
