@@ -107,9 +107,7 @@ function EBHostelReading(props) {
     };
   }, []);
   const [showAbove, setShowAbove] = useState(false);
-top: showAbove
-  ? popupPosition.top - popupRef.current?.offsetHeight - 10
-  : popupPosition.top - 25,
+
 useEffect(() => {
   if (popupRef.current) {
     const popupHeight = popupRef.current.offsetHeight;
