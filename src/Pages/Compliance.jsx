@@ -388,7 +388,12 @@ const Compliance = () => {
 };
 
 
-
+ useEffect(() => {
+    if (!filterStatus) {
+       setStatusfilter("All");
+      setSelectedDateRange([]);
+    }
+  }, [filterStatus]);
 
 
   useEffect(() => {
