@@ -512,6 +512,7 @@ const InvoicePage = () => {
   };
 
 
+
   const handleAmount = (e) => {
     const inputValue = e.target.value.trim();
 
@@ -695,7 +696,6 @@ const InvoicePage = () => {
 
 
 
-
   const handleShowForm = (props) => {
     setShowform(true);
     setInvoiceValue(props.item);
@@ -851,7 +851,7 @@ const InvoicePage = () => {
 
   const handleCustomerName = (selectedOption) => {
 
-      setCustomerName(selectedOption?.value || '');
+    setCustomerName(selectedOption?.value || '');
     setAllFieldErrmsg("");
     if (!selectedOption) {
       setCustomerErrmsg("Please Select Name");
@@ -2012,8 +2012,25 @@ const InvoicePage = () => {
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
+
     }
   }, [selectedDate]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   useEffect(() => {
@@ -2396,14 +2413,14 @@ const InvoicePage = () => {
     setReceiptData(originalBillsFilterReceipt);
   };
 
-    useEffect(() => {
-        if (!filterStatus) {
-           setStatusfilter("All");
-           setDateRange([null, null]);
-           setStatusFilterReceipt("All");
-           setReceiptDateRange([]);
-        }
-      }, [filterStatus]);
+  useEffect(() => {
+    if (!filterStatus) {
+      setStatusfilter("All");
+      setDateRange([null, null]);
+      setStatusFilterReceipt("All");
+      setReceiptDateRange([]);
+    }
+  }, [filterStatus]);
 
 
   useEffect(() => {
@@ -3005,7 +3022,7 @@ const InvoicePage = () => {
 
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
-                  <Tab  disabled={showLoader}
+                  <Tab disabled={showLoader}
                     label="Bills"
                     value="1"
                     style={{
@@ -3018,7 +3035,7 @@ const InvoicePage = () => {
                       textTransform: "none",
                     }}
                   />
-                  <Tab   disabled={showLoader}
+                  <Tab disabled={showLoader}
                     label="Recurring Bills"
                     value="2"
                     style={{
@@ -3031,7 +3048,7 @@ const InvoicePage = () => {
                       textTransform: "none",
                     }}
                   />
-                  <Tab   disabled={showLoader}
+                  <Tab disabled={showLoader}
                     label="Receipt"
                     value="3"
                     style={{
@@ -3376,7 +3393,12 @@ const InvoicePage = () => {
 
                                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                         <DatePicker
-                                          style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
+                                          style={{
+                                            width: "100%",
+                                            height: 48,
+                                            cursor: "pointer",
+                                            fontFamily: "Gilroy",
+                                          }}
                                           format="DD/MM/YYYY"
                                           placeholder="DD/MM/YYYY"
                                           value={selectedDate ? dayjs(selectedDate) : null}
@@ -3385,8 +3407,17 @@ const InvoicePage = () => {
                                             setAccountError("");
                                             setSelectedDate(date ? date.toDate() : null);
                                           }}
-                                          getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                          disabledDate={(current) => {
+                                            const selectedUser = state.UsersList?.Users.find((u) => u.ID === invoiceValue.ID);
+                                            const joiningDate = moment(selectedUser.user_join_date, "YYYY-MM-DD");
+                                            return current && current.isBefore(joiningDate, "day");
+                                          }}
+                                          getPopupContainer={(triggerNode) =>
+                                            triggerNode.closest(".show-scroll") || document.body
+                                          }
                                         />
+
+
                                       </div>
                                     </div>
                                   </Form.Group>
@@ -3588,6 +3619,7 @@ const InvoicePage = () => {
                                           ...base,
                                           backgroundColor: "#f8f9fa",
                                           border: "1px solid #ced4da",
+                                          fontFamily: "Gilroy",
                                         }),
                                         menuList: (base) => ({
                                           ...base,
@@ -3596,6 +3628,7 @@ const InvoicePage = () => {
                                           padding: 0,
                                           scrollbarWidth: "thin",
                                           overflowY: "auto",
+                                          fontFamily: "Gilroy",
                                         }),
                                         placeholder: (base) => ({
                                           ...base,
@@ -4120,7 +4153,7 @@ const InvoicePage = () => {
                                         textAlign: "center",
                                         fontWeight: 600,
                                         fontFamily: "Gilroy",
-                                        fontSize:18,
+                                        fontSize: 18,
                                         color: "rgba(75, 75, 75, 1)",
                                       }}
                                     >
@@ -5285,7 +5318,7 @@ const InvoicePage = () => {
                                       textAlign: "center",
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                      fontSize:18,
+                                      fontSize: 18,
                                       color: "rgba(75, 75, 75, 1)",
                                     }}
                                   >
