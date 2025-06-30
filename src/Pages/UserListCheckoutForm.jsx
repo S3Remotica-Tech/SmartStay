@@ -859,10 +859,10 @@ const CheckOutForm = ({
     border: "1px solid #D9D9D9",
   };
 
-useEffect(() => {
+  useEffect(() => {
     if (state.UsersList.addCheckoutCustomerStatusCode === 200) {
       setFormLoading(false)
-            setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: "CLEAR_ADD_CHECKOUT_CUSTOMER" });
       }, 2000);
     }
@@ -873,10 +873,10 @@ useEffect(() => {
     <>
       <Modal show={show} onHide={handlecloseform} centered backdrop="static"
         style={{
-                    width:"100%",
-                    paddingRight: "10px",
-                    borderRadius: "30px",
-                  }}>
+          width: "100%",
+          paddingRight: "10px",
+          borderRadius: "30px",
+        }}>
         <Modal.Dialog
           style={{
             minWidth: 500,
@@ -1047,7 +1047,12 @@ useEffect(() => {
 
                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                         <DatePicker
-                          style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
+                          style={{
+                            width: "100%",
+                            height: 48,
+                            cursor: "pointer",
+                            fontFamily: "Gilroy",
+                          }}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
                           value={checkOutrequestDate ? dayjs(checkOutrequestDate) : null}
@@ -1056,8 +1061,22 @@ useEffect(() => {
                             setIsChangedError("");
                             setCheckOutRequestDate(date ? date.toDate() : null);
                           }}
-                          getPopupContainer={() => document.body}
+                          disabledDate={(current) => {
+                            if (!selectedCustomer) return false;
+
+                            const filteruserlist = state.UsersList.Users?.filter(
+                              (u) => u.ID === selectedCustomer
+                            );
+                            if (!filteruserlist?.length) return false;
+
+                            const joining_Date = moment(filteruserlist[0].user_join_date, "YYYY-MM-DD");
+                            return current && current.isBefore(joining_Date, "day");
+                          }}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.closest(".show-scroll") || document.body
+                          }
                         />
+
                       </div>
                     </Form.Group>
                     {checkoUtrequestDateError && (
@@ -1104,23 +1123,38 @@ useEffect(() => {
 
 
                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                      <DatePicker
-  style={{
-    width: "100%",
-    height: 48,
-    cursor: "pointer",
-    fontFamily: "Gilroy",
-  }}
-  format="DD/MM/YYYY"
-  placeholder="DD/MM/YYYY"
-  value={checkOutDate ? dayjs(checkOutDate) : null}
-  onChange={(date) => {
-    setCheckOutDateError('');
-    setIsChangedError('');
-    setCheckOutDate(date ? date.toDate() : null);
-  }}
-  getPopupContainer={() => document.body} 
-/>
+                      
+                        <DatePicker
+                          style={{
+                            width: "100%",
+                            height: 48,
+                            cursor: "pointer",
+                            fontFamily: "Gilroy",
+                          }}
+                          format="DD/MM/YYYY"
+                          placeholder="DD/MM/YYYY"
+                          value={checkOutDate ? dayjs(checkOutDate) : null}
+                          onChange={(date) => {
+                            setCheckOutDateError('');
+                            setIsChangedError("");
+                            setCheckOutDate(date ? date.toDate() : null);
+                          }}
+                          disabledDate={(current) => {
+                            if (!selectedCustomer) return false;
+
+                            const filteruserlist = state.UsersList.Users?.filter(
+                              (u) => u.ID === selectedCustomer
+                            );
+                            if (!filteruserlist?.length) return false;
+
+                            const joining_Date = moment(filteruserlist[0].user_join_date, "YYYY-MM-DD");
+                            return current && current.isBefore(joining_Date, "day");
+                          }}
+                          getPopupContainer={(triggerNode) =>
+                            triggerNode.closest(".show-scroll") || document.body
+                          }
+                        />
+
                       </div>
                     </Form.Group>
                     {checkoUtDateError && (
@@ -1312,10 +1346,10 @@ useEffect(() => {
 
 
       <Modal show={cofirmForm} onHide={handleCloseConfirmFormPage} centered backdrop="static"
-       >
+      >
         <Modal.Dialog
           style={{
-                        paddingRight: "10px",
+            paddingRight: "10px",
             borderRadius: "30px",
           }}
           className="m-0 p-0"
