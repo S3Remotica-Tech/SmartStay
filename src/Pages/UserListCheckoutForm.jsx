@@ -1119,7 +1119,7 @@ useEffect(() => {
     setIsChangedError('');
     setCheckOutDate(date ? date.toDate() : null);
   }}
-  getPopupContainer={() => document.body} // ✅ This avoids clipping
+  getPopupContainer={() => document.body} 
 />
                       </div>
                     </Form.Group>
