@@ -266,6 +266,7 @@ function PgList(props) {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
       dispatch({ type: "HOSTELLIST" });
+      dispatch({type:"HOSTELIDDETAILS"})
            setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
