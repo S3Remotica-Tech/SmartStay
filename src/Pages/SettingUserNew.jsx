@@ -720,7 +720,7 @@ function SettingNewUser() {
                                       <div className="d-flex  justify-content-center">
                                         <img
                                           src={emptyimg}
-                                          style={{ height: 240, width: 240 }}
+                                          
                                           alt="Empty state"
                                         />
                                       </div>

@@ -57,7 +57,7 @@ function PgList(props) {
 
   const [filteredData, setFilteredData] = useState([]);
 
-  const [loader, setLoader] = useState(null);
+  const [loader, setLoader] = useState(false);
   const [trigger, setTrigger] = useState(true)
   const [editHostelDetails, setEditHostelDetails] = useState("");
   const [showAddPg, setShowAddPg] = useState(false);
@@ -97,10 +97,10 @@ function PgList(props) {
  
 
   useEffect(() => {
-    if (hostel_Id) {
+   
       setLoader(true)
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } });
-    }
+    
   }, [hostel_Id]);
 
 
@@ -1005,7 +1005,7 @@ function PgList(props) {
                     :
                     !loader && !trigger && filteredData?.length === 0 && (
                       <div
-                        className="d-flex align-items-center justify-content-center fade-in"
+                        className="d-flex align-items-center justify-content-center fade-in mt-5"
                         style={{
                           width: "100%",
                           margin: "0px auto",
@@ -1016,7 +1016,7 @@ function PgList(props) {
                           <div className="d-flex  justify-content-center">
                             <img
                               src={EmptyState}
-                              style={{ height: 240, width: 240 }}
+                             
                               alt="Empty state"
                             />
                           </div>
@@ -1026,7 +1026,7 @@ function PgList(props) {
                               textAlign: "center",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              fontSize: 20,
+                              fontSize: 18,
                               color: "rgba(75, 75, 75, 1)",
                             }}
                           >
@@ -1038,7 +1038,7 @@ function PgList(props) {
                               textAlign: "center",
                               fontWeight: 500,
                               fontFamily: "Gilroy",
-                              fontSize: 16,
+                              fontSize: 14,
                               color: "rgba(75, 75, 75, 1)",
                             }}
                           >
@@ -1054,8 +1054,9 @@ function PgList(props) {
                   }
 
 
-                  {
-                    !hostel_Id && <div
+                  {/* {
+                    !hostel_Id &&
+                     <div
                       className="d-flex align-items-center justify-content-center fade-in"
                       style={{
                         width: "100%",
@@ -1099,10 +1100,10 @@ function PgList(props) {
                       </div>
                       <div></div>
                     </div>
-                  }
+                  } */}
 
 
-                  <div className="mt-2 mb-2 d-flex justify-content-center w-100">
+                  <div className="mt-2 mb-2 d-flex justify-content-center">
                     {loader && (
                       <div
                         style={{

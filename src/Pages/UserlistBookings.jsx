@@ -1164,7 +1164,7 @@ function Booking(props) {
                                   fontSize: "13px",
                                   fontWeight: 600,
                                   fontFamily: "Gilroy",
-                                  color: "#1E45E1",
+                                  
                                   cursor: "pointer",
                                   marginTop: 10,
                                   whiteSpace: "nowrap",

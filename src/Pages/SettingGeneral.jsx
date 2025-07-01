@@ -1171,35 +1171,42 @@ function SettingGeneral() {
             );
           })
         ) : !loading && (
-          <div style={{ textAlign: "center", alignItems: "center", marginTop: 90 }}>
-            <div style={{ textAlign: "center" }}>
-              <img src={EmptyState} width={240} height={240} alt="emptystate" />
-            </div>
-            <div
-              className="pb-1"
-              style={{
-                textAlign: "center",
-                fontWeight: 600,
-                fontFamily: "Gilroy",
-                fontSize: 20,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              No Profile{" "}
-            </div>
-            <div
-              className="pb-1"
-              style={{
-                textAlign: "center",
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                fontSize: 16,
-                color: "rgba(75, 75, 75, 1)",
-              }}
-            >
-              There are no Profile available.{" "}
-            </div>
-          </div>
+<div
+  style={{
+    textAlign: "center",
+    marginTop: 90,
+    height: '35vh',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  }}
+>
+  <img src={EmptyState} alt="emptystate" />
+  <div
+    className="pb-1"
+    style={{
+      fontWeight: 600,
+      fontFamily: "Gilroy",
+      fontSize: 18,
+      color: "rgba(75, 75, 75, 1)",
+    }}
+  >
+    No Profile
+  </div>
+  <div
+    className="pb-1"
+    style={{
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+      fontSize: 14,
+      color: "rgba(75, 75, 75, 1)",
+    }}
+  >
+    There are no Profile available.
+  </div>
+</div>
+
+
         )}
       </div>
 

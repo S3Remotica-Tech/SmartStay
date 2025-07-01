@@ -788,7 +788,6 @@ function SettingManage() {
                           <div className="d-flex  justify-content-center">
                             <img
                               src={EmptyState}
-                              style={{ height: 240, width: 240 }}
                               alt="Empty state"
                             />
                           </div>
