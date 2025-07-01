@@ -228,9 +228,7 @@ function SettingManage() {
       state.PgList.deletePgSuccessStatusCode === 200 ||
       state.PgList.dleteHostelImagesStatusCode === 200
     ) {
-      dispatch({type:"HOSTELIDDETAILS"})
       dispatch({ type: "HOSTELLIST" });
-      
             setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
