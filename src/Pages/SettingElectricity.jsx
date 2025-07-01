@@ -39,7 +39,7 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
   });
 
   const [EbList, setEbList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (hostelid) {
@@ -670,7 +670,7 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
                                                  <div className="d-flex  justify-content-center">
                                                    <img
                                                      src={EmptyState}
-                                                     style={{ height: 240, width: 240 }}
+                                                   
                                                      alt="Empty state"
                                                    />
                                                  </div>
