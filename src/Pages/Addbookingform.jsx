@@ -1212,9 +1212,7 @@ function BookingModal(props) {
                       setJoingDateErrmsg('');
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                    disabledDate={(current) => {
-                      return current && current < dayjs().startOf('day');
-                    }}
+                   
                   />
                 </div>
               </Form.Group>
