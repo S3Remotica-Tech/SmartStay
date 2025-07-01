@@ -564,7 +564,7 @@ setFormLoading(false)
                 />
               </Form.Group>
               {nameError && (
-                <div className="d-flex align-items-center p-1" style={{ marginTop: "-13px" }}>
+                <div className="d-flex align-items-center p-1" style={{ marginTop: "-16px" }}>
                   <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", marginBottom: "1px" }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {nameError}
@@ -659,7 +659,7 @@ setFormLoading(false)
               </Form.Group>
 
               {mobileError && (
-                <div className="d-flex align-items-center p-1" style={{ marginTop: "-12px" }}>
+                <div className="d-flex align-items-center p-1" style={{ marginTop: "-16px" }}>
                   <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {mobileError}

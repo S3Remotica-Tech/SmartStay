@@ -624,7 +624,7 @@ function BookingModal(props) {
               </Form.Group>
               {firstNameError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "3px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "3px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -739,7 +739,7 @@ function BookingModal(props) {
                 ></p>
                 {phoneError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: "15px", marginBottom: "1px" }} />
+                    <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                     <span
                       style={{
                         color: "red",
@@ -756,7 +756,7 @@ function BookingModal(props) {
 
                 {phoneErrorMessage && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: "15px", marginTop: "1px" }} />
+                    <MdError style={{ marginRight: "5px", fontSize: "13px", marginTop: "1px" }} />
                     <span
                       style={{
                         color: "red",
@@ -771,7 +771,7 @@ function BookingModal(props) {
                 )}
                 {state.Booking.bookingPhoneError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: "15px", marginBottom: "1px" }} />
+                    <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                     <span
                       style={{
                         color: "red",
@@ -815,7 +815,7 @@ function BookingModal(props) {
               </Form.Group>
               {emailError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "3px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -831,7 +831,7 @@ function BookingModal(props) {
 
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "3px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -846,7 +846,7 @@ function BookingModal(props) {
               )}
               {state?.Booking?.bookingEmailError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "3px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -1074,7 +1074,7 @@ function BookingModal(props) {
               </Form.Group>
               {cityError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                  <MdError style={{ fontSize: '13px', marginRight: "5px",marginBottom:"2px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                 </div>
               )}
@@ -1170,7 +1170,7 @@ function BookingModal(props) {
 
             {!state_name && state_nameError && (
               <div style={{ color: "red" }}>
-                <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                <MdError style={{ fontSize: "13px", marginRight: "5px",marginBottom:"2px" }} />
                 <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                   {state_nameError}
                 </span>
@@ -1218,7 +1218,7 @@ function BookingModal(props) {
               </Form.Group>
               {dateError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -1278,7 +1278,7 @@ function BookingModal(props) {
               </Form.Group>
               {amountError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",

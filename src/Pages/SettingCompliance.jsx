@@ -863,7 +863,7 @@ function SettingCompliance({ hostelid }) {
                         fontSize: "13px",
                         color: "red",
                         marginRight: "5px",
-                        marginBottom: "5px",
+                        marginBottom: "3px",
                       }}
                     >
                       <MdError />

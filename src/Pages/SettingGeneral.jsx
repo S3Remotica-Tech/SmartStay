@@ -1112,30 +1112,7 @@ function SettingGeneral() {
                       {item && String(item.mobileNo).slice(-10)}
                     </p>
                   </div>
-                  {/* <div className="col-12">
-                    <p
-                      className="mb-1"
-                      style={{
-                        fontSize: 12,
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        color: "#939393",
-                      }}
-                    >
-                      Address
-                    </p>
-                    <p
-                      style={{
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {item.Address ? item.Address : ''} {""}{" "}
-                      {item.area ? item.area : ''} {""} {item.city ? item.city : ''} {""} {item.state ? item.state : ''} <br></br>
-                      {item.pin_code ? item.pin_code : ''}
-                    </p>
-                  </div> */}
+                
                   <div className="col-12">
                     <p
                       className="mb-1"
@@ -1410,7 +1387,7 @@ function SettingGeneral() {
         </div>
         <Modal.Body style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
           <div className="row">
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
               <Form.Group>
                 <Form.Label
                   style={{
@@ -1443,7 +1420,7 @@ function SettingGeneral() {
               </Form.Group>
               {firstNameError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                  <MdError style={{ fontSize: '13px', marginRight: "5px", marginBottom: "2px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError} </span>
                 </div>
               )}
@@ -1899,7 +1876,7 @@ function SettingGeneral() {
               </Form.Group>
               {cityError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                  <MdError style={{ fontSize: '13px', marginRight: "5px",marginBottom:"1px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                 </div>
               )}
@@ -1993,7 +1970,7 @@ function SettingGeneral() {
 
               {!state_name && state_nameError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <MdError style={{ fontSize: "13px", marginRight: "5px", marginBottom: "2px" }} />
                   <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {state_nameError}
                   </span>
@@ -2248,8 +2225,8 @@ function SettingGeneral() {
             </InputGroup>
           </Form.Group>
           {passError && (
-            <div className="text-danger" style={{ color: "red" }}>
-              <MdError />
+            <div style={{ color: "red" }}>
+              <MdError style={{ marginRight: "5px",fontSize:'14px', marginBottom:"3px"}} />
 
               <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passError}</span>
             </div>

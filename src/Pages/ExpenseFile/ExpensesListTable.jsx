@@ -501,6 +501,7 @@ function ExpensesListTable(props) {
             <Button
               style={{
                 marginBottom: 10,
+                marginTop:10,
                 width: "100%",
                 height: "45px",
                 borderRadius: "12px",
