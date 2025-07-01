@@ -526,7 +526,7 @@ function UserListInvoice(props) {
                         }}
                         className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
                       >
-                        <div style={{marginLeft:10}}>  {view.Invoices}</div>
+                        <div style={{ marginLeft: 10 }}>  {view.Invoices}</div>
 
                       </td>
                       <td
@@ -548,12 +548,9 @@ function UserListInvoice(props) {
                         <span
                           style={{
                             backgroundColor: "#EBEBEB",
-                            paddingTop: "3px",
-                            paddingLeft: "10px",
-                            paddingRight: "10px",
-                            paddingBottom: "3px",
-                            borderRadius: "10px",
-                            marginLeft:4,
+                            padding: "5px 20px",
+                            borderRadius: "14px",
+                            marginLeft: 4,
                             lineHeight: "1.5em",
                             margin: "0",
                             fontSize: "11px",
@@ -570,12 +567,9 @@ function UserListInvoice(props) {
                         <span
                           style={{
                             backgroundColor: "#EBEBEB",
-                            paddingTop: "3px",
-                            paddingLeft: "10px",
-                            paddingRight: "10px",
-                            paddingBottom: "3px",
-                            borderRadius: "10px",
-                            marginLeft:4,
+                            padding: "5px 20px",
+                            borderRadius: "14px",
+                            marginLeft: 4,
                             lineHeight: "1.5em",
                             margin: "0",
                             fontSize: "11px",
@@ -617,12 +611,11 @@ function UserListInvoice(props) {
                             color: "black",
                             backgroundColor:
                               view.Status === "Success" ? "#D9FFD9" : "#FFD9D9",
-                            paddingLeft: "10px",
-                            paddingRight: "10px",
+                            padding: "5px 20px",
                             fontSize: "11px",
                             fontWeight: 500,
-                            borderRadius: "10px",
-                            marginLeft:4
+                            borderRadius: "14px",
+                            marginLeft: 4
                           }}
                         >
                           {view.Status === "Success" ? "Paid" : "Unpaid"}
@@ -658,131 +651,131 @@ function UserListInvoice(props) {
                               style={{ height: 20, width: 20 }}
                             />
                             {activeId === view.id && (
-                             <div
-  ref={popupRef}
-  className="ven-popup showdots-btn"
-  style={{
-    cursor: "pointer",
-    backgroundColor: "#F9F9F9",
-    position: "fixed",
-    top: popupPosition.top,
-    left: popupPosition.left,
-    width: 160,
-    height: "auto",
-    border: "1px solid #EBEBEB",
-    borderRadius: 10,
-    display: "flex",
-    flexDirection: "column",
-    padding: 0,
-    alignItems: "flex-start",
-    zIndex: 1000,
-  }}
->
-  <div style={{ width: "100%", backgroundColor: "#F9F9F9", borderRadius: 10 }}>
-  
-    <div
-      onClick={() => {
-        if (!props.billEditPermission) {
-          handleEditBill(view);
-        }
-      }}
-      onMouseEnter={(e) => {
-        if (!props.billEditPermission)
-          e.currentTarget.style.backgroundColor = "#EDF2FF";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = "#F9F9F9";
-      }}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "10px",
-        padding: "8px 12px",
-        width: "100%",
-        backgroundColor: "#F9F9F9",
-        cursor: props.billEditPermission ? "not-allowed" : "pointer",
-        pointerEvents: props.billEditPermission ? "none" : "auto",
-        opacity: props.billEditPermission ? 0.5 : 1,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-      }}
-    >
-      <img
-        src={Edit}
-        style={{
-          height: 16,
-          width: 16,
-          filter: props.billEditPermission ? "grayscale(100%)" : "none",
-        }}
-        alt="Edit"
-      />
-      <label
-        style={{
-          fontSize: 14,
-          fontWeight: 600,
-          fontFamily: "Gilroy, sans-serif",
-          color: props.billEditPermission ? "#ccc" : "#222222",
-          cursor: props.billEditPermission ? "not-allowed" : "pointer",
-        }}
-      >
-        Edit
-      </label>
-    </div>
+                              <div
+                                ref={popupRef}
+                                className="ven-popup showdots-btn"
+                                style={{
+                                  cursor: "pointer",
+                                  backgroundColor: "#F9F9F9",
+                                  position: "fixed",
+                                  top: popupPosition.top,
+                                  left: popupPosition.left,
+                                  width: 160,
+                                  height: "auto",
+                                  border: "1px solid #EBEBEB",
+                                  borderRadius: 10,
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  padding: 0,
+                                  alignItems: "flex-start",
+                                  zIndex: 1000,
+                                }}
+                              >
+                                <div style={{ width: "100%", backgroundColor: "#F9F9F9", borderRadius: 10 }}>
 
-    
-    <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                                  <div
+                                    onClick={() => {
+                                      if (!props.billEditPermission) {
+                                        handleEditBill(view);
+                                      }
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      if (!props.billEditPermission)
+                                        e.currentTarget.style.backgroundColor = "#EDF2FF";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                    }}
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: "10px",
+                                      padding: "8px 12px",
+                                      width: "100%",
+                                      backgroundColor: "#F9F9F9",
+                                      cursor: props.billEditPermission ? "not-allowed" : "pointer",
+                                      pointerEvents: props.billEditPermission ? "none" : "auto",
+                                      opacity: props.billEditPermission ? 0.5 : 1,
+                                      borderTopLeftRadius: 10,
+                                      borderTopRightRadius: 10,
+                                    }}
+                                  >
+                                    <img
+                                      src={Edit}
+                                      style={{
+                                        height: 16,
+                                        width: 16,
+                                        filter: props.billEditPermission ? "grayscale(100%)" : "none",
+                                      }}
+                                      alt="Edit"
+                                    />
+                                    <label
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy, sans-serif",
+                                        color: props.billEditPermission ? "#ccc" : "#222222",
+                                        cursor: props.billEditPermission ? "not-allowed" : "pointer",
+                                      }}
+                                    >
+                                      Edit
+                                    </label>
+                                  </div>
 
-  
-    <div
-      onClick={() => {
-        if (!props.billDeletePermission) {
-          handleDeleteBill(view);
-        }
-      }}
-      onMouseEnter={(e) => {
-        if (!props.billDeletePermission)
-          e.currentTarget.style.backgroundColor = "#FFF0F0";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = "#F9F9F9";
-      }}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "10px",
-        padding: "8px 12px",
-        width: "100%",
-        backgroundColor: "#F9F9F9",
-        cursor: props.billDeletePermission ? "not-allowed" : "pointer",
-        pointerEvents: props.billDeletePermission ? "none" : "auto",
-        opacity: props.billDeletePermission ? 0.5 : 1,
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 10,
-      }}
-    >
-      <img
-        src={Delete}
-        style={{
-          height: 16,
-          width: 16,
-          filter: props.billDeletePermission ? "grayscale(100%)" : "none",
-        }}
-        alt="Delete"
-      />
-      <label
-        style={{
-          fontSize: 14,
-          fontWeight: 600,
-          fontFamily: "Gilroy, sans-serif",
-          color: props.billDeletePermission ? "#ccc" : "#FF0000",
-          cursor: props.billDeletePermission ? "not-allowed" : "pointer",
-        }}
-      >
-        Delete
-      </label>
-    </div>
-  </div>
-</div>
+
+                                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+
+                                  <div
+                                    onClick={() => {
+                                      if (!props.billDeletePermission) {
+                                        handleDeleteBill(view);
+                                      }
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      if (!props.billDeletePermission)
+                                        e.currentTarget.style.backgroundColor = "#FFF0F0";
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                    }}
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: "10px",
+                                      padding: "8px 12px",
+                                      width: "100%",
+                                      backgroundColor: "#F9F9F9",
+                                      cursor: props.billDeletePermission ? "not-allowed" : "pointer",
+                                      pointerEvents: props.billDeletePermission ? "none" : "auto",
+                                      opacity: props.billDeletePermission ? 0.5 : 1,
+                                      borderBottomLeftRadius: 10,
+                                      borderBottomRightRadius: 10,
+                                    }}
+                                  >
+                                    <img
+                                      src={Delete}
+                                      style={{
+                                        height: 16,
+                                        width: 16,
+                                        filter: props.billDeletePermission ? "grayscale(100%)" : "none",
+                                      }}
+                                      alt="Delete"
+                                    />
+                                    <label
+                                      style={{
+                                        fontSize: 14,
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy, sans-serif",
+                                        color: props.billDeletePermission ? "#ccc" : "#FF0000",
+                                        cursor: props.billDeletePermission ? "not-allowed" : "pointer",
+                                      }}
+                                    >
+                                      Delete
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
 
                             )}
 

@@ -263,7 +263,7 @@ function UserListAmenities(props) {
         )}
 
       <div
-        className="col-lg-8 col-md-8 col-sm-12 col-xs-12"
+        className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
         style={{ marginTop: "-10px" }}
       >
         <Form.Label
@@ -300,6 +300,7 @@ function UserListAmenities(props) {
               maxHeight: "170px",
               overflowY: "auto",
               zIndex: 9999,
+              fontFamily: "Gilroy",
             }),
             menuList: (base) => ({
               ...base,
@@ -308,6 +309,7 @@ function UserListAmenities(props) {
               padding: 0,
               scrollbarWidth: "thin",
               cursor: "pointer",
+              fontFamily: "Gilroy",
             }),
             control: (base) => ({
               ...base,
@@ -329,6 +331,7 @@ function UserListAmenities(props) {
               cursor: "pointer",
               backgroundColor: state.isFocused ? "#f0f0f0" : "white",
               color: "#000",
+              fontFamily: "Gilroy",
             }),
           }}
         />
@@ -396,6 +399,7 @@ function UserListAmenities(props) {
                 opacity: 1,
                 borderRadius: "8px",
                 height: 45,
+                 fontFamily: "Gilroy",
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
@@ -435,6 +439,7 @@ function UserListAmenities(props) {
                 fontWeight: "530",
                 height: 45,
                 opacity: 1,
+                 fontFamily: "Gilroy",
                 borderRadius: "8px",
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
@@ -458,6 +463,7 @@ function UserListAmenities(props) {
               style={{
                 fontSize: 14,
                 fontWeight: "530",
+                 fontFamily: "Gilroy",
                 opacity: 1,
                 borderRadius: "8px",
                 height: 45,
