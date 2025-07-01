@@ -539,7 +539,7 @@ function SettingCompliance({ hostelid }) {
       </div>
 
       {!loading && complianceFilterddata.length === 0 && (
-        <div style={{ marginTop: 100 }}>
+        <div style={{ marginTop: 110 }}>
           <div className="d-flex justify-content-center">
             <img
               src={EmptyState}
@@ -553,7 +553,7 @@ function SettingCompliance({ hostelid }) {
               textAlign: "center",
               fontWeight: 600,
               fontFamily: "Gilroy",
-              fontSize: 20,
+              fontSize: 18,
               color: "rgba(75, 75, 75, 1)",
             }}
           >

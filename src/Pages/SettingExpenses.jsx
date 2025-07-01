@@ -679,14 +679,43 @@ setFormLoading(true)
             </div>
           ))
         ) : !loading && (
-          <div style={{ marginTop: 85, alignItems: "center", justifyContent: "center", marginLeft: '270px' }}>
-            <div className="d-flex justify-content-center">
-              <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-            </div>
-            <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>
-              No Expense available
-            </div>
-          </div>
+         
+
+           <div
+                                  className="d-flex align-items-center justify-content-center"
+                                  style={{
+                                    width: "100%",
+                                    margin: "0px auto",
+                                    backgroundColor: "",
+                                    marginTop: 100,
+                                    justifyContent: "center", alignItems: "center"
+                                  }}
+                                >
+                                  <div>
+                                    <div className="d-flex  justify-content-center">
+                                      <img
+                                        src={EmptyState}
+                                        style={{ height: 240, width: 240 }}
+                                        alt="Empty state"
+                                      />
+                                    </div>
+                                    <div
+                                      className="pb-1 mt-3"
+                                      style={{
+                                        textAlign: "center",
+                                        fontWeight: 600,
+                                        fontFamily: "Gilroy",
+                                        fontSize: 18,
+                                        color: "rgba(75, 75, 75, 1)",
+                                      }}
+                                    >
+                                      No Expense available
+                                    </div>
+                                  
+          
+                                  </div>
+                                  <div></div>
+                                </div>
         )}
 
 

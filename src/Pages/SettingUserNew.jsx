@@ -704,41 +704,54 @@ function SettingNewUser() {
           </div>
         ) : (
           !loading && (
-            <div
-              style={{
-                marginTop: 90,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div style={{ textAlign: "center" }}>
-                <img src={emptyimg} width={240} height={240} alt="emptystate" />
-              </div>
-              <div
-                className="pb-1"
-                style={{
-                  textAlign: "center",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: 20,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                No Users{" "}
-              </div>
-              <div
-                className="pb-1"
-                style={{
-                  textAlign: "center",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  fontSize: 16,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                There are no Users available.{" "}
-              </div>
-            </div>
+           
+
+               <div
+                                    className="d-flex align-items-center justify-content-center"
+                                    style={{
+                                      width: "100%",
+                                      margin: "0px auto",
+                                      backgroundColor: "",
+                                      marginTop: 110,
+                                      justifyContent: "center", alignItems: "center"
+                                    }}
+                                  >
+                                    <div>
+                                      <div className="d-flex  justify-content-center">
+                                        <img
+                                          src={emptyimg}
+                                          style={{ height: 240, width: 240 }}
+                                          alt="Empty state"
+                                        />
+                                      </div>
+                                      <div
+                                        className="pb-1"
+                                        style={{
+                                          textAlign: "center",
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+                                          fontSize: 18,
+                                          color: "rgba(75, 75, 75, 1)",
+                                        }}
+                                      >
+                                        No Users{" "}
+                                      </div>
+                                      <div
+                                        className="pb-1"
+                                        style={{
+                                          textAlign: "center",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          fontSize: 14,
+                                          color: "rgba(75, 75, 75, 1)",
+                                        }}
+                                      >
+                                        There are no Users available.{" "}
+                                      </div>
+            
+                                    </div>
+                                    <div></div>
+                                  </div>
           )
         )}
       </div>

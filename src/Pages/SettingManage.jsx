@@ -775,7 +775,7 @@ function SettingManage() {
                     :
                     !loading && filteredData.length === 0 && (
                       <div
-                        className="d-flex align-items-center justify-content-center fade-in"
+                        className="d-flex align-items-center justify-content-center"
                         style={{
                           width: "100%",
                           margin: "0px auto",
@@ -793,24 +793,24 @@ function SettingManage() {
                             />
                           </div>
                           <div
-                            className="pb-1 mt-1"
+                            className="pb-1"
                             style={{
                               textAlign: "center",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              fontSize: 20,
+                              fontSize: 18,
                               color: "rgba(75, 75, 75, 1)",
                             }}
                           >
                             No Paying Guest available
                           </div>
                           <div
-                            className="pb-1 mt-1"
+                            className="pb-1"
                             style={{
                               textAlign: "center",
                               fontWeight: 500,
                               fontFamily: "Gilroy",
-                              fontSize: 16,
+                              fontSize: 14,
                               color: "rgba(75, 75, 75, 1)",
                             }}
                           >

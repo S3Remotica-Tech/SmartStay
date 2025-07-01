@@ -133,6 +133,33 @@ function UserList(props) {
   const [isAddMode, setIsAddMode] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
 
+   useEffect(() => {
+    if (state.login.selectedHostel_Id) {
+      if (value === "1") {
+        setLoading(true)
+        dispatch({
+          type: "USERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      } if (value === "2") {
+        dispatch({
+          type: "GET_BOOKING_LIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      } else if (value === "3") {
+        dispatch({
+          type: "CHECKOUTCUSTOMERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      } else if (value === "4") {
+        dispatch({
+          type: "WALKINCUSTOMERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+      }
+    }
+  }, [value, state.login.selectedHostel_Id]);
+
   useEffect(() => {
     if (id && !billsAddshow) {
       dispatch({
@@ -984,32 +1011,7 @@ function UserList(props) {
     }
   }, [state.Booking.statusCodeGetBooking]);
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      if (value === "1") {
-        setLoading(true)
-        dispatch({
-          type: "USERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-      } if (value === "2") {
-        dispatch({
-          type: "GET_BOOKING_LIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-      } else if (value === "3") {
-        dispatch({
-          type: "CHECKOUTCUSTOMERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-      } else if (value === "4") {
-        dispatch({
-          type: "WALKINCUSTOMERLIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-      }
-    }
-  }, [value, state.login.selectedHostel_Id]);
+ 
 
   useEffect(() => {
     if (value === "1") {
@@ -2478,7 +2480,7 @@ function UserList(props) {
               </Box>
 
               <TabPanel value="1">
-                {loading && (
+                {loading &&  (
                   <div
                     style={{
                       position: "absolute",
