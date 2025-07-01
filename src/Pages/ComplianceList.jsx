@@ -1667,7 +1667,7 @@ const ComplianceList = (props) => {
                           {statusErrorType.trim() !== "" && (
                             <div >
                               <p className='text-start' style={{ fontSize: '14px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                                {statusErrorType !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
+                                {statusErrorType !== " " && <MdError style={{ color: 'red',marginBottom:"2px" }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
                               </p>
                             </div>
                           )}

@@ -1250,7 +1250,7 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
                 {cityError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                    <MdError style={{ fontSize: '13px', marginRight: "5px",marginBottom:"1px" }} />
                     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                   </div>
                 )}
@@ -1402,7 +1402,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
                 {!state_name && state_nameError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                    <MdError style={{ fontSize: "13px", marginRight: "5px", marginBottom: "1px" }} />
                     <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                       {state_nameError}
                     </span>
