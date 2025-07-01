@@ -2508,15 +2508,13 @@ function UserList(props) {
                     ></div>
                   </div>
                 )}
-   {!loading && customerpermissionError ? (
+{customerpermissionError ? (
   <div
-  
     style={{
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      
     }}
   >
     <img
@@ -2537,10 +2535,10 @@ function UserList(props) {
       <span>{customerpermissionError}</span>
     </div>
   </div>
-) : !loading && currentItems && currentItems.length === 0 ? (
+) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
   <div style={{ marginTop: 30 }} className="animated-text">
     <div style={{ textAlign: "center" }}>
-      <img src={Emptystate} alt="emptystate"/>
+      <img src={Emptystate} alt="emptystate" />
     </div>
     <div
       className="pb-1"
@@ -2570,7 +2568,7 @@ function UserList(props) {
 ) : null}
 
                   <>
-                    {sortedData && sortedData.length > 0 && 
+                    {!customerpermissionError && sortedData && sortedData.length > 0 && 
                       <div
                         className=" booking-table-userlist  booking-table  me-4"
                         style={{ paddingBottom: "20px", marginLeft: "-14px" }}
