@@ -92,6 +92,7 @@ function CreateAccountPage() {
     setConfirmPassword(e.target.value)
     setConfirmPasswordError('');
     dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' })
+    setBothPasswordError("")
   }
 
   const toggleConfirmPasswordVisibility = () => {
@@ -187,6 +188,7 @@ function CreateAccountPage() {
     }
 
     setPasswordError(errorMessages);
+    setBothPasswordError("")
   };
 
 

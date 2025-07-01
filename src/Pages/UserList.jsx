@@ -2553,106 +2553,90 @@ function UserList(props) {
                     ></div>
                   </div>
                 )}
-                {!loading && customerpermissionError ? (
-                  <div
+{customerpermissionError ? (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <img
+      src={Emptystate}
+      alt="Empty State"
+      style={{ maxWidth: "100%", height: "auto" }}
+    />
+    <div
+      style={{
+        color: "red",
+        display: "flex",
+        alignItems: "center",
+        gap: "0.5rem",
+        marginTop: "1rem",
+      }}
+    >
+      <MdError size={20} />
+      <span>{customerpermissionError}</span>
+    </div>
+  </div>
+) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
+  <div style={{ marginTop: 30 }} className="animated-text">
+    <div style={{ textAlign: "center" }}>
+      <img src={Emptystate} alt="emptystate" />
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        fontSize: 18,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      No Customers available
+    </div>
+    <div
+      className="pb-1"
+      style={{
+        textAlign: "center",
+        fontWeight: 500,
+        fontFamily: "Gilroy",
+        fontSize: 14,
+        color: "rgba(75, 75, 75, 1)",
+      }}
+    >
+      There are no Customer added.
+    </div>
+  </div>
+) : null}
 
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-
-                    }}
-                  >
-                    <img
-                      src={Emptystate}
-                      alt="Empty State"
-                      style={{ maxWidth: "100%", height: "auto" }}
-                    />
-                    <div
-                      style={{
-                        color: "red",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                        marginTop: "1rem",
-                      }}
-                    >
-                      <MdError size={20} />
-                      <span>{customerpermissionError}</span>
-                    </div>
-                  </div>
-                ) : !loading && currentItems && currentItems.length === 0 ? (
-                  <div style={{ marginTop: 30 }} className="animated-text">
-                    <div style={{ textAlign: "center" }}>
-                      <img src={Emptystate} alt="emptystate" />
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                        fontSize: 18,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      No Customers available
-                    </div>
-                    <div
-                      className="pb-1"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                        fontSize: 14,
-                        color: "rgba(75, 75, 75, 1)",
-                      }}
-                    >
-                      There are no Customer added.
-                    </div>
-                  </div>
-                ) : null}
-
-                <>
-                  {sortedData && sortedData.length > 0 &&
-                    <div
-                      className=" booking-table-userlist  booking-table  me-4"
-                      style={{ paddingBottom: "20px", marginLeft: "-14px" }}
-                    >
+                  <>
+                    {!customerpermissionError && sortedData && sortedData.length > 0 && 
                       <div
-                        className="show-scrolls"
-                        style={{
-                          height:
-                            sortedData?.length >= 5 || sortedData?.length >= 5
-                              ? "350px"
-                              : "auto",
-                          overflow: "auto",
-                          borderTop: "1px solid #E8E8E8",
-                          marginBottom: 20,
-                          marginTop: "20px",
-                          paddingRight: 0,
-                          paddingLeft: 0,
-                        }}
+                        className=" booking-table-userlist  booking-table  me-4"
+                        style={{ paddingBottom: "20px", marginLeft: "-14px" }}
                       >
-                        <Table
-                          responsive="md"
+                        <div
+                          className="show-scrolls"
                           style={{
-                            fontFamily: "Gilroy",
-                            color: "rgba(34, 34, 34, 1)",
-                            fontSize: 14,
-                            fontStyle: "normal",
-                            fontWeight: 500,
-                            position: "sticky",
-                            top: 0,
-                            zIndex: 1,
-                            borderRadius: 0,
+                            height:
+                              sortedData?.length >= 5 || sortedData?.length >= 5
+                                ? "350px"
+                                : "auto",
+                            overflow: "auto",
+                            borderTop: "1px solid #E8E8E8",
+                            marginBottom: 20,
+                            marginTop: "20px",
+                            paddingRight: 0,
+                            paddingLeft: 0,
                           }}
                         >
-                          <thead
+                          <Table
+                            responsive="md"
                             style={{
                               fontFamily: "Gilroy",
-                              backgroundColor: "rgba(231, 241, 255, 1)",
                               color: "rgba(34, 34, 34, 1)",
                               fontSize: 14,
                               fontStyle: "normal",
@@ -2660,173 +2644,187 @@ function UserList(props) {
                               position: "sticky",
                               top: 0,
                               zIndex: 1,
+                              borderRadius: 0,
                             }}
                           >
-                            <tr>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  paddingLeft: "20px",
-                                }}
-                              >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Name", "asc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Name", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
+                            <thead
+                              style={{
+                                fontFamily: "Gilroy",
+                                backgroundColor: "rgba(231, 241, 255, 1)",
+                                color: "rgba(34, 34, 34, 1)",
+                                fontSize: 14,
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 1,
+                              }}
+                            >
+                              <tr>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "12px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    paddingLeft: "20px",
+                                  }}
+                                >
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Name", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Name", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Name
                                   </div>
-                                  Name
-                                </div>
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                }}
-                              >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("user_join_date", "asc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("user_join_date", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "12px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("user_join_date", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("user_join_date", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Joining Date
                                   </div>
-                                  Joining Date
-                                </div>
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                }}
-                              >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Email", "asc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Email", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "12px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Email", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Email", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Email ID
                                   </div>
-                                  Email ID
-                                </div>
-                              </th>
-                              <th
-                                style={{
-                                  textAlign: "start",
-                                  padding: "10px",
-                                  color: "#939393",
-                                  fontSize: "12px",
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy",
-                                  whiteSpace: "nowrap",
-                                }}
-                              >
-                                <div className="d-flex gap-1 align-items-center justify-content-start">
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      gap: "2px",
-                                    }}
-                                  >
-                                    <ArrowUp2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Phone", "asc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
-                                    <ArrowDown2
-                                      size="10"
-                                      variant="Bold"
-                                      color="#1E45E1"
-                                      onClick={() =>
-                                        handleSort("Phone", "desc")
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    />
+                                </th>
+                                <th
+                                  style={{
+                                    textAlign: "start",
+                                    padding: "10px",
+                                    color: "#939393",
+                                    fontSize: "12px",
+                                    fontWeight: 500,
+                                    fontFamily: "Gilroy",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  <div className="d-flex gap-1 align-items-center justify-content-start">
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: "2px",
+                                      }}
+                                    >
+                                      <ArrowUp2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Phone", "asc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <ArrowDown2
+                                        size="10"
+                                        variant="Bold"
+                                        color="#1E45E1"
+                                        onClick={() =>
+                                          handleSort("Phone", "desc")
+                                        }
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                    </div>
+                                    Mobile No
                                   </div>
-                                  Mobile No
-                                </div>
-                              </th>
+                                </th>
 
                               <th
                                 style={{
