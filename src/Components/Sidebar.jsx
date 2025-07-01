@@ -100,6 +100,22 @@ function Sidebar() {
     dispatch({ type: "HOSTELIDDETAILS" });
   }, []);
 
+
+
+
+useEffect(() => {
+    if (state.PgList.deletePgSuccessStatusCode === 200) {
+          dispatch({ type: "HOSTELIDDETAILS" });
+              
+          setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [
+    state.PgList.deletePgSuccessStatusCode,
+  ]);
+
+
   useEffect(() => {
     if (state.UsersList.statusCodeForhostelListNewDetails === 200) {
       setHostelDetail(state.UsersList.hostelListNewDetails.data);
@@ -112,6 +128,14 @@ function Sidebar() {
   useEffect(() => {
     dispatch({ type: "ALL-NOTIFICATION-LIST" });
   }, []);
+
+
+console.log("state",state)
+
+
+
+
+
 
   useEffect(() => {
     if (stateData.statusCodeForAccountList === 200) {

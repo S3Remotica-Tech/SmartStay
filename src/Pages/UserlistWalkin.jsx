@@ -227,7 +227,26 @@ function UserlistWalkin(props) {
   };
 
   
+  useEffect(() => {
+      if (
+        state.UsersList.addWalkInCustomerStatusCode === 200
+      ) {
+      setShowForm(false)
+        dispatch({
+          type: "WALKINCUSTOMERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
   
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
+        }, 1000);
+  
+      }
+    }, [
+      state.UsersList.addWalkInCustomerStatusCode
+  
+    ]);
 
   return (
     <>
