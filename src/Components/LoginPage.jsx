@@ -161,7 +161,15 @@ const MyComponent = () => {
   }
     , [state.login.errorEmail, state.login.errorPassword])
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
   return (
 
     <div className='container login_page1 h-100'>
@@ -179,7 +187,14 @@ const MyComponent = () => {
           <div>
             <p className='p_font'>Enter your details below to get onto your SmartStay account.</p>
           </div>
-          <div className='mt-5'>
+
+          {state.createAccount?.networkError ? <div className='d-flex align-items-center p-1'>
+            <MdError style={{ color: "red", marginRight: '5px' }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+            : null}
+
+          <div className='mt-4'>
             <Form className="Form p-0">
               <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID</Form.Label>
               <Form.Control

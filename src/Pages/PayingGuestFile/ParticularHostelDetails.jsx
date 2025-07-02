@@ -493,10 +493,10 @@ function ParticularHostelDetails(props) {
                       </div>
                     </Card.Header>
                     <Card.Body className=''>
-                      <div className='row row-gap-3 g-0'>
+                      <div className='row row-gap-3 g-0 show-scroll' style={{maxHeight: 240, overflowY:"scroll"}}>
                         {Array.isArray(room.bed_details) && room.bed_details.length > 0 && room.bed_details && room.bed_details.map((bed) => (
                           <div key={bed.id} className='col-lg-3 col-md-3 col-xs-12 col-sm-6 col-12 d-flex justify-content-center' >
-                            <div className='d-flex flex-column align-items-center' style={{ width: "100%", }}>
+                            <div className='d-flex flex-column align-items-center' style={{ width: "100%",  }}>
 
                               <OverlayTrigger variant="secondary"
                                 placement="top"
