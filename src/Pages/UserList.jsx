@@ -2560,12 +2560,13 @@ function UserList(props) {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
+      marginTop:90
     }}
   >
     <img
       src={Emptystate}
       alt="Empty State"
-      style={{ maxWidth: "100%", height: "auto" }}
+      
     />
     <div
       style={{
@@ -2576,8 +2577,13 @@ function UserList(props) {
         marginTop: "1rem",
       }}
     >
-      <MdError size={20} />
-      <span>{customerpermissionError}</span>
+      <MdError  />
+      <span  style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}>{customerpermissionError}</span>
     </div>
   </div>
 ) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
@@ -3382,10 +3388,11 @@ function UserList(props) {
 
 
 
-                {
-                  (search || filterStatus
-                    ? filteredUsers?.length
-                    : userListDetail?.length) >= 5 && (
+                 {
+  !customerpermissionError &&
+  (
+    (search || filterStatus ? filteredUsers?.length : userListDetail?.length) >= 5
+  ) && (
 
                     <nav
                       style={{

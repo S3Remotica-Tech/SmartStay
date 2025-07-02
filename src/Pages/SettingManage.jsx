@@ -625,7 +625,7 @@ function SettingManage() {
             <img
               src={EmptyState}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+              
             />
 
            
@@ -640,7 +640,12 @@ function SettingManage() {
                 }}
               >
                 <MdError size={20} />
-                <span>{permissionError}</span>
+                <span  style={{
+                    fontSize: "12px",
+                    color: "red",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}>{permissionError}</span>
               </div>
             )}
           </div>
