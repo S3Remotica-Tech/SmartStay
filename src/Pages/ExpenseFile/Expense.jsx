@@ -92,6 +92,11 @@ function Expenses({ allPageHostel_Id }) {
         min_amount: Number(ExcelFilterminAmount) || 0, max_amount:Number(ExcelFiltermaxAmount) || 0, 
         }
     })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
   }
 
      else if( ExcelFilterDates.length === 2 ){
@@ -101,6 +106,11 @@ function Expenses({ allPageHostel_Id }) {
         start_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
         end_date:ExcelFilterDates[1]?.format("YYYY-MM-DD")}
     })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
   }
 
     else if(ExcelFiltercategoryValue){
@@ -108,6 +118,11 @@ function Expenses({ allPageHostel_Id }) {
             payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id , 
             category:Number(ExcelFiltercategoryValue)}
     })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
     }
 
       else if(ExcelFilterPaymentmode){
@@ -115,6 +130,11 @@ function Expenses({ allPageHostel_Id }) {
              payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id,
                payment_mode: Number(ExcelFilterPaymentmode) }
     })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
     }
 
     else{
@@ -811,7 +831,7 @@ useEffect(() => {
             <img
               src={EmptyState}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+              
             />
 
 
@@ -826,7 +846,12 @@ useEffect(() => {
                 }}
               >
                 <MdError size={20} />
-                <span>{expencepermissionError}</span>
+                <span   style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}>{expencepermissionError}</span>
               </div>
             )}
           </div>
