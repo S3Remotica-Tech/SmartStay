@@ -480,6 +480,7 @@ function EBRoomReading(props) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              marginTop:92
 
             }}
           >
@@ -487,23 +488,35 @@ function EBRoomReading(props) {
             <img
               src={emptyimg}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+             
             />
 
 
             {props.ebpermissionError && (
-              <div
-                style={{
-                  color: "red",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <MdError />
-                <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{props.ebpermissionError}</span>
-              </div>
+             
+
+
+               <div
+                                    style={{
+                                      color: "red",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: "0.5rem",
+                                       marginTop: "15px",
+                                    }}
+                                  >
+                                    <MdError />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      {props.ebpermissionError}
+                                    </span>
+                                  </div>
             )}
           </div>
         ) :

@@ -443,7 +443,58 @@ useEffect(() => {
 
   return (
     <>
+
+ {
+        props.ebpermissionError ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop:96
+
+            }}
+          >
+
+            <img
+              src={emptyimg}
+              alt="Empty State"
+             
+            />
+
+
+            {props.ebpermissionError && (
+             
+
+
+               <div
+                                    style={{
+                                      color: "red",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: "0.5rem",
+                                       marginTop: "15px",
+                                    }}
+                                  >
+                                    <MdError />
+                                    <span
+                                      style={{
+                                        fontSize: "12px",
+                                        color: "red",
+                                        fontFamily: "Gilroy",
+                                        fontWeight: 500,
+                                      }}
+                                    >
+                                      {props.ebpermissionError}
+                                    </span>
+                                  </div>
+            )}
+          </div>
+        ) :<>
+    
       <div>
+        
         {props.value === "3" && sortedData?.length > 0 ? (
           <>
             {props.value === "3" && sortedData &&  sortedData.length > 0 && (
@@ -831,6 +882,8 @@ useEffect(() => {
             </div>
           ) : null}
       </div>
+</>
+}
 
       {props.loading &&
         <div
@@ -862,7 +915,7 @@ useEffect(() => {
       }
 
 
-      {props.value === "3" && props.electricityHostel?.length >= 5 &&
+      {props.value === "3" && !props.ebpermissionError && props.electricityHostel?.length >= 5 &&
         <nav
           style={{
             display: "flex",
@@ -1324,5 +1377,7 @@ EBHostelReading.propTypes = {
   setHostelBasedForm: PropTypes.func.isRequired,
   setLoader: PropTypes.func.isRequired,
   filterStatus: PropTypes.func.isRequired,
+  ebpermissionError: PropTypes.func.isRequired,
+
 }
 export default EBHostelReading;
