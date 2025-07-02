@@ -1155,6 +1155,7 @@ function EB_Hostel() {
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
+                    marginTop:90
 
                   }}
                 >
@@ -1162,7 +1163,7 @@ function EB_Hostel() {
                   <img
                     src={Emptystate}
                     alt="Empty State"
-                    style={{ maxWidth: "100%", height: "auto" }}
+                    
                   />
 
 
@@ -1173,7 +1174,7 @@ function EB_Hostel() {
                         display: "flex",
                         alignItems: "center",
                         gap: "0.5rem",
-                        marginTop: "1rem",
+                         marginTop: "10px",
                       }}
                     >
                       <MdError />
@@ -2166,6 +2167,7 @@ function EB_Hostel() {
             filterStatus={filterStatus}
             loading={loader}
             setLoader={setLoader}
+            ebpermissionError={ebpermissionError}
           />
         </TabPanel>
       </TabContext>
