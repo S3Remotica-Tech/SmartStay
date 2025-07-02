@@ -238,6 +238,7 @@ const ComplianceList = (props) => {
     setAssignId(item?.ID);
     setShowDots(false);
     setStatus(item?.Status);
+    setSelectedStatus(item?.Status)
     setShowChangeStatus(true);
     setShowAssignComplaint(false);
   };
@@ -248,9 +249,16 @@ const ComplianceList = (props) => {
     setStatusError("");
   };
 
+   useEffect(() => {
+    const savedStatus = localStorage.getItem("selectedStatus");
+    if (savedStatus) {
+      setSelectedStatus(savedStatus);
+    }
+  }, []);
+
   const handleChangeStatusClick = () => {
 
-    const prevStatus = selectedStatus || "";
+    const prevStatus = selectedStatus || "";    
 
     if (!status) {
       setStatusError("Please Select Status");
@@ -262,10 +270,8 @@ const ComplianceList = (props) => {
       return;
     }
 
-    setSelectedStatus(status);
     setStatusError("");
 
-    localStorage.setItem("selectedStatus", status);
 
     dispatch({
       type: "COMPLIANCECHANGESTATUS",
@@ -279,16 +285,6 @@ const ComplianceList = (props) => {
     });
     setFormLoading(true)
   };
-
-
-  useEffect(() => {
-    const savedStatus = localStorage.getItem("selectedStatus");
-    if (savedStatus) {
-      setSelectedStatus(savedStatus);
-    }
-  }, []);
-
-
 
 
   const handleAssignComplaintClick = () => {
@@ -324,6 +320,7 @@ const ComplianceList = (props) => {
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
       setShowAssignComplaint(false);
       setStatusErrorType("");
+      setSelectedStatus("")
       setShowChangeStatus(false);
       setFormAssignCompliantLoading(false)
 
@@ -377,9 +374,12 @@ const ComplianceList = (props) => {
 
 
   const handleStatus = (selectedOption) => {
-    setStatus(selectedOption?.value || '');
-    setStatusError("");
-  };
+  setStatus(selectedOption?.value || '');
+  if (selectedOption?.value) {
+    setStatusError('');
+  }
+};
+
 
 
   useEffect(() => {
@@ -1666,8 +1666,10 @@ const ComplianceList = (props) => {
 
                           {statusErrorType.trim() !== "" && (
                             <div >
-                              <p className='text-start' style={{ fontSize: '14px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                                {statusErrorType !== " " && <MdError style={{ color: 'red',marginBottom:"2px" }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
+
+                              <p className='text-start' style={{ fontSize: '14px', color: 'red', marginTop: '7px', fontFamily: "Gilroy", fontWeight: 500 }}>
+                                {statusErrorType !== " " && <MdError style={{ color: 'red', marginBottom:1 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
+
                               </p>
                             </div>
                           )}
@@ -1702,7 +1704,7 @@ const ComplianceList = (props) => {
                         }}
                       ></div>
                     </div>}
-                    <Modal.Footer style={{ border: "none", marginTop:'15px' }}>
+                    <Modal.Footer style={{ border: "none", marginTop:'12px' }}>
                       <Button
                         className="w-100"
                         style={{

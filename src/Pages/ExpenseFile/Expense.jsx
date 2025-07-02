@@ -41,7 +41,11 @@ function Expenses({ allPageHostel_Id }) {
   const [amountValue, setAmountValue] = useState("");
   const [minAmount, setMinAmount] = useState(0);
   const [maxAmount, setMaxAmount] = useState(0);
-
+  const [ExcelFilterminAmount, setExcelFilterMinAmount] = useState(0);
+  const [ExcelFiltermaxAmount, setExcelFilterMaxAmount] = useState(0);
+  const [ExcelFilterPaymentmode, setExcelFilterPaymentmode] = useState('')
+  const [ExcelFiltercategoryValue, setExcelFilterCategoryValue] = useState("");
+  const [ExcelFilterDates, setExcelFilterDates] = useState([])
   const [expencerolePermission, setExpenceRolePermission] = useState("");
 
   const [expencepermissionError, setExpencePermissionError] = useState("");
@@ -77,13 +81,72 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [state.UsersList?.exportExpenceDetails?.response?.fileUrl]);
 
-  const handleExpenceExcel = () => {
-    dispatch({
+
+
+ const handleExpenceExcel = () => {
+   
+     if(ExcelFilterminAmount && ExcelFiltermaxAmount){
+       dispatch({
       type: "EXPORTEXPENCESDETAILS",
-      payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id },
-    });
+      payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id  ,
+        min_amount: Number(ExcelFilterminAmount) || 0, max_amount:Number(ExcelFiltermaxAmount) || 0, 
+        }
+    })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
+  }
+
+     else if( ExcelFilterDates.length === 2 ){
+  dispatch({
+      type: "EXPORTEXPENCESDETAILS",
+      payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id  ,
+        start_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+        end_date:ExcelFilterDates[1]?.format("YYYY-MM-DD")}
+    })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
+  }
+
+    else if(ExcelFiltercategoryValue){
+             dispatch({ type: "EXPORTEXPENCESDETAILS",
+            payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id , 
+            category:Number(ExcelFiltercategoryValue)}
+    })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
+    }
+
+      else if(ExcelFilterPaymentmode){
+             dispatch({ type: "EXPORTEXPENCESDETAILS",
+             payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id,
+               payment_mode: Number(ExcelFilterPaymentmode) }
+    })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
+    }
+
+    else{
+        dispatch({ type: "EXPORTEXPENCESDETAILS",
+         payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id}
+        }); 
+     }
+    
     setIsDownloadTriggered(true);
   };
+
+
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
       const link = document.createElement("a");
@@ -98,6 +161,7 @@ function Expenses({ allPageHostel_Id }) {
   }, [excelDownload , isDownloadTriggered]);
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportExpence === 200) {
+      
       setTimeout(() => {
         dispatch({ type: "CLEAR_EXPORT_EXPENSE_DETAILS" });
       }, 200);
@@ -152,6 +216,7 @@ function Expenses({ allPageHostel_Id }) {
   }, [expencerolePermission]);
 
   const [dates, setDates] = useState([]);
+
 
   const [pickerKey, setPickerKey] = useState(0);
 
@@ -334,6 +399,8 @@ function Expenses({ allPageHostel_Id }) {
     setShowModal(true);
   };
 
+
+
   const handleAmountValueChange = (e) => {
     setSelectedValue(null);
     const value = e.target.getAttribute("value");
@@ -343,8 +410,13 @@ function Expenses({ allPageHostel_Id }) {
     const [minAmount, maxAmount] = amountRange.split("-").map(Number);
     setMinAmount(minAmount);
     setMaxAmount(maxAmount);
+    setExcelFilterMinAmount(minAmount)
+    setExcelFilterMaxAmount(maxAmount)
     setShowAmount(false);
   };
+
+
+   
 
   const [currentItem, setCurrentItem] = useState("");
 
@@ -565,13 +637,17 @@ useEffect(() => {
   const handleCatogoryChange = (e) => {
     setSelectedValue(null);
     setCategoryValue(e.target.getAttribute("value"));
+    setExcelFilterCategoryValue(e.target.getAttribute("value"));
     setShowFilter(false);
     setShowCategory(false);
   };
 
+   
+
   const handleModeValueChange = (e) => {
     setSelectedValue(null);
     setModeValue(e.target.getAttribute("value"));
+    setExcelFilterPaymentmode(e.target.getAttribute("value"))
     setShowFilter(false);
     setShowPaymentMode(false);
   };
@@ -652,6 +728,7 @@ useEffect(() => {
   const handleDateChange = (selectedDates) => {
   if (!selectedDates || selectedDates.length !== 2) {
     setDates([]);
+    setExcelFilterDates([])
     setSelectedValue("All");
     setCategoryValue("");
     setModeValue("");
@@ -673,6 +750,7 @@ useEffect(() => {
   const newStartDate = dayjs(selectedDates[0]).startOf("day");
   const newEndDate = dayjs(selectedDates[1]).endOf("day");
   setDates([newStartDate, newEndDate]);
+  setExcelFilterDates([newStartDate, newEndDate])
   setCurrentPage(1);
 };
 
@@ -753,7 +831,7 @@ useEffect(() => {
             <img
               src={EmptyState}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+              
             />
 
 
@@ -768,7 +846,12 @@ useEffect(() => {
                 }}
               >
                 <MdError size={20} />
-                <span>{expencepermissionError}</span>
+                <span   style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}>{expencepermissionError}</span>
               </div>
             )}
           </div>

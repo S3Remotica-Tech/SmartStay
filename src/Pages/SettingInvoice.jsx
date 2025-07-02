@@ -164,7 +164,7 @@ const handleIfscCodeChange = (e) => {
 const handleBankNameChange = (e) => {
     const Value = e.target.value  
     setBankName(Value)
-
+    
  
 }
 
@@ -390,7 +390,8 @@ const handleTermsChange = (e) => {
     return;
   }
 
-  dispatch({
+  if(selectedBankId){
+       dispatch({
     type: "ADD_INVOICE_SETTINGS",
     payload: {
       hostelId: Number(state.login.selectedHostel_Id),
@@ -403,6 +404,9 @@ const handleTermsChange = (e) => {
       signature,
     },
   });
+  }
+
+
 };
 
 
@@ -612,6 +616,8 @@ const handleTermsChange = (e) => {
       setSelectedBankId(defaultBank.id);
     }
   }, [banking]);
+
+  
 
 
   useEffect(() => {
@@ -1887,7 +1893,7 @@ useEffect(() => {
       )}
     </>
               
- {bankid_Error.trim() !== "" && (
+ {!selectedBankId &&  bankid_Error.trim() !== "" && (
                                               <div className="d-flex align-items-center p-1">
                                                 <MdError
                                                   style={{
