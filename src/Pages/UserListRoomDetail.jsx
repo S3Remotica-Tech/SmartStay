@@ -2778,8 +2778,8 @@ function UserListRoomDetail(props) {
                                                         className="mb-0 fw-semibold text-start"
                                                         style={{ width: "100%", wordBreak: "break-word" }}
                                                       >
-                                                        {(v.address || "")}
-                                                        {v.area ? ", " + v.area : ""}
+                                                        {(v.address || "" )}
+                                                        {v.area ? " " + v.area : ""}
                                                         {v.landmark ? ", " + v.landmark : ""}
                                                         {v.city ? ", " + v.city : ""}
                                                         {v.state ? ", " + v.state : ""}

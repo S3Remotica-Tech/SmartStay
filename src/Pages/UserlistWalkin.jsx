@@ -227,7 +227,26 @@ function UserlistWalkin(props) {
   };
 
   
+  useEffect(() => {
+      if (
+        state.UsersList.addWalkInCustomerStatusCode === 200
+      ) {
+      setShowForm(false)
+        dispatch({
+          type: "WALKINCUSTOMERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
   
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
+        }, 1000);
+  
+      }
+    }, [
+      state.UsersList.addWalkInCustomerStatusCode
+  
+    ]);
 
   return (
     <>
@@ -239,12 +258,13 @@ function UserlistWalkin(props) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              marginTop:90
             }}
           >
             <img
               src={Emptystate}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+              
             />
 
             {walkInPermissionError && (

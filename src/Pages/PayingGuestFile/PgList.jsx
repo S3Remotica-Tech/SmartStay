@@ -265,10 +265,12 @@ function PgList(props) {
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
       dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: hostel_Id } })
+      dispatch({ type: "HOSTELIDDETAILS" });
       dispatch({ type: "HOSTELLIST" });
            setShowAddPg(false);
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_HOSTEL_IMAGES" });
+        
       }, 1000);
 
       setTimeout(() => {
@@ -756,7 +758,7 @@ function PgList(props) {
             <img
               src={EmptyState}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+              
             />
 
            
@@ -771,7 +773,12 @@ function PgList(props) {
                 }}
               >
                 <MdError size={20} />
-                <span>{permissionError}</span>
+                <span  style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}>{permissionError}</span>
               </div>
             )}
           </div>

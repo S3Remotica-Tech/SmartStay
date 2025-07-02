@@ -1764,9 +1764,9 @@ const CheckOutForm = ({
                     {modeOfPaymentError && (
                       <div
                         className="d-flex justify-content-start align-items-start"
-                        style={{ color: "red", marginTop: 15 }}
+                        style={{ color: "red", marginTop: 5, }}
                       >
-                        <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                        <MdError style={{ fontSize: "14px", marginRight: "6px",marginTop:"1px" }} />
                         <span
                           style={{
                             fontSize: "12px",

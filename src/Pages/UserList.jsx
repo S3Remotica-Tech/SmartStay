@@ -91,6 +91,7 @@ function UserList(props) {
   const [invoicedate, setInvoiceDate] = useState(null);
   const [invoiceduedate, setInvoiceDueDate] = useState(null);
   const [customererrmsg, setCustomerErrmsg] = useState("");
+  const [billLoading, setBillLoading] =  useState(false);
 
   const [totalAmount, setTotalAmount] = useState("");
   const [newRows, setNewRows] = useState([]);
@@ -133,7 +134,7 @@ function UserList(props) {
   const [isAddMode, setIsAddMode] = useState(false);
   const [filterStatus, setFilterStatus] = useState(false);
 
-   useEffect(() => {
+  useEffect(() => {
     if (state.login.selectedHostel_Id) {
       if (value === "1") {
         setLoading(true)
@@ -335,9 +336,26 @@ function UserList(props) {
       setTableErrmsg("");
     }
 
-    if (hasError) {
-      return;
+
+      const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
+
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+
+      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+        setInvoiceDueDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
     }
+
+    if (hasError || !isValid) return;
 
     if (!customername || !invoicenumber || !invoicedate || !invoiceduedate) {
       setAllFieldErrmsg("Please Fill Out All Required Fields");
@@ -431,8 +449,7 @@ function UserList(props) {
         },
       });
 
-      setIsEditing(false);
-      setRoomDetail(true);
+       setBillLoading(true)
       setCustomerName("");
       setInvoiceNumber("");
 
@@ -499,6 +516,30 @@ function UserList(props) {
       setTableErrmsg("");
     }
 
+
+    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
+
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+
+      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+        setInvoiceDueDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+    }
+
+
+
+
+
+
     if (hasError) {
       return;
     }
@@ -515,6 +556,7 @@ function UserList(props) {
         amenity: amenityArray.length > 0 ? amenityArray : [],
       },
     });
+     setBillLoading(true)
 
     setCustomerName("");
     setInvoiceNumber("");
@@ -739,10 +781,12 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
+      setBillLoading(false)
       dispatch({ type: "CUSTOMERDETAILS", payload: { user_id: id } });
 
       setLoading(false);
-      setIsEditing(false);
+     setIsEditing(false);
+      setRoomDetail(true);
 
       setTimeout(() => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT" });
@@ -752,6 +796,7 @@ function UserList(props) {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
+         setBillLoading(false)
       handleBackBill();
       dispatch({
         type: "CUSTOMERDETAILS",
@@ -1011,7 +1056,7 @@ function UserList(props) {
     }
   }, [state.Booking.statusCodeGetBooking]);
 
- 
+
 
   useEffect(() => {
     if (value === "1") {
@@ -1323,7 +1368,7 @@ function UserList(props) {
 
 
 
- 
+
 
   const handleBack = () => {
     setUserList(true);
@@ -1426,12 +1471,12 @@ function UserList(props) {
     }
   };
 
-   useEffect(() => {
-          if (!filterStatus) {
-             setStatusFilterCheckout("All");
-             setCheckoutDateRange(null);
-          }
-        }, [filterStatus]);
+  useEffect(() => {
+    if (!filterStatus) {
+      setStatusFilterCheckout("All");
+      setCheckoutDateRange(null);
+    }
+  }, [filterStatus]);
 
   const handleDateRangeChangeCheckout = (dates) => {
     setCheckoutDateRange(dates);
@@ -2480,7 +2525,7 @@ function UserList(props) {
               </Box>
 
               <TabPanel value="1">
-                {loading &&  (
+                {loading && (
                   <div
                     style={{
                       position: "absolute",
@@ -2508,21 +2553,20 @@ function UserList(props) {
                     ></div>
                   </div>
                 )}
-   {!loading && customerpermissionError ? (
+{customerpermissionError ? (
   <div
-  
     style={{
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      
+      marginTop:90
     }}
   >
     <img
       src={Emptystate}
       alt="Empty State"
-      style={{ maxWidth: "100%", height: "auto" }}
+      
     />
     <div
       style={{
@@ -2533,14 +2577,19 @@ function UserList(props) {
         marginTop: "1rem",
       }}
     >
-      <MdError size={20} />
-      <span>{customerpermissionError}</span>
+      <MdError  />
+      <span  style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}>{customerpermissionError}</span>
     </div>
   </div>
-) : !loading && currentItems && currentItems.length === 0 ? (
+) : !loading && Array.isArray(currentItems) && currentItems.length === 0 ? (
   <div style={{ marginTop: 30 }} className="animated-text">
     <div style={{ textAlign: "center" }}>
-      <img src={Emptystate} alt="emptystate"/>
+      <img src={Emptystate} alt="emptystate" />
     </div>
     <div
       className="pb-1"
@@ -2570,7 +2619,7 @@ function UserList(props) {
 ) : null}
 
                   <>
-                    {sortedData && sortedData.length > 0 && 
+                    {!customerpermissionError && sortedData && sortedData.length > 0 && 
                       <div
                         className=" booking-table-userlist  booking-table  me-4"
                         style={{ paddingBottom: "20px", marginLeft: "-14px" }}
@@ -2783,156 +2832,157 @@ function UserList(props) {
                                   </div>
                                 </th>
 
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    padding: "10px",
-                                    color: "#939393",
-                                    fontSize: "12px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "2px",
-                                      }}
-                                    >
-                                      <ArrowUp2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("Rooms", "asc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <ArrowDown2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("Rooms", "desc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                    </div>
-                                    Room
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "#939393",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                <div className="d-flex gap-1 align-items-center justify-content-start">
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "2px",
+                                    }}
+                                  >
+                                    <ArrowUp2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("Rooms", "asc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
+                                    <ArrowDown2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("Rooms", "desc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
                                   </div>
-                                </th>
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    padding: "10px",
-                                    color: "#939393",
-                                    fontSize: "12px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                  }}
-                                >
-                                  <div className="d-flex gap-1 align-items-center justify-content-start">
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: "2px",
-                                      }}
-                                    >
-                                      <ArrowUp2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() => handleSort("Bed", "asc")}
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                      <ArrowDown2
-                                        size="10"
-                                        variant="Bold"
-                                        color="#1E45E1"
-                                        onClick={() =>
-                                          handleSort("Bed", "desc")
-                                        }
-                                        style={{ cursor: "pointer" }}
-                                      />
-                                    </div>
-                                    Bed
+                                  Room
+                                </div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  padding: "10px",
+                                  color: "#939393",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                }}
+                              >
+                                <div className="d-flex gap-1 align-items-center justify-content-start">
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      gap: "2px",
+                                    }}
+                                  >
+                                    <ArrowUp2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() => handleSort("Bed", "asc")}
+                                      style={{ cursor: "pointer" }}
+                                    />
+                                    <ArrowDown2
+                                      size="10"
+                                      variant="Bold"
+                                      color="#1E45E1"
+                                      onClick={() =>
+                                        handleSort("Bed", "desc")
+                                      }
+                                      style={{ cursor: "pointer" }}
+                                    />
                                   </div>
-                                </th>
-                                <th
-                                  style={{
-                                    textAlign: "start",
-                                    fontFamily: "Gilroy",
-                                    color: "#939393",
-                                    fontSize: 12,
-                                    fontWeight: 500,
-                                    paddingBottom: 12
-                                  }}
-                                >
-                                  Action
+                                  Bed
+                                </div>
+                              </th>
+                              <th
+                                style={{
+                                  textAlign: "start",
+                                  fontFamily: "Gilroy",
+                                  color: "#939393",
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                  paddingBottom: 12
+                                }}
+                              >
+                                Action
 
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody style={{ textAlign: "center" }}>
-                              {sortedData && sortedData.length > 0 && (
-                                <>
-                                  {sortedData.map((user) => {
-                                    return (
-                                      <tr
-                                        key={user.ID}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody style={{ textAlign: "center" }}>
+                            {sortedData && sortedData.length > 0 && (
+                              <>
+                                {sortedData.map((user) => {
+                                  return (
+                                    <tr
+                                      key={user.ID}
+                                      style={{
+                                        fontSize: "16px",
+                                        fontWeight: 600,
+                                        textAlign: "center",
+                                      }}
+                                    >
+
+                                      <td
                                         style={{
-                                          fontSize: "16px",
-                                          fontWeight: 600,
-                                          textAlign: "center",
+                                          border: "none",
+                                          padding: "10px",
+                                          textAlign: "start",
+                                          paddingLeft: "20px",
+                                          verticalAlign: "middle",
+                                          borderBottom: "1px solid #E8E8E8",
+                                        }}
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                      >
+                                        <span
+                                          className="Customer_Name_Hover  ps-lg-3"
+                                          style={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            fontFamily: "Gilroy",
+                                            color: "#1E45E1",
+                                            cursor: "pointer",
+                                            marginTop: 10,
+                                            paddingLeft: 10,
+                                            whiteSpace: "nowrap",
+                                          }}
+                                          onClick={() =>
+                                            handleRoomDetailsPage(user)
+                                          }
+                                        >
+                                          {user.Name}
+                                        </span>
+                                      </td>
+
+                                      <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                        style={{
+                                          paddingTop: 15,
+                                          border: "none",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          verticalAlign: "middle",
+                                          borderBottom: "1px solid #E8E8E8",
                                         }}
                                       >
-
-                                        <td
-                                          style={{
-                                            border: "none",
-                                            padding: "10px",
-                                            textAlign: "start",
-                                            paddingLeft: "20px",
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
-                                          }}
-                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                        >
-                                          <span
-                                            className="Customer_Name_Hover  ps-lg-3"
-                                            style={{
-                                              fontSize: "13px",
-                                              fontWeight: 600,
-                                              fontFamily: "Gilroy",
-                                              color: "#1E45E1",
-                                              cursor: "pointer",
-                                              marginTop: 10,
-                                              paddingLeft: 10,
-                                              whiteSpace: "nowrap",
-                                            }}
-                                            onClick={() =>
-                                              handleRoomDetailsPage(user)
-                                            }
-                                          >
-                                            {user.Name}
-                                          </span>
-                                        </td>
-
-                                        <td className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                          style={{
-                                            paddingTop: 15,
-                                            border: "none",
-                                            textAlign: "start",
-                                            fontSize: "13px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
-                                          }}
-                                        >
+                                        {user?.user_join_date && user.user_join_date !== "0000-00-00" ? (
                                           <span
                                             style={{
                                               padding: "3px 10px",
@@ -2947,348 +2997,159 @@ function UserList(props) {
                                           >
                                             {moment(user.user_join_date).format("D MMMM YYYY")}
                                           </span>
-                                        </td>
+                                        )
+                                          :
+                                          '-'}
 
-                                        <td
-                                          style={{
-                                            border: "none",
-                                            textAlign: "start",
-                                            fontSize: "13px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            paddingTop: 15,
-                                            paddingLeft: 20,
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
-                                          }}
-                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                        >
-                                          <div className="ps-2">
-                                            {user.Email}
-                                          </div>
+                                      </td>
 
-                                        </td>
-                                        <td
-                                          style={{
-                                            paddingTop: 15,
-                                            paddingLeft: 15,
-                                            border: "none",
-                                            textAlign: "start",
-                                            fontSize: "13px",
-                                            fontWeight: 500,
-                                            fontFamily: "Gilroy",
-                                            marginTop: 10,
-                                            whiteSpace: "nowrap",
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
-                                          }}
-                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
-                                        >
-                                          +
-                                          {user &&
-                                            String(user.Phone)?.slice(
-                                              0,
-                                              String(user.Phone).length - 10
-                                            )}{" "}
-                                          {user &&
-                                            String(user.Phone)?.slice(-10)}
-                                        </td>
+                                      <td
+                                        style={{
+                                          border: "none",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          paddingTop: 15,
+                                          paddingLeft: 20,
+                                          verticalAlign: "middle",
+                                          borderBottom: "1px solid #E8E8E8",
+                                        }}
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                      >
+                                        <div className="ps-2">
+                                          {user.Email}
+                                        </div>
 
-                                        <td
-                                          style={{
-                                            paddingTop: 15,
-                                            paddingLeft: 20,
-                                            border: "none",
-                                            textAlign: "start",
-                                            fontSize: "13px",
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
-                                          }}
-                                          className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
-                                        >
-                                          {" "}
-                                          {!user.Rooms ? "-" : user.Rooms}
-                                        </td>
+                                      </td>
+                                      <td
+                                        style={{
+                                          paddingTop: 15,
+                                          paddingLeft: 15,
+                                          border: "none",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          marginTop: 10,
+                                          whiteSpace: "nowrap",
+                                          verticalAlign: "middle",
+                                          borderBottom: "1px solid #E8E8E8",
+                                        }}
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
+                                      >
+                                        +
+                                        {user &&
+                                          String(user.Phone)?.slice(
+                                            0,
+                                            String(user.Phone).length - 10
+                                          )}{" "}
+                                        {user &&
+                                          String(user.Phone)?.slice(-10)}
+                                      </td>
 
-                                        <td
-                                          className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+                                      <td
+                                        style={{
+                                          paddingTop: 15,
+                                          paddingLeft: 20,
+                                          border: "none",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+                                          verticalAlign: "middle",
+                                          borderBottom: "1px solid #E8E8E8",
+                                        }}
+                                        className="ps-0 ps-sm-0 ps-md-3 ps-lg-4"
+                                      >
+                                        {" "}
+                                        {!user.Rooms ? "-" : user.Rooms}
+                                      </td>
+
+                                      <td
+                                        className="ps-4 ps-sm-2 ps-md-3 ps-lg-4 "
+                                        style={{
+                                          paddingTop: 15,
+                                          border: "none",
+                                          cursor: "pointer",
+                                          textAlign: "start",
+                                          fontSize: "13px",
+                                          fontWeight: 600,
+                                          fontFamily: "Gilroy",
+                                          marginTop: 10,
+                                          verticalAlign: "middle",
+                                          borderBottom: "1px solid #E8E8E8",
+                                        }}
+                                      >
+                                        {!user.Bed ? "-" : user.Bed}
+                                      </td>
+                                      <td
+                                        style={{
+                                          paddingTop: 12,
+                                          border: "none",
+                                          borderBottom: "1px solid #E8E8E8",
+                                        }}
+                                      >
+
+                                        <div
                                           style={{
-                                            paddingTop: 15,
-                                            border: "none",
                                             cursor: "pointer",
-                                            textAlign: "start",
-                                            fontSize: "13px",
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                            marginTop: 10,
-                                            verticalAlign: "middle",
-                                            borderBottom: "1px solid #E8E8E8",
+                                            height: 40,
+                                            width: 40,
+                                            borderRadius: 100,
+                                            border: "1px solid #EFEFEF",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            position: "relative",
+                                            backgroundColor:
+                                              activeRow === user.ID
+                                                ? "#E7F1FF"
+                                                : "white",
                                           }}
+                                          onClick={(e) =>
+                                            handleShowDots(user.ID, e)
+                                          }
                                         >
-                                          {!user.Bed ? "-" : user.Bed}
-                                        </td>
-                                        <td
-                                          style={{
-                                            paddingTop: 12,
-                                            border: "none",
-                                            borderBottom: "1px solid #E8E8E8",
-                                          }}
-                                        >
-
-                                          <div
-                                            style={{
-                                              cursor: "pointer",
-                                              height: 40,
-                                              width: 40,
-                                              borderRadius: 100,
-                                              border: "1px solid #EFEFEF",
-                                              display: "flex",
-                                              justifyContent: "center",
-                                              alignItems: "center",
-                                              position: "relative",
-                                              backgroundColor:
-                                                activeRow === user.ID
-                                                  ? "#E7F1FF"
-                                                  : "white",
-                                            }}
-                                            onClick={(e) =>
-                                              handleShowDots(user.ID, e)
-                                            }
-                                          >
-                                            <PiDotsThreeOutlineVerticalFill
-                                              style={{ height: 20, width: 20 }}
-                                            />
-                                            {activeRow === user.ID && (
-                                              <div
-                                                ref={popupRef}
-                                                style={{
-                                                  position: "fixed",
-                                                  top: popupPosition.top - 25,
-                                                  left: popupPosition.left,
-                                                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-                                                  width: 140,
-                                                  backgroundColor: "#F9F9F9",
-                                                  border: "1px solid #EBEBEB",
-                                                  borderRadius: "10px",
-                                                  zIndex: 1000,
-                                                }}
-                                              >
-                                                <div>
-                                                  {!user.Bed && (
-                                                    <div
-                                                      className="d-flex align-items-center gap-2"
-                                                      onClick={() => {
-                                                        if (!customerAddPermission) {
-                                                          handleShowAddBed(user);
-                                                        }
-                                                      }}
-                                                      style={{
-                                                        padding: "8px 12px",
-                                                        width: "100%",
-                                                        borderRadius: 6,
-                                                        backgroundColor: "#F9F9F9",
-                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                        opacity: customerAddPermission ? 0.6 : 1,
-                                                        pointerEvents: customerAddPermission ? "none" : "auto",
-                                                        transition: "background 0.2s ease-in-out",
-                                                      }}
-                                                      onMouseEnter={(e) => {
-                                                        if (!customerAddPermission) {
-                                                          e.currentTarget.style.backgroundColor = "#FFF3F3";
-                                                        }
-                                                      }}
-                                                      onMouseLeave={(e) => {
-                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                      }}
-                                                    >
-                                                      <img
-                                                        src={addcircle}
-                                                        alt="Assign Bed"
-                                                        style={{
-                                                          height: 16,
-                                                          width: 16,
-                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
-                                                        }}
-                                                      />
-                                                      <label
-                                                        style={{
-                                                          fontSize: 14,
-                                                          fontWeight: 500,
-                                                          fontFamily: "Gilroy, sans-serif",
-                                                          color: customerAddPermission ? "#888888" : "#222222",
-                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                        }}
-                                                      >
-                                                        Assign Bed
-                                                      </label>
-                                                    </div>
-
-                                                  )}
-
-                                                  {user.Bed && (
-                                                    <div
-                                                      className="d-flex align-items-center gap-2"
-                                                      onClick={() => handleCustomerCheckout(user)}
-                                                      style={{
-                                                        backgroundColor: "#F9F9F9",
-                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                        opacity: customerAddPermission ? 0.6 : 1,
-                                                        padding: "8px 12px",
-                                                        borderRadius: 6,
-                                                        transition: "background 0.2s ease-in-out",
-                                                        pointerEvents: customerAddPermission ? "none" : "auto",
-                                                      }}
-                                                      onMouseEnter={(e) => {
-                                                        if (!customerAddPermission) {
-                                                          e.currentTarget.style.backgroundColor = "#F0FFF4";
-                                                        }
-                                                      }}
-                                                      onMouseLeave={(e) => {
-                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                      }}
-                                                    >
-                                                      <img
-                                                        src={addcircle}
-                                                        alt="Check-Out"
-                                                        style={{
-                                                          width: 16,
-                                                          height: 16,
-                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
-                                                        }}
-                                                      />
-                                                      <label
-                                                        style={{
-                                                          fontSize: 14,
-                                                          fontWeight: 500,
-                                                          fontFamily: "Gilroy, sans-serif",
-                                                          color: customerAddPermission ? "#888888" : "#222222",
-                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                          margin: 0,
-                                                        }}
-                                                      >
-                                                        Check-Out
-                                                      </label>
-                                                    </div>
-
-                                                  )}
-                                                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-                                                  {user.Bed && (
-                                                    <div
-                                                      className="d-flex align-items-center gap-2"
-                                                      onClick={() => { handleCustomerReAssign(user); }}
-
-                                                      style={{
-                                                        backgroundColor: "#F9F9F9",
-                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                        opacity: customerAddPermission ? 0.6 : 1,
-                                                        padding: "8px 12px",
-                                                        borderRadius: 6,
-                                                        transition: "background 0.2s ease-in-out",
-                                                      }}
-                                                      onMouseEnter={(e) => {
-                                                        if (!customerAddPermission) {
-                                                          e.currentTarget.style.backgroundColor = "#FFFBEF";
-                                                        }
-                                                      }}
-                                                      onMouseLeave={(e) => {
-                                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                      }}
-                                                    >
-                                                      <img
-                                                        src={addcircle}
-                                                        alt="Re-Assign"
-                                                        style={{
-                                                          width: 16,
-                                                          height: 16,
-                                                          filter: customerAddPermission ? "grayscale(100%)" : "none",
-                                                        }}
-                                                      />
-                                                      <label
-                                                        style={{
-                                                          fontSize: 14,
-                                                          fontWeight: 500,
-                                                          fontFamily: "Gilroy, sans-serif",
-                                                          color: customerAddPermission ? "#888888" : "#222222",
-                                                          cursor: customerAddPermission ? "not-allowed" : "pointer",
-                                                          margin: 0,
-                                                        }}
-                                                      >
-                                                        Re Assign
-                                                      </label>
-                                                    </div>
-
-                                                  )}
-                                                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-
-
+                                          <PiDotsThreeOutlineVerticalFill
+                                            style={{ height: 20, width: 20 }}
+                                          />
+                                          {activeRow === user.ID && (
+                                            <div
+                                              ref={popupRef}
+                                              style={{
+                                                position: "fixed",
+                                                top: popupPosition.top - 25,
+                                                left: popupPosition.left,
+                                                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                                width: 140,
+                                                backgroundColor: "#F9F9F9",
+                                                border: "1px solid #EBEBEB",
+                                                borderRadius: "10px",
+                                                zIndex: 1000,
+                                              }}
+                                            >
+                                              <div>
+                                                {!user.Bed && (
                                                   <div
                                                     className="d-flex align-items-center gap-2"
+                                                    onClick={() => {
+                                                      if (!customerAddPermission) {
+                                                        handleShowAddBed(user);
+                                                      }
+                                                    }}
                                                     style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                      opacity: customerEditPermission ? 0.6 : 1,
                                                       padding: "8px 12px",
+                                                      width: "100%",
                                                       borderRadius: 6,
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      pointerEvents: customerAddPermission ? "none" : "auto",
                                                       transition: "background 0.2s ease-in-out",
                                                     }}
-                                                    onClick={() => {
-                                                      if (!customerEditPermission) {
-                                                        handleRoomDetailsPage(user);
-                                                      }
-                                                    }}
                                                     onMouseEnter={(e) => {
-                                                      if (!customerEditPermission) {
-                                                        e.currentTarget.style.backgroundColor = "#F0F4FF";
-                                                      }
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                                    }}
-                                                  >
-                                                    <img
-                                                      src={Edit}
-                                                      alt="Edit"
-                                                      style={{
-                                                        width: 16,
-                                                        height: 16,
-                                                        filter: customerEditPermission ? "grayscale(100%)" : "none",
-                                                      }}
-                                                    />
-                                                    <label
-                                                      style={{
-                                                        fontSize: 14,
-                                                        fontWeight: 500,
-                                                        fontFamily: "Gilroy, sans-serif",
-                                                        color: customerEditPermission ? "#888888" : "#1E45E1",
-                                                        cursor: customerEditPermission ? "not-allowed" : "pointer",
-                                                        margin: 0,
-                                                      }}
-                                                    >
-                                                      Edit
-                                                    </label>
-                                                  </div>
-
-
-                                                  <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
-                                                  <div
-                                                    className="d-flex align-items-center gap-2"
-                                                    style={{
-                                                      backgroundColor: "#F9F9F9",
-                                                      cursor: customerDeletePermission ? "not-allowed" : "pointer",
-                                                      opacity: customerDeletePermission ? 0.6 : 1,
-                                                      padding: "8px 12px",
-                                                      borderRadius: 6,
-                                                      transition: "background 0.2s ease-in-out",
-                                                    }}
-                                                    onClick={() => {
-                                                      if (!customerDeletePermission) {
-                                                        handleDeleteShow(user);
-                                                      }
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                      if (!customerDeletePermission) {
+                                                      if (!customerAddPermission) {
                                                         e.currentTarget.style.backgroundColor = "#FFF3F3";
                                                       }
                                                     }}
@@ -3297,47 +3158,241 @@ function UserList(props) {
                                                     }}
                                                   >
                                                     <img
-                                                      src={Delete}
-                                                      alt="Delete Icon"
-                                                      style={{ width: 16, height: 16 }}
+                                                      src={addcircle}
+                                                      alt="Assign Bed"
+                                                      style={{
+                                                        height: 16,
+                                                        width: 16,
+                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      }}
                                                     />
                                                     <label
                                                       style={{
                                                         fontSize: 14,
                                                         fontWeight: 500,
                                                         fontFamily: "Gilroy, sans-serif",
-                                                        color: customerDeletePermission ? "#888888" : "#FF0000",
-                                                        cursor: customerDeletePermission ? "not-allowed" : "pointer",
+                                                        color: customerAddPermission ? "#888888" : "#222222",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      }}
+                                                    >
+                                                      Assign Bed
+                                                    </label>
+                                                  </div>
+
+                                                )}
+
+                                                {user.Bed && (
+                                                  <div
+                                                    className="d-flex align-items-center gap-2"
+                                                    onClick={() => handleCustomerCheckout(user)}
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                      pointerEvents: customerAddPermission ? "none" : "auto",
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerAddPermission) {
+                                                        e.currentTarget.style.backgroundColor = "#F0FFF4";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={addcircle}
+                                                      alt="Check-Out"
+                                                      style={{
+                                                        width: 16,
+                                                        height: 16,
+                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerAddPermission ? "#888888" : "#222222",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
                                                         margin: 0,
                                                       }}
                                                     >
-                                                      Delete
+                                                      Check-Out
                                                     </label>
                                                   </div>
+
+                                                )}
+                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                                                {user.Bed && (
+                                                  <div
+                                                    className="d-flex align-items-center gap-2"
+                                                    onClick={() => { handleCustomerReAssign(user); }}
+
+                                                    style={{
+                                                      backgroundColor: "#F9F9F9",
+                                                      cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                      opacity: customerAddPermission ? 0.6 : 1,
+                                                      padding: "8px 12px",
+                                                      borderRadius: 6,
+                                                      transition: "background 0.2s ease-in-out",
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                      if (!customerAddPermission) {
+                                                        e.currentTarget.style.backgroundColor = "#FFFBEF";
+                                                      }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                      e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={addcircle}
+                                                      alt="Re-Assign"
+                                                      style={{
+                                                        width: 16,
+                                                        height: 16,
+                                                        filter: customerAddPermission ? "grayscale(100%)" : "none",
+                                                      }}
+                                                    />
+                                                    <label
+                                                      style={{
+                                                        fontSize: 14,
+                                                        fontWeight: 500,
+                                                        fontFamily: "Gilroy, sans-serif",
+                                                        color: customerAddPermission ? "#888888" : "#222222",
+                                                        cursor: customerAddPermission ? "not-allowed" : "pointer",
+                                                        margin: 0,
+                                                      }}
+                                                    >
+                                                      Re Assign
+                                                    </label>
+                                                  </div>
+
+                                                )}
+                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+
+
+                                                <div
+                                                  className="d-flex align-items-center gap-2"
+                                                  style={{
+                                                    backgroundColor: "#F9F9F9",
+                                                    cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                    opacity: customerEditPermission ? 0.6 : 1,
+                                                    padding: "8px 12px",
+                                                    borderRadius: 6,
+                                                    transition: "background 0.2s ease-in-out",
+                                                  }}
+                                                  onClick={() => {
+                                                    if (!customerEditPermission) {
+                                                      handleRoomDetailsPage(user);
+                                                    }
+                                                  }}
+                                                  onMouseEnter={(e) => {
+                                                    if (!customerEditPermission) {
+                                                      e.currentTarget.style.backgroundColor = "#F0F4FF";
+                                                    }
+                                                  }}
+                                                  onMouseLeave={(e) => {
+                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                  }}
+                                                >
+                                                  <img
+                                                    src={Edit}
+                                                    alt="Edit"
+                                                    style={{
+                                                      width: 16,
+                                                      height: 16,
+                                                      filter: customerEditPermission ? "grayscale(100%)" : "none",
+                                                    }}
+                                                  />
+                                                  <label
+                                                    style={{
+                                                      fontSize: 14,
+                                                      fontWeight: 500,
+                                                      fontFamily: "Gilroy, sans-serif",
+                                                      color: customerEditPermission ? "#888888" : "#1E45E1",
+                                                      cursor: customerEditPermission ? "not-allowed" : "pointer",
+                                                      margin: 0,
+                                                    }}
+                                                  >
+                                                    Edit
+                                                  </label>
+                                                </div>
+
+
+                                                <div style={{ height: 1, backgroundColor: "#F0F0F0", margin: "0px 0" }} />
+                                                <div
+                                                  className="d-flex align-items-center gap-2"
+                                                  style={{
+                                                    backgroundColor: "#F9F9F9",
+                                                    cursor: customerDeletePermission ? "not-allowed" : "pointer",
+                                                    opacity: customerDeletePermission ? 0.6 : 1,
+                                                    padding: "8px 12px",
+                                                    borderRadius: 6,
+                                                    transition: "background 0.2s ease-in-out",
+                                                  }}
+                                                  onClick={() => {
+                                                    if (!customerDeletePermission) {
+                                                      handleDeleteShow(user);
+                                                    }
+                                                  }}
+                                                  onMouseEnter={(e) => {
+                                                    if (!customerDeletePermission) {
+                                                      e.currentTarget.style.backgroundColor = "#FFF3F3";
+                                                    }
+                                                  }}
+                                                  onMouseLeave={(e) => {
+                                                    e.currentTarget.style.backgroundColor = "#F9F9F9";
+                                                  }}
+                                                >
+                                                  <img
+                                                    src={Delete}
+                                                    alt="Delete Icon"
+                                                    style={{ width: 16, height: 16 }}
+                                                  />
+                                                  <label
+                                                    style={{
+                                                      fontSize: 14,
+                                                      fontWeight: 500,
+                                                      fontFamily: "Gilroy, sans-serif",
+                                                      color: customerDeletePermission ? "#888888" : "#FF0000",
+                                                      cursor: customerDeletePermission ? "not-allowed" : "pointer",
+                                                      margin: 0,
+                                                    }}
+                                                  >
+                                                    Delete
+                                                  </label>
                                                 </div>
                                               </div>
-                                            )}
-                                          </div>
+                                            </div>
+                                          )}
+                                        </div>
 
-                                        </td>
-                                      </tr>
-                                    );
-                                  })}
-                                </>
-                              )}
-                            </tbody>
-                          </Table>
-                        </div>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </>
+                            )}
+                          </tbody>
+                        </Table>
                       </div>
-                    }
-                  </>
-               
+                    </div>
+                  }
+                </>
 
-             
-                {
-                  (search || filterStatus
-                    ? filteredUsers?.length
-                    : userListDetail?.length) >= 5 && (
+
+
+                 {
+  !customerpermissionError &&
+  (
+    (search || filterStatus ? filteredUsers?.length : userListDetail?.length) >= 5
+  ) && (
 
                     <nav
                       style={{
@@ -4343,8 +4398,8 @@ function UserList(props) {
 
       {isEditing && (
         <div
-          className="mt-4"
-          style={{ paddingLeft: 25, height: "90vh", overflowY: "auto" }}
+          className="mt-4 "
+          style={{ paddingLeft: 25, height: "90vh", overflowY: "auto" , position:"relative"}}
         >
           <div
             className="d-flex align-items-center"
@@ -4519,7 +4574,7 @@ function UserList(props) {
                   style={{ position: "relative", width: "100%" }}
                 >
                   <DatePicker
-                    style={{ width: "100%", height: 48, cursor: "pointer" }}
+                    style={{ width: "100%", height: 48, cursor: "pointer" ,fontFamily: "Gilroy"}}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={invoicedate ? dayjs(invoicedate) : null}
@@ -4609,7 +4664,7 @@ function UserList(props) {
                 >
                   <DatePicker
 
-                    style={{ width: "100%", height: 48, cursor: "pointer" }}
+                    style={{ width: "100%", height: 48, cursor: "pointer" ,fontFamily: "Gilroy"}}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={invoiceduedate ? dayjs(invoiceduedate) : null}
@@ -4710,127 +4765,85 @@ function UserList(props) {
           )}
 
 
-          {Array.isArray(newRows) && newRows.length > 0 && (
-            <div className="row ">
-              <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
-                <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-                  <Table className="ebtable mt-2" responsive>
-                    <thead
-                      style={{
-                        backgroundColor: "#E7F1FF",
-                        position: "sticky",
-                        top: 0,
-                        zIndex: 1,
-                      }}
-                    >
-                      <tr>
-                        <th
-                          className="text-center"
-                          style={{
-                            color: "rgb(147, 147, 147)",
-                            fontSize: 14,
-                            fontWeight: 500,
-                          }}
-                        >
-                          S.No
-                        </th>
-                        <th
-                          style={{
-                            color: "rgb(147, 147, 147)",
-                            fontSize: 14,
-                            fontWeight: 500,
-                          }}
-                        >
-                          Description
-                        </th>
-                        <th
-                          style={{
-                            color: "rgb(147, 147, 147)",
-                            fontSize: 14,
-                            fontWeight: 500,
-                          }}
-                        >
-                          Total Amount
-                        </th>
-                        <th
-                          style={{
-                            color: "rgb(147, 147, 147)",
-                            fontSize: 14,
-                            fontWeight: 500,
-                          }}
-                        >
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {newRows.map((u, index) => (
-                        <tr key={`new-${index}`}>
-                          <td>{index + 1}</td>
-                          <td>
-                            <div
-                              className="col-lg-8 col-md-8 col-sm-4 col-xs-4"
-                              style={{ alignItems: "center" }}
-                            >
-                              <Form.Control
-                                type="text"
-                                placeholder="Enter Description"
-                                value={u.am_name}
-                                onChange={(e) =>
-                                  handleNewRowChange(
-                                    index,
-                                    "am_name",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </div>
-                          </td>
-                          <td
-                            className="col-lg-3 col-md-3 col-sm-4 col-xs-4"
-                            style={{ alignItems: "center" }}
-                          >
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter total amount"
-                              value={u.amount}
-
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                if (/^\d*\.?\d*$/.test(value)) {
-                                  handleNewRowChange(index, "amount", value);
-                                }
-                              }}
-                            />
-                          </td>
-                          <td style={{ alignItems: "center" }}>
-                            <span
-                              style={{
-                                cursor: "pointer",
-                                color: "red",
-                                marginLeft: "10px",
-                              }}
-                              onClick={() => handleDeleteNewRow(index)}
-                            >
-                              <img
-                                src={Closebtn}
-                                height={15}
-                                width={15}
-                                alt="delete"
-                              />
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </div>
-              </div>
-            </div>
-          )}
+        {Array.isArray(newRows) && newRows.length > 0 && (
+                   <div className="mt-1" style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
+       
+                     <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+                       <thead style={{ backgroundColor: "#E7F1FF" }}>
+                         <tr>
+                           <th className="text-center" style={{ width: "10%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopLeftRadius: 10 }}>
+                             S.No
+                           </th>
+                           <th style={{ width: "45%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
+                             Description
+                           </th>
+                           <th style={{ width: "30%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
+                             Total Amount
+                           </th>
+                           <th style={{ width: "15%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopRightRadius: 10 }}>
+                             Action
+                           </th>
+                         </tr>
+                       </thead>
+                     </Table>
+       
+       
+                     <div style={{ maxHeight: "150px", overflowY: "auto" }}>
+                       <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+                         <tbody>
+                           {newRows.map((u, index) => (
+                             <tr key={index}>
+                               <td style={{ width: "10%" }} className="text-center">{index + 1}</td>
+                               <td style={{ width: "40%" }}>
+                                 <Form.Control
+                                   type="text"
+                                   style={{ fontFamily: "Gilroy" }}
+                                   value={u.am_name}
+                                   onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
+                                   placeholder="Enter Description"
+                                 />
+                               </td>
+                               <td style={{ width: "30%" }}>
+                                 <Form.Control
+                                   type="text"
+                                   style={{ fontFamily: "Gilroy" }}
+                                   value={u.amount}
+                                   placeholder="Enter Amount"
+                                   onChange={(e) => {
+                                     const value = e.target.value;
+                                     if (/^\d*\.?\d*$/.test(value)) {
+                                       handleNewRowChange(index, "amount", value);
+                                     }
+                                   }}
+                                 />
+                               </td>
+                               <td style={{ width: "15%", paddingLeft: 20 }}>
+                                 <img
+                                   src={Closebtn}
+                                   onClick={() => handleDeleteNewRow(index)}
+                                   style={{ cursor: "pointer" }}
+                                   height={15}
+                                   width={15}
+                                   alt="delete"
+                                 />
+                               </td>
+                             </tr>
+                           ))}
+                         </tbody>
+                       </Table>
+                     </div>
+                   </div>
+       
+       
+       
+       
+       
+       
+                 )}
+       
 
 
-          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-2">
             <Form.Select
               className="border"
               style={{
@@ -4885,10 +4898,34 @@ function UserList(props) {
               </div>
             )}
           </div>
-
-          <div style={{ float: "right", marginRight: "130px" }}>
+  {billLoading && <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+          <div style={{ float: "right", marginRight: "130px", fontFamily:"Gilroy" }}>
             {Array.isArray(newRows) && newRows.length > 0 && (
-              <h5>Total Amount ₹{totalAmount}</h5>
+              <h5 >Total Amount ₹{totalAmount}</h5>
             )}
             <Button
               onClick={isAddMode ? handleCreateBill : handleEditBill}

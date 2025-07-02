@@ -379,41 +379,30 @@ function SettingNewRole({ hostelid }) {
            
 
 
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: 90,
+              height: '35vh',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img src={EmptyState} alt="emptystate" />
             <div
-                                              className="d-flex align-items-center justify-content-center"
-                                              style={{
-                                                width: "100%",
-                                                margin: "0px auto",
-                                                backgroundColor: "",
-                                                marginTop: 90,
-                                                justifyContent: "center", alignItems: "center"
-                                              }}
-                                            >
-                                              <div>
-                                                <div className="d-flex  justify-content-center">
-                                                  <img
-                                                    src={EmptyState}
-                                                    style={{ height: 240, width: 240 }}
-                                                    alt="Empty state"
-                                                  />
-                                                </div>
-                                                <div
-                                                  className="pb-1 mt-3"
-                                                  style={{
-                                                    textAlign: "center",
-                                                    fontWeight: 600,
-                                                    fontFamily: "Gilroy",
-                                                    fontSize: 18,
-                                                    color: "rgba(75, 75, 75, 1)",
-                                                  }}
-                                                >
-                                                  No Role Available
-                                                </div>
-                                              
-                      
-                                              </div>
-                                              <div></div>
-                                            </div>
+              className="pb-1"
+              style={{
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: 18,
+                color: "rgba(75, 75, 75, 1)",
+              }}
+            >
+             No Role Available
+            </div>
+          
+          </div>
           )
         )}
       </div>

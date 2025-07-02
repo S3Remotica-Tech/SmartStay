@@ -577,13 +577,14 @@ function Dashboard() {
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
+                    marginTop:100
                   }}
                 >
 
                   <img
                     src={Emptystate}
                     alt="Empty State"
-                    style={{ maxWidth: "100%", height: "auto" }}
+                    
                   />
 
 

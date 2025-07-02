@@ -716,6 +716,7 @@ function AssignBooking(props) {
                       fontSize: 13,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
+                      marginRight: "5px",
                     }}
                   />
                   <label
