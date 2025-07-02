@@ -480,7 +480,7 @@ function EBRoomReading(props) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              marginTop:92
+              marginTop:93
 
             }}
           >
@@ -502,7 +502,7 @@ function EBRoomReading(props) {
                                       display: "flex",
                                       alignItems: "center",
                                       gap: "0.5rem",
-                                       marginTop: "15px",
+                                       marginTop: "16px",
                                     }}
                                   >
                                     <MdError />

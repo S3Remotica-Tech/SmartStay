@@ -474,7 +474,7 @@ useEffect(() => {
                                       display: "flex",
                                       alignItems: "center",
                                       gap: "0.5rem",
-                                       marginTop: "15px",
+                                       marginTop: "16px",
                                     }}
                                   >
                                     <MdError />
