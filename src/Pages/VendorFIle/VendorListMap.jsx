@@ -59,7 +59,8 @@ function VendorListMap(props) {
     });
   });
 
-
+ 
+ 
 
   const isValid = (value) => {
     return value !== null && value !== undefined && value !== "undefined" && value !== "";
@@ -327,46 +328,11 @@ function VendorListMap(props) {
             </div>
           </div>
 
-          {/* <div className="mb-2" style={{ lineHeight: 1 }}>
-            <div className="pb-1">
-              <label
-                style={{
-                  color: "#939393",
-                  fontSize: 12,
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                {" "}
-                Address
-              </label>
-            </div>
-
-            <div>
-              <label
-                style={{
-                  color: "#222222",
-                  fontSize: 16,
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                }}
-              >
-                <>
-                  {isValid(props.vendor?.Vendor_Address) && <>{props.vendor.Vendor_Address}, </>}
-                  {isValid(props.vendor?.area) && <>{props.vendor.area}, </>}
-                  {isValid(props.vendor?.city) && <>{props.vendor.city}, </>}
-                  {isValid(props.vendor?.state) && <>{props.vendor.state}</>}
-                  <br />
-                  {isValid(props.vendor?.Pincode) && <>{props.vendor.Pincode}</>}
-                </>
-
-              </label>
-            </div>
-          </div> */}
+         
 
           <div className="mb-2" style={{ lineHeight: 1 }}>
             <div className="d-flex justify-content-between flex-wrap">
-              {/* Address Label and Value */}
+             
               <div style={{ maxWidth: "75%" }}>
                 <div className="pb-1">
                   <label
@@ -393,9 +359,11 @@ function VendorListMap(props) {
                     {isValid(props.vendor?.Vendor_Address) && <>{props.vendor.Vendor_Address}, </>}
                     {isValid(props.vendor?.area) && <>{props.vendor.area}, </>}
                     {isValid(props.vendor?.city) && <>{props.vendor.city}, </>}
-                    {isValid(props.vendor?.state) && <>{props.vendor.state}</>}
+                    {isValid(props.vendor?.state) && <>{props.vendor.state}{props.vendor.Country ? ' ' : ''},</>}
+                    
                     <br />
-                    {isValid(props.vendor?.Pincode) && <>{props.vendor.Pincode}</>}
+                  
+                  {props.vendor.Country} - {isValid(props.vendor?.Pincode) && <>{props.vendor.Pincode}</>}
                   </>
                 </label>
               </div>

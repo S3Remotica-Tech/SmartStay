@@ -57,7 +57,7 @@ function PgList(props) {
 
   const [filteredData, setFilteredData] = useState([]);
 
-  const [loader, setLoader] = useState(null);
+  const [loader, setLoader] = useState(false);
   const [trigger, setTrigger] = useState(true)
   const [editHostelDetails, setEditHostelDetails] = useState("");
   const [showAddPg, setShowAddPg] = useState(false);
@@ -118,10 +118,11 @@ function PgList(props) {
   useEffect(() => {
 
     if (state.UsersList?.statuscodeForhotelDetailsinPg === 200) {
-      setLoader(false);
+    
 
       setTimeout(() => {
-        setTrigger(false)
+          setLoader(false);
+      setTrigger(false)
       }, 100)
 
       setFilteredData(state.UsersList.hotelDetailsinPg);
@@ -133,8 +134,9 @@ function PgList(props) {
 
   useEffect(() => {
     if (state.UsersList?.noAllHosteListStatusCode === 201) {
+        setLoader(false);
       setFilteredData([]);
-      setLoader(false);
+    
       setTimeout(() => {
         setTrigger(false)
       }, 100)
@@ -1017,13 +1019,14 @@ function PgList(props) {
                           width: "100%",
                           margin: "0px auto",
                           backgroundColor: "",
+                          marginTop:90
                         }}
                       >
                         <div>
                           <div className="d-flex  justify-content-center">
                             <img
                               src={EmptyState}
-                              style={{ height: 240, width: 240 }}
+                             
                               alt="Empty state"
                             />
                           </div>
@@ -1033,7 +1036,7 @@ function PgList(props) {
                               textAlign: "center",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              fontSize: 20,
+                              fontSize: 18,
                               color: "rgba(75, 75, 75, 1)",
                             }}
                           >
@@ -1045,7 +1048,7 @@ function PgList(props) {
                               textAlign: "center",
                               fontWeight: 500,
                               fontFamily: "Gilroy",
-                              fontSize: 16,
+                              fontSize: 14,
                               color: "rgba(75, 75, 75, 1)",
                             }}
                           >
@@ -1061,52 +1064,6 @@ function PgList(props) {
                   }
 
 
-                  {
-                    !hostel_Id && <div
-                      className="d-flex align-items-center justify-content-center fade-in"
-                      style={{
-                        width: "100%",
-                        margin: "0px auto",
-                        backgroundColor: "",
-                      }}
-                    >
-                      <div>
-                        <div className="d-flex  justify-content-center">
-                          <img
-                            src={EmptyState}
-                            style={{ height: 240, width: 240 }}
-                            alt="Empty state"
-                          />
-                        </div>
-                        <div
-                          className="pb-1 mt-1"
-                          style={{
-                            textAlign: "center",
-                            fontWeight: 600,
-                            fontFamily: "Gilroy",
-                            fontSize: 20,
-                            color: "rgba(75, 75, 75, 1)",
-                          }}
-                        >
-                          No Paying Guest available
-                        </div>
-                        <div
-                          className="pb-1 mt-1"
-                          style={{
-                            textAlign: "center",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            fontSize: 16,
-                            color: "rgba(75, 75, 75, 1)",
-                          }}
-                        >
-                          There are no Paying Guest added.
-                        </div>
-
-                      </div>
-                      <div></div>
-                    </div>
-                  }
 
 
                   <div className="mt-2 mb-2 d-flex justify-content-center w-100">

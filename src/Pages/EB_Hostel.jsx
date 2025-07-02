@@ -229,7 +229,7 @@ function EB_Hostel() {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id}});
 
 
     }
@@ -825,7 +825,7 @@ function EB_Hostel() {
       >
         <div
           className="d-flex flex-wrap justify-content-between align-items-center"
-          style={{ paddingLeft: 13, paddingTop: value === "2" ? "22px" : "19px" }}
+          style={{ paddingLeft: 13, paddingTop: value === "2" ? "22px" : "22px" }}
         >
 
           <div className="me-3" style={{ minWidth: "100px" }}>
