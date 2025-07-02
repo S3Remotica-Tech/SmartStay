@@ -1076,14 +1076,14 @@ useEffect(() => {
               </Form.Group>
               {readingError && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{ fontSize: "14px",marginBottom:"2px"}} />
                   <span
                     style={{
                       fontSize: "12px",
                       color: "red",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      marginLeft: 5
+                      marginLeft: 2
                     }}
                   >
                     {" "}
@@ -1141,14 +1141,14 @@ useEffect(() => {
               </Form.Group>
               {dateErrorMesg && (
                 <div style={{ color: "red" }}>
-                  <MdError />
+                  <MdError style={{ fontSize: "14px",marginBottom:"2px"}}/>
                   <span
                     style={{
                       fontSize: "12px",
                       color: "red",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
-                      marginLeft: 5
+                      marginLeft: 2
                     }}
                   >
                     {" "}

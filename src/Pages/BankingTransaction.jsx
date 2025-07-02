@@ -30,6 +30,8 @@ function BankingEditTransaction(props) {
   const [hostel_id, setHostel_Id] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
+
+
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
   }, [state?.login?.selectedHostel_Id]);
@@ -63,7 +65,7 @@ function BankingEditTransaction(props) {
   };
   const handleDescription = (e) => {
     setDescribtion(e.target.value);
-   
+
     setError("");
   };
   const [initialStateAssign, setInitialStateAssign] = useState({
@@ -76,9 +78,9 @@ function BankingEditTransaction(props) {
 
 
   useEffect(() => {
-    
+
     const resolvedTransaction = props.updateTransaction.desc === "Invoice" ? 1 : 2;
- 
+
     setAccount(props.updateTransaction.bank_id);
     setSelectedDate(props.updateTransaction.date || "");
     setTransaction(resolvedTransaction)
@@ -90,7 +92,7 @@ function BankingEditTransaction(props) {
     setId(props.updateTransaction.id);
     setAmount(props.updateTransaction.amount);
 
-  
+
     setDescribtion(props.updateTransaction.description);
 
     setInitialStateAssign({
@@ -122,7 +124,7 @@ function BankingEditTransaction(props) {
         case "transaction":
           setTransError("Transaction is Required");
           break;
-               default:
+        default:
           break;
       }
       return false;
@@ -137,7 +139,7 @@ function BankingEditTransaction(props) {
     if (!validateField(selectedDate, "selectedDate")) isValid = false;
     if (!validateField(amount, "amount")) isValid = false;
     if (!validateField(transaction, "transaction")) isValid = false;
-   
+
     if (!isValid) return;
 
     if (
@@ -162,30 +164,30 @@ function BankingEditTransaction(props) {
       isNaN(Number(account))
         ? String(account).toLowerCase() !== String(initialStateAssign.account).toLowerCase()
         : Number(account) !== Number(initialStateAssign.account);
-    
+
     const transactionChanged =
       isNaN(Number(transaction))
         ? String(transaction).toLowerCase() !== String(initialStateAssign.transaction).toLowerCase()
         : Number(transaction) !== Number(initialStateAssign.transaction);
-   
+
     const dateChanged =
       formatDate(selectedDate) !== formatDate(initialStateAssign.selectedDate);
-    
+
     const amountChanged =
       Number(amount) !== Number(initialStateAssign.amount);
-    
+
     const descriptionChanged =
-    String(describtion || "") !== String(initialStateAssign.describtion || "");
-  
-   
-  
-  const isChanged =
-    accountChanged ||
-    transactionChanged ||
-    dateChanged ||
-    amountChanged ||
-    descriptionChanged;
-  
+      String(describtion || "") !== String(initialStateAssign.describtion || "");
+
+
+
+    const isChanged =
+      accountChanged ||
+      transactionChanged ||
+      dateChanged ||
+      amountChanged ||
+      descriptionChanged;
+
     if (!isChanged) {
       setError("No Changes Detected");
       return;
@@ -210,7 +212,7 @@ function BankingEditTransaction(props) {
 
   useEffect(() => {
     if (state.bankingDetails.statusEditTrasactionCode === 200) {
-       setFormLoading(false)
+      setFormLoading(false)
       handleCloseTransactionEdit();
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -228,7 +230,7 @@ function BankingEditTransaction(props) {
   }, [state.bankingDetails.statusCodeForGetBanking]);
 
 
-const DropdownIndicator = () => null;
+  const DropdownIndicator = () => null;
   return (
     <>
       <Modal
@@ -247,7 +249,7 @@ const DropdownIndicator = () => null;
           >
             Edit Transaction
           </div>
-         
+
           <CloseCircle size="24" color="#000" onClick={handleCloseTransactionEdit}
             style={{ cursor: 'pointer' }} />
         </Modal.Header>
@@ -315,7 +317,7 @@ const DropdownIndicator = () => null;
                     color: "#4B4B4B",
                     fontWeight: "500",
                     fontFamily: "Gilroy",
-                                      boxShadow: "none",
+                    boxShadow: "none",
                     backgroundColor: "rgb(224, 236, 255)",
                   }),
                   menu: (base) => ({
@@ -387,7 +389,7 @@ const DropdownIndicator = () => null;
 
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                   <DatePicker
-                    style={{ width: "100%", height: 48, cursor: "pointer",fontFamily: "Gilroy", }}
+                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={selectedDate ? dayjs(selectedDate) : null}
@@ -397,6 +399,17 @@ const DropdownIndicator = () => null;
                       setSelectedDate(date ? date.toDate() : null);
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+
+                    disabledDate={(current) => {
+                      const createDate = moment(props.updateTransaction.createdat, "YYYY-MM-DD");
+                      if (!createDate.isValid()) return false;
+
+                      return current && current.isBefore(createDate, "day");
+                    }}
+
+
+
+
                   />
                 </div>
               </Form.Group>
@@ -535,7 +548,7 @@ const DropdownIndicator = () => null;
                   }}
                 >
                   Description{" "}
-                 
+
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -616,7 +629,7 @@ const DropdownIndicator = () => null;
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Gilroy",
-             
+
               marginTop: -10,
             }}
             onClick={handleEditSave}

@@ -859,13 +859,14 @@ function Booking(props) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              marginTop:90
             }}
           >
 
             <img
               src={Emptystate}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+             
             />
 
 
@@ -1164,7 +1165,7 @@ function Booking(props) {
                                   fontSize: "13px",
                                   fontWeight: 600,
                                   fontFamily: "Gilroy",
-                                  color: "#1E45E1",
+                                  
                                   cursor: "pointer",
                                   marginTop: 10,
                                   whiteSpace: "nowrap",
@@ -1510,7 +1511,7 @@ function Booking(props) {
                     textAlign: "center",
                     fontWeight: 500,
                     fontFamily: "Gilroy",
-                    fontSize: 14,
+                    fontSize: 12,
                     color: "rgba(75, 75, 75, 1)",
                   }}
                 >

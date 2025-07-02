@@ -87,6 +87,7 @@ function PayingHostel(props) {
 
   useEffect(() => {
     if (state.PgList.deletePgSuccessStatusCode === 200) {
+     
       handleClose();
       setTimeout(() => {
         dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });

@@ -543,12 +543,12 @@ function SettingCompliance({ hostelid }) {
           <div className="d-flex justify-content-center">
             <img
               src={EmptyState}
-              style={{ height: 240, width: 240 }}
+            
               alt="Empty state"
             />
           </div>
           <div
-            className="pb-1 mt-3"
+            className="pb-1"
             style={{
               textAlign: "center",
               fontWeight: 600,
@@ -863,7 +863,7 @@ function SettingCompliance({ hostelid }) {
                         fontSize: "13px",
                         color: "red",
                         marginRight: "5px",
-                        marginBottom: "5px",
+                        marginBottom: "3px",
                       }}
                     >
                       <MdError />
