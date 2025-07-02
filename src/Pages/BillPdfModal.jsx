@@ -84,6 +84,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
     }
   }, [state.InvoiceList.BillsPdfSuccessCode]);
 
+   
 
   const innerScrollRef = useRef(null);
 
@@ -387,7 +388,7 @@ const InvoiceCard = ({ rowData, handleClosed }) => {
 
                 <div className="container bg-white rounded-bottom  position-relative" style={{ width: "100%", borderTopLeftRadius: '20px' }}>
                   <div className="text-center pt-2 pb-1">
-                    <h5 style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{invoice_details.invoice_type === "manual" ? "Payment Invoice" : "Security Deposit Invoice"}</h5>
+                    <h5 style={{ fontSize: '17px', fontFamily: 'Gilroy', fontWeight: 600, color: 'rgba(23, 23, 23, 1)', }}>{invoice_details.invoice_type === "advance" ? "Security Deposit Invoice" :  "Payment Invoice" }</h5>
                   </div>
 
 

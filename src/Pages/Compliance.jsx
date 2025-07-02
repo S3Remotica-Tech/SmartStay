@@ -1155,7 +1155,7 @@ const Compliance = () => {
                       <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-1 mt-2 me-3">
 
                         {Array.isArray(complaintList) && complaintList.length === 0 && (
-                          <div className="d-flex align-items-center mb-3" style={{ marginTop: "-12px" }}>
+                          <div className="d-flex align-items-center mb-3" style={{ marginTop: "5px" }}>
                             <MdError style={{ color: "red", marginRight: "6px", fontSize: "15px", marginBottom: "22px" }} />
                             <span style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
                               Please Create Complaint Type in Settings Electricity before adding an complaint

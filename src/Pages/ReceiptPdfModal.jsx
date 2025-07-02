@@ -352,7 +352,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
                       <h4 className="fw-bold mb-0"><img src={Logo} alt="logo" style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }} className="me-2" />Smartstay</h4>
-                      <p className="ms-4" style={{ fontSize: 14, fontWeight: 400, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px', letterSpacing: "0.5px" }}>Meet All Your Needs</p>
+                      <small className="ms-4" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px' }}>Meet All Your Needs</small>
                     </div>
 
                     <div>
@@ -363,7 +363,8 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                         <>
                           {isValid(receiptDataNew?.hostel_details?.address) && <>{receiptDataNew?.hostel_details?.address}, </>}
                           {isValid(receiptDataNew?.hostel_details?.area) && <>{receiptDataNew?.hostel_details?.area}, </>}
-                          {isValid(receiptDataNew?.hostel_details?.city) && <>{receiptDataNew?.hostel_details?.city}, </>}<br />
+                          {isValid(receiptDataNew?.hostel_details?.landmark) && <>{receiptDataNew?.hostel_details?.landmark} </>} <br />
+                          {isValid(receiptDataNew?.hostel_details?.city) && <>{receiptDataNew?.hostel_details?.city}, </>}
                           {isValid(receiptDataNew?.hostel_details?.state) && <>{receiptDataNew?.hostel_details?.state} - </>}
                           {isValid(receiptDataNew?.hostel_details?.pincode) && <>{receiptDataNew?.hostel_details?.pincode}</>}
                         </>
@@ -410,13 +411,14 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
                         <div>
                           <div>
-                            {isValid(receiptDataNew?.user_details?.address) && <>{receiptDataNew?.user_details?.address}, </>}
-                            {isValid(receiptDataNew?.user_details?.area) && <>{receiptDataNew?.user_details?.area}, </>}
-                            {isValid(receiptDataNew?.user_details?.city) && <>{receiptDataNew?.user_details?.city}</>}
+                            {isValid(receiptDataNew?.user_details?.address) && <>{receiptDataNew?.user_details?.address} , </>}
+                            {isValid(receiptDataNew?.user_details?.area) && <>{receiptDataNew?.user_details?.area} , </>}
+                           
                           </div>
                           <div>
+                             {isValid(receiptDataNew?.user_details?.city) && <>{receiptDataNew?.user_details?.city} .</>}
                             {isValid(receiptDataNew?.user_details?.state) && <>{receiptDataNew?.user_details?.state} </>}
-                            {isValid(receiptDataNew?.user_details?.pincode) && <>- {receiptDataNew?.user_details?.pincode}</>}
+                            {isValid(receiptDataNew?.user_details?.pincode) && <>- {receiptDataNew?.user_details?.pincode} .</>}
                           </div>
                         </div>
 
@@ -541,16 +543,16 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   borderBottomLeftRadius: "13px",
                   borderBottomRightRadius: "13px",
                 }}>
-                <div className=" text-white  p-3 position-relative" style={{ minHeight: "100px", backgroundColor: "#00A32E" }}>
+                <div className=" text-white  p-2 position-relative" style={{ minHeight: "100px", backgroundColor: "#00A32E" }}>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
                       <h4 className=" mb-0"><img src={receiptLogo} alt="logo" style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }} className="me-2" />Smartstay</h4>
                       <small className="ms-4" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px' }}>Meet All Your Needs</small>
                     </div>
-                    <div className="text-start">
-                      <h5 className="mb-0" style={{ fontSize: 18, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy", marginRight: '20px' }}>{receiptDataNew?.hostel_details?.name}</h5>
-                      <small style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>{receiptDataNew?.hostel_details?.address}<br /> {receiptDataNew?.hostel_details?.area} , {receiptDataNew?.hostel_details?.city}<br />
-                        {receiptDataNew?.hostel_details?.landmark}, {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</small>
+                    <div className="text-start mt-2">
+                      <h5 className="mb-0 " style={{ fontSize: 18, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy", marginRight: '20px' }}>{receiptDataNew?.hostel_details?.name}</h5>
+                      <p style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }} className="">{receiptDataNew?.hostel_details?.address} , {receiptDataNew?.hostel_details?.area}  {receiptDataNew?.hostel_details?.landmark} <br />
+                        {receiptDataNew?.hostel_details?.city} , {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</p>
                     </div>
                   </div>
                 </div>
@@ -582,15 +584,11 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                         </div>
 
                         <div>
-                          <div>
                             {isValid(receiptDataNew?.user_details?.address) && <>{receiptDataNew?.user_details?.address}, </>}
                             {isValid(receiptDataNew?.user_details?.area) && <>{receiptDataNew?.user_details?.area}, </>}
                             {isValid(receiptDataNew?.user_details?.city) && <>{receiptDataNew?.user_details?.city}</>}
-                          </div>
-                          <div>
                             {isValid(receiptDataNew?.user_details?.state) && <>{receiptDataNew?.user_details?.state} </>}
                             {isValid(receiptDataNew?.user_details?.pincode) && <>- {receiptDataNew?.user_details?.pincode}</>}
-                          </div>
                         </div>
 
                       </div>
