@@ -78,7 +78,7 @@ function PayingGuestMap(props) {
     setShow(true);
   };
 
-  
+
 
 
   useEffect(() => {
@@ -233,7 +233,7 @@ function PayingGuestMap(props) {
                         flexDirection: "column",
                         alignItems: "flex-start",
                         zIndex: 1050,
-                                             }}
+                      }}
                     >
 
                       <div
@@ -437,7 +437,7 @@ function PayingGuestMap(props) {
             </div>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-1 mt-1 flex-wrap">
+          <div className="d-flex justify-content-between align-items-center mb-1 mt-1 ms-2 flex-wrap">
             <div className="pb-1" style={{ lineHeight: 1 }}>
               <div className="pb-1">
                 <label
@@ -495,8 +495,7 @@ function PayingGuestMap(props) {
                 </label>
               </div>
             </div>
-
-            <div className="pb-1" style={{ lineHeight: 1 }}>
+            <div className="pb-1 ms-2" style={{ lineHeight: 1 }}>
               <div className="">
                 <label
                   style={{
@@ -518,6 +517,7 @@ function PayingGuestMap(props) {
                     fontWeight: 600,
                     fontFamily: "Gilroy",
                     textAlign: "center",
+                    marginRight: 5,
                   }}
                 >
                   +
@@ -531,9 +531,10 @@ function PayingGuestMap(props) {
                 </label>
               </div>
             </div>
+
           </div>
 
-          <div className="mb-2 col-lg-12 col-md-12 col-xs-12 col-sm-12 col-12" style={{ lineHeight: 1 }}>
+          <div className="mb-2 col-lg-12 col-md-12 col-xs-12 col-sm-12 col-12 ms-2" style={{ lineHeight: 1 }}>
             <div className="mb-1" style={{}}>
               <label
                 style={{
@@ -578,12 +579,12 @@ function PayingGuestMap(props) {
                     {props.hostel?.Address ? props.hostel.Address + ", " : ""}
                     {props.hostel?.area || ""}
                     {props.hostel?.landmark || ""}<br></br>
-                    {props.hostel?.city ?  props.hostel.city : ""}
+                    {props.hostel?.city ? props.hostel.city : ""}
                     {props.hostel?.pin_code
                       ? " - " + props.hostel.pin_code
                       : ""}{" "} {props.hostel?.state ? props.hostel.state : ""}
                     <br></br>
-                    
+
                   </>
                 )}
             </div>

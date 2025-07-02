@@ -389,7 +389,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   >
                     <span
                       style={{
-                        fontSize: 14,
+                        fontSize: 13,
                         marginRight: "5px",
                         display: "flex",
                         alignItems: "center",
@@ -449,7 +449,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       margin: 0,
                     }}
                   >
-                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
+                    <span style={{ fontSize: "13px", marginRight: "5px" }}>
                       <MdError style={{ marginBottom: "3px" }} />
                     </span>
                     {emailError}
@@ -556,10 +556,10 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       display: "flex",
                       alignItems: "center",
                       margin: 0,
-                      marginTop: "-10px",
+                      marginTop: "-11px",
                     }}
                   >
-                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
+                    <span style={{ fontSize: "13px", marginRight: "5px",marginTop:"2px" }}>
                       <MdError style={{ marginBottom: "4px" }} />
                     </span>
                     {mobileError}
@@ -604,7 +604,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
               </div>
               {!edit && (
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                  <Form.Group className="mb-1">
+                  <Form.Group className="mb-2">
                     <Form.Label
                       style={{
                         fontSize: 14,
@@ -688,8 +688,8 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                         marginTop: "6px",
                       }}
                     >
-                      <span style={{ fontSize: "15px", lineHeight: 1 }}>
-                        <MdError />
+                      <span>
+                        <MdError style={{ fontSize: "13px",marginBottom:"3px" }}/>
                       </span>
                       {passwordError}
                     </p>
@@ -803,10 +803,11 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       display: "flex",
                       alignItems: "center",
                       margin: 0,
+                     
                     }}
                   >
-                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
-                      <MdError style={{ marginBottom: "4px" }} />
+                    <span>
+                      <MdError style={{ fontSize: "13px",marginBottom:"3px",marginRight:"5px" }} />
                     </span>
                     {roleError}
                   </p>

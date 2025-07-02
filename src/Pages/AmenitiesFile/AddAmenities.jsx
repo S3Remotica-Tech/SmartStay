@@ -165,7 +165,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                   fontWeight: 600,
                 }}
               >
-                {editDetails ? "Edit Amenities" : "Add Amenities"}
+                {editDetails ? "" : "Add Amenities"}
               </Modal.Title>
 
               <CloseCircle size="24" color="#000" onClick={handleCloseForm}  style={{cursor:"pointer"}}/>
@@ -226,7 +226,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                   </Form.Group>
                   {errorAmenity && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
                       <span
                         style={{
                           color: "red",
@@ -276,7 +276,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
 
                   {errorAmount && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
                       <span
                         style={{
                           color: "red",
@@ -342,8 +342,8 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
               </div>
             )}
              {isChangedError && (
-              <div className="d-flex justify-content-center align-items-center gap-2 ">
-                <MdError style={{ color: "red" }} />
+              <div className="d-flex justify-content-center align-items-center">
+                <MdError style={{ color: "red", fontSize: "13px", marginBottom: '2px' }} />
                 <label
                   className="mb-0"
                   style={{
@@ -351,7 +351,8 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                     fontSize: "12px",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
-                    textAlign: "center"
+                    textAlign: "center",
+                    marginLeft: '5px'
                   }}
                 >
                   {isChangedError}
