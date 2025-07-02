@@ -258,12 +258,13 @@ function UserlistWalkin(props) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              marginTop:90
             }}
           >
             <img
               src={Emptystate}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+              
             />
 
             {walkInPermissionError && (

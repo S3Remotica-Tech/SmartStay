@@ -3075,13 +3075,14 @@ const InvoicePage = () => {
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
+                        marginTop:90
                       }}
                     >
 
                       <img
                         src={Emptystate}
                         alt="Empty State"
-                        style={{ maxWidth: "100%", height: "auto" }}
+                       
                       />
 
 
@@ -4360,6 +4361,7 @@ const InvoicePage = () => {
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
+                      marginTop:95
 
                     }}
                   >
@@ -4367,7 +4369,7 @@ const InvoicePage = () => {
                     <img
                       src={Emptystate}
                       alt="Empty State"
-                      style={{ maxWidth: "100%", height: "auto" }}
+                     
                     />
 
 
@@ -4779,6 +4781,7 @@ const InvoicePage = () => {
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
+                        marginTop:90
 
                     }}
                   >
@@ -4786,7 +4789,7 @@ const InvoicePage = () => {
                     <img
                       src={Emptystate}
                       alt="Empty State"
-                      style={{ maxWidth: "100%", height: "auto" }}
+                      
                     />
 
 
