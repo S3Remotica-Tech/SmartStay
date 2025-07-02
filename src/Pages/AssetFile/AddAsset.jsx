@@ -66,11 +66,11 @@ function StaticExample({ show, setShow, currentItem }) {
     price: "",
     productName: "",
   });
-   
+
 
   useEffect(() => {
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id  } })
+    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
 
   }, [state.login.selectedHostel_Id]);
 
@@ -358,8 +358,8 @@ function StaticExample({ show, setShow, currentItem }) {
       }
       return;
     }
-   if (selectedDate ) {
-      const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
+    if (selectedDate) {
+      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
       if (selectedHostel) {
         const HostelCreateDate = new Date(selectedHostel.create_At);
         const AssetDate = new Date(selectedDate);
@@ -368,18 +368,18 @@ function StaticExample({ show, setShow, currentItem }) {
         if (AssetDateOnly < HostelCreateDateOnly) {
           setJoingDateErrmsg('Before Hostel Create date not allowed');
           if (!focusedRef.current && dateRef.current) {
-        dateRef.current.focus();
-        focusedRef.current = true;
+            dateRef.current.focus();
+            focusedRef.current = true;
 
-        return
-      }
+            return
+          }
         } else {
           setJoingDateErrmsg('');
         }
       }
     }
 
-   
+
 
     const isChanged =
       initialState.assetName !== assetName ||
@@ -517,7 +517,29 @@ function StaticExample({ show, setShow, currentItem }) {
                 </label>
               </div>
             )}
-            <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-3 me-3" >
+
+            {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
+              state.bankingDetails.bankingList.banks.length === 0 && (
+               <div className="d-flex align-items-center pt-2 ps-2">
+                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Please Create Banking before adding an asset
+                </label>
+              </div>
+              )}
+
+
+
+
+            <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-2 me-3" >
 
               <div className="row " style={{ marginTop: "-20px" }}>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -605,7 +627,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
                   {productNameError && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "6px", fontSize: "13px",marginBottom:"1px" }} />
+                      <MdError style={{ color: "red", marginRight: "6px", fontSize: "13px", marginBottom: "1px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -873,14 +895,14 @@ function StaticExample({ show, setShow, currentItem }) {
                     </div>
                   )}
 
-                    {joiningDateErrmsg.trim() !== "" && (
-                                                  <div className="d-flex align-items-center">
-                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                      {joiningDateErrmsg}
-                                                    </label>
-                                                  </div>
-                                                )}
+                  {joiningDateErrmsg.trim() !== "" && (
+                    <div className="d-flex align-items-center">
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        {joiningDateErrmsg}
+                      </label>
+                    </div>
+                  )}
                 </div>
 
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1051,32 +1073,32 @@ function StaticExample({ show, setShow, currentItem }) {
               </div>
             )}
 
-            {formLoading && 
-            <div
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
-                opacity: 0.75,
-                zIndex: 10,
-              }}
-            >
+            {formLoading &&
               <div
                 style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
                 }}
-              ></div>
-            </div>
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
             }
             <Modal.Footer style={{ border: "none" }} className="">
 
