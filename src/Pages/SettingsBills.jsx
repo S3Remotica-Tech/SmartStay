@@ -1472,11 +1472,8 @@ function SettingsBills() {
                     <button
                       onClick={handleSaveRecurring}
                       style={{
-
                         fontSize: 14,
-                        color: "red",
-                        marginTop: "13px",
-
+                        marginLeft: "12px",
                         fontFamily: "Gilroy",
                         fontSize: "14px",
                         backgroundColor: "#1E45E1",
