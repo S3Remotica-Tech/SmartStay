@@ -172,22 +172,23 @@ function UserAdditionalContact(props) {
   }
 
 
-
   const handlePinCodeChange = (e) => {
-    const value = e.target.value;
-    if (!/^\d{0,6}$/.test(value)) {
-      return;
-    }
+  const value = e.target.value;
 
-    setPincode(value);
-    if (value.length > 0 && value.length < 6) {
-      setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    } else {
-      setPincodeError("");
-    }
-  
-    
-  };
+  if (!/^\d{0,6}$/.test(value)) return; 
+
+  setPincode(value);
+
+  if (value.length === 6) {
+    setPincodeError("");
+  } else {
+    setPincodeError("Pin Code Must Be Exactly 6 Digits");
+  }
+  setFormError("")
+};
+
+
+
 
   const handleCity = (e) => {
     const value = e.target.value;
@@ -198,50 +199,61 @@ function UserAdditionalContact(props) {
       setFormError("");
     }
   }
+const validateAssignField = (value, fieldName, ref, setError, focusedRef) => {
+  const trimmedValue = (value ?? "").toString().trim();
 
-  const validateAssignField = (value, fieldName,ref, setError, focusedRef) => {
-    const isValueEmpty =
-      (typeof value === "string" && value.trim() === "") ||
-      value === undefined ||
-      value === null ||
-      value === "0";
-    if (isValueEmpty) {
-      switch (fieldName) {
-        case "gurardian":
-          setError("Please Enter Guardian Name");
-          break;
-        case "userName":
-          setError("Please Enter User Name");
-          break;
-        case "Phone":
-          setError("Please Enter your Phone No");
-          break;
-       
-          case "City":
-            setError("Please Enter City");
-            break;
-          case "Pincode":
-            setError("Please Enter Pincode");
-            break;
-          case "Statename":
-            setError("Please Select State");
-            break;
+  const isValueEmpty =
+    trimmedValue === "" || trimmedValue === "null" || trimmedValue === "undefined" || trimmedValue === "0";
 
-        default:
-          break;
-      }
-       if (!focusedRef.current && ref?.current) {
+  if (isValueEmpty) {
+    switch (fieldName) {
+      case "gurardian":
+        setError("Please Enter Guardian Name");
+        break;
+      case "userName":
+        setError("Please Enter User Name");
+        break;
+      case "Phone":
+        setError("Please Enter your Phone No");
+        break;
+      case "City":
+        setError("Please Enter City");
+        break;
+      case "Pincode":
+        setError("Please Enter Pincode");
+        break;
+      case "Statename":
+        setError("Please Select State");
+        break;
+      default:
+        break;
+    }
+
+    if (!focusedRef.current && ref?.current) {
       ref.current.focus();
       focusedRef.current = true;
     }
+
     return false;
-  
+  }
+
+ 
+  if (fieldName === "Pincode" && trimmedValue.length !== 6) {
+    setError("Pin Code Must Be Exactly 6 Digits");
+
+    if (!focusedRef.current && ref?.current) {
+      ref.current.focus();
+      focusedRef.current = true;
     }
 
-  
-setError("")
-    return true;
-  };
+    return false;
+  }
+
+  setError("");
+  return true;
+};
+
+
 
   const usernameRef = useRef(null)
    const guardianRef = useRef(null)
@@ -251,10 +263,12 @@ setError("")
    const stateRef = useRef(null)
 const nochangeRef =useRef(null)
 
-  const handleSubmitContact = () => {
-     dispatch({ type: "CLEAR_CONTACT_ERROR" });
-      let hasError = false;
+
+const handleSubmitContact = () => {
+  dispatch({ type: "CLEAR_CONTACT_ERROR" });
+  let hasError = false;
   const focusedRef = { current: false };
+
 
   if (!validateAssignField(userName, "userName", usernameRef, setUserNameError, focusedRef)) hasError = true;
   if (!validateAssignField(guardian, "gurardian", guardianRef, setGuardianError, focusedRef)) hasError = true;
@@ -263,81 +277,98 @@ const nochangeRef =useRef(null)
   if (!validateAssignField(pincode, "Pincode", pincodeRef, setPincodeError, focusedRef)) hasError = true;
   if (!validateAssignField(state_name, "Statename", stateRef, setStateNameError, focusedRef)) hasError = true;
 
+
+    if (Phone && Phone.length !== 10) {
+      setPhoneError("Please Enter Valid Mobile Number");
+      if (!focusedRef.current && PhoneRef?.current) {
+        PhoneRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
+    } else if (Phone) {
+      setPhoneError("");
+      setPhoneErrorMessage("");
+    }
+
   if (hasError) return;
-    if (props.editAdditional && props.contactEdit.id) {
-     
 
-      const normalize = (value) => {
-        const val = (value ?? "").toString().trim().toLowerCase();
-        return val === "null" || val === "undefined" ? "" : val;
-      };
-
-
-const isChanged = (
-  userName !== initialState.userName ||
-  guardian !== initialState.guardian ||
-  Number(countryCode + Phone) !== Number(initialState.Phone) ||
-  normalize(house_no) !== normalize(initialState.house_no) ||
-  normalize(street) !== normalize(initialState.street) ||
-  normalize(landmark) !== normalize(initialState.landmark) ||
-  city !== initialState.city ||
-  String(pincode).trim() !== String(initialState.pinCode || "").trim() ||
-  state_name !== initialState.state
-);
-
-    
-      if (!isChanged) {
-  setFormError("No Changes Detected");
+  
+  const normalize = (val) => {
+    const str = (val ?? "").toString().trim().toLowerCase();
+    return str === "null" || str === "undefined" ? "" : str;
+  };
 
  
-  setTimeout(() => {
-    if (nochangeRef.current) {
-      nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-      nochangeRef.current.focus();
-    }
-  }, 100);
+  if (props.editAdditional && props.contactEdit.id) {
+    const isChanged =
+      userName !== initialState.userName ||
+      guardian !== initialState.guardian ||
+      Number(countryCode + Phone) !== Number(initialState.Phone) ||
+      normalize(house_no) !== normalize(initialState.house_no) ||
+      normalize(street) !== normalize(initialState.street) ||
+      normalize(landmark) !== normalize(initialState.landmark) ||
+      city !== initialState.city ||
+      normalize(pincode) !== normalize(initialState.pinCode?.toString()) ||
+      state_name !== initialState.state;
 
-  return;
-} else {
-  setFormError("");
-}
+    if (!isChanged) {
+      setFormError("No Changes Detected");
 
-      dispatch({
-        type: "CUSTOMERADDCONTACT",
-        payload: {
-          user_name: userName,
-          guardian: guardian,
-          mob_no: MobileNumber,
-          address: house_no,
-          area: street,
-          landmark: landmark,
-          city: city,
-          pin_code: pincode,
-          state: state_name,
-          user_id: props.id,
-          id: contactId,
-        },
-      });
-      setFormLoading(true)
+      setTimeout(() => {
+        if (nochangeRef.current) {
+          nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          nochangeRef.current.focus();
+        }
+      }, 100);
+
+      return;
     } else {
-      dispatch({
-        type: "CUSTOMERADDCONTACT",
-        payload: {
-          user_name: userName,
-          guardian: guardian,
-          mob_no: MobileNumber,
-          address: house_no,
-          area: street,
-          landmark: landmark,
-          city: city,
-          pin_code: pincode,
-          state: state_name,
-          user_id: props.id,
-        },
-      });
-      setFormLoading(true)
+      setFormError("");
     }
-  };
+
+    
+    dispatch({
+      type: "CUSTOMERADDCONTACT",
+      payload: {
+        user_name: userName,
+        guardian,
+        mob_no: MobileNumber,
+        address: house_no,
+        area: street,
+        landmark,
+        city,
+        pin_code: pincode,
+        state: state_name,
+        user_id: props.id,
+        id: contactId,
+      },
+    });
+
+    setFormLoading(true);
+  } else {
+    
+    dispatch({
+      type: "CUSTOMERADDCONTACT",
+      payload: {
+        user_name: userName,
+        guardian,
+        mob_no: MobileNumber,
+        address: house_no,
+        area: street,
+        landmark,
+        city,
+        pin_code: pincode,
+        state: state_name,
+        user_id: props.id,
+      },
+    });
+
+    setFormLoading(true);
+  }
+};
+
+
+
 
   useEffect(() => {
     if (state.UsersList.statusCodeForCustomerCoatact === 200) {
