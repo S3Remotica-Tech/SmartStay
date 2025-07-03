@@ -917,7 +917,7 @@ setFormLoading(true)
                           {cateogoryerrmsg.trim() !== "" && (
                             <div>
                               <p style={{ fontSize: '12px', color: 'red', marginTop: '5px', fontFamily: "Gilroy" }}>
-                                {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: "3px" }} />} {cateogoryerrmsg}
+                                {cateogoryerrmsg !== " " && <MdError style={{ fontSize: '13px', color: 'red', marginBottom: "3px" }} />} {cateogoryerrmsg}
                               </p>
                             </div>
                           )}
@@ -939,7 +939,7 @@ setFormLoading(true)
 
                       <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12  ms-xs-0'>
 
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                        <Form.Group className="mb-1" controlId="exampleForm.ControlInput2">
                           <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : '#222', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Sub-Category</Form.Label>
                           <Form.Control
                             style={{ padding: '10px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
@@ -955,7 +955,7 @@ setFormLoading(true)
                           {subcateogoryerrmsg.trim() !== "" && (
                             <div>
                               <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy" }}>
-                                {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {subcateogoryerrmsg}
+                                {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '13px', color: 'red' }} />} {subcateogoryerrmsg}
                               </p>
                             </div>
                           )}
@@ -976,7 +976,7 @@ setFormLoading(true)
                     )}
 
                     {state.Settings?.alreadycategoryerror && (
-                      <div className="d-flex align-items-center p-1 mb-2">
+                      <div className="d-flex align-items-center p-1 mb-2 ms-2">
                         <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
                         <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                           {state.Settings?.alreadycategoryerror}

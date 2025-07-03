@@ -477,7 +477,7 @@ function PayingHostel(props) {
                   </div>
                 </div>
 
-                <div className="pb-1" style={{ lineHeight: 1, flex: 1 }}>
+                <div className="pb-1 ms-5" style={{ lineHeight: 1, flex: 1 }}>
                   <div>
                     <label
                       style={{

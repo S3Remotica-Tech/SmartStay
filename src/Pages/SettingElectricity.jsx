@@ -810,7 +810,7 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
                   <p
                     style={{
                       color: "red",
-                      fontSize: 12,
+                      fontSize: 13,
                       textAlign: "center",
                       margin: 0,
                       fontFamily: "Gilroy",
@@ -818,7 +818,7 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
                     }}
                   >
                     <span style={{ fontSize: "20px" }}>
-                      <MdError style={{ fontSize: "14px" }} />
+                      <MdError style={{ fontSize: "14px", marginRight:"5px" }} />
                     </span>
                     {totalErr}
                   </p>
