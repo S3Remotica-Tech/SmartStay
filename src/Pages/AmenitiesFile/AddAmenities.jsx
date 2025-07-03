@@ -165,7 +165,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                   fontWeight: 600,
                 }}
               >
-                {editDetails ? "" : "Add Amenities"}
+                {editDetails ? "Edit Amenities" : "Add Amenities"}
               </Modal.Title>
 
               <CloseCircle size="24" color="#000" onClick={handleCloseForm}  style={{cursor:"pointer"}}/>
