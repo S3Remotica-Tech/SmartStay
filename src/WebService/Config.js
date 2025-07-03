@@ -1,4 +1,5 @@
 const config = {
+
     //  apiBaseUrl: "https://smartstaydevapi.s3remotica.com",
      apiBaseUrl: "https://smartstaytestingapi.s3remotica.com",
     // apiBaseUrl: "http://localhost:2001",
