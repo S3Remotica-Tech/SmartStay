@@ -46,7 +46,7 @@ function SettingsBills() {
   const [recurring_bills, setRecuringBills] = useState({});
   const [isChecked, setIsChecked] = useState(false);
   const [editErrmsg, setEditErrmessage] = useState("")
-   const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
 
   const initialOptions = [
     { label: "01st", value: 1 },
@@ -79,50 +79,50 @@ function SettingsBills() {
 
 
 
-const getDaysInCurrentMonth = () => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const totalDays = new Date(year, month + 1, 0).getDate();
-  return Array.from({ length: totalDays }, (_, i) => i + 1);
-};
+  const getDaysInCurrentMonth = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    return Array.from({ length: totalDays }, (_, i) => i + 1);
+  };
 
 
-const [dates, setDates] = useState([]);
+  const [dates, setDates] = useState([]);
 
-useEffect(() => {
-  setDates(getDaysInCurrentMonth());
-}, []);
-
-
-
-const getDaysInMonth = (year, month) => {
-  const totalDays = new Date(year, month + 1, 0).getDate(); 
-  return Array.from({ length: totalDays }, (_, i) => i + 1);
-};
+  useEffect(() => {
+    setDates(getDaysInCurrentMonth());
+  }, []);
 
 
 
-useEffect(() => {
-  const now = new Date();
-  const currentMonth = now.getMonth(); 
-  const currentYear = now.getFullYear();
+  const getDaysInMonth = (year, month) => {
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    return Array.from({ length: totalDays }, (_, i) => i + 1);
+  };
 
-  if (edit && recurring_bills) {
-    const editDate = new Date(recurring_bills.created_at);
-    const editMonth = editDate.getMonth(); 
-    const editYear = editDate.getFullYear();
 
-    const fromMaxDay = getDaysInMonth(editYear, editMonth);
-    setDates(fromMaxDay);
 
-   
+  useEffect(() => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
 
-    setSelectedFrom(Number(recurring_bills.calculationFromDate));
-  } else {
-    setDates(getDaysInMonth(currentYear, currentMonth));
-  }
-}, [edit, recurring_bills]);
+    if (edit && recurring_bills) {
+      const editDate = new Date(recurring_bills.created_at);
+      const editMonth = editDate.getMonth();
+      const editYear = editDate.getFullYear();
+
+      const fromMaxDay = getDaysInMonth(editYear, editMonth);
+      setDates(fromMaxDay);
+
+
+
+      setSelectedFrom(Number(recurring_bills.calculationFromDate));
+    } else {
+      setDates(getDaysInMonth(currentYear, currentMonth));
+    }
+  }, [edit, recurring_bills]);
 
 
 
@@ -133,7 +133,7 @@ useEffect(() => {
     setIsFromOpen(false);
   };
 
- 
+
 
 
   const handleToggle = () => setIsOn(!isOn);
@@ -448,12 +448,12 @@ useEffect(() => {
 
 
 
-    setRecurringName(recurring_bills.recurringName || '');
-    setBilling_Frequency(recurring_bills.billFrequency || '');
-    setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? Number(recurring_bills.calculationFromDate) : '');
-    setInvoiceDate(recurring_bills.billingDateOfMonth || '');
-    setInvoiceDueDate(recurring_bills.dueDateOfMonth || '');
-    setIsOn(recurring_bills.isAutoSend === 1); 
+      setRecurringName(recurring_bills.recurringName || '');
+      setBilling_Frequency(recurring_bills.billFrequency || '');
+      setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? Number(recurring_bills.calculationFromDate) : '');
+      setInvoiceDate(recurring_bills.billingDateOfMonth || '');
+      setInvoiceDueDate(recurring_bills.dueDateOfMonth || '');
+      setIsOn(recurring_bills.isAutoSend === 1);
 
       const selected = recurring_bills.billDeliveryChannels || [];
 
@@ -529,13 +529,13 @@ useEffect(() => {
     const newStatus = !isChecked;
     setIsChecked(newStatus);
 
-  if (recurring_bills) {
-    setRecurringName(recurring_bills.recurringName || '');
-    setBilling_Frequency(recurring_bills.billFrequency || '');
-    setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? Number(recurring_bills.calculationFromDate) : '');
-    setInvoiceDate(recurring_bills.billingDateOfMonth || '');
-    setInvoiceDueDate(recurring_bills.dueDateOfMonth || '');
-    setIsOn(recurring_bills.isAutoSend === 1); 
+    if (recurring_bills) {
+      setRecurringName(recurring_bills.recurringName || '');
+      setBilling_Frequency(recurring_bills.billFrequency || '');
+      setSelectedFrom(recurring_bills.calculationFromDate !== "0000-00-00" ? Number(recurring_bills.calculationFromDate) : '');
+      setInvoiceDate(recurring_bills.billingDateOfMonth || '');
+      setInvoiceDueDate(recurring_bills.dueDateOfMonth || '');
+      setIsOn(recurring_bills.isAutoSend === 1);
 
       const selected = recurring_bills.billDeliveryChannels || [];
       const updatedState = {};
@@ -696,35 +696,209 @@ useEffect(() => {
                   </span>{" "}
                 </div>
               </div>
-<div style={{position:"relative"}}>
-              <div
-                className="border p-3"
-                style={{
-                  borderRadius: "10px",
-                  overflowY: "auto",
-                  maxHeight: 450,
-                
-                }}
-              >
-                <p
+              <div style={{ position: "relative" }}>
+                <div
+                  className="border p-3"
                   style={{
-                    fontFamily: "Gilroy",
-                    fontSize: 18,
-                    color: "#222",
-                    fontWeight: 500,
-                    whiteSpace: "nowrap",
+                    borderRadius: "10px",
+                    overflowY: "auto",
+                    maxHeight: 450,
+
                   }}
                 >
-                  {edit ? " Edit Recurring Event" : " Add Recurring Event"}
-                </p>
-                <hr></hr>
-
-                <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                  <Form.Group
-                    className="mb-1"
-                    controlId="exampleForm.ControlInput1"
+                  <p
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontSize: 18,
+                      color: "#222",
+                      fontWeight: 500,
+                      whiteSpace: "nowrap",
+                    }}
                   >
-                    <Form.Label
+                    {edit ? " Edit Recurring Event" : " Add Recurring Event"}
+                  </p>
+                  <hr></hr>
+
+                  <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
+                    <Form.Group
+                      className="mb-1"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          fontWeight: 500,
+                          color: "#000",
+                          fontStyle: "normal",
+                          lineHeight: "normal",
+                        }}
+                      >
+                        Name
+                      </Form.Label>
+                      <Form.Control
+                        style={{
+                          padding: "10px",
+                          marginTop: "5px",
+                          fontSize: 16,
+                          color: "#4B4B4B",
+                          fontFamily: "Gilroy",
+                          lineHeight: "18.83px",
+                          fontWeight: 500,
+                        }}
+                        type="text"
+                        placeholder="Enter Recurring Name"
+                        value={recurring_name}
+                        onChange={(e) => handleRecurrName(e)}
+                      />
+                    </Form.Group>
+
+                    {recurr_nameerrormsg.trim() !== "" && (
+                      <div>
+                        <p
+                          style={{
+                            fontSize: "12px",
+                            color: "red",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {recurr_nameerrormsg !== " " && (
+                            <MdError
+                              style={{
+                                fontSize: "14px",
+                                color: "red",
+                                marginBottom: "3px",
+                              }}
+                            />
+                          )}{" "}
+                          {recurr_nameerrormsg}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
+                    <Form.Group
+                      className="mb-1"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          fontWeight: 500,
+                          color: "#000",
+                          fontStyle: "normal",
+                          lineHeight: "normal",
+                        }}
+                      >
+                        Billing Frequency
+                      </Form.Label>
+
+                      <Select
+                        options={billing_types}
+                        placeholder="Select The Frequency Of Bill"
+                        value={billing_types.find((opt) => opt.value === billing_frequency)}
+                        onChange={(selected) => {
+                          setBilling_Frequency(selected.value);
+                          setBillingFrequencyErrmsg("");
+                        }}
+                        onInputChange={(inputValue, { action }) => {
+                          if (action === "input-change") {
+                            const lettersOnly = inputValue.replace(
+                              /[^a-zA-Z\s]/g,
+                              ""
+                            );
+                            return lettersOnly;
+                          }
+                          return inputValue;
+                        }}
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            borderColor: "#D1D5DB",
+                            borderRadius: "5px",
+                            padding: "4px",
+                            boxShadow: "none",
+                            cursor: "pointer",
+                            fontFamily: "Gilroy",
+                            "&:hover": { borderColor: "#666" },
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            maxHeight: billing_types.length > 3 ? "150px" : "auto",
+                            overflowY: billing_types.length > 3 ? "auto" : "hidden",
+                            borderRadius: "8px",
+                            zIndex: 100,
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            maxHeight: "150px",
+                            overflowY: "auto",
+                            padding: 0,
+                            fontFamily: "Gilroy",
+                            scrollbarWidth: "thin",
+                            "&::-webkit-scrollbar": {
+                              width: "6px",
+                            },
+                            "&::-webkit-scrollbar-thumb": {
+                              backgroundColor: "#888",
+                              borderRadius: "4px",
+                            },
+                            "&::-webkit-scrollbar-thumb:hover": {
+                              backgroundColor: "#555",
+                            },
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            backgroundColor: state.isSelected
+                              ? '#2563EB'
+                              : state.isFocused
+                                ? '#E0ECFF'
+                                : '#FFFFFF',
+                            color: state.isSelected ? '#FFFFFF' : '#000000',
+                            padding: '12px 16px',
+                            margin: 0,
+                            fontFamily: "Gilroy",
+                            borderRadius: 0,
+                            cursor: 'pointer'
+                          }),
+                          indicatorSeparator: () => ({ display: "none" }),
+                        }}
+
+
+                      />
+
+                      {billingfreuencyerrormsg.trim() !== "" && (
+                        <div>
+                          <p
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              marginTop: "3px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {billingfreuencyerrormsg !== " " && (
+                              <MdError
+                                style={{
+                                  fontSize: "14px",
+                                  color: "red",
+                                  marginBottom: "3px",
+                                }}
+                              />
+                            )}{" "}
+                            {billingfreuencyerrormsg}
+                          </p>
+                        </div>
+                      )}
+                    </Form.Group>
+                  </div>
+
+                  <div className="mt-3 mb-1">
+                    <p
                       style={{
                         fontFamily: "Gilroy",
                         fontSize: 14,
@@ -734,76 +908,329 @@ useEffect(() => {
                         lineHeight: "normal",
                       }}
                     >
-                      Name
-                    </Form.Label>
-                    <Form.Control
-                      style={{
-                        padding: "10px",
-                        marginTop: "5px",
-                        fontSize: 16,
-                        color: "#4B4B4B",
-                        fontFamily: "Gilroy",
-                        lineHeight: "18.83px",
-                        fontWeight: 500,
-                      }}
-                      type="text"
-                      placeholder="Enter Recurring Name"
-                      value={recurring_name}
-                      onChange={(e) => handleRecurrName(e)}
-                    />
-                  </Form.Group>
+                      Calculation Date
+                    </p>
+                  </div>
+                  <div className="row">
+                    <div className="col-6 position-relative mb-4" style={{ zIndex: isFromOpen ? 20 : 10 }}>
+                      <label
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          fontWeight: 500,
+                          color: "#000",
+                          fontStyle: "normal",
+                          lineHeight: "normal",
+                        }}
+                      >
+                        From
+                      </label>
+                      <button
+                        onClick={() => setIsFromOpen(!isFromOpen)}
+                        className="btn btn-white border w-100 d-flex justify-content-between align-items-center"
+                      >
+                        {selectedFrom ? selectedFrom : "Select a date"}
 
-                  {recurr_nameerrormsg.trim() !== "" && (
+                        <img src={DatepickerIcon} alt="datepicker" />
+                      </button>
+
+                      {isFromOpen && (
+                        <div className="date-picker-container">
+                          <div className="d-flex justify-content-center">
+                            <h3>Select date</h3>
+                          </div>
+
+                          <div className="date-grid">
+                            {dates.map((date, index) => (
+                              <div
+                                key={index}
+                                className={`date-cell ${date === selectedFrom ? "selected" : ""
+                                  }`}
+                                onClick={() => handleFromClick(date)}
+                              >
+                                {date}
+                              </div>
+                            ))}
+                          </div>
+                          <div className="date-picker-footer">
+                            <span className="startmonthone" onClick={() => handleFromClick(1)}>
+                              Start of the month
+                            </span>
+
+                          </div>
+                        </div>
+                      )}
+                      {!selectedFrom && selectedFromerrmsg.trim() !== "" && (
+                        <div className="d-flex align-items-center p-1">
+                          <MdError
+                            style={{
+                              color: "red",
+                              marginRight: "5px",
+                              fontSize: "14px",
+                            }}
+                          />
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {selectedFromerrmsg}
+                          </label>
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+
+                  <div className="row">
+                    <div className="col-lg-6 mb-3">
+                      <label htmlFor="startDayDropdown" className="form-label"
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          fontWeight: 500,
+                          color: "#000",
+                          fontStyle: "normal",
+                          lineHeight: "normal",
+                        }}
+                      >
+                        Billing Date of Month
+                      </label>
+                      <Select
+                        options={options}
+                        onChange={handleInvoiceStartDateChange}
+                        value={options.find(
+                          (option) => option.value === invoiceDate
+                        )}
+                        placeholder="Select"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            borderColor: "#D1D5DB",
+                            borderRadius: "5px",
+                            padding: "4px",
+                            boxShadow: "none",
+                            cursor: "pointer",
+                            fontFamily: "Gilroy",
+                            "&:hover": { borderColor: "#666" },
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            maxHeight: options.length > 3 ? "150px" : "auto",
+                            overflowY: billing_types.length > 3 ? "auto" : "hidden",
+                            borderRadius: "8px",
+                            zIndex: 100,
+                            fontFamily: "Gilroy",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            maxHeight: "150px",
+                            overflowY: "auto",
+                            padding: 0,
+                            fontFamily: "Gilroy",
+                            scrollbarWidth: "thin",
+                            "&::-webkit-scrollbar": {
+                              width: "6px",
+                            },
+                            "&::-webkit-scrollbar-thumb": {
+                              backgroundColor: "#888",
+                              borderRadius: "4px",
+                            },
+                            "&::-webkit-scrollbar-thumb:hover": {
+                              backgroundColor: "#555",
+                            },
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            backgroundColor: state.isSelected
+                              ? '#2563EB'
+                              : state.isFocused
+                                ? '#E0ECFF'
+                                : '#FFFFFF',
+                            color: state.isSelected ? '#FFFFFF' : '#000000',
+                            padding: '12px 16px',
+                            margin: 0,
+                            fontFamily: "Gilroy",
+                            borderRadius: 0,
+                            cursor: 'pointer'
+                          }),
+                          indicatorSeparator: () => ({ display: "none" }),
+                        }}
+
+                      />
+                      {invoicedateerrmsg.trim() !== "" && (
+                        <div className="d-flex align-items-center p-1">
+                          <MdError
+                            style={{
+                              color: "red",
+                              marginRight: "5px",
+                              fontSize: "14px",
+                            }}
+                          />
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {invoicedateerrmsg}
+                          </label>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="col-lg-6 mb-3">
+                      <label htmlFor="endDayDropdown" className="form-label"
+                        style={{
+                          fontFamily: "Gilroy",
+                          fontSize: 14,
+                          fontWeight: 500,
+                          color: "#000",
+                          fontStyle: "normal",
+                          lineHeight: "normal",
+                        }}
+                      >
+                        Due Date of Month
+                      </label>
+                      <Select
+                        options={options}
+                        onChange={handleInvoiceEndDateChange}
+                        value={options.find(
+                          (option) => option.value === invoicedueDate
+                        )}
+                        placeholder="Select"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            borderColor: "#D1D5DB",
+                            borderRadius: "5px",
+                            padding: "4px",
+                            boxShadow: "none",
+                            cursor: "pointer",
+                            fontFamily: "Gilroy",
+                            "&:hover": { borderColor: "#666" },
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            maxHeight: options.length > 3 ? "150px" : "auto",
+                            overflowY: billing_types.length > 3 ? "auto" : "hidden",
+                            borderRadius: "8px",
+                            zIndex: 100,
+                            fontFamily: "Gilroy",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            maxHeight: "150px",
+                            overflowY: "auto",
+                            padding: 0,
+                            fontFamily: "Gilroy",
+                            scrollbarWidth: "thin",
+                            "&::-webkit-scrollbar": {
+                              width: "6px",
+                            },
+                            "&::-webkit-scrollbar-thumb": {
+                              backgroundColor: "#888",
+                              borderRadius: "4px",
+                            },
+                            "&::-webkit-scrollbar-thumb:hover": {
+                              backgroundColor: "#555",
+                            },
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            backgroundColor: state.isSelected
+                              ? '#2563EB'
+                              : state.isFocused
+                                ? '#E0ECFF'
+                                : '#FFFFFF',
+                            color: state.isSelected ? '#FFFFFF' : '#000000',
+                            padding: '12px 16px',
+                            margin: 0,
+                            borderRadius: 0,
+                            cursor: 'pointer'
+                          }),
+                          indicatorSeparator: () => ({ display: "none" }),
+                        }}
+
+                      />
+                      {duedateerrmsg.trim() !== "" && (
+                        <div className="d-flex align-items-center p-1">
+                          <MdError
+                            style={{
+                              color: "red",
+                              marginRight: "5px",
+                              fontSize: "14px",
+                            }}
+                          />
+                          <label
+                            className="mb-0"
+                            style={{
+                              color: "red",
+                              fontSize: "12px",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {duedateerrmsg}
+                          </label>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="d-flex  justify-content-between mt-3 mb-3">
                     <div>
                       <p
                         style={{
-                          fontSize: "12px",
-                          color: "red",
+                          fontSize: 14,
                           fontFamily: "Gilroy",
                           fontWeight: 500,
                         }}
                       >
-                        {recurr_nameerrormsg !== " " && (
-                          <MdError
-                            style={{
-                              fontSize: "14px",
-                              color: "red",
-                              marginBottom: "3px",
-                            }}
-                          />
-                        )}{" "}
-                        {recurr_nameerrormsg}
+                        Auto Send Bills
                       </p>
                     </div>
-                  )}
-                </div>
 
-                <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
-                  <Form.Group
-                    className="mb-1"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Label
+                    <div className="toggle-wrapper" onClick={handleToggle}>
+                      <span className={`toggle-label ${isOn ? "active" : ""}`}>
+                        {isOn ? "On" : "Off"}
+                      </span>
+                      <div className={`toggle-switch ${isOn ? "on" : "off"}`}>
+                        <div className="toggle-thumb">
+                          {isOn && <FaCheck size={10} color="#1E1E1E" />}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <label htmlFor="endDayDropdown" className="form-label"
                       style={{
-                        fontFamily: "Gilroy",
                         fontSize: 14,
+                        fontFamily: "Gilroy",
                         fontWeight: 500,
-                        color: "#000",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
                       }}
                     >
-                      Billing Frequency
-                    </Form.Label>
-
+                      Remainder days before Due
+                    </label>
                     <Select
-                      options={billing_types}
-                      placeholder="Select The Frequency Of Bill"
-                      value={billing_types.find((opt) => opt.value === billing_frequency)}
-                      onChange={(selected) => {
-                        setBilling_Frequency(selected.value);
-                        setBillingFrequencyErrmsg("");
-                      }}
+                      options={filteredOptions}
+                      placeholder="Select a Remainder Dates"
+                      onChange={handleSelect}
+                      value={null}
+                      classNamePrefix="custom"
+                      menuPlacement="auto"
                       onInputChange={(inputValue, { action }) => {
                         if (action === "input-change") {
                           const lettersOnly = inputValue.replace(
@@ -822,22 +1249,23 @@ useEffect(() => {
                           padding: "4px",
                           boxShadow: "none",
                           cursor: "pointer",
-                           fontFamily: "Gilroy",
+                          fontFamily: "Gilroy",
                           "&:hover": { borderColor: "#666" },
                         }),
                         menu: (base) => ({
                           ...base,
-                          maxHeight: billing_types.length > 3 ? "150px" : "auto",
+                          maxHeight: options.length > 3 ? "150px" : "auto",
                           overflowY: billing_types.length > 3 ? "auto" : "hidden",
                           borderRadius: "8px",
                           zIndex: 100,
+                          fontFamily: "Gilroy",
                         }),
                         menuList: (base) => ({
                           ...base,
                           maxHeight: "150px",
                           overflowY: "auto",
                           padding: 0,
-                           fontFamily: "Gilroy",
+                          fontFamily: "Gilroy",
                           scrollbarWidth: "thin",
                           "&::-webkit-scrollbar": {
                             width: "6px",
@@ -860,473 +1288,144 @@ useEffect(() => {
                           color: state.isSelected ? '#FFFFFF' : '#000000',
                           padding: '12px 16px',
                           margin: 0,
-                           fontFamily: "Gilroy",
                           borderRadius: 0,
                           cursor: 'pointer'
                         }),
                         indicatorSeparator: () => ({ display: "none" }),
                       }}
-
-
                     />
 
-                    {billingfreuencyerrormsg.trim() !== "" && (
-                      <div>
+                    {selectedDays.length > 0 && (
+                      <div className="mt-3 d-flex flex-wrap gap-2">
+                        {selectedDays.map((item) => (
+                          <div
+                            key={item.value}
+                            className="d-flex align-items-center px-3 py-1 rounded bg-white"
+                            style={{
+                              fontWeight: 400,
+                              borderRadius: "8px",
+                              border: "1px solid rgba(30, 69, 225, 1)",
+                              fontSize: 14,
+                              fontFamily: "Gilroy",
+                              cursor: 'pointer'
+                            }}
+                          >
+                            {item.label}
+                            <img
+                              className="ms-2"
+                              src={DeleteIcon}
+                              alt="delete"
+                              height={14}
+                              width={14}
+                              onClick={() => handleDelete(item.value)}
+                              style={{ cursor: "pointer" }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {selectedremainderdayserrmsg.trim() !== "" && (
+                      <div className="text-left">
                         <p
                           style={{
-                            fontSize: "12px",
+                            fontSize: 12,
                             color: "red",
-                            marginTop: "3px",
+                            marginTop: "13px",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
                           }}
                         >
-                          {billingfreuencyerrormsg !== " " && (
-                            <MdError
-                              style={{
-                                fontSize: "14px",
-                                color: "red",
-                                marginBottom: "3px",
-                              }}
-                            />
-                          )}{" "}
-                          {billingfreuencyerrormsg}
+                          <MdError
+                            style={{
+                              color: "red",
+                              marginBottom: "2px",
+                            }}
+                          />
+                          {selectedremainderdayserrmsg}
                         </p>
                       </div>
                     )}
-                  </Form.Group>
-                </div>
+                  </div>
 
-                <div className="mt-3 mb-1">
-                  <p
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: 14,
-                      fontWeight: 500,
-                      color: "#000",
-                      fontStyle: "normal",
-                      lineHeight: "normal",
-                    }}
-                  >
-                    Calculation Date
-                  </p>
-                </div>
-                <div className="row">
-                  <div className="col-6 position-relative mb-4" style={{ zIndex: isFromOpen ? 20 : 10 }}>
-                    <label
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        color: "#000",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      From
-                    </label>
-                    <button
-                      onClick={() => setIsFromOpen(!isFromOpen)}
-                      className="btn btn-white border w-100 d-flex justify-content-between align-items-center"
-                    >
-                     {selectedFrom ? selectedFrom : "Select a date"}
-
-                      <img src={DatepickerIcon} alt="datepicker" />
-                    </button>
-
-                    {isFromOpen && (
-                      <div className="date-picker-container">
-                        <div className="d-flex justify-content-center">
-                          <h3>Select date</h3>
-                        </div>
-
-                        <div className="date-grid">
-                          {dates.map((date, index) => (
-                            <div
-                              key={index}
-                              className={`date-cell ${date === selectedFrom ? "selected" : ""
-                                }`}
-                              onClick={() => handleFromClick(date)}
+                  <div className="col-lg-12 col-md-12 col-sm-12">
+                    <div className="d-flex flex-column">
+                      <p
+                        style={{
+                          fontSize: 14,
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Bill Delivery Channels
+                      </p>
+                      <div>
+                        <div className="d-flex gap-3 flex-wrap">
+                          {checkboxOptions.map(({ key, label }) => (
+                            <label
+                              className="form-check d-flex align-items-center gap-2"
+                              htmlFor={`notification-${key}`}
+                              key={key}
                             >
-                              {date}
-                            </div>
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`notification-${key}`}
+                                checked={notifications[key] || false}
+                                onChange={() => handleChange(key)}
+                                aria-checked={notifications[key]}
+                                style={{
+                                  accentColor: "#1e40af",
+                                  cursor: "pointer",
+                                }}
+                              />
+                              <span
+                                className="form-check-label mt-1"
+                                style={{
+                                  color: notifications[key] ? "#000" : "#aaa",
+                                  fontSize: "14px",
+                                  fontFamily: "Gilroy",
+                                  fontWeight: 400,
+                                }}
+                              >
+                                {label}
+                              </span>
+                            </label>
                           ))}
-                        </div>
-                        <div className="date-picker-footer">
-                          <span className="startmonthone" onClick={() => handleFromClick(1)}>
-                            Start of the month
-                          </span>
-                      
+
                         </div>
                       </div>
-                    )}
-                    {!selectedFrom && selectedFromerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {selectedFromerrmsg}
-                        </label>
-                      </div>
-                    )}
+                    </div>
                   </div>
 
-                </div>
 
-                <div className="row">
-                  <div className="col-lg-6 mb-3">
-                    <label htmlFor="startDayDropdown" className="form-label"
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        color: "#000",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      Billing Date of Month
-                    </label>
-                    <Select
-                      options={options}
-                      onChange={handleInvoiceStartDateChange}
-                      value={options.find(
-                        (option) => option.value === invoiceDate
-                      )}
-                      placeholder="Select"
-                      classNamePrefix="custom"
-                      menuPlacement="auto"
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          borderColor: "#D1D5DB",
-                          borderRadius: "5px",
-                          padding: "4px",
-                          boxShadow: "none",
-                          cursor: "pointer",
-                           fontFamily: "Gilroy",
-                          "&:hover": { borderColor: "#666" },
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          maxHeight: options.length > 3 ? "150px" : "auto",
-                          overflowY: billing_types.length > 3 ? "auto" : "hidden",
-                          borderRadius: "8px",
-                          zIndex: 100,
-                           fontFamily: "Gilroy",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          maxHeight: "150px",
-                          overflowY: "auto",
-                          padding: 0,
-                           fontFamily: "Gilroy",
-                          scrollbarWidth: "thin",
-                          "&::-webkit-scrollbar": {
-                            width: "6px",
-                          },
-                          "&::-webkit-scrollbar-thumb": {
-                            backgroundColor: "#888",
-                            borderRadius: "4px",
-                          },
-                          "&::-webkit-scrollbar-thumb:hover": {
-                            backgroundColor: "#555",
-                          },
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          backgroundColor: state.isSelected
-                            ? '#2563EB'
-                            : state.isFocused
-                              ? '#E0ECFF'
-                              : '#FFFFFF',
-                          color: state.isSelected ? '#FFFFFF' : '#000000',
-                          padding: '12px 16px',
-                          margin: 0,
-                           fontFamily: "Gilroy",
-                          borderRadius: 0,
-                          cursor: 'pointer'
-                        }),
-                        indicatorSeparator: () => ({ display: "none" }),
-                      }}
-
-                    />
-                    {invoicedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {invoicedateerrmsg}
-                        </label>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="col-lg-6 mb-3">
-                    <label htmlFor="endDayDropdown" className="form-label"
-                      style={{
-                        fontFamily: "Gilroy",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        color: "#000",
-                        fontStyle: "normal",
-                        lineHeight: "normal",
-                      }}
-                    >
-                      Due Date of Month
-                    </label>
-                    <Select
-                      options={options}
-                      onChange={handleInvoiceEndDateChange}
-                      value={options.find(
-                        (option) => option.value === invoicedueDate
-                      )}
-                      placeholder="Select"
-                      classNamePrefix="custom"
-                      menuPlacement="auto"
-                      styles={{
-                        control: (base) => ({
-                          ...base,
-                          borderColor: "#D1D5DB",
-                          borderRadius: "5px",
-                          padding: "4px",
-                          boxShadow: "none",
-                          cursor: "pointer",
-                           fontFamily: "Gilroy",
-                          "&:hover": { borderColor: "#666" },
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          maxHeight: options.length > 3 ? "150px" : "auto",
-                          overflowY: billing_types.length > 3 ? "auto" : "hidden",
-                          borderRadius: "8px",
-                          zIndex: 100,
-                           fontFamily: "Gilroy",
-                        }),
-                        menuList: (base) => ({
-                          ...base,
-                          maxHeight: "150px",
-                          overflowY: "auto",
-                          padding: 0,
-                           fontFamily: "Gilroy",
-                          scrollbarWidth: "thin",
-                          "&::-webkit-scrollbar": {
-                            width: "6px",
-                          },
-                          "&::-webkit-scrollbar-thumb": {
-                            backgroundColor: "#888",
-                            borderRadius: "4px",
-                          },
-                          "&::-webkit-scrollbar-thumb:hover": {
-                            backgroundColor: "#555",
-                          },
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          backgroundColor: state.isSelected
-                            ? '#2563EB'
-                            : state.isFocused
-                              ? '#E0ECFF'
-                              : '#FFFFFF',
-                          color: state.isSelected ? '#FFFFFF' : '#000000',
-                          padding: '12px 16px',
-                          margin: 0,
-                          borderRadius: 0,
-                          cursor: 'pointer'
-                        }),
-                        indicatorSeparator: () => ({ display: "none" }),
-                      }}
-
-                    />
-                    {duedateerrmsg.trim() !== "" && (
-                      <div className="d-flex align-items-center p-1">
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginRight: "5px",
-                            fontSize: "14px",
-                          }}
-                        />
-                        <label
-                          className="mb-0"
-                          style={{
-                            color: "red",
-                            fontSize: "12px",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {duedateerrmsg}
-                        </label>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="d-flex  justify-content-between mt-3 mb-3">
-                  <div>
+                  {/* {editErrmsg.trim() !== "" && (
+                  <div className="text-lef">
                     <p
                       style={{
-                        fontSize: 14,
+                        fontSize: 12,
+                        color: "red",
+                        marginTop: "13px",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
+                        marginLeft: "10px",
+                    
                       }}
                     >
-                      Auto Send Bills
+                      <MdError
+                        style={{
+                          color: "red",
+                          marginBottom: "2px",
+                          
+                        }}
+                      />
+                      {editErrmsg}
                     </p>
                   </div>
+                )} */}
 
-                  <div className="toggle-wrapper" onClick={handleToggle}>
-                    <span className={`toggle-label ${isOn ? "active" : ""}`}>
-                      {isOn ? "On" : "Off"}
-                    </span>
-                    <div className={`toggle-switch ${isOn ? "on" : "off"}`}>
-                      <div className="toggle-thumb">
-                        {isOn && <FaCheck size={10} color="#1E1E1E" />}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-12 col-md-12 col-sm-12 mb-3">
-                  <label htmlFor="endDayDropdown" className="form-label"
-                    style={{
-                      fontSize: 14,
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Remainder days before Due
-                  </label>
-                  <Select
-                    options={filteredOptions}
-                    placeholder="Select a Remainder Dates"
-                    onChange={handleSelect}
-                    value={null}
-                    classNamePrefix="custom"
-                    menuPlacement="auto"
-                    onInputChange={(inputValue, { action }) => {
-                      if (action === "input-change") {
-                        const lettersOnly = inputValue.replace(
-                          /[^a-zA-Z\s]/g,
-                          ""
-                        );
-                        return lettersOnly;
-                      }
-                      return inputValue;
-                    }}
-                    styles={{
-                      control: (base) => ({
-                        ...base,
-                        borderColor: "#D1D5DB",
-                        borderRadius: "5px",
-                        padding: "4px",
-                        boxShadow: "none",
-                        cursor: "pointer",
-                         fontFamily: "Gilroy",
-                        "&:hover": { borderColor: "#666" },
-                      }),
-                      menu: (base) => ({
-                        ...base,
-                        maxHeight: options.length > 3 ? "150px" : "auto",
-                        overflowY: billing_types.length > 3 ? "auto" : "hidden",
-                        borderRadius: "8px",
-                        zIndex: 100,
-                         fontFamily: "Gilroy",
-                      }),
-                      menuList: (base) => ({
-                        ...base,
-                        maxHeight: "150px",
-                        overflowY: "auto",
-                        padding: 0,
-                         fontFamily: "Gilroy",
-                        scrollbarWidth: "thin",
-                        "&::-webkit-scrollbar": {
-                          width: "6px",
-                        },
-                        "&::-webkit-scrollbar-thumb": {
-                          backgroundColor: "#888",
-                          borderRadius: "4px",
-                        },
-                        "&::-webkit-scrollbar-thumb:hover": {
-                          backgroundColor: "#555",
-                        },
-                      }),
-                      option: (base, state) => ({
-                        ...base,
-                        backgroundColor: state.isSelected
-                          ? '#2563EB'
-                          : state.isFocused
-                            ? '#E0ECFF'
-                            : '#FFFFFF',
-                        color: state.isSelected ? '#FFFFFF' : '#000000',
-                        padding: '12px 16px',
-                        margin: 0,
-                        borderRadius: 0,
-                        cursor: 'pointer'
-                      }),
-                      indicatorSeparator: () => ({ display: "none" }),
-                    }}
-                  />
-
-                  {selectedDays.length > 0 && (
-                    <div className="mt-3 d-flex flex-wrap gap-2">
-                      {selectedDays.map((item) => (
-                        <div
-                          key={item.value}
-                          className="d-flex align-items-center px-3 py-1 rounded bg-white"
-                          style={{
-                            fontWeight: 400,
-                            borderRadius: "8px",
-                            border: "1px solid rgba(30, 69, 225, 1)",
-                            fontSize: 14,
-                            fontFamily: "Gilroy",
-                            cursor: 'pointer'
-                          }}
-                        >
-                          {item.label}
-                          <img
-                            className="ms-2"
-                            src={DeleteIcon}
-                            alt="delete"
-                            height={14}
-                            width={14}
-                            onClick={() => handleDelete(item.value)}
-                            style={{ cursor: "pointer" }}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {selectedremainderdayserrmsg.trim() !== "" && (
-                    <div className="text-left">
+                  {editErrmsg.trim() !== "" && (
+                    <div className="text-lef">
                       <p
                         style={{
                           fontSize: 12,
@@ -1336,165 +1435,99 @@ useEffect(() => {
                           fontWeight: 500,
                         }}
                       >
-                        <MdError
-                          style={{
-                            color: "red",
-                            marginBottom: "2px",
-                          }}
-                        />
-                        {selectedremainderdayserrmsg}
+                        <span style={{ display: "inline-flex", alignItems: "center" }}>
+                          <MdError
+                            style={{
+                              color: "red",
+                              marginBottom: "2px",
+                              marginRight: "5px",
+                            }}
+                          />
+                          {editErrmsg}
+                        </span>
                       </p>
                     </div>
                   )}
-                </div>
 
-                <div className="col-lg-12 col-md-12 col-sm-12">
-                  <div className="d-flex flex-column">
-                    <p
+
+                  <div className="d-flex justify-content-end flex-wrap mt-3 ">
+                    <button
+                      onClick={handleCloseForm}
+                      className="me-3 "
                       style={{
-                        fontSize: 14,
                         fontFamily: "Gilroy",
-                        fontWeight: 500,
+                        fontSize: "14px",
+                        color: "rgba(75, 75, 75, 1)",
+                        backgroundColor: 'white',
+                        fontWeight: 600,
+                        borderRadius: "12px",
+                        width: 146,
+                        height: 45,
+                        border: "1px solid grey",
                       }}
                     >
-                      Bill Delivery Channels
-                    </p>
-                    <div>
-                      <div className="d-flex gap-3 flex-wrap">
-                        {checkboxOptions.map(({ key, label }) => (
-                          <label
-                            className="form-check d-flex align-items-center gap-2"
-                            htmlFor={`notification-${key}`}
-                            key={key}
-                          >
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              id={`notification-${key}`}
-                              checked={notifications[key] || false}
-                              onChange={() => handleChange(key)}
-                              aria-checked={notifications[key]}
-                              style={{
-                                accentColor: "#1e40af",
-                                cursor: "pointer",
-                              }}
-                            />
-                            <span
-                              className="form-check-label mt-1"
-                              style={{
-                                color: notifications[key] ? "#000" : "#aaa",
-                                fontSize: "14px",
-                                fontFamily: "Gilroy",
-                                fontWeight: 400,
-                              }}
-                            >
-                              {label}
-                            </span>
-                          </label>
-                        ))}
+                      Cancel
+                    </button>
 
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                {editErrmsg.trim() !== "" && (
-                  <div className="text-left">
-                    <p
+                    <button
+                      onClick={handleSaveRecurring}
                       style={{
+
                         fontSize: 14,
                         color: "red",
                         marginTop: "13px",
+
                         fontFamily: "Gilroy",
-                        fontWeight: 500,
+                        fontSize: "14px",
+                        backgroundColor: "#1E45E1",
+                        color: "white",
+                        fontWeight: 600,
+                        borderRadius: "12px",
+                        width: 146,
+                        height: 45,
+                        border: "1px solid #1E45E1",
                       }}
                     >
-                      <MdError
-                        style={{
-                          color: "red",
-                          marginBottom: "2px",
-                          marginRight: 3
-                        }}
-                      />
-                      {editErrmsg}
-                    </p>
+                      Update
+                    </button>
                   </div>
-                )}
- 
-                <div className="d-flex justify-content-end flex-wrap mt-3 ">
-                  <button
-                    onClick={handleCloseForm}
-                    className="me-3 "
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      color: "rgba(75, 75, 75, 1)",
-                      backgroundColor: 'white',
-                      fontWeight: 600,
-                      borderRadius: "12px",
-                      width: 146,
-                      height: 45,
-                      border: "1px solid grey",
-                    }}
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    onClick={handleSaveRecurring}
-                    style={{
-                      fontFamily: "Gilroy",
-                      fontSize: "14px",
-                      backgroundColor: "#1E45E1",
-                      color: "white",
-                      fontWeight: 600,
-                      borderRadius: "12px",
-                      width: 146,
-                      height: 45,
-                      border: "1px solid #1E45E1",
-                    }}
-                  >
-                    Update
-                  </button>
                 </div>
+
+
+
+                {formLoading &&
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      opacity: 0.75,
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderTop: '4px solid #1E45E1',
+                        borderRight: '4px solid transparent',
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        animation: 'spin 1s linear infinite',
+                      }}
+                    ></div>
+                  </div>
+                }
+
+
               </div>
-            
-            
-            
-            {formLoading &&
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: 'transparent',
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderTop: '4px solid #1E45E1',
-                                    borderRight: '4px solid transparent',
-                                    borderRadius: '50%',
-                                    width: '40px',
-                                    height: '40px',
-                                    animation: 'spin 1s linear infinite',
-                                }}
-                            ></div>
-                        </div>
-                    }
-            
-            
             </div>
           </div>
         </div>
-           </div>
       ) : (
         <div className="col-12 mt-2">
           <Card

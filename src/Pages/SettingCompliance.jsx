@@ -728,7 +728,7 @@ function SettingCompliance({ hostelid }) {
               >
                 {isChangedError && (
                   <>
-                    <MdError style={{ marginRight: "7px", color: "red" }} />
+                    <MdError style={{ marginRight: "7px", color: "red", fontSize:"13px" }} />
                     <span
                       style={{
                         color: "red",
