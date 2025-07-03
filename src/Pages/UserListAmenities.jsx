@@ -126,27 +126,26 @@ function UserListAmenities(props) {
       return true;
     }
   };
+
   const handleAmnitiesSelect = () => {
-    if (!validateAssignField(statusAmni, "statusAmni"));
-    if (statusAmni === "Select Status" || selectError) {
-      setSelectError("Please Select a Valid Status");
-      return;
-    }
-    if (statusAmni && statusShow) {
-      dispatch({
-        type: "AddUserAmnities",
-        payload: {
-          userID: props.customerUser_Id,
-          amenityID: selectAmneties,
-          Status: statusAmni,
-          hostelID: props.hostelIds,
-        },
-      });
-      setFormLoading(true)
-      setStatusAmni("");
-      setselectAmneties("");
-    }
-  };
+  if (!validateAssignField(statusAmni, "statusAmni")) return;
+
+  if (statusAmni && statusShow) {
+    dispatch({
+      type: "AddUserAmnities",
+      payload: {
+        userID: props.customerUser_Id,
+        amenityID: selectAmneties,
+        Status: statusAmni,
+        hostelID: props.hostelIds,
+      },
+    });
+    setFormLoading(true);
+    setStatusAmni("");
+    setselectAmneties("");
+  }
+};
+
   const handleAddUserAmnities = () => {
     if (selectAmneties) {
       dispatch({
@@ -171,9 +170,12 @@ function UserListAmenities(props) {
     setselectAmneties(v.amenity_Id);
   };
   const handleFormClose = () => {
+     setselectAmneties("");
     setSelectError("");
     setaddamenityShow(false);
     setActiveDotsId(null)
+    setStatusAmni(false)
+   
     dispatch({ type: "CLEAR_ERROR_USER_AMENITIES" });
   };
   useEffect(() => {
@@ -582,7 +584,7 @@ function UserListAmenities(props) {
 
 
 
-        <Modal.Footer className="d-flex justify-content-center">
+        <Modal.Footer className="d-flex justify-content-center" style={{borderTop:"none"}}>
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -650,8 +652,8 @@ function UserListAmenities(props) {
           className="show-scrolls"
           style={{
             height:
-              sortedData?.length >= 1 || sortedData?.length >= 1
-                ? "135px"
+              sortedData?.length >= 2 || sortedData?.length >= 2
+                ? "130px"
                 : "auto",
             overflow: "auto",
             borderTop: "1px solid #E8E8E8",
@@ -696,7 +698,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
+                    paddingTop: "5px",
                     paddingBottom: "10px",
                   }}
                 >
@@ -733,8 +735,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                   
                   }}
                 >
                   <div className="d-flex gap-1 align-items-center justify-content-start">
@@ -770,8 +771,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                  
                   }}
                 >
                   <div className="d-flex gap-1 align-items-center justify-content-start">
@@ -807,8 +807,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                    
                   }}
                 >
                   <div className="d-flex gap-1 align-items-center justify-content-start">
@@ -844,8 +843,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                   
                   }}
                 >
                   <div className="d-flex gap-1 align-items-center justify-content-start">
@@ -881,8 +879,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                  
                   }}
                 >
                   Action
@@ -902,7 +899,7 @@ function UserListAmenities(props) {
                   let formattedDate = `${day}/${month}/${year}`;
 
                   return (
-                    <tr key={v.amenity_Id} style={{ marginTop: 30 }}>
+                    <tr key={v.amenity_Id}>
                       <td
                         style={{
                           textAlign: "start",
@@ -1016,15 +1013,10 @@ function UserListAmenities(props) {
         </div>
           )}
       </div>
-      {amnitiesFilterddata?.length >= 1 && (
+      {amnitiesFilterddata?.length >= 2 && (
         <>
-          <nav
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "end",
-              padding: "10px",
-            }}
+          <nav className="position-fixed bottom-0 end-0 mb-3 me-3 d-flex justify-content-end align-items-center"
+          
           >
             <div>
               <select

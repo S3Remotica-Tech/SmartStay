@@ -2590,21 +2590,25 @@ function UserListRoomDetail(props) {
                                                 <div>
                                                   <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
                                                     Contact Info{" "}
-                                                    <img
+                                                   <img
                                                       src={editliner}
                                                       alt="Edit Icon"
                                                       width={15}
+                                                      style={{cursor:"pointer"}}
                                                       height={15}
                                                       onClick={() =>
                                                         handleContactEdit(v)
                                                       }
                                                     />
+ 
                                                     <img
                                                       src={trash}
                                                       alt="Trash Icon"
                                                       width={15}
+                                                       style={{cursor:"pointer"}}
                                                       height={15}
                                                       className="ms-2"
+                                                      
                                                       onClick={() =>
                                                         handleContactDelete(v)
                                                       }
@@ -2700,6 +2704,7 @@ function UserListRoomDetail(props) {
                                                     alt="Edit Icon"
                                                     width={15}
                                                     height={15}
+                                                    style={{cursor:"pointer"}}
                                                     onClick={() =>
                                                       handleContactEdit(v)
                                                     }
@@ -2709,6 +2714,7 @@ function UserListRoomDetail(props) {
                                                     alt="Trash Icon"
                                                     width={15}
                                                     height={15}
+                                                    style={{cursor:"pointer"}}
                                                     className="ms-2"
                                                     onClick={() =>
                                                       handleContactDelete(v)
