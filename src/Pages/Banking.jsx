@@ -13,7 +13,6 @@ import BankingAddForm from "./BankingAddForm";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import Modal from "react-bootstrap/Modal";
-import BankingEditTransaction from "./BankingTransaction";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, } from "iconsax-react";
@@ -47,17 +46,12 @@ function Banking() {
   const [showAddBalance, setshowAddBalance] = useState(false);
   const [defaltType, setDefaultType] = useState("");
   const [selectedAccountType, setSelectedAccountType] = useState("");
-  const [EditTransaction, setEditTransaction] = useState(null);
-  const [EditTransactionForm, setEditTransactionForm] = useState(false);
-  const [deleteTransactionForm, setDeleteTransactionForm] = useState(false);
-  const [openMenuId, setOpenMenuId] = useState(null);
+   const [openMenuId, setOpenMenuId] = useState(null);
   const [editAddBank, setEditAddBank] = useState("");
   const [edit, setEdit] = useState(false);
   const [AddBankName, setAddBankName] = useState("");
   const [AddBankAmount, setAddBankAmount] = useState("");
-  const [updateTransaction, setUpdateTransaction] = useState("");
   const [deleteBankId, setDeleteBankId] = useState("");
-  const [trnseId, setDeleteTransId] = useState("");
   const [bankingrolePermission, setBankingRolePermission] = useState("");
   const [bankingpermissionError, setBankingPermissionError] = useState("");
   const [bankingAddPermission, setBankingAddPermission] = useState("");
@@ -73,7 +67,7 @@ function Banking() {
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
   const [bankking, setBanking] = useState("")
   const [selfTranfer, setSelfTransfer] = useState(false)
-
+ const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
@@ -204,7 +198,12 @@ function Banking() {
     };
   }, []);
 
-
+ const handleChange = (e) => {
+    const value = e.target.value;
+        if (/^\d*$/.test(value)) {
+      setAmount(value);
+    }
+  };
 
   const handleAccountTypeSelection = (e) => {
     const selectedValue = parseInt(e.target.value);
@@ -295,76 +294,16 @@ function Banking() {
 
   };
 
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-
-  const handleEditTrans = (id, event) => {
-
-    if (EditTransaction === id) {
-      setEditTransaction(null);
-    } else {
-      setEditTransaction(id);
-    }
-
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + height / 2;
-    const popupLeft = left - 200;
-
-    setPopupPosition({ top: popupTop, left: popupLeft });
-  };
+  
 
 
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setEditTransaction(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const [showAbove, setShowAbove] = useState(false);
-
-  useEffect(() => {
-    if (popupRef.current) {
-      const popupHeight = popupRef.current.offsetHeight;
-      const windowHeight = window.innerHeight;
-      const spaceBelow = windowHeight - popupPosition.top;
-
-      setShowAbove(spaceBelow < popupHeight + 20);
-    }
-  }, [popupPosition]);
-
-
-
-  const handleEditTransForm = (item) => {
-    setUpdateTransaction(item);
-    setEditTransactionForm(true);
-    setEditTransaction(null);
-    setDeleteTransactionForm(false);
-    setOpenMenuId(null);
-  };
-
+  
+ 
 
   const handleCloseTransactionDelete = () => {
-    setDeleteTransactionForm(false);
+   
   };
-  const handleDeleteTransForm = (u) => {
-    setDeleteTransId(u.id);
-    setDeleteTransactionForm(true);
-    setEditTransactionForm(false);
-    setEditTransaction(false);
-  };
-  const handleDeleteTransSubmit = () => {
-    dispatch({
-      type: "DELETEBANKTRANSACTIONS",
-      payload: { id: trnseId },
-    });
-  };
+
   useEffect(() => {
     if (
       transactionFilterddata.length > 0 &&
@@ -2015,90 +1954,7 @@ function Banking() {
             </div>}
           </Modal>
 
-          <Modal
-            show={deleteTransactionForm}
-            onHide={() => handleCloseTransactionDelete()}
-            centered
-            backdrop="static"
-            dialogClassName="custom-delete-modal"
-          >
-            <Modal.Header style={{ borderBottom: "none" }}>
-              <Modal.Title
-                className="w-100 text-center"
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "Gilroy",
-
-                  fontWeight: 600,
-                  color: "#222222",
-
-                }}
-              >
-                Delete Transaction?
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body
-              className="text-center"
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                color: "#646464",
-
-                marginTop: "-10px",
-              }}
-            >
-              Are you sure you want to delete this Transaction?
-            </Modal.Body>
-
-            <Modal.Footer
-              className="d-flex justify-content-center"
-              style={{
-
-                borderTop: "none",
-                marginTop: "-10px",
-              }}
-            >
-              <Button
-                className="me-2"
-                style={{
-                  width: "100%",
-                  maxWidth: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#fff",
-                  color: "#1E45E1",
-                  border: "1px solid #1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-                onClick={handleCloseTransactionDelete}
-              >
-                Cancel
-              </Button>
-              <Button
-                style={{
-                  width: "100%",
-                  maxWidth: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#1E45E1",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-                onClick={handleDeleteTransSubmit}
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
+        
 
 
           <Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
@@ -2216,7 +2072,9 @@ function Banking() {
                   type="text"
                   className="form-control border-start-0 rounded-end"
                   placeholder="Enter amount"
-                  style={{ boxShadow: 'none', outline: "none" }}
+                   value={amount}
+      onChange={handleChange}
+                  style={{ boxShadow: 'none', outline: "none", fontFamily:"Gilroy" }}
                 />
               </div>
 
@@ -2231,16 +2089,7 @@ function Banking() {
 
 
 
-          {EditTransactionForm === true ? (
-            <BankingEditTransaction
-              setEditTransactionForm={setEditTransactionForm}
-              EditTransactionForm={EditTransactionForm}
-              setDeleteTransactionForm={setDeleteTransactionForm}
-              deleteTransactionForm={deleteTransactionForm}
-              setUpdateTransaction={setUpdateTransaction}
-              updateTransaction={updateTransaction}
-            />
-          ) : null}
+        
 
           {showForm === true ? (
             <BankingAddForm
@@ -2251,7 +2100,8 @@ function Banking() {
               setEditAddBank={setEditAddBank}
               setEdit={setEdit}
               edit={edit}
-              updateTransaction={updateTransaction}
+             
+              
             />
           ) : null}
         </div>
