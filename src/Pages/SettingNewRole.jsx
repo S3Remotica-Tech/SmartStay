@@ -97,19 +97,12 @@ const calledRef = useRef(false);
 
 useEffect(() => {
   if (hostelid && !calledRef.current) {
-    console.log("apiworks");
     dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: hostelid } });
     calledRef.current = true;
   }
 }, [hostelid]);
 
 
-
-
-   console.log("data", state.Settings.statusCodeForRoleList , state.Settings.statusCodeForAddRole
-    , state.Settings.StatusForEditPermission,
-    state.Settings.StatusForDeletePermission
-   );
    
 
 
