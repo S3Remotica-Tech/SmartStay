@@ -665,6 +665,15 @@ function AddVendor({ show, setShow, currentItem }) {
     pinCode: "",
   });
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+           setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
 
 
 
@@ -1512,7 +1521,12 @@ function AddVendor({ show, setShow, currentItem }) {
             </div>
           )}
 
-
+{state.createAccount?.networkError ? 
+          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                </div>
+                                  : null}
           {isChangedError && (
             <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
               <MdError style={{ fontSize: "13px", marginRight: "7px", marginBottom: "15px" }} />

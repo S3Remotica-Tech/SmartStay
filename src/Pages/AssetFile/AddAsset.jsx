@@ -458,7 +458,15 @@ function StaticExample({ show, setShow, currentItem }) {
   }, [state.AssetList?.alreadyAssetNameHere, state.AssetList?.alreadySerialNumberHere])
 
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
 
 
@@ -987,7 +995,7 @@ function StaticExample({ show, setShow, currentItem }) {
                       onChange={handleModeOfPaymentChange}
                       disabled={currentItem}
                       style={{
-                        fontSize: 13,
+                        fontSize: 16,
                         color: "rgba(75, 75, 75, 1)",
                         fontFamily: "Gilroy",
                         fontWeight: modeOfPayment ? 600 : 500,
@@ -1100,6 +1108,13 @@ function StaticExample({ show, setShow, currentItem }) {
                 ></div>
               </div>
             }
+            {state.createAccount?.networkError ? 
+                      <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                                              <MdError style={{ color: "red", marginRight: '5px' }} />
+                                              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                            </div>
+                                              : null}
+            
             <Modal.Footer style={{ border: "none" }} className="">
 
 

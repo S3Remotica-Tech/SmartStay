@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'universal-cookie';
 
 function* handleAddBooking(action) {
+   try{
     const response = yield call (AddBooking, action.payload);
 
     var toastStyle = {
@@ -52,6 +53,15 @@ function* handleAddBooking(action) {
     if(response){
        refreshToken(response)
     }
+     }
+      catch (error) {
+        if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+        } else {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+        }
+    
+      }
  }
 
 
@@ -124,7 +134,7 @@ function* handleDeleteBooking(action) {
 
 
  function* handleAsignBooking(action) {
-   
+   try{
    const response = yield call (assignBooking, action.payload);
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -167,10 +177,20 @@ function* handleDeleteBooking(action) {
    if(response){
       refreshToken(response)
    }
+    }
+     catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       }
+   
+     }
 }
 
 
 function* handleBookingBed(userDetails){
+   try{
    const response = yield call(assignBookingBed,userDetails.payload)
    if(response.status === 200 || response.statusCode === 200){
       yield put({ type: 'BOOKING_BED_DETAILS', payload: response.data,statusCode:response.status || response.statusCode })
@@ -181,6 +201,16 @@ function* handleBookingBed(userDetails){
    if(response){
       refreshToken(response)
    }
+ }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
+
    
 }
 

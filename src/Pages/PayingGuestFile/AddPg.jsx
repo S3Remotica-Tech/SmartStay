@@ -605,7 +605,15 @@ function AddPg({ show, handleClose, currentItem }) {
   }, [state.PgList.createPgStatusCode])
 
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+           setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
 
 
@@ -898,7 +906,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group controlId="exampleForm.ControlInput1">
-                  <Form.Label
+                <Form.Label
                   style={{
                     fontSize: 14,
                     color: "#222222",
@@ -909,8 +917,8 @@ function AddPg({ show, handleClose, currentItem }) {
                   }}
                 >
                   Email ID
-                 
-                </Form.Label>  
+
+                </Form.Label>
                 <Form.Control
                   value={email}
                   onChange={handleEmailChange}
@@ -1536,6 +1544,15 @@ function AddPg({ show, handleClose, currentItem }) {
               </label>
             </div>
           )}
+
+
+        {state.createAccount?.networkError ? <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                              </div>
+                                : null}
+
+
           <Button
             onClick={handleCreatePayingGuest}
             className="w-100"

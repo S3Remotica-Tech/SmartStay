@@ -61,6 +61,7 @@ function* handleforgetpage(rpsd) {
 
 
 function* handleSendOtp(action) {
+    try{
     const response = yield call(otpSend, action.payload);
     var toastStyle = {
         backgroundColor: "#E6F6E6",
@@ -98,9 +99,19 @@ function* handleSendOtp(action) {
         yield put({ type: 'SEND_EMAIL_ERROR', payload: { response: response.data.message, statusCode: response.status || response.statusCode } })
        
     }
+     }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleOtpVerifyforForgotPassword(action) {
+    try{
     const response = yield call(OTPverificationForForgotPassword, action.payload);
     if (response.status === 200 || response.statusCode === 200) {
         yield put({ type: 'OTPVERIFY_FORGOT_PASSWORD', payload: { response: response.data, statusCode: response.status || response.statusCode } })
@@ -112,6 +123,15 @@ function* handleOtpVerifyforForgotPassword(action) {
     else {
         yield put({ type: 'ERROR', payload: response.data.message })
     }
+ }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
