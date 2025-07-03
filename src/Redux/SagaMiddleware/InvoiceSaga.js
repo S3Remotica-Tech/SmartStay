@@ -110,10 +110,10 @@ function* handleDeleteAmenities(action) {
 
 
 function* handleAssignAmenities(action) {
+   try{
    const response = yield call(AssignAmenities, action.payload)
   
-  
-   if (response.status === 200 || response.statusCode === 200 ) {
+     if (response.status === 200 || response.statusCode === 200 ) {
       yield put({ type: 'ASSIGN_AMENITIES', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
   
       var toastStyle = {
@@ -154,13 +154,22 @@ function* handleAssignAmenities(action) {
    if(response){
       refreshToken(response)
    }
+ }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
 function* handleUnAssignAmenities(action) {
+   try{
    const response = yield call(UnAssignAmenities, action.payload)
-  
-  
+   
    if (response.status === 200 || response.statusCode === 200 ) {
       yield put({ type: 'UN_ASSIGN_AMENITIES', payload: {response:response.data.data, statusCode:response.status || response.statusCode} })
   
@@ -202,6 +211,15 @@ function* handleUnAssignAmenities(action) {
    if(response){
       refreshToken(response)
    }
+    }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
@@ -256,6 +274,7 @@ function* handleInvoiceList(action) {
 }
 
 function* handleAddInvoiceDetails (param){
+   try{
    const response = yield call (UpdateInvoice,param.payload)
 
  
@@ -296,9 +315,19 @@ function* handleAddInvoiceDetails (param){
    if(response){
       refreshToken(response)
    }
+    }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleInvoiceSettings(param){
+   try{
        const response = yield call (InvoiceSettings,param.payload)
 
        if (response.statusCode === 200 || response.status === 200) {
@@ -342,11 +371,21 @@ function* handleInvoiceSettings(param){
       if(response){
          refreshToken(response)
       }
+       }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
   
 }
 
 
 function* handleInvoicePdf(action) {
+   try{
    const response = yield call(InvoicePDf, action.payload)
    
      if (response.status === 200 || response.statusCode === 200) {
@@ -359,10 +398,21 @@ function* handleInvoicePdf(action) {
    if(response){
       refreshToken(response)
    }
+
+ }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
 function* handleAmenitiesSettings(action){
+   try{
    const response = yield call (AmenitiesSettings,action.payload)
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'AMENITIES_SETTINGS', payload: {response:response.data ,statusCode:response.status || response.statusCode}})
@@ -406,6 +456,15 @@ function* handleAmenitiesSettings(action){
    if(response){
       refreshToken(response)
    }
+    }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleGetAmenities(action) {
@@ -423,6 +482,7 @@ function* handleGetAmenities(action) {
 }
 
 function* handleUpdateAmenities(action) {
+   try{
    const response = yield call(UpdateAmenities, action.payload)
   
    if (response.status === 200 || response.statusCode === 200) {
@@ -465,6 +525,15 @@ function* handleUpdateAmenities(action) {
    if(response){
       refreshToken(response)
    }
+    }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
@@ -584,6 +653,7 @@ function* handleRecurrbillamountData(params) {
 }
 
 function* handleManualInvoiceAdd (params) {
+   try{
    const response = yield call (AddManualInvoiceBill,params.payload);
  
 
@@ -618,11 +688,20 @@ function* handleManualInvoiceAdd (params) {
    if(response){
       refreshToken(response)
    }
+    }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
 function* handleManualInvoiceEdit (params) {
-   
+   try{
    const response = yield call (EditManualInvoiceBill,params.payload);
    if (response.status === 200 || response.statusCode === 200){
       yield put ({type : 'MANUAL_INVOICE_EDIT' , payload:{response:response.data, statusCode:response.status || response.statusCode }})
@@ -664,6 +743,15 @@ function* handleManualInvoiceEdit (params) {
    if(response){
       refreshToken(response)
    }
+    }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
@@ -721,6 +809,7 @@ function* handleManualInvoiceDelete (params) {
 
 
 function* handleRecurrBillsAdd (params) {
+   try{
    const response = yield call (AddRecurringBill,params.payload);
 
    
@@ -759,6 +848,15 @@ function* handleRecurrBillsAdd (params) {
    if(response){
       refreshToken(response)
    }
+    }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
@@ -842,6 +940,7 @@ function* handleDeleteRecuringBills(action) {
 
 
 function* handleAddInvoiceRecurringSettings (param){
+   try{
    const response = yield call (InvoiceRecurringsettings,param.payload)
    
    
@@ -882,6 +981,15 @@ function* handleAddInvoiceRecurringSettings (param){
    if(response){
       refreshToken(response)
    }
+    }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
@@ -904,6 +1012,7 @@ function* handleGetReceipts(action) {
 
 
 function* handleAddReceipt (action) {
+   try{
    const response = yield call (AddReceipt,action.payload);
  
    
@@ -942,9 +1051,19 @@ function* handleAddReceipt (action) {
    if(response){
       refreshToken(response)
    }
+    }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleEditReceipt (action) {
+   try{
    const response = yield call (EditReceipt,action.payload);
    if (response.status === 200 || response.data.statusCode === 200){
       yield put ({type : 'RECEIPTS_EDIT' , payload:{response:response.data, statusCode:response.status || response.data.statusCode }})
@@ -978,6 +1097,15 @@ function* handleEditReceipt (action) {
    if(response){
       refreshToken(response)
    }
+    }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleDeleteReceipt(action) {
@@ -1066,6 +1194,7 @@ function* handleReference_Id() {
 }
 
 function* handleReceiptPdf(action) {
+   try{
    const response = yield call(ReceiptPDf, action.payload)
    
      if (response.status === 200 || response.statusCode === 200) {
@@ -1077,7 +1206,16 @@ function* handleReceiptPdf(action) {
    }
    if(response){
       refreshToken(response)
-   }
+   } 
+}
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleFilterRecurrCustomer(action) {

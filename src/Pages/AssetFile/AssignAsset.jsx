@@ -27,7 +27,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   const [floorError, setFloorError] = useState("");
   const [noChangeError, setNoChangeError] = useState("");
   const [generalError, setGeneralError] = useState("");
- const [formLoading, setFormLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
   const [selectedDate, setSelectedDate] = useState(null);
   const calendarRef = useRef(null);
   const [roomList, setRoomList] = useState([]);
@@ -66,7 +66,7 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [currentItem]);
 
 
-    const getMinDate = () => {
+  const getMinDate = () => {
     if (currentItem?.assigned_date) {
       return dayjs(currentItem.assigned_date).startOf("day");
     }
@@ -142,7 +142,8 @@ function StaticExample({ show, handleClose, currentItem }) {
 
   const handleAddAssignAsset = () => {
 
-
+    dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+    dispatch({ type: 'CLEAR_ASSET_ERROR' })
     setRoomError("");
     setDateError("");
     setFloorError("");
@@ -237,6 +238,21 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [state.AssetList.addAssignAssetStatusCode]);
 
 
+  useEffect(() => {
+    if (state.createAccount?.networkError || state.AssetList.assetError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+        dispatch({ type: 'CLEAR_ASSET_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError, state.AssetList.assetError])
+
+
+
+
+
   return (
     <div
       className="modal show"
@@ -293,6 +309,18 @@ function StaticExample({ show, handleClose, currentItem }) {
                 </label>
               </div>
             )}
+
+          
+
+
+            {state.AssetList.assetError ?
+              <div className='d-flex align-items-center p-1 mb-1'>
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.AssetList.assetError}</label>
+              </div>
+
+              : null}
+
 
             <div className="row ">
               <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
@@ -457,7 +485,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                         ...base,
                         backgroundColor: "#f8f9fa",
                         border: "1px solid #ced4da",
-                         fontFamily: "Gilroy",
+                        fontFamily: "Gilroy",
                       }),
                       menuList: (base) => ({
                         ...base,
@@ -466,7 +494,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                         padding: 0,
                         scrollbarWidth: "thin",
                         overflowY: "auto",
-                         fontFamily: "Gilroy",
+                        fontFamily: "Gilroy",
                       }),
                       placeholder: (base) => ({
                         ...base,
@@ -530,10 +558,10 @@ function StaticExample({ show, handleClose, currentItem }) {
 
                   <div
                     className="datepicker-wrapper"
-                    style={{ position: "relative", width: "100%",cursor: "pointer" }}
+                    style={{ position: "relative", width: "100%", cursor: "pointer" }}
                   >
                     <DatePicker
-                      style={{ width: "100%", height: 48,  fontFamily: "Gilroy", }}
+                      style={{ width: "100%", height: 48, fontFamily: "Gilroy", }}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={selectedDate ? dayjs(selectedDate) : null}
@@ -546,9 +574,9 @@ function StaticExample({ show, handleClose, currentItem }) {
                       getPopupContainer={(triggerNode) =>
                         triggerNode.closest(".datepicker-wrapper")
                       }
-                       disabledDate={(current) =>
-                         current && current < getMinDate()
-                             }
+                      disabledDate={(current) =>
+                        current && current < getMinDate()
+                      }
                     />
                   </div>
                 </Form.Group>
@@ -577,7 +605,7 @@ function StaticExample({ show, handleClose, currentItem }) {
               </div>
             </div>
           </Modal.Body>
- {formLoading && 
+          {formLoading &&
             <div
               style={{
                 position: 'absolute',
@@ -603,6 +631,12 @@ function StaticExample({ show, handleClose, currentItem }) {
                 }}
               ></div>
             </div>}
+            {state.createAccount?.networkError ? 
+                      <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                                              <MdError style={{ color: "red", marginRight: '5px' }} />
+                                              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                            </div>
+                                              : null}
           {noChangeError && (
             <div
               className="d-flex align-items-center p-1 mb-2 mt-2"

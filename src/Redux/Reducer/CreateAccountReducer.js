@@ -19,7 +19,7 @@ export const initialState = {
    mobileError: '',
    email_mobile_Error: '',
    passwordDoesnotMatchError: '',
-   networkError: ''
+   networkError: 'Network error occurred'
 
 }
 const CreateAccountReducer = (state = initialState, action) => {
@@ -30,7 +30,7 @@ const CreateAccountReducer = (state = initialState, action) => {
       case 'NETWORK_ERROR':
          return { ...state, networkError: action.payload }
       case 'CLEAR_NETWORK_ERROR':
-         return { ...state, networkError: "" }
+         return { ...state, networkError: "Network error occurred" }
       case 'RESET_ALL':
          return initialState;
       case 'ERROR':

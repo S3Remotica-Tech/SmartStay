@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function* handleRecurringRole(action) {
+   try{
    const response = yield call(RecurringRole, action.payload);
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -54,6 +55,15 @@ function* handleRecurringRole(action) {
    if (response) {
       refreshToken(response)
    }
+   }
+     catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       }
+   
+     }
 }
 
 
@@ -63,6 +73,7 @@ function* handleRecurringRole(action) {
 
 
 function* handleCategorylist(action) {
+   try{
    const response = yield call(ExpencesCategorylist, action.payload);
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -81,9 +92,19 @@ function* handleCategorylist(action) {
    if (response) {
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleCategoryAdd(params) {
+   try{
    const response = yield call(AddExpencesCategory, params.payload);
    
    if (response.status === 200 || response.statusCode === 200) {
@@ -130,10 +151,20 @@ function* handleCategoryAdd(params) {
    if (response) {
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
 function* handleEditCategory(params) {
+   try{
    const response = yield call(EditExpencesCategory, params.payload);
    
    if (response.status === 200 || response.statusCode === 200) {
@@ -152,6 +183,15 @@ function* handleEditCategory(params) {
    if (response) {
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
@@ -222,6 +262,7 @@ function* handleComplainttypelist(action) {
 }
 
 function* handleComplaintTypeAdd(params) {
+   try{
    const response = yield call(Addcomplainttype, params.payload);
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -279,9 +320,19 @@ function* handleComplaintTypeAdd(params) {
    if (response) {
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleComplaintTypeEdit(action) {
+   try{
    const response = yield call(Editcomplainttype, action.payload);
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'COMPLAINT_TYPE_EDIT', payload: { response: response.data, statusCode: response.status || response.data.statusCode , message: response.data.message } })
@@ -335,6 +386,15 @@ function* handleComplaintTypeEdit(action) {
    if (response) {
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleDeleteComplainttype(action) {
@@ -394,7 +454,7 @@ function* handleDeleteComplainttype(action) {
 
 
 function* handleEBBillingUnitAdd(params) {
-   
+   try{
    const response = yield call(AddEBBillingUnit, params.payload);
 
    if (response.status === 200 || response.data.statusCode === 200) {
@@ -439,6 +499,15 @@ function* handleEBBillingUnitAdd(params) {
    if (response) {
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleEBBillingUnitGet(action) {
@@ -525,6 +594,7 @@ function* handleGetAllRoles(action) {
 }
 
 function* handleAddSettingRole(action) {
+   try{
    const response = yield call (AddSettingRole, action.payload);
 
    var toastStyle = {
@@ -565,6 +635,15 @@ function* handleAddSettingRole(action) {
    if(response){
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
@@ -585,6 +664,7 @@ function* handlepermissionEdit(userDetails){
 
 
 function* handleEditRolePermission(detail) {
+   try{
    const response = yield call (editRolePermission, detail.payload);
 
    var toastStyle = {
@@ -629,6 +709,15 @@ function* handleEditRolePermission(detail) {
    if(response){
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
@@ -697,6 +786,7 @@ function* handleDeleteRolePermission(detail) {
 
 //settingUser
 function* handleAddStaffUserPage(detail) {
+   try{
    const response = yield call (addStaffUser, detail.payload);
 
    var toastStyle = {
@@ -743,6 +833,15 @@ function* handleAddStaffUserPage(detail) {
    if(response){
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleGetAllStaffs(action) {
@@ -772,6 +871,7 @@ function* handleGetAllReports() {
 }
 
 function* handleAddGeneralPage(action) {
+   try{
    const response = yield call (AddGeneral, action.payload);
 
    var toastStyle = {
@@ -819,6 +919,15 @@ function* handleAddGeneralPage(action) {
    if(response){
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
@@ -839,7 +948,9 @@ function* handleGetAllGeneral() {
 
 
 
+
 function* handleChangePasswordinStaff(action) {
+   try{
    const response = yield call (passwordChangesinstaff, action.payload);
 
    var toastStyle = {
@@ -882,9 +993,19 @@ function* handleChangePasswordinStaff(action) {
    if(response){
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 function* handleCheckPassword(action) {
+   try{
    const response = yield call (passwordCheck, action.payload);
 
    var toastStyle = {
@@ -928,6 +1049,15 @@ function* handleCheckPassword(action) {
    if(response){
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
@@ -981,6 +1111,7 @@ function* handleDeleteGenerlPage(action) {
 
 
 function* handleNewSubscriptionpage(action) {
+   try{
    const response = yield call(newSubscription, action.payload);
    var toastStyle = {
      backgroundColor: "#E6F6E6",
@@ -1026,6 +1157,15 @@ function* handleNewSubscriptionpage(action) {
    if (response) {
      refreshToken(response);
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
  }
 
 
@@ -1045,6 +1185,7 @@ function* handleNewSubscriptionList(action) {
 }
 
 function* handleSubscriptionPdf(action) {
+
    const response = yield call(SubscriptionPdfDownload, action.payload)
 
    
@@ -1063,6 +1204,7 @@ function* handleSubscriptionPdf(action) {
 
 
 function* handleSettingsRecurring(action) {
+   try{
    const response = yield call(SettingsAddRecurring, action.payload);
 
    if (response.status === 200 || response.statusCode === 200) {
@@ -1104,6 +1246,15 @@ function* handleSettingsRecurring(action) {
    if (response) {
       refreshToken(response)
    }
+   }
+  catch (error) {
+    if (error.code === 'ERR_NETWORK') {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    } else {
+      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    }
+
+  }
 }
 
 
