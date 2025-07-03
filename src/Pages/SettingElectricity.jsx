@@ -43,6 +43,7 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
 
   useEffect(() => {
     if (hostelid) {
+      setLoading(true)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: { hostel_id: hostelid },
@@ -286,15 +287,8 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
     }
   }, [state.Settings.EBBillingUnitlist]);
 
-  useEffect(() => {
-    if (state.PgList.checkEBList) {
-      dispatch({
-        type: "EB-BILLING-UNIT-LIST",
-        payload: { hostel_id: hostelid },
-      });
-    }
-  }, [state.PgList.checkEBList]);
 
+   
   useEffect(() => {
     if (state.Settings?.getebStatuscode === 200) {
       setLoading(false);

@@ -141,10 +141,12 @@ function CustomerForm({ show, handleClose, initialData }) {
   const handleSubmitWalkIn = () => {
  dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
 
-    if (!name && !mobile && !countryCode && !walkInDate) {
+    if (!name && !mobile && !countryCode && !walkInDate   ) {
       setGeneralError('Please Fill in All The Required Fields');
       return;
     }
+
+    
 
     const normalize = (val) => {
       if (val === null || val === undefined || val === 'null') return '';
@@ -214,6 +216,13 @@ function CustomerForm({ show, handleClose, initialData }) {
     } else {
       setMobileError('');
     }
+
+   if (pincode.length > 0 && pincode.length !== 6) {
+  setPincodeError("Pin Code Must Be Exactly 6 Digits");
+  return
+}
+
+
 
     if (!countryCode) {
       setCountryCodeError('Please select Country Code');
@@ -405,6 +414,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
+      
     }
 
   };
@@ -438,12 +448,15 @@ function CustomerForm({ show, handleClose, initialData }) {
       }
     }
   };
+
   useEffect(() => {
     if (
       state.UsersList.addWalkInCustomerStatusCode === 200
     ) {
       setFormLoading(false)
+      handleFormClose()
       setJoingDateErrmsg("")
+      setPincodeError("")
       dispatch({
         type: "WALKINCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },

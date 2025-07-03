@@ -58,7 +58,6 @@ function PgList(props) {
   const [filteredData, setFilteredData] = useState([]);
 
   const [loader, setLoader] = useState(false);
-  const [trigger, setTrigger] = useState(true)
   const [editHostelDetails, setEditHostelDetails] = useState("");
   const [showAddPg, setShowAddPg] = useState(false);
 
@@ -122,7 +121,7 @@ function PgList(props) {
 
       setTimeout(() => {
           setLoader(false);
-      setTrigger(false)
+     
       }, 100)
 
       setFilteredData(state.UsersList.hotelDetailsinPg);
@@ -136,10 +135,6 @@ function PgList(props) {
     if (state.UsersList?.noAllHosteListStatusCode === 201) {
         setLoader(false);
       setFilteredData([]);
-    
-      setTimeout(() => {
-        setTrigger(false)
-      }, 100)
       setTimeout(() => {
         dispatch({ type: "CLEAR_NO_HOSTEL_DETAILS" });
       }, 1000);
@@ -994,76 +989,68 @@ function PgList(props) {
               )}
               <div className="container mt-2 pg-card" style={{}}>
                 <div className="row row-gap-3">
-                  {filteredData?.length > 0 ?
-
-                    <div
-                    
-                      className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12"
-                    >
-                      <PayingHostel
-                        OnSelectHostel={handleSelectedHostel}
-                        onRowVisiblity={handleDisplayPgList}
-                        OnEditHostel={handleEditHostel}
-                        editPermissionError={editPermissionError}
-                        deletePermissionError={deletePermissionError}
-                        filteredData={filteredData}
-                        handleShowsettingsPG={handleShowsettingsPG}
-                      />
-                    </div>
-
-                    :
-                    !loader && !trigger && filteredData?.length === 0 && (
-                      <div
-                        className="d-flex align-items-center justify-content-center fade-in"
-                        style={{
-                          width: "100%",
-                          margin: "0px auto",
-                          backgroundColor: "",
-                          marginTop:90
-                        }}
-                      >
-                        <div>
-                          <div className="d-flex  justify-content-center">
-                            <img
-                              src={EmptyState}
-                             
-                              alt="Empty state"
-                            />
-                          </div>
-                          <div
-                            className="pb-1 mt-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              fontSize: 18,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            No Paying Guest available
-                          </div>
-                          <div
-                            className="pb-1 mt-1"
-                            style={{
-                              textAlign: "center",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              fontSize: 14,
-                              color: "rgba(75, 75, 75, 1)",
-                            }}
-                          >
-                            There are no Paying Guest added.
-                          </div>
-
-                        </div>
-                        <div></div>
-                      </div>
-                    )
+                
+                  {filteredData?.length > 0 ? (
+  <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12">
+    <PayingHostel
+      OnSelectHostel={handleSelectedHostel}
+      onRowVisiblity={handleDisplayPgList}
+      OnEditHostel={handleEditHostel}
+      editPermissionError={editPermissionError}
+      deletePermissionError={deletePermissionError}
+      filteredData={filteredData}
+      handleShowsettingsPG={handleShowsettingsPG}
+    />
+  </div>
+) : (
+  !loader && filteredData?.length === 0 && (
+    <div
+      className="d-flex align-items-center justify-content-center fade-in"
+      style={{
+        width: "100%",
+        margin: "0px auto",
+        marginTop: 90,
+      }}
+    >
+      <div>
+        <div className="d-flex justify-content-center">
+          <img src={EmptyState} alt="Empty state" />
+        </div>
+        <div
+          className="pb-1 mt-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 600,
+            fontFamily: "Gilroy",
+            fontSize: 18,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          No Paying Guest available
+        </div>
+        <div
+          className="pb-1 mt-1"
+          style={{
+            textAlign: "center",
+            fontWeight: 500,
+            fontFamily: "Gilroy",
+            fontSize: 14,
+            color: "rgba(75, 75, 75, 1)",
+          }}
+        >
+          There are no Paying Guest added.
+        </div>
+      </div>
+    </div>
+  )
+)}
 
 
-                  }
 
 
+
+                </div>
+              </div>
 
 
                   <div className="mt-2 mb-2 d-flex justify-content-center w-100">
@@ -1098,10 +1085,6 @@ function PgList(props) {
 
                     )}
                   </div>
-                </div>
-              </div>
-
-
 
             </>
           )}

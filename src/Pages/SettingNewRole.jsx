@@ -91,11 +91,19 @@ function SettingNewRole({ hostelid }) {
 
   }
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-    }
-  }, [state.login.selectedHostel_Id])
+  
+
+const calledRef = useRef(false);
+
+useEffect(() => {
+  if (hostelid && !calledRef.current) {
+    dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: hostelid } });
+    calledRef.current = true;
+  }
+}, [hostelid]);
+
+
+   
 
 
   useEffect(() => {
