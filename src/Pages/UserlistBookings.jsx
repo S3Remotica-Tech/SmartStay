@@ -153,6 +153,8 @@ function Booking(props) {
   const [customerBooking, setCustomerBooking] = useState([])
 
   const calledOnceRef = useRef(false);
+  const pincodeRef = useRef(null)
+  const focusedRef = useRef(null)
 
   useEffect(() => {
     if (state.login.selectedHostel_Id && !calledOnceRef.current) {
@@ -488,6 +490,16 @@ function Booking(props) {
     } else {
       setPhoneError("");
     }
+
+
+    if (pincode && pincode.length !== 6) {
+    setPincodeError("Pin Code Must Be Exactly 6 Digits");
+    if (!focusedRef.current && pincodeRef?.current) {
+      pincodeRef.current.focus();
+      focusedRef.current = true;
+    }
+    hasError = true;
+  }
 
     if (Email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
