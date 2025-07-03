@@ -159,7 +159,6 @@ function CustomerReAssign(props) {
 
   
 
-
   const handleSaveReassignBed = () => {
     focusedRef.current = false;
     let hasError = false;
@@ -171,14 +170,14 @@ function CustomerReAssign(props) {
     if (!validateAssignField(selectedDate, "selectedDate", selectedDateRef, focusedRef, setDateError)) hasError = true;
 
 
-    if (selectedDate && props.reAssignDetail.user_join_date) {
+   if (selectedDate && props.reAssignDetail.user_join_date) {
   const joiningDate = new Date(props.reAssignDetail.user_join_date);
   const selected = new Date(selectedDate);
 
-      const joinDateOnly = new Date(joiningDate.toDateString());
-      const selectedDateOnly = new Date(selected.toDateString());
+  const joinDateOnly = new Date(joiningDate.getFullYear(), joiningDate.getMonth(), joiningDate.getDate());
+  const selectedDateOnly = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate());
 
-  if (selectedDateOnly <= joinDateOnly) {
+  if (selectedDateOnly < joinDateOnly) {
     setDateError("Before Join Date Not Allowed");
     hasError = true;
     return;
@@ -186,6 +185,7 @@ function CustomerReAssign(props) {
     setDateError("");
   }
 }
+
 
     if (hasError) return;
     if (newRoom === "Selected Room") {
@@ -201,7 +201,16 @@ function CustomerReAssign(props) {
 
 
 
-  
+  const formatToISODate = (date) => {
+  const d = new Date(date);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
+
 
     dispatch({
       type: "CUSTOMERREASSINBED",
@@ -213,7 +222,7 @@ function CustomerReAssign(props) {
         re_floor: newFloor,
         re_room: newRoom,
         re_bed: newBed,
-        re_date: selectedDate,
+        re_date: formattedDate,
         re_rent: newRoomRent,
         user_id: userId,
       },
