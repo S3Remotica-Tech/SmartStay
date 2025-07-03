@@ -312,7 +312,7 @@ function Banking() {
     setPopupPosition({ top: popupTop, left: popupLeft });
   };
 
- 
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -329,15 +329,15 @@ function Banking() {
 
   const [showAbove, setShowAbove] = useState(false);
 
-useEffect(() => {
-  if (popupRef.current) {
-    const popupHeight = popupRef.current.offsetHeight;
-    const windowHeight = window.innerHeight;
-    const spaceBelow = windowHeight - popupPosition.top;
-    
-    setShowAbove(spaceBelow < popupHeight + 20);
-  }
-}, [popupPosition]);
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
 
 
 
@@ -385,7 +385,7 @@ useEffect(() => {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   const handleShowAddBalance = (item) => {
-   setAddBankName(`${item.benificiary_name} - ${item.type}`);
+    setAddBankName(`${item.benificiary_name} - ${item.type}`);
 
     setTypeId(item.id);
     setshowAddBalance(true);
@@ -503,37 +503,37 @@ useEffect(() => {
     settransactionFilterddata(originalBillsFilter);
   };
 
- 
 
 
- const handlefilterInput = (e) => {
-  const input = e.target.value;
-  setFilterInput(input);
-  setDropdownVisible(input.length > 0);
 
-  if (input.trim() === "") {
-    settransactionFilterddata(originalBillsFilter); 
-  } else {
-    const filtered = originalBillsFilter.filter((item) =>
-      item.benificiary_name.toLowerCase().includes(input.toLowerCase())
+  const handlefilterInput = (e) => {
+    const input = e.target.value;
+    setFilterInput(input);
+    setDropdownVisible(input.length > 0);
+
+    if (input.trim() === "") {
+      settransactionFilterddata(originalBillsFilter);
+    } else {
+      const filtered = originalBillsFilter.filter((item) =>
+        item.benificiary_name.toLowerCase().includes(input.toLowerCase())
+      );
+      settransactionFilterddata(filtered);
+    }
+  };
+
+
+
+
+  const handleUserSelect = (user) => {
+    setFilterInput(user.benificiary_name);
+
+    const selectedUserData = originalBillsFilter?.filter(
+      (item) => item.benificiary_name === user.benificiary_name
     );
-    settransactionFilterddata(filtered);
-  }
-};
+    settransactionFilterddata(selectedUserData);
 
- 
-
-
- const handleUserSelect = (user) => {
-     setFilterInput(user.benificiary_name);
- 
-     const selectedUserData = originalBillsFilter?.filter(
-       (item) => item.benificiary_name === user.benificiary_name
-     );
-     settransactionFilterddata(selectedUserData);
- 
-     setDropdownVisible(false);
-   };
+    setDropdownVisible(false);
+  };
 
   const [dateRange, setDateRange] = useState(null);
 
@@ -581,12 +581,12 @@ useEffect(() => {
     settransactionFilterddata(filtered);
   };
 
-   useEffect(() => {
-      if (!filterStatus) {
-         setStatusfilter("All");
-         setDateRange(null);
-      }
-    }, [filterStatus]);
+  useEffect(() => {
+    if (!filterStatus) {
+      setStatusfilter("All");
+      setDateRange(null);
+    }
+  }, [filterStatus]);
 
 
   useEffect(() => {
@@ -1421,26 +1421,7 @@ useEffect(() => {
                             </div>
                             Transaction</div>
                         </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            paddingBottom: 12
-                          }}
-                        >Action</th>
-                        <th
-                          style={{
-                            textAlign: "center",
-                            fontFamily: "Gilroy",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: 14,
-                            fontWeight: 500,
-                          }}
-                        ></th>
+
                       </tr>
                     </thead>
                     <tbody style={{ textAlign: "center" }}>
@@ -1588,137 +1569,7 @@ useEffect(() => {
                               </span>
                             </td>
 
-                            <td
-                              style={{
-                                cursor: "pointer",
-                                height: 30,
-                                width: 30,
-                                borderRadius: 100,
-                                border: "1px solid #EFEFEF",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                position: "relative",
-                                marginTop: 10,
-                                marginLeft: 5,
-                                backgroundColor:
-                                  EditTransaction === user.id
-                                    ? "#E7F1FF"
-                                    : "white",
-
-                              }}
-                              onClick={(e) => handleEditTrans(user.id, e)}
-                            >
-                              <PiDotsThreeOutlineVerticalFill
-                                style={{ height: 17, width: 17 }}
-                              />
-                              {EditTransaction === user.id && (
-                              <div
-                                              ref={popupRef}
-                                               style={{
-                                                
-  position: "fixed",
-  top: showAbove
-    ? popupPosition.top - (popupRef.current?.offsetHeight || 200) - 10
-    : popupPosition.top - 25,
-  left: popupPosition.left,
-  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-  width: 140,
-  backgroundColor: "#F9F9F9",
-  border: "1px solid #EBEBEB",
-  borderRadius: "10px",
-  zIndex: 1000,
-}}
-
-                                              >
-                                  <div style={{ width: "100%", borderRadius: 10, backgroundColor: "#F9F9F9" }}>
-
-
-                                    <div
-                                      className="d-flex justify-content-start align-items-center gap-2"
-                                      onClick={() => {
-                                        if (!bankingEditPermission) {
-                                          handleEditTransForm(user);
-                                        }
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (!bankingEditPermission)
-                                          e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                      }}
-                                      style={{
-                                        padding: "8px 12px",
-                                        width: "100%",
-                                        backgroundColor: "#F9F9F9",
-                                        cursor: bankingEditPermission ? "not-allowed" : "pointer",
-                                        pointerEvents: bankingEditPermission ? "none" : "auto",
-                                        opacity: bankingEditPermission ? 0.6 : 1,
-                                        borderTopLeftRadius: 10,
-                                        borderTopRightRadius: 10,
-                                      }}
-                                    >
-                                      <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
-                                      <label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy, sans-serif",
-                                          color: "#000000",
-                                          cursor: bankingEditPermission ? "not-allowed" : "pointer",
-                                        }}
-                                      >
-                                        Edit
-                                      </label>
-                                    </div>
-
-
-                                    <div style={{ height: 1, backgroundColor: "#F0F0F0" }} />
-
-                                    <div
-                                      className="d-flex justify-content-start align-items-center gap-2"
-                                      onClick={() => {
-                                        if (!bankingDeletePermission) {
-                                          handleDeleteTransForm(user);
-                                        }
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (!bankingDeletePermission)
-                                          e.currentTarget.style.backgroundColor = "#FFF0F0";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                      }}
-                                      style={{
-                                        padding: "8px 12px",
-                                        width: "100%",
-                                        backgroundColor: "#F9F9F9",
-                                        cursor: bankingDeletePermission ? "not-allowed" : "pointer",
-                                        pointerEvents: bankingDeletePermission ? "none" : "auto",
-                                        opacity: bankingDeletePermission ? 0.6 : 1,
-                                        borderBottomLeftRadius: 10,
-                                        borderBottomRightRadius: 10,
-                                      }}
-                                    >
-                                      <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" />
-                                      <label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy, sans-serif",
-                                          color: "#FF0000",
-                                          cursor: bankingDeletePermission ? "not-allowed" : "pointer",
-                                        }}
-                                      >
-                                        Delete
-                                      </label>
-                                    </div>
-                                  </div>
-                                </div>
-
-                              )}
-                            </td>
+                      
                           </tr>
                         );
                       })}
@@ -1801,19 +1652,20 @@ useEffect(() => {
 
             {transactionFilterddata?.length >= 5 && (
               <nav
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end",
-                  padding: "10px",
-                  position: "fixed",
-                  bottom: "10px",
-                  right: "10px",
-                  backgroundColor: "#fff",
-                  borderRadius: "5px",
-                  zIndex: 1000,
-                  marginTop: 10
-                }}
+               style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "end",
+                      padding: "10px",
+                      borderRadius: "5px",
+                      position: "fixed",
+                      zIndex: 1000,
+                      width: '83%',
+                      bottom: 0,
+                      left: '17%',
+                      right: '16px',
+                      backgroundColor:"#fff"
+                    }}
               >
                 <div>
                   <select className="selectoption"
