@@ -287,7 +287,7 @@ const handleSubmitContact = () => {
       hasError = true;
     } else if (Phone) {
       setPhoneError("");
-      setPhoneErrorMessage("");
+      setPhoneError("");
     }
 
   if (hasError) return;
