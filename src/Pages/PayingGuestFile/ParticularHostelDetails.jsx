@@ -180,7 +180,7 @@ function ParticularHostelDetails(props) {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(6)
+  const [itemsPerPage, setItemsPerPage] = useState(4)
 
  
 
@@ -380,9 +380,10 @@ function ParticularHostelDetails(props) {
             {currentItems.length > 0 && currentItems.map((room) => (
               <>
 
+
                 <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
 
-                  <Card className="h-100 fade-in" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 200 }}>
+                  <Card className="h-100 fade-in" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 100 }}>
                     <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
                       <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>
                         Room No {room.Room_Name}
@@ -616,7 +617,7 @@ function ParticularHostelDetails(props) {
                     : undefined
                 }
               >
-                + Add Room
+                + Add Rooms
               </label>
 
             </div>
@@ -628,7 +629,7 @@ function ParticularHostelDetails(props) {
 
 
         {
-          roomCountData.length >= 6 &&
+          roomCountData.length >= 4 &&
 
 
           <nav
@@ -648,31 +649,6 @@ function ParticularHostelDetails(props) {
               zIndex: 1000,
             }}
           >
-            <div>
-              <select
-                value={itemsPerPage}
-                onChange={handleItemsPerPageChange}
-                style={{
-                  padding: "5px",
-                  border: "1px solid #1E45E1",
-                  borderRadius: "5px",
-                  color: "#1E45E1",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  outline: "none",
-                  boxShadow: "none",
-
-                }}
-              >
-
-                <option value={6}>6</option>
-                <option value={10}>10</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-            </div>
-
-          
             <ul
               style={{
                 display: "flex",
@@ -682,7 +658,6 @@ function ParticularHostelDetails(props) {
                 padding: 0,
               }}
             >
-            
               <li style={{ margin: "0 10px" }}>
                 <button
                   style={{
