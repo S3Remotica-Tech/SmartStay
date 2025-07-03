@@ -665,7 +665,7 @@ function ParticularHostelDetails(props) {
                 }}
               >
 
-                <option value={4}>4</option>
+                <option value={6}>6</option>
                 <option value={10}>10</option>
                 <option value={50}>50</option>
                 <option value={100}>100</option>
