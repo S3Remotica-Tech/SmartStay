@@ -108,13 +108,18 @@ const Compliance = () => {
             setExcelFilterDates([])
             setStatusfilter("")
     }
-    else if(statusfilter && statusfilter !== "date" || statusfilter !== "All" ){
-         dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint", hostel_id: hosId ,
-                  status : statusfilter}
-                 })
-            setExcelFilterDates([])
-            setStatusfilter("")
-           }
+  else if (statusfilter && statusfilter !== "date" && statusfilter !== "All") {
+  dispatch({ type: "EXPORTCOMPLIANCEDETAILS",
+    payload: {
+      type: "complaint",
+      hostel_id: hosId,
+      status: statusfilter,
+    }
+  });
+  setExcelFilterDates([]);
+  setStatusfilter("");
+}
+
     else{
          dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint", hostel_id: hosId } });  
         }
