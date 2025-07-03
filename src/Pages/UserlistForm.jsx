@@ -66,7 +66,7 @@ function UserlistForm(props) {
   const [state_nameError, setStateNameError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [formLoading, setFormLoading] = useState(false)
   const [loading, setLoading] = useState(false)
   const countryCode = "91";
@@ -470,6 +470,7 @@ function UserlistForm(props) {
     setLandmarkError("");
     setStreetError("");
     setHouse_NoError("");
+    setJoingDateErrmsg("")
     setFloor("");
     setRooms("");
     setBed("");
@@ -491,6 +492,9 @@ function UserlistForm(props) {
       props.setRoomDetail(false);
     }
   };
+
+    
+    
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {
@@ -723,6 +727,23 @@ function UserlistForm(props) {
       return;
     }
 
+
+       if (selectedDate && props.EditObj.User_Id) {
+      const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.EditObj.User_Id);
+      if (selectedUser) {
+        const CreateDate = new Date(selectedUser.createdAt);
+        const AssignDate = new Date(selectedDate);
+        const CreaeteDateOnly = new Date(CreateDate.toDateString());
+        const AssignDateOnly = new Date(AssignDate.toDateString());
+        if (AssignDateOnly < CreaeteDateOnly) {
+          setJoingDateErrmsg('Before Create Date Not Allowed');
+         return
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
+
     if (
       Floor !== "Selected Floor" &&
       Rooms !== "Selected Room" &&
@@ -773,6 +794,24 @@ function UserlistForm(props) {
       setAdvanceAmountError("Please Enter Valid Advance Amount");
       return;
     }
+
+       if (selectedDate && props.EditObj.User_Id) {
+      const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.EditObj.User_Id);
+      if (selectedUser) {
+        const CreateDate = new Date(selectedUser.createdAt);
+        const AssignDate = new Date(selectedDate);
+        const CreaeteDateOnly = new Date(CreateDate.toDateString());
+        const AssignDateOnly = new Date(AssignDate.toDateString());
+        if (AssignDateOnly <= CreaeteDateOnly) {
+          setJoingDateErrmsg('Before Create Date Not Allowed');
+         return
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
+
+
 
     if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
       const incrementDateAndFormat = (date) => {
@@ -842,6 +881,30 @@ function UserlistForm(props) {
     } else {
       setAdvanceDueDateError("");
     }
+           
+    
+
+      if (advanceDate && advanceDueDate && props.EditObj.User_Id) {
+  const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.EditObj.User_Id);
+
+  if (selectedUser) {
+    const CreateDate = dayjs(selectedUser.createdAt).startOf('day');
+    const InvoiceDate = dayjs(advanceDate).startOf('day');
+    const DueDate = dayjs(advanceDueDate).startOf('day');
+
+    if (InvoiceDate.isBefore(CreateDate)) {
+      setAdvanceDateError("Before Join Date Not Allowed");
+      hasError = true;
+    }
+
+    if (DueDate.isBefore(CreateDate)) {
+      setAdvanceDueDateError("Before Join Date Not Allowed");
+      hasError = true;
+    }
+  }
+}
+
+
 
     if (hasError) {
       return;
@@ -2135,6 +2198,7 @@ function UserlistForm(props) {
                               onChange={(date) => {
                                 setDateError("");
                                 setSelectedDate(date ? date.toDate() : null);
+                                setJoingDateErrmsg('')
                               }}
                               getPopupContainer={(triggerNode) =>
                                 triggerNode.closest(".show-scroll") || document.body
@@ -2161,6 +2225,15 @@ function UserlistForm(props) {
                             </label>
                           </div>
                         )}
+
+                         {joiningDateErrmsg.trim() !== "" && (
+                                                        <div className="d-flex align-items-center">
+                                                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                          <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                            {joiningDateErrmsg}
+                                                          </label>
+                                                        </div>
+                                                      )}
                       </div>
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
