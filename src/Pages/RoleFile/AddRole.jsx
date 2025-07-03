@@ -418,7 +418,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
                             {errorForm && (
                                 <div className="d-flex align-items-center" style={{ marginTop: "-10px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", marginBottom: "2px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {errorForm}
                                     </label>
@@ -507,7 +507,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
                     }
                     {errorIsChanged && (
                         <div className="mb-3 mt-2" style={{ textAlign: "center" }}>
-                            <MdError style={{ color: "red", marginRight: '5px' }} />
+                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", marginBottom: "2px" }} />
                             <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 {errorIsChanged}
                             </label>
@@ -517,9 +517,9 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
                     {errorPermission && (
-                        <div className="d-flex align-items-center ms-3 mb-3 mt-2" style={{ marginTop: "-10px" }}>
-                            <MdError style={{ color: "red", marginRight: '5px' }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        <div className="d-flex align-items-center ms-3 mb-3 mt-3">
+                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: "13px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 {errorPermission}
                             </label>
                         </div>

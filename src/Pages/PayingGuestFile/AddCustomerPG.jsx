@@ -55,10 +55,10 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   const cityRef = useRef(null);
   const pincodeRef = useRef(null);
   const stateRef = useRef(null);
-    const dateRef = useRef(null);
+  const dateRef = useRef(null);
   const advanceAmountRef = useRef(null);
   const roomRentRef = useRef(null);
-
+  const emailRef = useRef(null);
 
   const indianStates = [
     { value: "Tamil Nadu", label: "Tamil Nadu" },
@@ -233,6 +233,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
     if (value.length > 0 && value.length < 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      return;
     } else {
       setPincodeError("");
     }
@@ -263,8 +264,10 @@ function AddCustomer({ show, handleClosing, currentItem }) {
   };
 
   const handleAddCustomerDetails = () => {
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
     let hasError = false;
-     let firstInvalidRef = null;
+    let firstInvalidRef = null;
     const Hostel_Id = currentItem.room.Hostel_Id;
     const Floor_Id = currentItem.room.Floor_Id;
     const Room_Id = currentItem.room.Room_Id;
@@ -275,15 +278,15 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     });
 
 
-   
+
     if (!firstname) {
       setFirstNameError("Please Enter First Name");
       hasError = true;
       if (!firstInvalidRef) firstInvalidRef = firstnameRef;
     }
 
-   
-    
+
+
 
     if (!phone) {
       setPhoneError("Please Enter Phone Number");
@@ -300,6 +303,10 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       setPincodeError("Please Enter Pincode");
       hasError = true;
       if (!firstInvalidRef) firstInvalidRef = pincodeRef;
+    } else if (pincode.length > 0 && pincode.length < 6) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      hasError = true;
+      if (!firstInvalidRef) firstInvalidRef = pincodeRef;
     }
 
     if (!city) {
@@ -308,7 +315,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       if (!firstInvalidRef) firstInvalidRef = cityRef;
     }
 
-    
+
 
     if (!state_name) {
       setStateNameError("Please Select State");
@@ -334,12 +341,6 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       if (!firstInvalidRef) firstInvalidRef = roomRentRef;
     }
 
-    // Focus on first invalid field
-    if (firstInvalidRef && firstInvalidRef.current) {
-      firstInvalidRef.current.focus();
-    }
-
-    if (hasError) return;
 
 
 
@@ -349,11 +350,15 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       if (!isValidEmail) {
         setEmailError("Please Enter Valid Email ID");
         hasError = true;
+        if (!firstInvalidRef) firstInvalidRef = emailRef;
       } else {
         setEmailError("");
       }
     } else {
       setEmailError("");
+    }
+    if (firstInvalidRef && firstInvalidRef.current) {
+      firstInvalidRef.current.focus();
     }
 
     if (isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
@@ -365,6 +370,11 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       setRoomRentError("Please enter a valid Rental Amount");
       return;
     }
+
+    if (hasError) return;
+
+
+
     const mobileNumber = `${countryCode}${phone}`;
 
     let formattedSelectedDate;
@@ -730,8 +740,8 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                       </div>
                     )}
 
-                    
-                    
+
+
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -752,6 +762,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         id="form-controls"
                         placeholder="Enter Email ID"
                         value={email}
+                        ref={emailRef}
                         onChange={(e) => handleEmail(e)}
                         style={{
                           fontSize: 16,
@@ -991,7 +1002,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         id="form-controls"
                         placeholder="Enter City"
                         value={city}
-                         ref={cityRef}
+                        ref={cityRef}
                         onChange={(e) => handleCity(e)}
                         style={{
                           fontSize: 16,
@@ -1112,7 +1123,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                         <DatePicker
-                        ref={dateRef}
+                          ref={dateRef}
                           style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                           format="DD/MM/YYYY"
                           placeholder="DD/MM/YYYY"
@@ -1181,7 +1192,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
                         id="form-controls"
                         placeholder="Enter Amount"
                         value={AdvanceAmount}
-                           ref={advanceAmountRef}
+                        ref={advanceAmountRef}
                         onChange={(e) => handleAdvanceAmount(e)}
                         style={{
                           fontSize: 16,

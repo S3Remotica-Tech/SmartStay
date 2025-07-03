@@ -1575,7 +1575,7 @@ function SettingGeneral() {
                 />
               </Form.Group>
               {emailError && (
-                <div style={{ color: "red", fontSize: "13px" }}>
+                <div style={{ color: "red", fontSize: "13px",marginTop: "4px" }}>
                   <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>
                 </div>

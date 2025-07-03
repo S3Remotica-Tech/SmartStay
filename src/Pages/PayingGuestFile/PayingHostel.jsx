@@ -121,7 +121,7 @@ function PayingHostel(props) {
                 ? "1px solid #1E45E1"
                 : "1px solid #E6E6E6",
               transition: "border 0.3s ease, box-shadow 0.3s ease",
-              height: "auto",
+              height: "70vh",
               boxShadow: hoverPgCard
                 ? "0px 4px 10px rgba(30, 69, 225, 0.4)"
                 : "0px 2px 5px rgba(0, 0, 0, 0.1)",
@@ -477,7 +477,7 @@ function PayingHostel(props) {
                   </div>
                 </div>
 
-                <div className="pb-1" style={{ lineHeight: 1, flex: 1 }}>
+                <div className="pb-1 ms-5" style={{ lineHeight: 1, flex: 1 }}>
                   <div>
                     <label
                       style={{

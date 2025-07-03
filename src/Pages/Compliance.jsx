@@ -1066,7 +1066,7 @@ const Compliance = () => {
                 </div>
                 {filteredUsers && filteredUsers?.length >= 6 && (
 
-                  <nav className="pagination-container mb-0"
+                  <nav className=" mb-0"
                     style={{
                       display: "flex",
                       alignItems: "center",

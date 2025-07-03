@@ -134,7 +134,7 @@ function CustomerCheckout(props) {
         >
           <Modal.Dialog
             style={{
-              minWidth: 600,
+             
               paddingRight: "10px",
               borderRadius: "30px",
             }}
@@ -196,7 +196,7 @@ function CustomerCheckout(props) {
                           </div>
                         </Form.Group>
                         {checkoUtrequestDateError && (
-                          <div className="d-flex align-items-center p-1 mb-2">
+                          <div className="d-flex align-items-center  mb-1">
                             <MdError style={{ color: "red", marginRight: '5px' }} />
                             <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                               {checkoUtrequestDateError}
@@ -237,7 +237,7 @@ function CustomerCheckout(props) {
 
                         </Form.Group>
                         {checkoUtDateError && (
-                          <div className="d-flex align-items-center  mb-2">
+                          <div className="d-flex align-items-center  mb-1">
                             <MdError style={{ color: "red", marginRight: '5px' }} />
                             <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500, whiteSpace: "nowrap" }}>
                               {checkoUtDateError}
