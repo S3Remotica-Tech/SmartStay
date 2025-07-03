@@ -13,7 +13,6 @@ import BankingAddForm from "./BankingAddForm";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import Modal from "react-bootstrap/Modal";
-import BankingEditTransaction from "./BankingTransaction";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, } from "iconsax-react";
@@ -47,17 +46,12 @@ function Banking() {
   const [showAddBalance, setshowAddBalance] = useState(false);
   const [defaltType, setDefaultType] = useState("");
   const [selectedAccountType, setSelectedAccountType] = useState("");
-  const [EditTransaction, setEditTransaction] = useState(null);
-  const [EditTransactionForm, setEditTransactionForm] = useState(false);
-  const [deleteTransactionForm, setDeleteTransactionForm] = useState(false);
-  const [openMenuId, setOpenMenuId] = useState(null);
+   const [openMenuId, setOpenMenuId] = useState(null);
   const [editAddBank, setEditAddBank] = useState("");
   const [edit, setEdit] = useState(false);
   const [AddBankName, setAddBankName] = useState("");
   const [AddBankAmount, setAddBankAmount] = useState("");
-  const [updateTransaction, setUpdateTransaction] = useState("");
   const [deleteBankId, setDeleteBankId] = useState("");
-  const [trnseId, setDeleteTransId] = useState("");
   const [bankingrolePermission, setBankingRolePermission] = useState("");
   const [bankingpermissionError, setBankingPermissionError] = useState("");
   const [bankingAddPermission, setBankingAddPermission] = useState("");
@@ -73,7 +67,7 @@ function Banking() {
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
   const [bankking, setBanking] = useState("")
   const [selfTranfer, setSelfTransfer] = useState(false)
-
+ const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
@@ -204,7 +198,12 @@ function Banking() {
     };
   }, []);
 
-
+ const handleChange = (e) => {
+    const value = e.target.value;
+        if (/^\d*$/.test(value)) {
+      setAmount(value);
+    }
+  };
 
   const handleAccountTypeSelection = (e) => {
     const selectedValue = parseInt(e.target.value);
@@ -295,76 +294,16 @@ function Banking() {
 
   };
 
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+  
 
-  const handleEditTrans = (id, event) => {
 
-    if (EditTransaction === id) {
-      setEditTransaction(null);
-    } else {
-      setEditTransaction(id);
-    }
-
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + height / 2;
-    const popupLeft = left - 200;
-
-    setPopupPosition({ top: popupTop, left: popupLeft });
-  };
-
+  
  
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setEditTransaction(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const [showAbove, setShowAbove] = useState(false);
-
-useEffect(() => {
-  if (popupRef.current) {
-    const popupHeight = popupRef.current.offsetHeight;
-    const windowHeight = window.innerHeight;
-    const spaceBelow = windowHeight - popupPosition.top;
-    
-    setShowAbove(spaceBelow < popupHeight + 20);
-  }
-}, [popupPosition]);
-
-
-
-  const handleEditTransForm = (item) => {
-    setUpdateTransaction(item);
-    setEditTransactionForm(true);
-    setEditTransaction(null);
-    setDeleteTransactionForm(false);
-    setOpenMenuId(null);
-  };
-
-
   const handleCloseTransactionDelete = () => {
-    setDeleteTransactionForm(false);
+   
   };
-  const handleDeleteTransForm = (u) => {
-    setDeleteTransId(u.id);
-    setDeleteTransactionForm(true);
-    setEditTransactionForm(false);
-    setEditTransaction(false);
-  };
-  const handleDeleteTransSubmit = () => {
-    dispatch({
-      type: "DELETEBANKTRANSACTIONS",
-      payload: { id: trnseId },
-    });
-  };
+
   useEffect(() => {
     if (
       transactionFilterddata.length > 0 &&
@@ -385,7 +324,7 @@ useEffect(() => {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   const handleShowAddBalance = (item) => {
-   setAddBankName(`${item.benificiary_name} - ${item.type}`);
+    setAddBankName(`${item.benificiary_name} - ${item.type}`);
 
     setTypeId(item.id);
     setshowAddBalance(true);
@@ -503,37 +442,37 @@ useEffect(() => {
     settransactionFilterddata(originalBillsFilter);
   };
 
- 
 
 
- const handlefilterInput = (e) => {
-  const input = e.target.value;
-  setFilterInput(input);
-  setDropdownVisible(input.length > 0);
 
-  if (input.trim() === "") {
-    settransactionFilterddata(originalBillsFilter); 
-  } else {
-    const filtered = originalBillsFilter.filter((item) =>
-      item.benificiary_name.toLowerCase().includes(input.toLowerCase())
+  const handlefilterInput = (e) => {
+    const input = e.target.value;
+    setFilterInput(input);
+    setDropdownVisible(input.length > 0);
+
+    if (input.trim() === "") {
+      settransactionFilterddata(originalBillsFilter);
+    } else {
+      const filtered = originalBillsFilter.filter((item) =>
+        item.benificiary_name.toLowerCase().includes(input.toLowerCase())
+      );
+      settransactionFilterddata(filtered);
+    }
+  };
+
+
+
+
+  const handleUserSelect = (user) => {
+    setFilterInput(user.benificiary_name);
+
+    const selectedUserData = originalBillsFilter?.filter(
+      (item) => item.benificiary_name === user.benificiary_name
     );
-    settransactionFilterddata(filtered);
-  }
-};
+    settransactionFilterddata(selectedUserData);
 
- 
-
-
- const handleUserSelect = (user) => {
-     setFilterInput(user.benificiary_name);
- 
-     const selectedUserData = originalBillsFilter?.filter(
-       (item) => item.benificiary_name === user.benificiary_name
-     );
-     settransactionFilterddata(selectedUserData);
- 
-     setDropdownVisible(false);
-   };
+    setDropdownVisible(false);
+  };
 
   const [dateRange, setDateRange] = useState(null);
 
@@ -581,12 +520,12 @@ useEffect(() => {
     settransactionFilterddata(filtered);
   };
 
-   useEffect(() => {
-      if (!filterStatus) {
-         setStatusfilter("All");
-         setDateRange(null);
-      }
-    }, [filterStatus]);
+  useEffect(() => {
+    if (!filterStatus) {
+      setStatusfilter("All");
+      setDateRange(null);
+    }
+  }, [filterStatus]);
 
 
   useEffect(() => {
@@ -1421,26 +1360,7 @@ useEffect(() => {
                             </div>
                             Transaction</div>
                         </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            paddingBottom: 12
-                          }}
-                        >Action</th>
-                        <th
-                          style={{
-                            textAlign: "center",
-                            fontFamily: "Gilroy",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: 14,
-                            fontWeight: 500,
-                          }}
-                        ></th>
+
                       </tr>
                     </thead>
                     <tbody style={{ textAlign: "center" }}>
@@ -1588,137 +1508,7 @@ useEffect(() => {
                               </span>
                             </td>
 
-                            <td
-                              style={{
-                                cursor: "pointer",
-                                height: 30,
-                                width: 30,
-                                borderRadius: 100,
-                                border: "1px solid #EFEFEF",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                position: "relative",
-                                marginTop: 10,
-                                marginLeft: 5,
-                                backgroundColor:
-                                  EditTransaction === user.id
-                                    ? "#E7F1FF"
-                                    : "white",
-
-                              }}
-                              onClick={(e) => handleEditTrans(user.id, e)}
-                            >
-                              <PiDotsThreeOutlineVerticalFill
-                                style={{ height: 17, width: 17 }}
-                              />
-                              {EditTransaction === user.id && (
-                              <div
-                                              ref={popupRef}
-                                               style={{
-                                                
-  position: "fixed",
-  top: showAbove
-    ? popupPosition.top - (popupRef.current?.offsetHeight || 200) - 10
-    : popupPosition.top - 25,
-  left: popupPosition.left,
-  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
-  width: 140,
-  backgroundColor: "#F9F9F9",
-  border: "1px solid #EBEBEB",
-  borderRadius: "10px",
-  zIndex: 1000,
-}}
-
-                                              >
-                                  <div style={{ width: "100%", borderRadius: 10, backgroundColor: "#F9F9F9" }}>
-
-
-                                    <div
-                                      className="d-flex justify-content-start align-items-center gap-2"
-                                      onClick={() => {
-                                        if (!bankingEditPermission) {
-                                          handleEditTransForm(user);
-                                        }
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (!bankingEditPermission)
-                                          e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                      }}
-                                      style={{
-                                        padding: "8px 12px",
-                                        width: "100%",
-                                        backgroundColor: "#F9F9F9",
-                                        cursor: bankingEditPermission ? "not-allowed" : "pointer",
-                                        pointerEvents: bankingEditPermission ? "none" : "auto",
-                                        opacity: bankingEditPermission ? 0.6 : 1,
-                                        borderTopLeftRadius: 10,
-                                        borderTopRightRadius: 10,
-                                      }}
-                                    >
-                                      <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
-                                      <label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy, sans-serif",
-                                          color: "#000000",
-                                          cursor: bankingEditPermission ? "not-allowed" : "pointer",
-                                        }}
-                                      >
-                                        Edit
-                                      </label>
-                                    </div>
-
-
-                                    <div style={{ height: 1, backgroundColor: "#F0F0F0" }} />
-
-                                    <div
-                                      className="d-flex justify-content-start align-items-center gap-2"
-                                      onClick={() => {
-                                        if (!bankingDeletePermission) {
-                                          handleDeleteTransForm(user);
-                                        }
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (!bankingDeletePermission)
-                                          e.currentTarget.style.backgroundColor = "#FFF0F0";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                      }}
-                                      style={{
-                                        padding: "8px 12px",
-                                        width: "100%",
-                                        backgroundColor: "#F9F9F9",
-                                        cursor: bankingDeletePermission ? "not-allowed" : "pointer",
-                                        pointerEvents: bankingDeletePermission ? "none" : "auto",
-                                        opacity: bankingDeletePermission ? 0.6 : 1,
-                                        borderBottomLeftRadius: 10,
-                                        borderBottomRightRadius: 10,
-                                      }}
-                                    >
-                                      <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" />
-                                      <label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy, sans-serif",
-                                          color: "#FF0000",
-                                          cursor: bankingDeletePermission ? "not-allowed" : "pointer",
-                                        }}
-                                      >
-                                        Delete
-                                      </label>
-                                    </div>
-                                  </div>
-                                </div>
-
-                              )}
-                            </td>
+                      
                           </tr>
                         );
                       })}
@@ -1801,19 +1591,20 @@ useEffect(() => {
 
             {transactionFilterddata?.length >= 5 && (
               <nav
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end",
-                  padding: "10px",
-                  position: "fixed",
-                  bottom: "10px",
-                  right: "10px",
-                  backgroundColor: "#fff",
-                  borderRadius: "5px",
-                  zIndex: 1000,
-                  marginTop: 10
-                }}
+               style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "end",
+                      padding: "10px",
+                      borderRadius: "5px",
+                      position: "fixed",
+                      zIndex: 1000,
+                      width: '83%',
+                      bottom: 0,
+                      left: '17%',
+                      right: '16px',
+                      backgroundColor:"#fff"
+                    }}
               >
                 <div>
                   <select className="selectoption"
@@ -2163,90 +1954,7 @@ useEffect(() => {
             </div>}
           </Modal>
 
-          <Modal
-            show={deleteTransactionForm}
-            onHide={() => handleCloseTransactionDelete()}
-            centered
-            backdrop="static"
-            dialogClassName="custom-delete-modal"
-          >
-            <Modal.Header style={{ borderBottom: "none" }}>
-              <Modal.Title
-                className="w-100 text-center"
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "Gilroy",
-
-                  fontWeight: 600,
-                  color: "#222222",
-
-                }}
-              >
-                Delete Transaction?
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body
-              className="text-center"
-              style={{
-                fontSize: 14,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                color: "#646464",
-
-                marginTop: "-10px",
-              }}
-            >
-              Are you sure you want to delete this Transaction?
-            </Modal.Body>
-
-            <Modal.Footer
-              className="d-flex justify-content-center"
-              style={{
-
-                borderTop: "none",
-                marginTop: "-10px",
-              }}
-            >
-              <Button
-                className="me-2"
-                style={{
-                  width: "100%",
-                  maxWidth: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#fff",
-                  color: "#1E45E1",
-                  border: "1px solid #1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-                onClick={handleCloseTransactionDelete}
-              >
-                Cancel
-              </Button>
-              <Button
-                style={{
-                  width: "100%",
-                  maxWidth: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#1E45E1",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-                onClick={handleDeleteTransSubmit}
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
+        
 
 
           <Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
@@ -2364,7 +2072,9 @@ useEffect(() => {
                   type="text"
                   className="form-control border-start-0 rounded-end"
                   placeholder="Enter amount"
-                  style={{ boxShadow: 'none', outline: "none" }}
+                   value={amount}
+      onChange={handleChange}
+                  style={{ boxShadow: 'none', outline: "none", fontFamily:"Gilroy" }}
                 />
               </div>
 
@@ -2379,16 +2089,7 @@ useEffect(() => {
 
 
 
-          {EditTransactionForm === true ? (
-            <BankingEditTransaction
-              setEditTransactionForm={setEditTransactionForm}
-              EditTransactionForm={EditTransactionForm}
-              setDeleteTransactionForm={setDeleteTransactionForm}
-              deleteTransactionForm={deleteTransactionForm}
-              setUpdateTransaction={setUpdateTransaction}
-              updateTransaction={updateTransaction}
-            />
-          ) : null}
+        
 
           {showForm === true ? (
             <BankingAddForm
@@ -2399,7 +2100,8 @@ useEffect(() => {
               setEditAddBank={setEditAddBank}
               setEdit={setEdit}
               edit={edit}
-              updateTransaction={updateTransaction}
+             
+              
             />
           ) : null}
         </div>
