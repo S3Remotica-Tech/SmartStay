@@ -56,8 +56,9 @@ const Compliance = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [search, setSearch] = useState(false);
-
+  const [ExcelFilterDates, setExcelFilterDates] = useState([])
   const [filterStatus, setFilterStatus] = useState(false);
+   const [statusfilter, setStatusfilter] = useState('')
 
   const [compliancerolePermission, setComplianceRolePermission] = useState("");
 
@@ -94,10 +95,34 @@ const Compliance = () => {
     }
   }, [state.UsersList?.exportComplianceDetails?.response?.fileUrl]);
 
+ 
+  
+
   const handleComplianceeExcel = () => {
-    dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint", hostel_id: hosId } });
+  
+    if( ExcelFilterDates.length === 2){
+         dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint", hostel_id: hosId ,
+            start_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+            end_date:ExcelFilterDates[1]?.format("YYYY-MM-DD")}
+            })
+            setExcelFilterDates([])
+            setStatusfilter("")
+    }
+    else if(statusfilter && statusfilter !== "date" || statusfilter !== "All" ){
+         dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint", hostel_id: hosId ,
+                  status : statusfilter}
+                 })
+            setExcelFilterDates([])
+            setStatusfilter("")
+           }
+    else{
+         dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint", hostel_id: hosId } });  
+        }
+  
     setIsDownloadTriggered(true)
   };
+
+
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
 
@@ -105,13 +130,14 @@ const Compliance = () => {
       link.href = excelDownload;
       link.download = "smartstay_file.xlsx";
       link.click();
+
       setTimeout(() => {
-        ;
         setExcelDownload("");
         setIsDownloadTriggered(false)
       }, 500);
     }
   }, [excelDownload && isDownloadTriggered]);
+
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportcompliance === 200) {
 
@@ -280,7 +306,7 @@ const Compliance = () => {
       ? filteredUsers
       : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
-  const [statusfilter, setStatusfilter] = useState('')
+ 
 
 
 
@@ -373,7 +399,12 @@ const Compliance = () => {
     return;
   }
 
+    
+    
   setSelectedDateRange(dates);
+   const newStartDate = dayjs(dates[0]).startOf("day");
+    const newEndDate = dayjs(dates[1]).endOf("day");
+    setExcelFilterDates([newStartDate, newEndDate])
 
   const filtered = (state.ComplianceList?.Compliance || []).filter((item) => {
     const itemDate = dayjs(item.date);
@@ -382,6 +413,8 @@ const Compliance = () => {
       itemDate.isSameOrBefore(dayjs(dates[1]), 'day')
     );
   });
+
+
 
   setFilteredUsers(filtered);
   setCurrentPage(1);

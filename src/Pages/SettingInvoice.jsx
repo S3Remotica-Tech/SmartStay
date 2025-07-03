@@ -2278,7 +2278,7 @@ useEffect(() => {
                                                   className="mb-0"
                                                   style={{
                                                     color: "red",
-                                                    fontSize: "12px",
+                                                    fontSize: 14,
                                                     fontFamily: "Gilroy",
                                                     fontWeight: 500,
                                                   }}

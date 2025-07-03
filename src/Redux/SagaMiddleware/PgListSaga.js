@@ -196,6 +196,7 @@ function* handleCustomerEblist(action) {
 
 function* handleCheckEB(action) {
   const response = yield call(Checkeblist, action.payload);
+  
   if (response.status === 200 || response.statusCode === 200) {
     yield put({ type: "CHECK_EB", payload: response.data });
      var toastStyle = {

@@ -1403,7 +1403,7 @@ useEffect(() => {
                   <div className="text-left">
                     <p
                       style={{
-                        fontSize: 12,
+                        fontSize: 14,
                         color: "red",
                         marginTop: "13px",
                         fontFamily: "Gilroy",
