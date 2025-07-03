@@ -154,6 +154,7 @@ function Booking(props) {
 
   const calledOnceRef = useRef(false);
   const pincodeRef = useRef(null)
+  const focusedRef = useRef(null)
 
   useEffect(() => {
     if (state.login.selectedHostel_Id && !calledOnceRef.current) {
