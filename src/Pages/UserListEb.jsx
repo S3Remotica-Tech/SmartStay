@@ -117,7 +117,7 @@ function UserEb(props) {
                                                         className='show-scrolls'
                                                         style={{
                                                          
-                                                          height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "280px" : "auto",
+                                                          height: sortedData?.length >= 6 | sortedData?.length >= 6 ? "240px" : "auto",
                                                           overflow: "auto",
                                                           borderTop: "1px solid #E8E8E8",
                                                           marginBottom: 20,
@@ -390,13 +390,8 @@ function UserEb(props) {
       </div>
         {EbFilterddata?.length >= 6 && (
 
-<nav
-style={{
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "end",
-  padding: "10px",
-}}
+<nav className="position-fixed bottom-0 end-0 mb-3 me-3 d-flex justify-content-end align-items-center"
+
 >
 <div>
   <select
