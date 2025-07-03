@@ -180,7 +180,7 @@ function ParticularHostelDetails(props) {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(6)
+  const [itemsPerPage, setItemsPerPage] = useState(4)
 
  
 
@@ -380,9 +380,10 @@ function ParticularHostelDetails(props) {
             {currentItems.length > 0 && currentItems.map((room) => (
               <>
 
+
                 <div className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12 d-flex justify-content-center'>
 
-                  <Card className="h-100 fade-in" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 200 }}>
+                  <Card className="h-100 fade-in" key={room.Room_Id} style={{ width: "100%", margin: 0, border: "1px solid #E6E6E6", borderRadius: 16, height: "auto", minHeight: 100 }}>
                     <Card.Header style={{ display: "flex", justifyContent: "space-between", backgroundColor: "#E0ECFF", border: "1px solid #E6E6E6", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
                       <div style={{ fontSize: 16, fontWeight: 600, fontFamily: "Gilroy", color: "rgba(34, 34, 34, 1)" }}>
                         Room No {room.Room_Name}
@@ -616,7 +617,7 @@ function ParticularHostelDetails(props) {
                     : undefined
                 }
               >
-                + Add Room
+                + Add Rooms
               </label>
 
             </div>
@@ -628,10 +629,89 @@ function ParticularHostelDetails(props) {
 
 
         {
-          roomCountData.length >= 6 &&
+          roomCountData.length >= 4 &&
 
 
-          <nav
+          // <nav
+           
+          //   className="pagination-container"
+          //   style={{
+          //     display: "flex",
+          //     alignItems: "center",
+          //     justifyContent: "end",
+          //     padding: "10px",
+          //     position: "fixed",
+          //     bottom: "10px",
+          //     right: "10px",
+          //     backgroundColor: "#fff",
+          //     borderRadius: "5px",
+          //     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          //     zIndex: 1000,
+          //   }}
+          // >
+          //   <ul
+          //     style={{
+          //       display: "flex",
+          //       alignItems: "center",
+          //       listStyleType: "none",
+          //       margin: 0,
+          //       padding: 0,
+          //     }}
+          //   >
+          //     <li style={{ margin: "0 10px" }}>
+          //       <button
+          //         style={{
+          //           padding: "5px",
+          //           textDecoration: "none",
+          //           color: currentPage === 1 ? "#ccc" : "#1E45E1",
+          //           cursor: currentPage === 1 ? "not-allowed" : "pointer",
+          //           borderRadius: "50%",
+          //           display: "inline-block",
+          //           minWidth: "30px",
+          //           textAlign: "center",
+          //           backgroundColor: "transparent",
+          //           border: "none",
+          //         }}
+          //         onClick={() => handlePageChange(currentPage - 1)}
+          //         disabled={currentPage === 1}
+          //       >
+          //         <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
+          //       </button>
+          //     </li>
+
+            
+          //     <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
+          //       {currentPage} of {totalPages}
+          //     </li>
+
+             
+          //     <li style={{ margin: "0 10px" }}>
+          //       <button
+          //         style={{
+          //           padding: "5px",
+          //           textDecoration: "none",
+          //           color: currentPage === totalPages ? "#ccc" : "#1E45E1",
+          //           cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+          //           borderRadius: "50%",
+          //           display: "inline-block",
+          //           minWidth: "30px",
+          //           textAlign: "center",
+          //           backgroundColor: "transparent",
+          //           border: "none",
+          //         }}
+          //         onClick={() => handlePageChange(currentPage + 1)}
+          //         disabled={currentPage === totalPages}
+          //       >
+          //         <ArrowRight2
+          //           size="16"
+          //           color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
+          //         />
+          //       </button>
+          //     </li>
+          //   </ul>
+          // </nav>
+
+           <nav
            
             className="pagination-container"
             style={{
@@ -665,7 +745,7 @@ function ParticularHostelDetails(props) {
                 }}
               >
 
-                <option value={6}>6</option>
+                <option value={4}>4</option>
                 <option value={10}>10</option>
                 <option value={50}>50</option>
                 <option value={100}>100</option>
