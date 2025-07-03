@@ -1475,7 +1475,6 @@ function SettingsBills() {
                         fontSize: 14,
                         marginLeft: "12px",
                         fontFamily: "Gilroy",
-                        fontSize: "14px",
                         backgroundColor: "#1E45E1",
                         color: "white",
                         fontWeight: 600,
