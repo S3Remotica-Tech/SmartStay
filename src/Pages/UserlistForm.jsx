@@ -599,14 +599,14 @@ function UserlistForm(props) {
       setPhoneErrorMessage("");
     }
 
- if (pincode && pincode.length !== 6) {
-    setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    if (!focusedRef.current && pincodeRef?.current) {
-      pincodeRef.current.focus();
-      focusedRef.current = true;
+    if (pincode && pincode.length !== 6) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      if (!focusedRef.current && pincodeRef?.current) {
+        pincodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  }
 
     if (Email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
@@ -974,7 +974,7 @@ function UserlistForm(props) {
                               : Profile
                           }
                           roundedCircle
-                          style={{ height: 100, width: 100,cursor: "pointer" }}
+                          style={{ height: 100, width: 100, cursor: "pointer" }}
                         />
 
                         <label htmlFor="imageInput" className="">
@@ -1070,7 +1070,7 @@ function UserlistForm(props) {
                           <div style={{ color: "red", marginTop: "-15px" }}>
                             {" "}
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "4px" }}
+                              style={{ fontSize: "13px",  marginBottom: "2px" }}
                             />
                             <span
                               style={{
@@ -1078,6 +1078,7 @@ function UserlistForm(props) {
                                 color: "red",
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
+                                marginRight: "3px"
                               }}
                             >
                               {" "}
@@ -1193,7 +1194,7 @@ function UserlistForm(props) {
                         {phoneError && (
                           <div style={{ color: "red" }}>
                             <MdError
-                              style={{ marginRight: "4px", fontSize: "13px" }}
+                              style={{ fontSize: "13px", marginBottom: "2px" }}
                             />
                             <span
                               style={{
@@ -1201,6 +1202,7 @@ function UserlistForm(props) {
                                 color: "red",
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
+                                marginRight: "3px"
                               }}
                             >
                               {" "}
@@ -1521,14 +1523,14 @@ function UserlistForm(props) {
                               borderRadius: 8,
                             }}
                           />
+                       
                           {pincodeError && (
-                            <div className="d-flex align-items-center p-1 mb-2">
+                            <div className="d-flex align-items-start gap-1 mb-2" style={{ marginTop: "5px" }}>
                               <MdError
                                 style={{
                                   color: "red",
-                                  marginRight: "5px",
                                   fontSize: "13px",
-                                  marginBottom: "2px",
+                                  marginTop: "1px",
                                 }}
                               />
                               <label
@@ -1538,12 +1540,14 @@ function UserlistForm(props) {
                                   fontSize: "12px",
                                   fontFamily: "Gilroy",
                                   fontWeight: 500,
+                                  lineHeight: "16px",
                                 }}
                               >
                                 {pincodeError}
                               </label>
                             </div>
                           )}
+
                         </Form.Group>
                       </div>
 
@@ -1585,7 +1589,7 @@ function UserlistForm(props) {
                         {cityError && (
                           <div style={{ color: "red" }}>
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
+                              style={{ fontSize: "13px", marginRight: "5px", marginBottom: "1px" }}
                             />
                             <span
                               style={{
@@ -1702,7 +1706,7 @@ function UserlistForm(props) {
                         {!state_name && state_nameError && (
                           <div style={{ color: "red", marginTop: "-16px" }}>
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
+                              style={{ fontSize: "13px", marginRight: "5px", marginBottom: "1px" }}
                             />
                             <span
                               style={{
@@ -1775,79 +1779,79 @@ function UserlistForm(props) {
                           </span>
                         </Form.Label>
 
-                      <Select
-                        options={
-                          state.UsersList?.hosteldetailslist?.map((u) => ({
-                            value: u.floor_id,
-                            label: u.floor_name,
-                          })) || []
-                        }
-                        onChange={handleFloor}
-                        value={
-                          state.UsersList?.hosteldetailslist?.find(
-                            (option) => option.floor_id === Floor
-                          )
-                            ? {
-                              value: Floor,
-                              label: state.UsersList.hosteldetailslist.find(
-                                (option) => option.floor_id === Floor
-                              )?.floor_name,
-                            }
-                            : null
-                        }
-                        placeholder="Select a Floor"
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "50px",
-                            border: "1px solid #D9D9D9",
-                            borderRadius: "8px",
-                            fontSize: "16px",
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor: "pointer",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                           option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
-                        }}
-                      />
+                        <Select
+                          options={
+                            state.UsersList?.hosteldetailslist?.map((u) => ({
+                              value: u.floor_id,
+                              label: u.floor_name,
+                            })) || []
+                          }
+                          onChange={handleFloor}
+                          value={
+                            state.UsersList?.hosteldetailslist?.find(
+                              (option) => option.floor_id === Floor
+                            )
+                              ? {
+                                value: Floor,
+                                label: state.UsersList.hosteldetailslist.find(
+                                  (option) => option.floor_id === Floor
+                                )?.floor_name,
+                              }
+                              : null
+                          }
+                          placeholder="Select a Floor"
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              display: "inline-block",
+                              fill: "currentColor",
+                              lineHeight: 1,
+                              stroke: "currentColor",
+                              strokeWidth: 0,
+                              cursor: "pointer",
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
+                          }}
+                        />
 
                         {floorError && (
                           <div style={{ color: "red" }}>
@@ -1952,13 +1956,13 @@ function UserlistForm(props) {
                             }),
                             indicatorSeparator: () => ({
                               display: "none",
-                          }),
-                           option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                      }),
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
                           }}
                         />
 
@@ -2072,13 +2076,13 @@ function UserlistForm(props) {
                             }),
                             indicatorSeparator: () => ({
                               display: "none",
-                          }),
-                           option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                      }),
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
                           }}
                         />
 
@@ -2216,62 +2220,62 @@ function UserlistForm(props) {
                         )}
                       </div>
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group className="mb-1">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Rental Amount
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
-                        </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="Enter Amount"
-                          value={RoomRent}
-                          onChange={(e) => handleRoomRent(e)}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                      </Form.Group>
-                      {roomrentError && (
-                        <div
-                          className="d-flex align-items-center justify-content-start"
-                          style={{ color: "red" }}
-                        >
-                          <MdError
-                            style={{ fontSize: "13px", marginRight: "5px" }}
-                          />
-                          <label
-                            className="mb-0"
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <Form.Group className="mb-1">
+                          <Form.Label
                             style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
+                              fontSize: 14,
                               fontWeight: 500,
+                              fontFamily: "Gilroy",
                             }}
                           >
-                            {roomrentError}
-                          </label>
-                        </div>
-                      )}
+                            Rental Amount
+                            <span style={{ color: "red", fontSize: "20px" }}>
+                              {" "}
+                              *{" "}
+                            </span>
+                          </Form.Label>
+                          <FormControl
+                            type="text"
+                            id="form-controls"
+                            placeholder="Enter Amount"
+                            value={RoomRent}
+                            onChange={(e) => handleRoomRent(e)}
+                            style={{
+                              fontSize: 16,
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              boxShadow: "none",
+                              border: "1px solid #D9D9D9",
+                              height: 50,
+                              borderRadius: 8,
+                            }}
+                          />
+                        </Form.Group>
+                        {roomrentError && (
+                          <div
+                            className="d-flex align-items-center justify-content-start"
+                            style={{ color: "red" }}
+                          >
+                            <MdError
+                              style={{ fontSize: "13px", marginRight: "5px" }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {roomrentError}
+                            </label>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
                   </div>
 
                   <Button
