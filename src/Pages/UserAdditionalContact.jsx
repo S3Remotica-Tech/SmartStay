@@ -643,7 +643,7 @@ const handleSubmitContact = () => {
                             fontWeight: countryCode ? 600 : 500,
                             boxShadow: "none",
                             backgroundColor: "#fff",
-                            maxWidth: 90,
+                            maxWidth: 80,
                             paddingRight: 10,
                           }}
                         >
@@ -1012,18 +1012,18 @@ const handleSubmitContact = () => {
                   </div>
 
 
-
-
-
-                </div>
-                 
-</div>
- {formError && (
+     {formError && (
                           <div ref={nochangeRef} className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
                             <MdError style={{fontSize: '12px',marginRight:"6px"}}/>
                             <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
                           </div>
                         )}
+
+
+                </div>
+                 
+</div>
+
                         {guardianAlreadyError && (
                           <div className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
                             <MdError style={{fontSize: '12px',marginRight:"6px"}}/>
