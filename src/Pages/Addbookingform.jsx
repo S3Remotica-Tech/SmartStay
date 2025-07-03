@@ -297,13 +297,13 @@ function BookingModal(props) {
           setError("Amount is Required");
           break;
         case "City":
-          setError("Please Enter City");
+          setError("City is Required");
           break;
         case "Pincode":
-          setError("Please Enter Pincode");
+          setError("Pincode is Required");
           break;
         case "Statename":
-          setError("Please Select State");
+          setError("State is Required");
           break;
         case "Email":
           setError("Email is Required");
@@ -483,6 +483,7 @@ function BookingModal(props) {
     setEmailError("");
     setEmailErrorMessage("");
     props.handleClose();
+    setFile("")
   };
 
 
