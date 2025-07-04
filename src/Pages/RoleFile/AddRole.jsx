@@ -321,6 +321,18 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
     }, [showRole]);
 
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
+    
     return (
         <div
             className="modal show"
@@ -478,6 +490,13 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
 
 
                     </Modal.Body>
+
+                     {state.createAccount?.networkError ?
+              <div className='d-flex  align-items-center justify-content-center mt-3 mb-1'>
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              </div>
+              : null}
                     {formLoading &&
                         <div
                             style={{

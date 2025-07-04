@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function* handlecompliancelist(action) {
    const response = yield call(compliance, action.payload);
-   console.log("handlecompliancelist", response)
+
    if (response.status === 200 || response.data.statusCode === 200) {
       yield put({ type: 'COMPLIANCE_LIST', payload: { response: response.data.hostelData, statusCode: response.status || response.data.statusCode } })
    }
@@ -308,7 +308,7 @@ function* handleDeleteVendor(action) {
 
 function* handleDeleteCompliance(action) {
    const response = yield call(complianceDelete, action.payload);
-   console.log("handleDeleteCompliance", response)
+
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",

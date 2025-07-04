@@ -149,7 +149,7 @@ function* handleAssignAsset(action) {
    const response = yield call(AssignAsset, action.payload);
 
 
-console.log("response", response)
+
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",

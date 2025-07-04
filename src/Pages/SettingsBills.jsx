@@ -583,6 +583,15 @@ function SettingsBills() {
     }
   }, [recurring_bills]);
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
 
 
   return (
@@ -1449,6 +1458,12 @@ function SettingsBills() {
                     </div>
                   )}
 
+{state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
 
                   <div className="d-flex justify-content-end flex-wrap mt-3 ">
                     <button

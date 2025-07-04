@@ -53,21 +53,21 @@ function EBRoomReading(props) {
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
-     props.setLoader(true)
-    if(state.login.selectedHostel_Id){
-       dispatch({
-      type: "EBSTARTMETERLIST",
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-    
-  }
+    props.setLoader(true)
+    if (state.login.selectedHostel_Id) {
+      dispatch({
+        type: "EBSTARTMETERLIST",
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+
+    }
 
   }, [state.login.selectedHostel_Id]);
-   useEffect(()=>{
-  if(props.value === "2" && state.login.selectedHostel_Id ){
-    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-  }
-    },[state.login.selectedHostel_Id ])
+  useEffect(() => {
+    if (props.value === "2" && state.login.selectedHostel_Id) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }
+  }, [state.login.selectedHostel_Id])
 
 
 
@@ -254,7 +254,7 @@ function EBRoomReading(props) {
   };
 
 
- 
+
 
 
 
@@ -340,13 +340,13 @@ function EBRoomReading(props) {
       return;
     }
 
-   
-   const isChangedBed =
-  String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase() ||
-  String(Rooms).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase() ||
-  String(hostelId).toLowerCase() !== String(initialStateAssign.selectedHostel).toLowerCase() ||
-  !moment(selectedDate).isSame(moment(initialStateAssign.selectedDate), "day") ||
-  String(reading) !== String(initialStateAssign.reading);
+
+    const isChangedBed =
+      String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase() ||
+      String(Rooms).toLowerCase() !== String(initialStateAssign.Rooms).toLowerCase() ||
+      String(hostelId).toLowerCase() !== String(initialStateAssign.selectedHostel).toLowerCase() ||
+      !moment(selectedDate).isSame(moment(initialStateAssign.selectedDate), "day") ||
+      String(reading) !== String(initialStateAssign.reading);
 
 
 
@@ -384,7 +384,7 @@ function EBRoomReading(props) {
 
   const dataSource = props.filterStatus ? props.RoomElect : roomelectricity;
 
-  const currentRowelectricity = dataSource?.slice(indexOfFirstRowelectricity,indexOfLastRowelectricity);
+  const currentRowelectricity = dataSource?.slice(indexOfFirstRowelectricity, indexOfLastRowelectricity);
 
   const handlePageChange = (pageNumber) => {
     setelectricitycurrentPage(pageNumber);
@@ -469,7 +469,15 @@ function EBRoomReading(props) {
   }, [state.PgList.statusCodeForEbRoomList])
 
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
 
 
@@ -485,7 +493,7 @@ function EBRoomReading(props) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              marginTop:93
+              marginTop: 93
 
             }}
           >
@@ -493,35 +501,35 @@ function EBRoomReading(props) {
             <img
               src={emptyimg}
               alt="Empty State"
-             
+
             />
 
 
             {props.ebpermissionError && (
-             
 
 
-               <div
-                                    style={{
-                                      color: "red",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: "0.5rem",
-                                       marginTop: "16px",
-                                    }}
-                                  >
-                                    <MdError />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {props.ebpermissionError}
-                                    </span>
-                                  </div>
+
+              <div
+                style={{
+                  color: "red",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  marginTop: "16px",
+                }}
+              >
+                <MdError />
+                <span
+                  style={{
+                    fontSize: "12px",
+                    color: "red",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {props.ebpermissionError}
+                </span>
+              </div>
             )}
           </div>
         ) :
@@ -1385,16 +1393,16 @@ function EBRoomReading(props) {
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                     dropdownClassName="custom-datepicker-popup"
                     disabledDate={(current) => {
-                                           const Hostel = state.UsersList?.hotelDetailsinPg?.find(
-                                             (u) => Number(u.id) === Number(state.login.selectedHostel_Id)
-                                           );
-                                           if (!Hostel || !Hostel.create_At) return false; 
-                   
-                                           const createDate = moment(Hostel.create_At, "YYYY-MM-DD");
-                                           if (!createDate.isValid()) return false;
-                   
-                                           return current && current.isBefore(createDate, "day");
-                                         }}
+                      const Hostel = state.UsersList?.hotelDetailsinPg?.find(
+                        (u) => Number(u.id) === Number(state.login.selectedHostel_Id)
+                      );
+                      if (!Hostel || !Hostel.create_At) return false;
+
+                      const createDate = moment(Hostel.create_At, "YYYY-MM-DD");
+                      if (!createDate.isValid()) return false;
+
+                      return current && current.isBefore(createDate, "day");
+                    }}
                   />
 
                 </div>
@@ -1420,7 +1428,12 @@ function EBRoomReading(props) {
             <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
           </div>
         )}
-
+        {state.createAccount?.networkError ?
+          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+            <MdError style={{ color: "red", marginRight: '5px' }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+          : null}
 
         {formLoading && <div
           style={{

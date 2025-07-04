@@ -982,7 +982,24 @@ function UserlistForm(props) {
     props.setAdvanceForm(false);
     setAdvanceDate("");
     setAdvanceDueDate("");
+
   };
+
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
+
+
+
   return (
     <div>
       <Modal
@@ -1786,6 +1803,17 @@ function UserlistForm(props) {
                       </div>
                     </div>
                   </div>
+
+
+ {state.createAccount?.networkError ?
+                        <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+                          <MdError style={{ color: "red", marginRight: '5px' }} />
+                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                        </div>
+                        : null}
+          
+
+
                   <Button
                     className="w-100"
                     style={{
@@ -2351,6 +2379,17 @@ function UserlistForm(props) {
                     </div>
                   </div>
 
+ {state.createAccount?.networkError ?
+                        <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+                          <MdError style={{ color: "red", marginRight: '5px' }} />
+                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                        </div>
+                        : null}
+          
+
+
+
+
                   <Button
                     className="w-100"
                     style={{
@@ -2371,6 +2410,7 @@ function UserlistForm(props) {
             </div>
           </Modal.Body>
 
+         
           {formLoading && <div
             style={{
               position: 'absolute',
