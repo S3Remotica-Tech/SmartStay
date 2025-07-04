@@ -406,9 +406,13 @@ setFormError("")
         case "firstName":
           setfirstNameError("Please Enter First Name");
           break;
+            case "phone":
+          setPhoneError("Please Enter Mobile Number");
+          break;
         case "joiningDate":
           setDateError("Please Enter Joining Date");
           break;
+          
         case "amount":
           setamountError("Please Enter Amount");
           break;
@@ -437,6 +441,9 @@ setFormError("")
       switch (fieldName) {
         case "firstName":
           setfirstNameError("");
+          break;
+            case "phone":
+          setPhoneError("");
           break;
         case "joiningDate":
           setDateError("");
@@ -472,29 +479,24 @@ setFormError("")
 
     let hasError = false;
     const isFirstnameValid = validateAssignField(firstName, "firstName");
+    const isphoneValid = validateAssignField(Phone, "phone");
     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
     const isamountValid = validateAssignField(amount, "amount");
-    const isphoneValid = validateAssignField(Phone, "Phone");
+    
     const isHostelValid = validateAssignField(HostelIds, "paying");
     const isCityValid = validateAssignField(city, "City");
-    const isPincodeValid = validateAssignField(pincode, "Pincode");
+    const isPincodeValid = validateAssignField (pincode, "Pincode");
     const isStatenameValid = validateAssignField(state_name, "Statename");
 
-const trimmedPhone = Phone?.toString().trim();
-
-if (!trimmedPhone) {
-  setPhoneError("Please Enter Mobile Number");
-  hasError = true;
-} else if (trimmedPhone.length !== 10) {
-  setPhoneError("Please Enter Valid Mobile Number");
-  hasError = true;
-} else {
-  setPhoneError("");
-}
 
 
-
-   
+      if (Phone.length !== 10) {
+      setPhoneError("Please Enter Valid Mobile Number");
+      hasError = true;
+    } else {
+      setPhoneError("");
+    
+    }
 
 if (pincode && String(pincode).length !== 6) {
   setPincodeError("Pin Code Must Be Exactly 6 Digits");
