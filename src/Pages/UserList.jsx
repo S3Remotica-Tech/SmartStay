@@ -1378,9 +1378,7 @@ function UserList(props) {
   const handleShowSearch = () => {
     setSearch(!search);
   };
-  const handleFilterd = () => {
-    setFilterStatus(!filterStatus);
-  };
+
   const [checkInDateRange, setCheckInDateRange] = useState([]);
   const [bookingDateRange, setBookingDateRange] = useState([]);
   const [checkoutDateRange, setCheckoutDateRange] = useState([]);
@@ -1388,6 +1386,15 @@ function UserList(props) {
   dayjs.extend(isSameOrAfter);
   dayjs.extend(isSameOrBefore);
   const [resetPage, setResetPage] = useState(false);
+
+
+  const handleFilterd = () => {
+    setCheckInDateRange([])
+    setFilterStatus(!filterStatus); 
+    setFilteredUsers(userListDetail); 
+    setCurrentPage(1)
+  };
+
 
 
   const handleDateRangeChangeBooking = (dates) => {
@@ -1422,6 +1429,7 @@ function UserList(props) {
     if (!dates || dates.length !== 2) {
       setFilterStatus(false);
       setCurrentPage(1);
+
       return;
     }
 
@@ -4432,7 +4440,9 @@ function UserList(props) {
             </span>
           </div>
 
-          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+          <div className="row">
+
+          <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
               <Form.Label
                 style={{
@@ -4553,6 +4563,7 @@ function UserList(props) {
                 </div>
               )}
             </Form.Group>
+          </div>
           </div>
 
           <div style={{ display: "flex", flexDirection: "row" }}>
@@ -4843,7 +4854,7 @@ function UserList(props) {
        
 
 
-          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-2">
+          <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
             <Form.Select
               className="border"
               style={{

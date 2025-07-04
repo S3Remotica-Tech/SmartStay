@@ -1915,30 +1915,44 @@ function UserListRoomDetail(props) {
                                   </div>
 
                                   <div className="row">
-                                    <div className="col-sm-4 d-flex flex-column align-items-start">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Email ID
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <Sms size="16" color="#1E45E1" />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          {item.Email}
-                                        </span>
-                                      </p>
-                                    </div>
+<div className="col-sm-4 d-flex flex-column align-items-start">
+  <p
+    style={{
+      fontSize: 12,
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+    }}
+  >
+    Email ID
+  </p>
+  <div
+    style={{
+      display: "flex",
+      marginTop: "-10px",
+      gap: "6px",
+      width: "100%",
+    }}
+  >
+    <Sms size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
+    <span
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        wordBreak: "break-word",
+        overflowWrap: "break-word",
+        minWidth: 0,
+        marginTop:-3
+      }}
+    >
+      {item.Email}
+    </span>
+  </div>
+</div>
+
+
+
+
                                     <div
                                       className="col-sm-4 d-flex flex-column align-items-center"
                                       style={{ whiteSpace: "nowrap" }}
