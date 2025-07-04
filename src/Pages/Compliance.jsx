@@ -403,7 +403,7 @@ const Compliance = () => {
     if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
       setSelectedDateRange([]);
       setStatusfilter("All");
-      setFilteredUsers(state.ComplianceList?.Compliance);
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
       return;
     }
 
