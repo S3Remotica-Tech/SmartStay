@@ -51,7 +51,7 @@ export default [
         ["==", "!=", "===", "!==", ">", ">=", "<", "<="], 
         ["&&", "||"],
       ],
-      "allowSamePrecedence": true // Allows operators with the same precedence
+      "allowSamePrecedence": true 
     }],
     "array-callback-return": 'error'
     }
