@@ -50,13 +50,13 @@ function EBHostelReading(props) {
       });
     }
 
-    
+
   }, [selectedHostel]);
-  useEffect(()=>{
-if(props.value === "3" && state.login.selectedHostel_Id ){
-  dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
-}
-  },[state.login.selectedHostel_Id ])
+  useEffect(() => {
+    if (props.value === "3" && state.login.selectedHostel_Id) {
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
+    }
+  }, [state.login.selectedHostel_Id])
 
   useEffect(() => {
     if (state.PgList.getStatusCodeForHostelBased === 200) {
@@ -113,16 +113,16 @@ if(props.value === "3" && state.login.selectedHostel_Id ){
   }, []);
   const [showAbove, setShowAbove] = useState(false);
 
-useEffect(() => {
-  if (popupRef.current) {
-    const popupHeight = popupRef.current.offsetHeight;
-    const windowHeight = window.innerHeight;
-    const spaceBelow = windowHeight - popupPosition.top;
-    
-    
-    setShowAbove(spaceBelow < popupHeight + 20);
-  }
-}, [popupPosition]);
+  useEffect(() => {
+    if (popupRef.current) {
+      const popupHeight = popupRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - popupPosition.top;
+
+
+      setShowAbove(spaceBelow < popupHeight + 20);
+    }
+  }, [popupPosition]);
 
 
 
@@ -181,7 +181,7 @@ useEffect(() => {
   };
 
 
- 
+
 
 
   useEffect(() => {
@@ -276,16 +276,16 @@ useEffect(() => {
     }
 
 
-   
+
     const formattedDated = moment(selectedDate).format("YYYY-MM-DD");
     if (props.editeb && editId) {
 
       const isChangedBed =
-  (moment(selectedDate).isValid() &&
-    moment(initialStateAssign.selectedDate).isValid()
-    ? !moment(selectedDate).isSame(moment(initialStateAssign.selectedDate), "day")
-    : selectedDate !== initialStateAssign.selectedDate) ||
-  String(reading) !== String(initialStateAssign.reading);
+        (moment(selectedDate).isValid() &&
+          moment(initialStateAssign.selectedDate).isValid()
+          ? !moment(selectedDate).isSame(moment(initialStateAssign.selectedDate), "day")
+          : selectedDate !== initialStateAssign.selectedDate) ||
+        String(reading) !== String(initialStateAssign.reading);
 
 
       if (!isChangedBed) {
@@ -443,13 +443,23 @@ useEffect(() => {
 
 
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
 
 
 
   return (
     <>
 
- {
+      {
         props.ebpermissionError ? (
           <div
             style={{
@@ -457,7 +467,7 @@ useEffect(() => {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              marginTop:96
+              marginTop: 96
 
             }}
           >
@@ -465,430 +475,430 @@ useEffect(() => {
             <img
               src={emptyimg}
               alt="Empty State"
-             
+
             />
 
 
             {props.ebpermissionError && (
-             
 
 
-               <div
-                                    style={{
-                                      color: "red",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: "0.5rem",
-                                       marginTop: "16px",
-                                    }}
-                                  >
-                                    <MdError />
-                                    <span
-                                      style={{
-                                        fontSize: "12px",
-                                        color: "red",
-                                        fontFamily: "Gilroy",
-                                        fontWeight: 500,
-                                      }}
-                                    >
-                                      {props.ebpermissionError}
-                                    </span>
-                                  </div>
+
+              <div
+                style={{
+                  color: "red",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  marginTop: "16px",
+                }}
+              >
+                <MdError />
+                <span
+                  style={{
+                    fontSize: "12px",
+                    color: "red",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {props.ebpermissionError}
+                </span>
+              </div>
             )}
           </div>
-        ) :<>
-    
-      <div>
-        
-        {props.value === "3" && sortedData?.length > 0 ? (
-          <>
-            {props.value === "3" && sortedData &&  sortedData.length > 0 && (
+        ) : <>
 
-              <div
-                className="p-0 booking-table-userlist  booking-table ms-2 me-4"
-                style={{ paddingBottom: "20px", marginLeft: "-22px" }}
-              >
+          <div>
 
+            {props.value === "3" && sortedData?.length > 0 ? (
+              <>
+                {props.value === "3" && sortedData && sortedData.length > 0 && (
 
-
-                <div
-                  className='show-scrolls'
-                  style={{
-
-                    height: sortedData.length >= 8 || sortedData.length >= 8 ? "440px" : "auto",
-                    overflow: "auto",
-                    borderTop: "1px solid #E8E8E8",
-                    marginBottom: 20,
-                    marginTop: "20px"
-
-                  }}>
-
-                  <Table
-                    responsive="md"
+                  <div
+                    className="p-0 booking-table-userlist  booking-table ms-2 me-4"
+                    style={{ paddingBottom: "20px", marginLeft: "-22px" }}
                   >
 
-                    <thead style={{
-                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                      top: 0,
-                      zIndex: 1
-                    }}>
-                      <tr>
-                        <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
-                        </div>  Paying Guest</div>  </th>
+
+
+                    <div
+                      className='show-scrolls'
+                      style={{
+
+                        height: sortedData.length >= 8 || sortedData.length >= 8 ? "440px" : "auto",
+                        overflow: "auto",
+                        borderTop: "1px solid #E8E8E8",
+                        marginBottom: 20,
+                        marginTop: "20px"
+
+                      }}>
+
+                      <Table
+                        responsive="md"
+                      >
+
+                        <thead style={{
+                          fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                          top: 0,
+                          zIndex: 1
+                        }}>
+                          <tr>
+                            <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, whiteSpace: "nowrap" }}> <div className='d-flex gap-1 align-items-center justify-content-start'> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hoatel_Name", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>  Paying Guest</div>  </th>
 
 
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
-                        </div> Reading </div></th>
+                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("reading", 'desc')} style={{ cursor: "pointer" }} />
+                            </div> Reading </div></th>
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
-                        </div>  Date </div></th>
+                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("date", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>  Date </div></th>
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
-                        </div> Units</div></th>
+                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_reading", 'desc')} style={{ cursor: "pointer" }} />
+                            </div> Units</div></th>
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
-                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
-                        </div>  Amount </div></th>
+                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center justify-content-start'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                              <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'asc')} style={{ cursor: "pointer" }} />
+                              <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("total_amount", 'desc')} style={{ cursor: "pointer" }} />
+                            </div>  Amount </div></th>
 
-                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
-                      </tr>
-                    </thead>
-
-
-                    <tbody>
-                      {sortedData && sortedData.length > 0 && (
-                        <>
-                          {sortedData.map((v) => {
+                            <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}>Action</th>
+                          </tr>
+                        </thead>
 
 
-
-                            let formattedDate;
-
-
-                            if (v.date && v.date !== '0000-00-00') {
-                              let Dated = new Date(v.date);
-                              let day = Dated.getDate().toString().padStart(2, '0');
-                              let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
-                              let year = Dated.getFullYear();
-                              formattedDate = `${day}-${month}-${year}`;
-                            } else {
-
-                              let initialDate = new Date(v.initial_date);
-                              let day = initialDate.getDate().toString().padStart(2, '0');
-                              let month = (initialDate.getMonth() + 1).toString().padStart(2, '0');
-                              let year = initialDate.getFullYear();
-                              formattedDate = `${day}/${month}/${year}`;
-                            }
+                        <tbody>
+                          {sortedData && sortedData.length > 0 && (
+                            <>
+                              {sortedData.map((v) => {
 
 
-                            return (
-                              <tr key={v.eb_Id}>
 
-                                <td
-                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
-                                  style={{
-                                    paddingTop: 15,
-                                    border: "none",
-                                    textAlign: "start",
-                                    fontSize: "13px",
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    marginTop: 10,
-                                    verticalAlign: "middle",
-                                    borderBottom: "1px solid #E8E8E8",
-                                  }}
-                                >
-                                  <span
-                                    style={{
-                                      paddingTop: "3px",
-                                      paddingLeft: "10px",
-                                      paddingRight: "10px",
-                                      paddingBottom: "3px",
-                                      borderRadius: "60px",
-                                      backgroundColor: "#FFEFCF",
-                                      textAlign: "center",
-                                      fontSize: "11px",
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      marginLeft: 10
-                                    }}
-                                  >
-                                    {v.hoatel_Name}
-                                  </span>
-                                </td>
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+                                let formattedDate;
 
-                                  }}
-                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                >
-                                  <div style={{ marginLeft: 5 }}>{v.reading}</div>
-                                </td>
 
-                                <td
-                                  style={{
-                                    paddingTop: "15px",
-                                    border: "none",
-                                    textAlign: "start",
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    verticalAlign: "middle",
-                                    whiteSpace: "nowrap",
-                                    marginBottom: "-20px",
-                                    borderBottom: "1px solid #E8E8E8"
-                                  }}
-                                  className="ps-0 ps-sm-0 ps-md-1 ps-lg-1"
-                                >
-                                  <span
-                                    style={{
-                                      paddingTop: "5px",
-                                      paddingLeft: "16px",
-                                      paddingRight: "16px",
-                                      paddingBottom: "5px",
-                                      borderRadius: "60px",
-                                      marginLeft: 2,
-                                      backgroundColor: "#EBEBEB",
-                                      textAlign: "start",
-                                      fontSize: 13,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      display: "inline-block",
-                                      overflow: "hidden",
-                                      textOverflow: "ellipsis",
-                                      whiteSpace: "nowrap",
-                                    }}
-                                  >
-                                    {formattedDate}
-                                  </span>
-                                </td>
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                  }}
-                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                >
-                                  <div style={{ marginLeft: 6 }}>{v.total_reading}</div>
+                                if (v.date && v.date !== '0000-00-00') {
+                                  let Dated = new Date(v.date);
+                                  let day = Dated.getDate().toString().padStart(2, '0');
+                                  let month = (Dated.getMonth() + 1).toString().padStart(2, '0');
+                                  let year = Dated.getFullYear();
+                                  formattedDate = `${day}-${month}-${year}`;
+                                } else {
 
-                                </td>
-                                <td
-                                  style={{
-                                    fontSize: 13,
-                                    fontWeight: 500,
-                                    fontFamily: "Gilroy",
-                                    textAlign: "start",
-                                    verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
-                                  }}
-                                  className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
-                                >
+                                  let initialDate = new Date(v.initial_date);
+                                  let day = initialDate.getDate().toString().padStart(2, '0');
+                                  let month = (initialDate.getMonth() + 1).toString().padStart(2, '0');
+                                  let year = initialDate.getFullYear();
+                                  formattedDate = `${day}/${month}/${year}`;
+                                }
 
-                                  <div style={{ marginLeft: 6 }}>₹{v.total_amount}</div>
-                                </td>
-                                <td style={{
-                                  textAlign: "start",
-                                  color: "#939393",
-                                  fontSize: 13,
-                                  fontWeight: 500,
-                                  fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
-                                }}
 
-                                >
-                                  <div
-                                    style={{
-                                      cursor: "pointer",
-                                      height: 35,
-                                      width: 35,
-                                      borderRadius: 100,
-                                      border: "1px solid #EFEFEF",
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      position: "relative",
+                                return (
+                                  <tr key={v.eb_Id}>
 
-                                      backgroundColor: activeRow === v.eb_Id ? "#E7F1FF" : "white",
-                                    }}
-                                    onClick={(e) => handleShowActive(v.eb_Id, e)}
-                                  >
-                                    <PiDotsThreeOutlineVerticalFill
-                                      style={{ height: 20, width: 20, color: "#000000" }}
-                                    />
-                                    {activeRow === v.eb_Id && (
-                                      <div
-                                        ref={popupRef}
+                                    <td
+                                      className="ps-0 ps-sm-0 ps-md-3 ps-lg-1"
+                                      style={{
+                                        paddingTop: 15,
+                                        border: "none",
+                                        textAlign: "start",
+                                        fontSize: "13px",
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        marginTop: 10,
+                                        verticalAlign: "middle",
+                                        borderBottom: "1px solid #E8E8E8",
+                                      }}
+                                    >
+                                      <span
                                         style={{
-                                          cursor: "pointer",
-                                          backgroundColor: "#f9f9f9",
-                                          position: "fixed",
-                                         
-                                           top: showAbove
-    ? popupPosition.top - (popupRef.current?.offsetHeight || 200) - 10
-    : popupPosition.top - 25,
-                                          left: popupPosition.left,
-
-                                          width: 120,
-                                          height: "auto",
-                                          border: "1px solid #EBEBEB",
-                                          borderRadius: 10,
-                                          display: "flex",
-                                          justifyContent: "start",
-
-                                          alignItems: "center",
-                                          zIndex: 1000,
+                                          paddingTop: "3px",
+                                          paddingLeft: "10px",
+                                          paddingRight: "10px",
+                                          paddingBottom: "3px",
+                                          borderRadius: "60px",
+                                          backgroundColor: "#FFEFCF",
+                                          textAlign: "center",
+                                          fontSize: "11px",
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          marginLeft: 10
                                         }}
                                       >
-                                        <div style={{ width: "100%", }}>
+                                        {v.hoatel_Name}
+                                      </span>
+                                    </td>
+                                    <td
+                                      style={{
+                                        fontSize: 13,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        textAlign: "start",
+                                        verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+
+                                      }}
+                                      className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                    >
+                                      <div style={{ marginLeft: 5 }}>{v.reading}</div>
+                                    </td>
+
+                                    <td
+                                      style={{
+                                        paddingTop: "15px",
+                                        border: "none",
+                                        textAlign: "start",
+                                        fontSize: 13,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        verticalAlign: "middle",
+                                        whiteSpace: "nowrap",
+                                        marginBottom: "-20px",
+                                        borderBottom: "1px solid #E8E8E8"
+                                      }}
+                                      className="ps-0 ps-sm-0 ps-md-1 ps-lg-1"
+                                    >
+                                      <span
+                                        style={{
+                                          paddingTop: "5px",
+                                          paddingLeft: "16px",
+                                          paddingRight: "16px",
+                                          paddingBottom: "5px",
+                                          borderRadius: "60px",
+                                          marginLeft: 2,
+                                          backgroundColor: "#EBEBEB",
+                                          textAlign: "start",
+                                          fontSize: 13,
+                                          fontWeight: 500,
+                                          fontFamily: "Gilroy",
+                                          display: "inline-block",
+                                          overflow: "hidden",
+                                          textOverflow: "ellipsis",
+                                          whiteSpace: "nowrap",
+                                        }}
+                                      >
+                                        {formattedDate}
+                                      </span>
+                                    </td>
+                                    <td
+                                      style={{
+                                        fontSize: 13,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        textAlign: "start",
+                                        verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+                                      }}
+                                      className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                    >
+                                      <div style={{ marginLeft: 6 }}>{v.total_reading}</div>
+
+                                    </td>
+                                    <td
+                                      style={{
+                                        fontSize: 13,
+                                        fontWeight: 500,
+                                        fontFamily: "Gilroy",
+                                        textAlign: "start",
+                                        verticalAlign: "middle", borderBottom: "1px solid #E8E8E8"
+                                      }}
+                                      className="ps-0 ps-sm-0 ps-md-3 ps-lg-3"
+                                    >
+
+                                      <div style={{ marginLeft: 6 }}>₹{v.total_amount}</div>
+                                    </td>
+                                    <td style={{
+                                      textAlign: "start",
+                                      color: "#939393",
+                                      fontSize: 13,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                                    }}
+
+                                    >
+                                      <div
+                                        style={{
+                                          cursor: "pointer",
+                                          height: 35,
+                                          width: 35,
+                                          borderRadius: 100,
+                                          border: "1px solid #EFEFEF",
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          position: "relative",
+
+                                          backgroundColor: activeRow === v.eb_Id ? "#E7F1FF" : "white",
+                                        }}
+                                        onClick={(e) => handleShowActive(v.eb_Id, e)}
+                                      >
+                                        <PiDotsThreeOutlineVerticalFill
+                                          style={{ height: 20, width: 20, color: "#000000" }}
+                                        />
+                                        {activeRow === v.eb_Id && (
                                           <div
-                                            className="d-flex justify-content-start align-items-center gap-2"
+                                            ref={popupRef}
                                             style={{
                                               cursor: "pointer",
-                                              borderRadius: 6,
-                                              padding: "8px 12px",
-                                              width: "100%",
-                                              transition: "background-color 0.2s ease",
+                                              backgroundColor: "#f9f9f9",
+                                              position: "fixed",
+
+                                              top: showAbove
+                                                ? popupPosition.top - (popupRef.current?.offsetHeight || 200) - 10
+                                                : popupPosition.top - 25,
+                                              left: popupPosition.left,
+
+                                              width: 120,
+                                              height: "auto",
+                                              border: "1px solid #EBEBEB",
+                                              borderRadius: 10,
+                                              display: "flex",
+                                              justifyContent: "start",
+
+                                              alignItems: "center",
+                                              zIndex: 1000,
                                             }}
-                                            onMouseEnter={(e) =>
-                                              (e.currentTarget.style.backgroundColor = "#F0F0F0")
-                                            }
-                                            onMouseLeave={(e) =>
-                                              (e.currentTarget.style.backgroundColor = "transparent")
-                                            }
-                                            onClick={() => handleEditEb(v)}
                                           >
-                                            <img
-                                              src={Edit}
-                                              alt="Edit"
-                                              style={{
-                                                height: 16,
-                                                width: 16,
-                                                filter: props.ebEditPermission ? "grayscale(100%)" : "none",
-                                              }}
-                                            />
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: "#222",
-                                              }}
-                                            >
-                                              Edit
-                                            </label>
+                                            <div style={{ width: "100%", }}>
+                                              <div
+                                                className="d-flex justify-content-start align-items-center gap-2"
+                                                style={{
+                                                  cursor: "pointer",
+                                                  borderRadius: 6,
+                                                  padding: "8px 12px",
+                                                  width: "100%",
+                                                  transition: "background-color 0.2s ease",
+                                                }}
+                                                onMouseEnter={(e) =>
+                                                  (e.currentTarget.style.backgroundColor = "#F0F0F0")
+                                                }
+                                                onMouseLeave={(e) =>
+                                                  (e.currentTarget.style.backgroundColor = "transparent")
+                                                }
+                                                onClick={() => handleEditEb(v)}
+                                              >
+                                                <img
+                                                  src={Edit}
+                                                  alt="Edit"
+                                                  style={{
+                                                    height: 16,
+                                                    width: 16,
+                                                    filter: props.ebEditPermission ? "grayscale(100%)" : "none",
+                                                  }}
+                                                />
+                                                <label
+                                                  style={{
+                                                    fontSize: 14,
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy, sans-serif",
+                                                    color: "#222",
+                                                  }}
+                                                >
+                                                  Edit
+                                                </label>
+                                              </div>
+
+                                              <div
+                                                className="d-flex justify-content-start align-items-center gap-2"
+                                                style={{
+                                                  cursor: "pointer",
+                                                  borderRadius: 6,
+                                                  padding: "8px 12px",
+                                                  transition: "background-color 0.2s ease",
+                                                }}
+                                                onMouseEnter={(e) =>
+                                                  (e.currentTarget.style.backgroundColor = "#FFF0F0")
+                                                }
+                                                onMouseLeave={(e) =>
+                                                  (e.currentTarget.style.backgroundColor = "transparent")
+                                                }
+                                                onClick={() => handleDeleteEb(v)}
+                                              >
+                                                <img
+                                                  src={Delete}
+                                                  alt="Delete"
+                                                  style={{ height: 16, width: 16 }}
+                                                />
+                                                <label
+                                                  style={{
+                                                    fontSize: 14,
+                                                    fontWeight: 500,
+                                                    fontFamily: "Gilroy, sans-serif",
+                                                    color: "#222",
+                                                  }}
+                                                >
+                                                  Delete
+                                                </label>
+                                              </div>
+                                            </div>
                                           </div>
 
-                                          <div
-                                            className="d-flex justify-content-start align-items-center gap-2"
-                                            style={{
-                                              cursor: "pointer",
-                                              borderRadius: 6,
-                                              padding: "8px 12px",
-                                              transition: "background-color 0.2s ease",
-                                            }}
-                                            onMouseEnter={(e) =>
-                                              (e.currentTarget.style.backgroundColor = "#FFF0F0")
-                                            }
-                                            onMouseLeave={(e) =>
-                                              (e.currentTarget.style.backgroundColor = "transparent")
-                                            }
-                                            onClick={() => handleDeleteEb(v)}
-                                          >
-                                            <img
-                                              src={Delete}
-                                              alt="Delete"
-                                              style={{ height: 16, width: 16 }}
-                                            />
-                                            <label
-                                              style={{
-                                                fontSize: 14,
-                                                fontWeight: 500,
-                                                fontFamily: "Gilroy, sans-serif",
-                                                color: "#222",
-                                              }}
-                                            >
-                                              Delete
-                                            </label>
-                                          </div>
-                                        </div>
+                                        )}
                                       </div>
+                                    </td>
+                                  </tr>
+                                );
 
-                                    )}
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-
-                          })}
-                        </>
+                              })}
+                            </>
 
 
-                      )
-                      }
-                    </tbody>
+                          )
+                          }
+                        </tbody>
 
 
-                  </Table>
+                      </Table>
+                    </div>
+
+                  </div>
+                )}
+
+
+
+              </>
+            ) :
+              !props.loading && props.value === "3" && dataSource?.length === 0 ? (
+                <div>
+                  <div style={{ textAlign: "center" }}>
+                    <img src={emptyimg} width={240} height={240} alt="No readings" />
+                  </div>
+                  <div
+                    className="pb-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                      fontSize: 18,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    No hostel readings
+                  </div>
+                  <div
+                    className="pb-1"
+                    style={{
+                      textAlign: "center",
+                      fontWeight: 500,
+                      fontFamily: "Gilroy",
+                      fontSize: 14,
+                      color: "rgba(75, 75, 75, 1)",
+                    }}
+                  >
+                    There are no Hostel readings available.
+                  </div>
+
                 </div>
-
-              </div>
-            )}
-
-
-
-          </>
-        ) :
-          !props.loading && props.value === "3" && dataSource?.length === 0 ? (
-            <div>
-              <div style={{ textAlign: "center" }}>
-                <img src={emptyimg} width={240} height={240} alt="No readings" />
-              </div>
-              <div
-                className="pb-1"
-                style={{
-                  textAlign: "center",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: 18,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                No hostel readings
-              </div>
-              <div
-                className="pb-1"
-                style={{
-                  textAlign: "center",
-                  fontWeight: 500,
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                There are no Hostel readings available.
-              </div>
-
-            </div>
-          ) : null}
-      </div>
-</>
-}
+              ) : null}
+          </div>
+        </>
+      }
 
       {props.loading &&
         <div
@@ -1134,7 +1144,7 @@ useEffect(() => {
               </Form.Group>
               {readingError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "14px",marginBottom:"2px"}} />
+                  <MdError style={{ fontSize: "14px", marginBottom: "2px" }} />
                   <span
                     style={{
                       fontSize: "12px",
@@ -1199,7 +1209,7 @@ useEffect(() => {
               </Form.Group>
               {dateErrorMesg && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "14px",marginBottom:"2px"}}/>
+                  <MdError style={{ fontSize: "14px", marginBottom: "2px" }} />
                   <span
                     style={{
                       fontSize: "12px",
@@ -1231,7 +1241,12 @@ useEffect(() => {
           </div>
         )}
 
-
+        {state.createAccount?.networkError ?
+          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+            <MdError style={{ color: "red", marginRight: '5px' }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+          : null}
 
         {formLoading && <div
           style={{

@@ -300,7 +300,15 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   }, [state.Settings.emailIdError, state.Settings.phoneNumError])
 
 
+ useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
 
 
@@ -865,6 +873,18 @@ function User({ show, editDetails, setAddUserForm, edit }) {
               )}
             </div>
           </Modal.Body>
+
+
+ {state.createAccount?.networkError ?
+              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              </div>
+              : null}
+
+
+
+
           {formLoading &&
             <div
               style={{
@@ -892,9 +912,13 @@ function User({ show, editDetails, setAddUserForm, edit }) {
               ></div>
             </div>
           }
+          
           <Modal.Footer
             style={{ border: "none", marginBottom: "17px", marginTop: "-10px" }}
           >
+
+
+
             <Button
               onClick={handleSubmit}
               className="w-100"

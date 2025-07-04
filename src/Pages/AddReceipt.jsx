@@ -425,7 +425,15 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
 
+ useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
 
 
@@ -889,6 +897,10 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
             </Form.Group>
           </div>
+
+
+
+
           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <Button
               onClick={handleCreateReceipt}
@@ -901,6 +913,17 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
           </div>
 
         </div>
+
+
+
+  {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+
+
 
         {formLoading && <div
           style={{

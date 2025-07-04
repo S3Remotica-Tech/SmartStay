@@ -34,6 +34,20 @@ function CustomerReAssign(props) {
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
   const [rentError, setRentError] = useState("");
+  const [formLoading, setFormLoading] = useState(true)
+
+
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
 
   useEffect(() => {
     setCurrentFloor(props.reAssignDetail.Floor);
@@ -205,6 +219,7 @@ function CustomerReAssign(props) {
         user_id: userId,
       },
     });
+    setFormLoading(true)
   };
 
 
@@ -213,6 +228,7 @@ function CustomerReAssign(props) {
 
   useEffect(() => {
     if (state.UsersList.statusCodeForReassinBed === 200) {
+      setFormLoading(false)
       handleCloseReAssign();
       dispatch({
         type: "USERLIST",
@@ -792,7 +808,7 @@ function CustomerReAssign(props) {
                             style={{ position: "relative", width: "100%" }}
                           >
                             <DatePicker
-                              style={{ width: "100%", height: 48, border: "1px solid lightgrey", cursor: "pointer",fontFamily: "Gilroy", }}
+                              style={{ width: "100%", height: 48, border: "1px solid lightgrey", cursor: "pointer", fontFamily: "Gilroy", }}
                               format="DD/MM/YYYY"
                               placeholder="DD/MM/YYYY"
                               value={selectedDate ? dayjs(selectedDate) : null}
@@ -918,26 +934,59 @@ function CustomerReAssign(props) {
                     </div>
                   </div>
 
-                  <Button
-                    className="w-100"
-                    style={{
-                      backgroundColor: "#1E45E1",
-                      fontWeight: 600,
-                      height: 50,
-                      borderRadius: 12,
-                      fontSize: 16,
-                      fontFamily: "Montserrat",
-                    }}
-                    onClick={handleSaveReassignBed}
-                  >
-                    Reassign Bed
-                  </Button>
+
                 </div>
 
               </div>
             </Modal.Body>
-
-            <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+            {formLoading && <div
+              style={{
+                position: 'absolute',
+                top: 100,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
+            {state.createAccount?.networkError ?
+              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              </div>
+              : null}
+            <Modal.Footer style={{ border: "none" }}>
+              <Button
+                className="w-100"
+                style={{
+                  backgroundColor: "#1E45E1",
+                  fontWeight: 600,
+                  height: 50,
+                  borderRadius: 12,
+                  fontSize: 16,
+                  fontFamily: "Montserrat",
+                }}
+                onClick={handleSaveReassignBed}
+              >
+                Reassign Bed
+              </Button>
+            </Modal.Footer>
           </Modal.Dialog>
         </Modal>
       </div>

@@ -241,6 +241,16 @@ function UserListAmenities(props) {
     setamnitiesFilterddata(state.UsersList?.amnetieshistory);
   }, [state.UsersList?.amnetieshistory]);
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
   return (
     <div className="container mt-3">
       {state.UsersList?.customerdetails?.all_amenities &&
@@ -549,7 +559,12 @@ function UserListAmenities(props) {
             </div>
           )}
         </Modal.Body>
-
+ {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center  mb-4'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
 
   {formLoading &&
                     <div
@@ -592,7 +607,7 @@ function UserListAmenities(props) {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Gilroy",
-              marginTop: 20,
+              marginTop: 10,
             }}
             onClick={() => {
               if (statusShow) {

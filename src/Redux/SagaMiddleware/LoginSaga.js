@@ -41,15 +41,11 @@ function* handleOTPVerified(args) {
       
     } else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'ERROR_OTP_CODE', payload: response.data.message });
-      // Swal.fire({
-      //   icon: 'warning',
-      //   title: 'Error',
-      //   html: `Enter Valid Otp`,
-      // });
+    
 
     } 
   } catch (error) {
-    console.log(error);
+    console.error(error);
      }
 }
 

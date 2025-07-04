@@ -58,7 +58,7 @@ const Compliance = () => {
   const [search, setSearch] = useState(false);
   const [ExcelFilterDates, setExcelFilterDates] = useState([])
   const [filterStatus, setFilterStatus] = useState(false);
-   const [statusfilter, setStatusfilter] = useState('')
+  const [statusfilter, setStatusfilter] = useState('')
 
   const [compliancerolePermission, setComplianceRolePermission] = useState("");
 
@@ -95,35 +95,39 @@ const Compliance = () => {
     }
   }, [state.UsersList?.exportComplianceDetails?.response?.fileUrl]);
 
- 
-  
+
+
 
   const handleComplianceeExcel = () => {
-  
-    if( ExcelFilterDates.length === 2){
-         dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint", hostel_id: hosId ,
-            start_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-            end_date:ExcelFilterDates[1]?.format("YYYY-MM-DD")}
-            })
-            setExcelFilterDates([])
-            setStatusfilter("")
-    }
-  else if (statusfilter && statusfilter !== "date" && statusfilter !== "All") {
-  dispatch({ type: "EXPORTCOMPLIANCEDETAILS",
-    payload: {
-      type: "complaint",
-      hostel_id: hosId,
-      status: statusfilter,
-    }
-  });
-  setExcelFilterDates([]);
-  setStatusfilter("");
-}
 
-    else{
-         dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint", hostel_id: hosId } });  
+    if (ExcelFilterDates.length === 2) {
+      dispatch({
+        type: "EXPORTCOMPLIANCEDETAILS", payload: {
+          type: "complaint", hostel_id: hosId,
+          start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+          end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
         }
-  
+      })
+      setExcelFilterDates([])
+      setStatusfilter("")
+    }
+    else if (statusfilter && statusfilter !== "date" && statusfilter !== "All") {
+      dispatch({
+        type: "EXPORTCOMPLIANCEDETAILS",
+        payload: {
+          type: "complaint",
+          hostel_id: hosId,
+          status: statusfilter,
+        }
+      });
+      setExcelFilterDates([]);
+      setStatusfilter("");
+    }
+
+    else {
+      dispatch({ type: "EXPORTCOMPLIANCEDETAILS", payload: { type: "complaint", hostel_id: hosId } });
+    }
+
     setIsDownloadTriggered(true)
   };
 
@@ -311,7 +315,7 @@ const Compliance = () => {
       ? filteredUsers
       : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
 
- 
+
 
 
 
@@ -397,38 +401,38 @@ const Compliance = () => {
   const [selectedDateRange, setSelectedDateRange] = useState([]);
 
   const handleDateChange = (dates) => {
-  if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
-    setSelectedDateRange([]);
-    setStatusfilter("All");
-    setFilteredUsers(state.ComplianceList?.Compliance);
-    return;
-  }
+    if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
+      setSelectedDateRange([]);
+      setStatusfilter("All");
+      setFilteredUsers(state.ComplianceList?.Compliance);
+      return;
+    }
 
-    
-    
-  setSelectedDateRange(dates);
-   const newStartDate = dayjs(dates[0]).startOf("day");
+
+
+    setSelectedDateRange(dates);
+    const newStartDate = dayjs(dates[0]).startOf("day");
     const newEndDate = dayjs(dates[1]).endOf("day");
     setExcelFilterDates([newStartDate, newEndDate])
 
-  const filtered = (state.ComplianceList?.Compliance || []).filter((item) => {
-    const itemDate = dayjs(item.date);
-    return (
-      itemDate.isSameOrAfter(dayjs(dates[0]), 'day') &&
-      itemDate.isSameOrBefore(dayjs(dates[1]), 'day')
-    );
-  });
+    const filtered = (state.ComplianceList?.Compliance || []).filter((item) => {
+      const itemDate = dayjs(item.date);
+      return (
+        itemDate.isSameOrAfter(dayjs(dates[0]), 'day') &&
+        itemDate.isSameOrBefore(dayjs(dates[1]), 'day')
+      );
+    });
 
 
 
-  setFilteredUsers(filtered);
-  setCurrentPage(1);
-};
+    setFilteredUsers(filtered);
+    setCurrentPage(1);
+  };
 
 
- useEffect(() => {
+  useEffect(() => {
     if (!filterStatus) {
-       setStatusfilter("All");
+      setStatusfilter("All");
       setSelectedDateRange([]);
     }
   }, [filterStatus]);
@@ -767,6 +771,19 @@ const Compliance = () => {
       setCurrentPage(currentPage - 1);
     }
   }, [filteredUsers])
+
+
+
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
 
 
   return (
@@ -1508,7 +1525,7 @@ const Compliance = () => {
                                     setSelectedDate(date ? date.toDate() : null);
                                   }}
                                   getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                                    
+
                                 />
                               </div>
                               {dateerrmsg.trim() !== "" && (
@@ -1590,6 +1607,15 @@ const Compliance = () => {
                           </p>
                         </div>
                       )}
+
+                      {state.createAccount?.networkError ?
+                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                          <MdError style={{ color: "red", marginRight: '5px' }} />
+                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                        </div>
+                        : null}
+
+
 
                       <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
 

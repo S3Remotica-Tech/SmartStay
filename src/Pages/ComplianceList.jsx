@@ -249,7 +249,7 @@ const ComplianceList = (props) => {
     setStatusError("");
   };
 
-   useEffect(() => {
+  useEffect(() => {
     const savedStatus = localStorage.getItem("selectedStatus");
     if (savedStatus) {
       setSelectedStatus(savedStatus);
@@ -258,7 +258,7 @@ const ComplianceList = (props) => {
 
   const handleChangeStatusClick = () => {
 
-    const prevStatus = selectedStatus || "";    
+    const prevStatus = selectedStatus || "";
 
     if (!status) {
       setStatusError("Please Select Status");
@@ -374,11 +374,11 @@ const ComplianceList = (props) => {
 
 
   const handleStatus = (selectedOption) => {
-  setStatus(selectedOption?.value || '');
-  if (selectedOption?.value) {
-    setStatusError('');
-  }
-};
+    setStatus(selectedOption?.value || '');
+    if (selectedOption?.value) {
+      setStatusError('');
+    }
+  };
 
 
 
@@ -433,7 +433,18 @@ const ComplianceList = (props) => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setFormAssignCompliantLoading(false)
+      setCommentsLoading(false)
+      setLoading(false);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
 
 
@@ -1239,7 +1250,7 @@ const ComplianceList = (props) => {
                       </div>
                     </Modal.Body>
 
-    {commentsLoading && <div
+                    {commentsLoading && <div
                       style={{
                         position: 'absolute',
                         top: '50%',
@@ -1283,6 +1294,14 @@ const ComplianceList = (props) => {
                         </span>
                       </div>
                     )}
+
+  {state.createAccount?.networkError ?
+                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                          <MdError style={{ color: "red", marginRight: '5px' }} />
+                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                        </div>
+                        : null}
+
                     <Modal.Footer style={{ border: "none" }}>
                       <div
                         style={{
@@ -1481,7 +1500,17 @@ const ComplianceList = (props) => {
                           )}
                         </div>
                       </div>
+                      {state.createAccount?.networkError ?
+                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                          <MdError style={{ color: "red", marginRight: '5px' }} />
+                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                        </div>
+                        : null}
                     </Modal.Body>
+
+
+
+
 
                     {formLoading && <div
                       style={{
@@ -1664,20 +1693,27 @@ const ComplianceList = (props) => {
 
 
 
-                          {statusErrorType.trim() !== "" && (
-                            <div >
+                            {statusErrorType.trim() !== "" && (
+                              <div >
 
-                              <p className='text-start' style={{ fontSize: '14px', color: 'red', marginTop: '7px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                                {statusErrorType !== " " && <MdError style={{ color: 'red', marginBottom:1 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
+                                <p className='text-start' style={{ fontSize: '14px', color: 'red', marginTop: '7px', fontFamily: "Gilroy", fontWeight: 500 }}>
+                                  {statusErrorType !== " " && <MdError style={{ color: 'red', marginBottom: 1 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
 
-                              </p>
-                            </div>
-                          )}
+                                </p>
+                              </div>
+                            )}
 
                           </Form.Group>
 
                         </div>
                       </div>
+
+                      {state.createAccount?.networkError ?
+                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                          <MdError style={{ color: "red", marginRight: '5px' }} />
+                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                        </div>
+                        : null}
                     </Modal.Body>
                     {formAssignCompliantLoading && <div
                       style={{
@@ -1704,7 +1740,7 @@ const ComplianceList = (props) => {
                         }}
                       ></div>
                     </div>}
-                    <Modal.Footer style={{ border: "none", marginTop:'12px' }}>
+                    <Modal.Footer style={{ border: "none", marginTop: '12px' }}>
                       <Button
                         className="w-100"
                         style={{

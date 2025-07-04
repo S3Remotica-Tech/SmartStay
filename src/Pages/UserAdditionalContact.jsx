@@ -443,6 +443,15 @@ const handleSubmitContact = () => {
 
 
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
 
 
 
@@ -1030,6 +1039,12 @@ const handleSubmitContact = () => {
                             <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{guardianAlreadyError}</span>
                           </div>
                         )}
+                        {state.createAccount?.networkError ?
+              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              </div>
+              : null}
 
                 <Button
                   className="w-100"
@@ -1049,6 +1064,8 @@ const handleSubmitContact = () => {
               </div>
             </div>
           </Modal.Body>
+
+          
 
                                 {formLoading && <div
                                   style={{
