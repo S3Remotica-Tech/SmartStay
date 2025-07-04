@@ -358,6 +358,7 @@ function VendorListMap(props) {
                   <>
                     {isValid(props.vendor?.Vendor_Address) && <>{props.vendor.Vendor_Address}, </>}
                     {isValid(props.vendor?.area) && <>{props.vendor.area}, </>}
+                    {isValid(props.vendor?.landmark) && <>{props.vendor.landmark}, </>}
                     {isValid(props.vendor?.city) && <>{props.vendor.city}, </>}
                     {isValid(props.vendor?.state) && <>{props.vendor.state}{props.vendor.Country ? ' ' : ''},</>}
                     
@@ -368,33 +369,6 @@ function VendorListMap(props) {
                 </label>
               </div>
 
-              {isValid(props.vendor?.landmark) && (
-                <div style={{ maxWidth: "22%", textAlign: "right" }}>
-                  <div>
-                    <label
-                      style={{
-                        color: "#939393",
-                        fontSize: 13,
-                        fontWeight: 500,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Landmark
-                    </label>
-                  </div>
-                  <label
-                    style={{
-                      color: "#222222",
-                      fontSize: 16,
-                      fontWeight: 600,
-                      fontFamily: "Gilroy",
-                      wordBreak: "break-word",
-                    }}
-                  >
-                    {props.vendor.landmark}
-                  </label>
-                </div>
-              )}
             </div>
           </div>
 

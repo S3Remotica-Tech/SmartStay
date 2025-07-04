@@ -363,7 +363,7 @@ function Vendor() {
               >
 
                 <div >
-                  <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendors</label>
+                  <label style={{ fontSize: 18, color: "#000000", fontWeight: 600, fontFamily: "Gilroy" }}>Vendor</label>
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center flex-wrap">

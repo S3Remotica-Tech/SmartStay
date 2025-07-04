@@ -785,12 +785,12 @@ const CheckOutForm = ({
     }
   }, [conformcheckErr]);
 
-  useEffect(() => {
-    if (state.UsersList.errorMessageAddCheckOut) {
-      setFormLoading(false)
-      setFormCheckoutLoading(false)
-    }
-  }, [state.UsersList.errorMessageAddCheckOut])
+  // useEffect(() => {
+  //   if (state.UsersList.errorMessageAddCheckOut) {
+  //     setFormLoading(false)
+  //     setFormCheckoutLoading(false)
+  //   }
+  // }, [state.UsersList.errorMessageAddCheckOut])
 
   useEffect(() => {
 
@@ -1237,7 +1237,7 @@ const CheckOutForm = ({
                     </div>
                   )}
                 </div>
-                {state.UsersList.errorMessageAddCheckOut && (
+                {/* {state.UsersList.errorMessageAddCheckOut && (
                   <div className="d-flex align-items-center p-1 mt-6">
                     <MdError style={{ color: "red", marginRight: "5px", }} />
                     <label
@@ -1253,7 +1253,7 @@ const CheckOutForm = ({
                       {state.UsersList.errorMessageAddCheckOut}
                     </label>
                   </div>
-                )}
+                )} */}
 
 
 
@@ -1838,7 +1838,7 @@ const CheckOutForm = ({
                   </div>
                 )}
               </div>
-              {state.UsersList.errorMessageAddCheckOut && (
+              {/* {state.UsersList.errorMessageAddCheckOut && (
                 <div ref={errorRef} className="d-flex align-items-center p-1 mt-6">
                   <MdError style={{ color: "red", marginRight: "5px", }} />
                   <label
@@ -1854,7 +1854,7 @@ const CheckOutForm = ({
                     {state.UsersList.errorMessageAddCheckOut}
                   </label>
                 </div>
-              )}
+              )} */}
 
 
 
