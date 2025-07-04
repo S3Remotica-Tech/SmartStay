@@ -41,6 +41,7 @@ function Asset() {
   const [showDropDown, setShowDropDown] = useState(false)
   const [showFilterData, setShowFilterData] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [ExcelFilterDates, setExcelFilterDates] = useState([])
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
@@ -49,9 +50,26 @@ function Asset() {
   }, [state.UsersList?.exportAssetsDetail?.response?.fileUrl]);
 
   const handleAssetsExcel = () => {
-    dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id } });
+
+    console.log("ExcelFilterDates", selectedPriceRange);
+    
+
+    if( ExcelFilterDates.length === 2){
+        dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id  ,"start_date":"2024-07-01","end_date":"2025-07-01"}})
+            setExcelFilterDates([])
+            setSelectedPriceRange("")
+    }
+     else if (selectedPriceRange && selectedPriceRange !== "date" && selectedPriceRange !== "All") {
+      dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id , price_range :  selectedPriceRange }});
+      setExcelFilterDates([]);
+      setSelectedPriceRange("");
+       }
+
+    dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id }})
+
     setIsDownloadTriggered(true);
-  };
+  }
+
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
 
@@ -194,7 +212,7 @@ function Asset() {
 
   }, [state.AssetList.addAssetStatusCode, state.AssetList.deleteAssetStatusCode, state.AssetList.addAssignAssetStatusCode])
 
-
+   
 
   useEffect(() => {
     if (state.AssetList.getAssetStatusCode === 200) {
@@ -208,7 +226,12 @@ function Asset() {
   }, [state.AssetList.getAssetStatusCode])
 
 
+  useEffect(()=> {
+    if(state.AssetList.assetList && state.AssetList.assetList.length > 0){
+        setGetData(state.AssetList.assetList)
+    }
 
+  },[state.AssetList.assetList])
 
 
   useEffect(() => {
@@ -221,11 +244,6 @@ function Asset() {
     }
 
   }, [state.AssetList.NoDataAssetStatusCode])
-
-
-
-
-
 
 
 
@@ -261,50 +279,96 @@ function Asset() {
   };
 
 
+ const handleDateChange = (dates) => {
+  if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
+    setSelectedDateRange([]);
+    setSelectedPriceRange("All");
+
+    dispatch({
+      type: 'ASSETLIST',
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    return;
+  }
+
+  setSelectedDateRange(dates);
+
+  const newStartDate = dayjs(dates[0]).startOf("day");
+  const newEndDate = dayjs(dates[1]).endOf("day");
+  setExcelFilterDates([newStartDate, newEndDate]);
+
+  setSelectedPriceRange("date");
+
+  setCurrentPage(1);
+};
+
+
+
+
   const handlePriceRangeChange = (event) => {
     const value = event.target.value;
     setSelectedPriceRange(value);
 
-
      if(value === "All"){
         dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
        }
-     else if(value === "date"){
-           dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-         }
+      else if(value === "date"){
+         dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+         setExcelFilterDates([])
+         setSelectedDateRange([]);
+      }
      else if (value){
         dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id  , price_range : value} })
     }
+   
 
     setCurrentPage(1);
-    if (value !== 'date') {
-      setSelectedDateRange([]);
-    }
   };
 
-  useEffect(()=> {
-   
-       if (selectedPriceRange === "date" &&  ExcelFilterDates.length === 2) {
-      dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id , 
-          start_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-          end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")} 
-           })
-    }
-  },[selectedPriceRange])
+  useEffect(() => {
+  if (selectedPriceRange === "date" && ExcelFilterDates.length === 2) {
+    dispatch({
+      type: 'ASSETLIST',
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+        end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
+      }
+    });
+  }
+}, [selectedPriceRange, ExcelFilterDates]); 
+
 
   useEffect(() => {
     if (!showFilter) {
+      dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       setSelectedPriceRange('All');
       setSelectedDateRange([]);
+      setExcelFilterDates([])
     }
   }, [showFilter]);
 
   const handleFilterByPrice = () => {
-    setShowFilter(!showFilter)
-    dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+
+  const newShowFilter = !showFilter;
+  setShowFilter(newShowFilter);
+
+  if (!showFilter) {
+    setSelectedPriceRange("All");
+    setSelectedDateRange([]);
+    setExcelFilterDates([]);
+    setGetData(state.AssetList.assetList)
+   
   }
+};
 
 
+
+
+
+
+
+ 
 
 
 
@@ -654,14 +718,7 @@ function Asset() {
                   <div style={{ paddingRight: 30, marginTop: 10 }}>
                     <RangePicker
                       value={selectedDateRange}
-                      onChange={(dates) => {
-                        if (!dates || dates.length === 0) {
-                          setSelectedDateRange([]);
-                          setSelectedPriceRange('All');
-                        } else {
-                          setSelectedDateRange(dates);
-                        }
-                      }}
+                      onChange={handleDateChange}
                       format="DD-MM-YYYY"
                       style={{ height: 40, cursor: "pointer" }}
                     />
