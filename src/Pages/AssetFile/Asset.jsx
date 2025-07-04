@@ -51,7 +51,6 @@ function Asset() {
 
   const handleAssetsExcel = () => {
 
-    console.log("ExcelFilterDates", selectedPriceRange);
     
 
     if( ExcelFilterDates.length === 2){
