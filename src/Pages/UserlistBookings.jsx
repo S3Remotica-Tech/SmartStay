@@ -479,12 +479,13 @@ setFormError("")
 
     let hasError = false;
     const isFirstnameValid = validateAssignField(firstName, "firstName");
+    const isphoneValid = validateAssignField(Phone, "phone");
     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
     const isamountValid = validateAssignField(amount, "amount");
-    const isphoneValid = validateAssignField(Phone, "phone");
+    
     const isHostelValid = validateAssignField(HostelIds, "paying");
     const isCityValid = validateAssignField(city, "City");
-    const isPincodeValid = validatehasError = true;AssignField(pincode, "Pincode");
+    const isPincodeValid = validateAssignField (pincode, "Pincode");
     const isStatenameValid = validateAssignField(state_name, "Statename");
 
 
