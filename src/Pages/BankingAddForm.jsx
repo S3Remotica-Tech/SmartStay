@@ -9,6 +9,7 @@ import { MdError } from "react-icons/md";
 import "./BankingAddForm.css";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
+import Select from "react-select";
 
 function BankingAddForm(props) {
   const state = useSelector((state) => state);
@@ -248,11 +249,11 @@ function BankingAddForm(props) {
 
   const [cardType, setCardType] = useState("")
 
-  const handleCardType = (e) => {
-    const selected = e.target.value;
-    setCardType(selected);
-    setError("")
-  };
+  // const handleCardType = (e) => {
+  //   const selected = e.target.value;
+  //   setCardType(selected);
+  //   setError("")
+  // };
 
   const handleSubmitCard = () => {
     if (!accountName) {
@@ -877,44 +878,103 @@ function BankingAddForm(props) {
                   </div>
                 )}
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group
-                  className="mb-1"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label
-                    style={{
-                      fontSize: 14,
-                      color: "#222222",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      marginTop: "5px",
-                    }}
-                  >
-                    Card Type
-                  </Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    value={cardType}
-                    onChange={handleCardType}
-                    className=""
-                    id="vendor-select"
-                    style={{
-                      fontSize: 16,
-                      color: "rgba(75, 75, 75, 1)",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      cursor: "pointer"
-                    }}
-                  >
-                    <option value="">Select a Card Type</option>
-                    <option value="credit">Credit</option>
-                    <option value="debit">Debit</option>
-                  </Form.Select>
-                </Form.Group>
+            
+<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+  <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+    <Form.Label
+      style={{
+        fontSize: 14,
+        color: "#222222",
+        fontFamily: "Gilroy",
+        fontWeight: 500,
+        paddingTop:7
+      }}
+    >
+      Card Type
+    </Form.Label>
+    <Select
+      options={[
+        { value: "credit", label: "Credit" },
+        { value: "debit", label: "Debit" },
+      ]}
+      value={[
+        { value: "credit", label: "Credit" },
+        { value: "debit", label: "Debit" },
+      ].find((option) => option.value === cardType)}
+      onChange={(selectedOption) => {
+        setCardType(selectedOption?.value || "");
+        setError("");
+      }}
+      placeholder="Select a Card Type"
+      // styles={{
+      //   control: (base) => ({
+      //     ...base,
+      //     fontSize: 16,
+      //     fontFamily: "Gilroy",
+      //     fontWeight: 500,
+      //     color: "rgba(75, 75, 75, 1)",
+      //     cursor: "pointer",
+      //     height:50,
+      //     borderRadius:8,
+          
+          
+          
 
-              </div>
+      //   }),
+      //     dropdownIndicator: (base) => ({
+      //                         ...base,
+      //                         color: "#555",
+      //                         display: "inline-block",
+      //                         fill: "currentColor",
+      //                         lineHeight: 1,
+      //                         stroke: "currentColor",
+      //                         strokeWidth: 0,
+      //                         cursor: "pointer",
+      //                       }),
+      //                         option: (base, state) => ({
+      //                         ...base,
+      //                         cursor: "pointer",
+      //                         backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+      //                         color: "#000",
+      //                       }),
+      // }}
+      styles={{
+  control: (base, state) => ({
+    ...base,
+    fontSize: 16,
+    fontFamily: "Gilroy",
+    fontWeight: 500,
+    color: "rgba(75, 75, 75, 1)",
+    cursor: "pointer",
+    height: 50,
+    borderRadius: 8,
+    borderColor: state.isFocused ? "#E8E8E8" : "#E8E8E8", // Light gray border always
+    boxShadow: "none", // Remove blue glow
+    "&:hover": {
+      borderColor: "#C0C0C0" // Optional: slightly darker on hover
+    }
+  }),
+  dropdownIndicator: (base) => ({
+    ...base,
+    color: "#555",
+    display: "inline-block",
+    fill: "currentColor",
+    lineHeight: 1,
+    stroke: "currentColor",
+    strokeWidth: 0,
+    cursor: "pointer",
+  }),
+  option: (base, state) => ({
+    ...base,
+    cursor: "pointer",
+    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+    color: "#000",
+  }),
+}}
 
+    />
+  </Form.Group>
+</div>
 
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
