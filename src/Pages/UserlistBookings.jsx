@@ -864,7 +864,15 @@ if (pincode && String(pincode).length !== 6) {
   }, [customerBooking])
 
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+  setBookingLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
 
 
@@ -2444,7 +2452,12 @@ if (pincode && String(pincode).length !== 6) {
 
         </Modal.Body>
 
-
+{state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-4'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
         {bookingLoading &&
           <div
             style={{

@@ -120,7 +120,16 @@ function CustomerCheckout(props) {
       setFormLoading(false)
     }
   }, [state.UsersList.errorMessageAddCheckOut])
+  
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
   return (
     <>
@@ -304,6 +313,15 @@ function CustomerCheckout(props) {
                     </div>
 
                   </ModalBody>
+
+
+{state.createAccount?.networkError ?
+              <div className='d-flex  align-items-center justify-content-center mt-1 mb-2'>
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              </div>
+              : null}
+
 
                   {formLoading &&
                     <div

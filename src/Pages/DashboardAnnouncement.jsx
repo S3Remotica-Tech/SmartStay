@@ -271,6 +271,7 @@ const handlePageChange = (pageNumber) => {
   };
 
   const handleSaveAnnonce = () => {
+
      dispatch({ type: 'CLEAR_SAME_TITLE' });
     dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
     if (!validateField(title, "title"));
@@ -426,7 +427,16 @@ useEffect(() => {
   }
 }, [state.PgList.TitleAlready, state.PgList.TittleUnique]);
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setFormCommentsLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
   return (
     <>
@@ -1343,7 +1353,13 @@ useEffect(() => {
               </div>
             )}
           </Modal.Body>
-
+{state.createAccount?.networkError ? 
+<div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                      </div>
+                        : null}
+                        
  {formCommentsLoading && <div
             style={{
               position: 'absolute',
@@ -1712,6 +1728,14 @@ useEffect(() => {
               <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{errorMessage}</span>
             </div>
           )}
+
+ {state.createAccount?.networkError ? 
+<div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                      </div>
+                        : null}
+
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
             style={{

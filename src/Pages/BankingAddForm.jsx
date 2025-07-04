@@ -349,6 +349,23 @@ function BankingAddForm(props) {
     border: "none"
   };
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
+
+
+
+
+
+
   return (
     <div>
 
@@ -400,16 +417,16 @@ function BankingAddForm(props) {
                   color: activeTab === tab ? "#fff" : tabStyle.color,
                   borderTopLeftRadius: 10,
                   borderTopRightRadius: 10,
-                  borderBottomLeftRadius:0,
-                  borderBottomRightRadius:0,
+                  borderBottomLeftRadius: 0,
+                  borderBottomRightRadius: 0,
                   opacity:
                     props.editAddBank?.id && props.editAddBank.type !== tab ? 0.6 : 1,
                   cursor:
                     props.editAddBank?.id && props.editAddBank.type !== tab
                       ? "not-allowed"
                       : "pointer",
-                      width:120,
-                      textAlign:"center",
+                  width: 120,
+                  textAlign: "center",
                 }}
 
               >
@@ -630,6 +647,15 @@ function BankingAddForm(props) {
                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
                 </div>
               )}
+
+
+  {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+              
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -648,6 +674,7 @@ function BankingAddForm(props) {
                 </Button>
               </Modal.Footer>
             </div>
+            
           )}
           {activeTab === "upi" && (
             <div className="row">
@@ -771,6 +798,15 @@ function BankingAddForm(props) {
                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
                 </div>
               )}
+
+{state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+              
+
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -955,6 +991,14 @@ function BankingAddForm(props) {
                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
                 </div>
               )}
+
+              {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+              
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -1065,6 +1109,13 @@ function BankingAddForm(props) {
                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
                 </div>
               )}
+              {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+              
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -1085,6 +1136,12 @@ function BankingAddForm(props) {
 
             </div>
           )}
+
+
+  
+
+
+
         </Modal.Body>
 
         {formLoading && <div
@@ -1112,7 +1169,7 @@ function BankingAddForm(props) {
             }}
           ></div>
         </div>}
-
+      
 
       </Modal>
     </div>

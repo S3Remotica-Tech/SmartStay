@@ -290,6 +290,18 @@ function SettingCompliance({ hostelid }) {
     }
   }, [complianceFilterddata]);
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
+
   return (
     <div
       style={{
@@ -741,6 +753,15 @@ function SettingCompliance({ hostelid }) {
                     </span>
                   </>
                 )}
+
+
+                
+ {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
               </div>
             </div>
           </div>
@@ -761,6 +782,15 @@ function SettingCompliance({ hostelid }) {
             Edit Complaint Type
           </Button>
         </Modal.Body>
+
+
+
+
+
+
+
+
+
         {formLoading &&
                         <div
                             style={{
@@ -875,6 +905,14 @@ function SettingCompliance({ hostelid }) {
             </div>
           </div>
         </Modal.Body>
+
+ {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+
 
  {formLoading &&
                         <div

@@ -2495,6 +2495,28 @@ const InvoicePage = () => {
     }
   }, [recurringbills])
 
+
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div style={{ height: "100vh", overflowY: "auto", }}>
       {showAllBill && (
@@ -3075,14 +3097,14 @@ const InvoicePage = () => {
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
-                        marginTop:90
+                        marginTop: 90
                       }}
                     >
 
                       <img
                         src={Emptystate}
                         alt="Empty State"
-                       
+
                       />
 
 
@@ -3710,6 +3732,13 @@ const InvoicePage = () => {
                                 </div>
                               )}
                             </Modal.Body>
+
+                            {state.createAccount?.networkError ?
+                              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                              </div>
+                              : null}
 
                             {formRecordLoading && <div
                               style={{
@@ -4361,7 +4390,7 @@ const InvoicePage = () => {
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                      marginTop:95
+                      marginTop: 95
 
                     }}
                   >
@@ -4369,7 +4398,7 @@ const InvoicePage = () => {
                     <img
                       src={Emptystate}
                       alt="Empty State"
-                     
+
                     />
 
 
@@ -4781,7 +4810,7 @@ const InvoicePage = () => {
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
-                        marginTop:90
+                      marginTop: 90
 
                     }}
                   >
@@ -4789,7 +4818,7 @@ const InvoicePage = () => {
                     <img
                       src={Emptystate}
                       alt="Empty State"
-                      
+
                     />
 
 
@@ -5848,6 +5877,19 @@ const InvoicePage = () => {
               </div>
             )}
           </div>
+
+
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+
+
+
+
+
 
           {formLoading && <div
             style={{

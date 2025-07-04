@@ -10,14 +10,19 @@ export const initialState = {
     alreadyAssetNameHere: '',
     NoDataAssetStatusCode: 0,
     getRoomStatusCode: 0,
-    bankAmountError: ''
+    bankAmountError: '',
+    assetError: ''
 }
 
 const AssetReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'RESET_ALL':
-              return initialState;
+            return initialState;
+        case 'ASSET_ERROR':
+            return { ...state, assetError: action.payload }
+        case 'CLEAR_ASSET_ERROR':
+            return { ...state, assetError: '' }
         case 'ASSET_LIST':
             return { ...state, assetList: action.payload.response, getAssetStatusCode: action.payload.statusCode }
         case 'CLEAR_GET_ASSET_STATUS_CODE':
@@ -44,7 +49,7 @@ const AssetReducer = (state = initialState, action) => {
         case 'REMOVE_GET_ROOMS':
             return { ...state, getRoomStatusCode: 0 }
 
-            
+
         case 'ASSIGN_ASSET':
             return { ...state, addAssignAssetStatusCode: action.payload.statusCode }
         case 'CLEAR_ASSIGN_STATUS_CODE':
@@ -60,9 +65,9 @@ const AssetReducer = (state = initialState, action) => {
         case 'CLEAR_ASSET_NAME_ERROR':
             return { ...state, alreadyAssetNameHere: '' }
 
-            default:
-        return state;
+        default:
+            return state;
     }
-    
+
 }
 export default AssetReducer;

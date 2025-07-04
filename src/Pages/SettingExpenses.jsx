@@ -184,7 +184,7 @@ function SettingExpenses({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings.addexpencesStatuscode === 200 || state.Settings.editexpencesStatuscode === 200 || state.Settings.deleteexpencesStatusCode === 200) {
-setShowForm(false)
+      setShowForm(false)
       setFormLoading(false)
       setCategoryErrmsg('')
       if (state.Settings.editexpencesStatuscode === 200) {
@@ -363,7 +363,7 @@ setShowForm(false)
         type: 'EDIT_EXPENCES_CATEGORY',
         payload: { id: selectedOptions.value, hostel_id: hostelid, name: inputValue, type: 1 }
       });
-setFormLoading(true)
+      setFormLoading(true)
 
 
     } else {
@@ -493,6 +493,15 @@ setFormLoading(true)
       setFormLoading(false)
     }
   }, [state.Settings?.alreadycategoryerror])
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
 
   return (
     <div style={{
@@ -654,7 +663,7 @@ setFormLoading(true)
                   border: "1px solid #ddd",
                   borderRadius: "0 0 10px 10px",
                   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                                   maxHeight: "70px",
+                  maxHeight: "70px",
                   overflowY: "auto",
                   marginTop: "5px"
                 }}>
@@ -679,7 +688,7 @@ setFormLoading(true)
             </div>
           ))
         ) : !loading && (
-         
+
 
           <div
             style={{
@@ -689,7 +698,7 @@ setFormLoading(true)
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              marginLeft:"250px"
+              marginLeft: "250px"
             }}
           >
             <img src={EmptyState} alt="emptystate" />
@@ -704,9 +713,9 @@ setFormLoading(true)
             >
               No Expense available
             </div>
-           
+
           </div>
-          
+
         )}
 
 
@@ -1005,7 +1014,12 @@ setFormLoading(true)
                     )}
                   </div>
                 </Modal.Body>
-
+                {state.createAccount?.networkError ?
+                  <div className='d-flex  align-items-center justify-content-center mt-2 mb-4'>
+                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                  </div>
+                  : null}
                 {formLoading &&
                   <div
                     style={{

@@ -5,7 +5,7 @@ import Profile2 from '../../Assets/Images/New_images/profile-picture.png'
 import Image from 'react-bootstrap/Image';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { CloseCircle} from 'iconsax-react';
+import { CloseCircle } from 'iconsax-react';
 import PropTypes from "prop-types";
 
 
@@ -16,10 +16,7 @@ function OccupiedCustomer({ show, handleClose, currentItem }) {
 
     const state = useSelector(state => state)
     const dispatch = useDispatch();
-
-
-    console.log("currentItem", currentItem)
-
+    const [formLoading, setFormLoading] = useState(false)
 
     const [customer, setCustomer] = useState([])
 
@@ -31,17 +28,18 @@ function OccupiedCustomer({ show, handleClose, currentItem }) {
         const Room_Id = currentItem?.room.Room_Id;
 
 
-        console.log("Hostel_Id && Floor_Id && Bed_Id && Room_Id", Hostel_Id, Floor_Id, Bed_Id, Room_Id)
-
         if (Hostel_Id && Floor_Id && Bed_Id && Room_Id) {
-console.log("called")
+
             dispatch({ type: 'OCCUPIEDCUSTOMER', payload: { hostel_id: Hostel_Id, floor_id: Floor_Id, room_id: Room_Id, bed: Bed_Id } })
+            setFormLoading(true)
+
         }
     }, [currentItem])
 
 
     useEffect(() => {
         if (state.PgList.OccupiedCustomerGetStatusCode === 200) {
+            setFormLoading(false)
             setCustomer(state.PgList.OccupiedCustomer)
             setTimeout(() => {
                 dispatch({ type: 'CLEAR_OCCUPED_CUSTOMER_STATUSCODE' })
@@ -85,7 +83,7 @@ console.log("called")
                             <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
                                 <Modal.Title style={{ fontSize: 20, color: "#222222", fontFamily: "Gilroy", fontWeight: 600 }}>Bed {currentItem.bed.bed_no}</Modal.Title>
 
-                                <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}}/>
+                                <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
 
                             </Modal.Header>
 
@@ -105,12 +103,12 @@ console.log("called")
                                         <div className='d-flex justify-content-between flex-wrap'>
                                             <label style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}>
                                                 {/* {custom.Phone} */} + {custom &&
-                                          String(custom.Phone)?.slice(
-                                            0,
-                                            String(custom.Phone).length - 10
-                                          )}{" "}
-                                        {custom && String(custom.Phone)?.slice(-10)}
-                                                </label>
+                                                    String(custom.Phone)?.slice(
+                                                        0,
+                                                        String(custom.Phone).length - 10
+                                                    )}{" "}
+                                                {custom && String(custom.Phone)?.slice(-10)}
+                                            </label>
                                             <label style={{ fontSize: 14, color: "rgba(75, 75, 75, 1)", fontFamily: "Gilroy", fontWeight: 500 }}> {moment(custom.createdAt).format("DD/MM/YYYY")}</label>
                                         </div>
                                     </div>
@@ -118,14 +116,40 @@ console.log("called")
 
                             </Modal.Body>
                         </div>))}
+
+                    {formLoading && <div
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'transparent',
+                            opacity: 0.75,
+                            zIndex: 10,
+                        }}
+                    >
+                        <div
+                            style={{
+                                borderTop: '4px solid #1E45E1',
+                                borderRight: '4px solid transparent',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                animation: 'spin 1s linear infinite',
+                            }}
+                        ></div>
+                    </div>}
                 </Modal.Dialog>
             </Modal>
         </div>
     )
 }
 OccupiedCustomer.propTypes = {
-  show: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  currentItem: PropTypes.func.isRequired,
+    show: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    currentItem: PropTypes.func.isRequired,
 }
 export default OccupiedCustomer

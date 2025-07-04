@@ -114,7 +114,15 @@ useEffect(()=>{
 
 
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+           setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
 
 
@@ -190,6 +198,8 @@ useEffect(()=>{
               </div>
             </div>
           </Modal.Body>
+
+
   {formLoading && <div
             style={{
               position: 'absolute',
@@ -299,6 +309,14 @@ useEffect(()=>{
               </label>
             </div>
           )}
+
+
+{state.createAccount?.networkError ? 
+          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                </div>
+                                  : null}
 
           <Modal.Footer style={{ border: "none" }}>
             <Button

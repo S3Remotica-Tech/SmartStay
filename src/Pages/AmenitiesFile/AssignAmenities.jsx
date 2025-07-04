@@ -144,7 +144,15 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
   }
 
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
 
+  }, [state.createAccount?.networkError])
 
   return (
     <div
@@ -174,7 +182,7 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
           <Modal.Body style={{ border: "none" }}>
             {errorAssign && (
               <div className="d-flex align-items-center mb-3 ms-5">
-                <MdError style={{ color: 'red', marginRight: '5px', fontSize: '13px',marginBottom: '2px' }} />
+                <MdError style={{ color: 'red', marginRight: '5px', fontSize: '13px', marginBottom: '2px' }} />
                 <span style={{
                   color: 'red', fontSize: '12px', fontFamily: 'Gilroy',
                   fontWeight: 500
@@ -306,6 +314,14 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
 
           </Modal.Body>
+
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+
           {formLoading &&
             <div
               style={{
