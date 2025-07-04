@@ -1231,6 +1231,23 @@ const CheckOutForm = ({
                     />
                   </div>
 
+                    <div
+                className="d-flex justify-content-center align-items-center mt-4"
+                style={{ color: "red", }}
+              >
+                <MdError style={{ fontSize: "13px", marginRight: "6px" }} />
+                <span
+                  style={{
+                    fontSize: "13px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {isChangedError}
+                </span>
+              </div>
+
+
                   {dateDifference !== null && (
                     <div className="col-12 mt-3">
                       <p
@@ -1273,13 +1290,13 @@ const CheckOutForm = ({
 
             {isChangedError && (
               <div
-                className="d-flex justify-content-center align-items-center"
+                className="d-flex justify-content-center align-items-center mt-4"
                 style={{ color: "red", }}
               >
-                <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                <MdError style={{ fontSize: "13px", marginRight: "6px" }} />
                 <span
                   style={{
-                    fontSize: "12px",
+                    fontSize: "13px",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
                   }}
@@ -1803,7 +1820,6 @@ const CheckOutForm = ({
 
                 </div>
 
-
                 <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
                   <label
                     htmlFor="comments"
@@ -1880,10 +1896,10 @@ const CheckOutForm = ({
                   className="d-flex justify-content-center align-items-center"
                   style={{ color: "red", marginTop: 15 }}
                 >
-                  <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                  <MdError style={{ fontSize: "13px", marginRight: "6px" }} />
                   <span
                     style={{
-                      fontSize: "14px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
