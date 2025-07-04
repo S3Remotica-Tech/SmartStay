@@ -16,6 +16,8 @@ import Delete from '../Assets/Images/New_images/trash.png';
 import { ArrowLeft2, ArrowRight2, CloseCircle, Edit } from 'iconsax-react';
 import LoaderComponent from "./LoaderComponent";
 import send from "../Assets/Images/send.svg";
+import { MdErrorOutline } from "react-icons/md";
+
 function DashboardAnnouncement() {
 
 
@@ -23,7 +25,7 @@ function DashboardAnnouncement() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [formLoading, setFormLoading] = useState(false)
-const [formCommentsLoading, setFormCommentsLoading] = useState(false)
+  const [formCommentsLoading, setFormCommentsLoading] = useState(false)
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -60,7 +62,7 @@ const [formCommentsLoading, setFormCommentsLoading] = useState(false)
 
 
 
-const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
@@ -84,7 +86,7 @@ const handlePageChange = (pageNumber) => {
       setFormCommentsLoading(true)
     }
     setComments("");
-       setCommentsList([]);
+    setCommentsList([]);
 
   }
 
@@ -228,7 +230,7 @@ const handlePageChange = (pageNumber) => {
 
   useEffect(() => {
     if (state.PgList?.addSubCommentsSuccessStatus === 200) {
- setFormCommentsLoading(false)
+      setFormCommentsLoading(false)
       if (selectedCard) {
         dispatch({ type: 'GETCOMMENTS', payload: { an_id: selectedCard } })
       }
@@ -257,10 +259,10 @@ const handlePageChange = (pageNumber) => {
       switch (fieldName) {
 
         case "title":
-          setTitleError("Title is Required");
+          setTitleError("Please Enter Title");
           break;
         case "description":
-          setDescriptionError("Description is Required");
+          setDescriptionError("Please Enter Description");
           break;
         default:
           break;
@@ -272,7 +274,7 @@ const handlePageChange = (pageNumber) => {
 
   const handleSaveAnnonce = () => {
 
-     dispatch({ type: 'CLEAR_SAME_TITLE' });
+    dispatch({ type: 'CLEAR_SAME_TITLE' });
     dispatch({ type: 'CLEAR_TITTLE_UNIQUE' });
     if (!validateField(title, "title"));
     if (!validateField(description, "description"));
@@ -418,16 +420,16 @@ const handlePageChange = (pageNumber) => {
     }
   }, [filteredData])
 
-useEffect(() => {
-  if (
-    state.PgList.TitleAlready !== "" ||
-    state.PgList.TittleUnique !== ""
-  ) {
-    setFormLoading(false);
-  }
-}, [state.PgList.TitleAlready, state.PgList.TittleUnique]);
+  useEffect(() => {
+    if (
+      state.PgList.TitleAlready !== "" ||
+      state.PgList.TittleUnique !== ""
+    ) {
+      setFormLoading(false);
+    }
+  }, [state.PgList.TitleAlready, state.PgList.TittleUnique]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setFormCommentsLoading(false)
@@ -1313,7 +1315,11 @@ useEffect(() => {
             <div className="d-flex align-items-center">
 
               <div className="ms-2">
-                <p className="mb-0 fw-bold" style={{fontFamily:"Gilroy"}}>Monthly</p>
+                <p className="mb-0" style={{
+              fontSize: 16,
+              fontWeight: 600,
+              fontFamily: "Gilroy",
+            }}>Monthly</p>
 
               </div>
             </div>
@@ -1331,11 +1337,11 @@ useEffect(() => {
                         : comment.profile
                     } width={30} height={30} alt="profile" />
                     <div className="ms-2">
-                      <p className="mb-0 fw-bold" style={{ fontSize: "14px" ,fontFamily:"Gilroy"}}>{comment.name}</p>
-                      <p className="mb-0 text-muted" style={{ fontSize: "12px",fontFamily:"Gilroy" }}>{new Date(comment.created_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}</p>
+                      <p className="mb-0 fw-bold" style={{ fontSize: "14px", fontFamily: "Gilroy" }}>{comment.name}</p>
+                      <p className="mb-0 text-muted" style={{ fontSize: "12px", fontFamily: "Gilroy" }}>{new Date(comment.created_at).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}</p>
                     </div>
                   </div>
-                  <p className="mt-2 mb-1" style={{ fontSize: "14px", color: "#222",fontFamily:"Gilroy" }}>{comment.comment}</p>
+                  <p className="mt-2 mb-1" style={{ fontSize: "14px", color: "#222", fontFamily: "Gilroy" }}>{comment.comment}</p>
                 </div>
               ))
             ) : (
@@ -1353,14 +1359,14 @@ useEffect(() => {
               </div>
             )}
           </Modal.Body>
-{state.createAccount?.networkError ? 
-<div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                      </div>
-                        : null}
-                        
- {formCommentsLoading && <div
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px',fontSize: 13 }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+
+          {formCommentsLoading && <div
             style={{
               position: 'absolute',
               top: 100,
@@ -1368,7 +1374,7 @@ useEffect(() => {
               bottom: 0,
               left: 0,
               display: 'flex',
-                           alignItems: 'center',
+              alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: 'transparent',
               opacity: 0.75,
@@ -1386,9 +1392,9 @@ useEffect(() => {
               }}
             ></div>
           </div>}
+ 
 
-
-          <Modal.Footer style={{ border: "none" }}>
+          <Modal.Footer className="pb-0" style={{ border: "none" }}>
             <div
               style={{
                 marginTop: 15,
@@ -1443,13 +1449,13 @@ useEffect(() => {
               </div>
             </div>
           </Modal.Footer>
-
-          {displayError && (
-            <div className="ms-3" style={{ color: "red", marginBottom: 20, textAlign: "center" }}>
-              <MdError />
-              <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{displayError}</span>
+{displayError && (
+            <div className="ms-3" style={{ color: "red", marginBottom: 20, textAlign: "start" }}>
+             <MdError style={{ color: "red", fontSize: 13, marginRight:4}} />
+              <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{displayError}</span>
             </div>
           )}
+         
 
         </Modal>
       }
@@ -1589,9 +1595,9 @@ useEffect(() => {
             </span>
           </button>
         </Modal.Header>
-        <Modal.Body style={{position:"relative"}}>
+        <Modal.Body style={{ position: "relative" }}>
 
-  {formLoading && <div
+          {formLoading && <div
             style={{
               position: 'absolute',
               top: 100,
@@ -1599,7 +1605,7 @@ useEffect(() => {
               bottom: 0,
               left: 0,
               display: 'flex',
-                           alignItems: 'center',
+              alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: 'transparent',
               opacity: 0.75,
@@ -1652,16 +1658,17 @@ useEffect(() => {
                 }}
               />
               {titleError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{titleError}</span>
+                <div className="d-flex gap-1 align-items-center mt-1" >
+                  <MdError style={{ color: "red", fontSize: 13}} />
+                 
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{titleError}</span>
                 </div>
               )}
               {state.PgList.TitleAlready && (
                 <label
                   style={{
                     color: "red",
-                    fontSize: 12,
+                    fontSize: 13,
                     fontFamily: "Gilroy",
                     fontWeight: 500,
                   }}
@@ -1694,7 +1701,7 @@ useEffect(() => {
                   fontWeight: 500,
                 }}
               >
-                Description<span style={{ color: "red", fontSize: "20px" }}>*</span>
+                Description <span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
 
               <FormControl
@@ -1715,26 +1722,28 @@ useEffect(() => {
                 }}
               />
               {descriptionError && (
-                <div style={{ color: "red" }}>
-                  <MdError />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span>
+                <div className="d-flex gap-1 align-items-center mt-1">
+                  <MdError style={{ color: "red", fontSize: 13}} />
+                  <span style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{descriptionError}</span>
                 </div>
               )}
             </div>
           </div>
           {errorMessage && (
             <div style={{ color: "red", textAlign: "center", paddingTop: "8px" }}>
-              <MdError />
-              <span className="ms-2" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{errorMessage}</span>
+              <MdError style={{ color: "red", fontSize: 13}} />
+              <span className="ms-2" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{errorMessage}</span>
             </div>
           )}
 
- {state.createAccount?.networkError ? 
-<div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                        <MdError style={{ color: "red", marginRight: '5px' }} />
-                        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                      </div>
-                        : null}
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-0'>
+              <MdError style={{ color: "red", marginRight: '5px',fontSize: 13 }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>
+                {state.createAccount?.networkError}
+                </label>
+            </div>
+             : null} 
 
           <Button
             className="col-lg-6 col-md-6 col-sm-12 col-xs-12"

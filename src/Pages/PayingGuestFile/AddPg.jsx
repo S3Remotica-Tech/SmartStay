@@ -650,13 +650,13 @@ useEffect(() => {
         {generalError && (
           <div className="d-flex align-items-center p-1 mt-2 mb-2">
             <MdError
-              style={{ fontSize: "14px", color: "red", marginRight: "5px" }}
+              style={{ fontSize: "13px", color: "red", marginRight: "5px" }}
             />
             <label
               className="mb-0"
               style={{
                 color: "red",
-                fontSize: "12px",
+                fontSize: "13px",
                 fontFamily: "Gilroy",
                 fontWeight: 500,
               }}
@@ -778,7 +778,7 @@ useEffect(() => {
                 <div className="d-flex align-items-center p-1">
                   <MdError
                     style={{
-                      fontSize: "14px",
+                      fontSize: "13px",
                       color: "red",
                       marginRight: "5px",
                     }}
@@ -787,7 +787,7 @@ useEffect(() => {
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -860,7 +860,7 @@ useEffect(() => {
                 <div className="d-flex align-items-center p-1">
                   <MdError
                     style={{
-                      fontSize: "14px",
+                      fontSize: "13px",
                       color: "red",
                       marginRight: "5px",
                     }}
@@ -869,7 +869,7 @@ useEffect(() => {
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -883,7 +883,7 @@ useEffect(() => {
                 <div className="d-flex align-items-center p-1">
                   <MdError
                     style={{
-                      fontSize: "14px",
+                      fontSize: "13px",
                       color: "red",
                       marginRight: "5px",
                       marginBoTop: "1px",
@@ -893,7 +893,7 @@ useEffect(() => {
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -941,7 +941,7 @@ useEffect(() => {
                 <div className="d-flex align-items-center p-1">
                   <MdError
                     style={{
-                      fontSize: "14px",
+                      fontSize: "13px",
                       color: "red",
                       marginRight: "5px",
                     }}
@@ -950,7 +950,7 @@ useEffect(() => {
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -1003,7 +1003,7 @@ useEffect(() => {
                   />
                   <span
                     style={{
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -1056,7 +1056,7 @@ useEffect(() => {
                   />
                   <span
                     style={{
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -1109,7 +1109,7 @@ useEffect(() => {
                   />
                   <span
                     style={{
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -1132,7 +1132,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Pincode
+                  Pincode{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <Form.Control
@@ -1169,7 +1169,7 @@ useEffect(() => {
                       className="mb-0"
                       style={{
                         color: "red",
-                        fontSize: "12px",
+                        fontSize: "13px",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
                       }}
@@ -1218,7 +1218,7 @@ useEffect(() => {
                   <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
                   <span
                     style={{
-                      fontSize: "12px",
+                      fontSize: "13px",
                       color: "red",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
@@ -1245,8 +1245,8 @@ useEffect(() => {
                     lineHeight: "normal",
                   }}
                 >
-                  State
-                  <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                  State{" "}
+                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
 
                 <Select
@@ -1324,7 +1324,7 @@ useEffect(() => {
                     <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
                     <span
                       style={{
-                        fontSize: "12px",
+                        fontSize: "13px",
                         color: "red",
                         fontFamily: "Gilroy",
                         fontWeight: 500,
@@ -1529,13 +1529,13 @@ useEffect(() => {
           {isChangedError && (
             <div ref={nochangeRef} className="d-flex align-items-center justify-content-center p-1 mt-2 mb-2">
               <MdError
-                style={{ fontSize: "14px", color: "red", marginRight: "5px" }}
+                style={{ fontSize: "13px", color: "red", marginRight: "5px" }}
               />
               <label
                 className="mb-0"
                 style={{
                   color: "red",
-                  fontSize: "12px",
+                  fontSize: "13px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
                 }}
@@ -1547,8 +1547,8 @@ useEffect(() => {
 
 
         {state.createAccount?.networkError ? <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                <MdError style={{ color: "red", marginRight: '5px',fontSize: 13 }} />
+                                <label className="mb-0" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                               </div>
                                 : null}
 
