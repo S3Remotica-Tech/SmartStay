@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import Profile2 from "../../Assets/Images/New_images/profile-picture.png";
@@ -50,7 +51,7 @@ function AddVendor({ show, setShow, currentItem }) {
   const [landmarkError, setLandmarkError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
-
+  const [formLoading, setFormLoading] = useState(false)
 
   const firstNameRef = useRef(null);
   const mobileRef = useRef(null);
@@ -59,13 +60,6 @@ function AddVendor({ show, setShow, currentItem }) {
   const pinCodeRef = useRef(null);
   const stateRef = useRef(null);
   const countryRef = useRef(null);
-
-
-
-
-
-
-
 
 
 
@@ -315,8 +309,11 @@ function AddVendor({ show, setShow, currentItem }) {
 
 
   const handleAddVendor = () => {
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_ERROR" });
+    dispatch({ type: "CLEAR_ALREADY_VENDOR_EMAIL_ERROR" });
+
     let isValid = true;
-const focusedRef = { current: false };
+    const focusedRef = { current: false };
 
     const emailInvalid = emailError !== "";
     const mobileInvalid = mobileError !== "";
@@ -335,115 +332,113 @@ const focusedRef = { current: false };
       isValid = false;
     }
 
-   if (!first_Name) {
-    setFirstNameError("Please Enter First Name");
-    if (!focusedRef.current && firstNameRef.current) {
-      firstNameRef.current.focus();
-      focusedRef.current = true;
+    if (!first_Name) {
+      setFirstNameError("Please Enter First Name");
+      if (!focusedRef.current && firstNameRef.current) {
+        firstNameRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
     }
-    isValid = false;
-  }
 
-  if (!countryCode) {
-    setCountryCodeError("Please Select Country Code");
-    if (!focusedRef.current && countryCodeRef.current) {
-      countryCodeRef.current.focus();
-      focusedRef.current = true;
+    if (!countryCode) {
+      setCountryCodeError("Please Select Country Code");
+      if (!focusedRef.current) {
+        focusedRef.current = true;
+      }
+      isValid = false;
     }
-    isValid = false;
-  }
 
-  if (!vendor_Mobile) {
-    setMobileError("Please Enter Mobile Number");
-    if (!focusedRef.current && mobileRef.current) {
-      mobileRef.current.focus();
-      focusedRef.current = true;
+    if (!vendor_Mobile) {
+      setMobileError("Please Enter Mobile Number");
+      if (!focusedRef.current && mobileRef.current) {
+        mobileRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    } else if (mobileInvalid) {
+      setMobileError("Enter Valid Mobile Number");
+      if (!focusedRef.current && mobileRef.current) {
+        mobileRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
     }
-    isValid = false;
-  } else if (mobileInvalid) {
-    setMobileError("Enter Valid Mobile Number");
-    if (!focusedRef.current && mobileRef.current) {
-      mobileRef.current.focus();
-      focusedRef.current = true;
-    }
-    isValid = false;
-  }
 
-  if (!business_Name) {
-    setBusinessNameError("Please Enter Business Name");
-    if (!focusedRef.current && businessNameRef.current) {
-      businessNameRef.current.focus();
-      focusedRef.current = true;
+    if (!business_Name) {
+      setBusinessNameError("Please Enter Business Name");
+      if (!focusedRef.current && businessNameRef.current) {
+        businessNameRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
     }
-    isValid = false;
-  }
 
-  if (emailInvalid) {
-    setEmailError("Enter Valid Email ID");
-    if (!focusedRef.current && emailRef.current) {
-      emailRef.current.focus();
-      focusedRef.current = true;
+    if (emailInvalid) {
+      setEmailError("Enter Valid Email ID");
+      if (!focusedRef.current) {
+        focusedRef.current = true;
+      }
+      isValid = false;
     }
-    isValid = false;
-  }
- if (!city) {
-    setCityError("Please Enter City");
-    if (!focusedRef.current && cityRef.current) {
-      cityRef.current.focus();
-      focusedRef.current = true;
+    if (!city) {
+      setCityError("Please Enter City");
+      if (!focusedRef.current && cityRef.current) {
+        cityRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
     }
-    isValid = false;
-  }
 
- if (!pinCode) {
-    setPinCodeError("Please Enter Pincode");
-    if (!focusedRef.current && pinCodeRef.current) {
-      pinCodeRef.current.focus();
-      focusedRef.current = true;
+    if (!pinCode) {
+      setPinCodeError("Please Enter Pincode");
+      if (!focusedRef.current && pinCodeRef.current) {
+        pinCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    } else if (!/^\d+$/.test(String(pinCode))) {
+      setPinCodeError("Pin Code Must Be Numeric");
+      if (!focusedRef.current && pinCodeRef.current) {
+        pinCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    } else if (String(pinCode).length !== 6) {
+      setPinCodeError("Pin Code Must Be Exactly 6 Digits");
+      if (!focusedRef.current && pinCodeRef.current) {
+        pinCodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
+    } else {
+      setPinCodeError("");
     }
-    isValid = false;
-  } else if (!/^\d+$/.test(String(pinCode))) {
-    setPinCodeError("Pin Code Must Be Numeric");
-    if (!focusedRef.current && pinCodeRef.current) {
-      pinCodeRef.current.focus();
-      focusedRef.current = true;
-    }
-    isValid = false;
-  } else if (String(pinCode).length !== 6) {
-    setPinCodeError("Pin Code Must Be Exactly 6 Digits");
-    if (!focusedRef.current && pinCodeRef.current) {
-      pinCodeRef.current.focus();
-      focusedRef.current = true;
-    }
-    isValid = false;
-  } else {
-    setPinCodeError("");
-  }
 
 
-  if (!state_name) {
-    setStateNameError("Please Select State");
-    if (!focusedRef.current && stateRef.current) {
-      stateRef.current.focus();
-      focusedRef.current = true;
+    if (!state_name) {
+      setStateNameError("Please Select State");
+      if (!focusedRef.current && stateRef.current) {
+        stateRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
     }
-    isValid = false;
-  }
 
-  if (!country) {
-    setCountryError("Please Enter Country");
-    if (!focusedRef.current && countryRef.current) {
-      countryRef.current.focus();
-      focusedRef.current = true;
+    if (!country) {
+      setCountryError("Please Enter Country");
+      if (!focusedRef.current && countryRef.current) {
+        countryRef.current.focus();
+        focusedRef.current = true;
+      }
+      isValid = false;
     }
-    isValid = false;
-  }
 
- 
 
-  
 
- 
+
+
+
 
 
     const normalize = (value) => {
@@ -500,6 +495,7 @@ const focusedRef = { current: false };
             state: state_name,
           },
         });
+        setFormLoading(true)
       } else {
         dispatch({
           type: "ADDVENDOR",
@@ -520,6 +516,7 @@ const focusedRef = { current: false };
             state: state_name,
           },
         });
+        setFormLoading(true)
       }
 
 
@@ -530,6 +527,7 @@ const focusedRef = { current: false };
 
   useEffect(() => {
     if (state.ComplianceList.addVendorSuccessStatusCode === 200) {
+      setFormLoading(false)
       setFile("");
       setFirst_Name("");
       setLast_Name("");
@@ -636,11 +634,18 @@ const focusedRef = { current: false };
 
 
   useEffect(() => {
-    setVendorPhoneError(state.ComplianceList?.alreadyVendorHere)
+    if (state.ComplianceList?.alreadyVendorHere) {
+      setFormLoading(false)
+      setVendorPhoneError(state.ComplianceList?.alreadyVendorHere)
+    }
+
   }, [state.ComplianceList?.alreadyVendorHere])
 
   useEffect(() => {
-    setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
+    if (state.ComplianceList.alreadyVendorEmailError) {
+      setFormLoading(false)
+      setVendorEmailError(state.ComplianceList.alreadyVendorEmailError)
+    }
   }, [state.ComplianceList.alreadyVendorEmailError])
 
 
@@ -661,6 +666,15 @@ const focusedRef = { current: false };
     pinCode: "",
   });
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
 
 
 
@@ -680,10 +694,7 @@ const focusedRef = { current: false };
         centered
         backdrop="static"
         className="custom-modal-width-vendor"
-        style={{
-          maxWidth: '90%',
-          margin: 'auto',
-        }}
+
       >
         <Modal.Dialog className="m-0 p-0">
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
@@ -705,7 +716,7 @@ const focusedRef = { current: false };
 
 
 
-          <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+          <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll" }} className="show-scroll pt-2 mt-2 me-3">
             <div className="d-flex align-items-center">
               <div
                 className=""
@@ -884,7 +895,7 @@ const focusedRef = { current: false };
                     <Form.Select
                       value={countryCode}
                       id="vendor-select-pg"
-                                           style={{
+                      style={{
                         border: "1px solid #D9D9D9",
                         borderRadius: "8px 0 0 8px",
                         height: 50,
@@ -990,7 +1001,7 @@ const focusedRef = { current: false };
                     }}
                   >
                     Email ID{" "}
-                  
+
                   </Form.Label>
                   <Form.Control
                     value={email_Id}
@@ -1097,7 +1108,7 @@ const focusedRef = { current: false };
               </div>
 
 
-             
+
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
                 <Form.Group className="">
@@ -1233,7 +1244,7 @@ const focusedRef = { current: false };
                     id="form-controls"
                     placeholder="Enter City"
                     value={city}
-                    ref={cityRef} 
+                    ref={cityRef}
                     onChange={(e) => handleCity(e)}
                     style={{
                       fontSize: 16,
@@ -1249,7 +1260,7 @@ const focusedRef = { current: false };
                 </Form.Group>
                 {cityError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                    <MdError style={{ fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
                     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                   </div>
                 )}
@@ -1273,7 +1284,7 @@ const focusedRef = { current: false };
                   </Form.Label>
                   <Form.Control
                     value={pinCode}
-                    ref={pinCodeRef} 
+                    ref={pinCodeRef}
                     onChange={(e) => handlePinCodeChange(e)}
                     type="tel"
                     maxLength={6}
@@ -1366,7 +1377,7 @@ const focusedRef = { current: false };
                         ...base,
                         backgroundColor: "#f8f9fa",
                         border: "1px solid #ced4da",
-                         fontFamily: "Gilroy",
+                        fontFamily: "Gilroy",
                       }),
                       menuList: (base) => ({
                         ...base,
@@ -1375,7 +1386,7 @@ const focusedRef = { current: false };
                         padding: 0,
                         scrollbarWidth: "thin",
                         overflowY: "auto",
-                         fontFamily: "Gilroy",
+                        fontFamily: "Gilroy",
                       }),
                       placeholder: (base) => ({
                         ...base,
@@ -1401,7 +1412,7 @@ const focusedRef = { current: false };
 
                 {!state_name && state_nameError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                    <MdError style={{ fontSize: "13px", marginRight: "5px", marginBottom: "1px" }} />
                     <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                       {state_nameError}
                     </span>
@@ -1461,7 +1472,7 @@ const focusedRef = { current: false };
                       </label>
                     </div>
                   )}
-                 
+
 
                 </Form.Group>
               </div>
@@ -1469,6 +1480,31 @@ const focusedRef = { current: false };
 
             </div>
           </Modal.Body>
+          {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
           {generalError && (
             <div className="d-flex align-items-center p-1 mb-2">
               <MdError style={{ color: "red", marginRight: "5px" }} />
@@ -1486,7 +1522,12 @@ const focusedRef = { current: false };
             </div>
           )}
 
-
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
           {isChangedError && (
             <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
               <MdError style={{ fontSize: "13px", marginRight: "7px", marginBottom: "15px" }} />

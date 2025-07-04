@@ -1,11 +1,14 @@
-const webpack = require("webpack");
+import webpack from "webpack";
+import { resolve as resolveCrypto } from "crypto-browserify";
+import { resolve as resolveStream } from "stream-browserify";
+import { resolve as resolveBuffer } from "buffer";
 
-module.exports = {
+export default {
   resolve: {
     fallback: {
-      crypto: require.resolve("crypto-browserify"),
-      stream: require.resolve("stream-browserify"),
-      buffer: require.resolve("buffer"),
+      crypto: resolveCrypto(),
+      stream: resolveStream(),
+      buffer: resolveBuffer(),
     },
   },
   plugins: [

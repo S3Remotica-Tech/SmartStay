@@ -1,18 +1,18 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { deleteCustomer,AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut,customerReAssignBed,customerAddContact,customerAllContact,deleteContact,generateAdvance,uploadDocument,hostelDetailsId,EditConfirmCheckOut,handleKycVerify,handlegetCustomerDetailsKyc } from "../Action/UserListAction"
+import { deleteCustomer, AvailableCheckOutCustomer, DeleteCheckOutCustomer, AddCheckOutCustomer, getCheckOutCustomer, AddWalkInCustomer, DeleteWalkInCustomer, getWalkInCustomer, KYCValidateOtpVerify, KYCValidate, checkOutUser, userlist, addUser, hostelList, roomsCount, hosteliddetail, userBillPaymentHistory, createFloor, roomFullCheck, deleteFloor, deleteRoom, CustomerDetails, amenitieshistory, amnitiesnameList, amenitieAddUser, beddetailsNumber, countrylist, exportDetails, GetConfirmCheckOut, AddConfirmCheckOut, customerReAssignBed, customerAddContact, customerAllContact, deleteContact, generateAdvance, uploadDocument, hostelDetailsId, EditConfirmCheckOut, handleKycVerify, handlegetCustomerDetailsKyc } from "../Action/UserListAction"
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function* handleuserlist(user) {
    const response = yield call(userlist, user.payload);
-   if (response.status === 200 ) {
-      yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status} })
+   if (response.status === 200) {
+      yield put({ type: 'USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status } })
    }
 
-   else if (response.status === 201 || response.data.statusCode === 201){
+   else if (response.status === 201 || response.data.statusCode === 201) {
       yield put({ type: 'NO_USER_LIST', payload: { response: response.data.hostelData, statusCode: response.status || response.data.statusCode } })
    }
    else {
@@ -25,10 +25,10 @@ function* handleuserlist(user) {
 
 
 function* handleDeleteCustomer(customer) {
-   const response = yield call(deleteCustomer,customer.payload);
+   const response = yield call(deleteCustomer, customer.payload);
 
- 
-   
+
+
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -45,9 +45,9 @@ function* handleDeleteCustomer(customer) {
 
    };
 
-   if (response.status === 200 || response.statusCode === 200 ) {
-      yield put({ type: 'DELETE_CUSTOMER', payload: { response: response.data, statusCode: response.status || response.statusCode} })
-  
+   if (response.status === 200 || response.statusCode === 200) {
+      yield put({ type: 'DELETE_CUSTOMER', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+
       toast.success('Deleted successfully!', {
          position: "bottom-center",
          autoClose: 2000,
@@ -59,9 +59,9 @@ function* handleDeleteCustomer(customer) {
          progress: undefined,
          style: toastStyle,
       });
-    
+
    }
-      else if (response.status === 201 || response.statusCode === 201){
+   else if (response.status === 201 || response.statusCode === 201) {
       toast.error('Cannot delete, bed already assigned.', {
          position: "bottom-center",
          autoClose: 2000,
@@ -71,7 +71,7 @@ function* handleDeleteCustomer(customer) {
          pauseOnHover: true,
          draggable: true,
          progress: undefined,
-               });
+      });
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })
@@ -117,17 +117,26 @@ function* handleAllHostelList(action) {
 }
 
 function* handleNumberOfRooms(ID) {
-   const response = yield call(roomsCount, ID.payload)
+   try {
+      const response = yield call(roomsCount, ID.payload)
 
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ROOM_COUNT', payload: { response: response.data.responseData, statusCode: response.status || response.statusCode } })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'ROOM_COUNT', payload: { response: response.data.responseData, statusCode: response.status || response.statusCode } })
+      }
+      else if (response.status === 201) {
+         yield put({ type: 'NO_ROOMS', payload: { response: response.data.message, floor_Id: ID.payload.floor_Id, statusCode: response.status || response.statusCode } })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 201) {
-      yield put({ type: 'NO_ROOMS', payload: { response: response.data.message, floor_Id: ID.payload.floor_Id, statusCode: response.status || response.statusCode } })
-   }
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 
@@ -159,47 +168,56 @@ function* handleUserBillPaymentHistory() {
 }
 
 function* handleCreateFloor(data) {
-   const response = yield call(createFloor, data.payload);
+   try {
+      const response = yield call(createFloor, data.payload);
 
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
+      };
 
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'CREATE_FLOOR', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'CREATE_FLOOR', payload: { response: response.data, statusCode: response.status || response.statusCode } })
 
-      toast.success('Created successfully!', {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+         toast.success('Created successfully!', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      else if (response.status === 202 || response.statusCode === 202) {
+
+         yield put({ type: 'ALREADY_FLOOR_ERROR', payload: response.data.message })
+
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 202 || response.statusCode === 202) {
-   
-      yield put({ type: 'ALREADY_FLOOR_ERROR', payload: response.data.message })
-
-   }
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 
@@ -221,55 +239,64 @@ function* handleRoomsDetails(ID) {
 
 
 function* handleAddUser(datum) {
-   const response = yield call(addUser, datum.payload);
+   try {
+      const response = yield call(addUser, datum.payload);
 
-   if (response.statusCode === 200 || response.status === 200) {
-      yield put({
-         type: 'ADD_USER',
-         payload: { response: response.message, statusCode: response.statusCode || response.status },
-      });
+      if (response.statusCode === 200 || response.status === 200) {
+         yield put({
+            type: 'ADD_USER',
+            payload: { response: response.message, statusCode: response.statusCode || response.status },
+         });
 
-     
-      var toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center",
-         padding: "10px",
 
-      };
+         var toastStyle = {
+            backgroundColor: "#E6F6E6",
+            color: "black",
+            width: "100%",
+            borderRadius: "60px",
+            height: "20px",
+            fontFamily: "Gilroy",
+            fontWeight: 600,
+            fontSize: 14,
+            textAlign: "start",
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
 
-      toast.success(response.message, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+         };
+
+         toast.success(response.message, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      else if (response.statusCode === 202) {
+
+         yield put({ type: 'PHONE_ERROR', payload: response.message });
+      }
+      else if (response.statusCode === 203) {
+
+         yield put({ type: 'EMAIL_ERROR', payload: response.message });
+      }
+
+
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.statusCode === 202) {
-
-      yield put({ type: 'PHONE_ERROR', payload: response.message });
-   }
-   else if (response.statusCode === 203) {
-
-      yield put({ type: 'EMAIL_ERROR', payload: response.message });
-   }
-
-
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 
@@ -297,7 +324,7 @@ function* handleCheckOut(action) {
       Swal.fire({
          icon: 'success',
          text: 'User Check Out Successfully',
-        
+
       });
 
    }
@@ -346,7 +373,7 @@ function* handleDeleteFloor(hosteID) {
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'DELETE_FLOOR_ERROR', payload: response.data.message })
-    
+
    }
    if (response) {
       refreshToken(response)
@@ -392,7 +419,7 @@ function* handleDeleteRoom(roomDetails) {
    }
    else if (response.status === 201 || response.statusCode === 201) {
       yield put({ type: 'DELETE_ROOM_ERROR', payload: response.data.message })
-   
+
    }
    if (response) {
       refreshToken(response)
@@ -459,65 +486,74 @@ function* handleamenityhistory(amnityDetails) {
 }
 
 function* handleuserAddAmnitiesName(amnity) {
-   const response = yield call(amenitieAddUser, amnity.payload);
+   try {
+      const response = yield call(amenitieAddUser, amnity.payload);
 
 
-   let toastStyle = {
-      width: "100%",
-      color: "black",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
-   };
+      let toastStyle = {
+         width: "100%",
+         color: "black",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+      };
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ADD_USER_AMENITIES', payload: { message: response.data.message, statusCode: response.status || response.statusCode } });
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'ADD_USER_AMENITIES', payload: { message: response.data.message, statusCode: response.status || response.statusCode } });
 
-      toastStyle.backgroundColor = "#E6F6E6"; 
-      toastStyle.color = "black"; 
+         toastStyle.backgroundColor = "#E6F6E6";
+         toastStyle.color = "black";
 
-      toast.success(response.data.message, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
-
-
-   } else if (response.status === 201 || response.statusCode === 201) {
-      toastStyle.backgroundColor = "red"; 
-      toastStyle.color = "white";
+         toast.success(response.data.message, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
 
 
-      toast.error(response.data.message, {
-         position: "top-center",
-         autoClose: 2000,
-         hideProgressBar: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
+      } else if (response.status === 201 || response.statusCode === 201) {
+         toastStyle.backgroundColor = "red";
+         toastStyle.color = "white";
 
-         style: toastStyle,
-      });
-   } else {
-      yield put({ type: 'ERROR', payload: response.data.message });
 
+         toast.error(response.data.message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+
+            style: toastStyle,
+         });
+      } else {
+         yield put({ type: 'ERROR', payload: response.data.message });
+
+      }
+
+      if (response) {
+         refreshToken(response);
+      }
    }
-
-   if (response) {
-      refreshToken(response);
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 
@@ -539,110 +575,128 @@ function* handlebedNumberDetails(bedDetails) {
 
 
 function* handleKYCValidate(action) {
-   const response = yield call(KYCValidate, action.payload)
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+   try {
+      const response = yield call(KYCValidate, action.payload)
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'KYC_VALIDATE', payload: { response: response.data.result.ref_id, statusCode: response.status || response.statusCode } })
+      };
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'KYC_VALIDATE', payload: { response: response.data.result.ref_id, statusCode: response.status || response.statusCode } })
 
-      toast.success(`${response.data.result.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+         toast.success(`${response.data.result.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
 
+      }
+      else if (response.status === 201) {
+         toast.error('Enter valid Aadhaar No.', {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+
+      }
+
+
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 201) {
-      toast.error('Enter valid Aadhaar No.', {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
-
-   }
-
-
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 
 }
 
 
 function* handleKYCValidateOtpVerify(action) {
-   const response = yield call(KYCValidateOtpVerify, action.payload)
+   try {
+      const response = yield call(KYCValidateOtpVerify, action.payload)
 
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'KYC_VALIDATE_OTP_VERIFY', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-           toast.success(`${response.data.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+      };
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'KYC_VALIDATE_OTP_VERIFY', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+         toast.success(`${response.data.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
 
+      }
+      else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'ERROR', payload: response.data.message })
+         toast.error(`${response.data.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if(response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ERROR', payload: response.data.message })
-      toast.error(`${response.data.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
-   }
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 
 }
@@ -668,7 +722,7 @@ function* handleCountrylist() {
 
 function* handleGetWalkInCustomer(action) {
    const response = yield call(getWalkInCustomer, action.payload);
-  
+
 
    if (response.status === 200 || response.statusCode === 200) {
       yield put({ type: 'WALK_IN_CUSTOMER_LIST', payload: { response: response.data.data, statusCode: response.status || response.statusCode } })
@@ -682,49 +736,58 @@ function* handleGetWalkInCustomer(action) {
 }
 
 function* handleAddWalkInCustomer(action) {
-   const response = yield call(AddWalkInCustomer, action.payload);
+   try {
+      const response = yield call(AddWalkInCustomer, action.payload);
 
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+      };
+      const statusCode = response?.statusCode || response?.status || response?.data?.statusCode;
+      const message = response?.message || response?.data?.message;
 
-   };
+      if (statusCode === 200) {
+         yield put({ type: 'ADD_WALK_IN_CUSTOMER', payload: { response: response.data || response, statusCode } });
 
-   
+         toast.success(`${message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      } else if (statusCode === 201 || (message && message !== "")) {
+         yield put({ type: 'ALREADY_EXIST_ERROR', payload: message });
 
-   if ( response.statusCode === 200 || response.status === 200 || response.data.statusCode === 200  ) {
-      yield put({ type: 'ADD_WALK_IN_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.data.statusCode || response.status } })
-      toast.success(`${response.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+      }
+
+      if (response) {
+         refreshToken(response);
+      }
    }
-   else if (response.statusCode === 201 || response.status === 201) {
-
-      yield put({ type: 'ALREADY_EXIST_ERROR', payload: response.data.message })
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
-   if (response) {
-      refreshToken(response)
-   }
-
 }
+
 
 function* handleDeleteWalkInCustomer(action) {
    const response = yield call(DeleteWalkInCustomer, action.payload);
@@ -781,45 +844,54 @@ function* handleCheckoutCustomer(action) {
 }
 
 function* handleAddCheckoutCustomer(action) {
-   const response = yield call(AddCheckOutCustomer, action.payload);
+   try {
+      const response = yield call(AddCheckOutCustomer, action.payload);
 
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
+      };
 
-   if (response.statusCode === 200 || response.status === 200) {
-      yield put({ type: 'ADD_CHECKOUT_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
-      toast.success(`${response.data.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
-   } else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: response.data.message })
+      if (response.statusCode === 200 || response.status === 200) {
+         yield put({ type: 'ADD_CHECKOUT_CUSTOMER', payload: { response: response.data, statusCode: response.statusCode || response.status } })
+         toast.success(`${response.data.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      } else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'ADD_CHECKOUT_CUSTOMER_LIST_ERROR', payload: response.data.message })
+      }
+
+
+
+      if (response) {
+         refreshToken(response)
+      }
    }
-
-
-
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 
 }
@@ -894,86 +966,105 @@ function* handlegetConfirmCheckOUtCustomer(action) {
 }
 
 function* handleAddConfirmCheckout(action) {
-   const response = yield call(AddConfirmCheckOut, action.payload);
+   try {
+      const response = yield call(AddConfirmCheckOut, action.payload);
 
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
+      };
 
-   if (response.statusCode === 200 || response.status === 200) {
-      yield put({ type: 'ADD_CONFIRM_CHECK_OUT_CUSTOMER', payload: { statusCode: response.statusCode || response.status } })
-      toast.success(`${response.data.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+      if (response.statusCode === 200 || response.status === 200) {
+         yield put({ type: 'ADD_CONFIRM_CHECK_OUT_CUSTOMER', payload: { statusCode: response.statusCode || response.status } })
+         toast.success(`${response.data.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ADD_CONFIRM_CHECKOUT_CUSTOMER_ERROR', payload: response.data.message })
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
-   if (response) {
-      refreshToken(response)
-   }
+
 
 }
 
 
 function* handleEditConfirmCheckout(action) {
-   const response = yield call(EditConfirmCheckOut, action.payload);
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+   try {
+      const response = yield call(EditConfirmCheckOut, action.payload);
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
+      };
 
-   if (response.statusCode === 200 || response.status === 200) {
-      yield put({ type: 'EDIT_CONFIRM_CHECK_OUT_CUSTOMER', payload: { statusCode: response.statusCode || response.status } })
-      toast.success(`${response.data.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+      if (response.statusCode === 200 || response.status === 200) {
+         yield put({ type: 'EDIT_CONFIRM_CHECK_OUT_CUSTOMER', payload: { statusCode: response.statusCode || response.status } })
+         toast.success(`${response.data.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', payload: response.data.message })
+      }
+
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'EDIT_CONFIRM_CHECKOUT_CUSTOMER_ERROR', payload: response.data.message })
-   }
- 
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 
 }
@@ -1099,213 +1190,132 @@ function* handleCheckoutExportDetails(action) {
    }
 }
 function* handleReAssignPage(action) {
-   const response = yield call (customerReAssignBed, action.payload);
+   try {
+      const response = yield call(customerReAssignBed, action.payload);
 
-   var toastStyle = {
-     backgroundColor: "#E6F6E6",
-     color: "black",
-     width: "auto",
-     borderRadius: "60px",
-     height: "20px",
-     fontFamily: "Gilroy",
-     fontWeight: 600,
-     fontSize: 14,
-     textAlign: "start",
-     display: "flex",
-     alignItems: "center", 
-     padding: "10px",
-    
-   };
-   if (response.status === 200 ||response.data.statusCode === 200){
-     
-      yield put ({type : 'REASSIGN_BED' , payload: { response: response.data, statusCode: response.status || response.data.statusCode }})
-      toast.success(`${response.data.message}`, {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-     });
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "auto",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+      if (response.status === 200 || response.data.statusCode === 200) {
+
+         yield put({ type: 'REASSIGN_BED', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
+         toast.success(`${response.data.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+
+      else {
+         yield put({ type: 'ERROR', payload: response.message })
+      }
+      if (response) {
+         refreshToken(response)
+      }
    }
- 
-   else {
-      yield put ({type:'ERROR', payload:response.message})
-   }
-   if(response){
-      refreshToken(response)
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 
 
 function* handleCustomerAddContact(action) {
-      const response = yield call (customerAddContact, action.payload);
+   try {
+      const response = yield call(customerAddContact, action.payload);
       var toastStyle = {
-        backgroundColor: "#E6F6E6",
-        color: "black",
-        width: "auto",
-        borderRadius: "60px",
-        height: "20px",
-        fontFamily: "Gilroy",
-        fontWeight: 600,
-        fontSize: 14,
-        textAlign: "start",
-        display: "flex",
-        alignItems: "center", 
-        padding: "10px",
-       
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "auto",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
       };
- 
-      if (response.status === 200 ||response.data.statusCode === 200){
-        
-         yield put ({type : 'CUSTOMER_ADD_CONTACT' , payload: { response: response.data, statusCode: response.status || response.data.statusCode }})
+
+      if (response.status === 200 || response.data.statusCode === 200) {
+
+         yield put({ type: 'CUSTOMER_ADD_CONTACT', payload: { response: response.data, statusCode: response.status || response.data.statusCode } })
          toast.success(`${response.data.message}`, {
-           position: "bottom-center",
-           autoClose: 2000,
-           hideProgressBar: true,
-           closeButton: false,
-           closeOnClick: true,
-           pauseOnHover: true,
-           draggable: true,
-           progress: undefined,
-           style: toastStyle,
-        });
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
       }
       else if (response.status === 201 || response.data.statusCode === 201) {
          yield put({ type: 'CONTACT_ERROR', payload: { response: response.data.message, statusCode: response.status || response.data.statusCode } })
       }
-    
+
       else {
-         yield put ({type:'ERROR', payload:response.message})
+         yield put({ type: 'ERROR', payload: response.message })
       }
-      if(response){
+      if (response) {
          refreshToken(response)
       }
    }
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+}
 
 
 
 
 
- function* handleCustomerAllDetails(action) {
-   const response = yield call(customerAllContact,action.payload);
+function* handleCustomerAllDetails(action) {
+   const response = yield call(customerAllContact, action.payload);
    if (response.status === 200 || response.data.statusCode === 200) {
-     yield put({ type: "CUSTOMER_ALL_DETAILS", payload: {response: response.data , statusCode: response.status || response.data.statusCode}  });
+      yield put({ type: "CUSTOMER_ALL_DETAILS", payload: { response: response.data, statusCode: response.status || response.data.statusCode } });
    } else {
-     yield put({ type: "ERROR", payload: response.data.message });
+      yield put({ type: "ERROR", payload: response.data.message });
    }
    if (response) {
-     refreshToken(response);
-   }
- }
-
-
-
- function* handleDeleteContact(action) {
-    const response = yield call(deleteContact, action.payload);
-  
-    var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center", 
-      padding: "10px",
-     
-    };
-  
-    if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({
-        type: "DELETE_CONTACT",
-        payload: {
-          response: response.data,
-          statusCode: response.status || response.data.statusCode,
-        },
-      });
-      toast.success("Deleted successfully", {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
-    }  else {
-      yield put({ type: 'ERROR', payload: response.data.message })
-   }
-    if (response) {
       refreshToken(response);
-    }
-  }
-
-
-
-  function* handleGenerateAdvance(action) {
-   const response = yield call(generateAdvance, action.payload);
-   var toastStyle = {
-     backgroundColor: "#E6F6E6",
-     color: "black",
-     width: "100%",
-     borderRadius: "60px",
-     height: "20px",
-     fontFamily: "Gilroy",
-     fontWeight: 600,
-     fontSize: 14,
-     textAlign: "start",
-     display: "flex",
-     alignItems: "center", 
-     padding: "10px",
-    
-   };
- 
-   if (response.status === 200 || response.data.statusCode === 200) {
-     yield put({
-       type: "GENERATE_ADVANCE",
-       payload: {
-         response: response.data,
-         statusCode: response.status || response.data.statusCode,
-       },
-     });
-     toast.success(`${response.data.message}`, {
-       position: "bottom-center",
-       autoClose: 2000,
-       hideProgressBar: true,
-       closeButton: false,
-       closeOnClick: true,
-       pauseOnHover: true,
-       draggable: true,
-       progress: undefined,
-       style: toastStyle,
-     });
    }
-   else if (response.status === 201 || response.data.statusCode === 201) {
-      yield put({ type: 'GENERATE_ERROR', payload: { response: response.message, statusCode: response.status || response.data.statusCode } })
-   }
-   
-   else {
-     yield put({ type: 'ERROR', payload: response.data.message })
-  }
-   if (response) {
-     refreshToken(response);
-   }
- }
+}
 
 
 
- function* handleUploadDocument(data) {
-   const response = yield call(uploadDocument, data.payload);
+function* handleDeleteContact(action) {
+   const response = yield call(deleteContact, action.payload);
+
    var toastStyle = {
       backgroundColor: "#E6F6E6",
       color: "black",
@@ -1322,11 +1332,15 @@ function* handleCustomerAddContact(action) {
 
    };
 
-
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'UPLOAD_DOCUMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
-
-      toast.success(`${response.message}`, {
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({
+         type: "DELETE_CONTACT",
+         payload: {
+            response: response.data,
+            statusCode: response.status || response.data.statusCode,
+         },
+      });
+      toast.success("Deleted successfully", {
          position: "bottom-center",
          autoClose: 2000,
          hideProgressBar: true,
@@ -1337,17 +1351,130 @@ function* handleCustomerAddContact(action) {
          progress: undefined,
          style: toastStyle,
       });
+   } else {
+      yield put({ type: 'ERROR', payload: response.data.message })
    }
-   else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'ADHAR_UPLOAD_ERROR', payload: { response: response.message, statusCode: response.status || response.statusCode } })
-   }
-   else {
-      yield put ({type:'ERROR', payload:response.message})
-   }
-
-   
    if (response) {
-      refreshToken(response)
+      refreshToken(response);
+   }
+}
+
+
+
+function* handleGenerateAdvance(action) {
+   try {
+      const response = yield call(generateAdvance, action.payload);
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+
+      if (response.status === 200 || response.data.statusCode === 200) {
+         yield put({
+            type: "GENERATE_ADVANCE",
+            payload: {
+               response: response.data,
+               statusCode: response.status || response.data.statusCode,
+            },
+         });
+         toast.success(`${response.data.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      else if (response.status === 201 || response.data.statusCode === 201) {
+         yield put({ type: 'GENERATE_ERROR', payload: { response: response.message, statusCode: response.status || response.data.statusCode } })
+      }
+
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message })
+      }
+      if (response) {
+         refreshToken(response);
+      }
+   }
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+}
+
+
+
+function* handleUploadDocument(data) {
+   try {
+      const response = yield call(uploadDocument, data.payload);
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+
+      };
+
+
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'UPLOAD_DOCUMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+
+         toast.success(`${response.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'ADHAR_UPLOAD_ERROR', payload: { response: response.message, statusCode: response.status || response.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.message })
+      }
+
+
+      if (response) {
+         refreshToken(response)
+      }
+   }
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 
@@ -1355,46 +1482,55 @@ function* handleCustomerAddContact(action) {
 
 
 function* handleUploadOtherDocument(data) {
-   const response = yield call(uploadDocument, data.payload);
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+   try {
+      const response = yield call(uploadDocument, data.payload);
+      var toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
 
-   };
+      };
 
 
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'UPLOAD_OTHER_DOCUMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({ type: 'UPLOAD_OTHER_DOCUMENT', payload: { response: response.data, statusCode: response.status || response.statusCode } })
 
-      toast.success(`${response.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+         toast.success(`${response.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.message })
+      }
+
+
+      if (response) {
+         refreshToken(response)
+      }
    }
-   else {
-      yield put ({type:'ERROR', payload:response.message})
-   }
-
-   
-   if (response) {
-      refreshToken(response)
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
 }
 
@@ -1421,104 +1557,118 @@ function* handlehostelDetailsId() {
 
 
 function* handleKYCVerifyNew(action) {
-   const response = yield call(handleKycVerify, action.payload)
-   var toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
+   try {
+      const response = yield call(handleKycVerify, action.payload);
 
-   };
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'KYC_VERIFY_NEW', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      const toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+      };
 
-      toast.success(`${response.data.result.message}`, {
-         position: "bottom-center",
-         autoClose: 2000,
-         hideProgressBar: true,
-         closeButton: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-         style: toastStyle,
-      });
+      if (response.status === 200 || response.statusCode === 200) {
+         yield put({
+            type: 'KYC_VERIFY_NEW',
+            payload: {
+               response: response.data,
+               statusCode: response.status || response.statusCode,
+            },
+         });
 
+         toast.success(`${response?.data?.result?.message || "KYC verified successfully"}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            style: toastStyle,
+         });
+      } else {
+         yield put({ type: 'ERROR', payload: response?.data?.message || "KYC verification failed" });
+      }
+
+      if (response) {
+         refreshToken(response);
+      }
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
    }
-
-
-   if (response) {
-      refreshToken(response)
-   }
-
 }
 
 
 function* handleCustomerDetailsKyc(action) {
-  try {
-    const response = yield call(handlegetCustomerDetailsKyc, action.payload);
+   try {
+      const response = yield call(handlegetCustomerDetailsKyc, action.payload);
 
-    const toastStyle = {
-      backgroundColor: "#E6F6E6",
-      color: "black",
-      width: "100%",
-      borderRadius: "60px",
-      height: "20px",
-      fontFamily: "Gilroy",
-      fontWeight: 600,
-      fontSize: 14,
-      textAlign: "start",
-      display: "flex",
-      alignItems: "center",
-      padding: "10px",
-    };
+      const toastStyle = {
+         backgroundColor: "#E6F6E6",
+         color: "black",
+         width: "100%",
+         borderRadius: "60px",
+         height: "20px",
+         fontFamily: "Gilroy",
+         fontWeight: 600,
+         fontSize: 14,
+         textAlign: "start",
+         display: "flex",
+         alignItems: "center",
+         padding: "10px",
+      };
 
-    if (response.status === 200) {
-      yield put({
-        type: 'KYC_CUSTOMER_DETAILS',
-        payload: {
-          response: response.data,
-          statusCode: response.status,
-        },
-      });
+      if (response.status === 200) {
+         yield put({
+            type: 'KYC_CUSTOMER_DETAILS',
+            payload: {
+               response: response.data,
+               statusCode: response.status,
+            },
+         });
 
-      toast.success(`${response.data.result.message}`, {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeButton: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: toastStyle,
-      });
+         toast.success(`${response.data.result.message}`, {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeButton: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: toastStyle,
+         });
 
-      yield call(refreshToken, response);
-    }
-     else if (response.status === 201 || response.statusCode === 201) {
-      yield put({ type: 'KYC_NOT_ADDED', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+         yield call(refreshToken, response);
+      }
+      else if (response.status === 201 || response.statusCode === 201) {
+         yield put({ type: 'KYC_NOT_ADDED', payload: { response: response.data, statusCode: response.status || response.statusCode } })
+      }
+      else {
+         yield put({ type: 'ERROR', payload: response.data.message });
+      }
    }
-     else {
-      yield put({ type: 'ERROR', payload: response.data.message });
-    }
-  } catch (error) {
-    console.error("KYC fetch error", error);
-    yield put({ type: 'ERROR', payload: error.message || 'Something went wrong' });
-  }
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
-
 
 function* UserListSaga() {
    yield takeEvery('USERLIST', handleuserlist)
@@ -1569,9 +1719,9 @@ function* UserListSaga() {
    yield takeEvery('DELETECUSTOMER', handleDeleteCustomer)
    yield takeEvery('HOSTELIDDETAILS', handlehostelDetailsId)
    yield takeEvery('KYCVERIFYINGNEW', handleKYCVerifyNew)
-   yield takeEvery("KYCCUSTOMERDETAILS",handleCustomerDetailsKyc) 
+   yield takeEvery("KYCCUSTOMERDETAILS", handleCustomerDetailsKyc)
    yield takeEvery('EDITCONFIRMCHECKOUTCUSTOMER', handleEditConfirmCheckout)
-  
+
 
 
 }

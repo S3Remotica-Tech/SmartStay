@@ -1,10 +1,11 @@
-import React, {useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { MdError } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {CloseCircle,} from "iconsax-react";
+import { CloseCircle, } from "iconsax-react";
 import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types";
 
@@ -20,8 +21,8 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   const [hostelError, setHostelError] = useState("");
   const [errorAmenity, setErrorAmenity] = useState("");
   const [errorAmount, setErrorAmount] = useState("");
-  const [amnitiesError,setAmnitiesError] = useState("")
-
+  const [amnitiesError, setAmnitiesError] = useState("")
+  const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
     if (editDetails) {
@@ -40,7 +41,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
   }, [editDetails]);
 
   const handleAmenityChange = (e) => {
-   const value = e.target.value;
+    const value = e.target.value;
     const pattern = /^[a-zA-Z\s]*$/;
     if (!pattern.test(value)) {
       return;
@@ -49,37 +50,36 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     setErrorAmenity("");
     setIsChangedError("");
     setAmnitiesError("")
-    dispatch({type:'REMOVE_ERROR_AMENITIES_SETTINGS'})
+    dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
   };
 
   const handleAmountChange = (e) => {
     const newAmount = e.target.value;
     if (!/^\d*$/.test(newAmount)) {
-      return; 
+      return;
     }
     setAmount(newAmount);
     setErrorAmount("");
     setIsChangedError("");
   };
 
-  // const handleToggle = (e) => {
-  //   setIsChecked(e.target.checked);
-  //   setIsChangedError("");
-  // };
-const handleCloseForm=()=>{
-  handleClose()
-  setAmnitiesError("")
-  dispatch({type:'REMOVE_ERROR_AMENITIES_SETTINGS'})
-}
 
-useEffect(()=>{
-  if(state.InvoiceList.amnitiessAddError){
-setAmnitiesError(state.InvoiceList.amnitiessAddError)
+  const handleCloseForm = () => {
+    handleClose()
+    setAmnitiesError("")
+    dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
   }
 
-},[state.InvoiceList.amnitiessAddError])
+  useEffect(() => {
+    if (state.InvoiceList.amnitiessAddError) {
+      setFormLoading(false)
+      setAmnitiesError(state.InvoiceList.amnitiessAddError)
+    }
+
+  }, [state.InvoiceList.amnitiessAddError])
 
   const handleSubmit = () => {
+    dispatch({ type: 'REMOVE_ERROR_AMENITIES_SETTINGS' })
     let isValid = true;
 
     if (!hostelid) {
@@ -124,6 +124,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
             Hostel_Id: state.login.selectedHostel_Id,
           },
         });
+        setFormLoading(true)
       } else {
         dispatch({
           type: "AMENITIESSETTINGS",
@@ -134,15 +135,24 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
             Hostel_Id: state.login.selectedHostel_Id,
           },
         });
+        setFormLoading(true)
       }
     }
   };
 
- 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
 
   return (
     <>
-      {/* Add Amenities Popup */}
+
       <div
         className="modal show"
         style={{
@@ -167,11 +177,11 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                 {editDetails ? "Edit Amenities" : "Add Amenities"}
               </Modal.Title>
 
-              <CloseCircle size="24" color="#000" onClick={handleCloseForm}  style={{cursor:"pointer"}}/>
+              <CloseCircle size="24" color="#000" onClick={handleCloseForm} style={{ cursor: "pointer" }} />
             </Modal.Header>
 
-            <Modal.Body>
-             
+            <Modal.Body className="pt-2">
+
 
               {hostelError && (
                 <div className="d-flex align-items-center mt-1">
@@ -225,7 +235,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                   </Form.Group>
                   {errorAmenity && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
                       <span
                         style={{
                           color: "red",
@@ -275,7 +285,7 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
 
                   {errorAmount && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
                       <span
                         style={{
                           color: "red",
@@ -290,33 +300,45 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                   )}
                 </div>
 
-                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <label
-                        style={{
-                          fontSize: 14,
-                          color: "#222222",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Set as Default
-                      </label>
-                    </div>
-                    <div>
-                      <Form.Check
-                        type="switch"
-                        id="custom-switch"
-                        checked={isChecked}
-                        onChange={(e) => handleToggle(e)}
-                      ></Form.Check>
-                    </div>
-                  </div>
-                </div> */}
+
               </div>
             </Modal.Body>
-                           {amnitiesError && (
+
+            {state.createAccount?.networkError ?
+              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              </div>
+              : null}
+            {formLoading &&
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
+            }
+
+            {amnitiesError && (
               <div className="d-flex justify-content-center align-items-center gap-2 ">
                 <MdError style={{ color: "red" }} />
                 <label
@@ -333,9 +355,9 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                 </label>
               </div>
             )}
-             {isChangedError && (
-              <div className="d-flex justify-content-center align-items-center gap-2 ">
-                <MdError style={{ color: "red" }} />
+            {isChangedError && (
+              <div className="d-flex justify-content-center align-items-center">
+                <MdError style={{ color: "red", fontSize: "13px", marginBottom: '2px' }} />
                 <label
                   className="mb-0"
                   style={{
@@ -343,7 +365,8 @@ setAmnitiesError(state.InvoiceList.amnitiessAddError)
                     fontSize: "12px",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
-                    textAlign: "center"
+                    textAlign: "center",
+                    marginLeft: '5px'
                   }}
                 >
                   {isChangedError}
@@ -380,7 +403,7 @@ AddAmenities.propTypes = {
   handleClose: PropTypes.func.isRequired,
   hostelid: PropTypes.func.isRequired,
   editDetails: PropTypes.func.isRequired,
-  // handleToggle: PropTypes.func.isRequired 
+
 };
 
 export default AddAmenities;

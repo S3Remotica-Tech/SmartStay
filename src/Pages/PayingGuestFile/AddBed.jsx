@@ -5,10 +5,10 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { MdError } from "react-icons/md";
-import {CloseCircle} from "iconsax-react";
+import { CloseCircle } from "iconsax-react";
 import PropTypes from "prop-types";
 
-function AddBed({ show,setShowBed, currentItem }) {
+function AddBed({ show, setShowBed, currentItem }) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -17,17 +17,15 @@ function AddBed({ show,setShowBed, currentItem }) {
   const [bedError, setBedError] = useState("");
   const [amountError, setAmountError] = useState("");
   const [generalError, setGeneralError] = useState("");
-  const [bedAlreadyBooked,setBedAlreadyBooked] = useState("")
+  const [bedAlreadyBooked, setBedAlreadyBooked] = useState("")
+  const [formLoading, setFormLoading] = useState(false)
 
 
-  // useEffect(() => {
-  //   dispatch({ type: "CLEAR_ALREADY_BED" });
-  // }, []);
-useEffect(()=>{
-  if(state.PgList?.alreadyBedAvailable)
-    setBedAlreadyBooked(state.PgList?.alreadyBedAvailable)
+  useEffect(() => {
+    if (state.PgList?.alreadyBedAvailable)
+      setBedAlreadyBooked(state.PgList?.alreadyBedAvailable)
 
-},[state.PgList?.alreadyBedAvailable])
+  }, [state.PgList?.alreadyBedAvailable])
   useEffect(() => {
     const closeButton = document.querySelector(
       'button[aria-label="close-button"]'
@@ -46,24 +44,13 @@ useEffect(()=>{
     if (state.PgList.createBedStatusCode === 200) {
       setBedNo("");
       setAmount("");
+      setFormLoading(false)
     }
   }, [state.PgList.createBedStatusCode]);
 
 
 
-  // useEffect(() => {
 
-  //   if (state.PgList.statusCodeCreateRoom == 200) {
-  //     setTimeout(() => {
-  //       dispatch({ type: 'ROOMCOUNT', payload: { floor_Id: floorId, hostel_Id: Hostel_Id } })
-  //     }, 2000)
-
-  //     setTimeout(() => {
-  //       dispatch({ type: 'CLEAR_CREATE_ROOM_STATUS_CODE' });
-  //     }, 2500);
-
-  //   }
-  // }, [state.PgList.statusCodeCreateRoom])
 
   const handleBedNoChange = (e) => {
     setBedNo(e.target.value);
@@ -76,7 +63,7 @@ useEffect(()=>{
   const handleAmountChange = (e) => {
     const newAmount = e.target.value
     if (!/^\d*$/.test(newAmount)) {
-      return; 
+      return;
     }
     setAmount(newAmount);
     setGeneralError("");
@@ -84,31 +71,24 @@ useEffect(()=>{
     setAmountError("");
   };
 
-  const handleClose =()=>{
+  const handleClose = () => {
     setShowBed(false)
     dispatch({ type: "CLEAR_ALREADY_BED" });
   }
-  
+
 
   const handleSubmit = () => {
-    // if (!bedNo && !amount) {
-    //   setGeneralError('Please enter all required fields.');
-    //   return;
-    // } else {
-    //   setGeneralError('');
-    // }
-
+    dispatch({ type: "CLEAR_ALREADY_BED" });
     if (!bedNo) {
       setBedError("Please Enter a Valid Bed Number");
-      // return;
+
     } else {
       setBedError("");
     }
 
-    // if (!amount || isNaN(amount) || amount <= 0) {
-      if (!amount || amount <= 0) {
+
+    if (!amount || amount <= 0) {
       setAmountError("Please Enter a Valid Amount");
-      // return;
     } else {
       setAmountError("");
     }
@@ -117,7 +97,7 @@ useEffect(()=>{
       currentItem.item.floorID &&
       currentItem.Room_Id &&
       bedNo &&
-      amount 
+      amount
       && amount > 0
     ) {
       dispatch({
@@ -130,12 +110,35 @@ useEffect(()=>{
           amount: amount,
         },
       });
-
+      setFormLoading(true)
       setGeneralError("");
-    } else {
-      // setGeneralError('Please enter all required fields.');
     }
   };
+
+
+
+  useEffect(() => {
+    if (state.PgList?.alreadyBedAvailable) {
+      setFormLoading(false)
+    }
+  }, [state.PgList?.alreadyBedAvailable])
+
+
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+           setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
+
+
+
+
 
   return (
     <div
@@ -147,11 +150,13 @@ useEffect(()=>{
     >
       <Modal show={show} onHide={handleClose} centered backdrop="static">
         <Modal.Dialog
-          style={{ maxWidth: 850, width: "100%", 
+          style={{
+            maxWidth: 850, width: "100%",
             paddingTop: 5,
-            paddingBottom:10,
-            paddingLeft:10,
-            paddingRight:10 }}
+            paddingBottom: 10,
+            paddingLeft: 10,
+            paddingRight: 10
+          }}
           className="m-0 p-0"
         >
           <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
@@ -166,11 +171,11 @@ useEffect(()=>{
               Add bed
             </Modal.Title>
 
-            <CloseCircle size="24" color="#000" onClick={handleClose} style={{cursor:"pointer"}} />
+            <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
 
-          <Modal.Body  style={{paddingBottom: "0px"}} >
-            <div className="row mt-2 mb-0">
+          <Modal.Body style={{ padding:"8px 13px" }} >
+            <div className="row mb-0">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
                   className="mb-2"
@@ -207,7 +212,7 @@ useEffect(()=>{
                 {bedError && (
                   // <div className="d-flex align-items-center p-1 mb-2">
                   <div className="d-flex align-items-center p-0">
-                    <MdError style={{ color: "red", marginRight: "5px"}} />
+                    <MdError style={{ color: "red", marginRight: "5px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -259,7 +264,7 @@ useEffect(()=>{
                 {amountError && (
                   // <div className="d-flex align-items-center p-1 mb-2">
                   <div className="d-flex align-items-center p-0">
-                    <MdError style={{ color: "red", marginRight: "5px"}} />
+                    <MdError style={{ color: "red", marginRight: "5px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -275,48 +280,80 @@ useEffect(()=>{
                 )}
               </div>
             </div>
-         
 
-          {generalError && (
-            // <div className="d-flex align-items-center p-1 mb-2">
-            <div className="d-flex align-items-center p-0">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {generalError}
-              </label>
-            </div>
-          )}
 
-          {bedAlreadyBooked && bedAlreadyBooked && (
-            // <div className="d-flex align-items-center p-1 mb-2">
-            <div className="d-flex align-items-center p-0">
-              <MdError style={{ color: "red", marginRight: "5px"}} />
-              <label
-                className="mb-0"
-                style={{
-                  color: "red",
-                  fontSize: "12px",
-                  fontFamily: "Gilroy",
-                  fontWeight: 500,
-                }}
-              >
-                {bedAlreadyBooked}
-              </label>
-            </div>
-          )}
-           </Modal.Body>
-          <Modal.Footer style={{ border: "none",  paddingTop: 5 }}>
+            {generalError && (
+              // <div className="d-flex align-items-center p-1 mb-2">
+              <div className="d-flex align-items-center p-0">
+                <MdError style={{ color: "red", marginRight: "5px" }} />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {generalError}
+                </label>
+              </div>
+            )}
+
+            {bedAlreadyBooked && bedAlreadyBooked && (
+              // <div className="d-flex align-items-center p-1 mb-2">
+              <div className="d-flex align-items-center p-0">
+                <MdError style={{ color: "red", marginRight: "5px" }} />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  {bedAlreadyBooked}
+                </label>
+              </div>
+            )}
+          </Modal.Body>
+
+          {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+{state.createAccount?.networkError ? 
+          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                </div>
+                                  : null}
+          <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
             <Button
-              onClick={()=>{handleSubmit()}}
-              className="w-100 mt-3"
+              onClick={() => { handleSubmit() }}
+              className="w-100 mt-1"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 600,
@@ -324,9 +361,9 @@ useEffect(()=>{
                 fontSize: 16,
                 fontFamily: "Gilroy",
                 paddingTop: 12,
-                paddingBottom:12,
-                paddingLeft:12,
-                paddingRight:12
+                paddingBottom: 12,
+                paddingLeft: 12,
+                paddingRight: 12
               }}
             >
               Add bed
@@ -341,6 +378,6 @@ AddBed.propTypes = {
   currentItem: PropTypes.func.isRequired,
   setShowBed: PropTypes.func.isRequired,
   show: PropTypes.func.isRequired,
-  
+
 };
 export default AddBed;

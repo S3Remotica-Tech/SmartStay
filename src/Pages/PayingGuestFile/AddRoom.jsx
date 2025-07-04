@@ -18,6 +18,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   const [initialState, setInitialState] = useState({});
   const isEditing = !!editRoom && !!editRoom.room_Id;
   const modalTitle = isEditing ? "Edit Room" : "Add Room";
+  const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
@@ -40,6 +41,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
     setRoom(Room_Id);
   };
   const handleCreateRoom = () => {
+     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
     let floorId, hostel_Id, room_Id;
 
     if (isEditing) {
@@ -88,6 +90,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             id: room_Id,
           },
         });
+        setFormLoading(true)
       }
     } else {
       if (floorId && hostel_Id && room) {
@@ -95,9 +98,36 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
           type: "CREATEROOM",
           payload: { hostel_id: hostel_Id, floorId: floorId, roomId: room },
         });
+        setFormLoading(true)
       }
     }
   };
+
+
+useEffect(()=>{
+  if(state.PgList?.alreadyRoomHere){
+    setFormLoading(false)
+  }
+
+},[state.PgList?.alreadyRoomHere])
+
+
+
+
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+           setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
+
+
+
 
   return (
     <div
@@ -113,7 +143,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
           style={{ maxWidth: 850, width: "100%" }}
           className="m-0 p-0"
         >
-          <Modal.Header style={{ border: "1px solid #E7E7E7" }}>
+          <Modal.Header className="m-0" style={{ border: "1px solid #E7E7E7" }}>
             <Modal.Title
               style={{
                 fontSize: 18,
@@ -169,6 +199,32 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             </div>
           </Modal.Body>
 
+
+  {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
           {isChangedError && (
             <div className="d-flex align-items- justify-content-center">
               <MdError
@@ -254,10 +310,18 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
             </div>
           )}
 
+
+{state.createAccount?.networkError ? 
+          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                </div>
+                                  : null}
+
           <Modal.Footer style={{ border: "none" }}>
             <Button
               onClick={handleCreateRoom}
-              className="w-100 mt-3"
+              className="w-100 mt-0"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 600,

@@ -7,8 +7,9 @@ import { toast } from 'react-toastify';
 
 function* handleGetAsset(action) {
    const response = yield call(GetAsset, action.payload);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
+   
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.data.statusCode} })
    }
    else if (response.status === 201 || response.statusCode === 201){
       yield put({ type: 'NO_ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
@@ -20,6 +21,7 @@ function* handleGetAsset(action) {
 
 
 function* handleAddAsset(action) {
+   try{
    const response = yield call(AddAsset, action.payload);
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -64,6 +66,20 @@ function* handleAddAsset(action) {
    if (response) {
       refreshToken(response)
    }
+
+
+
+   }
+catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
+
+
 }
 
 
@@ -129,7 +145,11 @@ function* handleGetHostelRooms(action) {
 }
 
 function* handleAssignAsset(action) {
+   try{
    const response = yield call(AssignAsset, action.payload);
+
+
+
 
    var toastStyle = {
       backgroundColor: "#E6F6E6",
@@ -163,12 +183,21 @@ function* handleAssignAsset(action) {
        });
 
    }
-   else {
-      yield put({ type: 'ERROR', payload: response.data.message })
+   else if(response.status === 201 || response.statusCode === 201) {
+      yield put({ type: 'ASSET_ERROR', payload: response.data.message })
    }
    if (response) {
       refreshToken(response)
    }
+}
+catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
+
 
 }
 

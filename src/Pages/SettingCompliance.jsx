@@ -36,6 +36,8 @@ function SettingCompliance({ hostelid }) {
   const [complianceFilterddata, setComplianceFilterddata] = useState([]);
   const [compliancecurrentPage, setCompliancecurrentPage] = useState(1);
   const [planExpiredCompliance, setPlanExpiredCompliance] = useState("");
+  const [formLoading, setFormLoading] = useState(false)
+  
 
   const handleDeleteClick = () => {
     setShowPopup(true);
@@ -128,6 +130,10 @@ function SettingCompliance({ hostelid }) {
   };
 
   const handleAddComplaintType = () => {
+     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
+    dispatch({ type: "CLEAR_PLAN-EXPIRED" })
+    
+
     if (!complaintTypeName) {
       setComplaintError("Please Enter Complaint Type");
     } else {
@@ -135,11 +141,15 @@ function SettingCompliance({ hostelid }) {
         type: "COMPLAINT-TYPE-ADD",
         payload: { complaint_name: complaintTypeName, hostel_id: hostelid },
       });
+      setFormLoading(true)
       setComplaintError("");
     }
   };
 
   const handleEditType = () => {
+     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
+    dispatch({ type: "CLEAR_PLAN-EXPIRED" })
+
     if (complaintTypeName === originalComplaintTypeName) {
       setIsChangedError("No Changes Detected");
     } else {
@@ -151,6 +161,7 @@ function SettingCompliance({ hostelid }) {
           id: id,
         },
       });
+       setFormLoading(true)
       setIsChangedError("");
     }
   };
@@ -180,6 +191,8 @@ function SettingCompliance({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings.errorCompliants) {
+
+      setFormLoading(false)
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_ERROR_COMPLIANTS" });
@@ -187,8 +200,26 @@ function SettingCompliance({ hostelid }) {
     }
   }, [state.Settings.errorCompliants]);
 
+
+  useEffect(()=>{
+    if(state.Settings.alreadytypeerror){
+      setFormLoading(false)
+    }
+
+  },[state.Settings.alreadytypeerror])
+
+
+
+
+
+
+
+
+
+
   useEffect(() => {
     if (state.Settings.addComplaintSuccessStatusCode === 200) {
+      setFormLoading(false)
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
         payload: { hostel_id: hostelid },
@@ -215,6 +246,7 @@ function SettingCompliance({ hostelid }) {
 
   useEffect(() => {
     if (state.Settings.editComplaintSuccessStatusCode === 200) {
+      setFormLoading(false)
       dispatch({
         type: "COMPLAINT-TYPE-LIST",
         payload: { hostel_id: hostelid },
@@ -241,6 +273,7 @@ function SettingCompliance({ hostelid }) {
 
   const handleItemsPerPageChange = (event) => {
     setCompliancerowsPerPage(Number(event.target.value));
+    setCompliancecurrentPage(1)
   };
 
   const totalPagesGeneral = Math.ceil(
@@ -256,6 +289,18 @@ function SettingCompliance({ hostelid }) {
       setCompliancecurrentPage(compliancecurrentPage - 1);
     }
   }, [complianceFilterddata]);
+
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
 
   return (
     <div
@@ -297,7 +342,7 @@ function SettingCompliance({ hostelid }) {
       )}
 
       <div
-        className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+        className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-2"
         style={{
           position: "sticky",
           top: 0,
@@ -506,21 +551,21 @@ function SettingCompliance({ hostelid }) {
       </div>
 
       {!loading && complianceFilterddata.length === 0 && (
-        <div style={{ marginTop: 100 }}>
+        <div style={{ marginTop: 110 }}>
           <div className="d-flex justify-content-center">
             <img
               src={EmptyState}
-              style={{ height: 240, width: 240 }}
+            
               alt="Empty state"
             />
           </div>
           <div
-            className="pb-1 mt-3"
+            className="pb-1"
             style={{
               textAlign: "center",
               fontWeight: 600,
               fontFamily: "Gilroy",
-              fontSize: 20,
+              fontSize: 18,
               color: "rgba(75, 75, 75, 1)",
             }}
           >
@@ -529,7 +574,7 @@ function SettingCompliance({ hostelid }) {
         </div>
       )}
 
-      {complianceFilterddata.length >= 2 && (
+      {complianceFilterddata.length > 10 && (
         <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
           <div>
             <select
@@ -655,7 +700,7 @@ function SettingCompliance({ hostelid }) {
             style={{ cursor: "pointer" }}
           />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="pt-1">
           <div className="col">
             <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12 ">
               <Form.Group>
@@ -695,7 +740,7 @@ function SettingCompliance({ hostelid }) {
               >
                 {isChangedError && (
                   <>
-                    <MdError style={{ marginRight: "7px", color: "red" }} />
+                    <MdError style={{ marginRight: "7px", color: "red", fontSize:"13px" }} />
                     <span
                       style={{
                         color: "red",
@@ -708,6 +753,15 @@ function SettingCompliance({ hostelid }) {
                     </span>
                   </>
                 )}
+
+
+                
+ {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
               </div>
             </div>
           </div>
@@ -728,6 +782,42 @@ function SettingCompliance({ hostelid }) {
             Edit Complaint Type
           </Button>
         </Modal.Body>
+
+
+
+
+
+
+
+
+
+        {formLoading &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderTop: '4px solid #1E45E1',
+                                    borderRight: '4px solid transparent',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    animation: 'spin 1s linear infinite',
+                                }}
+                            ></div>
+                        </div>
+                    }
       </Modal>
 
       <Modal
@@ -753,7 +843,7 @@ function SettingCompliance({ hostelid }) {
             style={{ cursor: "pointer" }}
           />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="pt-1">
           <div className="col">
             <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -803,7 +893,7 @@ function SettingCompliance({ hostelid }) {
                         fontSize: "13px",
                         color: "red",
                         marginRight: "5px",
-                        marginBottom: "5px",
+                        marginBottom: "3px",
                       }}
                     >
                       <MdError />
@@ -815,6 +905,44 @@ function SettingCompliance({ hostelid }) {
             </div>
           </div>
         </Modal.Body>
+
+ {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
+
+
+ {formLoading &&
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderTop: '4px solid #1E45E1',
+                                    borderRight: '4px solid transparent',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    animation: 'spin 1s linear infinite',
+                                }}
+                            ></div>
+                        </div>
+                    }
+
+
         {planExpiredCompliance && (
           <div
             style={{

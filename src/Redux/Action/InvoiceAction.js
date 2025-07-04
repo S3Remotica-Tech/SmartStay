@@ -25,41 +25,41 @@ export async function ManualInvoice() {
   })
 }
 export async function ManualInvoiceNumber(invoicenumber) {
-  return await AxiosConfig.post('/get_invoice_id', invoicenumber, { //bill invoice number
+  return await AxiosConfig.post('/get_invoice_id', invoicenumber, { 
     data: invoicenumber
   })
 }
 
 export async function ManualInvoiceUserData(amountdata) {
-  return await AxiosConfig.post('/get_user_amounts', amountdata, { //bill table amount data
+  return await AxiosConfig.post('/get_user_amounts', amountdata, { 
     data: amountdata
   })
 }
 
 export async function RecurrInvoiceamountData(amountdata) {
-  return await AxiosConfig.post('/get_recuring_amounts', amountdata, { // Recurr table amount data
+  return await AxiosConfig.post('/get_recuring_amounts', amountdata, { 
     data: amountdata
   })
 }
 
 export async function AddManualInvoiceBill(manualinvoice) {
-  return await AxiosConfig.post('/add_manual_invoice', manualinvoice, { // create new bill
+  return await AxiosConfig.post('/add_manual_invoice', manualinvoice, { 
     data: manualinvoice
   })
 }
 export async function EditManualInvoiceBill(manualinvoice) {
-  return await AxiosConfig.post('/edit_manual_invoice', manualinvoice, { // edit new bill
+  return await AxiosConfig.post('/edit_manual_invoice', manualinvoice, { 
     data: manualinvoice
   })
 }
 export async function DeleteManualInvoiceBill(manualinvoice) {
-  return await AxiosConfig.post('/delete_manual_invoice', manualinvoice, { // delete new bill
+  return await AxiosConfig.post('/delete_manual_invoice', manualinvoice, { 
     data: manualinvoice
   })
 }
 
 export async function AddRecurringBill(manualinvoice) {
-  return await AxiosConfig.post('/add_recuring_bill', manualinvoice, { // create new Recurr bill
+  return await AxiosConfig.post('/add_recuring_bill', manualinvoice, { 
     data: manualinvoice
   })
 }
@@ -71,50 +71,50 @@ export async function GetManualInvoices(datum) {
 }
 
 export async function AddRecurrBillsUsers(recurr) {
-  return await AxiosConfig.post('/users/recuring_bill_users', recurr, {  //Recurr add customer filter 
+  return await AxiosConfig.post('/users/recuring_bill_users', recurr, {  
     data: recurr
   })
 }
 
 export async function GetRecurrBills(bills) {
-  return await AxiosConfig.post('/all_recuring_bills', bills, {  //Recurr bills data
+  return await AxiosConfig.post('/all_recuring_bills', bills, {  
     data: bills
   })
 }
 
 export async function DeleteRecurrBills(bills) {
-  return await AxiosConfig.post('/delete_recuring_bill', bills, { // Delete Recurr bills
+  return await AxiosConfig.post('/delete_recuring_bill', bills, { 
     data: bills
   })
 }
 
 export async function GetReceiptData(receipt) {
-  return await AxiosConfig.post('/receipts/all_receipts', receipt, {  //Receipts data
+  return await AxiosConfig.post('/receipts/all_receipts', receipt, { 
     data: receipt
   })
 }
 
 export async function AddReceipt(receipt) {
-  return await AxiosConfig.post('/receipts/add', receipt, { // create new Receipt
+  return await AxiosConfig.post('/receipts/add', receipt, { 
     data: receipt
   })
 }
 
 
 export async function EditReceipt(receipt) {
-  return await AxiosConfig.post('/receipts/edit', receipt, { // Edit Receipt
+  return await AxiosConfig.post('/receipts/edit', receipt, {
     data: receipt
   })
 }
 
 export async function DeleteReceipt(receipt) {
-  return await AxiosConfig.post('/receipts/delete', receipt, { // Delete receipt 
+  return await AxiosConfig.post('/receipts/delete', receipt, { 
     data: receipt
   })
 }
 
 export async function ReferenceIdGet() {
-  return await AxiosConfig.get('/receipts/gen_reference', { //refrence id
+  return await AxiosConfig.get('/receipts/gen_reference', { 
   })
 }
 
@@ -168,14 +168,7 @@ export async function InvoiceSettings(params) {
         "Content-type": "multipart/form-data",
       },
       timeout: 100000000,
-      // params: {
-      //   hostel_Id: params.hostel_Id,
-      //   prefix: params.prefix,
-      //   suffix: params.suffix,
-
-      // },
-      onUploadProgress: (event) => {
-      }
+     
     });
     return response.data;
   } catch (error) {
@@ -203,7 +196,7 @@ export async function DeleteAmenities(datum) {
   })
 }
 
-// assign amenities
+
 export async function AssignAmenities(datum) {
   return await AxiosConfig.post('/settings/assign_amenity', datum, {
     data: datum

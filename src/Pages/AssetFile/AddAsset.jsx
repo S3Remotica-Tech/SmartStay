@@ -38,8 +38,8 @@ function StaticExample({ show, setShow, currentItem }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [bankking, setBanking] = useState("")
   const [bankingError, setBankingError] = useState("")
-
-
+  const [formLoading, setFormLoading] = useState(false)
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
 
 
   const assetNameRef = useRef(null);
@@ -67,17 +67,35 @@ function StaticExample({ show, setShow, currentItem }) {
     productName: "",
   });
 
+
   useEffect(() => {
     dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
+    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
+
   }, [state.login.selectedHostel_Id]);
 
 
   useEffect(() => {
     if (state.AssetList?.bankAmountError) {
+      setFormLoading(false)
       setBankingError(state.AssetList?.bankAmountError)
     }
 
   }, [state.AssetList?.bankAmountError])
+
+  const [serial_number_duplicate_Error, setSerial_Number_DuplicateError] = useState("")
+
+  useEffect(() => {
+    if (state.AssetList?.alreadySerialNumberHere) {
+      setSerial_Number_DuplicateError(state.AssetList?.alreadySerialNumberHere)
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
+        setSerial_Number_DuplicateError("")
+      }, 2000);
+    }
+
+  }, [state.AssetList?.alreadySerialNumberHere])
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForGetBanking === 200) {
@@ -99,7 +117,10 @@ function StaticExample({ show, setShow, currentItem }) {
     setShow(false)
     setBankingError('')
     setPaymentError("")
+    setSerial_Number_DuplicateError("")
+    setJoingDateErrmsg('')
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
+    dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" })
   }
 
   useEffect(() => {
@@ -143,6 +164,8 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   }, [currentItem]);
 
+
+
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
@@ -151,6 +174,7 @@ function StaticExample({ show, setShow, currentItem }) {
 
   useEffect(() => {
     if (state.AssetList.addAssetStatusCode === 200) {
+      setFormLoading(false)
       setAssetName("");
       setVendorName("");
       setBrandName("");
@@ -159,6 +183,7 @@ function StaticExample({ show, setShow, currentItem }) {
       setPrice("");
       handleClose();
       setBankingError("")
+      setJoingDateErrmsg('')
     }
   }, [state.AssetList.addAssetStatusCode]);
 
@@ -273,102 +298,140 @@ function StaticExample({ show, setShow, currentItem }) {
     return serialNumber.trim().replace(/[\t\n\r]+/g, "");
   };
 
- 
 
+  const nochangeRef = useRef(null)
 
-const handleAddAsset = () => {
-  const cleanedSerialNumber = cleanSerialNumber(serialNumber);
-  const focusedRef = { current: false };
+  const handleAddAsset = () => {
+    dispatch({ type: "CLEAR_ASSET_NAME_ERROR" });
+    dispatch({ type: "CLEAR_SERIAL_NUMBER_ERROR" });
+    dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
+    const cleanedSerialNumber = cleanSerialNumber(serialNumber);
+    const focusedRef = { current: false };
 
-  if (!assetName) {
-    setAssetError("Please Enter a Valid Asset Name");
-    if (!focusedRef.current && assetNameRef.current) {
-      assetNameRef.current.focus();
-      focusedRef.current = true;
+    if (!assetName) {
+      setAssetError("Please Enter Asset Name");
+      if (!focusedRef.current && assetNameRef.current) {
+        assetNameRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!productName) {
-    setProductNameError("Please Enter a Valid Product Name");
-    if (!focusedRef.current && productNameRef.current) {
-      productNameRef.current.focus();
-      focusedRef.current = true;
+    if (!productName) {
+      setProductNameError("Please Enter Product Name");
+      if (!focusedRef.current && productNameRef.current) {
+        productNameRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!modeOfPayment) {
-    setPaymentError("Please Select Mode Of Payment");
-    if (!focusedRef.current && paymentRef.current) {
-      paymentRef.current.focus();
-      focusedRef.current = true;
+    if (!modeOfPayment) {
+      setPaymentError("Please Select Mode Of Payment");
+      if (!focusedRef.current && paymentRef.current) {
+        paymentRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!cleanedSerialNumber) {
-    setSerialNumberError("Please Enter a Valid Serial Number");
-    if (!focusedRef.current && serialNumberRef.current) {
-      serialNumberRef.current.focus();
-      focusedRef.current = true;
+    if (!cleanedSerialNumber) {
+      setSerialNumberError("Please Enter Serial Number");
+      if (!focusedRef.current && serialNumberRef.current) {
+        serialNumberRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  if (!selectedDate) {
-    setSelectedDateError("Please Select a Valid Date");
-    if (!focusedRef.current && dateRef.current) {
-      dateRef.current.focus();
-      focusedRef.current = true;
+    if (!selectedDate) {
+      setSelectedDateError("Please Select Date");
+      if (!focusedRef.current && dateRef.current) {
+        dateRef.current.focus();
+        focusedRef.current = true;
+      }
     }
-  }
 
-  const numericRegex = /^[0-9]+$/;
+    const numericRegex = /^[0-9]+$/;
 
-  if (!price || !numericRegex.test(price) || price <= 0) {
-    setPriceError("Please Enter a Valid Price");
-    if (!focusedRef.current && priceRef.current) {
-      priceRef.current.focus();
-      focusedRef.current = true;
+    if (!price || !numericRegex.test(price) || price <= 0) {
+      setPriceError("Please Enter Price");
+      if (!focusedRef.current && priceRef.current) {
+        priceRef.current.focus();
+        focusedRef.current = true;
+      }
+      return;
     }
-    return;
-  }
+    if (selectedDate) {
+      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
+      if (selectedHostel) {
+        const HostelCreateDate = new Date(selectedHostel.create_At);
+        const AssetDate = new Date(selectedDate);
+        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+        const AssetDateOnly = new Date(AssetDate.toDateString());
+        if (AssetDateOnly < HostelCreateDateOnly) {
+          setJoingDateErrmsg('Before Hostel Create date not allowed');
+          if (!focusedRef.current && dateRef.current) {
+            dateRef.current.focus();
+            focusedRef.current = true;
 
-  const isChanged =
-    initialState.assetName !== assetName ||
-    initialState.vendorName !== vendorName ||
-    initialState.brandName !== brandName ||
-    initialState.serialNumber !== serialNumber ||
-    Number(initialState.productCount) !== Number(productCount) ||
-    (initialState.selectedDate &&
-      selectedDate &&
-      initialState.selectedDate.getTime() !== selectedDate.getTime()) ||
-    Number(initialState.price) !== Number(price) ||
-    initialState.productName !== productName;
+            return
+          }
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
 
-  if (!isChanged) {
-    setIsChangedError("No Changes Detected");
-    return;
-  }
 
-  if (productName && serialNumber && selectedDate && price && assetName) {
-    const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
 
-    dispatch({
-      type: "ADDASSET",
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        asset_name: assetName,
-        product_name: productName,
-        vendor_id: vendorName,
-        brand_name: brandName,
-        serial_number: serialNumber,
-        product_count: 1,
-        purchase_date: formattedDate,
-        price: price,
-        payment_type: modeOfPayment,
-        id: id,
-      },
-    });
-  }
-};
+    const isChanged =
+      initialState.assetName !== assetName ||
+      initialState.vendorName !== vendorName ||
+      initialState.brandName !== brandName ||
+      initialState.serialNumber !== serialNumber ||
+      Number(initialState.productCount) !== Number(productCount) ||
+      (initialState.selectedDate && selectedDate &&
+        moment(initialState.selectedDate).format("YYYY-MM-DD") !==
+        moment(selectedDate).format("YYYY-MM-DD")) ||
+      Number(initialState.price) !== Number(price) ||
+      initialState.productName !== productName;
+
+
+    if (!isChanged) {
+      setIsChangedError("No Changes Detected");
+
+
+      setTimeout(() => {
+        if (nochangeRef.current) {
+          nochangeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          nochangeRef.current.focus();
+        }
+      }, 100);
+
+      return;
+    } else {
+      setIsChangedError("");
+    }
+
+    if (productName && serialNumber && selectedDate && price && assetName && modeOfPayment) {
+      const formattedDate = moment(selectedDate).format("YYYY-MM-DD");
+
+      dispatch({
+        type: "ADDASSET",
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          asset_name: assetName,
+          product_name: productName,
+          vendor_id: vendorName,
+          brand_name: brandName,
+          serial_number: serialNumber,
+          product_count: 1,
+          purchase_date: formattedDate,
+          price: price,
+          payment_type: modeOfPayment,
+          id: id,
+        },
+      });
+      setFormLoading(true)
+    }
+  };
 
 
 
@@ -384,6 +447,33 @@ const handleAddAsset = () => {
     defaultDate: selectedDate || new Date(),
     maxDate: "today",
   };
+
+
+
+  useEffect(() => {
+    if (state.AssetList?.alreadyAssetNameHere || state.AssetList?.alreadySerialNumberHere) {
+      setFormLoading(false)
+    }
+
+  }, [state.AssetList?.alreadyAssetNameHere, state.AssetList?.alreadySerialNumberHere])
+
+
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
+
+
+
+
+
 
 
   return (
@@ -411,7 +501,7 @@ const handleAddAsset = () => {
                   fontWeight: 600,
                 }}
               >
-                {currentItem ? "Edit an Asset" : "Add Asset"}
+                {currentItem ? "Edit an Asset" : "Add Assets"}
               </Modal.Title>
 
               <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
@@ -421,7 +511,7 @@ const handleAddAsset = () => {
 
             {state.AssetList?.alreadyAssetNameHere && (
               <div className="d-flex align-items-center p-1">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
+                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
                 <label
                   className="mb-0"
                   style={{
@@ -435,8 +525,31 @@ const handleAddAsset = () => {
                 </label>
               </div>
             )}
-            <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-3 mt-3 me-3" >
-              <div className="row mt-1">
+
+            {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
+              state.bankingDetails.bankingList.banks.length === 0 && (
+               <div className="d-flex align-items-center pt-2 ps-2">
+                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                <label
+                  className="mb-0"
+                  style={{
+                    color: "red",
+                    fontSize: "12px",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}
+                >
+                  Please Create Banking before adding an asset
+                </label>
+              </div>
+              )}
+
+
+
+
+            <Modal.Body style={{ maxHeight: "370px", overflowY: "scroll" }} className="show-scroll p-3 mt-2 me-3" >
+
+              <div className="row " style={{ marginTop: "-20px" }}>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                   <Form.Group className="mb-1" controlId="exampleForm.ControlInput1"
                   >
@@ -472,7 +585,7 @@ const handleAddAsset = () => {
 
                   {assetError && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -522,7 +635,7 @@ const handleAddAsset = () => {
 
                   {productNameError && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "6px", fontSize: "14px" }} />
+                      <MdError style={{ color: "red", marginRight: "6px", fontSize: "13px", marginBottom: "1px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -701,7 +814,7 @@ const handleAddAsset = () => {
 
                   {serialNumberError && (
                     <div className="d-flex align-items-center ">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -716,9 +829,9 @@ const handleAddAsset = () => {
                     </div>
                   )}
 
-                  {state.AssetList?.alreadySerialNumberHere && (
+                  {serial_number_duplicate_Error && (
                     <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -728,7 +841,7 @@ const handleAddAsset = () => {
                           fontWeight: 500,
                         }}
                       >
-                        {state.AssetList?.alreadySerialNumberHere}
+                        {serial_number_duplicate_Error}
                       </label>
                     </div>
                   )}
@@ -756,14 +869,15 @@ const handleAddAsset = () => {
                       style={{ position: "relative", width: "100%" }}
                     >
                       <DatePicker
-                      ref={dateRef}
-                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily:"Gilroy" }}
+                        ref={dateRef}
+                        style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                         format="DD/MM/YYYY"
                         placeholder="DD/MM/YYYY"
                         value={selectedDate ? dayjs(selectedDate) : null}
                         onChange={(date) => {
                           setIsChangedError("");
                           setSelectedDateError("");
+                          setJoingDateErrmsg('')
                           setSelectedDate(date ? date.toDate() : null);
                         }}
                         getPopupContainer={(triggerNode) =>
@@ -774,7 +888,7 @@ const handleAddAsset = () => {
                   </Form.Group>
                   {selectedDateError && (
                     <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: "5px", marginBottom: "2px", fontSize: "14px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", marginBottom: "2px", fontSize: "13px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -785,6 +899,15 @@ const handleAddAsset = () => {
                         }}
                       >
                         {selectedDateError}
+                      </label>
+                    </div>
+                  )}
+
+                  {joiningDateErrmsg.trim() !== "" && (
+                    <div className="d-flex align-items-center">
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        {joiningDateErrmsg}
                       </label>
                     </div>
                   )}
@@ -825,7 +948,7 @@ const handleAddAsset = () => {
                   </Form.Group>
                   {priceError && (
                     <div className="d-flex align-items-center ">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -872,7 +995,7 @@ const handleAddAsset = () => {
                       onChange={handleModeOfPaymentChange}
                       disabled={currentItem}
                       style={{
-                        fontSize: 14,
+                        fontSize: 16,
                         color: "rgba(75, 75, 75, 1)",
                         fontFamily: "Gilroy",
                         fontWeight: modeOfPayment ? 600 : 500,
@@ -905,7 +1028,7 @@ const handleAddAsset = () => {
                   </Form.Group>
                   {paymentError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -922,7 +1045,7 @@ const handleAddAsset = () => {
 
                   {bankingError && (
                     <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 13 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -938,12 +1061,12 @@ const handleAddAsset = () => {
                   )}
                 </div>
 
-               
+
               </div>
             </Modal.Body>
             {isChangedError && (
-              <div className="d-flex align-items-center justify-content-center mt-4">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center mt-4">
+                <MdError style={{ color: "red", marginRight: "5px", fontSize: 14, marginBottom: "2px" }} />
                 <label
                   className="mb-0"
                   style={{
@@ -957,6 +1080,41 @@ const handleAddAsset = () => {
                 </label>
               </div>
             )}
+
+            {formLoading &&
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>
+            }
+            {state.createAccount?.networkError ? 
+                      <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                                              <MdError style={{ color: "red", marginRight: '5px' }} />
+                                              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                            </div>
+                                              : null}
+            
             <Modal.Footer style={{ border: "none" }} className="">
 
 

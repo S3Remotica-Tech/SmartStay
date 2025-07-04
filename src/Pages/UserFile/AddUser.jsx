@@ -33,6 +33,8 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const [passwordError, setPasswordError] = useState("");
   const [initialState, setInitialState] = useState({});
   const [error, setError] = useState("");
+  const [formLoading, setFormLoading] = useState(false)
+
 
   useEffect(() => {
 
@@ -134,9 +136,22 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   };
 
   const handlePassword = (e) => {
-    setPassword(e.target.value);
-    setPasswordError("");
+    const newPassword = e.target.value;
+    setPassword(newPassword);
     setError("");
+
+
+    const hasUppercase = /[A-Z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
+    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setPasswordError(
+        "Password must include at least 1 capital letter, 1 number, and 1 special character."
+      );
+    } else {
+      setPasswordError("");
+    }
   };
 
   const handleCloseForm = () => {
@@ -164,7 +179,13 @@ function User({ show, editDetails, setAddUserForm, edit }) {
   const clearEmailError = () => ({
     type: "CLEAR_EMAIL_ID_ERROR",
   });
+
+
   const handleSubmit = () => {
+
+    dispatch(clearPhoneError());
+    dispatch(clearEmailError());
+
     let isValid = true;
 
     setNameError("");
@@ -250,12 +271,14 @@ function User({ show, editDetails, setAddUserForm, edit }) {
         type: "ADDSTAFFUSER",
         payload,
       });
+      setFormLoading(true)
     }
   };
 
 
   useEffect(() => {
     if (state.Settings.StatusForaddSettingUser === 200) {
+      setFormLoading(false)
       handleCloseForm();
       dispatch({
         type: "GETUSERSTAFF",
@@ -266,6 +289,31 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       }, 200);
     }
   }, [state.Settings.StatusForaddSettingUser]);
+
+
+
+  useEffect(() => {
+    if (state.Settings.emailIdError || state.Settings.phoneNumError) {
+      setFormLoading(false)
+    }
+
+  }, [state.Settings.emailIdError, state.Settings.phoneNumError])
+
+
+ useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
+
+
+
+
 
   return (
     <div
@@ -300,7 +348,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
             />
           </Modal.Header>
 
-          <Modal.Body>
+          <Modal.Body className="pt-0">
             <div className="row mt-2">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
                 <Form.Group
@@ -349,7 +397,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   >
                     <span
                       style={{
-                        fontSize: 14,
+                        fontSize: 13,
                         marginRight: "5px",
                         display: "flex",
                         alignItems: "center",
@@ -409,7 +457,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       margin: 0,
                     }}
                   >
-                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
+                    <span style={{ fontSize: "13px", marginRight: "5px" }}>
                       <MdError style={{ marginBottom: "3px" }} />
                     </span>
                     {emailError}
@@ -516,10 +564,10 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       display: "flex",
                       alignItems: "center",
                       margin: 0,
-                      marginTop: "-10px",
+                      marginTop: "-11px",
                     }}
                   >
-                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
+                    <span style={{ fontSize: "13px", marginRight: "5px",marginTop:"2px" }}>
                       <MdError style={{ marginBottom: "4px" }} />
                     </span>
                     {mobileError}
@@ -564,7 +612,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
               </div>
               {!edit && (
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
-                  <Form.Group className="mb-1">
+                  <Form.Group className="mb-2">
                     <Form.Label
                       style={{
                         fontSize: 14,
@@ -632,7 +680,8 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       </InputGroup.Text>
                     </InputGroup>
                   </Form.Group>
-                  {/* {passwordError && <p style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{passwordError}</p>} */}
+                 
+
                   {passwordError && (
                     <p
                       style={{
@@ -641,16 +690,19 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                         fontFamily: "Gilroy",
                         fontWeight: 500,
                         display: "flex",
-                        alignItems: "center",
+                        alignItems: "flex-start",
+                        gap: "5px",
                         margin: 0,
+                        marginTop: "6px",
                       }}
                     >
-                      <span style={{ fontSize: "15px", marginRight: "5px" }}>
-                        <MdError style={{ marginBottom: "4px" }} />
+                      <span>
+                        <MdError style={{ fontSize: "13px",marginBottom:"3px" }}/>
                       </span>
                       {passwordError}
                     </p>
                   )}
+
                 </div>
               )}
 
@@ -684,11 +736,11 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                         (option) => option.id === role
                       )
                         ? {
-                            value: role,
-                            label: state.Settings.getsettingRoleList.find(
-                              (option) => option.id === role
-                            )?.role_name,
-                          }
+                          value: role,
+                          label: state.Settings.getsettingRoleList.find(
+                            (option) => option.id === role
+                          )?.role_name,
+                        }
                         : null
                     }
                     placeholder="Select a Role"
@@ -709,6 +761,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                         ...base,
                         backgroundColor: "#f8f9fa",
                         border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
                       }),
                       menuList: (base) => ({
                         ...base,
@@ -717,6 +770,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                         padding: 0,
                         scrollbarWidth: "thin",
                         overflowY: "auto",
+                        fontFamily: "Gilroy",
                       }),
                       placeholder: (base) => ({
                         ...base,
@@ -757,10 +811,11 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       display: "flex",
                       alignItems: "center",
                       margin: 0,
+                     
                     }}
                   >
-                    <span style={{ fontSize: "14px", marginRight: "5px" }}>
-                      <MdError style={{ marginBottom: "4px" }} />
+                    <span>
+                      <MdError style={{ fontSize: "13px",marginBottom:"3px",marginRight:"5px" }} />
                     </span>
                     {roleError}
                   </p>
@@ -819,9 +874,51 @@ function User({ show, editDetails, setAddUserForm, edit }) {
             </div>
           </Modal.Body>
 
+
+ {state.createAccount?.networkError ?
+              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+                <MdError style={{ color: "red", marginRight: '5px' }} />
+                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              </div>
+              : null}
+
+
+
+
+          {formLoading &&
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>
+          }
+          
           <Modal.Footer
             style={{ border: "none", marginBottom: "17px", marginTop: "-10px" }}
           >
+
+
+
             <Button
               onClick={handleSubmit}
               className="w-100"

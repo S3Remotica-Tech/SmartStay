@@ -7,6 +7,7 @@ import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginJsxA11y from "eslint-plugin-jsx-a11y";
 
 
+
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
@@ -36,6 +37,8 @@ export default [
       "jsx-a11y": pluginJsxA11y,
     },
     rules: {
+      "@typescript-eslint/no-unused-expressions": "error",
+      "@typescript-eslint/no-require-imports": "off",
       "eqeqeq": "error", 
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "error",
@@ -48,7 +51,7 @@ export default [
         ["==", "!=", "===", "!==", ">", ">=", "<", "<="], 
         ["&&", "||"],
       ],
-      "allowSamePrecedence": true // Allows operators with the same precedence
+      "allowSamePrecedence": true 
     }],
     "array-callback-return": 'error'
     }

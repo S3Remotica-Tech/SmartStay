@@ -19,6 +19,8 @@
    selectedHostel_Id: '',
    Settings_Hostel_Id: '',
    IsVisible: null,
+   errorStatusCode: 0,
+   errorPasswordStatusCode:0,
 
 }
 const SmartStayReducer = (state = initialState, action) => {
@@ -48,13 +50,13 @@ const SmartStayReducer = (state = initialState, action) => {
       case 'LOGIN-INFO':
          return { ...state, loginInformation: action.payload.response.Data, email_Id: action.payload.response.email_Id, password: action.payload.response.password, errorEmail: '', errorPassword: '', errorMessage: '', statusCode: action.payload.statusCode, JWTtoken: action.payload.response.token }
       case 'ERROR_EMAIL':
-         return { ...state, errorEmail: action.payload }
+         return { ...state, errorEmail: action.payload.response, errorStatusCode: action.payload.statusCode }
       case 'ERROR_PASSWORD':
-         return { ...state, errorPassword: action.payload }
+         return { ...state, errorPassword: action.payload.response,  errorPasswordStatusCode: action.payload.statusCode }
       case 'CLEAR_EMAIL_ERROR':
-         return { ...state, errorEmail: '' }
+         return { ...state, errorEmail: '', errorStatusCode:  0}
       case 'CLEAR_PASSWORD_ERROR':
-         return { ...state, errorPassword: '' }
+         return { ...state, errorPassword: '', errorPasswordStatusCode:0 }
       case 'LOGIN-SUCCESS':
          return { ...state, isLoggedIn: true }
       case 'LOG_OUT':
@@ -80,7 +82,8 @@ const SmartStayReducer = (state = initialState, action) => {
          return { ...state, twoStepOtpError: action.payload }
       case 'CLEAR_ERROR_OTP_CODE':
          return { ...state, twoStepOtpError: '' }
-
+case 'RESET_ALL':
+      return initialState;
          default:
             return state;
    }

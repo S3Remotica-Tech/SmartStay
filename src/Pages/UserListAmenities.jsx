@@ -16,6 +16,7 @@ import { CloseCircle } from "iconsax-react";
 function UserListAmenities(props) {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
+   const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
     if (props.id) {
@@ -125,26 +126,26 @@ function UserListAmenities(props) {
       return true;
     }
   };
+
   const handleAmnitiesSelect = () => {
-    if (!validateAssignField(statusAmni, "statusAmni"));
-    if (statusAmni === "Select Status" || selectError) {
-      setSelectError("Please Select a Valid Status");
-      return;
-    }
-    if (statusAmni && statusShow) {
-      dispatch({
-        type: "AddUserAmnities",
-        payload: {
-          userID: props.customerUser_Id,
-          amenityID: selectAmneties,
-          Status: statusAmni,
-          hostelID: props.hostelIds,
-        },
-      });
-      setStatusAmni("");
-      setselectAmneties("");
-    }
-  };
+  if (!validateAssignField(statusAmni, "statusAmni")) return;
+
+  if (statusAmni && statusShow) {
+    dispatch({
+      type: "AddUserAmnities",
+      payload: {
+        userID: props.customerUser_Id,
+        amenityID: selectAmneties,
+        Status: statusAmni,
+        hostelID: props.hostelIds,
+      },
+    });
+    setFormLoading(true);
+    setStatusAmni("");
+    setselectAmneties("");
+  }
+};
+
   const handleAddUserAmnities = () => {
     if (selectAmneties) {
       dispatch({
@@ -155,6 +156,7 @@ function UserListAmenities(props) {
           amenityID: selectAmneties,
         },
       });
+       setFormLoading(true)
     }
 
     setStatusAmni("");
@@ -168,13 +170,17 @@ function UserListAmenities(props) {
     setselectAmneties(v.amenity_Id);
   };
   const handleFormClose = () => {
+     setselectAmneties("");
     setSelectError("");
     setaddamenityShow(false);
     setActiveDotsId(null)
+    setStatusAmni(false)
+   
     dispatch({ type: "CLEAR_ERROR_USER_AMENITIES" });
   };
   useEffect(() => {
     if (state.UsersList.statusCustomerAddUser === 200) {
+       setFormLoading(false)
       handleFormClose();
     }
   }, [state.UsersList.statusCustomerAddUser]);
@@ -237,6 +243,16 @@ function UserListAmenities(props) {
     setamnitiesFilterddata(state.UsersList?.amnetieshistory);
   }, [state.UsersList?.amnetieshistory]);
 
+useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
   return (
     <div className="container mt-3">
       {state.UsersList?.customerdetails?.all_amenities &&
@@ -259,7 +275,7 @@ function UserListAmenities(props) {
         )}
 
       <div
-        className="col-lg-8 col-md-8 col-sm-12 col-xs-12"
+        className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
         style={{ marginTop: "-10px" }}
       >
         <Form.Label
@@ -296,6 +312,7 @@ function UserListAmenities(props) {
               maxHeight: "170px",
               overflowY: "auto",
               zIndex: 9999,
+              fontFamily: "Gilroy",
             }),
             menuList: (base) => ({
               ...base,
@@ -304,6 +321,7 @@ function UserListAmenities(props) {
               padding: 0,
               scrollbarWidth: "thin",
               cursor: "pointer",
+              fontFamily: "Gilroy",
             }),
             control: (base) => ({
               ...base,
@@ -325,6 +343,7 @@ function UserListAmenities(props) {
               cursor: "pointer",
               backgroundColor: state.isFocused ? "#f0f0f0" : "white",
               color: "#000",
+              fontFamily: "Gilroy",
             }),
           }}
         />
@@ -392,6 +411,7 @@ function UserListAmenities(props) {
                 opacity: 1,
                 borderRadius: "8px",
                 height: 45,
+                 fontFamily: "Gilroy",
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
@@ -431,6 +451,7 @@ function UserListAmenities(props) {
                 fontWeight: "530",
                 height: 45,
                 opacity: 1,
+                 fontFamily: "Gilroy",
                 borderRadius: "8px",
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
@@ -454,6 +475,7 @@ function UserListAmenities(props) {
               style={{
                 fontSize: 14,
                 fontWeight: "530",
+                 fontFamily: "Gilroy",
                 opacity: 1,
                 borderRadius: "8px",
                 height: 45,
@@ -488,6 +510,7 @@ function UserListAmenities(props) {
                   fontWeight: 530,
                   fontFamily: "Gilroy",
                   color:"grey",
+                  cursor:"pointer"
                   
                 }}
               >
@@ -508,6 +531,7 @@ function UserListAmenities(props) {
                     fontFamily: "Gilroy",
                     opacity:1,
                     color: "gray",
+                    cursor:"pointer"
                   }}>Active</option>
                 <option value="0"  style={{
                     fontSize: 14,
@@ -515,6 +539,7 @@ function UserListAmenities(props) {
                     fontFamily: "Gilroy",
                     opacity:1,
                     color: "gray",
+                    cursor:"pointer"
                   }}>In Active</option>
               </Form.Select>
               {selectError && (
@@ -536,8 +561,45 @@ function UserListAmenities(props) {
             </div>
           )}
         </Modal.Body>
+ {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center  mb-4'>
+              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
 
-        <Modal.Footer className="d-flex justify-content-center">
+  {formLoading &&
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                        }}
+                      ></div>
+                    </div>
+                  }
+
+
+
+
+        <Modal.Footer className="d-flex justify-content-center" style={{borderTop:"none"}}>
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -547,7 +609,7 @@ function UserListAmenities(props) {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Gilroy",
-              marginTop: 20,
+              marginTop: 10,
             }}
             onClick={() => {
               if (statusShow) {
@@ -605,8 +667,8 @@ function UserListAmenities(props) {
           className="show-scrolls"
           style={{
             height:
-              sortedData?.length >= 1 || sortedData?.length >= 1
-                ? "135px"
+              sortedData?.length >= 2 || sortedData?.length >= 2
+                ? "130px"
                 : "auto",
             overflow: "auto",
             borderTop: "1px solid #E8E8E8",
@@ -651,7 +713,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
+                    paddingTop: "5px",
                     paddingBottom: "10px",
                   }}
                 >
@@ -688,8 +750,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                   
                   }}
                 >
                   <div className="d-flex gap-1 align-items-center justify-content-start">
@@ -725,8 +786,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                  
                   }}
                 >
                   <div className="d-flex gap-1 align-items-center justify-content-start">
@@ -762,8 +822,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                    
                   }}
                 >
                   <div className="d-flex gap-1 align-items-center justify-content-start">
@@ -799,8 +858,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                   
                   }}
                 >
                   <div className="d-flex gap-1 align-items-center justify-content-start">
@@ -836,8 +894,7 @@ function UserListAmenities(props) {
                     fontWeight: 500,
                     fontSize: "12px",
                     fontFamily: "Gilroy",
-                    paddingTop: "10px",
-                    paddingBottom: "10px",
+                  
                   }}
                 >
                   Action
@@ -857,7 +914,7 @@ function UserListAmenities(props) {
                   let formattedDate = `${day}/${month}/${year}`;
 
                   return (
-                    <tr key={v.amenity_Id} style={{ marginTop: 30 }}>
+                    <tr key={v.amenity_Id}>
                       <td
                         style={{
                           textAlign: "start",
@@ -880,6 +937,7 @@ function UserListAmenities(props) {
                             borderRadius: "10px",
                             lineHeight: "1.5em",
                             margin: "0",
+                            marginLeft:4,
                             fontSize: 13,
                             fontWeight: 500,
                             fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
@@ -906,7 +964,7 @@ function UserListAmenities(props) {
                         }}
                         className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                       >
-                         <div className="ps-1">{v.Amount}</div>
+                         <div style={{marginLeft:7}}>{v.Amount}</div>
                       </td>
                       <td
                         style={{
@@ -970,15 +1028,10 @@ function UserListAmenities(props) {
         </div>
           )}
       </div>
-      {amnitiesFilterddata?.length >= 1 && (
+      {amnitiesFilterddata?.length >= 2 && (
         <>
-          <nav
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "end",
-              padding: "10px",
-            }}
+          <nav className="position-fixed bottom-0 end-0 mb-3 me-3 d-flex justify-content-end align-items-center"
+          
           >
             <div>
               <select

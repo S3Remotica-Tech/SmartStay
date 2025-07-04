@@ -79,6 +79,8 @@ function PayingGuestMap(props) {
   };
 
 
+
+
   useEffect(() => {
     if (state.PgList?.deletePgError) {
       setPgDeleteError(state.PgList.deletePgError);
@@ -115,7 +117,7 @@ function PayingGuestMap(props) {
   return (
     <>
       <Card
-        className="animated-text ms-0 h-100 "
+        className="animated-text ms-0 h-100 p-0"
         key={props.hostel && props.hostel.id}
         style={{
           borderRadius: 16,
@@ -132,7 +134,7 @@ function PayingGuestMap(props) {
       >
         <Card.Body style={{ padding: 10 }}>
           <div className="d-flex justify-content-between align-items-center flex-wrap">
-            <div className="d-flex gap-2 align-items-center">
+            <div className="d-flex gap-1 align-items-center">
               <div className="">
                 <Image
                   src={
@@ -155,7 +157,7 @@ function PayingGuestMap(props) {
                   <label
                     className="hover-hostel-name"
                     style={{
-                      fontSize: 16,
+                      fontSize: 14,
                       color: "#1E45E1",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
@@ -173,7 +175,7 @@ function PayingGuestMap(props) {
                       width: "fit-content",
                       padding: 5,
                       borderRadius: 10,
-                      fontSize: 14,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       color: "rgba(34, 34, 34, 1)",
                     }}
@@ -231,7 +233,7 @@ function PayingGuestMap(props) {
                         flexDirection: "column",
                         alignItems: "flex-start",
                         zIndex: 1050,
-                                             }}
+                      }}
                     >
 
                       <div
@@ -355,7 +357,7 @@ function PayingGuestMap(props) {
                   <label
                     style={{
                       color: "#222222",
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
                       textAlign: "center",
@@ -388,7 +390,7 @@ function PayingGuestMap(props) {
                   <label
                     style={{
                       color: "#222222",
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
                       textAlign: "center",
@@ -421,7 +423,7 @@ function PayingGuestMap(props) {
                   <label
                     style={{
                       color: "#222222",
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: 600,
                       fontFamily: "Gilroy",
                       textAlign: "center",
@@ -435,13 +437,13 @@ function PayingGuestMap(props) {
             </div>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center mb-1 mt-1 flex-wrap">
+          <div className="d-flex justify-content-between align-items-center mb-1 mt-1 ms-2 flex-wrap">
             <div className="pb-1" style={{ lineHeight: 1 }}>
               <div className="pb-1">
                 <label
                   style={{
                     color: "#000000",
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 500,
                     fontFamily: "Gilroy",
                   }}
@@ -453,7 +455,7 @@ function PayingGuestMap(props) {
                 <label
                   style={{
                     color: "#222222",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: 600,
                     fontFamily: "Gilroy",
                   }}
@@ -471,7 +473,7 @@ function PayingGuestMap(props) {
                 <label
                   style={{
                     color: "#000000",
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 500,
                     fontFamily: "Gilroy",
                   }}
@@ -483,7 +485,7 @@ function PayingGuestMap(props) {
                 <label
                   style={{
                     color: "#222222",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: 600,
                     fontFamily: "Gilroy",
                   }}
@@ -493,13 +495,12 @@ function PayingGuestMap(props) {
                 </label>
               </div>
             </div>
-
-            <div className="pb-1" style={{ lineHeight: 1 }}>
+            <div className="pb-1 ms-2" style={{ lineHeight: 1 }}>
               <div className="">
                 <label
                   style={{
                     color: "#000000",
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 500,
                     fontFamily: "Gilroy",
                     textAlign: "center",
@@ -512,10 +513,11 @@ function PayingGuestMap(props) {
                 <label
                   style={{
                     color: "#222222",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: 600,
                     fontFamily: "Gilroy",
                     textAlign: "center",
+                    marginRight: 5,
                   }}
                 >
                   +
@@ -529,14 +531,15 @@ function PayingGuestMap(props) {
                 </label>
               </div>
             </div>
+
           </div>
 
-          <div className="mb-2" style={{ lineHeight: 1 }}>
+          <div className="mb-2 col-lg-12 col-md-12 col-xs-12 col-sm-12 col-12 ms-2" style={{ lineHeight: 1 }}>
             <div className="mb-1" style={{}}>
               <label
                 style={{
                   color: "#000000",
-                  fontSize: 12,
+                  fontSize: 11,
                   fontWeight: 500,
                   fontFamily: "Gilroy",
                 }}
@@ -553,7 +556,7 @@ function PayingGuestMap(props) {
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
                 display: "block",
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: 600,
                 fontFamily: "Gilroy",
               }}
@@ -568,20 +571,20 @@ function PayingGuestMap(props) {
                         ${props.hostel?.state ? ", " + props.hostel.state : ""}
                       `}
             >
-              {(props.hostel?.Address ||
-                props.hostel?.area ||
+              {(
                 props.hostel?.city ||
                 props.hostel?.pincode ||
                 props.hostel?.state) && (
                   <>
                     {props.hostel?.Address ? props.hostel.Address + ", " : ""}
                     {props.hostel?.area || ""}
-                    {props.hostel?.city ? ", " + props.hostel.city : ""}
+                    {props.hostel?.landmark || ""}<br></br>
+                    {props.hostel?.city ? props.hostel.city : ""}
                     {props.hostel?.pin_code
                       ? " - " + props.hostel.pin_code
-                      : ""}{" "}
+                      : ""}{" "} {props.hostel?.state ? props.hostel.state : ""}
                     <br></br>
-                    {props.hostel?.state ? props.hostel.state : ""}
+
                   </>
                 )}
             </div>
