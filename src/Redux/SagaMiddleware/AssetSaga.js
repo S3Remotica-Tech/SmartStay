@@ -7,8 +7,9 @@ import { toast } from 'react-toastify';
 
 function* handleGetAsset(action) {
    const response = yield call(GetAsset, action.payload);
-   if (response.status === 200 || response.statusCode === 200) {
-      yield put({ type: 'ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })
+   
+   if (response.status === 200 || response.data.statusCode === 200) {
+      yield put({ type: 'ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.data.statusCode} })
    }
    else if (response.status === 201 || response.statusCode === 201){
       yield put({ type: 'NO_ASSET_LIST', payload: { response: response.data.assets, statusCode: response.status || response.statusCode } })

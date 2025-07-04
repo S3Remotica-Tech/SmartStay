@@ -40,7 +40,8 @@ function Asset() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropDown, setShowDropDown] = useState(false)
   const [showFilterData, setShowFilterData] = useState(false)
-   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [ExcelFilterDates, setExcelFilterDates] = useState([])
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
@@ -49,9 +50,26 @@ function Asset() {
   }, [state.UsersList?.exportAssetsDetail?.response?.fileUrl]);
 
   const handleAssetsExcel = () => {
-    dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id } });
+
+    console.log("ExcelFilterDates", selectedPriceRange);
+    
+
+    if( ExcelFilterDates.length === 2){
+        dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id  ,"start_date":"2024-07-01","end_date":"2025-07-01"}})
+            setExcelFilterDates([])
+            setSelectedPriceRange("")
+    }
+     else if (selectedPriceRange && selectedPriceRange !== "date" && selectedPriceRange !== "All") {
+      dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id , price_range :  selectedPriceRange }});
+      setExcelFilterDates([]);
+      setSelectedPriceRange("");
+       }
+
+    dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id }})
+
     setIsDownloadTriggered(true);
-  };
+  }
+
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
 
@@ -147,13 +165,29 @@ function Asset() {
     setCurrentItem('')
   }
 
- 
+
 
 
   useEffect(() => {
-    dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-    setLoading(true)
+    if (state.login.selectedHostel_Id) {
+      dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+      setLoading(true)
+    } else {
+      setGetData([])
+      setLoading(false)
+    }
   }, [state.login.selectedHostel_Id])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!state.login.selectedHostel_Id) {
+        setGetData([])
+        setLoading(false);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
 
 
   useEffect(() => {
@@ -178,7 +212,7 @@ function Asset() {
 
   }, [state.AssetList.addAssetStatusCode, state.AssetList.deleteAssetStatusCode, state.AssetList.addAssignAssetStatusCode])
 
-
+   
 
   useEffect(() => {
     if (state.AssetList.getAssetStatusCode === 200) {
@@ -192,7 +226,12 @@ function Asset() {
   }, [state.AssetList.getAssetStatusCode])
 
 
+  useEffect(()=> {
+    if(state.AssetList.assetList && state.AssetList.assetList.length > 0){
+        setGetData(state.AssetList.assetList)
+    }
 
+  },[state.AssetList.assetList])
 
 
   useEffect(() => {
@@ -208,14 +247,9 @@ function Asset() {
 
 
 
-
-
-
-
-
   const [selectedDateRange, setSelectedDateRange] = useState([]);
   dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
+  dayjs.extend(isSameOrBefore);
 
   const filterByPriceRange = (data) => {
     switch (selectedPriceRange) {
@@ -228,7 +262,7 @@ dayjs.extend(isSameOrBefore);
       case '1000+':
         return data.filter(item => item.total_price > 1000);
       case 'date':
-       
+
         if (selectedDateRange?.length === 2) {
           const [start, end] = selectedDateRange;
           return data.filter(item =>
@@ -236,35 +270,105 @@ dayjs.extend(isSameOrBefore);
             dayjs(item.purchase_date).isSameOrBefore(end, 'day')
           );
         }
-        
+
         return data;
       case 'All':
       default:
         return data;
     }
   };
- 
-  
+
+
+ const handleDateChange = (dates) => {
+  if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
+    setSelectedDateRange([]);
+    setSelectedPriceRange("All");
+
+    dispatch({
+      type: 'ASSETLIST',
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    return;
+  }
+
+  setSelectedDateRange(dates);
+
+  const newStartDate = dayjs(dates[0]).startOf("day");
+  const newEndDate = dayjs(dates[1]).endOf("day");
+  setExcelFilterDates([newStartDate, newEndDate]);
+
+  setSelectedPriceRange("date");
+
+  setCurrentPage(1);
+};
+
+
+
+
   const handlePriceRangeChange = (event) => {
     const value = event.target.value;
     setSelectedPriceRange(value);
-    setCurrentPage(1);
-    if (value !== 'date') {
-      setSelectedDateRange([]);
+
+     if(value === "All"){
+        dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+       }
+      else if(value === "date"){
+         dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+         setExcelFilterDates([])
+         setSelectedDateRange([]);
+      }
+     else if (value){
+        dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id  , price_range : value} })
     }
+   
+
+    setCurrentPage(1);
   };
+
+  useEffect(() => {
+  if (selectedPriceRange === "date" && ExcelFilterDates.length === 2) {
+    dispatch({
+      type: 'ASSETLIST',
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+        end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
+      }
+    });
+  }
+}, [selectedPriceRange, ExcelFilterDates]); 
+
+
   useEffect(() => {
     if (!showFilter) {
+      dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
       setSelectedPriceRange('All');
       setSelectedDateRange([]);
+      setExcelFilterDates([])
     }
   }, [showFilter]);
-  
+
   const handleFilterByPrice = () => {
-    setShowFilter(!showFilter)
+
+  const newShowFilter = !showFilter;
+  setShowFilter(newShowFilter);
+
+  if (!showFilter) {
+    setSelectedPriceRange("All");
+    setSelectedDateRange([]);
+    setExcelFilterDates([]);
+    setGetData(state.AssetList.assetList)
+   
   }
+};
 
 
+
+
+
+
+
+ 
 
 
 
@@ -415,15 +519,15 @@ dayjs.extend(isSameOrBefore);
   });
 
 
-   useEffect(() => {
-      if (
-        getData.length > 0 &&
-        currentItems.length === 0 &&
-        currentPage > 1
-      ) {
-        setCurrentPage(currentPage - 1);
-      }
-    }, [getData])
+  useEffect(() => {
+    if (
+      getData.length > 0 &&
+      currentItems.length === 0 &&
+      currentPage > 1
+    ) {
+      setCurrentPage(currentPage - 1);
+    }
+  }, [getData])
 
 
 
@@ -461,203 +565,198 @@ dayjs.extend(isSameOrBefore);
                   <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{assetpermissionError}</span>
                 </div>
               )}
-            </div></>
+            </div>
+            </>
         ) :
-          <div className='container p-0 ' style={{marginTop:7}}>
-              <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
-                style={{
-                  position: 'sticky',
+          <div className='container p-0 ' style={{ marginTop: 7 }}>
+            <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
+              style={{
+                position: 'sticky',
 
-                  backgroundColor: 'white',
-                  zIndex: 10,
-                  paddingLeft: 25, paddingRight: 20,
-                  height: 83,
-                }}
-              >
-                <div style={{ marginTop: 10 }}>
-                  <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
-                    Assets</label>
-                </div>
+                backgroundColor: 'white',
+                zIndex: 10,
+                paddingLeft: 25, paddingRight: 20,
+                height: 83,
+              }}
+            >
+              <div style={{ marginTop: 10 }}>
+                <label style={{ fontSize: 18, color: "rgba(34, 34, 34, 1)", fontWeight: 600, fontFamily: "Gilroy" }}>
+                  Assets</label>
+              </div>
 
-                <div className="d-flex justify-content-between align-items-center flex-wrap ">
+              <div className="d-flex justify-content-between align-items-center flex-wrap ">
 
-                  {
-                    !showFilterData &&
+                {
+                  !showFilterData &&
 
-                    <div onClick={handleShowSearch} style={{ paddingRight: 30, marginTop: 12, cursor: "pointer" }}>
-                      <SearchNormal1
-                        size="26"
-                        color="#222"
-
-                      />
-                    </div>
-                  }
-                  {
-
-                    showFilterData &&
-                    <div className='me-3 flex flex-wrap ' style={{ 
-                      position: 'relative', cursor: "pointer", marginTop: 10 }}>
-                      <InputGroup
-                        style={{
-                          maxWidth: "100%",
-                          flexWrap: 'nowrap',
-                          
-                        }}
-              >
-
-                        <FormControl size="lg"
-                          value={searchQuery}
-                          onChange={handleInputChange}
-
-                          style={{
-                            width: "100%",
-                            maxWidth: "235px", 
-                            boxShadow: "none", 
-                            borderColor: "lightgray", 
-                            borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                          }}
-                          placeholder="Search..."
-                        />
-                        <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
-                          <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
-                        </InputGroup.Text>
-                      </InputGroup>
-  {
-                        getData.length > 0 && searchQuery !== '' && showDropDown && (
-
-                          <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                            <ul className='show-scroll' style={{
-                              width: 260,
-                              backgroundColor: '#fff',
-                              maxHeight: "174px",
-                              minHeight: getData?.length > 1 ? "100px" : "auto",
-                              overflowY: getData?.length > 2 ? "auto" : "hidden",
-                              padding: '5px 10px',
-                              margin: '0',
-                              listStyleType: 'none',
-
-                              borderRadius: 8,
-                              boxSizing: 'border-box'
-                            }}>
-                              {
-                                getData.map((user, index) => (
-                                  <li
-                                    key={index}
-                                    onClick={() => {
-                                      handleDropDown(user.asset_name);
-
-                                    }}
-                                    onMouseEnter={() => setHoveredIndex(index)}
-                                    onMouseLeave={() => setHoveredIndex(null)}
-                                    style={{
-                                      padding: '10px',
-                                      cursor: 'pointer',
-                                      borderBottom: '1px solid #dcdcdc',
-                                      fontSize: '14px',
-                                      fontFamily: 'Gilroy',
-                                      fontWeight: 500,
-                                      backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
-                                      color: hoveredIndex === index ? 'white' : 'black',
-
-                                    }}
-                                  >
-                                    {user.asset_name}
-                                  </li>
-                                ))
-                              }
-                            </ul>
-                          </div>
-                        )
-                      }
-
-
-                    </div>
-
-
-                  }
-
-
-
-
-                  <div onClick={handleFilterByPrice} style={{ paddingRight: 23, marginTop: 12, cursor: "pointer" }}>
-                    <Sort
-                      Size="24"
+                  <div onClick={handleShowSearch} style={{ paddingRight: 30, marginTop: 12, cursor: "pointer" }}>
+                    <SearchNormal1
+                      size="26"
                       color="#222"
-                      variant="Outline"
+
                     />
                   </div>
+                }
+                {
 
-                  {
-                    showFilter &&
-
-                    <div style={{ paddingRight: 30, marginTop: 10 }}>
-                      <Form.Select aria-label="Select Price Range"
-                        value={selectedPriceRange}
-                        onChange={handlePriceRangeChange}
-                        className='' id="vendor-select" style={{
-                          color: "rgba(34, 34, 34, 1)", fontWeight: 600,
-                          fontFamily: "Gilroy", height: "40px"
-                        }}>
-                        <option value="All">All</option>
-                        <option value="0-100">0-100</option>
-                        <option value="100-500">100-500</option>
-                        <option value="500-1000">500-1000</option>
-                        <option value="1000+">1000+</option>
-                        <option value="date">Date</option>
-                      </Form.Select>
-                    </div>
-                  }
- 
-{showFilter && selectedPriceRange === 'date' && (
-  <div style={{ paddingRight: 30, marginTop: 10 }}>
-    <RangePicker
-      value={selectedDateRange}
-      onChange={(dates) => {
-        if (!dates || dates.length === 0) {
-          setSelectedDateRange([]);
-          setSelectedPriceRange('All'); 
-        } else {
-          setSelectedDateRange(dates);
-        }
-      }}
-      format="DD-MM-YYYY"
-      style={{ height: 40,cursor:"pointer" }}
-    />
-  </div>
-)}
-
-                  <div className='me-2' style={{ marginTop: 8, cursor: "pointer" }}>
-                    <img src={excelimg} alt='excel' width={38} height={38}
-                      onClick={handleAssetsExcel}
-                    />
-                  </div>
-
-                  <div style={{ marginTop: 15, paddingRight: 4 }}>
-                    <Button disabled={assetAddPermission} onClick={handleShow}
+                  showFilterData &&
+                  <div className='me-3 flex flex-wrap ' style={{
+                    position: 'relative', cursor: "pointer", marginTop: 10
+                  }}>
+                    <InputGroup
                       style={{
-                        fontFamily: "Gilroy",
-                        fontSize: "14px",
-                        backgroundColor: "#1E45E1",
-                        color: "white",
-                        fontWeight: 600,
-                        borderRadius: "8px",
-                        padding: "12px",
-                        paddingLeft: 50,
-                        paddingRight: 48,
-                        marginBottom: "10px",
-                        maxHeight: 45,
+                        maxWidth: "100%",
+                        flexWrap: 'nowrap',
 
                       }}
                     >
-                      + Asset</Button>
+
+                      <FormControl size="lg"
+                        value={searchQuery}
+                        onChange={handleInputChange}
+
+                        style={{
+                          width: "100%",
+                          maxWidth: "235px",
+                          boxShadow: "none",
+                          borderColor: "lightgray",
+                          borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
+                        }}
+                        placeholder="Search..."
+                      />
+                      <InputGroup.Text style={{ backgroundColor: "#ffffff", cursor: "pointer" }}>
+                        <CloseCircle size="24" color="#222" onClick={handleCloseSearch} />
+                      </InputGroup.Text>
+                    </InputGroup>
+                    {
+                      getData.length > 0 && searchQuery !== '' && showDropDown && (
+
+                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
+                          <ul className='show-scroll' style={{
+                            width: 260,
+                            backgroundColor: '#fff',
+                            maxHeight: "174px",
+                            minHeight: getData?.length > 1 ? "100px" : "auto",
+                            overflowY: getData?.length > 2 ? "auto" : "hidden",
+                            padding: '5px 10px',
+                            margin: '0',
+                            listStyleType: 'none',
+
+                            borderRadius: 8,
+                            boxSizing: 'border-box'
+                          }}>
+                            {
+                              getData.map((user, index) => (
+                                <li
+                                  key={index}
+                                  onClick={() => {
+                                    handleDropDown(user.asset_name);
+
+                                  }}
+                                  onMouseEnter={() => setHoveredIndex(index)}
+                                  onMouseLeave={() => setHoveredIndex(null)}
+                                  style={{
+                                    padding: '10px',
+                                    cursor: 'pointer',
+                                    borderBottom: '1px solid #dcdcdc',
+                                    fontSize: '14px',
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: 500,
+                                    backgroundColor: hoveredIndex === index ? '#1E45E1' : 'transparent',
+                                    color: hoveredIndex === index ? 'white' : 'black',
+
+                                  }}
+                                >
+                                  {user.asset_name}
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                      )
+                    }
+
+
                   </div>
+
+
+                }
+
+
+
+
+                <div onClick={handleFilterByPrice} style={{ paddingRight: 23, marginTop: 12, cursor: "pointer" }}>
+                  <Sort
+                    Size="24"
+                    color="#222"
+                    variant="Outline"
+                  />
+                </div>
+
+                {
+                  showFilter &&
+
+                  <div style={{ paddingRight: 30, marginTop: 10 }}>
+                    <Form.Select aria-label="Select Price Range"
+                      value={selectedPriceRange}
+                      onChange={handlePriceRangeChange}
+                      className='' id="vendor-select" style={{
+                        color: "rgba(34, 34, 34, 1)", fontWeight: 600,
+                        fontFamily: "Gilroy", height: "40px", cursor: "pointer"
+                      }}>
+                      <option value="All">All</option>
+                      <option value="0-100">0-100</option>
+                      <option value="100-500">100-500</option>
+                      <option value="500-1000">500-1000</option>
+                      <option value="1000+">1000+</option>
+                      <option value="date">Date</option>
+                    </Form.Select>
+                  </div>
+                }
+
+                {showFilter && selectedPriceRange === 'date' && (
+                  <div style={{ paddingRight: 30, marginTop: 10 }}>
+                    <RangePicker
+                      value={selectedDateRange}
+                      onChange={handleDateChange}
+                      format="DD-MM-YYYY"
+                      style={{ height: 40, cursor: "pointer" }}
+                    />
+                  </div>
+                )}
+
+                <div className='me-2' style={{ marginTop: 8, cursor: "pointer" }}>
+                  <img src={excelimg} alt='excel' width={38} height={38}
+                    onClick={handleAssetsExcel}
+                  />
+                </div>
+
+                <div style={{ marginTop: 15, paddingRight: 4 }}>
+                  <Button disabled={assetAddPermission} onClick={handleShow}
+                    style={{
+                      fontFamily: "Gilroy",
+                      fontSize: "14px",
+                      backgroundColor: "#1E45E1",
+                      color: "white",
+                      fontWeight: 600,
+                      borderRadius: "8px",
+                      padding: "12px",
+                      paddingLeft: 50,
+                      paddingRight: 48,
+                      marginBottom: "10px",
+                      maxHeight: 45,
+
+                    }}
+                  >
+                    + Asset</Button>
                 </div>
               </div>
+            </div>
 
             {searchQuery && (
               <div className='mb-4' style={{ marginTop: '20px', fontWeight: 600, fontSize: 16 }}>
                 {getData.length > 0 ? (
-                                   <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
+                  <span style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 16, color: "rgba(100, 100, 100, 1)" }}>
                     {getData.length} result{getData.length > 1 ? 's' : ''} found for{" "}
                     <span style={{ color: "rgba(34, 34, 34, 1)" }}>
                       &quot;{searchQuery}&quot;
@@ -709,106 +808,106 @@ dayjs.extend(isSameOrBefore);
 
             {sortedData && sortedData.length > 0 && (
 
-<div
-className="p-0 booking-table-userlist  booking-table ms-2 me-4"
-style={{ paddingBottom: "20px",marginLeft:"-22px" }}
->
-
               <div
-                className='show-scrolls'
-                style={{
-                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "430px" : "auto",
-                  overflow: "auto",
-                  marginBottom: 20,
-                  marginTop: "20px"
-                }}>
+                className="p-0 booking-table-userlist  booking-table ms-2 me-4"
+                style={{ paddingBottom: "20px", marginLeft: "-22px" }}
+              >
 
-                <Table
-                  responsive="md"
-                >
-
-                  <thead style={{
-                    fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
-                    top: 0,
-                    zIndex: 1
+                <div
+                  className='show-scrolls'
+                  style={{
+                    height: currentItems.length >= 8 || sortedData.length >= 8 ? "430px" : "auto",
+                    overflow: "auto",
+                    marginBottom: 20,
+                    marginTop: "20px"
                   }}>
-                    <tr>
-                      <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center '> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Product Name </div>  </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Serial Number </div></th>
+                  <Table
+                    responsive="md"
+                  >
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Brand </div> </th>
+                    <thead style={{
+                      fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
+                      top: 0,
+                      zIndex: 1
+                    }}>
+                      <tr>
+                        <th style={{ verticalAlign: "middle", textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500 }}> <div className='d-flex gap-1 align-items-center '> <div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("product_name", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Product Name </div>  </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Asset </div></th>
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }} > <div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("serial_number", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Serial Number </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Price </div></th>
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}> <div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("brand_name", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Brand </div> </th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
-                      </div> Purchase Date </div></th>
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("asset_name", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Asset </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
-                        <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'asc')} style={{ cursor: "pointer" }} />
-                        <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'desc')} style={{ cursor: "pointer" }} />
-                      </div>  Assigned </div></th>
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center'><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("price", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Price </div></th>
 
-                      <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, paddingBottom:10 }}>Action</th>
-                    </tr>
-                  </thead>
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("purchase_date", 'desc')} style={{ cursor: "pointer" }} />
+                        </div> Purchase Date </div></th>
 
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, }}><div className='d-flex gap-1 align-items-center '><div style={{ display: "flex", flexDirection: "column", gap: "2px" }} >
+                          <ArrowUp2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'asc')} style={{ cursor: "pointer" }} />
+                          <ArrowDown2 size="10" variant="Bold" color="#1E45E1" onClick={() => handleSort("hostel_Name", 'desc')} style={{ cursor: "pointer" }} />
+                        </div>  Assigned </div></th>
 
-                  <tbody>
-                    {
-                      loading ? (
-                        <>
-                          <tr>
-                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                            <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
-                          </tr>
-                        </>
-                      )
+                        <th style={{ textAlign: "start", fontFamily: "Gilroy", color: "rgb(147, 147, 147)", fontSize: 12, fontStyle: "normal", fontWeight: 500, paddingBottom: 10 }}>Action</th>
+                      </tr>
+                    </thead>
 
 
-
-                        : (
-                          sortedData && sortedData.length > 0 && (
-                            <>
-                              {sortedData.map((item) => (
-                                <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} />
-                              ))}
-                            </>
-                          )
-
+                    <tbody>
+                      {
+                        loading ? (
+                          <>
+                            <tr>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                              <td><div style={{ ...skeletonStyle, width: '100%' }}></div></td>
+                            </tr>
+                          </>
                         )
-                    }
-                  </tbody>
 
 
-                </Table>
+
+                          : (
+                            sortedData && sortedData.length > 0 && (
+                              <>
+                                {sortedData.map((item) => (
+                                  <AssetListTable item={item} OnEditAsset={handleEditAsset} key={item.id} assetEditPermission={assetEditPermission} assetAddPermission={assetAddPermission} assetDeletePermission={assetDeletePermission} />
+                                ))}
+                              </>
+                            )
+
+                          )
+                      }
+                    </tbody>
+
+
+                  </Table>
+                </div>
+
               </div>
-
-</div>
             )}
             {
               !loading && currentItems && currentItems.length === 0 &&
@@ -817,8 +916,8 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 
                 <div>
                   <div className='d-flex  justify-content-center'><img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" /></div>
-                  <div className="pb-1 mt-3" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
-                  <div className="pb-1 mt-2" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
+                  <div className="pb-1 " style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>No Assets available</div>
+                  <div className="pb-1 " style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>There are no Assets added.</div>
 
                 </div>
                 <div>
@@ -831,9 +930,9 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
 
 
 
-          
+
             {filteredData.length >= 5 &&
-          
+
 
               <nav
 
@@ -847,7 +946,7 @@ style={{ paddingBottom: "20px",marginLeft:"-22px" }}
                   right: "10px",
                   backgroundColor: "white",
                   borderRadius: "5px",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                   zIndex: "1000",
                 }}
               >

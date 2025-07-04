@@ -49,6 +49,7 @@ import dayjs from "dayjs";
 import { CloseCircle, ArrowUp2, ArrowDown2, } from "iconsax-react";
 import './BillPdfModal.css';
 import AxiosConfig from "../WebService/AxiosConfig";
+import Swal from 'sweetalert2';
 
 
 
@@ -64,6 +65,8 @@ const InvoicePage = () => {
   const [loading, setLoading] = useState(false);
   const [invoiceValue, setInvoiceValue] = useState("");
   const [bankking, setBanking] = useState("");
+  const [formLoading, setFormLoading] = useState(false)
+  const [formRecordLoading, setFormRecordLoading] = useState(false)
   const [invoiceList, setInvoiceList] = useState({
     firstName: "",
     lastName: "",
@@ -124,8 +127,7 @@ const InvoicePage = () => {
   const [billAddPermission, setBillAddPermission] = useState("");
   const [billDeletePermission, setBillDeletePermission] = useState("");
   const [billEditPermission, setBillEditPermission] = useState("");
-  const [recuringbillAddPermission, setRecuringBillAddPermission] =
-    useState("");
+  const [recuringbillAddPermission, setRecuringBillAddPermission] = useState("");
   const [recurringPermission, setRecurringPermission] = useState("");
   const [receiptPermission, setReceiptPermission] = useState("");
   const [receiptaddPermission, setReceiptAddPermission] = useState("");
@@ -149,7 +151,7 @@ const InvoicePage = () => {
   const [filterStatus, setFilterStatus] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  let serialNumber = 1;
+
 
   const [hostelId, setHostelId] = useState("");
   const [receiptdata, setReceiptData] = useState([]);
@@ -165,6 +167,7 @@ const InvoicePage = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [startDate, endDate] = dateRange;
+
 
   useEffect(() => {
 
@@ -423,33 +426,33 @@ const InvoicePage = () => {
     setStatusFilterReceipt(searchTerm);
   };
 
-useEffect(() => {
-  if (statusFilterReceipt !== "date") {
-    setReceiptDateRange([]);
+  useEffect(() => {
+    if (statusFilterReceipt !== "date") {
+      setReceiptDateRange([]);
 
-    if (statusFilterReceipt === "All") {
-      setReceiptData(originalBillsFilterReceipt);
-    } else {
-      const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) => {
-        const mode = user.paymentMode?.toLowerCase() || "";
+      if (statusFilterReceipt === "All") {
+        setReceiptData(originalBillsFilterReceipt);
+      } else {
+        const filteredItemsReceipt = originalBillsFilterReceipt.filter((user) => {
+          const mode = user.paymentMode?.toLowerCase() || "";
 
-        if (statusFilterReceipt === "Cash") return mode.endsWith("-cash");
-        if (statusFilterReceipt === "UPI") return mode.endsWith("-upi");
-        if (statusFilterReceipt === "Bank") return mode.endsWith("-bank");
-        if (statusFilterReceipt === "Card") return mode.endsWith("-card");
+          if (statusFilterReceipt === "Cash") return mode.endsWith("-cash");
+          if (statusFilterReceipt === "UPI") return mode.endsWith("-upi");
+          if (statusFilterReceipt === "Bank") return mode.endsWith("-bank");
+          if (statusFilterReceipt === "Card") return mode.endsWith("-card");
 
-        return false;
-      });
+          return false;
+        });
 
-      setReceiptData(filteredItemsReceipt);
-      setCurrentReceiptPage(1);
+        setReceiptData(filteredItemsReceipt);
+        setCurrentReceiptPage(1);
+      }
     }
-  }
-}, [statusFilterReceipt]);
+  }, [statusFilterReceipt]);
 
 
 
- 
+
 
   const [receiptDateRange, setReceiptDateRange] = useState([]);
   const handleDateRangeChangeReceipt = (dates) => {
@@ -507,6 +510,7 @@ useEffect(() => {
     date.setMinutes(date.getMinutes() - offset);
     return date.toISOString().split("T")[0];
   };
+
 
 
   const handleAmount = (e) => {
@@ -690,147 +694,6 @@ useEffect(() => {
     setShowDeleteform(false);
   };
 
-  const handleEditBill = () => {
-    let isValid = true;
-    let hasError = false;
-
-
-    setCustomerErrmsg("");
-    setInvoicenumberErrmsg("");
-    setInvoiceDateErrmsg("");
-    setInvoiceDueDateErrmsg("");
-    setAllFieldErrmsg("");
-
-
-    if (!customername) {
-      setCustomerErrmsg("Customer is Required");
-      isValid = false;
-    }
-
-
-    if (!invoicenumber) {
-      setInvoicenumberErrmsg("Invoice Number is Required");
-      isValid = false;
-    }
-
-
-    if (!invoicedate) {
-      setInvoiceDateErrmsg("Invoice Date is Required");
-      isValid = false;
-    }
-
-
-    if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Due Date is Required");
-      isValid = false;
-    }
-    if (!Array.isArray(newRows) || newRows.length === 0) {
-      setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
-      hasError = true;
-    } else if (
-      newRows.some(
-        (row) =>
-          !row.am_name?.trim() ||
-          row.amount === "" ||
-          row.amount === null ||
-          row.amount === undefined ||
-          isNaN(row.amount) ||
-          parseFloat(row.amount) <= 0
-      )
-    ) {
-      setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
-      hasError = true;
-    } else {
-      setTableErrmsg("");
-    }
-
-    if (hasError) {
-      return;
-    }
-
-    let isValiding = true;
-    if (
-      !customername ||
-      !invoicenumber ||
-      !invoicedate ||
-      !invoiceduedate
-
-    ) {
-      setAllFieldErrmsg("Please Fill Out All Required Fields");
-      isValiding = false;
-    }
-
-
-    const formatDate = (date) => {
-      if (!date) return "";
-      const d = new Date(date);
-      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    };
-
-
-    const isChanged = (() => {
-      const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
-      const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
-      const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
-      const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
-      const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
-
-      const amenitiesChanged = newRows.some((row, index) => {
-        const originalRow = invoiceDetails?.amenity?.[index] || {};
-        return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
-      });
-
-      return (
-        userChanged ||
-        invoiceChanged ||
-        invoiceDateChanged ||
-        dueDateChanged ||
-        rowsCountChanged ||
-        amenitiesChanged
-      );
-    })();
-
-
-    if (!isChanged) {
-      setAllFieldErrmsg("No Changes Detected");
-      return;
-    }
-
-
-    if (isValid && isValiding && isChanged) {
-      const formattedInvoiceDate = formatDate(invoicedate);
-      const formattedDueDate = formatDate(invoiceduedate);
-
-      dispatch({
-        type: "MANUAL-INVOICE-EDIT",
-        payload: {
-          user_id: customername,
-          date: formattedInvoiceDate,
-          due_date: formattedDueDate,
-          id: invoiceDetails.id,
-          amenity: amenityArray.length > 0 ? amenityArray : [],
-        },
-      });
-
-
-      setShowManualInvoice(false);
-      setShowRecurringBillForm(false);
-      setReceiptFormShow(false);
-      setShowAllBill(true);
-      setCustomerName("");
-      setInvoiceNumber("");
-      setStartDate("");
-      setEndDate("");
-      setInvoiceDate("");
-      setInvoiceDueDate("");
-      setTotalAmount("");
-      setNewRows([]);
-      setCustomerErrmsg("");
-      setInvoiceDateErrmsg("");
-      setInvoiceDueDateErrmsg("");
-      setAllFieldErrmsg("");
-    }
-  };
 
 
   const handleShowForm = (props) => {
@@ -926,7 +789,7 @@ useEffect(() => {
     }
 
     if (!invoiceList.transaction || invoiceList.transaction === "select") {
-      setPaymodeErrmsg("Please Select a Valid Transaction Type");
+      setPaymodeErrmsg("Please Select Transaction Type");
       return;
     }
 
@@ -967,8 +830,8 @@ useEffect(() => {
           bank_id: account,
         },
       });
+      setFormRecordLoading(true)
 
-      setShowform(false);
       setSelectedDate(null);
       setAmountErrmsg("");
       setDateErrmsg("");
@@ -987,6 +850,7 @@ useEffect(() => {
 
 
   const handleCustomerName = (selectedOption) => {
+
     setCustomerName(selectedOption?.value || '');
     setAllFieldErrmsg("");
     if (!selectedOption) {
@@ -1000,6 +864,7 @@ useEffect(() => {
   };
 
   const handleBackBill = () => {
+    setFormLoading(false)
     setShowManualInvoice(false);
     setShowRecurringBillForm(false);
     setReceiptFormShow(false);
@@ -1326,6 +1191,9 @@ useEffect(() => {
     setSelectedTypes(types);
   }, []);
 
+
+
+
   const handleCreateBill = () => {
     let hasError = false;
 
@@ -1374,7 +1242,23 @@ useEffect(() => {
       setTableErrmsg("");
     }
 
+    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
 
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+
+      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+        setInvoiceDueDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+    }
 
     if (hasError) {
       return;
@@ -1400,11 +1284,8 @@ useEffect(() => {
         amenity: amenityArray.length > 0 ? amenityArray : [],
       },
     });
+    setFormLoading(true)
 
-    setShowManualInvoice(false);
-    setShowRecurringBillForm(false);
-    setReceiptFormShow(false);
-    setShowAllBill(true);
 
 
     setCustomerName("");
@@ -1418,6 +1299,166 @@ useEffect(() => {
     setNewRows([]);
   };
 
+  const handleEditBill = () => {
+    let isValid = true;
+    let hasError = false;
+
+
+    setCustomerErrmsg("");
+    setInvoicenumberErrmsg("");
+    setInvoiceDateErrmsg("");
+    setInvoiceDueDateErrmsg("");
+    setAllFieldErrmsg("");
+
+
+    if (!customername) {
+      setCustomerErrmsg("Customer is Required");
+      isValid = false;
+    }
+
+
+    if (!invoicenumber) {
+      setInvoicenumberErrmsg("Invoice Number is Required");
+      isValid = false;
+    }
+
+
+    if (!invoicedate) {
+      setInvoiceDateErrmsg("Invoice Date is Required");
+      isValid = false;
+    }
+
+
+    if (!invoiceduedate) {
+      setInvoiceDueDateErrmsg("Due Date is Required");
+      isValid = false;
+    }
+    if (!Array.isArray(newRows) || newRows.length === 0) {
+      setTableErrmsg("Please Add At Least One Item Row Before Generating The Bill");
+      hasError = true;
+    } else if (
+      newRows.some(
+        (row) =>
+          !row.am_name?.trim() ||
+          row.amount === "" ||
+          row.amount === null ||
+          row.amount === undefined ||
+          isNaN(row.amount) ||
+          parseFloat(row.amount) <= 0
+      )
+    ) {
+      setTableErrmsg("Please Fill All Details & Amount > 0 Before Generating The Bill");
+      hasError = true;
+    } else {
+      setTableErrmsg("");
+    }
+
+
+    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
+
+    if (selectedUser) {
+      const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
+      const formattedInvoiceDate = dayjs(invoicedate).format("YYYY-MM-DD");
+      const formattedDueDate = dayjs(invoiceduedate).format("YYYY-MM-DD");
+
+      if (dayjs(formattedInvoiceDate).isBefore(joiningDate)) {
+        setInvoiceDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+
+      if (dayjs(formattedDueDate).isBefore(joiningDate)) {
+        setInvoiceDueDateErrmsg("Before join date not allowed");
+        hasError = true;
+      }
+    }
+
+
+
+    if (hasError) {
+      return;
+    }
+
+    let isValiding = true;
+    if (
+      !customername ||
+      !invoicenumber ||
+      !invoicedate ||
+      !invoiceduedate
+
+    ) {
+      setAllFieldErrmsg("Please Fill Out All Required Fields");
+      isValiding = false;
+    }
+
+
+    const formatDate = (date) => {
+      if (!date) return "";
+      const d = new Date(date);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    };
+
+
+    const isChanged = (() => {
+      const userChanged = Number(invoiceDetails?.hos_user_id) !== Number(customername);
+      const invoiceChanged = String(invoiceDetails?.Invoices) !== String(invoicenumber);
+      const invoiceDateChanged = formatDate(invoiceDetails?.Date) !== formatDate(invoicedate);
+      const dueDateChanged = formatDate(invoiceDetails?.DueDate) !== formatDate(invoiceduedate);
+      const rowsCountChanged = newRows.length !== invoiceDetails?.amenity?.length;
+
+      const amenitiesChanged = newRows.some((row, index) => {
+        const originalRow = invoiceDetails?.amenity?.[index] || {};
+        return row.am_name !== originalRow.am_name || row.amount !== originalRow.amount;
+      });
+
+      return (
+        userChanged ||
+        invoiceChanged ||
+        invoiceDateChanged ||
+        dueDateChanged ||
+        rowsCountChanged ||
+        amenitiesChanged
+      );
+    })();
+
+
+    if (!isChanged) {
+      setAllFieldErrmsg("No Changes Detected");
+      return;
+    }
+
+
+    if (isValid && isValiding && isChanged) {
+      const formattedInvoiceDate = formatDate(invoicedate);
+      const formattedDueDate = formatDate(invoiceduedate);
+      setFormLoading(true)
+      dispatch({
+        type: "MANUAL-INVOICE-EDIT",
+        payload: {
+          user_id: customername,
+          date: formattedInvoiceDate,
+          due_date: formattedDueDate,
+          id: invoiceDetails.id,
+          amenity: amenityArray.length > 0 ? amenityArray : [],
+        },
+      });
+
+
+
+
+      setCustomerName("");
+      setInvoiceNumber("");
+      setStartDate("");
+      setEndDate("");
+      setInvoiceDate("");
+      setInvoiceDueDate("");
+      setTotalAmount("");
+      setNewRows([]);
+      setCustomerErrmsg("");
+      setInvoiceDateErrmsg("");
+      setInvoiceDueDateErrmsg("");
+      setAllFieldErrmsg("");
+    }
+  };
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -1682,6 +1723,8 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.InvoiceList.UpdateInvoiceStatusCode === 200) {
+      setFormRecordLoading(false)
+      setShowform(false)
       dispatch({
         type: "MANUALINVOICESLIST",
         payload: { hostel_id: hostelId },
@@ -1875,7 +1918,7 @@ useEffect(() => {
 
 
           if (triggeredBy === "whatsapp") {
-            if (isReceiptMessageEnabled == true) {
+            if (isReceiptMessageEnabled === "true") {
               setLoading(true);
 
               const receiptData =
@@ -1969,8 +2012,25 @@ useEffect(() => {
   useEffect(() => {
     if (calendarRef.current) {
       calendarRef.current.flatpickr.set(options);
+
     }
   }, [selectedDate]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   useEffect(() => {
@@ -1983,6 +2043,11 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceAddStatusCode === 200) {
+      setShowManualInvoice(false)
+      setFormLoading(false)
+      setShowRecurringBillForm(false);
+      setReceiptFormShow(false);
+      setShowAllBill(true);
       dispatch({
         type: "MANUALINVOICESLIST",
         payload: { hostel_id: hostelId },
@@ -2009,6 +2074,11 @@ useEffect(() => {
 
   useEffect(() => {
     if (state.InvoiceList.manualInvoiceEditStatusCode === 200) {
+      setShowManualInvoice(false)
+      setFormLoading(false)
+      setShowRecurringBillForm(false);
+      setReceiptFormShow(false);
+      setShowAllBill(true);
       dispatch({
         type: "MANUALINVOICESLIST",
         payload: { hostel_id: hostelId },
@@ -2339,7 +2409,18 @@ useEffect(() => {
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
+    setBills(originalBillsFilter)
+    setReceiptData(originalBillsFilterReceipt);
   };
+
+  useEffect(() => {
+    if (!filterStatus) {
+      setStatusfilter("All");
+      setDateRange([null, null]);
+      setStatusFilterReceipt("All");
+      setReceiptDateRange([]);
+    }
+  }, [filterStatus]);
 
 
   useEffect(() => {
@@ -2494,7 +2575,7 @@ useEffect(() => {
                                 style={{
                                   listStyleType: "none",
                                   maxHeight: 174,
-                                  minHeight: bills?.length > 1 ? "100px" : "auto",
+                                  minHeight: bills?.length > 1 ? "50px" : "auto",
                                   overflowY: bills?.length > 3 ? "auto" : "hidden",
                                   margin: 0,
                                 }}
@@ -2819,11 +2900,11 @@ useEffect(() => {
                         }}
                       >
                         <option value="All">All</option>
-  <option value="Cash">Cash</option>
-  <option value="UPI">UPI</option>
-  <option value="Bank">Bank</option>
-  <option value="Card">Card</option>
-  <option value="date">Date</option>
+                        <option value="Cash">Cash</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Bank">Bank</option>
+                        <option value="Card">Card</option>
+                        <option value="date">Date</option>
                       </Form.Select>
                     </div>
                   )}
@@ -2941,7 +3022,7 @@ useEffect(() => {
 
                   className="custom-tab-list d-flex flex-column flex-xs-column flex-sm-column flex-lg-row"
                 >
-                  <Tab
+                  <Tab disabled={showLoader}
                     label="Bills"
                     value="1"
                     style={{
@@ -2954,7 +3035,7 @@ useEffect(() => {
                       textTransform: "none",
                     }}
                   />
-                  <Tab
+                  <Tab disabled={showLoader}
                     label="Recurring Bills"
                     value="2"
                     style={{
@@ -2967,7 +3048,7 @@ useEffect(() => {
                       textTransform: "none",
                     }}
                   />
-                  <Tab
+                  <Tab disabled={showLoader}
                     label="Receipt"
                     value="3"
                     style={{
@@ -2994,13 +3075,14 @@ useEffect(() => {
                         flexDirection: "column",
                         alignItems: "center",
                         justifyContent: "center",
+                        marginTop:90
                       }}
                     >
 
                       <img
                         src={Emptystate}
                         alt="Empty State"
-                        style={{ maxWidth: "100%", height: "auto" }}
+                       
                       />
 
 
@@ -3201,6 +3283,9 @@ useEffect(() => {
                                     </Form.Label>
                                     <Form.Control
                                       type="text"
+                                      style={{
+                                        fontFamily: "Gilroy",
+                                      }}
                                       placeholder="Enter Amount"
                                       value={invoiceList.balanceDue}
                                       readOnly
@@ -3236,6 +3321,9 @@ useEffect(() => {
                                       type="number"
                                       min="0"
                                       step="1"
+                                      style={{
+                                        fontFamily: "Gilroy",
+                                      }}
                                       placeholder="Enter Amount"
                                       className="no-spinner"
                                       value={invoiceList.payableAmount || ""}
@@ -3306,7 +3394,12 @@ useEffect(() => {
 
                                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                                         <DatePicker
-                                          style={{ width: "100%", height: 48, cursor: "pointer" }}
+                                          style={{
+                                            width: "100%",
+                                            height: 48,
+                                            cursor: "pointer",
+                                            fontFamily: "Gilroy",
+                                          }}
                                           format="DD/MM/YYYY"
                                           placeholder="DD/MM/YYYY"
                                           value={selectedDate ? dayjs(selectedDate) : null}
@@ -3315,8 +3408,17 @@ useEffect(() => {
                                             setAccountError("");
                                             setSelectedDate(date ? date.toDate() : null);
                                           }}
-                                          getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                                          disabledDate={(current) => {
+                                            const selectedUser = state.UsersList?.Users.find((u) => u.ID === invoiceValue.ID);
+                                            const joiningDate = moment(selectedUser.user_join_date, "YYYY-MM-DD");
+                                            return current && current.isBefore(joiningDate, "day");
+                                          }}
+                                          getPopupContainer={(triggerNode) =>
+                                            triggerNode.closest(".show-scroll") || document.body
+                                          }
                                         />
+
+
                                       </div>
                                     </div>
                                   </Form.Group>
@@ -3403,6 +3505,7 @@ useEffect(() => {
                                           ...base,
                                           backgroundColor: "#f8f9fa",
                                           border: "1px solid #ced4da",
+                                          fontFamily: "Gilroy, sans-serif",
                                         }),
                                         menuList: (base) => ({
                                           ...base,
@@ -3411,6 +3514,7 @@ useEffect(() => {
                                           padding: 0,
                                           scrollbarWidth: "thin",
                                           overflowY: "auto",
+                                          fontFamily: "Gilroy, sans-serif",
                                         }),
                                         placeholder: (base) => ({
                                           ...base,
@@ -3516,6 +3620,7 @@ useEffect(() => {
                                           ...base,
                                           backgroundColor: "#f8f9fa",
                                           border: "1px solid #ced4da",
+                                          fontFamily: "Gilroy",
                                         }),
                                         menuList: (base) => ({
                                           ...base,
@@ -3524,6 +3629,7 @@ useEffect(() => {
                                           padding: 0,
                                           scrollbarWidth: "thin",
                                           overflowY: "auto",
+                                          fontFamily: "Gilroy",
                                         }),
                                         placeholder: (base) => ({
                                           ...base,
@@ -3604,6 +3710,35 @@ useEffect(() => {
                                 </div>
                               )}
                             </Modal.Body>
+
+                            {formRecordLoading && <div
+                              style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: 'transparent',
+                                opacity: 0.75,
+                                zIndex: 10,
+                              }}
+                            >
+                              <div
+                                style={{
+                                  borderTop: '4px solid #1E45E1',
+                                  borderRight: '4px solid transparent',
+                                  borderRadius: '50%',
+                                  width: '40px',
+                                  height: '40px',
+                                  animation: 'spin 1s linear infinite',
+                                }}
+                              ></div>
+                            </div>}
+
+
+
                             <Modal.Footer style={{ border: "none" }}>
                               <Button
                                 className="w-100"
@@ -4008,7 +4143,7 @@ useEffect(() => {
                                 currentItems &&
                                 currentItems?.length === 0 && (
 
-                                  <div>
+                                  <div className="mt-2">
                                     <div style={{ textAlign: "center" }}>
                                       {" "}
                                       <img src={Emptystate} alt="emptystate" />
@@ -4019,7 +4154,7 @@ useEffect(() => {
                                         textAlign: "center",
                                         fontWeight: 600,
                                         fontFamily: "Gilroy",
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         color: "rgba(75, 75, 75, 1)",
                                       }}
                                     >
@@ -4031,7 +4166,7 @@ useEffect(() => {
                                         textAlign: "center",
                                         fontWeight: 500,
                                         fontFamily: "Gilroy",
-                                        fontSize: 16,
+                                        fontSize: 14,
                                         color: "rgba(75, 75, 75, 1)",
                                       }}
                                     >
@@ -4226,6 +4361,7 @@ useEffect(() => {
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
+                      marginTop:95
 
                     }}
                   >
@@ -4233,7 +4369,7 @@ useEffect(() => {
                     <img
                       src={Emptystate}
                       alt="Empty State"
-                      style={{ maxWidth: "100%", height: "auto" }}
+                     
                     />
 
 
@@ -4270,7 +4406,7 @@ useEffect(() => {
                           textAlign: "center",
                           fontWeight: 600,
                           fontFamily: "Gilroy",
-                          fontSize: 20,
+                          fontSize: 18,
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
@@ -4282,7 +4418,7 @@ useEffect(() => {
                           textAlign: "center",
                           fontWeight: 500,
                           fontFamily: "Gilroy",
-                          fontSize: 16,
+                          fontSize: 14,
                           color: "rgba(75, 75, 75, 1)",
                         }}
                       >
@@ -4645,6 +4781,7 @@ useEffect(() => {
                       flexDirection: "column",
                       alignItems: "center",
                       justifyContent: "center",
+                        marginTop:90
 
                     }}
                   >
@@ -4652,7 +4789,7 @@ useEffect(() => {
                     <img
                       src={Emptystate}
                       alt="Empty State"
-                      style={{ maxWidth: "100%", height: "auto" }}
+                      
                     />
 
 
@@ -5184,7 +5321,7 @@ useEffect(() => {
                                       textAlign: "center",
                                       fontWeight: 600,
                                       fontFamily: "Gilroy",
-                                      fontSize: 20,
+                                      fontSize: 18,
                                       color: "rgba(75, 75, 75, 1)",
                                     }}
                                   >
@@ -5196,7 +5333,7 @@ useEffect(() => {
                                       textAlign: "center",
                                       fontWeight: 500,
                                       fontFamily: "Gilroy",
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       color: "rgba(75, 75, 75, 1)",
                                     }}
                                   >
@@ -5243,7 +5380,7 @@ useEffect(() => {
       )}
 
       {showmanualinvoice && (
-        <div className="mt-4" style={{ paddingLeft: 25 }}>
+        <div className="mt-4" style={{ paddingLeft: 25, position: "relative" }}>
           <div
             className="container justify-content-start  d-flex align-items-start"
             style={{
@@ -5471,7 +5608,7 @@ useEffect(() => {
               <div style={{ position: "relative", width: "100%" }}>
 
                 <DatePicker
-                  style={{ width: "100%", height: 48, cursor: "pointer" }}
+                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={invoicedate ? dayjs(invoicedate) : null}
@@ -5516,7 +5653,7 @@ useEffect(() => {
               }}>Due Date{" "} <span style={{ color: "red", fontSize: "20px" }}>*</span></p>
               <div style={{ position: "relative", width: "100%" }}>
                 <DatePicker
-                  style={{ width: "100%", height: 48, cursor: "pointer" }}
+                  style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
                   format="DD/MM/YYYY"
                   placeholder="DD/MM/YYYY"
                   value={invoiceduedate ? dayjs(invoiceduedate) : null}
@@ -5556,91 +5693,78 @@ useEffect(() => {
 
 
           {Array.isArray(newRows) && newRows.length > 0 && (
-            <div className="row mt-3" style={{ width: "100%" }}>
-              <div className="col-lg-12 col-md-12 col-12">
-                <div style={{ maxHeight: "150px", overflowY: "auto", width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
-                  <Table
-                    className="w-100"
-                    responsive
-                    style={{ width: "100%", backgroundColor: "", borderRadius: "10px", }}
-                  >
-                    <thead
-                      style={{
-                        backgroundColor: "#E7F1FF",
-                        position: "sticky",
-                        top: 0,
-                        zIndex: 1,
-                        borderRadius: 10,
-                      }}
-                    >
-                      <tr style={{ borderRadius: 10 }}>
-                        <th className="text-center" style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                          S.No
-                        </th>
-                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                          Description
-                        </th>
-                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                          Total Amount
-                        </th>
-                        <th style={{ color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>
-                          Action
-                        </th>
+            <div className="mt-3" style={{ width: "80%", borderRadius: "10px", border: "1px solid #DCDCDC" }}>
+
+              <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+                <thead style={{ backgroundColor: "#E7F1FF" }}>
+                  <tr>
+                    <th className="text-center" style={{ width: "10%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopLeftRadius: 10 }}>
+                      S.No
+                    </th>
+                    <th style={{ width: "45%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
+                      Description
+                    </th>
+                    <th style={{ width: "30%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", whiteSpace: "nowrap" }}>
+                      Total Amount
+                    </th>
+                    <th style={{ width: "15%", color: "#939393", fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", borderTopRightRadius: 10 }}>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+              </Table>
+
+
+              <div style={{ maxHeight: "150px", overflowY: "auto" }}>
+                <Table responsive className="m-0" style={{ tableLayout: "fixed" }}>
+                  <tbody>
+                    {newRows.map((u, index) => (
+                      <tr key={index}>
+                        <td style={{ width: "10%" }} className="text-center">{index + 1}</td>
+                        <td style={{ width: "40%" }}>
+                          <Form.Control
+                            type="text"
+                            style={{ fontFamily: "Gilroy" }}
+                            value={u.am_name}
+                            onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
+                            placeholder="Enter Description"
+                          />
+                        </td>
+                        <td style={{ width: "30%" }}>
+                          <Form.Control
+                            type="text"
+                            style={{ fontFamily: "Gilroy" }}
+                            value={u.amount}
+                            placeholder="0"
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              if (/^\d*\.?\d*$/.test(value)) {
+                                handleNewRowChange(index, "amount", value);
+                              }
+                            }}
+                          />
+                        </td>
+                        <td style={{ width: "15%", paddingLeft: 20 }}>
+                          <img
+                            src={Closebtn}
+                            onClick={() => handleDeleteNewRow(index)}
+                            style={{ cursor: "pointer" }}
+                            height={15}
+                            width={15}
+                            alt="delete"
+                          />
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {newRows.map((u, index) => (
-                        <tr key={`new-${index}`}>
-                          <td className="text-center" style={{ fontFamily: "Gilroy" }}>
-                            {serialNumber++}
-                          </td>
-                          <td>
-                            <Form.Control
-                              type="text"
-                              style={{ fontFamily: "Gilroy" }}
-                              placeholder="Enter Description"
-                              value={u.am_name}
-                              onChange={(e) => handleNewRowChange(index, "am_name", e.target.value)}
-                            />
-                          </td>
-                          <td>
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter Total Amount"
-                              value={u.amount}
-                              className={`${u.amount === "" ? "border-danger" : ""}`}
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                if (/^\d*\.?\d*$/.test(value)) {
-                                  handleNewRowChange(index, "amount", value);
-                                }
-                              }}
-                            />
-                          </td>
-                          <td>
-                            <span
-                              style={{
-                                cursor: "pointer",
-                                color: "red",
-                                marginLeft: "10px",
-                              }}
-                              onClick={() => handleDeleteNewRow(index)}
-                            >
-                              <img
-                                src={Closebtn}
-                                height={15}
-                                width={15}
-                                alt="delete"
-                              />
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </div>
+                    ))}
+                  </tbody>
+                </Table>
               </div>
             </div>
+
+
+
+
+
 
           )}
 
@@ -5724,9 +5848,36 @@ useEffect(() => {
               </div>
             )}
           </div>
-          <div>
 
-          </div>
+          {formLoading && <div
+            style={{
+              position: 'absolute',
+              top: '80%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>}
+
+
+
+
 
           <div style={{ float: "right", marginRight: "130px" }}>
             {Array.isArray(newRows) && newRows.length > 0 && (

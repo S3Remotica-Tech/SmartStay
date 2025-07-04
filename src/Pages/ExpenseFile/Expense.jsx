@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState, useRef } from "react";
 import { FormControl, InputGroup, Table, Modal } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -41,7 +41,11 @@ function Expenses({ allPageHostel_Id }) {
   const [amountValue, setAmountValue] = useState("");
   const [minAmount, setMinAmount] = useState(0);
   const [maxAmount, setMaxAmount] = useState(0);
-
+  const [ExcelFilterminAmount, setExcelFilterMinAmount] = useState(0);
+  const [ExcelFiltermaxAmount, setExcelFilterMaxAmount] = useState(0);
+  const [ExcelFilterPaymentmode, setExcelFilterPaymentmode] = useState('')
+  const [ExcelFiltercategoryValue, setExcelFilterCategoryValue] = useState("");
+  const [ExcelFilterDates, setExcelFilterDates] = useState([])
   const [expencerolePermission, setExpenceRolePermission] = useState("");
 
   const [expencepermissionError, setExpencePermissionError] = useState("");
@@ -51,7 +55,7 @@ function Expenses({ allPageHostel_Id }) {
   const [excelDownload, setExcelDownload] = useState("");
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const handleClickOutside = (event) => {
@@ -77,13 +81,72 @@ function Expenses({ allPageHostel_Id }) {
     }
   }, [state.UsersList?.exportExpenceDetails?.response?.fileUrl]);
 
-  const handleExpenceExcel = () => {
-    dispatch({
+
+
+ const handleExpenceExcel = () => {
+   
+     if(ExcelFilterminAmount && ExcelFiltermaxAmount){
+       dispatch({
       type: "EXPORTEXPENCESDETAILS",
-      payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id },
-    });
+      payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id  ,
+        min_amount: Number(ExcelFilterminAmount) || 0, max_amount:Number(ExcelFiltermaxAmount) || 0, 
+        }
+    })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
+  }
+
+     else if( ExcelFilterDates.length === 2 ){
+  dispatch({
+      type: "EXPORTEXPENCESDETAILS",
+      payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id  ,
+        start_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+        end_date:ExcelFilterDates[1]?.format("YYYY-MM-DD")}
+    })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
+  }
+
+    else if(ExcelFiltercategoryValue){
+             dispatch({ type: "EXPORTEXPENCESDETAILS",
+            payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id , 
+            category:Number(ExcelFiltercategoryValue)}
+    })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
+    }
+
+      else if(ExcelFilterPaymentmode){
+             dispatch({ type: "EXPORTEXPENCESDETAILS",
+             payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id,
+               payment_mode: Number(ExcelFilterPaymentmode) }
+    })
+    setExcelFilterMinAmount('')
+    setExcelFilterMaxAmount('')
+    setExcelFilterPaymentmode('')
+    setExcelFilterCategoryValue('')
+    setExcelFilterDates([])
+    }
+
+    else{
+        dispatch({ type: "EXPORTEXPENCESDETAILS",
+         payload: { type: "expenses", hostel_id: state.login.selectedHostel_Id}
+        }); 
+     }
+    
     setIsDownloadTriggered(true);
   };
+
+
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
       const link = document.createElement("a");
@@ -95,14 +158,15 @@ function Expenses({ allPageHostel_Id }) {
         setIsDownloadTriggered(false);
       }, 500);
     }
-  }, [excelDownload && isDownloadTriggered]);
+  }, [excelDownload , isDownloadTriggered]);
   useEffect(() => {
     if (state.UsersList?.statusCodeForExportExpence === 200) {
+      
       setTimeout(() => {
         dispatch({ type: "CLEAR_EXPORT_EXPENSE_DETAILS" });
       }, 200);
     }
-  }, [state.UsersList?.statusCodeForExportExpence]);
+  }, [state.UsersList?.statusCodeForExportExpence, dispatch]);
 
   useEffect(() => {
     setExpenceRolePermission(state.createAccount.accountList);
@@ -153,28 +217,8 @@ function Expenses({ allPageHostel_Id }) {
 
   const [dates, setDates] = useState([]);
 
+
   const [pickerKey, setPickerKey] = useState(0);
-  const handleDateChange = (selectedDates) => {
-    if (!selectedDates || selectedDates.length !== 2) {
-      setDates([]);
-      setSelectedValue("All");
-      setPickerKey((prevKey) => prevKey + 1);
-
-      setTimeout(() => {
-        dispatch({
-          type: "EXPENSELIST",
-          payload: { hostel_id: state.login.selectedHostel_Id },
-        });
-      }, 0);
-
-      return;
-    }
-
-    const newStartDate = dayjs(selectedDates[0]).startOf("day");
-    const newEndDate = dayjs(selectedDates[1]).endOf("day");
-
-    setDates([newStartDate, newEndDate]);
-  };
 
   useEffect(() => {
     if (dates.length === 2) {
@@ -192,7 +236,7 @@ function Expenses({ allPageHostel_Id }) {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [dates, state.login.selectedHostel_Id]);
+  }, [dates, state.login.selectedHostel_Id, dispatch]);
 
   useEffect(() => {
     if (selectedValue === "All") {
@@ -307,6 +351,8 @@ function Expenses({ allPageHostel_Id }) {
     dates,
     minAmount,
     maxAmount,
+     dispatch,
+  state.login.selectedHostel_Id,
   ]);
 
   useEffect(() => {
@@ -316,7 +362,7 @@ function Expenses({ allPageHostel_Id }) {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id, dispatch]);
 
   const handleShow = () => {
     if (!state.login.selectedHostel_Id) {
@@ -353,6 +399,8 @@ function Expenses({ allPageHostel_Id }) {
     setShowModal(true);
   };
 
+
+
   const handleAmountValueChange = (e) => {
     setSelectedValue(null);
     const value = e.target.getAttribute("value");
@@ -362,8 +410,13 @@ function Expenses({ allPageHostel_Id }) {
     const [minAmount, maxAmount] = amountRange.split("-").map(Number);
     setMinAmount(minAmount);
     setMaxAmount(maxAmount);
+    setExcelFilterMinAmount(minAmount)
+    setExcelFilterMaxAmount(maxAmount)
     setShowAmount(false);
   };
+
+
+   
 
   const [currentItem, setCurrentItem] = useState("");
 
@@ -387,18 +440,22 @@ function Expenses({ allPageHostel_Id }) {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
     }
-  }, [state.login.selectedHostel_Id]);
+  }, [state.login.selectedHostel_Id, dispatch]);
 
-  useEffect(() => {
-    if (state.ExpenseList.getExpenseStatusCode === 200) {
-      setLoading(false);
-      setGetData(state.ExpenseList.expenseList);
+  const { getExpenseStatusCode } = state.ExpenseList;
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
-      }, 4000);
-    }
-  }, [state.ExpenseList.getExpenseStatusCode]);
+
+useEffect(() => {
+  if (getExpenseStatusCode === 200) {
+    setLoading(false);
+    setGetData(state.ExpenseList.expenseList);
+
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
+    }, 4000);
+  }
+}, [getExpenseStatusCode, dispatch, state.ExpenseList.expenseList]);
+                             
 
   useEffect(() => {
     if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
@@ -408,7 +465,7 @@ function Expenses({ allPageHostel_Id }) {
         dispatch({ type: "CLEAR_NOEXPENSEdATA" });
       }, 200);
     }
-  }, [state.ExpenseList.nodataGetExpenseStatusCode]);
+  }, [state.ExpenseList.nodataGetExpenseStatusCode, dispatch]);
 
   useEffect(() => {
     if (
@@ -428,10 +485,14 @@ function Expenses({ allPageHostel_Id }) {
         dispatch({ type: "CLEAR_ADD_EXPENSE_SATUS_CODE" });
       }, 2000);
     }
-  }, [
-    state.ExpenseList.StatusCodeForAddExpenseSuccess,
-    state.ExpenseList.deleteExpenseStatusCode,
-  ]);
+  },
+[
+  state.ExpenseList.StatusCodeForAddExpenseSuccess,
+  state.ExpenseList.deleteExpenseStatusCode,
+  dispatch,
+  state.login.selectedHostel_Id,
+]
+);
 
   const filterByPriceRange = (data) => {
     switch (selectedPriceRange) {
@@ -460,18 +521,41 @@ function Expenses({ allPageHostel_Id }) {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  let filteredData = [];
 
-  filteredData = filterByPriceRange(getData) || [];
-  const currentItems =
-    filteredData && filteredData.length > 0
-      ? filteredData.slice(indexOfFirstItem, indexOfLastItem)
-      : [];
-  const totalPages = Math.ceil(
-    filteredData &&
-    filteredData.length > 0 &&
-    filteredData.length / itemsPerPage
-  );
+
+  const filteredData = React.useMemo(
+  () => filterByPriceRange(getData) || [],
+  [getData] 
+);
+
+  useEffect(() => {
+  if (filteredData && filteredData.length > 0) {
+    const slicedItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    const pages = Math.ceil(filteredData.length / itemsPerPage);
+
+    setCurrentItems(slicedItems);
+    setTotalPages(pages);
+  } else {
+    setCurrentItems([]);
+    setTotalPages(0);
+  }
+}, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
+
+  const [currentItems, setCurrentItems] = useState([]);
+const [totalPages, setTotalPages] = useState(0);
+
+useEffect(() => {
+  if (filteredData && filteredData.length > 0) {
+    const slicedItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    const pages = Math.ceil(filteredData.length / itemsPerPage);
+
+    setCurrentItems(slicedItems);
+    setTotalPages(pages);
+  } else {
+    setCurrentItems([]);
+    setTotalPages(0);
+  }
+}, [filteredData, indexOfFirstItem, indexOfLastItem, itemsPerPage]);
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
@@ -544,6 +628,8 @@ function Expenses({ allPageHostel_Id }) {
     }
   };
 
+  
+
   const [showCategory, setShowCategory] = useState(false);
   const [showPaymentMode, setShowPaymentMode] = useState(false);
   const [showAmount, setShowAmount] = useState(false);
@@ -551,13 +637,17 @@ function Expenses({ allPageHostel_Id }) {
   const handleCatogoryChange = (e) => {
     setSelectedValue(null);
     setCategoryValue(e.target.getAttribute("value"));
+    setExcelFilterCategoryValue(e.target.getAttribute("value"));
     setShowFilter(false);
     setShowCategory(false);
   };
 
+   
+
   const handleModeValueChange = (e) => {
     setSelectedValue(null);
     setModeValue(e.target.getAttribute("value"));
+    setExcelFilterPaymentmode(e.target.getAttribute("value"))
     setShowFilter(false);
     setShowPaymentMode(false);
   };
@@ -635,6 +725,95 @@ function Expenses({ allPageHostel_Id }) {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 
+  const handleDateChange = (selectedDates) => {
+  if (!selectedDates || selectedDates.length !== 2) {
+    setDates([]);
+    setExcelFilterDates([])
+    setSelectedValue("All");
+    setCategoryValue("");
+    setModeValue("");
+    setAmountValue("");
+    setMinAmount("");
+    setMaxAmount("");
+    setAssetValue("");
+    setVendorValue("");
+    setPickerKey((prevKey) => prevKey + 1);
+    setCurrentPage(1);
+
+    dispatch({
+      type: "EXPENSELIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+    return;
+  }
+
+  const newStartDate = dayjs(selectedDates[0]).startOf("day");
+  const newEndDate = dayjs(selectedDates[1]).endOf("day");
+  setDates([newStartDate, newEndDate]);
+  setExcelFilterDates([newStartDate, newEndDate])
+  setCurrentPage(1);
+};
+
+useEffect(() => {
+  if (!state.login.selectedHostel_Id) return;
+
+  const payload = { hostel_id: state.login.selectedHostel_Id };
+  if (dates.length === 2) {
+    payload.start_date = dates[0].format("YYYY-MM-DD");
+    payload.end_date = dates[1].format("YYYY-MM-DD");
+  }
+  dispatch({ type: "EXPENSELIST", payload });
+}, [dates, state.login.selectedHostel_Id, dispatch]);
+
+useEffect(() => {
+  if (!state.login.selectedHostel_Id) return;
+
+  const payload = { hostel_id: state.login.selectedHostel_Id };
+
+  if (selectedValue === "All") {
+    dispatch({ type: "EXPENSELIST", payload });
+  } else if (categoryValue) {
+    payload.category = categoryValue;
+    dispatch({ type: "EXPENSELIST", payload });
+  } else if (modeValue) {
+    payload.payment_mode = modeValue;
+    dispatch({ type: "EXPENSELIST", payload });
+  } else if (amountValue) {
+    const [minAmount, maxAmount] = amountValue.split("-").map(Number);
+    payload.min_amount = minAmount;
+    payload.max_amount = maxAmount;
+    dispatch({ type: "EXPENSELIST", payload });
+  } else if (assetValue) {
+    payload.asset_id = assetValue;
+    dispatch({ type: "EXPENSELIST", payload });
+  } else if (vendorValue) {
+    payload.vendor_id = vendorValue;
+    dispatch({ type: "EXPENSELIST", payload });
+  }
+}, [selectedValue, categoryValue, modeValue, amountValue, assetValue, vendorValue, state.login.selectedHostel_Id, dispatch]);
+
+useEffect(() => {
+  if (state.ExpenseList.getExpenseStatusCode === 200) {
+    setGetData(state.ExpenseList.expenseList || []);
+    setLoading(false);
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_EXPENSE_SATUS_CODE" });
+    }, 1000);
+  }
+}, [state.ExpenseList.getExpenseStatusCode, state.ExpenseList.expenseList, dispatch]);
+
+
+useEffect(() => {
+  if (state.ExpenseList.nodataGetExpenseStatusCode === 201) {
+    setGetData([]);
+    setLoading(false);
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_NOEXPENSEdATA" });
+    }, 1000);
+  }
+}, [state.ExpenseList.nodataGetExpenseStatusCode, dispatch]);
+
+
   return (
     <>
       {expencepermissionError ? (
@@ -652,7 +831,7 @@ function Expenses({ allPageHostel_Id }) {
             <img
               src={EmptyState}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+              
             />
 
 
@@ -667,7 +846,12 @@ function Expenses({ allPageHostel_Id }) {
                 }}
               >
                 <MdError size={20} />
-                <span>{expencepermissionError}</span>
+                <span   style={{
+                          fontSize: "12px",
+                          color: "red",
+                          fontFamily: "Gilroy",
+                          fontWeight: 500,
+                        }}>{expencepermissionError}</span>
               </div>
             )}
           </div>
@@ -823,21 +1007,16 @@ function Expenses({ allPageHostel_Id }) {
                             value={modeValue}
                             onClick={handleModeValueChange}
                           >
-                            <ListGroup.Item
-                              className="sub_item"
-                              value="UPI/BHIM"
-                            >
-                              UPI/BHIM
-                            </ListGroup.Item>
-                            <ListGroup.Item className="sub_item" value="CASH">
-                              CASH
-                            </ListGroup.Item>
-                            <ListGroup.Item
-                              className="sub_item"
-                              value="Net Banking"
-                            >
-                              Net Banking
-                            </ListGroup.Item>
+                            {state.ExpenseList.expenseList &&
+                              state.ExpenseList.paymentModeList.map((view) => (
+                                <ListGroup.Item
+                                  className="sub_item"
+                                  key={view.id}
+                                  value={view.payment_mode}
+                                >
+                                  {view.paymentModeName}
+                                </ListGroup.Item>
+                              ))}
                           </ListGroup>
                         )}
                       </ListGroup.Item>
@@ -1260,24 +1439,24 @@ function Expenses({ allPageHostel_Id }) {
                   />
                 </div>
                 <div
-                  className="pb-1 mt-3"
+                  className="pb-1 "
                   style={{
                     textAlign: "center",
                     fontWeight: 600,
                     fontFamily: "Gilroy",
-                    fontSize: 20,
+                    fontSize: 18,
                     color: "rgba(75, 75, 75, 1)",
                   }}
                 >
                   No expenses available
                 </div>
                 <div
-                  className="pb-1 mt-2"
+                  className="pb-1"
                   style={{
                     textAlign: "center",
                     fontWeight: 500,
                     fontFamily: "Gilroy",
-                    fontSize: 16,
+                    fontSize: 14,
                     color: "rgba(75, 75, 75, 1)",
                   }}
                 >
@@ -1301,9 +1480,8 @@ function Expenses({ allPageHostel_Id }) {
                 position: "fixed",
                 bottom: "10px",
                 right: "10px",
-                backgroundColor: "#fff",
                 borderRadius: "5px",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                
                 zIndex: 1000,
               }}
             >

@@ -19,12 +19,20 @@ export const initialState = {
    mobileError: '',
    email_mobile_Error: '',
    passwordDoesnotMatchError: '',
+   networkError: ''
 
 }
 const CreateAccountReducer = (state = initialState, action) => {
 
 
    switch (action.type) {
+
+      case 'NETWORK_ERROR':
+         return { ...state, networkError: action.payload }
+      case 'CLEAR_NETWORK_ERROR':
+         return { ...state, networkError: "" }
+      case 'RESET_ALL':
+         return initialState;
       case 'ERROR':
          return { ...state, errorMessage: action.payload }
       case 'CREATEACCOUNTPAGE':
@@ -75,10 +83,10 @@ const CreateAccountReducer = (state = initialState, action) => {
       case 'CLEAR_PASSWORD_DOESNT_ERROR':
          return { ...state, passwordDoesnotMatchError: '' }
 
-         default:
-            return state;
+      default:
+         return state;
    }
 
- 
+
 }
 export default CreateAccountReducer;

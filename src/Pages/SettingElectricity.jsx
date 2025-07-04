@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingElectricity.css";
 
-const SettingElectricity = ({ hostelid }) => {
+const SettingElectricity = ({hostelid}) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [isRecurring, setIsRecurring] = useState(false);
@@ -24,6 +24,9 @@ const SettingElectricity = ({ hostelid }) => {
   const [recurringform, setRecurringForm] = useState(false);
   const [calculatedstartdate, setCalculatedstartdate] = useState(null);
   const [calculatedenddate, setCalculatedEnddate] = useState("");
+const [formLoading, setFormLoading] = useState(false)
+const [formRecurringLoading, setFormRecurringLoading] = useState(false)
+
   const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] =
     useState("");
   const [calculatedenddateerrmsg, setCalculatedEnddateErrMsg] = useState("");
@@ -36,10 +39,11 @@ const SettingElectricity = ({ hostelid }) => {
   });
 
   const [EbList, setEbList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (hostelid) {
+      setLoading(true)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: { hostel_id: hostelid },
@@ -56,6 +60,7 @@ const SettingElectricity = ({ hostelid }) => {
         type: "EB-BILLING-UNIT-LIST",
         payload: { hostel_id: hostelid },
       });
+      setFormLoading(false)
       handleClose();
 
       setTimeout(() => {
@@ -150,6 +155,7 @@ const SettingElectricity = ({ hostelid }) => {
           hostel_based: hostelBasedCalculation ? 1 : 0,
         },
       });
+      setFormLoading(true)
     } else if (!edit && amount !== "") {
       dispatch({
         type: "EB-BILLING-UNIT-ADD",
@@ -162,6 +168,7 @@ const SettingElectricity = ({ hostelid }) => {
           hostel_based: hostelBasedCalculation ? 1 : 0,
         },
       });
+      setFormLoading(true)
     }
   };
 
@@ -218,6 +225,7 @@ const SettingElectricity = ({ hostelid }) => {
           end_date: Number(calculatedenddate),
         },
       });
+      setFormRecurringLoading(true)
       setIsRecurring(false);
     }
   };
@@ -226,7 +234,7 @@ const SettingElectricity = ({ hostelid }) => {
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
       setCalculatedstartdate("");
       setCalculatedEnddate("");
-
+ setFormRecurringLoading(false)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: { hostel_id: hostelid },
@@ -279,15 +287,8 @@ const SettingElectricity = ({ hostelid }) => {
     }
   }, [state.Settings.EBBillingUnitlist]);
 
-  useEffect(() => {
-    if (state.PgList.checkEBList) {
-      dispatch({
-        type: "EB-BILLING-UNIT-LIST",
-        payload: { hostel_id: hostelid },
-      });
-    }
-  }, [state.PgList.checkEBList]);
 
+   
   useEffect(() => {
     if (state.Settings?.getebStatuscode === 200) {
       setLoading(false);
@@ -300,6 +301,8 @@ const SettingElectricity = ({ hostelid }) => {
 
   useEffect(() => {
     if (state.Settings?.errorEbUnitStatusCode) {
+      setFormLoading(false)
+      setFormRecurringLoading(false)
       setLoading(false);
       setTimeout(() => {
         dispatch({ type: "REMOVE_ERROR_EB_BILLING_UNIT_LIST" });
@@ -356,7 +359,7 @@ const SettingElectricity = ({ hostelid }) => {
       )}
 
       <div
-        className="d-flex flex-column flex-md-row justify-content-between align-items-center"
+        className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3"
         style={{
           position: "sticky",
           top: 0,
@@ -384,12 +387,7 @@ const SettingElectricity = ({ hostelid }) => {
           className="d-flex justify-content-center justify-content-md-end w-100  mt-md-0"
           style={{ marginTop: -10 }}
         >
-          {/* <Button style={{ backgroundColor: "#1E45E1", fontFamily: "Gilroy", fontSize: 14, fontWeight: 600, color: '#ffffff',
-          padding:"12px 16px 12px 16px"
-           }} 
-          onClick={handleShowFormElectricity}  disabled={showPopup}>
-            + Electricity
-          </Button> */}
+         
 
           {EbList.length > 0 ? (
             EbList.map((v, i) => (
@@ -471,109 +469,7 @@ const SettingElectricity = ({ hostelid }) => {
                           </label>
                         </div>
 
-                        {/* <div>
-              <div
-                style={{
-                  height: 40,
-                  width: 40,
-                  borderRadius: 100,
-                  border: "1px solid #EFEFEF",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-                onClick={handleShowDots}
-              >
-                <PiDotsThreeOutlineVerticalFill
-                  style={{ height: 20, width: 20, cursor: "pointer" }}
-                />
-
-                {showDots && (
-                  <>
-                    <div
-                      style={{
-                        backgroundColor: "#FFFFFF",
-                        position: "absolute",
-                        right: 0,
-                        top: 50,
-                        width: 163,
-                        height: 92,
-                        border: "1px solid #EBEBEB",
-                        borderRadius: 10,
-                        display: "flex",
-                        justifyContent: "start",
-                        padding: 15,
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>
-                        <div
-                         onClick={()=>handleEditElectricity(v)}
-                          className={"mb-2"}
-                         
-                          style={{
-                            cursor: "pointer",
-                          }}
-                        >
-                          <img
-                            src={Edit}
-                            style={{
-                              height: 16,
-                              width: 16,
-                            }}
-                            alt="Edit"
-                           
-
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#222222",
-                              cursor: "pointer",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            Edit
-                          </label>
-                        </div>
-
-                        <div
-                         onClick={()=> handleDeleteElectricity(v)}
-                          className={"mb-2"}
-                          style={{
-                            cursor: "pointer",
-                          }}
-                        >
-                          <img
-                            src={Delete}
-                            style={{
-                              height: 16,
-                              width: 16,
-                            }}
-                            alt="Delete"
-                          />
-                          <label
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              fontFamily: "Gilroy, sans-serif",
-                              color: "#FF0000",
-                              cursor: "pointer",
-                              marginLeft: "10px",
-                            }}
-                          >
-                            Delete
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div> */}
+         
                       </div>
                       <hr />
                       <Form>
@@ -598,22 +494,7 @@ const SettingElectricity = ({ hostelid }) => {
                             >
                               ₹ {v.amount}
                             </h6>
-                            {/* {unitErr && (
-                <p 
-                  style={{
-                    color: "red",
-                    fontSize: 14,
-                    display: "flex",
-                    alignItems: "center",
-                    margin: 0,
-                  }}
-                >
-                  <span style={{ fontSize: "20px", marginRight: "5px" }}>
-                    <MdError style={{ fontSize: "15px", marginBottom: "5px" }} />
-                  </span>
-                  {unitErr}
-                </p>
-              )} */}
+                 
                           </Col>
 
                           <Col>
@@ -635,6 +516,7 @@ const SettingElectricity = ({ hostelid }) => {
                               onChange={() => {
                                 handleRoomBased(v);
                               }}
+                              className="custom-switch-pointer"
                             />
                           </Col>
                           <Col>
@@ -652,10 +534,12 @@ const SettingElectricity = ({ hostelid }) => {
                               type="switch"
                               id="hostelBased"
                               label="Enabled"
+                              className="custom-switch-pointer"
                               checked={hostelBasedCalculation}
                               onChange={() => {
                                 handleHostelBased(v);
                               }}
+                             
                             />
                           </Col>
                         </Row>
@@ -764,33 +648,44 @@ const SettingElectricity = ({ hostelid }) => {
             );
           })
           : !loading && (
-            <div
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 65,
-              }}
-            >
-              <div className="d-flex justify-content-center">
-                <img
-                  src={EmptyState}
-                  style={{ height: 240, width: 240 }}
-                  alt="Empty state"
-                />
-              </div>
-              <div
-                className="pb-1 mt-3"
-                style={{
-                  textAlign: "center",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: 20,
-                  color: "rgba(75, 75, 75, 1)",
-                }}
-              >
-                No Electricity available
-              </div>
-            </div>
+           
+
+             <div
+                                               className="d-flex align-items-center justify-content-center"
+                                               style={{
+                                                 width: "100%",
+                                                 margin: "0px auto",
+                                                 backgroundColor: "",
+                                                 marginTop: 120,
+                                                 justifyContent: "center", alignItems: "center"
+                                               }}
+                                             >
+                                               <div>
+                                                 <div className="d-flex  justify-content-center">
+                                                   <img
+                                                     src={EmptyState}
+                                                   
+                                                     alt="Empty state"
+                                                   />
+                                                 </div>
+                                                 <div
+                                                   className="pb-1 mt-3"
+                                                   style={{
+                                                     textAlign: "center",
+                                                     fontWeight: 600,
+                                                     fontFamily: "Gilroy",
+                                                     fontSize: 18,
+                                                     color: "rgba(75, 75, 75, 1)",
+                                                   }}
+                                                 >
+                                                   No Electricity available
+                                                 </div>
+                                               
+                       
+                                               </div>
+                                               <div></div>
+                                             </div>
+             
           )}
       </>
 
@@ -819,7 +714,7 @@ const SettingElectricity = ({ hostelid }) => {
             style={{ cursor: "pointer" }}
           />
         </Modal.Header>
-        <Modal.Body style={{ marginBottom: "0px" }}>
+        <Modal.Body className="pt-1" style={{ marginBottom: "0px" }}>
           <div className="col">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <Form.Group className="mb-3">
@@ -909,7 +804,7 @@ const SettingElectricity = ({ hostelid }) => {
                   <p
                     style={{
                       color: "red",
-                      fontSize: 12,
+                      fontSize: 13,
                       textAlign: "center",
                       margin: 0,
                       fontFamily: "Gilroy",
@@ -917,7 +812,7 @@ const SettingElectricity = ({ hostelid }) => {
                     }}
                   >
                     <span style={{ fontSize: "20px" }}>
-                      <MdError style={{ fontSize: "14px" }} />
+                      <MdError style={{ fontSize: "14px", marginRight:"5px" }} />
                     </span>
                     {totalErr}
                   </p>
@@ -926,6 +821,33 @@ const SettingElectricity = ({ hostelid }) => {
             </div>
           </div>
         </Modal.Body>
+
+{formLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
+
 
         <Modal.Footer
           className="d-flex justify-content-center"
@@ -1211,7 +1133,31 @@ const SettingElectricity = ({ hostelid }) => {
                   </div>
                 </div>
               </Modal.Body>
-
+{formRecurringLoading && <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+            opacity: 0.75,
+            zIndex: 10,
+          }}
+        >
+          <div
+            style={{
+              borderTop: '4px solid #1E45E1',
+              borderRight: '4px solid transparent',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              animation: 'spin 1s linear infinite',
+            }}
+          ></div>
+        </div>}
               <Modal.Footer style={{ borderTop: "none" }}>
                 <Button
                   className="w-100"

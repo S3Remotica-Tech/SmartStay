@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */ 
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,16 +29,15 @@ function CreateAccountPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  // const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false)
+
   const [passwordError, setPasswordError] = useState([]);
 
   const countryCode = '91';
-  
 
 
-  // const handleCountryCodeChange = (e) => {
-  //   setCountryCode(e.target.value);
-  // };
+
+
 
 
   const handleFirstName = (e) => {
@@ -53,14 +52,12 @@ function CreateAccountPage() {
 
     if (value === "") {
       setFirstName(value);
-      // setErrors(prevErrors => ({ ...prevErrors, first_Name: "First name cannot be empty or spaces only" }));
       return;
     }
 
 
     if (value.trim() !== "") {
       setFirstName(value);
-      // setErrors(prevErrors => ({ ...prevErrors, first_Name: "" }));
     }
   };
 
@@ -69,20 +66,17 @@ function CreateAccountPage() {
     const value = e.target.value;
     const pattern = /^[a-zA-Z\s]*$/;
 
-    // Don't update value if user types anything other than letters or space
     if (!pattern.test(value)) {
       return;
     }
     if (value === "") {
       setLastName(value);
-      // setErrors(prevErrors => ({ ...prevErrors, last_Name: "Last name cannot be empty or spaces only" }));
       return;
     }
 
 
     if (value.trim() !== "") {
       setLastName(value);
-      // setErrors(prevErrors => ({ ...prevErrors, last_Name: "" }));
     }
   };
 
@@ -98,6 +92,7 @@ function CreateAccountPage() {
     setConfirmPassword(e.target.value)
     setConfirmPasswordError('');
     dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' })
+    setBothPasswordError("")
   }
 
   const toggleConfirmPasswordVisibility = () => {
@@ -120,6 +115,7 @@ function CreateAccountPage() {
 
 
       setTimeout(() => {
+        setLoading(false)
         navigate('/login-Page');
       }, 1000);
 
@@ -130,56 +126,16 @@ function CreateAccountPage() {
     }
   }, [state.createAccount.statusCodeCreateAccount]);
 
-  // const handlePhoneNo = (e) => {
-  //   setPhoneNo(e.target.value);
-  //   setPhoneError('')
-  //   dispatch({ type: 'CLEAR_MOBILE_ERROR'})
-  //   dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR'})
-  //   const pattern = new RegExp(/^\d{1,10}$/);
-  //   const isValidMobileNo = pattern.test(e.target.value);
-  //   const mobileNumberError = document.getElementById('MobileNumberError');
-  //   if (mobileNumberError) {
-  //     if (isValidMobileNo && e.target.value.length === 10) {
-  //       mobileNumberError.innerHTML = '';
-  //     } else {
-  //       mobileNumberError.innerHTML = 'Invalid mobile number *';
-  //     }
-  //   }
-  // };
 
-  // const handlePhoneNo = (e) => {
-
-  //   const input = e.target.value.replace(/\D/g, '');
-
-
-  //   setPhoneNo(input);
-  //   setPhoneError('');
-  //   dispatch({ type: 'CLEAR_MOBILE_ERROR' });
-  //   dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
-
-
-  //   const pattern = new RegExp(/^\d{1,10}$/);
-  //   const isValidMobileNo = pattern.test(input);
-  //   const mobileNumberError = document.getElementById('MobileNumberError');
-
-
-  //   if (mobileNumberError) {
-  //     if (isValidMobileNo && input.length === 10) {
-  //       mobileNumberError.innerHTML = '';
-  //     } else {
-  //       mobileNumberError.innerHTML = 'Invalid Mobile Number';
-  //     }
-  //   }
-  // };
   const handlePhoneNo = (e) => {
     const input = e.target.value.replace(/\D/g, '');
     setPhoneNo(input);
-    setPhoneError(''); // clear old error initially
-  
+    setPhoneError('');
+
     dispatch({ type: 'CLEAR_MOBILE_ERROR' });
     dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
-  
-    // Validate live
+
+
     const pattern = /^\d{10}$/;
     if (input.length > 0 && !pattern.test(input)) {
       setPhoneError('Invalid Mobile Number');
@@ -187,58 +143,27 @@ function CreateAccountPage() {
       setPhoneError('');
     }
   };
-  
-  
+
+
   const handleEmailID = (e) => {
     const emailInput = e.target.value.toLowerCase();
     setEmailID(emailInput);
-  
+
     dispatch({ type: 'CLEAR_EMAIL_ERROR' });
     dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
-  
+
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const isValidEmail = emailRegex.test(emailInput);
-  
+
     if (emailInput && !isValidEmail) {
       setEmailError('Invalid Email ID');
     } else {
       setEmailError('');
     }
   };
-  
-
-  // const handlePassword = (e) => {
-  //   setPassword(e.target.value);
-  //   setPasswordErrors('');
-  //   dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
-
-  //   const password = e.target.value;
-  //   let errorMessages = [];
-
-
-  //   if (/\s/.test(password)) {
-  //     errorMessages.push('Password cannot contain spaces.');
-  //   }
-  //   if (password.length < 8) {
-  //     errorMessages.push('8 characters minimum');
-  //   }
-  //   if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
-  //     errorMessages.push('One uppercase and lowercase');
-  //   }
-
-  //   if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
-  //     errorMessages.push('Numeric and Special symbols');
-  //   }
-
-
-  //   setPasswordError(errorMessages);
-  // };
 
 
 
-  // useEffect(() => {
-  //   dispatch({ type: 'COUNTRYLIST' })
-  // }, [])
 
 
   const handlePassword = (e) => {
@@ -246,9 +171,9 @@ function CreateAccountPage() {
     setPassword(password);
     setPasswordErrors('');
     dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
-  
+
     let errorMessages = [];
-  
+
     if (/\s/.test(password)) {
       errorMessages.push('Password cannot contain spaces.');
     }
@@ -261,10 +186,11 @@ function CreateAccountPage() {
     if (!/\d/.test(password) || !/[@$!%*?&]/.test(password)) {
       errorMessages.push('Numeric and Special symbols');
     }
-  
+
     setPasswordError(errorMessages);
+    setBothPasswordError("")
   };
-  
+
 
   const handleLoginPage = () => {
     navigate('/login-Page')
@@ -280,7 +206,7 @@ function CreateAccountPage() {
   const [bothPasswordError, setBothPasswordError] = useState('')
 
 
- 
+
 
 
 
@@ -311,18 +237,24 @@ function CreateAccountPage() {
     navigates("/All_Landing_pages");
   };
   const handleCreateAccount = async () => {
+    dispatch({ type: 'CLEAR_PASSWORD_DOESNT_ERROR' });
+    dispatch({ type: 'CLEAR_MOBILE_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_MOBILE_ERROR' });
+    dispatch({ type: 'CLEAR_EMAIL_ERROR' });
+
+
     let hasError = false;
-  
+
     if (!firstName && !phoneNo && !emailID && !password && !confirmpassword && !countryCode) {
       setAllError('Please enter all mandatory fields');
-      hasError = true; // <-- add this
+      hasError = true;
     }
-  
+
     if (!firstName) {
       setFirstNameError('Please Enter First Name');
-      hasError = true; // <-- add this
+      hasError = true;
     }
-  
+
     if (!emailID) {
       setEmailError('Please Enter Email ID');
       hasError = true;
@@ -333,12 +265,12 @@ function CreateAccountPage() {
         hasError = true;
       }
     }
-  
+
     if (!countryCode) {
       setCountryCodeError('Please Select Country Code');
       hasError = true;
     }
-  
+
     if (!phoneNo) {
       setPhoneError('Please Enter Mobile No');
       hasError = true;
@@ -349,29 +281,29 @@ function CreateAccountPage() {
         hasError = true;
       }
     }
-  
-   
+
+
     if (!password) {
       setPasswordErrors('Please Enter Password');
       hasError = true;
     } else if (Array.isArray(passwordError) && passwordError.length > 0) {
       hasError = true;
     }
-  
+
     if (!confirmpassword) {
       setConfirmPasswordError('Please Enter Confirm Password');
       hasError = true;
     }
-  
+
     if (password && confirmpassword && password !== confirmpassword) {
       setBothPasswordError('Password and Confirm Password do Not Match');
       hasError = true;
     }
-  
+
     if (hasError) return;
-  
+
     const mobileNumber = `${countryCode}${phoneNo}`;
-  
+
     dispatch({
       type: 'CREATE_ACCOUNT_PAGE',
       payload: {
@@ -383,8 +315,29 @@ function CreateAccountPage() {
         confirm_password: confirmpassword
       }
     });
+    setLoading(true)
   };
+
+
+  useEffect(() => {
+    if (state.createAccount?.networkError || state.createAccount?.emailError || state.createAccount?.mobileError || state.createAccount?.passwordDoesnotMatchError || state.createAccount?.email_mobile_Error) {
+      setLoading(false)
+    }
+
+  }, [state.createAccount?.networkError || state.createAccount?.emailError, state.createAccount?.mobileError, state.createAccount?.passwordDoesnotMatchError, state.createAccount?.email_mobile_Error])
+
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
+
   
+
+
 
   return (
     <>
@@ -394,11 +347,47 @@ function CreateAccountPage() {
         <div className=" ms-5">
 
           <div className="row g-0 coumn-gap-1 row-gap-4 fade-in">
-            <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 mt-4">
+            <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 mt-4 " style={{ position: "relative" }}>
+
+
+
+              {loading && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: "50%",
+                    left: "50%",
+                    transform: 'translate(-50%, -50%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'transparent',
+                    opacity: 0.75,
+                    zIndex: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      borderTop: '4px solid #1E45E1',
+                      borderRight: '4px solid transparent',
+                      borderRadius: '50%',
+                      width: '40px',
+                      height: '40px',
+                      animation: 'spin 1s linear infinite',
+                    }}
+                  ></div>
+                </div>
+              )}
+
+
+
+
+
+
               <div className="d-flex gap-1 mb-1" style={{ curser: "pointer" }}>
 
                 <img src={Logo} alt="Company Logo" style={{ height: 25, width: 25, cursor: "pointer" }} onClick={handleLogoClick} />
-                {/* <img src={Icon} style={{width:"100%"}} /> */}
+
                 <div><label style={{ color: "rgba(30, 69, 225, 1)", fontWeight: 800, fontFamily: "Gilroy" }} onClick={handleLogoClick}>
                   Smartstay</label></div>
               </div>
@@ -444,13 +433,12 @@ function CreateAccountPage() {
                   <Form.Group controlId="formGridEmail">
                     <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Email ID <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                     <Form.Control size="lg"
-                    data-testid='emailid'
-                     autoComplete="new-mail"
-                        autoCorrect="off"
+                      data-testid='emailid'
+                      autoComplete="new-mail"
+                      autoCorrect="off"
                       value={emailID} onChange={(e) => { handleEmailID(e) }}
                       type="email" placeholder="Enter Email ID" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: emailID ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
-                    {/* <div id="emailIDError" style={{ color: "red", fontSize: 12 }}></div> */}
                   </Form.Group>
 
                   {emailError && (
@@ -471,13 +459,6 @@ function CreateAccountPage() {
                 </div>
 
                 <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                  {/* <Form.Group controlId="formGridEmail">
-                    <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Mobile number</Form.Label>
-                    <Form.Control size="lg"
-                      value={phoneNo} onChange={(e) => { handlePhoneNo(e) }}
-                      maxLength={10}
-                      type="text" placeholder="Enter Mobile no." style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight:phoneNo ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
-                  </Form.Group> */}
                   <Form.Group controlId="exampleForm.ControlInput1">
                     <Form.Label style={{
                       fontSize: 14,
@@ -492,7 +473,6 @@ function CreateAccountPage() {
                       <Form.Select
                         value={countryCode}
                         id="vendor-select-create_account"
-                        // onChange={handleCountryCodeChange}
                         style={{
                           border: "1px solid rgba(224, 236, 255, 1)",
                           borderRadius: "8px 0 0 8px",
@@ -506,13 +486,6 @@ function CreateAccountPage() {
                           maxWidth: 90
                         }}
                       >
-                        {/* {
-    state.UsersList?.countrycode && state.UsersList?.countrycode?.country_codes?.map((view)=>{
-      return  <option key={view.country_code} value={view.country_code}>+{view.country_code}</option>
-    })
-
-
-  } */}
                         <option>+{countryCode}</option>
 
 
@@ -522,7 +495,6 @@ function CreateAccountPage() {
                         value={phoneNo}
                         onChange={(e) => { handlePhoneNo(e) }}
                         type="text"
-                        //  size="lg"
                         placeholder="9876543210"
                         maxLength={10}
                         style={{
@@ -535,7 +507,6 @@ function CreateAccountPage() {
                           borderRight: "1px solid rgba(224, 236, 255, 1)",
                           borderTop: "1px solid rgba(224, 236, 255, 1)",
                           borderBottom: "1px solid rgba(224, 236, 255, 1)",
-                          // height: 50,
                           borderRadius: "0 8px 8px 0",
                         }}
                       />
@@ -577,10 +548,10 @@ function CreateAccountPage() {
                   <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Password <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <InputGroup >
                     <Form.Control
-                    data-testid='password'
+                      data-testid='password'
                       size="lg"
-                       autoComplete="new-password"
-                        autoCorrect="off"
+                      autoComplete="new-password"
+                      autoCorrect="off"
                       value={password}
                       onChange={handlePassword}
                       type={showPassword ? "text" : "password"}
@@ -619,14 +590,7 @@ function CreateAccountPage() {
 
 
 
-                  {/* {passwordError && (
-                <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                  <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                    {passwordError}
-                  </label>
-                </div>
-              )} */}
+
 
 
 
@@ -667,10 +631,10 @@ function CreateAccountPage() {
                   <Form.Label style={{ fontSize: 14, fontWeight: 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}>Confirm Password <span style={{ color: 'red', fontSize: '20px' }}>*</span></Form.Label>
                   <InputGroup>
                     <Form.Control
-                    data-testid='confirm-password'
+                      data-testid='confirm-password'
                       size="lg"
-                       autoComplete="new-password"
-                        autoCorrect="off"
+                      autoComplete="new-password"
+                      autoCorrect="off"
                       value={confirmpassword}
                       onChange={handleConfirmPassword}
                       type={showConfirmPassword ? "text" : "password"}
@@ -750,6 +714,14 @@ function CreateAccountPage() {
                   : null}
 
 
+
+                {state.createAccount?.networkError ? <div className='d-flex align-items-center p-1'>
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                </div>
+                  : null}
+
+
                 <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1" >
                   <Button data-testid='create-account-btn' onClick={handleCreateAccount} className="w-100" style={{ backgroundColor: "rgba(30, 69, 225, 1)", borderRadius: 12, padding: 10, fontFamily: "Montserrat", height: 50, fontWeight: 600 }}>Create account</Button>
                 </div>
@@ -760,26 +732,16 @@ function CreateAccountPage() {
               </div>
 
             </div>
-            {/* <div className="col-lg-6 col-md-6 col-xs-12 col-sm-12 d-flex justify-content-center mt-4" style={{ backgroundColor: "" }}>
-              <div>
-                <img src={CreateAccount} alt="create" style={{ height: 460, width: 460 }} />
-              </div>
-
-            </div> */}
 
 
-<div className='col-lg-6 col-md-6 col-sm-12 '>
+            <div className='col-lg-6 col-md-6 col-sm-12 '>
               <div className='image_div mt-5'>
                 <img src={CreateAccount} alt="create" className='responsive-image' />
               </div>
 
             </div>
 
-            {/* <div className='col-lg-6 col-md-6 col-sm-12 '>
-          <div className='image_div mt-5'>
-            <img src={Loginimage} className='responsive-image' alt='Hai' />
-          </div>
-        </div> */}
+
 
           </div>
 

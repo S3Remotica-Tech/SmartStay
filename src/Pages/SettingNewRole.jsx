@@ -91,11 +91,19 @@ function SettingNewRole({ hostelid }) {
 
   }
 
-  useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-    }
-  }, [state.login.selectedHostel_Id])
+  
+
+const calledRef = useRef(false);
+
+useEffect(() => {
+  if (hostelid && !calledRef.current) {
+    dispatch({ type: 'SETTING_ROLE_LIST', payload: { hostel_id: hostelid } });
+    calledRef.current = true;
+  }
+}, [hostelid]);
+
+
+   
 
 
   useEffect(() => {
@@ -376,12 +384,33 @@ function SettingNewRole({ hostelid }) {
           ))
         ) : (
           !loading && (
-            <div className="d-flex flex-column align-items-center text-center mt-5">
-              <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-              <div className="mt-3 fw-semibold text-secondary" style={{ fontSize: 20 }}>
-                No Role Available
-              </div>
+           
+
+
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: 90,
+              height: '35vh',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img src={EmptyState} alt="emptystate" />
+            <div
+              className="pb-1"
+              style={{
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: 18,
+                color: "rgba(75, 75, 75, 1)",
+              }}
+            >
+             No Role Available
             </div>
+          
+          </div>
           )
         )}
       </div>

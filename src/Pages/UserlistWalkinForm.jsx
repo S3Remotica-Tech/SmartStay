@@ -46,13 +46,16 @@ function CustomerForm({ show, handleClose, initialData }) {
   const [pincodeError, setPincodeError] = useState("");
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
-
+  const [formLoading, setFormLoading] = useState(false)
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
 
 
   const nameRef = useRef();
   const mobileRef = useRef();
   const countryCodeRef = useRef();
   const walkInDateRef = useRef();
+
+
 
 
 
@@ -88,7 +91,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       const mobileNumber = phoneNumber.slice(-10);
 
 
-      setCountryCode(countryCode);
+      setCountryCode(countryCode || 91 );
       setMobile(mobileNumber);
       setHouseNo(initialData.comments || '');
       setStreet(initialData.area || '');
@@ -131,15 +134,19 @@ function CustomerForm({ show, handleClose, initialData }) {
   })();
 
 
+  const noChangesRef = useRef(null)
 
+  
 
   const handleSubmitWalkIn = () => {
+ dispatch({ type: 'CLEAR_ALREADY_EXIST_ERROR' });
 
-
-    if (!name && !mobile && !countryCode && !walkInDate) {
+    if (!name && !mobile && !countryCode && !walkInDate   ) {
       setGeneralError('Please Fill in All The Required Fields');
       return;
     }
+
+    
 
     const normalize = (val) => {
       if (val === null || val === undefined || val === 'null') return '';
@@ -164,10 +171,23 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
 
+
     if (initialData && !isChanged) {
-      setIsChangedError('No Changes Detected');
+      setIsChangedError("No Changes Detected");
+
+
+      setTimeout(() => {
+        if (noChangesRef.current) {
+          noChangesRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          noChangesRef.current.focus();
+        }
+      }, 100);
+
       return;
+    } else {
+      setIsChangedError("");
     }
+
 
 
 
@@ -181,21 +201,28 @@ function CustomerForm({ show, handleClose, initialData }) {
       }
     }
 
-   if (!mobile) {
-  setMobileError('Please Enter Mobile Number');
-  if (!focusedRef.current && mobileRef.current) {
-    mobileRef.current.focus();
-    focusedRef.current = true;
-  }
-} else if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
-  setMobileError('Please Enter a Valid 10-digit Mobile Number');
-  if (!focusedRef.current && mobileRef.current) {
-    mobileRef.current.focus();
-    focusedRef.current = true;
-  }
-} else {
-  setMobileError('');
+    if (!mobile) {
+      setMobileError('Please Enter Mobile Number');
+      if (!focusedRef.current && mobileRef.current) {
+        mobileRef.current.focus();
+        focusedRef.current = true;
+      }
+    } else if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
+      setMobileError('Please Enter a Valid 10-digit Mobile Number');
+      if (!focusedRef.current && mobileRef.current) {
+        mobileRef.current.focus();
+        focusedRef.current = true;
+      }
+    } else {
+      setMobileError('');
+    }
+
+   if (pincode.length > 0 && pincode.length !== 6) {
+  setPincodeError("Pin Code Must Be Exactly 6 Digits");
+  return
 }
+
+
 
     if (!countryCode) {
       setCountryCodeError('Please select Country Code');
@@ -212,13 +239,33 @@ function CustomerForm({ show, handleClose, initialData }) {
         focusedRef.current = true;
       }
     }
+     if (walkInDate ) {
+      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
+      if (selectedHostel) {
+        const HostelCreateDate = new Date(selectedHostel.create_At);
+        const WalkinDate = new Date(walkInDate);
+        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+        const WalkinDateOnly = new Date(WalkinDate.toDateString());
+        if (WalkinDateOnly < HostelCreateDateOnly) {
+          setJoingDateErrmsg('Before Hostel Create date not allowed');
+          if (!focusedRef.current && walkInDateRef.current) {
+        walkInDateRef.current.focus();
+        focusedRef.current = true;
+
+        return
+      }
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
 
 
     if (emailError) {
       return;
     }
 
-  
+
     const Mobile_Number = `${countryCode}${mobile}`
     const formattedDate = moment(walkInDate).format('YYYY-MM-DD');
 
@@ -243,11 +290,14 @@ function CustomerForm({ show, handleClose, initialData }) {
           id: initialData ? initialData.id : ''
         }
       });
+      setFormLoading(true)
     }
 
 
   };
 
+
+  
 
   const handleNameChange = (e) => {
     const value = e.target.value;
@@ -364,6 +414,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
+      
     }
 
   };
@@ -397,10 +448,15 @@ function CustomerForm({ show, handleClose, initialData }) {
       }
     }
   };
+
   useEffect(() => {
     if (
       state.UsersList.addWalkInCustomerStatusCode === 200
     ) {
+      setFormLoading(false)
+      handleFormClose()
+      setJoingDateErrmsg("")
+      setPincodeError("")
       dispatch({
         type: "WALKINCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -419,6 +475,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
   const handleFormClose = () => {
+     setFormLoading(false)
     setEmailError("")
     setNameError("")
     setMobileError("")
@@ -436,8 +493,15 @@ function CustomerForm({ show, handleClose, initialData }) {
     setLandmarkError("")
     setPincodeError("")
     setStateNameError("")
+    setJoingDateErrmsg("")
   }
 
+
+  useEffect(()=>{
+    if(state.UsersList.alreadyHere){
+setFormLoading(false)
+    }
+  },[state.UsersList.alreadyHere])
 
 
 
@@ -454,7 +518,7 @@ function CustomerForm({ show, handleClose, initialData }) {
 
 
 
-        <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-3 mt-3 me-3">
+        <Modal.Body style={{ maxHeight: "420px", overflowY: "scroll" }} className="show-scroll pt-3 mt-2 me-3">
 
           <div className='d-flex align-items-center'>
 
@@ -462,10 +526,10 @@ function CustomerForm({ show, handleClose, initialData }) {
             <div className="" style={{ height: 100, width: 100, position: "relative" }}>
 
               <Image src={file ? typeof file === 'string' ? file : URL.createObjectURL(file) : Profile}
-                roundedCircle style={{ height: 100, width: 100 }} />
+                roundedCircle style={{ height: 100, width: 100, cursor: "pointer" }} />
 
               <label htmlFor="imageInput" className='' >
-                <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)' }} />
+                <Image src={Plus} roundedCircle style={{ height: 20, width: 20, position: "absolute", top: 90, left: 80, transform: 'translate(-50%, -50%)',cursor: "pointer" }} />
                 <input
                   type="file"
                   accept="image/*"
@@ -513,7 +577,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                 />
               </Form.Group>
               {nameError && (
-                <div className="d-flex align-items-center p-1" style={{ marginTop: "-13px" }}>
+                <div className="d-flex align-items-center p-1" style={{ marginTop: "-16px" }}>
                   <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", marginBottom: "1px" }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {nameError}
@@ -577,14 +641,15 @@ function CustomerForm({ show, handleClose, initialData }) {
                       boxShadow: "none",
                       backgroundColor: "#fff",
                       maxWidth: 90,
-                      paddingRight: 10
+                      paddingRight: 10,
+                      cursor: "pointer",
                     }}
                   >
                     <option>+{countryCode}</option>
                   </Form.Select>
                   <Form.Control
                     value={mobile}
-                    ref={mobileRef} 
+                    ref={mobileRef}
                     onChange={handlePhone}
                     type="text"
                     placeholder="9876543210"
@@ -607,7 +672,7 @@ function CustomerForm({ show, handleClose, initialData }) {
               </Form.Group>
 
               {mobileError && (
-                <div className="d-flex align-items-center p-1" style={{ marginTop: "-12px" }}>
+                <div className="d-flex align-items-center p-1" style={{ marginTop: "-16px" }}>
                   <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {mobileError}
@@ -841,7 +906,7 @@ function CustomerForm({ show, handleClose, initialData }) {
               </Form.Group>
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <Form.Group className="">
                 <Form.Label
                   style={{
@@ -933,6 +998,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                       ...base,
                       backgroundColor: "#f8f9fa",
                       border: "1px solid #ced4da",
+                      fontFamily: "Gilroy",
                     }),
                     menuList: (base) => ({
                       ...base,
@@ -941,6 +1007,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                       padding: 0,
                       scrollbarWidth: "thin",
                       overflowY: "auto",
+                      fontFamily: "Gilroy",
                     }),
                     placeholder: (base) => ({
                       ...base,
@@ -974,21 +1041,18 @@ function CustomerForm({ show, handleClose, initialData }) {
               )}
             </div>
 
-
-
-
-            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
+            <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12' style={{marginTop:"-5px"}}>
               <Form.Group controlId="purchaseDate">
                 <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                   Walk-In Date
-                  <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                  <span style={{ color: 'red', fontSize: '20px',  }}>*</span>
                 </Form.Label>
 
 
-                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
+                <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%",marginTop:"-2px" }}>
                   <DatePicker
-                  ref={walkInDateRef}
-                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily:"Gilroy" }}
+                    ref={walkInDateRef}
+                    style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy" }}
                     format="DD/MM/YYYY"
                     placeholder="DD/MM/YYYY"
                     value={walkInDate ? dayjs(walkInDate) : null}
@@ -996,6 +1060,7 @@ function CustomerForm({ show, handleClose, initialData }) {
                       setGeneralError('')
                       setIsChangedError('')
                       setWalkInDateError('')
+                      setJoingDateErrmsg("")
                       setWalkInDate(date ? date.toDate() : null);
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
@@ -1010,11 +1075,19 @@ function CustomerForm({ show, handleClose, initialData }) {
                   </label>
                 </div>
               )}
+                   {joiningDateErrmsg.trim() !== "" && (
+                                                  <div className="d-flex align-items-center">
+                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                      {joiningDateErrmsg}
+                                                    </label>
+                                                  </div>
+                                                )}
 
             </div>
 
             {isChangedError && (
-              <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
+              <div ref={noChangesRef} className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
                 <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
                 <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
                   {isChangedError}
@@ -1024,7 +1097,36 @@ function CustomerForm({ show, handleClose, initialData }) {
           </div>
 
         </Modal.Body>
-        <Modal.Footer style={{ border: "none", paddingBottom: 0, }} className='mt-1 pt-1' >
+
+
+        {formLoading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
+        <Modal.Footer style={{ border: "none", paddingBottom: 0, }} className='pt-1' >
           {generalError && (
             <div className="d-flex align-items-center p-1 mb-2 mt-2">
               <MdError style={{ color: "red", marginRight: '5px' }} />
@@ -1035,7 +1137,8 @@ function CustomerForm({ show, handleClose, initialData }) {
           )}
 
 
-          <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12 }} >
+
+          <Button onClick={handleSubmitWalkIn} className='w-100' type="submit" style={{ backgroundColor: "#1E45E1", fontWeight: 600, borderRadius: 12, fontSize: 16, fontFamily: "Gilroy", padding: 12, marginBottom:"10px" }} >
             {initialData ? 'Save Changes' : 'Add Walk-In'}
           </Button>
         </Modal.Footer>

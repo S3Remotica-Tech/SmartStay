@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import { MdError } from "react-icons/md";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {  CloseCircle} from 'iconsax-react';
+import { CloseCircle } from 'iconsax-react';
 import Form from 'react-bootstrap/Form';
 import Forward from '../../Assets/Images/New_images/Forward.svg'
 import BackWard from '../../Assets/Images/New_images/Backward.svg'
@@ -13,7 +13,7 @@ import Image from 'react-bootstrap/Image';
 import PropTypes from "prop-types";
 
 
-function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
+function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
 
   const state = useSelector(state => state)
 
@@ -24,7 +24,7 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
   const [assignedCheckedUsers, setAssignedCheckedUsers] = useState([]);
   const [errorAssign, setErrorAssign] = useState('')
   const [errorUnAssign, setUnErrorAssign] = useState('')
-
+  const [formLoading, setFormLoading] = useState(false)
 
 
   useEffect(() => {
@@ -56,6 +56,7 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
   useEffect(() => {
 
     if (state.InvoiceList.assignAmenitiesSuccessStatusCode) {
+      setFormLoading(false)
       dispatch({
         type: 'GETASSIGNAMENITIES', payload: {
           hostel_id: state.login.selectedHostel_Id,
@@ -64,9 +65,9 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
       })
 
 
-      setTimeout(()=>{
-        dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE'})
-      },100)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_ASSIGN_AMENITIES_STATUS_CODE' })
+      }, 100)
 
 
     }
@@ -78,6 +79,7 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
   useEffect(() => {
 
     if (state.InvoiceList.UnAssignAmenitiesSuccessStatusCode === 200) {
+      setFormLoading(false)
       dispatch({
         type: 'GETASSIGNAMENITIES', payload: {
           hostel_id: state.login.selectedHostel_Id,
@@ -85,9 +87,9 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
         }
       })
 
-      setTimeout(()=>{
-        dispatch({ type: 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE'})
-      },100)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_UN_ASSIGN_AMENITIES_STATUS_CODE' })
+      }, 100)
 
 
     }
@@ -116,7 +118,7 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
 
 
   const handleAssignUser = () => {
-
+    setUnErrorAssign('')
     if (!assignedCheckedUsers || assignedCheckedUsers.length === 0) {
       setErrorAssign("Please Select at Least One User Before Assigning Amenities");
       return;
@@ -125,21 +127,23 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
 
 
     dispatch({ type: 'ASSIGNAMENITIES', payload: { hostel_id: state.login.selectedHostel_Id, am_id: assignAmenitiesDetails.id, user_ids: assignedCheckedUsers } })
+    setFormLoading(true)
+
   }
 
 
   const handleUnAssignUser = () => {
-
+    setErrorAssign('')
     if (!unAssignedCheckedUsers || unAssignedCheckedUsers.length === 0) {
       setUnErrorAssign("Please Select at Least One User Before Unassigning Amenities");
       return;
     }
 
     dispatch({ type: 'UNASSIGNAMENITIES', payload: { hostel_id: state.login.selectedHostel_Id, am_id: assignAmenitiesDetails.id, user_ids: unAssignedCheckedUsers } })
-
+    setFormLoading(true)
   }
 
- 
+
 
 
   return (
@@ -149,45 +153,43 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
         display: 'block',
       }}
     >
-      <Modal show={show} onHide={handleClose} 
-      centered backdrop="static" 
-       dialogClassName="responsive-modal-fix"
-      // className="custom-modal-width-Amenities" 
-      style={{border:"none"}}>
-         <Modal.Dialog className="m-0 p-0" 
-        // style={{
-        //   maxWidth: 1000,
-        //   width: '100%',
-        //   position:"fixed",
-        //   top:100
+      <Modal show={show} onHide={handleClose}
+        centered backdrop="static"
+        dialogClassName="responsive-modal-fix"
+        style={{ border: "none" }}>
+        <Modal.Dialog className="m-0 p-0"
+        >
 
-        // }} 
-         > 
-        
-          <Modal.Header 
-          style={{ border: "1px solid #E7E7E7" }}>
-            <Modal.Title style={{ fontSize: 18, 
-            color: "#222222", 
-              fontFamily: "Gilroy", fontWeight: 600 }}>
+          <Modal.Header
+            style={{ border: "1px solid #E7E7E7" }}>
+            <Modal.Title style={{
+              fontSize: 18,
+              color: "#222222",
+              fontFamily: "Gilroy", fontWeight: 600
+            }}>
               Assign Amenities</Modal.Title>
-            <CloseCircle size="24" color="#000" 
-            onClick={handleClose} style={{cursor:"pointer"}} />
+            <CloseCircle size="24" color="#000"
+              onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
-          <Modal.Body style={{border:"none"}}>
+          <Modal.Body style={{ border: "none" }}>
             {errorAssign && (
-              <div className="d-flex align-items-center mt-1 mb-2">
-                <MdError style={{ color: 'red', marginRight: '5px' }} />
-                <span style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', 
-                  fontWeight: 500 }}>
-                    {errorAssign}</span>
+              <div className="d-flex align-items-center mb-3 ms-5">
+                <MdError style={{ color: 'red', marginRight: '5px', fontSize: '13px',marginBottom: '2px' }} />
+                <span style={{
+                  color: 'red', fontSize: '12px', fontFamily: 'Gilroy',
+                  fontWeight: 500
+                }}>
+                  {errorAssign}</span>
               </div>
             )}
 
             {errorUnAssign && (
               <div className="d-flex align-items-center mt-1 mb-2">
-                <MdError style={{ color: 'red', marginRight: '5px' }} />
-                <span style={{ color: 'red', fontSize: '12px', fontFamily: 'Gilroy', 
-                  fontWeight: 500 }}>
+                <MdError style={{ color: 'red', marginRight: '5px', fontSize: '13px' }} />
+                <span style={{
+                  color: 'red', fontSize: '12px', fontFamily: 'Gilroy',
+                  fontWeight: 500
+                }}>
                   {errorUnAssign}</span>
               </div>
             )}
@@ -200,14 +202,14 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
                     {unAssignedList.length > 0 && unAssignedList.map((list) => {
                       return (
                         <div key={list.user_id}>
-                          <div  className='d-flex justify-content-between'>
+                          <div className='d-flex justify-content-between'>
                             <div>
                               <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>{list.user_Name}</label>
 
                             </div>
 
                             <div>
-                              <Form.Check aria-label="option 1" 
+                              <Form.Check aria-label="option 1"
 
                                 checked={assignedCheckedUsers.includes(list.user_id)}
                                 onChange={() => handleAssignedCheckboxChange(list.user_id)}
@@ -226,15 +228,16 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
               </div>
 
 
-              <div 
-              
-              className="col-lg-2 col-md-2 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center mt-5 mt-lg-0" 
-              style={{ position: 'relative',
-                minHeight: '100px'
-               }}> 
-                <div 
-                className="d-flex flex-column align-items-center justify-content-center" 
-                style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+              <div
+
+                className="col-lg-2 col-md-2 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center mt-5 mt-lg-0"
+                style={{
+                  position: 'relative',
+                  minHeight: '100px'
+                }}>
+                <div
+                  className="d-flex flex-column align-items-center justify-content-center"
+                  style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                   <div className="mb-3">
                     <Image src={Forward} onClick={handleAssignUser} style={{ cursor: "pointer" }} />
                   </div>
@@ -245,7 +248,7 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
               </div>
 
 
-              
+
               <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-3 mb-lg-0">
                 <Card style={{ border: "1px solid #DCDCDC", borderRadius: 8, cursor: "pointer" }} className='h-100 ' >
                   <Card.Header style={{ backgroundColor: "#E7F1FF", fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>Assigned</Card.Header>
@@ -253,7 +256,7 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
                     {AssignedList.length > 0 && AssignedList.map((list) => {
                       return (
                         <div key={list.user_id}>
-                          <div  className='d-flex justify-content-between'>
+                          <div className='d-flex justify-content-between'>
                             <div>
                               <label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>{list.user_Name}</label>
 
@@ -303,7 +306,33 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
 
 
           </Modal.Body>
-
+          {formLoading &&
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>
+          }
           <Modal.Footer style={{ border: "none" }}>
 
 
@@ -316,7 +345,7 @@ function AssignAmenities({ show, handleClose,assignAmenitiesDetails }) {
 AssignAmenities.propTypes = {
   show: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
-  assignAmenitiesDetails: PropTypes.func.isRequired, 
+  assignAmenitiesDetails: PropTypes.func.isRequired,
 };
 
 

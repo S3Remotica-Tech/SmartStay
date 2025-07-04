@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React , {useState ,useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import "./Invoices.css";
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { Table } from 'react-bootstrap';
-import {Form} from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import 'flatpickr/dist/themes/material_blue.css';
 import { MdError } from "react-icons/md";
 import 'react-datepicker/dist/react-datepicker.css';
@@ -14,80 +14,75 @@ import Select from "react-select";
 const RecurringBills = (props) => {
 
 
-      const state = useSelector(state => state)
-      const dispatch = useDispatch()
+  const state = useSelector(state => state)
+  const dispatch = useDispatch()
+  const [formLoading, setFormLoading] = useState(false)
 
-    
-      const [customername , setCustomerName] =  useState ('');
-      const [customernamefilter , setCustomerFilter] = useState([])
-      const [invoicenumber , setInvoiceNumber] =  useState ('')
-      const [invoicedate , setInvoiceDate] =  useState (null);
-      const [invoiceduedate , setInvoiceDueDate] =  useState (null);
-      const [invoicetotalamounts,setInvoiceTotalAmount] = useState([])
-      const [billamounts, setBillAmounts] = useState([])
-      const [customererrmsg , setCustomerErrmsg] = useState('')
-      const [allfielderrmsg , setAllFieldErrmsg] = useState('')
-      const [totalAmount , setTotalAmount] = useState('')
-      const [newRows, setNewRows] = useState([]);
-      const [allFieldErrmsg] = useState('');
-      const [recurdisable, setRecurDisable] = useState('')
-
-     
-    
-      const invoiceRef = useRef(null);
-      const dueRef = useRef(null);
-    
-    
+  const [customername, setCustomerName] = useState('');
+  const [customernamefilter, setCustomerFilter] = useState([])
+  const [invoicenumber, setInvoiceNumber] = useState('')
+  const [invoicedate, setInvoiceDate] = useState(null);
+  const [invoiceduedate, setInvoiceDueDate] = useState(null);
+  const [invoicetotalamounts, setInvoiceTotalAmount] = useState([])
+  const [billamounts, setBillAmounts] = useState([])
+  const [customererrmsg, setCustomerErrmsg] = useState('')
+  const [allfielderrmsg, setAllFieldErrmsg] = useState('')
+  const [totalAmount, setTotalAmount] = useState('')
+  const [newRows, setNewRows] = useState([]);
+  const [allFieldErrmsg] = useState('');
+  const [recurdisable, setRecurDisable] = useState('')
+      const [error_recurrmessage, setRecurrErrmsg] = useState('')
 
 
-    
-      const handleCustomerName = (selectedOption) => {
-        setCustomerName(selectedOption?.value || '')
-        setAllFieldErrmsg('')
-        if(!selectedOption){
-          setCustomerErrmsg("Please Select Name")
-        }
-        else{
-          setCustomerErrmsg('')
-        }
-      
-        setBillAmounts('')
-        setTotalAmount('')
-      }
+
+
+  const invoiceRef = useRef(null);
+  const dueRef = useRef(null);
+
+
+
+
+
+  const handleCustomerName = (selectedOption) => {
+    setCustomerName(selectedOption?.value || '')
+    setAllFieldErrmsg('')
+    if (!selectedOption) {
+      setCustomerErrmsg("Please Select Name")
+    }
+    else {
+      setCustomerErrmsg('')
+    }
+
+    setBillAmounts('')
+    setTotalAmount('')
+  }
 
 
       const handleBackBill = () => {
         props.onhandleback()
         setAllFieldErrmsg('')
+        setCustomerName('');
+        setInvoiceNumber('');
+        setInvoiceDate('')
+        setInvoiceDueDate('')
+        setTotalAmount('')
+        setBillAmounts([]);
+        setNewRows([]);
    }
  
 
- 
+
 
 
 
      const handleCreateBill = () => {
     
-      // const allRows = [...billamounts, ...newRows];
-      // const incompleteRow = allRows.find(row => !row.description || !row.amount);
-
-      // const amenityArray = amenityDetail.map(detail => ({
-      //    am_name: detail.am_name,
-      //    amount: detail.amount
-      //     })).filter(detail => detail.am_name && detail.amount);
-
-
           if(!customername){
            setCustomerErrmsg('Please Select  Customer')
            return;
           }
-        
-        
-        
-
-        
          
-          if(customername && invoicenumber   ){
+          if(customername && invoicenumber){
            dispatch({
              type: 'RECURRING-BILLS-ADD',
              payload: { user_id: customername,
@@ -95,61 +90,55 @@ const RecurringBills = (props) => {
                amenity: [{key:"total_amount",amount:totalAmount}]
              }
              });
+      setFormLoading(true)
+          }
+     }
 
-             props.onhandleback()
+
+  useEffect(() => {
+    dispatch({ type: "RECURRING-BILLS-LIST" })
+  }, [])
+
+  useEffect(() => {
+    if (state.InvoiceList.RecurringbillsgetStatuscode === 200) {
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST' });
+      }, 100);
+    }
+  }, [state.InvoiceList.RecurringbillsgetStatuscode]);
+
+
+      useEffect(() => {
+        if (state.InvoiceList.RecurringBillAddStatusCode === 200 ) {
+           props.onhandleback()
+           setFormLoading(false)
+          dispatch({ type: 'RECURRING-BILLS-LIST' });
+
              setCustomerName('');
              setInvoiceNumber('');
              setInvoiceDate('')
              setInvoiceDueDate('')
-            //  setAvailableOptions('');
              setTotalAmount('')
              setBillAmounts([]);
              setNewRows([]);
-          }
-
-       // setShowManualInvoice(true)
-     
-     }
-
-
-  
-   
-
-
-
-
-
-     
-
-    // useEffect(()=> {
-    //   dispatch({type: "USERLIST",payload:{hostel_id:state.login.selectedHostel_Id}})
-    // },[])
-
-    useEffect(()=> {
-      dispatch({type: "RECURRING-BILLS-LIST"})
-    },[])
-    
-    useEffect(() => {
-        if (state.InvoiceList.RecurringbillsgetStatuscode === 200 ) {
-          // setRecurringBills(state.InvoiceList.RecurringBills);
-      
-          setTimeout(() => {
-            dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST' });
-          }, 100);
-        }
-      }, [state.InvoiceList.RecurringbillsgetStatuscode]); 
-      
-
-      useEffect(() => {
-        if (state.InvoiceList.RecurringBillAddStatusCode === 200 ) {
-          dispatch({ type: 'RECURRING-BILLS-LIST' });
-          // setRecurringBills(state.InvoiceList.RecurringBills);
       
           setTimeout(() => {
             dispatch({ type: 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD' });
           }, 1000);
         }
       }, [state.InvoiceList.RecurringBillAddStatusCode]); 
+
+
+      
+      useEffect(() => {
+        if (state.InvoiceList.AddErrorRecurrringStatusCode === 201 ) {
+           setFormLoading(false)
+           setRecurrErrmsg(state.InvoiceList.errorRecuireFile)
+          setTimeout(() => {
+            dispatch({ type: 'REMOVE_ERROR_RECURE' });
+          }, 1000);
+        }
+      }, [state.InvoiceList.AddErrorRecurrringStatusCode]); 
       
     
 
@@ -157,8 +146,6 @@ const RecurringBills = (props) => {
       const options = {
         dateFormat: 'd/m/Y',
         defaultDate: null,
-        // defaultDate: selectedDate,
-        // maxDate: new Date(),
         minDate: null,
       };
     
@@ -215,413 +202,281 @@ const RecurringBills = (props) => {
     
         
     
-      useEffect(() => {
+        useEffect(() => {
              if (invoicetotalamounts && invoicetotalamounts.length > 0) {
                 setBillAmounts(invoicetotalamounts);
                 }      
            }, [invoicetotalamounts]);
 
 
-           useEffect(() => {
-            if (state.InvoiceList.getstatusCodeForfilterrecurrcustomers === 200) {
-        
-              setCustomerFilter(state.InvoiceList.FilterRecurrCustomers);
-              setTimeout(() => {
-                dispatch({ type: 'CLEAR_FILTER_ADD_RECURR_CUSTOMERSF_STATUS_CODE' });
-              }, 100);
-            }
-          }, [ state.InvoiceList.getstatusCodeForfilterrecurrcustomers]); 
+  useEffect(() => {
+    if (state.InvoiceList.getstatusCodeForfilterrecurrcustomers === 200) {
 
-          useEffect(() => {
-            if (state.InvoiceList.RecurenotenableStatusCode === 202) {
-              setRecurDisable(state.InvoiceList.RecurenotEnable)
-              setAllFieldErrmsg(state.InvoiceList.Errmessage)
-    
-              setTimeout(() => {
-                dispatch({ type: 'REMOVE_STATUS_CODE_FAIL_ADD_RECURRING_BILL' });
-              }, 100);
-            }
-          }, [ state.InvoiceList.RecurenotenableStatusCode]);
-        
-         
-
-           useEffect(()=> {
-    
-              if(billamounts && billamounts.length > 0){
-
-               
-                
-        
-              // const  RoomRentItem = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 1); // Room Rent with id 1
-              // const  AdvanceAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 2); // Adavance amount with id 2
-              // const  EbAmount = billamounts && billamounts.length > 0 && billamounts.find(item => item.id == 3); // EB Amount with id 3 
-
-              // setRentAmount(RoomRentItem)
-              // setAdvanceAmount(AdvanceAmount)
-              // setEBAmount(EbAmount)
-    
-              // var  amenities = billamounts && billamounts.length > 0 && billamounts.filter(item => item.id != 1 && item.id != 2 && item.id != 3);
-    
-              // const AmenityDetails = amenities.map(item => ({
-              //   am_name: item.name,   
-              //   amount : item.amount
-              //   }));
-                // setAmenityDetails(AmenityDetails)
-      
-    
-                // const allRows = newRows.map(detail => ({
-                //   am_name: detail.description, 
-                //   amount: Number(detail.amount)
-                // })).filter(detail => detail.am_name && detail.amount); 
-                
-                // const amenityArray = AmenityDetails.map(detail => ({
-                //   am_name: detail.am_name, 
-                //   amount: detail.amount
-                // })).filter(detail => detail.am_name && detail.amount); 
-                
-                
-                // const combinedRows = [...amenityArray, ...allRows];
-              
-                // setamenityArray(combinedRows)
-
-
-    
-                // const totalAmount = billamounts.reduce((acc, item) => acc + item.amount, 0);
-                //    setTotalAmount(totalAmount)
-                const totalAmount = billamounts.reduce((acc, item) => {
-                  const amount = parseFloat(item.amount);
-                  return acc + (isNaN(amount) ? 0 : amount);
-                }, 0);
-                
-                setTotalAmount(totalAmount);
-                      }
-    
-        },[billamounts,newRows])
-    
-   
-        console.log("billamount", billamounts);
-
-
-
-    return(
-        <>
-            <div className='container ' style={{paddingLeft:25}}>
-
-            <div style={{display:'flex',flexDirection:'row',marginTop:'40px'}} >
-  <svg onClick={handleBackBill}  style={{ fontSize: '22px' ,marginRight:'10px', cursor:'pointer'}} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-  <p className='mt-1'>Create Recurring Bill</p>
-  </div>
-
-
- 
-
-<div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
-<Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-  <Form.Label 
-    style={{ 
-      fontFamily: 'Gilroy', 
-      fontSize: 14, 
-      fontWeight: 500, 
-      color: "#222", 
-      fontStyle: 'normal', 
-      lineHeight: 'normal' 
-    }}>
-    Customer<span style={{ color: "red", fontSize: "20px" }}>*</span>
-  </Form.Label>
-  {/* <Form.Select 
-    aria-label="Default select example" 
-    value={customername} 
-    onChange={handleCustomerName} 
-    className='border' 
-    style={{ 
-      fontSize: 16, 
-      color: "#4B4B4B", 
-      fontFamily: "Gilroy", 
-      lineHeight: '18.83px', 
-      fontWeight: 500, 
-      boxShadow: "none", 
-      border: "1px solid #D9D9D9", 
-      height: 38, 
-      borderRadius: 8 
-    }}>
-      <option value=''>Select Customer</option>
-      {customernamefilter && customernamefilter.length > 0 && customernamefilter.map(u => (
-    <option value={u.id} key={u.id}>{u.Name}</option>
-  ))
-}
-  </Form.Select> */}
- 
-  <Select
-    options={
-      customernamefilter && customernamefilter.length > 0
-        ? customernamefilter.map((u) => ({
-            value: u.id,
-            label: u.Name,
-          }))
-        : []
+      setCustomerFilter(state.InvoiceList.FilterRecurrCustomers);
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_FILTER_ADD_RECURR_CUSTOMERSF_STATUS_CODE' });
+      }, 100);
     }
-    onChange={ handleCustomerName}
-    value={
-      customername
-        ? {
-            value: customername,
-            label:
-              customernamefilter.find((u) => u.id === customername)?.Name ||
-              "Select Customer",
-          }
-        : null
+  }, [state.InvoiceList.getstatusCodeForfilterrecurrcustomers]);
+
+  useEffect(() => {
+    if (state.InvoiceList.RecurenotenableStatusCode === 202) {
+      setRecurDisable(state.InvoiceList.RecurenotEnable)
+      setAllFieldErrmsg(state.InvoiceList.Errmessage)
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'REMOVE_STATUS_CODE_FAIL_ADD_RECURRING_BILL' });
+      }, 100);
     }
-    placeholder="Select Customer"
-    classNamePrefix="custom"
-    menuPlacement="auto"
-    noOptionsMessage={() => "No customers available"}
-    styles={{
-      control: (base) => ({
-        ...base,
-        height: "38px",
-        border: "1px solid #D9D9D9",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#4B4B4B",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        boxShadow: "none",
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        border: "1px solid #ced4da",
-        zIndex: 9999, 
-      }),
-      menuList: (base) => ({
-        ...base,
-        backgroundColor: "#f8f9fa",
-        maxHeight: "100px",
-        padding: 0,
-        scrollbarWidth: "thin",
-        overflowY: "auto",
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "#555",
-      }),
-      dropdownIndicator: (base) => ({
-        ...base,
-        color: "#555",
-        cursor:"pointer"
-      }),
-      option: (base, state) => ({
-        ...base,
-        cursor: "pointer", 
-        backgroundColor: state.isFocused ? "lightblue" : "white", 
-        color: "#000",
-      }),
-      indicatorSeparator: () => ({
-        display: "none",
-      }),
-    }}
-  />
-
-
-  {customererrmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy",fontWeight:500 }}>
-    {customererrmsg !== " " && <MdError style={{ fontSize: '13px', color: 'red',marginBottom:"4px" }} />} {customererrmsg}
-  </p>
-</div>
-)}
-</Form.Group>
-</div>
+  }, [state.InvoiceList.RecurenotenableStatusCode]);
 
 
 
-            <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
-      <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-        <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Invoice Number</Form.Label>
-        <Form.Control
-          style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
-          type="text"
-          placeholder="Enter Invoice Number"
-          value={invoicenumber || ''} 
-        />
-                 {/* {invoicenumbererrmsg.trim() !== "" && (
-<div>
-  <p style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-    {invoicenumbererrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {invoicenumbererrmsg}
-  </p>
-</div>
-)} */}
-  
-      </Form.Group>
-    </div>
+  useEffect(() => {
 
-    
+    if (billamounts && billamounts.length > 0) {
 
 
 
-{/* <div className="row mb-3">
-  
-  <div className="col-lg-3 col-md-5 col-sm-12 mb-3 me-4">
-    <Form.Group controlId="invoiceDate">
-      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-        Invoice Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-      </Form.Label>
-      <div style={{ position: 'relative', width: "100%" }}>
-        <DatePicker
-          selected={invoicedate}
-          onChange={(date) => handleInvoiceDate(date)}
-          dateFormat="dd/MM/yyyy"
-          popperPlacement="bottom-start"
-          popperModifiers={[
-            {
-              name: "offset",
-              options: {
-                offset: [0, -300],
-              },
-            },
-          ]}
-          customInput={customDateInputInvoiceDate({
-            value: invoicedate ? invoicedate.toLocaleDateString('en-GB') : '',
-          })}
-        />
-      </div>
-    </Form.Group>
-    {invoicedateerrmsg.trim() !== "" && (
-      <div className="d-flex align-items-center p-1">
-        <MdError style={{ color: "red", marginRight: '5px',fontSize: "13px",marginBottom:"3px" }} />
-        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
-          {invoicedateerrmsg}
-        </label>
-      </div>
-    )}
-  </div>
 
-  
-  <div className="col-lg-3 col-md-5 col-sm-12 mb-3 me-4">
-    <Form.Group controlId="dueDate">
-      <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-        Due Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
-      </Form.Label>
-      <div style={{ position: 'relative', width: "100%" }}>
-        <DatePicker
-          selected={invoiceduedate}
-          onChange={(date) => handleDueDate(date)}
-          dateFormat="dd/MM/yyyy"
-          popperPlacement="bottom-start"
-          popperModifiers={[
-            {
-              name: "offset",
-              options: {
-                offset: [0, -300],
-              },
-            },
-          ]}
-          customInput={customDateInputDueDate({
-            value: invoiceduedate ? invoiceduedate.toLocaleDateString('en-GB') : '',
-          })}
-        />
-      </div>
-    </Form.Group>
-    {invoiceduedateerrmsg.trim() !== "" && (
-      <div className="d-flex align-items-center p-1">
-        <MdError style={{ color: "red", marginRight: "5px",fontSize: "13px",marginBottom:"3px"  }} />
-        <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
-          {invoiceduedateerrmsg}
-        </label>
-      </div>
-    )}
-  </div>
-</div> */}
 
-{allfielderrmsg.trim() !== "" && (
-  <div>
-    <p style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy",fontWeight:500 }}>
-      {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red',marginBottom:2 }} />} {allfielderrmsg}
-    </p>
-  </div>
-)}
+      const totalAmount = billamounts.reduce((acc, item) => {
+        const amount = parseFloat(item.amount);
+        return acc + (isNaN(amount) ? 0 : amount);
+      }, 0);
+
+      setTotalAmount(totalAmount);
+    }
+
+  }, [billamounts, newRows])
 
 
 
-       
 
-    
 
-<div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 mt-2">
-  <Table
-    responsive
-    className="Table_Design"
-    style={{
-      height: "auto",
-      overflow: "visible",
-      tableLayout: "auto",
-      borderRadius: "24px",
-      border: "1px solid #DCDCDC",
-    }}
-  >
-    <thead
-      style={{
-        backgroundColor: "#E7F1FF",
-        position: "sticky",
-        top: 0,
-        zIndex: 1,
-      }}
-    >
-      <tr>
-        <th
-          style={{
-            paddingLeft: 10,
-            borderTopLeftRadius: 24,
-            color: "rgb(147, 147, 147)",
-            fontSize: 14,
-            fontWeight: 500,
-          }}
-        >
-          S.No
-        </th>
-        <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
-          Description
-        </th>
-        <th
-          style={{
-            color: "rgb(147, 147, 147)",
-            fontSize: 14,
-            fontWeight: 500,
-            textAlign: "center",
-            borderTopRightRadius: 24,
-          }}
-        >
-          As on Date
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {billamounts && billamounts.length > 0 ? (
-        billamounts.map((u, index) => (
-          <tr key={`bill-${index}`}>
-            <td style={{ paddingLeft: 10 }}>{index + 1}</td>
-            <td style={{ whiteSpace: "nowrap" }}>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <p>{u.key}</p>
+
+  return (
+    <>
+      <div className='container ' style={{ paddingLeft: 25 }}>
+
+        <div style={{ display: 'flex', flexDirection: 'row', marginTop: '40px' }} >
+          <svg onClick={handleBackBill} style={{ fontSize: '22px', marginRight: '10px', cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
+          <p className='mt-1' style={{ fontFamily: "Gilroy" }}>Create Recurring Bill</p>
+        </div>
+
+
+
+
+        <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+            <Form.Label
+              style={{
+                fontFamily: 'Gilroy',
+                fontSize: 14,
+                fontWeight: 500,
+                color: "#222",
+                fontStyle: 'normal',
+                lineHeight: 'normal'
+              }}>
+              Customer<span style={{ color: "red", fontSize: "20px" }}>*</span>
+            </Form.Label>
+
+
+            <Select
+              options={
+                customernamefilter && customernamefilter.length > 0
+                  ? customernamefilter.map((u) => ({
+                    value: u.id,
+                    label: u.Name,
+                  }))
+                  : []
+              }
+              onChange={handleCustomerName}
+              value={
+                customername
+                  ? {
+                    value: customername,
+                    label:
+                      customernamefilter.find((u) => u.id === customername)?.Name ||
+                      "Select Customer",
+                  }
+                  : null
+              }
+              placeholder="Select Customer"
+              classNamePrefix="custom"
+              menuPlacement="auto"
+              noOptionsMessage={() => "No customers available"}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  height: "38px",
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "8px",
+                  fontSize: "16px",
+                  color: "#4B4B4B",
+                  fontFamily: "Gilroy",
+                  fontWeight: 500,
+                  boxShadow: "none",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  border: "1px solid #ced4da",
+                  zIndex: 9999,
+                  fontFamily: "Gilroy"
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  maxHeight: "100px",
+                  padding: 0,
+                  scrollbarWidth: "thin",
+                  overflowY: "auto",
+                  fontFamily: "Gilroy"
+                }),
+                placeholder: (base) => ({
+                  ...base,
+                  color: "#555",
+                }),
+                dropdownIndicator: (base) => ({
+                  ...base,
+                  color: "#555",
+                  cursor: "pointer"
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  cursor: "pointer",
+                  backgroundColor: state.isFocused ? "lightblue" : "white",
+                  color: "#000",
+                }),
+                indicatorSeparator: () => ({
+                  display: "none",
+                }),
+              }}
+            />
+
+
+            {customererrmsg.trim() !== "" && (
+              <div>
+                <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
+                  {customererrmsg !== " " && <MdError style={{ fontSize: '13px', color: 'red', marginBottom: "4px" }} />} {customererrmsg}
+                </p>
               </div>
-            </td>
+            )}
+          </Form.Group>
+        </div>
 
-            <td style={{ verticalAlign: "middle", paddingTop: 0, paddingBottom: 0 }}>
-              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" style={{ margin: "0 auto" }}>
-                <Form.Group controlId={`amount-${index}`} style={{ margin: 0 }}>
-                  <Form.Control
-                    style={{
-                      padding: "8px",
-                      fontSize: 14,
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
+
+
+        <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+          <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+            <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Invoice Number</Form.Label>
+            <Form.Control
+              style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+              type="text"
+              placeholder="Enter Invoice Number"
+              value={invoicenumber || ''}
+            />
+
+
+          </Form.Group>
+        </div>
+
+
+
+
+
+
+        {allfielderrmsg.trim() !== "" && (
+          <div>
+            <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
+              {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red', marginBottom: 2 }} />} {allfielderrmsg}
+            </p>
+          </div>
+        )}
+
+
+
+
+
+
+
+        <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 mt-2">
+          <Table
+            responsive
+            className="Table_Design"
+            style={{
+              height: "auto",
+              overflow: "visible",
+              tableLayout: "auto",
+              borderRadius: "24px",
+              border: "1px solid #DCDCDC",
+            }}
+          >
+            <thead
+              style={{
+                backgroundColor: "#E7F1FF",
+                position: "sticky",
+                top: 0,
+                zIndex: 1,
+                fontFamily: "Gilroy"
+              }}
+            >
+              <tr>
+                <th
+                  style={{
+                    paddingLeft: 10,
+                    borderTopLeftRadius: 24,
+                    color: "rgb(147, 147, 147)",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    fontFamily: "Gilroy"
+                  }}
+                >
+                  S.No
+                </th>
+                <th style={{ color: "rgb(147, 147, 147)", fontSize: 14, fontWeight: 500 }}>
+                  Description
+                </th>
+                <th
+                  style={{
+                    color: "rgb(147, 147, 147)",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    textAlign: "center",
+                    borderTopRightRadius: 24,
+                  }}
+                >
+                  As on Date
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {billamounts && billamounts.length > 0 ? (
+                billamounts.map((u, index) => (
+                  <tr key={`bill-${index}`}>
+                    <td style={{ paddingLeft: 10 }}>{index + 1}</td>
+                    <td style={{ whiteSpace: "nowrap", fontFamily: "Gilroy" }}>
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <p>{u.key}</p>
+                      </div>
+                    </td>
+
+                    <td style={{ verticalAlign: "middle", paddingTop: 0, paddingBottom: 0 }}>
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" style={{ margin: "0 auto" }}>
+                        <Form.Group controlId={`amount-${index}`} style={{ margin: 0 }}>
+                          <Form.Control
+                            style={{
+                              padding: "8px",
+                              fontSize: 14,
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
 
                     type="text"
                     placeholder="Enter amount"
                     value={u.amount !== undefined ? Math.floor(u.amount) : 0}
-                    // onChange={(e) => handleAmountChange(index, e.target.value)}
                   />
                 </Form.Group>
               </div>
@@ -643,17 +498,39 @@ const RecurringBills = (props) => {
 <div className='col-lg-7 col-md-12 col-sm-12 col-xs-12 mt-2' 
  style={{ display: "flex",flexDirection:"row", justifyContent:'space-between' }}>
     <div>
-      {/* <p style={{color:'#1E45E1',fontSize:'14px',fontWeight:600}}
-     onClick={handleAddColumn}
-     > + Add new column</p> */}
+   
      </div>
 {recurdisable === 0 && (
   <div style={{ color: "red", marginBottom: "10px",fontFamily:"Gilroy",fontSize:13 }}>
     Please Configure Them In The Settings Page
   </div>
 )}
+
+    {error_recurrmessage.trim() !== "" && (
+                      <div className="d-flex align-items-start p-1">
+                        <MdError
+                          style={{
+                            color: "red",
+                            marginRight: "5px",
+                            fontSize: "14px",
+                          }}
+                        />
+                        <label
+                          className="mb-0"
+                          style={{
+                            color: "red",
+                            fontSize: "12px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {error_recurrmessage}
+                        </label>
+                      </div>
+                    )}
+
     <div className="totalamount" >
-      <h5> As on Date ₹ {totalAmount} </h5>
+      <h5 style={{ fontFamily: "Gilroy" }}> As on Date ₹ {totalAmount} </h5>
       <Button 
       onClick={handleCreateBill}
       disabled={recurdisable === 0}
@@ -666,19 +543,42 @@ const RecurringBills = (props) => {
     {allFieldErrmsg}
   </p>
 )}
-
+        {formLoading && <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
+                }}
+              ></div>
+            </div>}
       <div style={{marginBottom:30}}></div>
     </div>
     </div>
-  {/* </div> */}
   </div>
 
 
 
 
- 
-        </>
-    )
+
+    </>
+  )
 }
 
 

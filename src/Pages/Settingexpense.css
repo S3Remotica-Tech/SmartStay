@@ -3,7 +3,10 @@
     
   }
 
-
+.custom-switch-pointer input[type="checkbox"], .custom-switch-pointer label {
+    cursor: pointer !important;
+    font-family: 'Gilroy' !important;
+}
   .pagination-container {
     position: fixed;
     bottom: 0;
@@ -14,6 +17,26 @@
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
     z-index: 995;
   }
+
+
+  .dropdown-content::-webkit-scrollbar {
+  width: 8px; 
+}
+
+.dropdown-content::-webkit-scrollbar-track {
+  background: #f1f1f1;;
+  border-radius: 10px;
+}
+
+.dropdown-content::-webkit-scrollbar-thumb {
+  background: #a0a0a0; 
+  border-radius: 10px;
+}
+
+.dropdown-content::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0; 
+}
+
   
   
 
@@ -28,19 +51,17 @@
 
   @media (max-width: 767.98px) {
     .card-height-sm {
-      padding: -15px !important; /* reduce card padding */
+      padding: -15px !important;
     }
   
     .card-height-sm .icon-wrapper {
-      gap: 6px !important; /* reduce icon spacing */
+      gap: 6px !important; 
     }
   
-    /* .card-height-sm .category-title {
-      font-size: 14px !important; reduce text size
-    } */
+   
   
     .card-height-sm li {
-      margin-bottom: 0px !important; /* reduce list item spacing if dropdown is open */
+      margin-bottom: 0px !important; 
     }
   }
   
@@ -50,15 +71,7 @@
     }
   }
 
-  /* @media (max-width: 767.98px) {
-    .card-list-padding {
-      padding-top: 50px;   /* space above the first card */
-      /* padding-bottom: 50px;  */
-      
-      /* space below the last card */
-    /* }
-  }
-   */ 
+ 
   
    @media (max-width: 450px) {
     .pagination-container {
@@ -103,18 +116,18 @@
     .scroll-issue {
       max-height: 75vh;
       overflow-y: auto;
-      padding-bottom: 80px; /* leave room for fixed pagination */
+      padding-bottom: 80px; 
     }
   
     body {
-      overflow-y: auto; /* allow scrolling */
+      overflow-y: auto; 
     }
   }
 
   .scroll-issue {
     overflow-y: auto;
     padding-bottom: 80px;
-    z-index: 2; /* Add space so card doesn’t go behind pagination */
+    z-index: 2; 
   }
   
 

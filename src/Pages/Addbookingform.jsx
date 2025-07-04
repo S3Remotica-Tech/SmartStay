@@ -52,7 +52,8 @@ function BookingModal(props) {
   const [cityError, setCityError] = useState("");
   const [state_nameError, setStateNameError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
-
+  const [formLoading, setFormLoading] = useState(false)
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('')
 
 
   const firstnameRef = useRef();
@@ -112,6 +113,11 @@ function BookingModal(props) {
   ];
 
 
+  
+
+   useEffect(() => {
+     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id  } })
+    }, []);
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -121,6 +127,7 @@ function BookingModal(props) {
 
   useEffect(() => {
     if (state.Booking.bookingPhoneError) {
+      setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_PHONE_ERROR" });
       }, 2000);
@@ -129,6 +136,7 @@ function BookingModal(props) {
 
   useEffect(() => {
     if (state.Booking.bookingEmailError) {
+      setFormLoading(false)
       setTimeout(() => {
         dispatch({ type: "CLEAR_EMAIL_ERROR" });
       }, 2000);
@@ -137,7 +145,9 @@ function BookingModal(props) {
 
   useEffect(() => {
     if (state?.Booking?.statusCodeForAddBooking === 200) {
+      setFormLoading(false)
       handleAddClose();
+      setJoingDateErrmsg('');
       dispatch({
         type: "GET_BOOKING_LIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
@@ -275,16 +285,16 @@ function BookingModal(props) {
 
       switch (fieldName) {
         case "firstName":
-          setError("First Name is Required");
+          setError("Please Enter First Name");
           break;
         case "Phone":
-          setError("Mobile Number is Required");
+          setError("Please Enter Mobile Number");
           break;
         case "joiningDate":
-          setError("Joining Date is Required");
+          setError("Please Enter Joining Date");
           break;
         case "amount":
-          setError("Amount is Required");
+          setError("Please Enter Amount");
           break;
         case "City":
           setError("Please Enter City");
@@ -296,7 +306,7 @@ function BookingModal(props) {
           setError("Please Select State");
           break;
         case "Email":
-          setError("Email is Required");
+          setError("Please Enter Email");
           break;
         default:
           break;
@@ -318,6 +328,10 @@ function BookingModal(props) {
   const MobileNumber = `${countryCode}${Phone}`;
 
   const handleSubmit = () => {
+
+    dispatch({ type: "CLEAR_EMAIL_ERROR" });
+    dispatch({ type: "CLEAR_PHONE_ERROR" });
+
     let hasError = false;
     const focusedRef = { current: false };
 
@@ -334,7 +348,7 @@ function BookingModal(props) {
 
 
     if (!Phone) {
-      setPhoneError("Mobile Number is Required");
+      setPhoneError("Please Enter Mobile Number");
       if (!focusedRef.current && phoneRef?.current) {
         phoneRef.current.focus();
         focusedRef.current = true;
@@ -351,14 +365,20 @@ function BookingModal(props) {
       setPhoneError("");
     }
 
-
+ if (pincode && pincode.length !== 6) {
+    setPincodeError("Pin Code Must Be Exactly 6 Digits");
+    if (!focusedRef.current && pincodeRef?.current) {
+      pincodeRef.current.focus();
+      focusedRef.current = true;
+    }
+    hasError = true;
+  }
     if (Email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(Email.toLowerCase());
       if (!isValidEmail) {
         setEmailError("Please Enter a Valid Email ID");
-        if (!focusedRef.current && emailRef?.current) {
-          emailRef.current.focus();
+        if (!focusedRef.current) {
           focusedRef.current = true;
         }
         hasError = true;
@@ -367,6 +387,24 @@ function BookingModal(props) {
       }
     } else {
       setEmailError("");
+    }
+
+    
+     if (joiningDate ) {
+      const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
+      if (selectedHostel) {
+        const HostelCreateDate = new Date(selectedHostel.create_At);
+        const BookingJoiningDate = new Date(joiningDate);
+        const HostelCreateDateOnly = new Date(HostelCreateDate.toDateString());
+        const BookingJoiningDateOnly = new Date(BookingJoiningDate.toDateString());
+        if (BookingJoiningDateOnly < HostelCreateDateOnly) {
+          setJoingDateErrmsg('Before Hostel Create date not allowed');
+          hasError = true;
+      
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
     }
 
     if (hasError) return;
@@ -381,6 +419,8 @@ function BookingModal(props) {
     ) {
       return;
     }
+
+    
 
     let formattedDate = null;
     try {
@@ -412,9 +452,11 @@ function BookingModal(props) {
         profile: file,
       },
     });
+    setFormLoading(true)
   };
 
   const handleAddClose = () => {
+    setFormLoading(false)
     setFirstName("");
     setLastName("");
     setAmount("");
@@ -436,11 +478,12 @@ function BookingModal(props) {
     setLandmarkError("");
     setStreetError("");
     setHouse_NoError("");
-
+    setJoingDateErrmsg('');
     setEmail("");
     setEmailError("");
     setEmailErrorMessage("");
     props.handleClose();
+    setFile("")
   };
 
 
@@ -485,7 +528,7 @@ function BookingModal(props) {
             style={{ cursor: "pointer" }}
           />
         </Modal.Header>
-        <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+        <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll mt-2 me-3 pt-2">
           <div className="d-flex align-items-center" >
             <div
               className=""
@@ -500,7 +543,7 @@ function BookingModal(props) {
                     : Profile2
                 }
                 roundedCircle
-                style={{ height: 100, width: 100 }}
+                style={{ height: 100, width: 100, cursor: "pointer" }}
               />
 
               <label htmlFor="imageInput" className="">
@@ -514,6 +557,7 @@ function BookingModal(props) {
                     top: 90,
                     left: 80,
                     transform: "translate(-50%, -50%)",
+                    cursor: "pointer"
                   }}
                 />
                 <input
@@ -588,7 +632,7 @@ function BookingModal(props) {
               </Form.Group>
               {firstNameError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "3px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "3px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -656,7 +700,7 @@ function BookingModal(props) {
                     id="vendor-select-pg"
                     style={{
                       border: "1px solid #D9D9D9",
-
+                      cursor: "pointer",
                       borderRadius: "8px 0 0 8px",
                       height: 50,
                       fontSize: 16,
@@ -703,7 +747,7 @@ function BookingModal(props) {
                 ></p>
                 {phoneError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: "15px", marginBottom: "1px" }} />
+                    <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                     <span
                       style={{
                         color: "red",
@@ -720,7 +764,7 @@ function BookingModal(props) {
 
                 {phoneErrorMessage && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: "15px", marginTop: "1px" }} />
+                    <MdError style={{ marginRight: "5px", fontSize: "13px", marginTop: "1px" }} />
                     <span
                       style={{
                         color: "red",
@@ -735,7 +779,7 @@ function BookingModal(props) {
                 )}
                 {state.Booking.bookingPhoneError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: "15px", marginBottom: "1px" }} />
+                    <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                     <span
                       style={{
                         color: "red",
@@ -779,7 +823,7 @@ function BookingModal(props) {
               </Form.Group>
               {emailError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "3px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -795,7 +839,7 @@ function BookingModal(props) {
 
               {emailErrorMessage && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "3px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -810,7 +854,7 @@ function BookingModal(props) {
               )}
               {state?.Booking?.bookingEmailError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "3px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -1038,7 +1082,7 @@ function BookingModal(props) {
               </Form.Group>
               {cityError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                  <MdError style={{ fontSize: '13px', marginRight: "5px",marginBottom:"2px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                 </div>
               )}
@@ -1134,7 +1178,7 @@ function BookingModal(props) {
 
             {!state_name && state_nameError && (
               <div style={{ color: "red" }}>
-                <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                <MdError style={{ fontSize: "13px", marginRight: "5px",marginBottom:"2px" }} />
                 <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                   {state_nameError}
                 </span>
@@ -1173,14 +1217,16 @@ function BookingModal(props) {
                     onChange={(date) => {
                       setDateError("");
                       setJoiningDate(date ? date.toDate() : null);
+                      setJoingDateErrmsg('');
                     }}
                     getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                   
                   />
                 </div>
               </Form.Group>
               {dateError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -1193,6 +1239,15 @@ function BookingModal(props) {
                   </span>
                 </div>
               )}
+
+                {joiningDateErrmsg.trim() !== "" && (
+                      <div className="d-flex align-items-center">
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      {joiningDateErrmsg}
+                        </label>
+                          </div>
+                       )}
             </Col>
 
             <Col md={6}>
@@ -1231,7 +1286,7 @@ function BookingModal(props) {
               </Form.Group>
               {amountError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", fontSize: "15px", marginBottom: "1px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize: "13px", marginBottom: "1px" }} />
                   <span
                     style={{
                       color: "red",
@@ -1251,6 +1306,35 @@ function BookingModal(props) {
 
 
         </Modal.Body>
+        {formLoading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
+
+
         <Modal.Footer
           className="d-flex align-items-center justify-content-center"
           style={{ border: "none" }}

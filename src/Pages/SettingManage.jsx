@@ -25,13 +25,12 @@ import "react-toastify/dist/ReactToastify.css";
 import EmptyState from "../Assets/Images/New_images/empty_image.png";
 import { MdError } from "react-icons/md";
 import "./Settings.css";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
 import PropTypes from "prop-types";
 import './SettingManage.css';
 
 
 
-function SettingManage(props) {
+function SettingManage() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [showHostelDetails, setShowHostelDetails] = useState("");
@@ -152,9 +151,7 @@ function SettingManage(props) {
         setKey(lastFloor?.floor_id?.toString() || "");
         setFloorName(lastFloor?.floor_name || "");
 
-        console.log("updatedFloors", updatedFloors, "lastFloor", lastFloor, "showHostelDetails", showHostelDetails);
-        console.log("floorClick", floorClick, "key", key, "floorName", floorName);
-
+      
 
         const newStartIndex = Math.max(0, lastIndex - 2);
         const newEndIndex = lastIndex;
@@ -290,23 +287,18 @@ function SettingManage(props) {
 
   const handleCloses = () => {
     setShowAddPg(false);
-    console.log("props:", props);
-    if (props.setPgshow) {
-      props.setPgshow(false);
-    } else {
-      console.error("setPgshow is not passed correctly.");
-    }
+    dispatch({ type: 'REMOVE_MANAGE_PG'})
+        
   };
 
-  console.log("props", props);
-
+ 
 
   useEffect(() => {
-    if (props.pgshow) {
+    if (state.PgList.isManageEnable) {
       setShowAddPg(true);
-      setEditHostelDetails("");
+            setEditHostelDetails("");
     }
-  }, [props.pgshow]);
+  }, [state.PgList.isManageEnable]);
 
 
 
@@ -339,22 +331,7 @@ function SettingManage(props) {
     setHidePgList(isVisible);
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
-  };
 
 
 
@@ -644,14 +621,14 @@ function SettingManage(props) {
               height: "100vh",
             }}
           >
-            {/* Image */}
+           
             <img
               src={EmptyState}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+              
             />
 
-            {/* Permission Error */}
+           
             {permissionError && (
               <div
                 style={{
@@ -663,7 +640,12 @@ function SettingManage(props) {
                 }}
               >
                 <MdError size={20} />
-                <span>{permissionError}</span>
+                <span  style={{
+                    fontSize: "12px",
+                    color: "red",
+                    fontFamily: "Gilroy",
+                    fontWeight: 500,
+                  }}>{permissionError}</span>
               </div>
             )}
           </div>
@@ -706,9 +688,7 @@ function SettingManage(props) {
 
           {hidePgList && (
             <>
-              {/* <div
-                 className=" justify-content-between d-flex align-items-center"
-                 className="d-flex flex-column flex-md-row justify-content-between align-items-center" */}
+             
               <div className="d-flex flex-column flex-md-row justify-content-between align-items-center"
                 style={{
                   position: "sticky",
@@ -768,21 +748,21 @@ function SettingManage(props) {
               </div>
 
               
-              <div className="scroll-issue"
+              <div className="show-scrolls-sidebar"
                 style={{
-                  maxHeight: "400px",
+                  maxHeight: "530px",
                   overflowY: "auto",
-                  overflowX: "hidden"
-                }}
+                  overflowX:"hidden"
+                                 }}
               >
                 <div className="row row-gap-3">
-                  {currentItems?.length > 0 ?
-                    currentItems.map((hostel) => {
+                  {filteredData?.length > 0 ?
+                    filteredData.map((hostel) => {
                       return (
                         <>
                           <div
                             key={hostel.id}
-                            className="col-lg-12 col-md-12 col-xs-12 col-sm-12 col-12 settingmanage"
+                            className="col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12   settingmanage me-0" style={{paddingRight:30}}
                           >
                             <PayingGuest
                               hostel={hostel}
@@ -798,9 +778,9 @@ function SettingManage(props) {
                       );
                     })
                     :
-                    !loading && (
+                    !loading && filteredData.length === 0 && (
                       <div
-                        className="d-flex align-items-center justify-content-center fade-in"
+                        className="d-flex align-items-center justify-content-center"
                         style={{
                           width: "100%",
                           margin: "0px auto",
@@ -813,29 +793,28 @@ function SettingManage(props) {
                           <div className="d-flex  justify-content-center">
                             <img
                               src={EmptyState}
-                              style={{ height: 240, width: 240 }}
                               alt="Empty state"
                             />
                           </div>
                           <div
-                            className="pb-1 mt-1"
+                            className="pb-1"
                             style={{
                               textAlign: "center",
                               fontWeight: 600,
                               fontFamily: "Gilroy",
-                              fontSize: 20,
+                              fontSize: 18,
                               color: "rgba(75, 75, 75, 1)",
                             }}
                           >
                             No Paying Guest available
                           </div>
                           <div
-                            className="pb-1 mt-1"
+                            className="pb-1"
                             style={{
                               textAlign: "center",
                               fontWeight: 500,
                               fontFamily: "Gilroy",
-                              fontSize: 16,
+                              fontSize: 14,
                               color: "rgba(75, 75, 75, 1)",
                             }}
                           >
@@ -850,99 +829,7 @@ function SettingManage(props) {
 
                 </div>
               </div>
-              {filteredData.length >= 5 && (
-                <nav
-                  className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
-               
-                >
-                
-                  <div>
-                    <select
-                      value={itemsPerPage}
-                      onChange={handleItemsPerPageChange}
-                      style={{
-                        padding: "5px",
-                        border: "1px solid #1E45E1",
-                        borderRadius: "5px",
-                        color: "#1E45E1",
-                        fontWeight: "bold",
-                        cursor: "pointer",
-                        outline: "none",
-                        boxShadow: "none",
-
-                      }}
-                    >
-                      <option value={5}>5</option>
-                      <option value={10}>10</option>
-                      <option value={50}>50</option>
-                      <option value={100}>100</option>
-                    </select>
-                  </div>
-
-                 
-                  <ul
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      listStyleType: "none",
-                      margin: 0,
-                      padding: 0,
-                    }}
-                  >
-                   
-                    <li style={{ margin: "0 10px" }}>
-                      <button
-                        style={{
-                          padding: "5px",
-                          textDecoration: "none",
-                          color: currentPage === 1 ? "#ccc" : "#1E45E1",
-                          cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          minWidth: "30px",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border: "none",
-                        }}
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      >
-                        <ArrowLeft2 size="16" color={currentPage === 1 ? "#ccc" : "#1E45E1"} />
-                      </button>
-                    </li>
-
-                   
-                    <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
-                      {currentPage} of {totalPages}
-                    </li>
-
-                    
-                    <li style={{ margin: "0 10px" }}>
-                      <button
-                        style={{
-                          padding: "5px",
-                          textDecoration: "none",
-                          color: currentPage === totalPages ? "#ccc" : "#1E45E1",
-                          cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          minWidth: "30px",
-                          textAlign: "center",
-                          backgroundColor: "transparent",
-                          border: "none",
-                        }}
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                      >
-                        <ArrowRight2
-                          size="16"
-                          color={currentPage === totalPages ? "#ccc" : "#1E45E1"}
-                        />
-                      </button>
-                    </li>
-                  </ul>
-                </nav>
-              )}
+           
 
 
             </>
@@ -1378,24 +1265,7 @@ function SettingManage(props) {
                       >
                         There is no floor added to this paying guest.
                       </div>
-                      <div className="d-flex justify-content-center pb-1 mt-3">
-                        {" "}
-                        <Button
-                          style={{
-                            fontSize: 16,
-                            backgroundColor: "#1E45E1",
-                            color: "white",
-                            fontWeight: 600,
-                            borderRadius: 12,
-                            padding: "20px 40px",
-                            fontFamily: "Gilroy",
-                          }}
-                          onClick={() => handleAddFloors(showHostelDetails.id)}
-                        >
-                          {" "}
-                          + Add floor
-                        </Button>
-                      </div>
+                   
                     </div>
                     <div></div>
                   </div>

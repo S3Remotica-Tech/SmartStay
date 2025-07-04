@@ -16,6 +16,8 @@ export const initialState = {
 const AssetReducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'RESET_ALL':
+              return initialState;
         case 'ASSET_LIST':
             return { ...state, assetList: action.payload.response, getAssetStatusCode: action.payload.statusCode }
         case 'CLEAR_GET_ASSET_STATUS_CODE':
