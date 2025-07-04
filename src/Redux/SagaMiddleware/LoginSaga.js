@@ -22,14 +22,14 @@ function* Login(args) {
     else if (response.status === 203 || response.statusCode === 203 ) {
       yield put({ type: 'OTP_SUCCESS', payload: {response: response.data, statusCode:response.status || response.statusCode} });
          }
-  } catch (error) {
-     if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred'  });
-    }
-    
+  }
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
+   }
 }
 
 
@@ -45,8 +45,12 @@ function* handleOTPVerified(args) {
 
     } 
   } catch (error) {
-    console.error(error);
-     }
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
 
 

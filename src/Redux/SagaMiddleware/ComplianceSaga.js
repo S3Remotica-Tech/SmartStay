@@ -63,13 +63,12 @@ function* handleComplianceadd(params) {
       }
    }
    catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+         if (error.code === 'ERR_NETWORK') {
+            yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+         } else {
+            yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+         }
       }
-
-   }
 }
 
 
@@ -135,14 +134,13 @@ function* handleAddVendor(action) {
          refreshToken(response)
       }
    }
-   catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      }
-
-   }
+  catch (error) {
+        if (error.code === 'ERR_NETWORK') {
+           yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+        } else {
+           yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+        }
+     }
 
 }
 
@@ -192,14 +190,13 @@ function* handleComplianceChange(action) {
          refreshToken(response)
       }
    }
-   catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      }
-
-   }
+  catch (error) {
+        if (error.code === 'ERR_NETWORK') {
+           yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+        } else {
+           yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+        }
+     }
 
 }
 
@@ -249,14 +246,13 @@ function* handleComplianceChangeAssign(action) {
          refreshToken(response)
       }
    }
-   catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      }
-
-   }
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
+    }
 
 }
 
@@ -411,14 +407,13 @@ function* handleAddComplianceComment(action) {
          refreshToken(response)
       }
    }
-   catch (error) {
-      if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      } else {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-      }
-
-   }
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
+    }
 }
 
 

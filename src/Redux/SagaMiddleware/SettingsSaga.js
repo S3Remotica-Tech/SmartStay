@@ -56,14 +56,13 @@ function* handleRecurringRole(action) {
       refreshToken(response)
    }
    }
-     catch (error) {
-       if (error.code === 'ERR_NETWORK') {
+   catch (error) {
+      if (error.code === 'ERR_NETWORK') {
          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-       } else {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-       }
-   
-     }
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
 
 
@@ -93,14 +92,13 @@ function* handleCategorylist(action) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
     }
-
-  }
 }
 
 function* handleCategoryAdd(params) {
@@ -152,14 +150,13 @@ function* handleCategoryAdd(params) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
     }
-
-  }
 }
 
 
@@ -184,14 +181,13 @@ function* handleEditCategory(params) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    }
-
-  }
+ catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
 
 
@@ -321,14 +317,13 @@ function* handleComplaintTypeAdd(params) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
     }
-
-  }
 }
 
 function* handleComplaintTypeEdit(action) {
@@ -387,14 +382,13 @@ function* handleComplaintTypeEdit(action) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    }
-
-  }
+ catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
 
 function* handleDeleteComplainttype(action) {
@@ -501,13 +495,12 @@ function* handleEBBillingUnitAdd(params) {
    }
    }
   catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    }
-
-  }
+        if (error.code === 'ERR_NETWORK') {
+           yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+        } else {
+           yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+        }
+     }
 }
 
 function* handleEBBillingUnitGet(action) {
@@ -636,14 +629,13 @@ function* handleAddSettingRole(action) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
     }
-
-  }
 }
 
 
@@ -710,14 +702,13 @@ function* handleEditRolePermission(detail) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    }
-
-  }
+ catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
 
 
@@ -834,14 +825,13 @@ function* handleAddStaffUserPage(detail) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
     }
-
-  }
 }
 
 function* handleGetAllStaffs(action) {
@@ -920,14 +910,13 @@ function* handleAddGeneralPage(action) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
     }
-
-  }
 }
 
 
@@ -994,14 +983,13 @@ function* handleChangePasswordinStaff(action) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
     }
-
-  }
 }
 
 function* handleCheckPassword(action) {
@@ -1050,14 +1038,13 @@ function* handleCheckPassword(action) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
     }
-
-  }
 }
 
 
@@ -1158,14 +1145,13 @@ function* handleNewSubscriptionpage(action) {
      refreshToken(response);
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
     }
-
-  }
  }
 
 
@@ -1247,14 +1233,13 @@ function* handleSettingsRecurring(action) {
       refreshToken(response)
    }
    }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+ catch (error) {
+       if (error.code === 'ERR_NETWORK') {
+          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+       } else {
+          yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+       }
     }
-
-  }
 }
 
 
