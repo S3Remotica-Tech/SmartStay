@@ -581,6 +581,7 @@ function UserListRoomDetail(props) {
     } else {
       setPincodeError("");
     }
+    setFormError("")
   };
 
   const handleCity = (e) => {
@@ -935,14 +936,19 @@ function UserListRoomDetail(props) {
       setPhoneError("");
       setPhoneErrorMessage("");
     }
-     if (pincode && pincode.length !== 6) {
-    setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    if (!focusedRef.current && pincodeRef?.current) {
-      pincodeRef.current.focus();
-      focusedRef.current = true;
-    }
-    hasError = true;
+  
+  const cleanedPincode = String(pincode || "").trim();
+
+if (!/^\d{6}$/.test(cleanedPincode)) {
+  setPincodeError("Pin Code Must Be Exactly 6 Digits");
+  if (!focusedRef.current && pincodeRef?.current) {
+    pincodeRef.current.focus();
+    focusedRef.current = true;
   }
+  hasError = true;
+} else {
+  setPincodeError("");
+}
 
     if (Email && !["n/a", "na"].includes(Email.toLowerCase().trim())) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
