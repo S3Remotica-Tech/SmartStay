@@ -216,6 +216,7 @@ const Compliance = () => {
       setComplianceEditPermission("Permission Denied");
     }
   }, [compliancerolePermission]);
+
   useEffect(() => {
     if (state.ComplianceList.statusCodeForDeleteCompliance === 200) {
 
@@ -351,7 +352,7 @@ const Compliance = () => {
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
-    setFilteredUsers(state.ComplianceList?.Compliance);
+    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
   }
 
 
@@ -380,33 +381,31 @@ const Compliance = () => {
 
     const value = event.target.value;
     setStatusfilter(value);
-
-    if (value === "All") {
-      setFilteredUsers(state.ComplianceList?.Compliance || []);
+        
+    if (value === "All"  ) {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
     }
 
-    else if (value === "date") {
-      setFilteredUsers(state.ComplianceList?.Compliance || []);
+    else if(value === "date"){
+        dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
     }
 
-    else {
-      const filtered = (state.ComplianceList?.Compliance || []).filter(item =>
-        item.Status?.toLowerCase().includes(value.toLowerCase())
-      );
-      setFilteredUsers(filtered);
-      setCurrentPage(1)
+    else if(value){
+        dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId , status:value ,} })
     }
+
+     setCurrentPage(1)
   };
 
   const [selectedDateRange, setSelectedDateRange] = useState([]);
 
   const handleDateChange = (dates) => {
-    if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
-      setSelectedDateRange([]);
-      setStatusfilter("All");
-      setFilteredUsers(state.ComplianceList?.Compliance);
-      return;
-    }
+  if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
+    setSelectedDateRange([]);
+    setStatusfilter("All");
+    dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+    return;
+  }
 
 
 
@@ -436,6 +435,19 @@ const Compliance = () => {
       setSelectedDateRange([]);
     }
   }, [filterStatus]);
+
+
+  
+ useEffect(() => {
+      
+
+      if (statusfilter === "date" &&  ExcelFilterDates.length === 2) {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId  , 
+          from_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+          to_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")} 
+           })
+    }
+  }, [ExcelFilterDates]);
 
 
   useEffect(() => {

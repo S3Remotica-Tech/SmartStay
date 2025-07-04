@@ -368,14 +368,16 @@ function Booking(props) {
       return;
     }
 
+
     setPincode(value);
     if (value.length > 0 && value.length < 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
-      setFormError("");
+     
+      
     }
-
+setFormError("")
 
   };
 
@@ -402,13 +404,17 @@ function Booking(props) {
     ) {
       switch (fieldName) {
         case "firstName":
-          setfirstNameError("First Name is Required");
+          setfirstNameError("Please Enter First Name");
+          break;
+            case "phone":
+          setPhoneError("Please Enter Mobile Number");
           break;
         case "joiningDate":
-          setDateError("Joining Date ID is Required");
+          setDateError("Please Enter Joining Date");
           break;
+          
         case "amount":
-          setamountError("Amount is Required");
+          setamountError("Please Enter Amount");
           break;
         case "City":
           setCityError("Please Enter City");
@@ -420,7 +426,7 @@ function Booking(props) {
           setStateNameError("Please Select State");
           break;
         case "Email":
-          setEmailError("Email is Required");
+          setEmailError("Please Enter Email");
           break;
 
         default:
@@ -435,6 +441,9 @@ function Booking(props) {
       switch (fieldName) {
         case "firstName":
           setfirstNameError("");
+          break;
+            case "phone":
+          setPhoneError("");
           break;
         case "joiningDate":
           setDateError("");
@@ -470,36 +479,35 @@ function Booking(props) {
 
     let hasError = false;
     const isFirstnameValid = validateAssignField(firstName, "firstName");
+    const isphoneValid = validateAssignField(Phone, "phone");
     const isjoiningDateValid = validateAssignField(joiningDate, "joiningDate");
     const isamountValid = validateAssignField(amount, "amount");
-    const isphoneValid = validateAssignField(Phone, "Phone");
+    
     const isHostelValid = validateAssignField(HostelIds, "paying");
     const isCityValid = validateAssignField(city, "City");
-    const isPincodeValid = validateAssignField(pincode, "Pincode");
+    const isPincodeValid = validateAssignField (pincode, "Pincode");
     const isStatenameValid = validateAssignField(state_name, "Statename");
 
 
 
-    if (!Phone) {
-      setPhoneError("Mobile Number is Required");
-      hasError = true;
-    }
-    else if (Phone.length !== 10) {
+      if (Phone.length !== 10) {
       setPhoneError("Please Enter Valid Mobile Number");
       hasError = true;
     } else {
       setPhoneError("");
+    
     }
 
-
-    if (pincode && pincode.length !== 6) {
-    setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    if (!focusedRef.current && pincodeRef?.current) {
-      pincodeRef.current.focus();
-      focusedRef.current = true;
-    }
-    hasError = true;
+if (pincode && String(pincode).length !== 6) {
+  setPincodeError("Pin Code Must Be Exactly 6 Digits");
+  if (!focusedRef.current && pincodeRef?.current) {
+    pincodeRef.current.focus();
+    focusedRef.current = true;
   }
+  hasError = true;
+} else {
+  setPincodeError(""); 
+}
 
     if (Email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;

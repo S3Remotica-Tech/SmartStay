@@ -834,12 +834,7 @@ function UserListInvoice(props) {
       {invoiceFilterddata?.length >= 4 && (
 
         <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "end",
-            padding: "10px",
-          }}
+           className="position-fixed bottom-0 end-0 mb-3 me-3 d-flex justify-content-end align-items-center"
         >
           <div>
             <select

@@ -66,7 +66,7 @@ function UserlistForm(props) {
   const [state_nameError, setStateNameError] = useState("");
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
-
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
   const [formLoading, setFormLoading] = useState(false)
   const [loading, setLoading] = useState(false)
   const countryCode = "91";
@@ -470,6 +470,7 @@ function UserlistForm(props) {
     setLandmarkError("");
     setStreetError("");
     setHouse_NoError("");
+    setJoingDateErrmsg("")
     setFloor("");
     setRooms("");
     setBed("");
@@ -491,6 +492,9 @@ function UserlistForm(props) {
       props.setRoomDetail(false);
     }
   };
+
+    
+    
 
   useEffect(() => {
     if (props.EditObj && props.EditObj.ID) {
@@ -599,14 +603,14 @@ function UserlistForm(props) {
       setPhoneErrorMessage("");
     }
 
- if (pincode && pincode.length !== 6) {
-    setPincodeError("Pin Code Must Be Exactly 6 Digits");
-    if (!focusedRef.current && pincodeRef?.current) {
-      pincodeRef.current.focus();
-      focusedRef.current = true;
+    if (pincode && pincode.length !== 6) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      if (!focusedRef.current && pincodeRef?.current) {
+        pincodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
     }
-    hasError = true;
-  }
 
     if (Email) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
@@ -723,6 +727,23 @@ function UserlistForm(props) {
       return;
     }
 
+
+       if (selectedDate && props.EditObj.User_Id) {
+      const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.EditObj.User_Id);
+      if (selectedUser) {
+        const CreateDate = new Date(selectedUser.createdAt);
+        const AssignDate = new Date(selectedDate);
+        const CreaeteDateOnly = new Date(CreateDate.toDateString());
+        const AssignDateOnly = new Date(AssignDate.toDateString());
+        if (AssignDateOnly < CreaeteDateOnly) {
+          setJoingDateErrmsg('Before Create Date Not Allowed');
+         return
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
+
     if (
       Floor !== "Selected Floor" &&
       Rooms !== "Selected Room" &&
@@ -773,6 +794,24 @@ function UserlistForm(props) {
       setAdvanceAmountError("Please Enter Valid Advance Amount");
       return;
     }
+
+       if (selectedDate && props.EditObj.User_Id) {
+      const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.EditObj.User_Id);
+      if (selectedUser) {
+        const CreateDate = new Date(selectedUser.createdAt);
+        const AssignDate = new Date(selectedDate);
+        const CreaeteDateOnly = new Date(CreateDate.toDateString());
+        const AssignDateOnly = new Date(AssignDate.toDateString());
+        if (AssignDateOnly <= CreaeteDateOnly) {
+          setJoingDateErrmsg('Before Create Date Not Allowed');
+         return
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
+    }
+
+
 
     if (Floor && Rooms && Bed && selectedDate && AdvanceAmount && RoomRent) {
       const incrementDateAndFormat = (date) => {
@@ -842,6 +881,30 @@ function UserlistForm(props) {
     } else {
       setAdvanceDueDateError("");
     }
+           
+    
+
+      if (advanceDate && advanceDueDate && props.EditObj.User_Id) {
+  const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.EditObj.User_Id);
+
+  if (selectedUser) {
+    const CreateDate = dayjs(selectedUser.createdAt).startOf('day');
+    const InvoiceDate = dayjs(advanceDate).startOf('day');
+    const DueDate = dayjs(advanceDueDate).startOf('day');
+
+    if (InvoiceDate.isBefore(CreateDate)) {
+      setAdvanceDateError("Before Join Date Not Allowed");
+      hasError = true;
+    }
+
+    if (DueDate.isBefore(CreateDate)) {
+      setAdvanceDueDateError("Before Join Date Not Allowed");
+      hasError = true;
+    }
+  }
+}
+
+
 
     if (hasError) {
       return;
@@ -991,7 +1054,7 @@ useEffect(() => {
                               : Profile
                           }
                           roundedCircle
-                          style={{ height: 100, width: 100,cursor: "pointer" }}
+                          style={{ height: 100, width: 100, cursor: "pointer" }}
                         />
 
                         <label htmlFor="imageInput" className="">
@@ -1087,7 +1150,7 @@ useEffect(() => {
                           <div style={{ color: "red", marginTop: "-15px" }}>
                             {" "}
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "4px" }}
+                              style={{ fontSize: "13px",  marginBottom: "2px" }}
                             />
                             <span
                               style={{
@@ -1095,6 +1158,7 @@ useEffect(() => {
                                 color: "red",
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
+                                marginRight: "3px"
                               }}
                             >
                               {" "}
@@ -1210,7 +1274,7 @@ useEffect(() => {
                         {phoneError && (
                           <div style={{ color: "red" }}>
                             <MdError
-                              style={{ marginRight: "4px", fontSize: "13px" }}
+                              style={{ fontSize: "13px", marginBottom: "2px" }}
                             />
                             <span
                               style={{
@@ -1218,6 +1282,7 @@ useEffect(() => {
                                 color: "red",
                                 fontFamily: "Gilroy",
                                 fontWeight: 500,
+                                marginRight: "3px"
                               }}
                             >
                               {" "}
@@ -1538,14 +1603,14 @@ useEffect(() => {
                               borderRadius: 8,
                             }}
                           />
+                       
                           {pincodeError && (
-                            <div className="d-flex align-items-center p-1 mb-2">
+                            <div className="d-flex align-items-start gap-1 mb-2" style={{ marginTop: "5px" }}>
                               <MdError
                                 style={{
                                   color: "red",
-                                  marginRight: "5px",
                                   fontSize: "13px",
-                                  marginBottom: "2px",
+                                  marginTop: "1px",
                                 }}
                               />
                               <label
@@ -1555,12 +1620,14 @@ useEffect(() => {
                                   fontSize: "12px",
                                   fontFamily: "Gilroy",
                                   fontWeight: 500,
+                                  lineHeight: "16px",
                                 }}
                               >
                                 {pincodeError}
                               </label>
                             </div>
                           )}
+
                         </Form.Group>
                       </div>
 
@@ -1602,7 +1669,7 @@ useEffect(() => {
                         {cityError && (
                           <div style={{ color: "red" }}>
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
+                              style={{ fontSize: "13px", marginRight: "5px", marginBottom: "1px" }}
                             />
                             <span
                               style={{
@@ -1719,7 +1786,7 @@ useEffect(() => {
                         {!state_name && state_nameError && (
                           <div style={{ color: "red", marginTop: "-16px" }}>
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "5px" }}
+                              style={{ fontSize: "13px", marginRight: "5px", marginBottom: "1px" }}
                             />
                             <span
                               style={{
@@ -1803,79 +1870,79 @@ useEffect(() => {
                           </span>
                         </Form.Label>
 
-                      <Select
-                        options={
-                          state.UsersList?.hosteldetailslist?.map((u) => ({
-                            value: u.floor_id,
-                            label: u.floor_name,
-                          })) || []
-                        }
-                        onChange={handleFloor}
-                        value={
-                          state.UsersList?.hosteldetailslist?.find(
-                            (option) => option.floor_id === Floor
-                          )
-                            ? {
-                              value: Floor,
-                              label: state.UsersList.hosteldetailslist.find(
-                                (option) => option.floor_id === Floor
-                              )?.floor_name,
-                            }
-                            : null
-                        }
-                        placeholder="Select a Floor"
-                        classNamePrefix="custom"
-                        menuPlacement="auto"
-                        styles={{
-                          control: (base) => ({
-                            ...base,
-                            height: "50px",
-                            border: "1px solid #D9D9D9",
-                            borderRadius: "8px",
-                            fontSize: "16px",
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            border: "1px solid #ced4da",
-                          }),
-                          menuList: (base) => ({
-                            ...base,
-                            backgroundColor: "#f8f9fa",
-                            maxHeight: "120px",
-                            padding: 0,
-                            scrollbarWidth: "thin",
-                            overflowY: "auto",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            color: "#555",
-                          }),
-                          dropdownIndicator: (base) => ({
-                            ...base,
-                            color: "#555",
-                            display: "inline-block",
-                            fill: "currentColor",
-                            lineHeight: 1,
-                            stroke: "currentColor",
-                            strokeWidth: 0,
-                            cursor: "pointer",
-                          }),
-                          indicatorSeparator: () => ({
-                            display: "none",
-                          }),
-                           option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
-                        }}
-                      />
+                        <Select
+                          options={
+                            state.UsersList?.hosteldetailslist?.map((u) => ({
+                              value: u.floor_id,
+                              label: u.floor_name,
+                            })) || []
+                          }
+                          onChange={handleFloor}
+                          value={
+                            state.UsersList?.hosteldetailslist?.find(
+                              (option) => option.floor_id === Floor
+                            )
+                              ? {
+                                value: Floor,
+                                label: state.UsersList.hosteldetailslist.find(
+                                  (option) => option.floor_id === Floor
+                                )?.floor_name,
+                              }
+                              : null
+                          }
+                          placeholder="Select a Floor"
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              height: "50px",
+                              border: "1px solid #D9D9D9",
+                              borderRadius: "8px",
+                              fontSize: "16px",
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              boxShadow: "none",
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "120px",
+                              padding: 0,
+                              scrollbarWidth: "thin",
+                              overflowY: "auto",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#555",
+                              display: "inline-block",
+                              fill: "currentColor",
+                              lineHeight: 1,
+                              stroke: "currentColor",
+                              strokeWidth: 0,
+                              cursor: "pointer",
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
+                          }}
+                        />
 
                         {floorError && (
                           <div style={{ color: "red" }}>
@@ -1980,13 +2047,13 @@ useEffect(() => {
                             }),
                             indicatorSeparator: () => ({
                               display: "none",
-                          }),
-                           option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                      }),
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
                           }}
                         />
 
@@ -2100,13 +2167,13 @@ useEffect(() => {
                             }),
                             indicatorSeparator: () => ({
                               display: "none",
-                          }),
-                           option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                      }),
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                              color: "#000",
+                            }),
                           }}
                         />
 
@@ -2163,6 +2230,7 @@ useEffect(() => {
                               onChange={(date) => {
                                 setDateError("");
                                 setSelectedDate(date ? date.toDate() : null);
+                                setJoingDateErrmsg('')
                               }}
                               getPopupContainer={(triggerNode) =>
                                 triggerNode.closest(".show-scroll") || document.body
@@ -2189,6 +2257,15 @@ useEffect(() => {
                             </label>
                           </div>
                         )}
+
+                         {joiningDateErrmsg.trim() !== "" && (
+                                                        <div className="d-flex align-items-center">
+                                                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                          <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                            {joiningDateErrmsg}
+                                                          </label>
+                                                        </div>
+                                                      )}
                       </div>
 
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -2244,62 +2321,62 @@ useEffect(() => {
                         )}
                       </div>
 
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                      <Form.Group className="mb-1">
-                        <Form.Label
-                          style={{
-                            fontSize: 14,
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                          }}
-                        >
-                          Rental Amount
-                          <span style={{ color: "red", fontSize: "20px" }}>
-                            {" "}
-                            *{" "}
-                          </span>
-                        </Form.Label>
-                        <FormControl
-                          type="text"
-                          id="form-controls"
-                          placeholder="Enter Amount"
-                          value={RoomRent}
-                          onChange={(e) => handleRoomRent(e)}
-                          style={{
-                            fontSize: 16,
-                            color: "#4B4B4B",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                            boxShadow: "none",
-                            border: "1px solid #D9D9D9",
-                            height: 50,
-                            borderRadius: 8,
-                          }}
-                        />
-                      </Form.Group>
-                      {roomrentError && (
-                        <div
-                          className="d-flex align-items-center justify-content-start"
-                          style={{ color: "red" }}
-                        >
-                          <MdError
-                            style={{ fontSize: "13px", marginRight: "5px" }}
-                          />
-                          <label
-                            className="mb-0"
+                      <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <Form.Group className="mb-1">
+                          <Form.Label
                             style={{
-                              color: "red",
-                              fontSize: "12px",
-                              fontFamily: "Gilroy",
+                              fontSize: 14,
                               fontWeight: 500,
+                              fontFamily: "Gilroy",
                             }}
                           >
-                            {roomrentError}
-                          </label>
-                        </div>
-                      )}
+                            Rental Amount
+                            <span style={{ color: "red", fontSize: "20px" }}>
+                              {" "}
+                              *{" "}
+                            </span>
+                          </Form.Label>
+                          <FormControl
+                            type="text"
+                            id="form-controls"
+                            placeholder="Enter Amount"
+                            value={RoomRent}
+                            onChange={(e) => handleRoomRent(e)}
+                            style={{
+                              fontSize: 16,
+                              color: "#4B4B4B",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                              boxShadow: "none",
+                              border: "1px solid #D9D9D9",
+                              height: 50,
+                              borderRadius: 8,
+                            }}
+                          />
+                        </Form.Group>
+                        {roomrentError && (
+                          <div
+                            className="d-flex align-items-center justify-content-start"
+                            style={{ color: "red" }}
+                          >
+                            <MdError
+                              style={{ fontSize: "13px", marginRight: "5px" }}
+                            />
+                            <label
+                              className="mb-0"
+                              style={{
+                                color: "red",
+                                fontSize: "12px",
+                                fontFamily: "Gilroy",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {roomrentError}
+                            </label>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
                   </div>
 
  {state.createAccount?.networkError ?

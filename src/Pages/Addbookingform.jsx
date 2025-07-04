@@ -285,16 +285,16 @@ function BookingModal(props) {
 
       switch (fieldName) {
         case "firstName":
-          setError("First Name is Required");
+          setError("Please Enter First Name");
           break;
         case "Phone":
-          setError("Mobile Number is Required");
+          setError("Please Enter Mobile Number");
           break;
         case "joiningDate":
-          setError("Joining Date is Required");
+          setError("Please Enter Joining Date");
           break;
         case "amount":
-          setError("Amount is Required");
+          setError("Please Enter Amount");
           break;
         case "City":
           setError("Please Enter City");
@@ -306,7 +306,7 @@ function BookingModal(props) {
           setError("Please Select State");
           break;
         case "Email":
-          setError("Email is Required");
+          setError("Please Enter Email");
           break;
         default:
           break;
@@ -348,7 +348,7 @@ function BookingModal(props) {
 
 
     if (!Phone) {
-      setPhoneError("Mobile Number is Required");
+      setPhoneError("Please Enter Mobile Number");
       if (!focusedRef.current && phoneRef?.current) {
         phoneRef.current.focus();
         focusedRef.current = true;
@@ -483,6 +483,7 @@ function BookingModal(props) {
     setEmailError("");
     setEmailErrorMessage("");
     props.handleClose();
+    setFile("")
   };
 
 
