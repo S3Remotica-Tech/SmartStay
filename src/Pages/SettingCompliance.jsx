@@ -574,7 +574,7 @@ useEffect(() => {
         </div>
       )}
 
-      {complianceFilterddata.length >= 10 && (
+      {complianceFilterddata.length > 10 && (
         <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
           <div>
             <select
