@@ -785,12 +785,12 @@ const CheckOutForm = ({
     }
   }, [conformcheckErr]);
 
-  useEffect(() => {
-    if (state.UsersList.errorMessageAddCheckOut) {
-      setFormLoading(false)
-      setFormCheckoutLoading(false)
-    }
-  }, [state.UsersList.errorMessageAddCheckOut])
+  // useEffect(() => {
+  //   if (state.UsersList.errorMessageAddCheckOut) {
+  //     setFormLoading(false)
+  //     setFormCheckoutLoading(false)
+  //   }
+  // }, [state.UsersList.errorMessageAddCheckOut])
 
   useEffect(() => {
 
@@ -1072,9 +1072,7 @@ const CheckOutForm = ({
                             const joining_Date = moment(filteruserlist[0].user_join_date, "YYYY-MM-DD");
                             return current && current.isBefore(joining_Date, "day");
                           }}
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".show-scroll") || document.body
-                          }
+                          getPopupContainer={() => document.body}
                         />
 
                       </div>
@@ -1123,7 +1121,7 @@ const CheckOutForm = ({
 
 
                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                      
+
                         <DatePicker
                           style={{
                             width: "100%",
@@ -1150,9 +1148,7 @@ const CheckOutForm = ({
                             const joining_Date = moment(filteruserlist[0].user_join_date, "YYYY-MM-DD");
                             return current && current.isBefore(joining_Date, "day");
                           }}
-                          getPopupContainer={(triggerNode) =>
-                            triggerNode.closest(".show-scroll") || document.body
-                          }
+                          getPopupContainer={() => document.body}
                         />
 
                       </div>
@@ -1206,7 +1202,7 @@ const CheckOutForm = ({
                       id="comments"
                       value={comments}
                       onChange={handleCommentsChange}
-                      className="form-control mt-2"
+                      className="form-control mt-2 mb-4"
                       placeholder="Add Comments"
                       required
                       style={{
@@ -1237,7 +1233,7 @@ const CheckOutForm = ({
                     </div>
                   )}
                 </div>
-                {state.UsersList.errorMessageAddCheckOut && (
+                {/* {state.UsersList.errorMessageAddCheckOut && (
                   <div className="d-flex align-items-center p-1 mt-6">
                     <MdError style={{ color: "red", marginRight: "5px", }} />
                     <label
@@ -1253,7 +1249,7 @@ const CheckOutForm = ({
                       {state.UsersList.errorMessageAddCheckOut}
                     </label>
                   </div>
-                )}
+                )} */}
 
 
 
@@ -1267,10 +1263,10 @@ const CheckOutForm = ({
                 className="d-flex justify-content-center align-items-center"
                 style={{ color: "red", }}
               >
-                <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                <MdError style={{ fontSize: "13px", marginRight: "6px" }} />
                 <span
                   style={{
-                    fontSize: "12px",
+                    fontSize: "13px",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
                   }}
@@ -1766,7 +1762,7 @@ const CheckOutForm = ({
                         className="d-flex justify-content-start align-items-start"
                         style={{ color: "red", marginTop: 5, }}
                       >
-                        <MdError style={{ fontSize: "14px", marginRight: "6px",marginTop:"1px" }} />
+                        <MdError style={{ fontSize: "14px", marginRight: "6px", marginTop: "1px" }} />
                         <span
                           style={{
                             fontSize: "12px",
@@ -1838,7 +1834,7 @@ const CheckOutForm = ({
                   </div>
                 )}
               </div>
-              {state.UsersList.errorMessageAddCheckOut && (
+              {/* {state.UsersList.errorMessageAddCheckOut && (
                 <div ref={errorRef} className="d-flex align-items-center p-1 mt-6">
                   <MdError style={{ color: "red", marginRight: "5px", }} />
                   <label
@@ -1854,7 +1850,7 @@ const CheckOutForm = ({
                     {state.UsersList.errorMessageAddCheckOut}
                   </label>
                 </div>
-              )}
+              )} */}
 
 
 
