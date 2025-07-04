@@ -264,11 +264,34 @@ function Asset() {
   const handlePriceRangeChange = (event) => {
     const value = event.target.value;
     setSelectedPriceRange(value);
+
+
+     if(value === "All"){
+        dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+       }
+     else if(value === "date"){
+           dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
+         }
+     else if (value){
+        dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id  , price_range : value} })
+    }
+
     setCurrentPage(1);
     if (value !== 'date') {
       setSelectedDateRange([]);
     }
   };
+
+  useEffect(()=> {
+   
+       if (selectedPriceRange === "date" &&  ExcelFilterDates.length === 2) {
+      dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id , 
+          start_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+          end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")} 
+           })
+    }
+  },[selectedPriceRange])
+
   useEffect(() => {
     if (!showFilter) {
       setSelectedPriceRange('All');
@@ -278,6 +301,7 @@ function Asset() {
 
   const handleFilterByPrice = () => {
     setShowFilter(!showFilter)
+    dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
   }
 
 
