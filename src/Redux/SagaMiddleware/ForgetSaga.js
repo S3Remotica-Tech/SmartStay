@@ -51,11 +51,12 @@ function* handleforgetpage(rpsd) {
         }
     }
     catch (error) {
-        yield put({ type: 'ERROR', payload: 'Email Id Is Inorrect' })
-       console.error(error)
-      
-
-    }
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 
 }
 
@@ -100,14 +101,13 @@ function* handleSendOtp(action) {
        
     }
      }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    }
-
-  }
+ catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
 
 function* handleOtpVerifyforForgotPassword(action) {
@@ -124,14 +124,13 @@ function* handleOtpVerifyforForgotPassword(action) {
         yield put({ type: 'ERROR', payload: response.data.message })
     }
  }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    }
-
-  }
+ catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 }
 
 

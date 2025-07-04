@@ -71,12 +71,12 @@ function* handleAddAsset(action) {
 
    }
 catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Something went wrong' });
-    }
-  }
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 
 
 
@@ -189,13 +189,14 @@ function* handleAssignAsset(action) {
    if (response) {
       refreshToken(response)
    }
-}catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Something went wrong' });
-    }
-  }
+}
+catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 
 
 }

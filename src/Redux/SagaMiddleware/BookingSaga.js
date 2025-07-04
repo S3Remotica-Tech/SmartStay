@@ -54,14 +54,13 @@ function* handleAddBooking(action) {
        refreshToken(response)
     }
      }
-      catch (error) {
-        if (error.code === 'ERR_NETWORK') {
-          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-        } else {
-          yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-        }
-    
+     catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
       }
+   }
  }
 
 
@@ -178,14 +177,13 @@ function* handleDeleteBooking(action) {
       refreshToken(response)
    }
     }
-     catch (error) {
-       if (error.code === 'ERR_NETWORK') {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-       } else {
-         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+    catch (error) {
+          if (error.code === 'ERR_NETWORK') {
+             yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+          } else {
+             yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+          }
        }
-   
-     }
 }
 
 
@@ -202,14 +200,13 @@ function* handleBookingBed(userDetails){
       refreshToken(response)
    }
  }
-  catch (error) {
-    if (error.code === 'ERR_NETWORK') {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    } else {
-      yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
-    }
-
-  }
+catch (error) {
+      if (error.code === 'ERR_NETWORK') {
+         yield put({ type: 'NETWORK_ERROR', payload: 'Network error occurred' });
+      } else {
+         yield put({ type: 'NETWORK_ERROR', payload: error.message || 'Something went wrong' });
+      }
+   }
 
    
 }
