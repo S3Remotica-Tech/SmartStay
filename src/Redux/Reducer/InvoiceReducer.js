@@ -1,5 +1,3 @@
-// import { ManualInvoice } from "../Action/InvoiceAction";
-
 export const initialState = {
     Invoice: [],
     message: '',
@@ -69,12 +67,10 @@ export const initialState = {
     BillsPdfSuccessCode: 0,
 
     newReceiptchanges:[],
-    statusCodeNewReceiptStatusCode:0,
     ReceiptErrmsg:'',
     ReceiptAddErrorStatuscode : 0,
-    newReceiptchanges: [],
     statusCodeNewReceiptStatusCode: 0,
-
+    AddErrorRecurrringStatusCode : 0,
     triggeredBy: '',  
 
     whatsappSettings:
@@ -90,7 +86,8 @@ export const initialState = {
 const InvoiceReducer = (state = initialState, action) => {
 
     switch (action.type) {
-
+case 'RESET_ALL':
+      return initialState;
         case 'ERROR_AMENITIES':
             return { ...state, errorAmenities: action.payload.statusCode }
 
@@ -103,10 +100,10 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'REMOVE_ALREADY_ASSIGN_ERROR':
             return { ...state, alreadyAssignAmenitiesStatusCode: 0 }
         case 'ERROR_RECURE':
-            return { ...state, errorRecuireFile: action.payload.response }
+            return { ...state, errorRecuireFile: action.payload.response , AddErrorRecurrringStatusCode : action.payload.statusCode }
 
         case 'REMOVE_ERROR_RECURE':
-            return { ...state, errorRecuireFile: '' }
+            return { ...state, errorRecuireFile: '' , AddErrorRecurrringStatusCode: 0}
 
         case 'ERROR_AMENITIES_SETTINGS':
             return { ...state, amnitiessAddError: action.payload.response }
@@ -183,19 +180,19 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, AmenitiesUpdate: action.payload, AmenitiesUpdateStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_AMENITIES_UPDATE':
             return { ...state, AmenitiesUpdateStatusCode: 0 }
-        case 'MANUAL_INVOICE': //manual invoice
+        case 'MANUAL_INVOICE': 
             return { ...state, ManualInvoice: action.payload, manualInvoiceStatusCode: action.payload.statusCode }
         case 'MANUAL_INVOICE_NUMBER_GET':
             return { ...state, ManualInvoiceNUmber: action.payload.response, Manulainvoicenumberstatuscode: action.payload.statusCode }
         case 'REMOVE_MANUAL_INVOICE_NUMBER_GET':
             return { ...state, Manulainvoicenumberstatuscode: 0 }
 
-        case 'MANUAL_INVOICE_AMOUNT_GET': //Bill amount data
+        case 'MANUAL_INVOICE_AMOUNT_GET': 
             return { ...state, ManualInvoice: action.payload.response, manualInvoiceStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_AMOUNT_GET':
             return { ...state, manualInvoiceStatusCode: 0 }
 
-        case 'RECURRING_BILL_GET_AMOUNT': //Recurring bill data 
+        case 'RECURRING_BILL_GET_AMOUNT': 
             return { ...state, Recurringbillamounts: action.payload.response, recurrbillamountgetStatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_RECURRING_INVOICE_AMOUNT':
             return { ...state, recurrbillamountgetStatuscode: 0 }
@@ -203,30 +200,29 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'FAIL_ADD_RECURRING_BILL':
             return {
                 ...state, RecurenotEnable: action.payload.response, RecurenotenableStatusCode: action.payload.statusCode,
-                // Errmessage : action.payload.message 
-            }
+                            }
         case 'REMOVE_STATUS_CODE_FAIL_ADD_RECURRING_BILL':
             return { ...state, RecurenotenableStatusCode: 0 }
 
 
         case 'MANUAL_INVOICE_ADD':
-            return { ...state, manualInvoiceAddStatusCode: action.payload.statusCode } //bills Add 
+            return { ...state, manualInvoiceAddStatusCode: action.payload.statusCode } 
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD':
             return { ...state, manualInvoiceAddStatusCode: 0 }
 
 
         case 'MANUAL_INVOICE_EDIT':
-            return { ...state, manualInvoiceEditStatusCode: action.payload.statusCode } //bills edit 
+            return { ...state, manualInvoiceEditStatusCode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_EDIT':
             return { ...state, manualInvoiceEditStatusCode: 0 }
 
         case 'MANUAL_INVOICE_DELETE':
-            return { ...state, manualInvoiceDeleteStatusCode: action.payload.statusCode } //bills delete 
+            return { ...state, manualInvoiceDeleteStatusCode: action.payload.statusCode } 
         case 'REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE':
             return { ...state, manualInvoiceDeleteStatusCode: 0 }
 
         case 'RECURRING_BILLS_ADD':
-            return { ...state, RecurringBillAddStatusCode: action.payload.statusCode } //Recurrinng bills Add
+            return { ...state, RecurringBillAddStatusCode: action.payload.statusCode } 
         case 'REMOVE_STATUS_CODE_RECURRING_BILLS_ADD':
             return { ...state, RecurringBillAddStatusCode: 0 }
 
@@ -241,8 +237,7 @@ const InvoiceReducer = (state = initialState, action) => {
 
         case 'DELETE_MANUAL_ERROR':
             return { ...state, deletemanualError: action.payload }
-        // case 'DELETE_MANUAL_ERROR':
-        //     return { ...state, deletemanualError: '' }
+    
         case 'RECURRING_BILLS_LIST':
             return { ...state, RecurringBills: action.payload.response ? action.payload.response : [], RecurringbillsgetStatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_RECURRING_BILLS_LIST':
@@ -280,12 +275,12 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, NodataReceiptStatusCode: 0 }
 
         case 'RECEIPTS_ADD':
-            return { ...state, ReceiptAddsuccessStatuscode: action.payload.statusCode } //Receipt Add
+            return { ...state, ReceiptAddsuccessStatuscode: action.payload.statusCode } 
         case 'REMOVE_STATUS_CODE_RECEIPTS_ADD':
             return { ...state, ReceiptAddsuccessStatuscode: 0 }
 
         case 'RECEIPTS_EDIT':
-            return { ...state, ReceiptEditsuccessStatuscode: action.payload.statusCode } //Receipt edit
+            return { ...state, ReceiptEditsuccessStatuscode: action.payload.statusCode }
         case 'REMOVE_STATUS_CODE_RECEIPTS_EDIT':
             return { ...state, ReceiptEditsuccessStatuscode: 0 }
 
@@ -300,7 +295,7 @@ const InvoiceReducer = (state = initialState, action) => {
             return { ...state, ReceiptDeletesuccessStatuscode: 0 }
 
         case 'REFERENCEID_GET':
-            return { ...state, Reference_Id: action.payload.response, ReferenceIdgetsuccessStatuscode: action.payload.statusCode } //Receipt Add
+            return { ...state, Reference_Id: action.payload.response, ReferenceIdgetsuccessStatuscode: action.payload.statusCode } 
         case 'REMOVE_STATUS_CODE_REFERENCEID_GET':
             return { ...state, ReferenceIdgetsuccessStatuscode: 0 }
 
@@ -318,14 +313,14 @@ const InvoiceReducer = (state = initialState, action) => {
 
 
 
-        // newReceipt
+
         case 'RECEIPT_PDF_CHANGES':
             return { ...state, newReceiptchanges: action.payload, statusCodeNewReceiptStatusCode: action.payload.statusCode }
         case 'CLEAR_NEE_RECEIPT_PDF_STATUS_CODE':
             return { ...state, statusCodeNewReceiptStatusCode: 0 }
 
 
-        //whatsapp
+ 
 
         case 'SET_TRIGGER_SOURCE':
             return { ...state, triggeredBy: action.payload };
@@ -337,16 +332,18 @@ const InvoiceReducer = (state = initialState, action) => {
         case 'SET_WHATSAPP_SETTINGS':
             return { ...state, whatsappSettings: action.payload };
 
-        case 'TOGGLE_WHATSAPP_SETTING':
-            const updated = {
-                ...state.whatsappSettings,
-                [action.payload.id]: action.payload.value,
-            };
-            localStorage.setItem('whatsappSettings', JSON.stringify(updated));
-            return {
-                ...state,
-                whatsappSettings: updated,
-            };
+       
+case 'TOGGLE_WHATSAPP_SETTING': {
+  const updated = {
+    ...state.whatsappSettings,
+    [action.payload.id]: action.payload.value,
+  };
+  localStorage.setItem('whatsappSettings', JSON.stringify(updated));
+  return {
+    ...state,
+    whatsappSettings: updated,
+  };
+}
 
         default:
             return state;

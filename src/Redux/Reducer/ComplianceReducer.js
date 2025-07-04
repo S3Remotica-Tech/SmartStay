@@ -33,6 +33,8 @@ export const initialState = {
 const ComplianceReducer = (state = initialState, action) => {
 
     switch (action.type) {
+        case 'RESET_ALL':
+              return initialState;
         case 'COMPLIANCE_LIST':
             return { ...state, Compliance: action.payload.response, statusCodeCompliance: action.payload.statusCode }
         case 'CLEAR_COMPLIANCE_LIST':

@@ -68,16 +68,21 @@ function UserlistWalkin(props) {
   const [customerToDelete, setCustomerToDelete] = useState(null);
 
   const [walkInCustomer, setWalkInCustomer] = useState([]);
-  const [walkinLoader, setWalkingLoader] = useState(true);
+  const [walkinLoader, setWalkingLoader] = useState(false);
 
+
+  
+  
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
-      setWalkingLoader(true);
+       if(state.login.selectedHostel_Id) {
+        setWalkingLoader(true);
       dispatch({
         type: "WALKINCUSTOMERLIST",
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
-    }
+   
+       }
+        
   }, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
@@ -101,30 +106,7 @@ function UserlistWalkin(props) {
     }
   }, [state.UsersList.NoDataWalkInCustomerStatusCode]);
 
-  useEffect(() => {
-    if (
-      state.UsersList.addWalkInCustomerStatusCode === 200 ||
-      state.UsersList.deleteWalkInCustomerStatusCode === 200
-    ) {
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-
-      setShowForm(false);
-
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
-      }, 4000);
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_DELETE_WALK_IN_CUSTOMER" });
-      }, 4000);
-      setShowDeleteModal(false);
-    }
-  }, [
-    state.UsersList.addWalkInCustomerStatusCode,
-    state.UsersList.deleteWalkInCustomerStatusCode,
-  ]);
+  
 
   const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
@@ -244,6 +226,28 @@ function UserlistWalkin(props) {
     setSortConfig({ key, direction });
   };
 
+  
+  useEffect(() => {
+      if (
+        state.UsersList.addWalkInCustomerStatusCode === 200
+      ) {
+      setShowForm(false)
+        dispatch({
+          type: "WALKINCUSTOMERLIST",
+          payload: { hostel_id: state.login.selectedHostel_Id },
+        });
+  
+  
+        setTimeout(() => {
+          dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
+        }, 1000);
+  
+      }
+    }, [
+      state.UsersList.addWalkInCustomerStatusCode
+  
+    ]);
+
   return (
     <>
       {walkInPermissionError ? (
@@ -254,12 +258,13 @@ function UserlistWalkin(props) {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              marginTop:90
             }}
           >
             <img
               src={Emptystate}
               alt="Empty State"
-              style={{ maxWidth: "100%", height: "auto" }}
+              
             />
 
             {walkInPermissionError && (
@@ -669,25 +674,39 @@ function UserlistWalkin(props) {
                                     </span>
                                   </td>
 
-                                  <td
-                                    style={{
-                                      fontSize: 13,
-                                      fontWeight: 500,
-                                      fontFamily: "Gilroy",
-                                      textAlign: "start",
-                                      verticalAlign: "middle",
-                                      borderBottom: "1px solid #E8E8E8",
-                                    }}
-                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
-                                  >
-                                    {v.total_amount}
-                                    {v.comments || ""}
-                                    {v.area ? v.area : ""} {""}{" "}
-                                    {v.city ? v.city : ""} {""}
-                                    <br></br>
-                                    {v?.state ? v.state : ""}{" "}
-                                    {v.pin_code ? -v.pin_code : ""}
-                                  </td>
+  <td
+  style={{
+    fontSize: 13,
+    fontWeight: 500,
+    fontFamily: "Gilroy",
+    textAlign: "start",
+    verticalAlign: "middle",
+    borderBottom: "1px solid #E8E8E8",
+  }}
+  className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+>
+ {(v.comments || v.area || v.landmark || v.city || v.state || v.pin_code)
+  ? (
+    <>
+      {(v.comments || v.area || v.landmark) && (
+        <>
+          {v.comments && `${v.comments} , `}
+          
+          {v.area && `${v.area} `}
+
+          {v.landmark || ""}
+          <br />
+        </>
+      )}
+     {v.city || ""} {v.state || ""} {(v.pin_code && `- ${v.pin_code}`) || ""}
+
+    </>
+  )
+  : "N/A"}
+
+</td>
+
+
                                   <td
                                     style={{
                                       borderBottom: "1px solid #E8E8E8",
@@ -835,7 +854,7 @@ function UserlistWalkin(props) {
             )}
 
             {!walkinLoader && currentCustomers?.length === 0 && (
-              <div style={{ marginTop: 30 }}>
+              <div style={{ marginTop: 30 }} className="animated-text">
                 <div style={{ textAlign: "center" }}>
                   <img src={Emptystate} alt="emptystate" />
                 </div>
@@ -845,7 +864,7 @@ function UserlistWalkin(props) {
                     textAlign: "center",
                     fontWeight: 600,
                     fontFamily: "Gilroy",
-                    fontSize: 20,
+                    fontSize: 18,
                     color: "rgba(75, 75, 75, 1)",
                   }}
                 >
@@ -857,7 +876,7 @@ function UserlistWalkin(props) {
                     textAlign: "center",
                     fontWeight: 500,
                     fontFamily: "Gilroy",
-                    fontSize: 16,
+                    fontSize: 14,
                     color: "rgba(75, 75, 75, 1)",
                   }}
                 >
@@ -880,7 +899,6 @@ function UserlistWalkin(props) {
                   right: "10px",
                   backgroundColor: "#fff",
                   borderRadius: "5px",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                   zIndex: 1000,
                 }}
               >

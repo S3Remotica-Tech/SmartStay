@@ -52,7 +52,7 @@ import SettingIcon from "../Assets/Images/sidebariconOne.svg";
 import HelpDocumentIcon from "../Assets/Images/sidebariconThree.svg";
 import HelpVideoIcon from "../Assets/Images/sidebariconFour.svg";
 import Logout from "../Assets/Images/turn-off.png";
-import SettingManage from "../Pages/SettingManage";
+
 
 function Sidebar() {
   const dispatch = useDispatch();
@@ -100,6 +100,22 @@ function Sidebar() {
     dispatch({ type: "HOSTELIDDETAILS" });
   }, []);
 
+
+
+
+useEffect(() => {
+    if (state.PgList.deletePgSuccessStatusCode === 200) {
+          dispatch({ type: "HOSTELIDDETAILS" });
+              
+          setTimeout(() => {
+        dispatch({ type: "CLEAR_DELETE_PG_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [
+    state.PgList.deletePgSuccessStatusCode,
+  ]);
+
+
   useEffect(() => {
     if (state.UsersList.statusCodeForhostelListNewDetails === 200) {
       setHostelDetail(state.UsersList.hostelListNewDetails.data);
@@ -112,6 +128,14 @@ function Sidebar() {
   useEffect(() => {
     dispatch({ type: "ALL-NOTIFICATION-LIST" });
   }, []);
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     if (stateData.statusCodeForAccountList === 200) {
@@ -158,8 +182,6 @@ function Sidebar() {
           );
           localStorage.setItem("login", encryptData.toString());
         }
-      } else {
-        console.log("No data found");
       }
       setTimeout(() => {
         dispatch({ type: "CLEAR_ACCOUNT_STATUS_CODE" });
@@ -181,7 +203,7 @@ function Sidebar() {
         setProfiles(profilePictures);
         setProfileArray(profileName);
       } catch (error) {
-        console.log("Error decrypting loginid", error);
+        console.error("Error decrypting loginid", error);
       }
     }
   }, [
@@ -352,12 +374,12 @@ function Sidebar() {
     state.UsersList.statusCodeForhostelListNewDetails,
   ]);
 
-  const [pgshow, setPgshow] = useState(false);
+
 
   const handleShowsettingsPG = (settingNewDesign) => {
+    handlePageClick("settingNewDesign");
     handledisplaySettingsPG(settingNewDesign);
     dispatch({ type: "MANAGE_PG" });
-    setPgshow(true);
     setIsSidebarOpen(false);
   };
 
@@ -370,7 +392,7 @@ function Sidebar() {
     <>
       <Container fluid className="p-0">
         <Row className="g-0 m-0">
-          <Col xs={12} sm={12} className="d-md-none p-2 bg-white">
+          <Col xs={12} sm={12} className="d-md-none p-2 bg-white position-relative">
             <button
               onClick={toggleSidebar}
               style={{
@@ -413,8 +435,10 @@ function Sidebar() {
               left: 0,
               overflowY: "auto",
               zIndex: 1000,
+              minWidth: 210,
             }}
           >
+           
             <div className="container" style={{ position: "relative" }}>
               <div
                 className="d-flex align-items-center justify-content-between"
@@ -575,20 +599,20 @@ function Sidebar() {
               )}
 
               <ul
-                className="first p-0 show-scrolls"
+                className="first p-2 show-scrolls-sidebar"
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "start",
                   position: "relative",
                   marginBottom: "20px",
-                  maxHeight: manageOpen ? "310px" : "unset",
+                  maxHeight: manageOpen ? "400px" : "500px",
                   overflowY: manageOpen ? "auto" : "hidden",
-                  paddingBottom: "30px",
+                  paddingBottom: "10px",
                 }}
               >
                 <li
-                  className={`align-items-center list-Item ${currentPage === "dashboard" ? "active" : ""
+                  className={`align-items-center  list-Item ${currentPage === "dashboard" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("dashboard")}
                   style={{
@@ -649,6 +673,8 @@ function Sidebar() {
                     listStyleType: "none",
                     display: "flex",
                     position: "relative",
+                    marginTop: manageOpen ? "2px" : "10px"
+
                   }}
                 >
                   <img
@@ -780,7 +806,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "banking" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("banking")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                 >
                   <img
                     src={currentPage === "banking" ? bank : bankblank}
@@ -805,7 +831,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "invoice" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("invoice")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "10px" }}
                 >
                   <img
                     src={currentPage === "invoice" ? Invoice2 : Invo}
@@ -830,7 +856,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "eb" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("eb")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
                     src={currentPage === "eb" ? Eb2 : Eb}
@@ -854,12 +880,12 @@ function Sidebar() {
                   className={` align-items-center list-Item ${currentPage === "compliance" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("compliance")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
                     src={currentPage === "compliance" ? Compl2 : Compl}
                     alt="compliance"
-                    style={{ height: 20, width: 20 }}
+                    style={{ height: 20, width: 20, }}
                   />
                   <span
                     className=" Title"
@@ -877,7 +903,7 @@ function Sidebar() {
                   className={`align-items-center list-Item ${currentPage === "expenses" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("expenses")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
                     src={currentPage === "expenses" ? Expense2 : Expense}
@@ -901,7 +927,7 @@ function Sidebar() {
                   className={` align-items-center list-Item ${currentPage === "reports" ? "active" : ""
                     }`}
                   onClick={() => handlePageClick("reports")}
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{ listStyleType: "none", display: "flex", marginTop: manageOpen ? "2px" : "8px" }}
                 >
                   <img
                     src={currentPage === "reports" ? Repo2 : Repo}
@@ -921,10 +947,11 @@ function Sidebar() {
                   </span>
                 </li>
               </ul>
+
+
             </div>
 
             <div
-              className="mb-3 sidebar-bottom"
               style={{
                 position: "absolute",
                 bottom: 0,
@@ -933,15 +960,36 @@ function Sidebar() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                justifyContent: "center",
+                height: "auto",
+                padding: "12px 0",
+                backgroundColor: "#E0ECFF",
+
               }}
             >
-              <ul className=" p-0">
-                <li
-                  className={` align-items-center list-Items ${currentPage === "profile" ? "active" : ""
-                    }`}
-                  style={{ listStyleType: "none", display: "flex", width: 190 }}
-                >
-                  <div className="mr-3" style={{ cursor: "pointer" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  height: "fit-content",
+                  width: "100%",
+                  padding: 16,
+                  marginBottom: 12,
+                }}
+              >
+                <div className="Profile_Hover" style={{ display: "flex", width: 190, margin: "-20px auto" , gap:10}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column", 
+                      alignItems: "center",
+                      justifyContent: "start",
+                      width: "fit-content", 
+                      textAlign: "center",
+                      
+                    }}
+                  >
                     <Image
                       src={
                         profiles === "null" ||
@@ -962,23 +1010,27 @@ function Sidebar() {
 
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <span
-                      className="ms-3 Title"
+
+                      title={profilename}
                       style={{
                         fontSize: 14,
                         fontWeight: 600,
-                        display: "inline-block",
                         fontFamily: "Gilroy",
                         textTransform: "capitalize",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "inline-block",
+                        maxWidth: 120,
                       }}
+
                     >
                       {profilename}
                     </span>
                     <span
-                      className="ms-3 Title"
                       style={{
                         fontSize: 12,
                         fontWeight: 600,
-                        display: "inline-block",
                         fontFamily: "Gilroy",
                         color: "blue",
                       }}
@@ -986,18 +1038,23 @@ function Sidebar() {
                       Admin
                     </span>
                   </div>
-                </li>
-              </ul>
-              <div style={{ border: "1px solid white " }}></div>
+                </div>
+              </div>
+
 
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-around",
+                  width: "100%",
+                  marginTop: 8,
+                  zIndex: 1000,
+                  overflow: "visible"
+
                 }}
-                className="w-100 four-icons"
               >
+
                 <div
                   onMouseEnter={() => handleMouseEnter("settings")}
                   onMouseLeave={handleMouseLeave}
@@ -1017,7 +1074,7 @@ function Sidebar() {
                         top: "-30px",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        backgroundColor: "White",
+                        backgroundColor: "white",
                         color: "black",
                         padding: "4px 8px",
                         borderRadius: "4px",
@@ -1030,8 +1087,8 @@ function Sidebar() {
                   )}
                 </div>
 
+
                 <div
-                  className="logout"
                   onMouseEnter={() => handleMouseEnter("logout")}
                   onMouseLeave={handleMouseLeave}
                   onClick={handleShowLogout}
@@ -1041,11 +1098,7 @@ function Sidebar() {
                     cursor: "pointer",
                   }}
                 >
-                  <img
-                    src={Logout}
-                    alt="Logout Icon"
-                    style={{ width: 24, height: 24 }}
-                  />
+                  <img src={Logout} alt="Logout Icon" style={{ width: 24, height: 24 }} />
                   {hoveredIcon === "logout" && (
                     <span
                       style={{
@@ -1054,7 +1107,7 @@ function Sidebar() {
                         top: "-30px",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        backgroundColor: "White",
+                        backgroundColor: "white",
                         color: "black",
                         padding: "5px 8px",
                         borderRadius: "4px",
@@ -1066,6 +1119,7 @@ function Sidebar() {
                     </span>
                   )}
                 </div>
+
 
                 <div
                   onMouseEnter={() => handleMouseEnter("helpDoc")}
@@ -1085,7 +1139,7 @@ function Sidebar() {
                         top: "-30px",
                         left: "50%",
                         transform: "translateX(-50%)",
-                        backgroundColor: "White",
+                        backgroundColor: "white",
                         color: "black",
                         padding: "5px 8px",
                         borderRadius: "4px",
@@ -1098,6 +1152,7 @@ function Sidebar() {
                   )}
                 </div>
 
+
                 <div
                   onMouseEnter={() => handleMouseEnter("helpVideo")}
                   onMouseLeave={handleMouseLeave}
@@ -1105,6 +1160,9 @@ function Sidebar() {
                     position: "relative",
                     display: "inline-block",
                     cursor: "pointer",
+                    zIndex: 10,
+                    overflow: "visible"
+
                   }}
                 >
                   <img src={HelpVideoIcon} alt="Help Video Icon" />
@@ -1114,14 +1172,15 @@ function Sidebar() {
                         display: "block",
                         position: "absolute",
                         top: "-30px",
-                        left: "50%",
+                        left: "0%",
                         transform: "translateX(-50%)",
-                        backgroundColor: "White",
+                        backgroundColor: "white",
                         color: "black",
                         padding: "5px 8px",
                         borderRadius: "4px",
                         fontSize: "12px",
                         whiteSpace: "nowrap",
+                        zIndex: 1000,
                       }}
                     >
                       Help Video
@@ -1130,6 +1189,7 @@ function Sidebar() {
                 </div>
               </div>
             </div>
+
           </Col>
           <Col
             className="bg-white main-content"
@@ -1137,10 +1197,11 @@ function Sidebar() {
             md={{ span: 10, offset: 2 }}
             sm={{ span: 9, offset: 3 }}
             xs={{ span: 9, offset: 3 }}
-             style={{
-        height: "100vh",
-        overflowY: "auto", 
-      }}
+            style={{
+              height: "100vh",
+              overflowY: "auto",
+              zIndex: 10,
+            }}
           >
             {currentPage === "dashboard" && (
               <Dashboards
@@ -1220,9 +1281,7 @@ function Sidebar() {
           </Col>
         </Row>
       </Container>
-      {pgshow === true ? (
-        <SettingManage pgshow={pgshow} setPgshow={setPgshow} />
-      ) : null}
+
 
       <Modal
         show={logoutformshow}

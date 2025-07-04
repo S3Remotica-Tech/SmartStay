@@ -6,11 +6,7 @@ export async function userlist(users) {
       data:users
     })
   }
-// export async function addUser (datum) {
-//   return await AxiosConfig.post('/add/adduser-list',datum,{
-//     data:datum
-//   })
-// }
+
 export async function addUser(params) {
 
   const formData = new FormData();
@@ -116,11 +112,7 @@ export async function deleteBed(bedDetails){
 }
 
 
-// export async function CustomerDetails(datum){
-//   return await AxiosConfig.post('/customer_details',datum,{
-//     data:datum
-//   })
-// }
+
 
 export async function CustomerDetails (datum) {
   return await AxiosConfig.post('/customer_details',datum,{
@@ -181,11 +173,6 @@ export async function getWalkInCustomer(walk) {
 
 
 
-// export async function AddWalkInCustomer(walk) {
-//   return await AxiosConfig.post('/add_walkin-customer',walk,{
-//     data:walk
-//   })
-// }
 export async function AddWalkInCustomer(params) {
 
   const formData = new FormData();
@@ -196,7 +183,7 @@ export async function AddWalkInCustomer(params) {
   if (params.area) formData.append("area", params.area)
   if (params.landmark) formData.append("landmark", params.landmark)
   if (params.city) formData.append("city", params.city)
-  if (params.pin_code) formData.append("pincode", params.pincode)
+  if (params.pin_code) formData.append("pin_code", params.pin_code)
   if (params.state) formData.append("state", params.state)
   if (params.hostel_id) formData.append("hostel_id", params.hostel_id)
   if (params.email_Id) formData.append("email_Id", params.email_Id)
@@ -326,11 +313,6 @@ export async function generateAdvance(datum){
 }
 
 
-// export async function uploadDocument(datum){
-//   return await AxiosConfig.post('/users/upload_doc',datum,{
-//     data:datum
-//   })
-// }
 
 export async function uploadDocument(params) {
 
@@ -368,11 +350,11 @@ export async function hostelDetailsId() {
   })
 }
 
-export async function handleKycVerify(datum){
-  return await AxiosConfig.post('/verify-kyc',datum,{
-    data:datum
-  })
+
+export async function handleKycVerify(datum) {
+  return await AxiosConfig.post('/verify-kyc', datum);
 }
+
 
 export async function handlegetCustomerDetailsKyc(kyc) {
   return await AxiosConfig.post('/getCustomerDetails', kyc);

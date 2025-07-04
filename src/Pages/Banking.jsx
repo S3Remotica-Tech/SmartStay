@@ -13,7 +13,6 @@ import BankingAddForm from "./BankingAddForm";
 import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import Modal from "react-bootstrap/Modal";
-import BankingEditTransaction from "./BankingTransaction";
 import { useDispatch, useSelector } from "react-redux";
 import emptyimg from "../Assets/Images/New_images/empty_image.png";
 import { ArrowLeft2, ArrowRight2, ArrowUp2, ArrowDown2, } from "iconsax-react";
@@ -47,17 +46,12 @@ function Banking() {
   const [showAddBalance, setshowAddBalance] = useState(false);
   const [defaltType, setDefaultType] = useState("");
   const [selectedAccountType, setSelectedAccountType] = useState("");
-  const [EditTransaction, setEditTransaction] = useState(null);
-  const [EditTransactionForm, setEditTransactionForm] = useState(false);
-  const [deleteTransactionForm, setDeleteTransactionForm] = useState(false);
-  const [openMenuId, setOpenMenuId] = useState(null);
+   const [openMenuId, setOpenMenuId] = useState(null);
   const [editAddBank, setEditAddBank] = useState("");
   const [edit, setEdit] = useState(false);
   const [AddBankName, setAddBankName] = useState("");
   const [AddBankAmount, setAddBankAmount] = useState("");
-  const [updateTransaction, setUpdateTransaction] = useState("");
   const [deleteBankId, setDeleteBankId] = useState("");
-  const [trnseId, setDeleteTransId] = useState("");
   const [bankingrolePermission, setBankingRolePermission] = useState("");
   const [bankingpermissionError, setBankingPermissionError] = useState("");
   const [bankingAddPermission, setBankingAddPermission] = useState("");
@@ -73,8 +67,8 @@ function Banking() {
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
   const [bankking, setBanking] = useState("")
   const [selfTranfer, setSelfTransfer] = useState(false)
-
-
+ const [amount, setAmount] = useState("");
+  const [formLoading, setFormLoading] = useState(false)
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
@@ -204,7 +198,12 @@ function Banking() {
     };
   }, []);
 
-
+ const handleChange = (e) => {
+    const value = e.target.value;
+        if (/^\d*$/.test(value)) {
+      setAmount(value);
+    }
+  };
 
   const handleAccountTypeSelection = (e) => {
     const selectedValue = parseInt(e.target.value);
@@ -222,7 +221,7 @@ function Banking() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForDefaultAccount === 200) {
-
+      setFormLoading(false)
       setShowAccountTypeOptions(null);
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -233,7 +232,7 @@ function Banking() {
 
   useEffect(() => {
     if (state.bankingDetails.statusCodeForAddBankingAmount === 200) {
-
+      setFormLoading(false)
       handleCloseAddBalance();
       dispatch({ type: "BANKINGLIST", payload: { hostel_id: hostel_id } });
       setTimeout(() => {
@@ -295,58 +294,16 @@ function Banking() {
 
   };
 
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-  const handleEditTrans = (id, event) => {
+  
 
-    if (EditTransaction === id) {
-      setEditTransaction(null);
-    } else {
-      setEditTransaction(id);
-    }
 
-    const { top, left } = event.target.getBoundingClientRect();
-    const popupTop = top - 10;
-    const popupLeft = left - 150;
-
-    setPopupPosition({ top: popupTop, left: popupLeft });
-  };
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setEditTransaction(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleEditTransForm = (item) => {
-    setUpdateTransaction(item);
-    setEditTransactionForm(true);
-    setEditTransaction(null);
-    setDeleteTransactionForm(false);
-    setOpenMenuId(null);
-  };
-
+  
+ 
 
   const handleCloseTransactionDelete = () => {
-    setDeleteTransactionForm(false);
+   
   };
-  const handleDeleteTransForm = (u) => {
-    setDeleteTransId(u.id);
-    setDeleteTransactionForm(true);
-    setEditTransactionForm(false);
-    setEditTransaction(false);
-  };
-  const handleDeleteTransSubmit = () => {
-    dispatch({
-      type: "DELETEBANKTRANSACTIONS",
-      payload: { id: trnseId },
-    });
-  };
+
   useEffect(() => {
     if (
       transactionFilterddata.length > 0 &&
@@ -367,7 +324,7 @@ function Banking() {
   }, [state.bankingDetails.statusCodeForDeleteTrans]);
 
   const handleShowAddBalance = (item) => {
-    setAddBankName(item.bank_name);
+    setAddBankName(`${item.benificiary_name} - ${item.type}`);
 
     setTypeId(item.id);
     setshowAddBalance(true);
@@ -399,6 +356,7 @@ function Banking() {
       type: "ADDBANKAMOUNT",
       payload: { id: typeId, amount: AddBankAmount, hostel_id: hostel_id },
     });
+    setFormLoading(true)
   };
 
   const [transactionrowsPerPage, setTransactionrowsPerPage] = useState(5);
@@ -471,6 +429,7 @@ function Banking() {
     setSearch(false);
     setFilterInput("");
     settransactionFilterddata(originalBills);
+    setDropdownVisible(false);
   };
 
   const handleSearch = () => {
@@ -480,25 +439,43 @@ function Banking() {
 
   const handleFilterd = () => {
     setFilterStatus(!filterStatus);
+    settransactionFilterddata(originalBillsFilter);
   };
 
+
+
+
   const handlefilterInput = (e) => {
-    setFilterInput(e.target.value);
-    setDropdownVisible(e.target.value.length > 0);
-    settransactionFilterddata(originalBillsFilter)
+    const input = e.target.value;
+    setFilterInput(input);
+    setDropdownVisible(input.length > 0);
+
+    if (input.trim() === "") {
+      settransactionFilterddata(originalBillsFilter);
+    } else {
+      const filtered = originalBillsFilter.filter((item) =>
+        item.benificiary_name.toLowerCase().includes(input.toLowerCase())
+      );
+      settransactionFilterddata(filtered);
+    }
   };
+
+
 
 
   const handleUserSelect = (user) => {
     setFilterInput(user.benificiary_name);
-    const selected = transactionFilterddata.filter(
-      (item) => String(item.benificiary_name) === String(user.benificiary_name)
+
+    const selectedUserData = originalBillsFilter?.filter(
+      (item) => item.benificiary_name === user.benificiary_name
     );
-    settransactionFilterddata(selected);
+    settransactionFilterddata(selectedUserData);
+
     setDropdownVisible(false);
   };
 
   const [dateRange, setDateRange] = useState(null);
+
   const handleStatusFilter = (event) => {
     const value = event.target.value;
     setStatusfilter(value);
@@ -543,6 +520,12 @@ function Banking() {
     settransactionFilterddata(filtered);
   };
 
+  useEffect(() => {
+    if (!filterStatus) {
+      setStatusfilter("All");
+      setDateRange(null);
+    }
+  }, [filterStatus]);
 
 
   useEffect(() => {
@@ -794,7 +777,7 @@ function Banking() {
                 <div className="me-3">
                   <RangePicker
                     value={dateRange}
-                    format="YYYY-MM-DD"
+                    format="DD-MM-YYYY"
                     onChange={handleDateRangeChange}
                     style={{ height: "38px", borderRadius: 8, cursor: "pointer" }}
                   />
@@ -1059,7 +1042,7 @@ function Banking() {
                       </p>
 
                       <div className="d-flex justify-content-between align-items-center mb-2">
-                        <div>
+                        <div style={{ fontFamily: "Gilroy", }}>
                           <p
                             className="text-muted mb-0"
                             style={{
@@ -1377,26 +1360,7 @@ function Banking() {
                             </div>
                             Transaction</div>
                         </th>
-                        <th
-                          style={{
-                            textAlign: "start",
-                            padding: "10px",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: "12px",
-                            fontWeight: 500,
-                            fontFamily: "Gilroy",
-                            paddingBottom: 12
-                          }}
-                        >Action</th>
-                        <th
-                          style={{
-                            textAlign: "center",
-                            fontFamily: "Gilroy",
-                            color: "rgb(147, 147, 147)",
-                            fontSize: 14,
-                            fontWeight: 500,
-                          }}
-                        ></th>
+
                       </tr>
                     </thead>
                     <tbody style={{ textAlign: "center" }}>
@@ -1427,107 +1391,107 @@ function Banking() {
 
                         let formattedDate = `${day} ${formattedMonth} ${year}`;
 
-                      return (
-                        <tr
-                          key={user.id}
-                          style={{
-                            fontSize: "13px",
-                            fontWeight: 600,
-                            textAlign: "center",
-                            marginTop: 10,
-                          }}
-                        >
-                          <td
+                        return (
+                          <tr
+                            key={user.id}
                             style={{
-                              border: "none",
-                              textAlign: "start",
                               fontSize: "13px",
                               fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              paddingTop: 15,
-                              marginLeft:20
-                            }}
-                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
-                            <div className="ps-2 ps-lg-2">
-   {user.benificiary_name} - {user.type}
-                            </div>
-                         
-                          </td>
-                          <td
-                            style={{
-                              paddingTop: 15,
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
+                              textAlign: "center",
                               marginTop: 10,
-                              whiteSpace: "nowrap",
-                              
                             }}
-                            className="ps-2 ps-lg-2"
                           >
-                            <span
+                            <td
                               style={{
-                                paddingTop: "3px",
-                                paddingLeft: "10px",
-                                paddingRight: "10px",
-                                marginLeft:8,
-                                paddingBottom: "3px",
-                                borderRadius: "60px",
-                                textAlign: "center",
-                                fontSize: "11px",
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "13px",
+                                fontWeight: 600,
+                                fontFamily: "Gilroy",
+                                paddingTop: 15,
+                                marginLeft: 20
+                              }}
+                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                            >
+                              <div className="ps-2 ps-lg-2">
+                                {user.benificiary_name} - {user.type}
+                              </div>
+
+                            </td>
+                            <td
+                              style={{
+                                paddingTop: 15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "13px",
                                 fontWeight: 500,
                                 fontFamily: "Gilroy",
-                                backgroundColor: "#EBEBEB",
+                                marginTop: 10,
+                                whiteSpace: "nowrap",
+
                               }}
+                              className="ps-2 ps-lg-2"
                             >
-                              {formattedDate}
-                            </span>
-                          </td>
-                          <td
-                            style={{
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              paddingTop: 15,
-                            }}
-                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
-                            {user.amount}
-                          </td>
-                          <td
-                            style={{
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              paddingTop: 15,
-                            }}
-                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
-                          >
-                            {user.desc}
-                          </td>
-                          <td
-                            style={{
-                              paddingTop: 15,
-                              border: "none",
-                              textAlign: "start",
-                              fontSize: "13px",
-                              fontWeight: 500,
-                              fontFamily: "Gilroy",
-                              whiteSpace: "nowrap",
-                            }}
-                            className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
-                          >
-                            <span
+                              <span
+                                style={{
+                                  paddingTop: "3px",
+                                  paddingLeft: "10px",
+                                  paddingRight: "10px",
+                                  marginLeft: 8,
+                                  paddingBottom: "3px",
+                                  borderRadius: "60px",
+                                  textAlign: "center",
+                                  fontSize: "11px",
+                                  fontWeight: 500,
+                                  fontFamily: "Gilroy",
+                                  backgroundColor: "#EBEBEB",
+                                }}
+                              >
+                                {formattedDate}
+                              </span>
+                            </td>
+                            <td
                               style={{
-                                padding: "3px 10px",
-                                borderRadius: "60px",
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                paddingTop: 15,
+                              }}
+                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                            >
+                              {user.amount}
+                            </td>
+                            <td
+                              style={{
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                paddingTop: 15,
+                              }}
+                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
+                            >
+                              {user.desc}
+                            </td>
+                            <td
+                              style={{
+                                paddingTop: 15,
+                                border: "none",
+                                textAlign: "start",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                fontFamily: "Gilroy",
+                                whiteSpace: "nowrap",
+                              }}
+                              className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
+                            >
+                              <span
+                                style={{
+                                  padding: "3px 10px",
+                                  borderRadius: "60px",
 
                                   backgroundColor: "#EBEBEB",
 
@@ -1544,139 +1508,7 @@ function Banking() {
                               </span>
                             </td>
 
-                            <td
-                              style={{
-                                cursor: "pointer",
-                                height: 30,
-                                width: 30,
-                                borderRadius: 100,
-                                border: "1px solid #EFEFEF",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                position: "relative",
-                                marginTop: 10,
-                                marginLeft:5,
-                              backgroundColor:
-                                  EditTransaction === user.id
-                                    ? "#E7F1FF"
-                                    : "white",
-
-                              }}
-                              onClick={(e) => handleEditTrans(user.id, e)}
-                            >
-                              <PiDotsThreeOutlineVerticalFill
-                                style={{ height: 17, width: 17 }}
-                              />
-                              {EditTransaction === user.id && (
-                                <div
-                                  ref={popupRef}
-                                  style={{
-                                    cursor: "pointer",
-                                    backgroundColor: "#F9F9F9",
-                                    position: "fixed",
-                                    top: popupPosition.top,
-                                    left: popupPosition.left,
-                                    marginLeft: 10,
-                                    width: 140,
-                                    height: "auto",
-                                    border: "1px solid #EBEBEB",
-                                    borderRadius: 10,
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "start",
-                                    zIndex: 1000,
-                                    padding: 0,
-                                  }}
-                                >
-                                  <div style={{ width: "100%", borderRadius: 10, backgroundColor: "#F9F9F9" }}>
-
-                               
-                                    <div
-                                      className="d-flex justify-content-start align-items-center gap-2"
-                                      onClick={() => {
-                                        if (!bankingEditPermission) {
-                                          handleEditTransForm(user);
-                                        }
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (!bankingEditPermission)
-                                          e.currentTarget.style.backgroundColor = "#EDF2FF";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                      }}
-                                      style={{
-                                        padding: "8px 12px",
-                                        width: "100%",
-                                        backgroundColor: "#F9F9F9",
-                                        cursor: bankingEditPermission ? "not-allowed" : "pointer",
-                                        pointerEvents: bankingEditPermission ? "none" : "auto",
-                                        opacity: bankingEditPermission ? 0.6 : 1,
-                                        borderTopLeftRadius: 10,
-                                        borderTopRightRadius: 10,
-                                      }}
-                                    >
-                                      <img src={Edit} style={{ height: 16, width: 16 }} alt="Edit" />
-                                      <label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy, sans-serif",
-                                          color: "#000000",
-                                          cursor: bankingEditPermission ? "not-allowed" : "pointer",
-                                        }}
-                                      >
-                                        Edit
-                                      </label>
-                                    </div>
-
-                                    
-                                    <div style={{ height: 1, backgroundColor: "#F0F0F0" }} />
-
-                                    <div
-                                      className="d-flex justify-content-start align-items-center gap-2"
-                                      onClick={() => {
-                                        if (!bankingDeletePermission) {
-                                          handleDeleteTransForm(user);
-                                        }
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        if (!bankingDeletePermission)
-                                          e.currentTarget.style.backgroundColor = "#FFF0F0";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.currentTarget.style.backgroundColor = "#F9F9F9";
-                                      }}
-                                      style={{
-                                        padding: "8px 12px",
-                                        width: "100%",
-                                        backgroundColor: "#F9F9F9",
-                                        cursor: bankingDeletePermission ? "not-allowed" : "pointer",
-                                        pointerEvents: bankingDeletePermission ? "none" : "auto",
-                                        opacity: bankingDeletePermission ? 0.6 : 1,
-                                        borderBottomLeftRadius: 10,
-                                        borderBottomRightRadius: 10,
-                                      }}
-                                    >
-                                      <img src={Delete} style={{ height: 16, width: 16 }} alt="Delete" />
-                                      <label
-                                        style={{
-                                          fontSize: 14,
-                                          fontWeight: 600,
-                                          fontFamily: "Gilroy, sans-serif",
-                                          color: "#FF0000",
-                                          cursor: bankingDeletePermission ? "not-allowed" : "pointer",
-                                        }}
-                                      >
-                                        Delete
-                                      </label>
-                                    </div>
-                                  </div>
-                                </div>
-
-                              )}
-                            </td>
+                      
                           </tr>
                         );
                       })}
@@ -1706,7 +1538,7 @@ function Banking() {
                         textAlign: "center",
                         fontWeight: 600,
                         fontFamily: "Gilroy",
-                        fontSize: 20,
+                        fontSize: 18,
                         color: "rgba(75, 75, 75, 1)",
                       }}
                     >
@@ -1718,7 +1550,7 @@ function Banking() {
                         textAlign: "center",
                         fontWeight: 500,
                         fontFamily: "Gilroy",
-                        fontSize: 16,
+                        fontSize: 14,
                         color: "rgba(75, 75, 75, 1)",
                       }}
                     >
@@ -1759,19 +1591,20 @@ function Banking() {
 
             {transactionFilterddata?.length >= 5 && (
               <nav
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "end",
-                  padding: "10px",
-                  position: "fixed",
-                  bottom: "10px",
-                  right: "10px",
-                  backgroundColor: "#fff",
-                  borderRadius: "5px",
-                  zIndex: 1000,
-                  marginTop: 10
-                }}
+               style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "end",
+                      padding: "10px",
+                      borderRadius: "5px",
+                      position: "fixed",
+                      zIndex: 1000,
+                      width: '83%',
+                      bottom: 0,
+                      left: '17%',
+                      right: '16px',
+                      backgroundColor:"#fff"
+                    }}
               >
                 <div>
                   <select className="selectoption"
@@ -1984,7 +1817,7 @@ function Banking() {
             }}
           >
             <Modal.Header
-              style={{ marginBottom: "30px", position: "relative" }}
+              style={{ position: "relative" }}
             >
               <div
                 style={{
@@ -1993,14 +1826,14 @@ function Banking() {
                   fontFamily: "Gilroy",
                 }}
               >
-                Add balance
+                Add Balance
               </div>
               <CloseCircle size="24" color="#000" onClick={handleCloseAddBalance}
                 style={{ cursor: 'pointer' }} />
 
             </Modal.Header>
-            <Modal.Body>
-              <div className="col-12" style={{ marginTop: "-35px" }}>
+            <Modal.Body className="pt-2">
+              <div className="col-12">
                 <Form.Group className="mb-3">
                   <Form.Label
                     style={{
@@ -2016,7 +1849,7 @@ function Banking() {
                   <FormControl
                     type="text"
                     id="form-controls"
-                    placeholder="Enter amount"
+                    placeholder="Enter Account"
                     value={AddBankName}
 
                     style={{
@@ -2064,6 +1897,14 @@ function Banking() {
                   />
                 </Form.Group>
 
+
+
+
+
+
+
+
+
                 {amountError && (
                   <div style={{ color: "red", fontSize: "14px", marginTop: "5px", textAlign: "center" }}>
                     <MdError style={{ fontSize: "14", marginRight: "5px" }} />
@@ -2086,93 +1927,34 @@ function Banking() {
               </div>
 
             </Modal.Body>
-
-          </Modal>
-
-          <Modal
-            show={deleteTransactionForm}
-            onHide={() => handleCloseTransactionDelete()}
-            centered
-            backdrop="static"
-            dialogClassName="custom-delete-modal"
-          >
-            <Modal.Header style={{ borderBottom: "none" }}>
-              <Modal.Title
-                className="w-100 text-center"
-                style={{
-                  fontSize: "18px",
-                  fontFamily: "Gilroy",
-
-                  fontWeight: 600,
-                  color: "#222222",
-
-                }}
-              >
-                Delete Transaction?
-              </Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body
-              className="text-center"
+            {formLoading && <div
               style={{
-                fontSize: 14,
-                fontWeight: 500,
-                fontFamily: "Gilroy",
-                color: "#646464",
-
-                marginTop: "-10px",
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+                opacity: 0.75,
+                zIndex: 10,
               }}
             >
-              Are you sure you want to delete this Transaction?
-            </Modal.Body>
-
-            <Modal.Footer
-              className="d-flex justify-content-center"
-              style={{
-
-                borderTop: "none",
-                marginTop: "-10px",
-              }}
-            >
-              <Button
-                className="me-2"
+              <div
                 style={{
-                  width: "100%",
-                  maxWidth: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#fff",
-                  color: "#1E45E1",
-                  border: "1px solid #1E45E1",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
+                  borderTop: '4px solid #1E45E1',
+                  borderRight: '4px solid transparent',
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  animation: 'spin 1s linear infinite',
                 }}
-                onClick={handleCloseTransactionDelete}
-              >
-                Cancel
-              </Button>
-              <Button
-                style={{
-                  width: "100%",
-                  maxWidth: 160,
-                  height: 52,
-                  borderRadius: 8,
-                  padding: "12px 20px",
-                  background: "#1E45E1",
-                  color: "#FFFFFF",
-                  fontWeight: 600,
-                  fontFamily: "Gilroy",
-                  fontSize: "14px",
-                }}
-                onClick={handleDeleteTransSubmit}
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
+              ></div>
+            </div>}
           </Modal>
 
+        
 
 
           <Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
@@ -2290,7 +2072,9 @@ function Banking() {
                   type="text"
                   className="form-control border-start-0 rounded-end"
                   placeholder="Enter amount"
-                  style={{ boxShadow: 'none', outline: "none" }}
+                   value={amount}
+      onChange={handleChange}
+                  style={{ boxShadow: 'none', outline: "none", fontFamily:"Gilroy" }}
                 />
               </div>
 
@@ -2305,16 +2089,7 @@ function Banking() {
 
 
 
-          {EditTransactionForm === true ? (
-            <BankingEditTransaction
-              setEditTransactionForm={setEditTransactionForm}
-              EditTransactionForm={EditTransactionForm}
-              setDeleteTransactionForm={setDeleteTransactionForm}
-              deleteTransactionForm={deleteTransactionForm}
-              setUpdateTransaction={setUpdateTransaction}
-              updateTransaction={updateTransaction}
-            />
-          ) : null}
+        
 
           {showForm === true ? (
             <BankingAddForm
@@ -2325,7 +2100,8 @@ function Banking() {
               setEditAddBank={setEditAddBank}
               setEdit={setEdit}
               edit={edit}
-              updateTransaction={updateTransaction}
+             
+              
             />
           ) : null}
         </div>

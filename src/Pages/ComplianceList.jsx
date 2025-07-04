@@ -38,6 +38,10 @@ const ComplianceList = (props) => {
   const [hostel_id, setHostel_Id] = useState("");
   const [assignId, setAssignId] = useState("");
   const [loading, setLoading] = useState(true);
+  const [formAssignCompliantLoading, setFormAssignCompliantLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
+  const [commentsLoading, setCommentsLoading] = useState(false)
+
 
   const popupRef = useRef(null);
   useEffect(() => {
@@ -148,6 +152,7 @@ const ComplianceList = (props) => {
     if (state.ComplianceList.statusCodeForAddComplianceComment === 200) {
       setComments("");
       setShowCard(false);
+      setCommentsLoading(false)
       dispatch({
         type: "GET_COMPLIANCE_COMMENT",
         payload: { com_id: customer_Id },
@@ -211,6 +216,7 @@ const ComplianceList = (props) => {
         type: "Add_COMPLIANCE_COMMENT",
         payload: { complaint_id: customer_Id, message: comments },
       });
+      setCommentsLoading(true)
     }
   };
   const handleCloseIconClick = () => {
@@ -232,6 +238,7 @@ const ComplianceList = (props) => {
     setAssignId(item?.ID);
     setShowDots(false);
     setStatus(item?.Status);
+    setSelectedStatus(item?.Status)
     setShowChangeStatus(true);
     setShowAssignComplaint(false);
   };
@@ -242,9 +249,16 @@ const ComplianceList = (props) => {
     setStatusError("");
   };
 
+   useEffect(() => {
+    const savedStatus = localStorage.getItem("selectedStatus");
+    if (savedStatus) {
+      setSelectedStatus(savedStatus);
+    }
+  }, []);
+
   const handleChangeStatusClick = () => {
 
-    const prevStatus = selectedStatus || "";
+    const prevStatus = selectedStatus || "";    
 
     if (!status) {
       setStatusError("Please Select Status");
@@ -256,10 +270,8 @@ const ComplianceList = (props) => {
       return;
     }
 
-    setSelectedStatus(status);
     setStatusError("");
 
-    localStorage.setItem("selectedStatus", status);
 
     dispatch({
       type: "COMPLIANCECHANGESTATUS",
@@ -271,17 +283,8 @@ const ComplianceList = (props) => {
         hostel_id: hostel_id,
       },
     });
+    setFormLoading(true)
   };
-
-
-  useEffect(() => {
-    const savedStatus = localStorage.getItem("selectedStatus");
-    if (savedStatus) {
-      setSelectedStatus(savedStatus);
-    }
-  }, []);
-
-
 
 
   const handleAssignComplaintClick = () => {
@@ -293,7 +296,7 @@ const ComplianceList = (props) => {
     }
 
     if (compliant === "") {
-      setStatusErrorType("Please Select Compliant Type");
+      setStatusErrorType("Please Select User");
     } else {
       dispatch({
         type: "COMPLIANCEASSIGN",
@@ -305,6 +308,7 @@ const ComplianceList = (props) => {
           hostel_id: hostel_id,
         },
       });
+      setFormAssignCompliantLoading(true)
     }
   };
 
@@ -316,7 +320,9 @@ const ComplianceList = (props) => {
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_ASSIGN" });
       setShowAssignComplaint(false);
       setStatusErrorType("");
+      setSelectedStatus("")
       setShowChangeStatus(false);
+      setFormAssignCompliantLoading(false)
 
     }
   }, [state.ComplianceList.complianceAssignChangeStatus]);
@@ -330,6 +336,7 @@ const ComplianceList = (props) => {
       dispatch({ type: "COMPLIANCE-LIST", payload: { hostel_id } });
       dispatch({ type: "CLEAR_COMPLIANCE_CHANGE_STATUS_CODE" });
       setShowChangeStatus(false);
+      setFormLoading(false)
     }
   }, [state.ComplianceList.complianceChangeStatus]);
 
@@ -367,9 +374,12 @@ const ComplianceList = (props) => {
 
 
   const handleStatus = (selectedOption) => {
-    setStatus(selectedOption?.value || '');
-    setStatusError("");
-  };
+  setStatus(selectedOption?.value || '');
+  if (selectedOption?.value) {
+    setStatusError('');
+  }
+};
+
 
 
   useEffect(() => {
@@ -460,7 +470,7 @@ const ComplianceList = (props) => {
       ) : (
         <div>
           <Card
-                       style={{ borderRadius: 16, border: "1px solid #E6E6E6", height: 330 }}
+            style={{ borderRadius: 16, border: "1px solid #E6E6E6", height: 330 }}
           >
             <Card.Body style={{ padding: 15 }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap">
@@ -886,16 +896,25 @@ const ComplianceList = (props) => {
                       }}
                       title={props.complaints.complaint_name}
                     >
-                      {props.complaints && props.complaints.complaint_name}{" "}
-                      <span title={props.complaints.Description} style={{
-                        display: "inline-block",
-                        maxWidth: "200px",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        verticalAlign: "middle",
-                        marginTop: "-6px"
-                      }}> - {props.complaints && props.complaints.Description}</span>
+                      {props.complaints && props.complaints.complaint_name}
+                      {props.complaints?.Description && (
+                        <span
+                          title={props.complaints.Description}
+                          style={{
+                            display: "inline-block",
+                            maxWidth: "200px",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            verticalAlign: "middle",
+                            marginTop: "-6px",
+                            paddingLeft: 4
+                          }}
+                        >
+                          {" "}  {" - "}{props.complaints.Description}
+                        </span>
+                      )}
+
 
                     </label>
                   </div>
@@ -1083,6 +1102,7 @@ const ComplianceList = (props) => {
                                   margin: 0,
                                   fontSize: "14px",
                                   color: "gray",
+                                  fontFamily: "Gilroy",
                                 }}
                               >
                                 {date}
@@ -1176,6 +1196,7 @@ const ComplianceList = (props) => {
                                         margin: 0,
                                         fontSize: "14px",
                                         color: "#666666",
+                                        fontFamily: "Gilroy",
                                       }}
                                     >
                                       {formattedDate}
@@ -1193,6 +1214,7 @@ const ComplianceList = (props) => {
                                     fontSize: "16px",
                                     fontWeight: "400",
                                     color: "#333",
+                                    fontFamily: "Gilroy",
                                   }}
                                 >
                                   {item.comment}
@@ -1216,6 +1238,36 @@ const ComplianceList = (props) => {
 
                       </div>
                     </Modal.Body>
+
+    {commentsLoading && <div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                        }}
+                      ></div>
+                    </div>}
+
+
+
+
                     {commentError && (
                       <div style={{ color: "red", textAlign: "center" }}>
                         <MdError />
@@ -1385,6 +1437,7 @@ const ComplianceList = (props) => {
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
                                 }),
                                 menuList: (base) => ({
                                   ...base,
@@ -1393,6 +1446,7 @@ const ComplianceList = (props) => {
                                   padding: 0,
                                   scrollbarWidth: "thin",
                                   overflowY: "auto",
+                                  fontFamily: "Gilroy",
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
@@ -1429,6 +1483,31 @@ const ComplianceList = (props) => {
                       </div>
                     </Modal.Body>
 
+                    {formLoading && <div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                        }}
+                      ></div>
+                    </div>}
                     <Modal.Footer style={{ border: "none" }}>
                       <Button
                         className="w-100"
@@ -1533,7 +1612,7 @@ const ComplianceList = (props) => {
                                   })()
                                   : null
                               }
-                              placeholder="Select a Complaint"
+                              placeholder="Select a User"
                               classNamePrefix="custom"
                               styles={{
                                 control: (base) => ({
@@ -1551,6 +1630,7 @@ const ComplianceList = (props) => {
                                   ...base,
                                   backgroundColor: "#f8f9fa",
                                   border: "1px solid #ced4da",
+                                  fontFamily: "Gilroy",
                                 }),
                                 menuList: (base) => ({
                                   ...base,
@@ -1559,6 +1639,7 @@ const ComplianceList = (props) => {
                                   padding: 0,
                                   scrollbarWidth: "thin",
                                   overflowY: "auto",
+                                  fontFamily: "Gilroy",
                                 }),
                                 placeholder: (base) => ({
                                   ...base,
@@ -1583,21 +1664,47 @@ const ComplianceList = (props) => {
 
 
 
-
-                          </Form.Group>
-
                           {statusErrorType.trim() !== "" && (
-                            <div style={{ marginTop: 25 }}>
-                              <p className='text-center' style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                                {statusErrorType !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
+                            <div >
+
+                              <p className='text-start' style={{ fontSize: '14px', color: 'red', marginTop: '7px', fontFamily: "Gilroy", fontWeight: 500 }}>
+                                {statusErrorType !== " " && <MdError style={{ color: 'red', marginBottom:1 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
+
                               </p>
                             </div>
                           )}
+
+                          </Form.Group>
+
                         </div>
                       </div>
                     </Modal.Body>
-
-                    <Modal.Footer style={{ border: "none" }}>
+                    {formAssignCompliantLoading && <div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'transparent',
+                        opacity: 0.75,
+                        zIndex: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          borderTop: '4px solid #1E45E1',
+                          borderRight: '4px solid transparent',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          animation: 'spin 1s linear infinite',
+                        }}
+                      ></div>
+                    </div>}
+                    <Modal.Footer style={{ border: "none", marginTop:'12px' }}>
                       <Button
                         className="w-100"
                         style={{

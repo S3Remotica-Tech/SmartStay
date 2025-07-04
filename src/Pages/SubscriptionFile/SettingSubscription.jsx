@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useState, useEffect, useRef } from "react";
-import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
+import { useState, useEffect , useRef} from "react";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min"; 
 import { useDispatch, useSelector } from "react-redux";
 import crown from "../../Assets/Images/New_images/crown.png";
 import { Button, Form, FormControl } from "react-bootstrap";
@@ -170,6 +170,9 @@ function SettingSubscription() {
     setChangePlan(true);
   };
 
+ 
+
+
   useEffect(() => {
     if (changePlan) {
       handleClosePlanChange();
@@ -211,48 +214,26 @@ function SettingSubscription() {
   const handleCloseCurrentPlan = () => {
     setChangePlan(false);
     setHostelCountError("");
-    const modalElement = document.getElementById("changePlanModal");
-    if (modalElement) {
-      modalElement.classList.remove("show");
-      modalElement.setAttribute("aria-hidden", "true");
-      modalElement.style.display = "none";
-    }
 
-    document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
   };
 
   return (
-    <div className="" >
-
-      <div className="d-flex flex-column flex-md-row justify-content-between align-items-center"
-        style={{
-          position: "sticky",
-          top: 0,
-          right: 0,
-          left: 0,
-          zIndex: 1000,
-          backgroundColor: "#FFFFFF",
-          minHeight: 83,
-          whiteSpace: "nowrap",
-          paddingRight: 10,
-          paddingLeft: 10,
-
-
-        }}>
-        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-4" >
+    <div className="container"  style={{ overflowY: 'hidden' , height:'100vh'}}>
+      <div style={{ marginTop: 35 }}>
+        <div className="w-100 d-flex justify-content-center justify-content-md-start mt-4">
           <p
             className="cardnewsubs"
-            style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600, position: "sticky" }}
+            style={{ fontSize: 20, fontFamily: "Gilroy", fontWeight: 600 }}
           >
             Subscription
           </p>
         </div>
       </div>
 
-      <div className="row g-3" style={{ maxHeight: 600, overflowY: "scroll" }}>
+      <div className="row g-3">
         <div className="col-12 col-md-6">
 
-          <div className="card p-3 cardnewsubs">
+          <div className="card p-3 cardnewsubs" >
             {getPlanActive?.length > 0 && getPlanActive[0]?.amount > 0 ? (
               <>
                 <div
@@ -567,21 +548,25 @@ function SettingSubscription() {
                       {getPlanActive.length > 0 &&
                         getPlanActive[0]?.hostel_details.length > 0 &&
                         getPlanActive[0]?.hostel_details.map((view, index) => {
-                          let Dated = new Date(view.plan_start);
+                       let formattedDate = "-";
+                    if (view.plan_start) {
+                      const Dated = new Date(view.plan_start);
+                      const day = Dated.getDate();
+                      const month = Dated.getMonth() + 1;
+                      const year = Dated.getFullYear();
+                      formattedDate = `${day}/${month}/${year}`;
+                            }
 
-                          let day = Dated.getDate();
-                          let month = Dated.getMonth() + 1;
-                          let year = Dated.getFullYear();
 
-                          let formattedDate = `${day}/${month}/${year}`;
+                          let DueformattedDate = "-";
+                   if (view.plan_end) {
+                         const dueDated = new Date(view.plan_end);
+                         const daydue = dueDated.getDate();
+                          const monthdue = dueDated.getMonth() + 1;
+                         const yeardue = dueDated.getFullYear();
+                           DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
+                           }
 
-                          let dueDated = new Date(view.plan_end);
-
-                          let daydue = dueDated.getDate();
-                          let monthdue = dueDated.getMonth() + 1;
-                          let yeardue = dueDated.getFullYear();
-
-                          let DueformattedDate = `${daydue}/${monthdue}/${yeardue}`;
 
                           return (
                             <tr key={index} style={{ marginTop: "20px" }}>
@@ -596,7 +581,7 @@ function SettingSubscription() {
                                 className="ps-2 ps-sm-2 ps-md-3 ps-lg-4"
                               >
 
-                                <div style={{ marginLeft: 10 }}>{index + 1}</div>
+                               <div style={{marginLeft:10}}>{index + 1}</div> 
                               </td>
                               <td
                                 style={{
@@ -609,14 +594,14 @@ function SettingSubscription() {
                                 }}
                                 className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
-                                <div style={{ marginLeft: 6 }}>{view.name}</div>
+                                <div style={{marginLeft:6}}>{view.name}</div>  
                               </td>
                               <td
                                 style={{
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
                                 <span
                                   style={{
@@ -625,7 +610,6 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
-                                    marginLeft: 4,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -643,7 +627,7 @@ function SettingSubscription() {
                                   textAlign: "start",
                                   borderBottom: "1px solid #E8E8E8",
                                 }}
-                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-2"
+                                className="ps-2 ps-sm-2 ps-md-3 ps-lg-3"
                               >
                                 <span
                                   style={{
@@ -652,7 +636,6 @@ function SettingSubscription() {
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
                                     paddingBottom: "3px",
-                                    marginLeft: 4,
                                     borderRadius: "10px",
                                     lineHeight: "1.5em",
                                     margin: "0",
@@ -679,7 +662,7 @@ function SettingSubscription() {
                                     backgroundColor: "#D9FFD9",
                                     paddingLeft: "10px",
                                     paddingRight: "10px",
-                                    marginLeft: 3,
+                                    marginLeft:4,
                                     fontSize: "11px",
                                     fontWeight: 500,
                                     borderRadius: "10px",
@@ -706,28 +689,47 @@ function SettingSubscription() {
         )}
       </div>
 
-      {
-        changePlan &&
+     
+
+           <Modal
+           show={changePlan}
+           onHide={handleCloseCurrentPlan}
+           backdrop="static"
+           centered
+           size="lg" 
+           className="change-plan-modal" >
+       
+                <Modal.Header
+                  style={{ marginBottom: "30px", position: "relative", paddingLeft:40, paddingRight:40 }}
+                >
+                  <div
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 600,
+                      fontFamily: "Gilroy",
+                    }}
+                  >
+                    Change Plan
+                  </div>
+              
 
 
-        <div
-          className="modal fade"
-          ref={modalRef}
-          data-bs-backdrop="static"
-          tabIndex="-1"
-        >
-          <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" style={{ fontFamily: "Gilroy" }}>Change Plan</h5>
-                <CloseCircle
-                  size="24"
-                  color="#000"
-                  onClick={handleCloseCurrentPlan}
-                  style={{ cursor: "pointer" }}
-                />
-              </div>
-              <div className="modal-body">
+                  <CloseCircle
+                    size="24"
+                    color="#000"
+                    onClick={handleCloseCurrentPlan}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Modal.Header>
+
+
+          <Modal.Body  className="modal-scroll-body">
+       
+            
+            
+
+
+               <div className="modal-body">
                 <div className="row g-3">
                   <div className="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
                     <div
@@ -1114,10 +1116,17 @@ function SettingSubscription() {
                   </div>
                 </div>
               )}
-            </div>
-          </div>
-        </div>
-      }
+
+              
+          
+            
+            
+          </Modal.Body>
+
+          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+       
+      </Modal>
+
       <Modal
         show={plan}
         onHide={handleClosePlanChange}
@@ -1149,7 +1158,7 @@ function SettingSubscription() {
                   >
                     Manage Plan
                   </div>
-                  <div style={{ paddingRight: 40, fontFamily: "Gilroy", }}>
+                  <div style={{ paddingRight: 40 }}>
                     (
                     {planCode?.trim() === "basic_smart"
                       ? "1 Month Plan"
@@ -1200,58 +1209,26 @@ function SettingSubscription() {
                       <Select
                         options={filteredOptions}
                         placeholder="Select Hostel"
-                        value={null}
+                        value={null} 
                         onChange={handleHostelSelect}
                         classNamePrefix="custom"
                         menuPlacement="auto"
                         styles={{
-                    control: (base) => ({
-                      ...base,
-                      height: "50px",
-                      border: "1px solid #D9D9D9",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      color: "#4B4B4B",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-                      boxShadow: "none",
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      border: "1px solid #ced4da",
-                      fontFamily: "Gilroy",
-                    }),
-                    menuList: (base) => ({
-                      ...base,
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: "120px",
-                      padding: 0,
-                      scrollbarWidth: "thin",
-                      overflowY: "auto",
-                    }),
-                    placeholder: (base) => ({
-                      ...base,
-                      color: "#555",
-                    }),
-                    dropdownIndicator: (base) => ({
-                      ...base,
-                      color: "#555",
-                      cursor: "pointer",
-                    }),
-                    indicatorSeparator: () => ({
-                      display: "none",
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      cursor: "pointer",
-                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                      color: "#000",
-                    }),
-                  }}
+                          control: (base) => ({
+                            ...base,
+                            padding: "2px",
+                            marginTop: "5px",
+                            fontSize: "16px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 400,
+                            color: "rgba(34, 34, 34, 1)",
+                            borderColor: "#ced4da",
+                            minHeight: "40px",
+                            cursor:'pointer'
+                          }),
+                        }}
                       />
 
-                      
                       {selectedHostels.length > 0 && (
                         <div className="mt-3 d-flex flex-wrap gap-2">
                           {selectedHostels.map((hostel) => (
@@ -1261,7 +1238,6 @@ function SettingSubscription() {
                               style={{
                                 fontWeight: 400,
                                 borderRadius: "8px",
-                                fontFamily: "Gilroy",
                                 border: "1px solid rgba(30, 69, 225, 1)",
                               }}
                             >
@@ -1394,7 +1370,6 @@ function SettingSubscription() {
                         id="form-controls"
                         placeholder="Select Payment"
                         value={amount}
-                        // onChange={(e) => handleLastName(e)}
                         style={{
                           fontSize: 16,
                           color: "#4B4B4B",
@@ -1478,7 +1453,6 @@ function SettingSubscription() {
                   Buy Now
                 </Button>
               </div>
-              {/* )} */}
             </div>
           </Modal.Body>
 

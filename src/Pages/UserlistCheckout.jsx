@@ -40,7 +40,7 @@ function CheckOut(props) {
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
   const [checkOutEditPermissionError, setcheckOutEditPermissionError] = useState("");
   const [checkOutDeletePermissionError, setcheckOutDeletePermissionError] = useState("");
-  const [checkoutLoader, setCheckOutLoader] = useState(true)
+  const [checkoutLoader, setCheckOutLoader] = useState(false)
   const [cofirmForm, setConfirmForm] = useState(false)
 
 
@@ -82,11 +82,14 @@ function CheckOut(props) {
     }
   }, [props.customerrolePermission]);
 
+
   useEffect(() => {
-    if (state.login.selectedHostel_Id) {
+      if(state.login.selectedHostel_Id){
       setCheckOutLoader(true)
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
-    }
+      }
+     
+
   }, [state.login.selectedHostel_Id]);
 
 
@@ -372,6 +375,7 @@ function CheckOut(props) {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
+                marginTop:90
 
               }}
             >
@@ -379,7 +383,7 @@ function CheckOut(props) {
               <img
                 src={Emptystate}
                 alt="Empty State"
-                style={{ maxWidth: "100%", height: "auto" }}
+             
               />
 
 
@@ -972,7 +976,6 @@ function CheckOut(props) {
                         right: "10px",
                         backgroundColor: "#fff",
                         borderRadius: "5px",
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                         zIndex: 1000,
                       }}
                     >
@@ -1069,7 +1072,7 @@ function CheckOut(props) {
                 </div>
 
               ) : (!checkoutLoader && currentCustomers?.length === 0 && (
-                <div style={{ marginTop: 30, height: "60vh" }}>
+                <div style={{ marginTop: 30, height: "60vh" }} className="animated-text">
                   <div style={{ textAlign: "center" }}>
                     {" "}
                     <img src={Emptystate} alt="emptystate" />
@@ -1080,7 +1083,7 @@ function CheckOut(props) {
                       textAlign: "center",
                       fontWeight: 600,
                       fontFamily: "Gilroy",
-                      fontSize: 20,
+                      fontSize: 18,
                       color: "rgba(75, 75, 75, 1)",
                     }}
                   >
@@ -1092,7 +1095,7 @@ function CheckOut(props) {
                       textAlign: "center",
                       fontWeight: 500,
                       fontFamily: "Gilroy",
-                      fontSize: 16,
+                      fontSize: 14,
                       color: "rgba(75, 75, 75, 1)",
                     }}
                   >

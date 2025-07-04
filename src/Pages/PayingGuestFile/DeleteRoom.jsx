@@ -41,7 +41,7 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
   const handleDeleteRoomForm = () => {
     handleClose();
     setDeleteRoomError("");
-    dispatch({type:'CLEAR_DELETE_ROOM_ERROR'})
+    dispatch({ type: 'CLEAR_DELETE_ROOM_ERROR' })
   };
 
   useEffect(() => {
@@ -65,8 +65,6 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
         <Modal.Header
           style={{
             borderBottom: "none",
-            // justifyContent: "center",
-            // display: "flex"
           }}
         >
           <Modal.Title
@@ -78,7 +76,7 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
               flex: 1,
             }}
           >
-            Delete room ?
+            Delete room
           </Modal.Title>
         </Modal.Header>
 
@@ -118,39 +116,12 @@ function DeleteRoom({ show, handleClose, deleteRoomDetails }) {
             marginTop: "-10px",
           }}
         >
-          <Button
-            onClick={handleDeleteRoomForm}
-            style={{
-              borderRadius: 8,
-              padding: "12px 20px",
-              border: "1px solid rgba(36, 0, 255, 1)",
-              backgroundColor: "#FFF",
-              color: "rgba(36, 0, 255, 1)",
-              fontSize: 14,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              width: 160,
-              height: 52,
-              marginRight: 10,
-            }}
-          >
+
+          <Button onClick={handleDeleteRoomForm} style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
             Cancel
           </Button>
-          <Button
-            style={{
-              borderRadius: 8,
-              padding: "12px 20px",
-              border: "1px solid rgba(36, 0, 255, 1)",
-              backgroundColor: "rgba(36, 0, 255, 1)",
-              color: "#fff",
-              fontSize: 14,
-              fontWeight: 600,
-              fontFamily: "Gilroy",
-              width: 160,
-              height: 52,
-            }}
-            onClick={handleDeleteRoomConfirm}
-          >
+
+          <Button style={{ borderRadius: 8, padding: "16px 40px", border: "1px solid #1E45E1", backgroundColor: "#1E45E1", color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }} onClick={handleDeleteRoomConfirm}>
             Delete
           </Button>
         </Modal.Footer>

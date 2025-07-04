@@ -14,7 +14,7 @@ export const initialState = {
     EB_Customerlist: [],
     EB_startmeterlist: [],
     statusCodeForEbRoomList: 0,
-    statusCodeForEBRoombasednodata:0,
+    statusCodeForEBRoombasednodata: 0,
     createRoomMessage: '',
     errMessage: "",
     roomCount: [],
@@ -33,7 +33,7 @@ export const initialState = {
     noRoomsInFloorStatusCode: 0,
     createPgStatusCode: 0,
     createBedStatusCode: 0,
-    alreadyBedAvailable: 0,
+    alreadyBedAvailable: "",
     statusCodeForDeleteRoom: 0,
     statusCodeDeleteBed: 0,
     AddEBstatusCode: 0,
@@ -47,7 +47,7 @@ export const initialState = {
     OccupiedCustomer: [],
     OccupiedCustomerGetStatusCode: 0,
     EB_customerTable: [],
-    nostatusCodeforEbCustomer:0,
+    nostatusCodeforEbCustomer: 0,
     statusCodeforEbCustomer: 0,
     dleteHostelImagesStatusCode: 0,
     statusCodeForEditElectricity: 0,
@@ -84,21 +84,23 @@ export const initialState = {
     addCommentsSuccessStatus: 0,
     CommentsList: [],
     addSubCommentsSuccessStatus: 0,
-    NoDashboardStatusCode:0,
-    nostatusCodeforEbHostelBased:0,
-   UpgradestatusCode: 0,
-// 
-dashboardFilterAdvance:[],
-statusCodeForAdvanceFilter:0
+    NoDashboardStatusCode: 0,
+    nostatusCodeforEbHostelBased: 0,
+    UpgradestatusCode: 0,
+
+    dashboardFilterAdvance: [],
+    statusCodeForAdvanceFilter: 0,
+     SameTitleErrorStatusCode:0,
 
 }
 
 const PgListReducer = (state = initialState, action) => {
 
-    console.log("action", action);
-    
+
 
     switch (action.type) {
+        case 'RESET_ALL':
+              return initialState;
         case 'MANAGE_PG':
             return { ...state, isManageEnable: true }
 
@@ -111,12 +113,12 @@ const PgListReducer = (state = initialState, action) => {
         case 'REMOVE_DELETE_ANNOUNCEMENT':
             return { ...state, deleteAnnounmentSuccessStatus: 0 }
 
-          
-            case 'UPGRADE_PLAN':
-                return { ...state,UpgradestatusCode: action.payload.statusCode }
-    
-            case 'REMOVE_UPGRADE_PLAN':
-                return { ...state, UpgradestatusCode: 0 }
+
+        case 'UPGRADE_PLAN':
+            return { ...state, UpgradestatusCode: action.payload.statusCode }
+
+        case 'REMOVE_UPGRADE_PLAN':
+            return { ...state, UpgradestatusCode: 0 }
 
 
 
@@ -156,13 +158,12 @@ const PgListReducer = (state = initialState, action) => {
 
 
         case 'DELETE_ROOM':
-            return { ...state, 
-                // deleteRoom: action.payload, 
-                statusCodeForDeleteRoom: action.payload.statusCode }
+            return {
+                ...state,
+                statusCodeForDeleteRoom: action.payload.statusCode
+            }
         case 'CLEAR_DELETE_ROOM':
             return { ...state, statusCodeForDeleteRoom: 0 }
-        // case 'DELETE_BED':
-        //     return { ...state, deleteBed: action.payload }
         case 'PG_LIST':
             return { ...state, message: action.payload.message, createPgStatusCode: action.payload.statusCode }
         case 'CLEAR_PG_STATUS_CODE':
@@ -193,15 +194,10 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, EB_startmeterlist: action.payload.response, statusCodeForEbRoomList: action.payload.statusCode }
         case 'CLEAR_EB_STARTMETER_LIST':
             return { ...state, statusCodeForEbRoomList: 0 }
-
-
-
-            case 'NO_ROOM_BASED':
-                return { ...state, statusCodeForEBRoombasednodata: action.payload.statusCode}
-            case 'CLEAR_NO_ROOM_BASED':
-                return { ...state, statusCodeForEBRoombasednodata: 0 }
-
-
+        case 'NO_ROOM_BASED':
+            return { ...state, statusCodeForEBRoombasednodata: action.payload.statusCode }
+        case 'CLEAR_NO_ROOM_BASED':
+            return { ...state, statusCodeForEBRoombasednodata: 0 }
         case 'EB_CUSTOMER_EBLIST':
             return { ...state, EB_customerTable: action.payload.response, statusCodeforEbCustomer: action.payload.statusCode }
         case 'CLEAR_EB_CUSTOMER_EBLIST':
@@ -211,51 +207,33 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, nostatusCodeforEbCustomer: action.payload.statusCode }
         case 'CLEAR_NOHOSTEL':
             return { ...state, nostatusCodeforEbCustomer: 0 }
-
-
-            case 'NO_EB_HOSTEL_BASED':
-                return { ...state, nostatusCodeforEbHostelBased: action.payload.statusCode }
-            case 'CLEAR_NO_EB_HOSTEL_BASED':
-                return { ...state, nostatusCodeforEbHostelBased: 0 }
-
-
+        case 'NO_EB_HOSTEL_BASED':
+            return { ...state, nostatusCodeforEbHostelBased: action.payload.statusCode }
+        case 'CLEAR_NO_EB_HOSTEL_BASED':
+            return { ...state, nostatusCodeforEbHostelBased: 0 }
         case 'EB_ERROR':
             return { ...state, ebError: action.payload }
 
         case 'CLEAR_EB_ERROR':
             return { ...state, ebError: '' }
-
-
         case 'ALREADY_ROOM_ERROR':
             return { ...state, alreadyRoomHere: action.payload }
         case 'CLEAR_ALREADY_ROOM_ERROR':
             return { ...state, alreadyRoomHere: '' }
-
-
-
-        // case 'ERROR':
-        //     if (state.roomCount.length > 0) {
-        //         let index = state.roomCount.findIndex((item) => {
-        //             return item[0]?.Floor_Id === action.payload.floor_Id
-        //         })
-        //         state.roomCount[index] = []
-        //     }
-        //     return { ...state, errMessage: action.payload.response }
-
-
-
         case 'UPDATE_MESSAGE_AFTER_CREATION':
             return { ...state, createRoomMessage: action.message }
 
         case 'BED_DETAILS':
-            return { ...state,
-                //  bedDetailsForUser: action.payload, 
-                statusCode: action.payload.statusCode }
+            return {
+                ...state,
+                statusCode: action.payload.statusCode
+            }
 
         case 'NO_USER_BED':
-            return { ...state, 
-                // errorForBed: action.payload, 
-                errorStatusCode: action.payload.statusCode }
+            return {
+                ...state,
+                errorStatusCode: action.payload.statusCode
+            }
 
         case 'CLEAR_STATUS_CODE':
             return { ...state, errorStatusCode: ' ' }
@@ -282,12 +260,10 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, statusCodeDeleteBed: action.payload.statusCode }
         case 'CLEAR_DELETE_BED_STATUS_CODE':
             return { ...state, statusCodeDeleteBed: 0 }
-
-
         case 'ALREADY_BED':
             return { ...state, alreadyBedAvailable: action.payload.response }
         case 'CLEAR_ALREADY_BED':
-            return { ...state, alreadyBedAvailable: 0 }
+            return { ...state, alreadyBedAvailable: "" }
 
         case 'DELETE_PG_ERROR':
             return { ...state, deletePgError: action.payload }
@@ -298,10 +274,6 @@ const PgListReducer = (state = initialState, action) => {
             return { ...state, deleteBedError: action.payload }
         case 'CLEAR_DELETE_BED_ERROR':
             return { ...state, deleteBedError: '' }
-
-
-        // UPDATE FLOOR
-
         case 'UPDATE_FLOOR':
             return { ...state, updateFloorSuccessStatusCode: action.payload.statusCode }
 
@@ -313,10 +285,6 @@ const PgListReducer = (state = initialState, action) => {
         case 'CLEAR_UPDATE_FLOOR_ERROR':
             return { ...state, alreadyfloorNameHere: '' }
 
-
-
-        // EB
-
         case "EDIT_ELECTRICITY":
             return {
                 ...state,
@@ -325,9 +293,6 @@ const PgListReducer = (state = initialState, action) => {
             };
         case "CLEAR_EDIT_ELECTRICITY":
             return { ...state, statusCodeForEditElectricity: 0 };
-
-
-
         case 'ERROR_EDIT_ELECTRICITY':
             return { ...state, ebEditError: action.payload }
 
@@ -373,25 +338,23 @@ const PgListReducer = (state = initialState, action) => {
         case "CLEAR_DASHBOARD":
             return { ...state, dashboardFilterCashback: [], dashboardFilter: [], dashboardFilterRevenu: [], dashboardDetails: [] };
 
-            case "DASHBOARD_FILTER_ADVANCE":
-                return {
-                    ...state,
-                    dashboardFilterAdvance: action.payload.response,
-                    statusCodeForAdvanceFilter: action.payload.statusCode,
-                };
-            case "CLEAR_DASHBOARD_FILTER_ADVANCE":
-                return { ...state, statusCodeForAdvanceFilter: 0 };
-        // HostelBased
+        case "DASHBOARD_FILTER_ADVANCE":
+            return {
+                ...state,
+                dashboardFilterAdvance: action.payload.response,
+                statusCodeForAdvanceFilter: action.payload.statusCode,
+            };
+        case "CLEAR_DASHBOARD_FILTER_ADVANCE":
+            return { ...state, statusCodeForAdvanceFilter: 0 };
 
         case 'NO_DASHBOARD_LIST':
-            return { ...state, NoDashboardStatusCode: action.payload.statusCode}
+            return { ...state, NoDashboardStatusCode: action.payload.statusCode }
         case 'CLEAR_NO_DASHBOARD_LIST':
-            return { ...state, NoDashboardStatusCode:0 }
+            return { ...state, NoDashboardStatusCode: 0 }
 
         case "ADD_HOSTEL_BASED":
             return {
                 ...state,
-                // addHostelBasedReading: action.payload,
                 statusCodeForAddHostelBased: action.payload.statusCode,
             };
         case "CLEAR_ADD_HOSTEL_BASED":
@@ -402,7 +365,6 @@ const PgListReducer = (state = initialState, action) => {
         case "EDIT_HOSTEL_BASED":
             return {
                 ...state,
-                // editHostelBasedReading: action.payload,
                 statusCodeForEditHostelBased: action.payload.statusCode,
             };
         case "CLEAR_EDIT_HOSTEL_BASED":
@@ -413,7 +375,6 @@ const PgListReducer = (state = initialState, action) => {
         case "DELETE_HOSTEL_BASED":
             return {
                 ...state,
-                // deleteHostelBasedReading: action.payload,
                 statusCodeForDeleteHostelBased: action.payload.statusCode,
             };
         case "CLEAR_DELETE_HOSTEL_BASED":
@@ -429,7 +390,6 @@ const PgListReducer = (state = initialState, action) => {
         case "CLEAR_EB_CUSTOMER_HOSTEL_EBLIST":
             return { ...state, getStatusCodeForHostelBased: 0 };
 
-        // ///////////////////////////////////////////////
 
         case 'SAME_DATE_ALREADY':
             return { ...state, dateAlready: action.payload.response }
@@ -474,21 +434,21 @@ const PgListReducer = (state = initialState, action) => {
 
 
         case 'SAME_TITLE':
-            return { ...state, TitleAlready: action.payload.response }
+            return { ...state, TitleAlready: action.payload.response , SameTitleErrorStatusCode: action.payload.statusCode}
 
         case 'CLEAR_SAME_TITLE':
-            return { ...state, TitleAlready: '' }
+            return { ...state, TitleAlready: '', SameTitleErrorStatusCode: 0 }
 
 
         case 'TITTLE_UNIQUE':
-            return { ...state, TittleUnique: action.payload.response }
+            return { ...state, TittleUnique: action.payload.response, SameTitleErrorStatusCode:  action.payload.statusCode}
 
         case 'CLEAR_TITTLE_UNIQUE':
-            return { ...state, TittleUnique: '' }
+            return { ...state, TittleUnique: '', SameTitleErrorStatusCode: 0 }
 
-            default:
-                return state;
+        default:
+            return state;
     }
-    
+
 }
 export default PgListReducer;

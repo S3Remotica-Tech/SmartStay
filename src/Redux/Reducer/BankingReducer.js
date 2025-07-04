@@ -1,28 +1,24 @@
 export const initialState = {
-  // addBanking: [],
   statusCodeForAddBanking: 0,
   bankingList: [],
-  statusCodeForBankingNoData:0,
+  statusCodeForBankingNoData: 0,
   statusCodeForGetBanking: 0,
-  // defaultAccount: [],
   statusCodeForDefaultAccount: 0,
-  // addBankingAmount: [],
   statusCodeForAddBankingAmount: 0,
   editTransaction: [],
   statusEditTrasactionCode: 0,
-  // deleteBank: [],
   statusCodeDeleteBank: 0,
-  // deleteBankTransaction: [],
   statusCodeForDeleteTrans: 0,
   bankingError: ''
 };
 
 const BankingReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'RESET_ALL':
+      return initialState;
     case "ADD_USER_BANKING":
       return {
         ...state,
-        // addBanking: action.payload,
         statusCodeForAddBanking: action.payload.statusCode,
       };
     case "CLEAR_ADD_USER_BANKING":
@@ -46,7 +42,6 @@ const BankingReducer = (state = initialState, action) => {
     case "ADD_BANK_AMOUNT":
       return {
         ...state,
-        // addBankingAmount: action.payload,
         statusCodeForAddBankingAmount: action.payload.statusCode,
       };
     case "CLEAR_ADD_BANK_AMOUNT":
@@ -61,14 +56,13 @@ const BankingReducer = (state = initialState, action) => {
     case "CLEAR_BANKING_LIST":
       return { ...state, statusCodeForGetBanking: 0 };
 
-      case "NO_BANKING":
-        return {
-          ...state,
-          // defaultAccount: action.payload,
-          statusCodeForBankingNoData: action.payload.statusCode,
-        };
-      case "CLEAR_NO_BANKING":
-        return { ...state, statusCodeForBankingNoData: 0 };
+    case "NO_BANKING":
+      return {
+        ...state,
+        statusCodeForBankingNoData: action.payload.statusCode,
+      };
+    case "CLEAR_NO_BANKING":
+      return { ...state, statusCodeForBankingNoData: 0 };
 
 
 
@@ -76,7 +70,6 @@ const BankingReducer = (state = initialState, action) => {
     case "DEFAULT_ACCOUNT":
       return {
         ...state,
-        // defaultAccount: action.payload,
         statusCodeForDefaultAccount: action.payload.statusCode,
       };
     case "CLEAR_DEFAULT_ACCOUNT":
@@ -86,7 +79,6 @@ const BankingReducer = (state = initialState, action) => {
     case "DELETE_BANKING":
       return {
         ...state,
-        // deleteBank: action.payload,
         statusCodeDeleteBank: action.payload.statusCode,
       };
     case "CLEAR_DELETE_BANKING":
@@ -94,15 +86,14 @@ const BankingReducer = (state = initialState, action) => {
     case "DELETE_BANKING_TRANSACTION":
       return {
         ...state,
-        // deleteBankTransaction: action.payload,
         statusCodeForDeleteTrans: action.payload.statusCode,
       };
     case "CLEAR_DELETE_BANKING_TRANSACTION":
       return { ...state, statusCodeForDeleteTrans: 0 };
 
-      default:
-        return state;
+    default:
+      return state;
   }
- 
+
 };
 export default BankingReducer;

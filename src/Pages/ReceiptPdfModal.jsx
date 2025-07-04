@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
 import { toWords } from 'number-to-words';
 import "../Pages/Invoices.css";
@@ -26,7 +27,9 @@ import frameblue from "../Assets/Images/New_images/Frameblue.png";
 import paidfull from '../Assets/Images/New_images/paidfull.png'
 import { useDispatch, useSelector } from "react-redux";
 import Logo from '../Assets/Images/get.png'
-import receiptLogo from '../Assets/Images/New_images/receiptlogo.png'
+import receiptLogo from '../Assets/Images/New_images/receiptlogo.png';
+import User from '../Assets/Images/user.png'
+import PaymentUser from '../Assets/Images/usertwo.png'
 
 
 
@@ -349,7 +352,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
                       <h4 className="fw-bold mb-0"><img src={Logo} alt="logo" style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }} className="me-2" />Smartstay</h4>
-                      <p className="ms-4" style={{ fontSize: 14, fontWeight: 400, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px', letterSpacing: "0.5px" }}>Meet All Your Needs</p>
+                      <small className="ms-4" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px' }}>Meet All Your Needs</small>
                     </div>
 
                     <div>
@@ -360,7 +363,8 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                         <>
                           {isValid(receiptDataNew?.hostel_details?.address) && <>{receiptDataNew?.hostel_details?.address}, </>}
                           {isValid(receiptDataNew?.hostel_details?.area) && <>{receiptDataNew?.hostel_details?.area}, </>}
-                          {isValid(receiptDataNew?.hostel_details?.city) && <>{receiptDataNew?.hostel_details?.city}, </>}<br />
+                          {isValid(receiptDataNew?.hostel_details?.landmark) && <>{receiptDataNew?.hostel_details?.landmark} </>} <br />
+                          {isValid(receiptDataNew?.hostel_details?.city) && <>{receiptDataNew?.hostel_details?.city}, </>}
                           {isValid(receiptDataNew?.hostel_details?.state) && <>{receiptDataNew?.hostel_details?.state} - </>}
                           {isValid(receiptDataNew?.hostel_details?.pincode) && <>{receiptDataNew?.hostel_details?.pincode}</>}
                         </>
@@ -388,7 +392,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="row px-4 mt-2">
                     <div className="col-md-7 mb-3">
                       <p className="mb-1" style={{ fontSize: '13px', color: '#1E45E1', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To:</p>
-                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}>Mr. <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', }}>{receiptDataNew?.user_details?.name}</span></p>
+                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={User} alt="user" /> <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000',marginLeft:8 }}>{receiptDataNew?.user_details?.name}</span></p>
                       <p className="mb-1"><img src={mobblue} alt="mob" width={12} height={12} />
                         <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>  + {receiptDataNew &&
                           String(receiptDataNew?.user_details?.phone)?.slice(
@@ -407,13 +411,14 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
 
                         <div>
                           <div>
-                            {isValid(receiptDataNew?.user_details?.address) && <>{receiptDataNew?.user_details?.address}, </>}
-                            {isValid(receiptDataNew?.user_details?.area) && <>{receiptDataNew?.user_details?.area}, </>}
-                            {isValid(receiptDataNew?.user_details?.city) && <>{receiptDataNew?.user_details?.city}</>}
+                            {isValid(receiptDataNew?.user_details?.address) && <>{receiptDataNew?.user_details?.address} , </>}
+                            {isValid(receiptDataNew?.user_details?.area) && <>{receiptDataNew?.user_details?.area} , </>}
+                           
                           </div>
                           <div>
+                             {isValid(receiptDataNew?.user_details?.city) && <>{receiptDataNew?.user_details?.city} .</>}
                             {isValid(receiptDataNew?.user_details?.state) && <>{receiptDataNew?.user_details?.state} </>}
-                            {isValid(receiptDataNew?.user_details?.pincode) && <>- {receiptDataNew?.user_details?.pincode}</>}
+                            {isValid(receiptDataNew?.user_details?.pincode) && <>- {receiptDataNew?.user_details?.pincode} .</>}
                           </div>
                         </div>
 
@@ -538,16 +543,16 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   borderBottomLeftRadius: "13px",
                   borderBottomRightRadius: "13px",
                 }}>
-                <div className=" text-white  p-3 position-relative" style={{ minHeight: "100px", backgroundColor: "#00A32E" }}>
+                <div className=" text-white  p-2 position-relative" style={{ minHeight: "100px", backgroundColor: "#00A32E" }}>
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
                       <h4 className=" mb-0"><img src={receiptLogo} alt="logo" style={{ fontSize: 20, fontWeight: 600, fontFamily: "Gilroy" }} className="me-2" />Smartstay</h4>
                       <small className="ms-4" style={{ fontSize: 14, fontWeight: 500, fontFamily: "Gilroy", marginTop: '15px', marginLeft: '-15px' }}>Meet All Your Needs</small>
                     </div>
-                    <div className="text-start">
-                      <h5 className="mb-0" style={{ fontSize: 18, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy", marginRight: '20px' }}>{receiptDataNew?.hostel_details?.name}</h5>
-                      <small style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }}>{receiptDataNew?.hostel_details?.address}<br /> {receiptDataNew?.hostel_details?.area} , {receiptDataNew?.hostel_details?.city}<br />
-                        {receiptDataNew?.hostel_details?.landmark}, {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</small>
+                    <div className="text-start mt-2">
+                      <h5 className="mb-0 " style={{ fontSize: 18, fontWeight: 600, letterSpacing: 1, fontFamily: "Gilroy", marginRight: '20px' }}>{receiptDataNew?.hostel_details?.name}</h5>
+                      <p style={{ fontSize: 12, fontWeight: 600, fontFamily: "Gilroy" }} className="">{receiptDataNew?.hostel_details?.address} , {receiptDataNew?.hostel_details?.area}  {receiptDataNew?.hostel_details?.landmark} <br />
+                        {receiptDataNew?.hostel_details?.city} , {receiptDataNew?.hostel_details?.state} - {receiptDataNew?.hostel_details?.pincode}</p>
                     </div>
                   </div>
                 </div>
@@ -562,7 +567,7 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                   <div className="row px-4 mt-3">
                     <div className="col-md-7 mb-3">
                       <p className=" mb-1" style={{ color: 'rgba(0, 163, 46, 1)', fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, fontStyle: 'italic' }}>Bill To :</p>
-                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}>Mr. <span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', }}>{receiptDataNew?.user_details?.name}</span></p>
+                      <p className="mb-1 me-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 400, color: 'rgba(23, 23, 23, 1)', }}><img src={PaymentUser} alt="user" /><span style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 600, color: '#000000', marginLeft:12}}>{receiptDataNew?.user_details?.name}</span></p>
                       <p className="mb-1"><img src={mob} alt="mob" width={12} height={12} />
                         <span className="ms-1" style={{ fontSize: '13px', fontFamily: 'Gilroy', fontWeight: 500, color: '#000000', }}>  + {receiptDataNew &&
                           String(receiptDataNew?.user_details?.phone)?.slice(
@@ -579,15 +584,11 @@ const ReceiptPdfCard = ({ rowData, handleClosed }) => {
                         </div>
 
                         <div>
-                          <div>
                             {isValid(receiptDataNew?.user_details?.address) && <>{receiptDataNew?.user_details?.address}, </>}
                             {isValid(receiptDataNew?.user_details?.area) && <>{receiptDataNew?.user_details?.area}, </>}
                             {isValid(receiptDataNew?.user_details?.city) && <>{receiptDataNew?.user_details?.city}</>}
-                          </div>
-                          <div>
                             {isValid(receiptDataNew?.user_details?.state) && <>{receiptDataNew?.user_details?.state} </>}
                             {isValid(receiptDataNew?.user_details?.pincode) && <>- {receiptDataNew?.user_details?.pincode}</>}
-                          </div>
                         </div>
 
                       </div>

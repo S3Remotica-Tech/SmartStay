@@ -37,7 +37,6 @@ import PropTypes from "prop-types";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import {CloseCircle} from "iconsax-react";
-import { FaUniversity } from "react-icons/fa";
 import './SettingInvoice.css';
 
 function SettingInvoice({hostelid}) {
@@ -70,8 +69,10 @@ function SettingInvoice({hostelid}) {
   const [isVisible, setIsVisible] = useState(true);
   const cardRef = useRef(null);
   const innerScrollRef = useRef(null);
+  const [isSignatureConfirmed, setIsSignatureConfirmed] = useState(false);
 
   const [accountNameError, setaccountnameError] = useState("");
+  const [bankid_Error, setBankIdError] = useState("");
   const [prefix_errmsg , setPrefixErrMsg] = useState('')
   const [suffix_errmsg , setSuffixErrMsg] = useState('')
   const [tax_errmsg , setTaxErrMsg] = useState('')
@@ -150,9 +151,6 @@ const handleAccountNumberChange = (e) => {
   const numericValue = e.target.value.replace(/[^0-9]/g, ""); 
   setAccount_Number(numericValue);
 
-  if (numericValue.trim() !== "") {
-    setAccNumberErrMsg("");
-  }
 };
 
 
@@ -160,18 +158,14 @@ const handleIfscCodeChange = (e) => {
     const Value = e.target.value  
     setIfscCode(Value)
 
-    if (Value.trim() !== "") {
-    setIfscCodeErrMsg("");
-  }
+  
 }
 
 const handleBankNameChange = (e) => {
     const Value = e.target.value  
     setBankName(Value)
-
-    if (Value.trim() !== "") {
-    setBankErrMsg("");
-  }
+    
+ 
 }
 
  const handleDescription = (e) => {
@@ -217,14 +211,22 @@ const hanldeSuffix = (e) => {
 }
 
 
-const handleTaxChange = (e) => {
-     const Value =  e.target.value.replace(/[^0-9]/g, ""); 
-    setTax(Value)
 
-    if (Value.trim() !== "") {
+
+const handleTaxChange = (e) => {
+  const inputValue = e.target.value;
+
+  const formattedValue = inputValue
+    .replace(/[^0-9.]/g, '')    
+    .replace(/^([^.]*\.)|\./g, '$1'); 
+
+  setTax(formattedValue);
+
+  if (formattedValue.trim() !== "") {
     setTaxErrMsg("");
   }
-}
+};
+
 
 const handleNotesChange = (e) => {
     const Value = e.target.value  
@@ -268,6 +270,7 @@ const handleTermsChange = (e) => {
     setSignature(file);
     setSignaturePreview(URL.createObjectURL(file)); 
     setSignatureErrMsg("");
+    setIsSignatureConfirmed(false);
   }
 };
 
@@ -275,25 +278,39 @@ const handleTermsChange = (e) => {
   const handleClear = () => {
     setSignature(null);
     setSignaturePreview(null)
+    setSignatureErrMsg("");
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
+
+
+  const handleSignatureDone = () => {
+  if (!signature) {
+    setSignatureErrMsg("Please select a signature file.");
+  } else {
+    setSignatureErrMsg("");
+    setIsSignatureConfirmed(true);
+  }
+};
+
 
   
   const handleEdit = () => {
     setShowForm(false);
     setCardShow(false)
     setEdit(true); 
+
+    if(state.login.selectedHostel_Id){
+      setLoading(true)
+      dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
+    }
   };
 
   const handleEditClose = () => {
     setShowForm(true);
     setCardShow(false)
     setEdit(false);
-    setAccNumberErrMsg("");
-    setIfscCodeErrMsg("");
-    setBankErrMsg("");
     setPrefixErrMsg("");
     setSuffixErrMsg("");
     setTaxErrMsg("");
@@ -307,25 +324,42 @@ const handleTermsChange = (e) => {
     setPrefix("")
     setSuffix("")
     setTax("")
-
+    setSignature(null)
+    setSelectedBankId(null)
+    setSignaturePreview(null)
+    setBankIdError("")
   }
+
+
+  useEffect(()=> {
+            if(InvoiceList?.invoiceSettings?.signatureFile && signature){
+                setIsSignatureConfirmed(true)
+                setSignatureErrMsg("")
+            }
+  },[signature])
 
 
 
 
 
   const handleSaveInvoice = () => {
-  if (
-    !prefix || !suffix || !tax || !notes || !terms || !signature
-  ) {
-    if (!prefix) setPrefixErrMsg("Please Enter Prefix");
-    if (!suffix) setSuffixErrMsg("Please Enter Suffix");
-    if (!tax) setTaxErrMsg("Please Enter Tax");
-    if (!notes) setNotesErrMsg("Please Enter Notes");
-    if (!terms) setTermsErrMsg("Please Enter Terms");
-    if (!signature) setSignatureErrMsg("Please Select Signature");
-    return;
+ if (
+  !prefix || !suffix || !tax || !notes || !terms || !signature || !isSignatureConfirmed || !selectedBankId
+) {
+  if (!prefix) setPrefixErrMsg("Please Enter Prefix");
+  if (!suffix) setSuffixErrMsg("Please Enter Suffix");
+  if (!tax) setTaxErrMsg("Please Enter Tax");
+  if (!notes) setNotesErrMsg("Please Enter Notes");
+  if (!terms) setTermsErrMsg("Please Enter Terms");
+  if(!selectedBankId)setBankIdError("Please Add or select bank")
+  if (!signature) {
+    setSignatureErrMsg("Please select signature");
+  } else if (!isSignatureConfirmed) {
+    setSignatureErrMsg("Please click Done after selecting a signature");
   }
+  return;
+}
+
 
   const currentData = {
     prefix,
@@ -352,10 +386,12 @@ const handleTermsChange = (e) => {
     JSON.stringify(currentData) === JSON.stringify(originalData)
   ) {
     setEditErrMessage("No changes detected");
+    setSignatureErrMsg("")
     return;
   }
 
-  dispatch({
+  if(selectedBankId){
+       dispatch({
     type: "ADD_INVOICE_SETTINGS",
     payload: {
       hostelId: Number(state.login.selectedHostel_Id),
@@ -368,6 +404,9 @@ const handleTermsChange = (e) => {
       signature,
     },
   });
+  }
+
+
 };
 
 
@@ -377,6 +416,7 @@ const handleTermsChange = (e) => {
  
   useEffect(() => {
     if (hostelid) {
+         setLoading(true)
     dispatch({ type: "SETTINGS_GET_INVOICE" , payload:{hostel_id: state.login.selectedHostel_Id} });
     dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
     }
@@ -419,6 +459,24 @@ const handleTermsChange = (e) => {
       }, 1000);
     }
   }, [state.Settings.settingsInvoicegetSucesscode]);
+
+
+    useEffect(() => {
+    if (state.Settings?.settingsInvoicegetErrorStatuscode === 201) {
+        setLoading(false)
+        setSelectedBankId(null)
+        setPrefix("")
+        setSuffix("")
+        setTax("")
+        setSignature(null)
+        setSignaturePreview(null)
+        setBankIdError("")
+
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_ERROR_SETTINGS_GETINVOICE_STATUS_CODE" });
+      }, 1000);
+    }
+  }, [state.Settings.settingsInvoicegetErrorStatuscode]);
 
 
 
@@ -502,6 +560,11 @@ const handleTermsChange = (e) => {
             const handleCloseBankAccount = () => {
                  setBankAccountForm(false)
                  setaccountnameError("")
+                 setAccountName("")
+                 setAccount_Number("")
+                 setIfscCode("")
+                 setBankName("")
+                 setDescription("")
                 }
 
                  useEffect(() => {
@@ -523,6 +586,10 @@ const handleTermsChange = (e) => {
      useEffect(() => {
        if (state.bankingDetails.statusCodeForAddBanking === 200) {
          setAccountName("")
+         setAccount_Number("")
+         setIfscCode("")
+         setBankName("")
+         setDescription("")
          handleCloseBankAccount();
    
          dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
@@ -550,6 +617,8 @@ const handleTermsChange = (e) => {
     }
   }, [banking]);
 
+  
+
 
   useEffect(() => {
     if (selectedDate && isNaN(new Date(selectedDate).getTime())) {
@@ -576,9 +645,9 @@ const handleTermsChange = (e) => {
                    setNotes(InvoiceList.invoiceSettings.notes)
                    setTax(InvoiceList.invoiceSettings.tax)
                    setTerms(InvoiceList.invoiceSettings.privacyPolicyHtml)
-                   setSignature(InvoiceList.invoiceSettings.signatureFile)
-                   setSignaturePreview(InvoiceList.invoiceSettings.signatureFile)
-                  setNotes(InvoiceList.invoiceSettings.notes?.replace(/"/g, "") || "");
+                   setSignature(InvoiceList.invoiceSettings.signatureFile || null)
+                   setSignaturePreview(InvoiceList.invoiceSettings.signatureFile || null)
+                   setNotes(InvoiceList.invoiceSettings.notes?.replace(/"/g, "") || "");
 
     if (InvoiceList.invoiceSettings.bankingId) {
       setSelectedBankId(InvoiceList.invoiceSettings.bankingId);
@@ -1819,10 +1888,33 @@ useEffect(() => {
             Add
           </button>
         </div>
+
+
       )}
     </>
               
-
+ {!selectedBankId &&  bankid_Error.trim() !== "" && (
+                                              <div className="d-flex align-items-center p-1">
+                                                <MdError
+                                                  style={{
+                                                    color: "red",
+                                                    marginRight: "5px",
+                                                    fontSize: "14px",
+                                                  }}
+                                                />
+                                                <label
+                                                  className="mb-0"
+                                                  style={{
+                                                    color: "red",
+                                                    fontSize: "12px",
+                                                    fontFamily: "Gilroy",
+                                                    fontWeight: 500,
+                                                  }}
+                                                >
+                                                  {bankid_Error}
+                                                </label>
+                                              </div>
+                                            )}
                 </div>
 
                 <div className="border p-3 mb-3" style={{borderRadius:'10px' , overflowY:'auto', }}>
@@ -2140,6 +2232,7 @@ useEffect(() => {
           <button
             className="btn btn-link text-decoration-none "
             disabled={!signaturePreview}
+            onClick={handleSignatureDone}
             style={{color:'rgba(30, 69, 225, 1)',   fontFamily: 'Gilroy', fontSize: 16, fontWeight: 600}}
           >
             Done
@@ -2185,7 +2278,7 @@ useEffect(() => {
                                                   className="mb-0"
                                                   style={{
                                                     color: "red",
-                                                    fontSize: "12px",
+                                                    fontSize: 14,
                                                     fontFamily: "Gilroy",
                                                     fontWeight: 500,
                                                   }}

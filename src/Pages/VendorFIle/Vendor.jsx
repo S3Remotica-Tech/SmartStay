@@ -341,7 +341,7 @@ function Vendor() {
             <div
 
               style={{
-                height: 83,
+                height: 53,
                 position: "sticky",
                 top: 0,
                 left: 0,
@@ -510,11 +510,12 @@ function Vendor() {
               </div>
             )}
 
-            <div className='container show-scroll'
+            <div className='container show-scrolls-sidebar'
             style={{
-               height: "300px",
+               height: "500px",
                 overflowY: "auto",
                                position: "relative",
+                               paddingRight:20
                               
               }}
             >
@@ -562,10 +563,10 @@ function Vendor() {
                         <div className='d-flex justify-content-center'>
                           <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
                         </div>
-                        <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 20, color: "rgba(75, 75, 75, 1)" }}>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
                           No vendor available
                         </div>
-                        <div className="pb-1 mt-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 16, color: "rgba(75, 75, 75, 1)" }}>
+                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
                           There are no Vendors added.
                         </div>
                       </div>
@@ -582,14 +583,14 @@ function Vendor() {
           
             {
               filteredData.length >= 5 &&
-              <nav className='position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-centers'>
+              <nav className='position-fixed bottom-0 end-0 mb-3 me-3 d-flex justify-content-end align-items-centers'>
              
                 <div>
                   <select className="selectoption"
                     value={itemsPerPage}
                     onChange={handleItemsPerPageChange}
                     style={{
-                      padding: "5px",
+                      padding: "2px",
                       border: "1px solid #1E45E1",
                       borderRadius: "5px",
                       color: "#1E45E1",
@@ -597,6 +598,7 @@ function Vendor() {
                       cursor: "pointer",
                       outline: "none",
                       boxShadow: "none",
+
 
                     }}
                   >
