@@ -66,12 +66,6 @@ function StaticExample({ show, handleClose, currentItem }) {
   }, [currentItem]);
 
 
-  const getMinDate = () => {
-    if (currentItem?.assigned_date) {
-      return dayjs(currentItem.assigned_date).startOf("day");
-    }
-    return dayjs().startOf("day");
-  };
 
   useEffect(() => {
     const closeButton = document.querySelector(
@@ -85,7 +79,8 @@ function StaticExample({ show, handleClose, currentItem }) {
       closeButton.style.border = "1.5px solid #222222";
       closeButton.style.padding = "9px";
     }
-  }, []);
+  }, [])
+  
 
   const options = {
     dateFormat: "d/m/Y",
@@ -573,9 +568,6 @@ function StaticExample({ show, handleClose, currentItem }) {
                       }}
                       getPopupContainer={(triggerNode) =>
                         triggerNode.closest(".datepicker-wrapper")
-                      }
-                      disabledDate={(current) =>
-                        current && current < getMinDate()
                       }
                     />
                   </div>

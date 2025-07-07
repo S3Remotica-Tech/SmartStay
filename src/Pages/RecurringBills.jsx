@@ -275,7 +275,7 @@ useEffect(() => {
 
 
 
-        <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
+        <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
             <Form.Label
               style={{
@@ -317,7 +317,7 @@ useEffect(() => {
               styles={{
                 control: (base) => ({
                   ...base,
-                  height: "38px",
+                  height: "43px",
                   border: "1px solid #D9D9D9",
                   borderRadius: "8px",
                   fontSize: "16px",
@@ -409,7 +409,7 @@ useEffect(() => {
 
 
 
-        <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 mt-2">
+        <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 mt-3">
           <Table
             responsive
             className="Table_Design"

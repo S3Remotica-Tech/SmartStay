@@ -34,7 +34,7 @@ function CustomerReAssign(props) {
   const [roomError, setRoomError] = useState("");
   const [bedError, setBedError] = useState("");
   const [rentError, setRentError] = useState("");
-  const [formLoading, setFormLoading] = useState(true)
+  const [formLoading, setFormLoading] = useState(false)
 
 
   useEffect(() => {
