@@ -1393,7 +1393,7 @@ useEffect(() => {
             </div>
           </div>
         </div>
-        <Modal.Body style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+        <Modal.Body style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll mt-0 me-3">
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
               <Form.Group>
