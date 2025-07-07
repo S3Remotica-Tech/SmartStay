@@ -296,7 +296,7 @@ function CheckOut(props) {
 
 
     const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = (top + height / 2) - 15;
+    const popupTop = (top + height / 2) - 45;
 
 
     const popupLeft = left - (checkOutconfirm.isActive === 0 || checkOutconfirm.isActive === '0' ? 250 : 290);
@@ -417,7 +417,7 @@ function CheckOut(props) {
                     className='show-scrolls'
                     style={{
 
-                      height: sortedData?.length >= 8 || sortedData?.length >= 8 ? "350px" : "auto",
+                      height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "365px" : "auto",
                       overflow: "auto",
                       borderTop: "1px solid #E8E8E8",
                       marginBottom: 20,
@@ -821,7 +821,7 @@ function CheckOut(props) {
                                       style={{
                                         position: "fixed",
                                         top: popupPosition.top,
-                                        left: popupPosition.left,
+                                        left: popupPosition.left -20,
                                         width: checkout.isActive === 0 ? 100 : 200,
                                         backgroundColor: "#F9F9F9",
                                         border: "1px solid #F9F9F9",
