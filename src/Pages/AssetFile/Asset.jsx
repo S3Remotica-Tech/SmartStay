@@ -433,6 +433,7 @@ function Asset() {
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
 
   const handlePageChange = (pageNumber) => {
@@ -643,9 +644,9 @@ function Asset() {
                     {
                       getData.length > 0 && searchQuery !== '' && showDropDown && (
 
-                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, zIndex: 1000, padding: 10, borderRadius: 8, backgroundColor: "#fff" }}>
-                          <ul className='show-scroll' style={{
-                            width: 260,
+                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0,padding:5, zIndex: 1000, borderRadius: 8, backgroundColor: "#fff" }}>
+                          <ul className='show-scroll' style={{       
+                         width:263,
                             backgroundColor: '#fff',
                             maxHeight: "174px",
                             minHeight: getData?.length > 1 ? "100px" : "auto",
@@ -670,7 +671,8 @@ function Asset() {
                                   style={{
                                     padding: '10px',
                                     cursor: 'pointer',
-                                    borderBottom: '1px solid #dcdcdc',
+                                    
+                                    borderBottom: getData.length > 1 ? '1px solid #dcdcdc' : 'none',
                                     fontSize: '14px',
                                     fontFamily: 'Gilroy',
                                     fontWeight: 500,
@@ -958,7 +960,7 @@ function Asset() {
                   right: "10px",
                   backgroundColor: "white",
                   borderRadius: "5px",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                
                   zIndex: "1000",
                 }}
               >

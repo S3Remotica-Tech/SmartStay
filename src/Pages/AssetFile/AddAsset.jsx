@@ -1115,10 +1115,10 @@ useEffect(() => {
                                             </div>
                                               : null}
             
-            <Modal.Footer style={{ border: "none" }} className="">
+           
 
 
-
+<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-3" style={{paddingBottom:20}} >
 
               <Button
                 onClick={handleAddAsset}
@@ -1134,7 +1134,8 @@ useEffect(() => {
               >
                 {currentItem ? "Save Changes" : "Add Asset"}
               </Button>
-            </Modal.Footer>
+              </div>
+          
           </Modal.Dialog>
         </Modal>
       </div>
