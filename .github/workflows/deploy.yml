@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies & Build
         run: |
           npm install --force
-          npm run build
+          npm run build:dev
 
       - name: Install SSH Key
         run: |
