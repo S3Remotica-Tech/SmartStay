@@ -274,8 +274,8 @@ useEffect(() => {
 
 
 
-
-        <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
+<div className="mb-4">
+        <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
             <Form.Label
               style={{
@@ -286,7 +286,7 @@ useEffect(() => {
                 fontStyle: 'normal',
                 lineHeight: 'normal'
               }}>
-              Customer<span style={{ color: "red", fontSize: "20px" }}>*</span>
+              Customer {" "}<span style={{ color: "red", fontSize: "20px" }}>*</span>
             </Form.Label>
 
 
@@ -317,7 +317,7 @@ useEffect(() => {
               styles={{
                 control: (base) => ({
                   ...base,
-                  height: "38px",
+                 padding:"3px 5px ",
                   border: "1px solid #D9D9D9",
                   borderRadius: "8px",
                   fontSize: "16px",
@@ -367,7 +367,7 @@ useEffect(() => {
             {customererrmsg.trim() !== "" && (
               <div>
                 <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                  {customererrmsg !== " " && <MdError style={{ fontSize: '13px', color: 'red', marginBottom: "4px" }} />} {customererrmsg}
+                  {customererrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: "4px" }} />} {customererrmsg}
                 </p>
               </div>
             )}
@@ -376,11 +376,11 @@ useEffect(() => {
 
 
 
-        <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
+        <div className='col-lg-4 col-md-6 col-sm-12 col-xs-12'>
           <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
             <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Invoice Number</Form.Label>
             <Form.Control
-              style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+              style={{ padding: '12px 10px ', borderRadius: "8px", fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
               type="text"
               placeholder="Enter Invoice Number"
               value={invoicenumber || ''}
@@ -392,13 +392,14 @@ useEffect(() => {
 
 
 
+ </div>
 
 
 
         {allfielderrmsg.trim() !== "" && (
           <div>
             <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
-              {allfielderrmsg !== " " && <MdError style={{ fontSize: '15px', color: 'red', marginBottom: 2 }} />} {allfielderrmsg}
+              {allfielderrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: 2 }} />} {allfielderrmsg}
             </p>
           </div>
         )}
@@ -493,7 +494,7 @@ useEffect(() => {
         ))
       ) : (
         <tr>
-          <td colSpan="3" style={{ textAlign: "center", padding: "20px", fontSize: 14, fontWeight: 500, color: "#888" }}>
+          <td colSpan="3" style={{ textAlign: "center", padding: "20px", fontSize: 14, fontWeight: 500, color: "#888", fontFamily:"Gilroy" }}>
             No data available
           </td>
         </tr>
@@ -541,7 +542,7 @@ useEffect(() => {
 
 {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
             </div>
             : null}

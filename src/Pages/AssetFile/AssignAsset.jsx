@@ -315,7 +315,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
             {state.AssetList.assetError ?
               <div className='d-flex align-items-center p-1 mb-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
+              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                 <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.AssetList.assetError}</label>
               </div>
 
@@ -378,11 +378,13 @@ function StaticExample({ show, handleClose, currentItem }) {
                       ...base,
                       backgroundColor: "#f8f9fa",
                       border: "1px solid #ced4da",
+                      fontFamily: "Gilroy",
                     }),
                     menuList: (base) => ({
                       ...base,
                       backgroundColor: "#f8f9fa",
                       maxHeight: "120px",
+                      fontFamily: "Gilroy",
                       padding: 0,
                       scrollbarWidth: "thin",
                       overflowY: "auto",
@@ -410,13 +412,7 @@ function StaticExample({ show, handleClose, currentItem }) {
 
                 {floorError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -519,13 +515,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 </Form.Group>
                 {roomError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
+                  <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -582,13 +572,7 @@ function StaticExample({ show, handleClose, currentItem }) {
                 </Form.Group>
                 {dateError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError
-                      style={{
-                        color: "red",
-                        marginRight: "5px",
-                        fontSize: "14px",
-                      }}
-                    />
+                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -633,7 +617,7 @@ function StaticExample({ show, handleClose, currentItem }) {
             </div>}
             {state.createAccount?.networkError ? 
                       <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                              <MdError style={{ color: "red", marginRight: '5px' }} />
+                                            <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                                               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                                             </div>
                                               : null}

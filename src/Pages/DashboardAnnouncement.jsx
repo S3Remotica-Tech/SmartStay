@@ -1606,7 +1606,7 @@ function DashboardAnnouncement() {
                   fontWeight: 500,
                 }}
               >
-                Title <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                Title {" "} <span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
 
               <FormControl
@@ -1672,7 +1672,7 @@ function DashboardAnnouncement() {
                   fontWeight: 500,
                 }}
               >
-                Description <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                Description {" "} <span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
 
               <FormControl

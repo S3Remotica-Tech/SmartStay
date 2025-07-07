@@ -1312,25 +1312,25 @@ const InvoicePage = () => {
 
 
     if (!customername) {
-      setCustomerErrmsg("Customer is Required");
+      setCustomerErrmsg("Please Select Customer");
       isValid = false;
     }
 
 
     if (!invoicenumber) {
-      setInvoicenumberErrmsg("Invoice Number is Required");
+      setInvoicenumberErrmsg("Please Enter Invoice Number");
       isValid = false;
     }
 
 
     if (!invoicedate) {
-      setInvoiceDateErrmsg("Invoice Date is Required");
+      setInvoiceDateErrmsg("Please Select Invoice Date");
       isValid = false;
     }
 
 
     if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Due Date is Required");
+      setInvoiceDueDateErrmsg("Please Select Due Date");
       isValid = false;
     }
     if (!Array.isArray(newRows) || newRows.length === 0) {
@@ -3242,6 +3242,8 @@ const InvoicePage = () => {
                           onHide={handleCloseForm}
                           backdrop="static"
                           centered
+                          dialogClassName="custom-modals-record-payment-style"
+
                         >
                           <Modal.Dialog
 
@@ -3287,10 +3289,10 @@ const InvoicePage = () => {
                             </Modal.Header>
 
                             <Modal.Body>
-                              <div className="row mt-2">
+                              <div className="row">
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                    className="mt-1"
+                                
                                     controlId="exampleForm.ControlInput1"
                                   >
                                     <Form.Label
@@ -3306,7 +3308,14 @@ const InvoicePage = () => {
                                     <Form.Control
                                       type="text"
                                       style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
                                         fontFamily: "Gilroy",
+                                        fontWeight:  500 ,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
                                       }}
                                       placeholder="Enter Amount"
                                       value={invoiceList.balanceDue}
@@ -3317,7 +3326,7 @@ const InvoicePage = () => {
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                    className="mb-2"
+                                   
                                     controlId="exampleForm.ControlInput3"
                                   >
                                     <Form.Label
@@ -3326,9 +3335,12 @@ const InvoicePage = () => {
                                         color: "#222222",
                                         fontFamily: "Gilroy",
                                         fontWeight: 500,
+                                        marginBottom:2
+
+
                                       }}
                                     >
-                                      Paid Amount
+                                      Paid Amount {" "}
                                       <span
                                         style={{
                                           color: "red",
@@ -3344,7 +3356,15 @@ const InvoicePage = () => {
                                       min="0"
                                       step="1"
                                       style={{
+                                        fontSize: 16,
+                                        color: "#4B4B4B",
                                         fontFamily: "Gilroy",
+                                        fontWeight:  500,
+                                        boxShadow: "none",
+                                        border: "1px solid #D9D9D9",
+                                        height: 50,
+                                        borderRadius: 8,
+                                      
                                       }}
                                       placeholder="Enter Amount"
                                       className="no-spinner"
@@ -3361,6 +3381,7 @@ const InvoicePage = () => {
                                       <div>
                                         <p
                                           style={{
+                                             marginBottom:0,
                                             fontSize: "12px",
                                             color: "red",
                                             marginTop: "3px",
@@ -3386,8 +3407,7 @@ const InvoicePage = () => {
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                    className="mt-2"
-                                    controlId="purchaseDate"
+                                                                       controlId="purchaseDate"
                                   >
                                     <Form.Label
                                       style={{
@@ -3397,7 +3417,7 @@ const InvoicePage = () => {
                                         fontWeight: 500,
                                       }}
                                     >
-                                      Paid Date
+                                      Paid Date {" "}
                                       <span
                                         style={{
                                           color: "red",
@@ -3443,11 +3463,7 @@ const InvoicePage = () => {
 
                                       </div>
                                     </div>
-                                  </Form.Group>
-
-
-
-                                  {dateerrmsg.trim() !== "" && (
+                                     {dateerrmsg.trim() !== "" && (
                                     <div>
                                       <p
                                         style={{
@@ -3456,6 +3472,7 @@ const InvoicePage = () => {
                                           marginTop: "3px",
                                           fontFamily: "Gilroy",
                                           fontWeight: 500,
+                                           marginBottom:0,
                                         }}
                                       >
                                         {dateerrmsg !== "" && (
@@ -3466,16 +3483,21 @@ const InvoicePage = () => {
                                               marginBottom: "2px",
                                             }}
                                           />
-                                        )}{" "}
+                                        )} {" "}
                                         {dateerrmsg}
                                       </p>
                                     </div>
                                   )}
+                                  </Form.Group>
+
+
+
+                                 
                                 </div>
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                    className="mb-3"
+                                    className=""
                                     controlId="exampleForm.ControlInput2"
                                   >
                                     <Form.Label
@@ -3484,10 +3506,10 @@ const InvoicePage = () => {
                                         color: "#222222",
                                         fontFamily: "'Gilroy', sans-serif",
                                         fontWeight: 500,
-                                        marginTop: 2,
+                                        
                                       }}
                                     >
-                                      Mode of Transaction
+                                      Mode of Transaction {" "}
                                       <span
                                         style={{
                                           color: "red",
@@ -3516,13 +3538,12 @@ const InvoicePage = () => {
                                           height: "49px",
                                           border: "1px solid #D9D9D9",
                                           borderRadius: "8px",
-                                          fontSize: "14px",
+                                          fontSize: "16px",
                                           color: "#4B4B4B",
                                           fontFamily: "Gilroy, sans-serif",
                                           fontWeight: 500,
                                           boxShadow: "none",
-                                          marginTop: "6px",
-                                        }),
+                                                                                }),
                                         menu: (base) => ({
                                           ...base,
                                           backgroundColor: "#f8f9fa",
@@ -3568,6 +3589,7 @@ const InvoicePage = () => {
                                             fontSize: "12px",
                                             color: "red",
                                             marginTop: "3px",
+                                            marginBottom:0,
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
                                           }}
@@ -3735,7 +3757,7 @@ const InvoicePage = () => {
 
                             {state.createAccount?.networkError ?
                               <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
+                                <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
                                 <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                               </div>
                               : null}
@@ -5457,7 +5479,7 @@ const InvoicePage = () => {
                   lineHeight: "normal",
                 }}
               >
-                Customer<span style={{ color: "red", fontSize: "20px" }}>*</span>
+                Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
 
 
@@ -5499,7 +5521,7 @@ const InvoicePage = () => {
                 styles={{
                   control: (base) => ({
                     ...base,
-                    height: "38px",
+                   padding:"3px 5px ",
                     border: "1px solid #D9D9D9",
                     borderRadius: "8px",
                     fontSize: "16px",
@@ -5571,7 +5593,7 @@ const InvoicePage = () => {
             </Form.Group>
           </div>
 
-          <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
               <Form.Label
                 style={{
@@ -5587,7 +5609,7 @@ const InvoicePage = () => {
               </Form.Label>
               <Form.Control
                 style={{
-                  padding: "10px",
+                  padding: "12px 10px",
                   fontSize: 16,
                   color: "#4B4B4B",
                   fontFamily: "Gilroy",
@@ -5625,8 +5647,8 @@ const InvoicePage = () => {
             </Form.Group>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "row", height: "100px" }}>
-            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
+          <div className="mb-4" style={{ display: "flex", flexDirection: "row", height: "100px" }}>
+            <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 me-4">
 
               <p className="mt-1 mb-1" style={{
                 fontSize: 14,
@@ -5650,7 +5672,7 @@ const InvoicePage = () => {
 
               {invoicedateerrmsg.trim() !== "" && (
                 <div>
-                  <p
+                  <p className="mt-1"
                     style={{
                       fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
                       fontWeight: 500,
@@ -5673,7 +5695,7 @@ const InvoicePage = () => {
               )}
             </div>
 
-            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12">
               <p className="mt-1 mb-1" style={{
                 fontSize: 14,
                 color: "#222222",
@@ -5808,7 +5830,7 @@ const InvoicePage = () => {
                 fontWeight: 500,
                 boxShadow: "none",
                 border: "1px solid #D9D9D9",
-                height: 38,
+                padding:"12px 10px ",
                 borderRadius: 8,
                 cursor: "pointer"
               }}
@@ -5881,7 +5903,7 @@ const InvoicePage = () => {
 
           {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
             </div>
             : null}

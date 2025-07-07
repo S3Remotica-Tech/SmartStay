@@ -226,13 +226,13 @@ function EBHostelReading(props) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "reading":
-          setReadingError("Reading is Required");
+          setReadingError("Please Enter Reading");
           break;
         case "Hostel ID":
-          setHostelIdError("Hostel is Required");
+          setHostelIdError("Please Select Hostel");
           break;
         case "selectedDate":
-          setDateErrorMesg("Date is Required");
+          setDateErrorMesg("Please Select Date");
           break;
 
         default:
@@ -1062,7 +1062,7 @@ function EBHostelReading(props) {
 
 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <Form.Group className="mb-3">
+              <Form.Group className="mb-2">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1112,7 +1112,7 @@ function EBHostelReading(props) {
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group >
+              <Form.Group  className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1162,7 +1162,7 @@ function EBHostelReading(props) {
 
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group controlId="purchaseDate">
+              <Form.Group controlId="purchaseDate" className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1243,7 +1243,7 @@ function EBHostelReading(props) {
 
         {state.createAccount?.networkError ?
           <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px' }} />
+            <MdError style={{ color: "red", marginRight: '5px',fontSize: '14px', }} />
             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
           </div>
           : null}

@@ -147,7 +147,7 @@ function DeleteBed({ show, handleClose, deleteBedDetails }) {
 
 
 
-        <Modal.Footer className='d-flex justify-content-center mb-4' style={{ border: "none" }}>
+        <Modal.Footer className='d-flex justify-content-center mb-2' style={{ border: "none" }}>
           <Button onClick={handleClose} style={{ width: 130, height: 52, borderRadius: 8, padding: "16px, 45px, 16px, 45px", border: "1px solid #1E45E1", backgroundColor: "#FFF", color: "#1E45E1", fontSize: 14, fontWeight: 600, fontFamily: "Gilroy" }}>
             Cancel
           </Button>

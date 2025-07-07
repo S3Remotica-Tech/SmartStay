@@ -124,10 +124,10 @@ function AddBed({ show, setShowBed, currentItem }) {
   }, [state.PgList?.alreadyBedAvailable])
 
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
     }
@@ -174,7 +174,7 @@ useEffect(() => {
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
 
-          <Modal.Body style={{ padding:"8px 13px" }} >
+          <Modal.Body style={{ padding: "8px 13px" }} >
             <div className="row mb-0">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
@@ -210,9 +210,9 @@ useEffect(() => {
                   />
                 </Form.Group>
                 {bedError && (
-                  // <div className="d-flex align-items-center p-1 mb-2">
+
                   <div className="d-flex align-items-center p-0">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: 5, fontSize: "14px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -262,9 +262,8 @@ useEffect(() => {
                 </Form.Group>
 
                 {amountError && (
-                  // <div className="d-flex align-items-center p-1 mb-2">
                   <div className="d-flex align-items-center p-0">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                    <MdError style={{ color: "red", marginRight: 5, fontSize: "14px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -283,8 +282,7 @@ useEffect(() => {
 
 
             {generalError && (
-              // <div className="d-flex align-items-center p-1 mb-2">
-              <div className="d-flex align-items-center p-0">
+                           <div className="d-flex align-items-center p-0">
                 <MdError style={{ color: "red", marginRight: "5px" }} />
                 <label
                   className="mb-0"
@@ -301,9 +299,8 @@ useEffect(() => {
             )}
 
             {bedAlreadyBooked && bedAlreadyBooked && (
-              // <div className="d-flex align-items-center p-1 mb-2">
-              <div className="d-flex align-items-center p-0">
-                <MdError style={{ color: "red", marginRight: "5px" }} />
+                           <div className="d-flex align-items-center p-0">
+                <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
                 <label
                   className="mb-0"
                   style={{
@@ -344,12 +341,12 @@ useEffect(() => {
               }}
             ></div>
           </div>}
-{state.createAccount?.networkError ? 
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                                </div>
-                                  : null}
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
           <Modal.Footer style={{ border: "none", paddingTop: 0 }}>
             <Button
               onClick={() => { handleSubmit() }}

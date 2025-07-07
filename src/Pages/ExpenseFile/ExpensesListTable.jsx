@@ -139,10 +139,10 @@ function ExpensesListTable(props) {
     setAssetName("")
   };
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
     }
@@ -425,6 +425,7 @@ useEffect(() => {
                       backgroundColor: "#f8f9fa",
                       maxHeight: 150,
                       marginTop: 1,
+                      fontSize:16,
                       overflowY: "auto",
                       border: "2px solid #D9D9D9",
                       "& .MuiMenuItem-root:hover": {
@@ -507,17 +508,17 @@ useEffect(() => {
               </div>
             }
 
-  {state.createAccount?.networkError ? 
-                      <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                              <MdError style={{ color: "red", marginRight: '5px' }} />
-                                              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                                            </div>
-                                              : null}
+            {state.createAccount?.networkError ?
+              <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
+                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+              </div>
+              : null}
 
             <Button
               style={{
-                marginBottom: 10,
-                marginTop:10,
+                marginBottom: 5,
+                marginTop: 10,
                 width: "100%",
                 height: "45px",
                 borderRadius: "12px",
@@ -535,36 +536,36 @@ useEffect(() => {
             </Button>
           </div>
         </Modal.Body>
-         {formLoading && 
+        {formLoading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
             <div
               style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'transparent',
-                opacity: 0.75,
-                zIndex: 10,
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
               }}
-            >
-              <div
-                style={{
-                  borderTop: '4px solid #1E45E1',
-                  borderRight: '4px solid transparent',
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  animation: 'spin 1s linear infinite',
-                }}
-              ></div>
-            </div>
-            }
+            ></div>
+          </div>
+        }
 
 
-          
+
       </Modal>
     }
 

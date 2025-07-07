@@ -1,3 +1,11 @@
+ .custom-modals-style .modal-content {
+    min-width: 550px;
+     }
+.custom-modals-record-payment-style .modal-content {
+    min-width: 600px;
+     }
+
+
 
 .Nav-Links{
     color: #000000 !important;

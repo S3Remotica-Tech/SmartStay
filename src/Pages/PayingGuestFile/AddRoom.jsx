@@ -41,7 +41,7 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
     setRoom(Room_Id);
   };
   const handleCreateRoom = () => {
-     dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
+    dispatch({ type: "CLEAR_ALREADY_ROOM_ERROR" });
     let floorId, hostel_Id, room_Id;
 
     if (isEditing) {
@@ -104,20 +104,20 @@ function AddRoom({ show, handleClose, hostelDetails, editRoom }) {
   };
 
 
-useEffect(()=>{
-  if(state.PgList?.alreadyRoomHere){
-    setFormLoading(false)
-  }
+  useEffect(() => {
+    if (state.PgList?.alreadyRoomHere) {
+      setFormLoading(false)
+    }
 
-},[state.PgList?.alreadyRoomHere])
-
-
+  }, [state.PgList?.alreadyRoomHere])
 
 
-useEffect(() => {
+
+
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
     }
@@ -200,7 +200,7 @@ useEffect(() => {
           </Modal.Body>
 
 
-  {formLoading && <div
+          {formLoading && <div
             style={{
               position: 'absolute',
               top: '50%',
@@ -227,14 +227,7 @@ useEffect(() => {
           </div>}
           {isChangedError && (
             <div className="d-flex align-items- justify-content-center">
-              <MdError
-                style={{
-                  color: "red",
-                  marginRight: "5px",
-                  marginLeft: "15px",
-                  marginTop: "2px",
-                }}
-              />
+              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -251,9 +244,7 @@ useEffect(() => {
 
           {roomError && (
             <div className="d-flex align-items-center">
-              <MdError
-                style={{ color: "red", marginRight: "5px", marginLeft: "15px" }}
-              />
+              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -269,9 +260,7 @@ useEffect(() => {
           )}
           {floorError && (
             <div className="d-flex align-items-center">
-              <MdError
-                style={{ color: "red", marginRight: "5px", marginLeft: "15px" }}
-              />
+              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -288,14 +277,7 @@ useEffect(() => {
 
           {state.PgList && state.PgList?.alreadyRoomHere && (
             <div className="d-flex align-items- justify-content-center">
-              <MdError
-                style={{
-                  color: "red",
-                  marginRight: "5px",
-                  marginLeft: "15px",
-                  marginTop: "2px",
-                }}
-              />
+              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
               <label
                 className="mb-0"
                 style={{
@@ -311,12 +293,12 @@ useEffect(() => {
           )}
 
 
-{state.createAccount?.networkError ? 
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                                </div>
-                                  : null}
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginLeft: "15px", marginRight: 5, fontSize: "14px" }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
 
           <Modal.Footer style={{ border: "none" }}>
             <Button

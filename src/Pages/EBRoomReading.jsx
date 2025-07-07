@@ -269,16 +269,16 @@ function EBRoomReading(props) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "reading":
-          setReadingError("Reading is Required");
+          setReadingError("Please Enter Reading");
           break;
         case "Floor":
-          setfloorError("Floor is Required");
+          setfloorError("Please Select Floor");
           break;
         case "Rooms":
-          setRoomError("Rooms is Required");
+          setRoomError("Please Select Room");
           break;
         case "selectedDate":
-          setDateErrorMesg("Date is Required");
+          setDateErrorMesg("Please Select Date");
           break;
 
         default:
@@ -332,14 +332,12 @@ function EBRoomReading(props) {
       setRoomError("");
     }
 
-    if (
 
-      !isreadingValid ||
-      (!isFloorValid && !isRoomValid && !isDatevalid)
-    ) {
-      return;
-    }
 
+    
+     if (!isreadingValid || !isDatevalid || !isFloorValid || !isRoomValid) {
+    return;
+  }
 
     const isChangedBed =
       String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase() ||
@@ -1142,7 +1140,7 @@ function EBRoomReading(props) {
                   fontWeight: 500,
                 }}
               >
-                Floor{" "}
+                Floor {" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
 
@@ -1224,7 +1222,7 @@ function EBRoomReading(props) {
 
               {floorError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '14px', marginRight: "5px", marginBottom: "2px" }} />
+                  <MdError style={{ fontSize: '14px', marginRight: "5px",}} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{floorError}</span>
                 </div>
               )}
@@ -1238,7 +1236,7 @@ function EBRoomReading(props) {
                   fontWeight: 500,
                 }}
               >
-                Room{" "}
+                Room {" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
 
@@ -1336,7 +1334,7 @@ function EBRoomReading(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Reading{" "}
+                  Reading {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
@@ -1374,7 +1372,7 @@ function EBRoomReading(props) {
                     fontWeight: 500,
                   }}
                 >
-                  Date <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                  Date  {" "}<span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <div className="datepicker-wrapper" style={{ position: 'relative', width: '100%' }}>
 
@@ -1410,7 +1408,7 @@ function EBRoomReading(props) {
               {dateErrorMesg && (
                 <div style={{ color: "red" }}>
                   <MdError style={{ fontSize: '14px', marginRight: "5px", marginBottom: "2px" }} />
-                  <span style={{ fontSize: '14px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{dateErrorMesg}</span>
+                  <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{dateErrorMesg}</span>
                 </div>
               )}
             </div>
@@ -1418,7 +1416,7 @@ function EBRoomReading(props) {
           {dateError && (
             <div className="d-flex justify-content-center align-items-center mt-2" style={{ color: "red" }}>
               <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
-              <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
+              <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{dateError}</span>
             </div>
           )}
         </Modal.Body>
@@ -1430,7 +1428,7 @@ function EBRoomReading(props) {
         )}
         {state.createAccount?.networkError ?
           <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px' }} />
+            <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
           </div>
           : null}
