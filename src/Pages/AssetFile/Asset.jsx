@@ -42,6 +42,9 @@ function Asset() {
   const [showFilterData, setShowFilterData] = useState(false)
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [ExcelFilterDates, setExcelFilterDates] = useState([])
+  const [ExcelDownloadDates, setExcelDownloadDates] = useState([])
+  const [filterexcelprice, setFilterExcelPrice] = useState('')
+
 
   useEffect(() => {
     if (state.UsersList?.exportAssetsDetail?.response?.fileUrl) {
@@ -53,15 +56,21 @@ function Asset() {
 
     
 
-    if( ExcelFilterDates.length === 2){
-        dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id  ,"start_date":"2024-07-01","end_date":"2025-07-01"}})
+    if( ExcelDownloadDates.length === 2){
+        dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id  ,
+          start_date:ExcelDownloadDates[0]?.format("YYYY-MM-DD"),end_date:ExcelDownloadDates[1]?.format("YYYY-MM-DD")
+        }})
             setExcelFilterDates([])
+            setExcelDownloadDates([])
             setSelectedPriceRange("")
+            setFilterExcelPrice("")
     }
-     else if (selectedPriceRange && selectedPriceRange !== "date" && selectedPriceRange !== "All") {
-      dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id , price_range :  selectedPriceRange }});
-      setExcelFilterDates([]);
-      setSelectedPriceRange("");
+     else if (filterexcelprice && filterexcelprice !== "date" && filterexcelprice !== "All") {
+     dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id , price_range :  filterexcelprice }});
+         setExcelFilterDates([]);
+         setExcelDownloadDates([])
+         setSelectedPriceRange("");
+         setFilterExcelPrice("")
        }
 
     dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id }})
@@ -295,6 +304,7 @@ function Asset() {
   const newStartDate = dayjs(dates[0]).startOf("day");
   const newEndDate = dayjs(dates[1]).endOf("day");
   setExcelFilterDates([newStartDate, newEndDate]);
+  setExcelDownloadDates([newStartDate, newEndDate])
 
   setSelectedPriceRange("date");
 
@@ -315,6 +325,7 @@ function Asset() {
          dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
          setExcelFilterDates([])
          setSelectedDateRange([]);
+        setExcelDownloadDates([])
       }
      else if (value){
         dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id  , price_range : value} })
@@ -344,6 +355,7 @@ function Asset() {
       setSelectedPriceRange('All');
       setSelectedDateRange([]);
       setExcelFilterDates([])
+      setExcelDownloadDates([])
     }
   }, [showFilter]);
 
@@ -356,6 +368,7 @@ function Asset() {
     setSelectedPriceRange("All");
     setSelectedDateRange([]);
     setExcelFilterDates([]);
+    setExcelDownloadDates([])
     setGetData(state.AssetList.assetList)
    
   }

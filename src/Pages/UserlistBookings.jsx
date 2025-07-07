@@ -964,7 +964,7 @@ useEffect(() => {
                   className='show-scrolls'
                   style={{
 
-                    height: sortedData?.length >= 8 || sortedData?.length >= 8 ? "350px" : "auto",
+                    height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "365px" : "auto",
                     overflow: "auto",
                     borderTop: "1px solid #E8E8E8",
                     marginBottom: 20,
@@ -1371,9 +1371,9 @@ useEffect(() => {
                                     ref={popupRef}
                                     style={{
                                       position: "fixed",
-                                      top: currentItems.length >= 1 ? popupPosition.top : "auto",
-                                      left: currentItems.length >= 1 ? popupPosition.left : popupPosition.left - 10,
-                                      width: 163,
+                                      top:  popupPosition.top - 30,
+                                      left:  popupPosition.left , 
+                                      width: 160,
                                       height: "auto",
                                       backgroundColor: "#F9F9F9",
                                       border: "1px solid #EBEBEB",

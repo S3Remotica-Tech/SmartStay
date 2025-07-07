@@ -193,6 +193,7 @@ function UserlistWalkin(props) {
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
   };
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -333,7 +334,7 @@ function UserlistWalkin(props) {
                     style={{
                       height:
                         sortedData.length >= 5 || sortedData.length >= 5
-                          ? "350px"
+                          ? "365px"
                           : "auto",
                       overflow: "auto",
                       marginBottom: 20,
@@ -742,7 +743,7 @@ function UserlistWalkin(props) {
                                             backgroundColor: "#F9F9F9",
                                             position: "fixed",
                                             top: popupPosition.top - 15,
-                                            left: popupPosition.left,
+                                            left: popupPosition.left-10,
                                             width: 140,
                                             border: "1px solid #EBEBEB",
                                             borderRadius: 10,
