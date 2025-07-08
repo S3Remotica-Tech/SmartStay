@@ -207,7 +207,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
       setEmailError("Please Enter Email ID");
       isValid = false;
     } else if (!emailRegex.test(email)) {
-      setEmailError("Invalid Email Id *");
+      setEmailError("Please Enter  Valid Email ID");
       isValid = false;
     }
 
@@ -363,7 +363,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       fontWeight: 500,
                     }}
                   >
-                    Name
+                    Name {' '}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
@@ -397,13 +397,13 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   >
                     <span
                       style={{
-                        fontSize: 13,
+                        fontSize: 14,
                         marginRight: "5px",
                         display: "flex",
                         alignItems: "center",
                       }}
                     >
-                      <MdError style={{ marginBottom: "2px" }} />
+                      <MdError style={{ marginBottom: "2px",fontSize: 14, }} />
                     </span>
                     {nameError}
                   </p>
@@ -423,7 +423,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       fontWeight: 500,
                     }}
                   >
-                    Email ID{" "}
+                    Email ID {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
@@ -498,7 +498,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       fontWeight: 500,
                     }}
                   >
-                    Mobile No{" "}
+                    Mobile No {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   </Form.Label>
 
@@ -621,7 +621,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                         fontWeight: 500,
                       }}
                     >
-                      Password{" "}
+                      Password {" "}
                       <span style={{ color: "red", fontSize: "20px" }}>
                         {" "}
                         *{" "}
@@ -719,7 +719,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       fontWeight: 500,
                     }}
                   >
-                    Role{" "}
+                    Role {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
 
@@ -834,7 +834,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                       fontWeight: 500,
                     }}
                   >
-                    Description{" "}
+                    Description {" "}
                   </Form.Label>
                   <Form.Control
                     value={description}
@@ -862,12 +862,12 @@ function User({ show, editDetails, setAddUserForm, edit }) {
                   style={{
                     color: "red",
                     fontSize: "12px",
-                    marginTop: "16px",
+                    marginTop: "5px",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
                   }}
                 >
-                  <MdError style={{ marginRight: "5px" }} />
+                  <MdError style={{ marginRight: "5px", fontSize:14 }} />
                   {error}
                 </div>
               )}
@@ -914,7 +914,7 @@ function User({ show, editDetails, setAddUserForm, edit }) {
           }
           
           <Modal.Footer
-            style={{ border: "none", marginBottom: "17px", marginTop: "-10px" }}
+            style={{ border: "none", marginTop: "-10px" }}
           >
 
 

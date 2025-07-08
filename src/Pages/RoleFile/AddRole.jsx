@@ -245,7 +245,7 @@ function AddRole({ showRole, setShowRole, editRoleDetails, addRole }) {
         let isValid = true;
 
         if (!roleName.trim()) {
-            setErrorForm("Role Name Cannot Be Empty");
+            setErrorForm("Please Enter Role Name");
             isValid = false;
         }
         const hasPermissionSelected = permissionRole.some(permission =>
@@ -411,7 +411,7 @@ useEffect(() => {
 
                             {roleError && (
                                 <div className="d-flex align-items-center" style={{ marginTop: "-10px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                                    <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {roleError}
                                     </label>
@@ -419,7 +419,7 @@ useEffect(() => {
                             )}
                             {editRoleError && (
                                 <div className="d-flex align-items-center  " style={{ marginTop: "-10px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                                    <MdError style={{ color: "red", marginRight: '5px',fontSize: "14px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {editRoleError}
                                     </label>
@@ -430,7 +430,7 @@ useEffect(() => {
 
                             {errorForm && (
                                 <div className="d-flex align-items-center" style={{ marginTop: "-10px" }}>
-                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", marginBottom: "2px" }} />
+                                    <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                         {errorForm}
                                     </label>
@@ -525,7 +525,7 @@ useEffect(() => {
                         </div>
                     }
                     {errorIsChanged && (
-                        <div className="mb-3 mt-2" style={{ textAlign: "center" }}>
+                        <div className="mb-0 mt-2" style={{ textAlign: "center" }}>
                             <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", marginBottom: "2px" }} />
                             <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 {errorIsChanged}
@@ -536,9 +536,9 @@ useEffect(() => {
 
 
                     {errorPermission && (
-                        <div className="d-flex align-items-center ms-3 mb-3 mt-3">
-                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
-                            <label className="mb-0" style={{ color: "red", fontSize: "13px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                        <div className="d-flex align-items-center ms-3 mb-1 mt-3">
+                            <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
+                            <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                 {errorPermission}
                             </label>
                         </div>

@@ -227,7 +227,7 @@ function UserlistForm(props) {
     if (input.length === 0) {
       setPhoneError("");
     } else if (input.length < 10) {
-      setPhoneError("Invalid Mobile Number");
+      setPhoneError("Please Enter Valid Mobile Number");
     } else if (input.length === 10) {
       setPhoneError("");
     }
@@ -247,7 +247,7 @@ function UserlistForm(props) {
       setEmailErrorMessage("");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
-      setEmailError("Invalid Email Id");
+      setEmailError("Please Enter  Valid Email Id");
     } else {
       setEmailError("");
       setEmailErrorMessage("");
@@ -274,22 +274,22 @@ function UserlistForm(props) {
     ) {
       switch (fieldName) {
         case "Floor":
-          setfloorError("Floor is Required");
+          setfloorError("Please Select Floor");
           break;
         case "Rooms":
-          setRoomError("Room is Required");
+          setRoomError("Please Select Room");
           break;
         case "Bed":
-          setBedError("Bed is Required");
+          setBedError("Please Select Bed");
           break;
         case "selectedDate":
-          setDateError("Joning Date is Required");
+          setDateError("Please Select Joning Date");
           break;
         case "AdvanceAmount":
-          setAdvanceAmountError("Advance Amount is Required");
+          setAdvanceAmountError("Please Enter Advance Amount");
           break;
         case "RoomRent":
-          setRoomRentError("Rental Amount is Required");
+          setRoomRentError("Please Enter Rental Amount");
           break;
 
         default:
@@ -537,16 +537,16 @@ function UserlistForm(props) {
     if (!trimmedValue) {
       switch (fieldName) {
         case "First Name":
-          setError("First Name is Required");
+          setError("Please Enter First Name");
           break;
         case "Phone Number":
-          setError("Phone Number is Required");
+          setError("Please Enter Phone Number");
           break;
         case "Email":
-          setError("Email is Required");
+          setError("Please Enter Email Id");
           break;
         case "Hostel ID":
-          setError("Please select a Valid PG");
+          setError("Please Select PG");
           break;
         case "City":
           setError("Please Enter City");
@@ -706,7 +706,7 @@ function UserlistForm(props) {
     }
 
     if (RoomRent === "" || RoomRent === null || RoomRent === undefined) {
-      setRoomRentError("Rental Amount is Required");
+      setRoomRentError("Please Enter Rental Amount");
       return;
     }
     if (Number(RoomRent) <= 0) {
@@ -719,7 +719,7 @@ function UserlistForm(props) {
       AdvanceAmount === null ||
       AdvanceAmount === undefined
     ) {
-      setAdvanceAmountError("Advance Amount is Required");
+      setAdvanceAmountError("Please Enter Advance Amount");
       return;
     }
     if (Number(AdvanceAmount) <= 0) {
@@ -778,7 +778,7 @@ function UserlistForm(props) {
       return;
     }
     if (!RoomRent && RoomRent !== 0) {
-      setRoomRentError("Rental Amount is Required");
+      setRoomRentError("Please Enter Rental Amount");
       return;
     }
     if (RoomRent <= 0) {
@@ -786,7 +786,7 @@ function UserlistForm(props) {
       return;
     }
     if (!AdvanceAmount && AdvanceAmount !== 0) {
-      setAdvanceAmountError("Advance Amount is Required");
+      setAdvanceAmountError("Please Enter Advance Amount");
       return;
     }
 
@@ -869,14 +869,14 @@ function UserlistForm(props) {
     let hasError = false;
 
     if (!advanceDate) {
-      setAdvanceDateError("Invoice Date is required.");
+      setAdvanceDateError("Please Select Invoice Date");
       hasError = true;
     } else {
       setAdvanceDateError("");
     }
 
     if (!advanceDueDate) {
-      setAdvanceDueDateError("Due Date is required.");
+      setAdvanceDueDateError("Please Select Due Date");
       hasError = true;
     } else {
       setAdvanceDueDateError("");
@@ -1833,7 +1833,7 @@ useEffect(() => {
               ) : (
                 <div className="">
                   <Modal.Header
-                    style={{ position: "relative", marginTop: "-20px" }}
+                    style={{ position: "relative", marginTop: "" }}
                   >
                     <div
                       style={{
@@ -1852,7 +1852,7 @@ useEffect(() => {
                       style={{ cursor: "pointer" }}
                     />
                   </Modal.Header>
-                  <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 mt-3 me-3">
+                  <div style={{ maxHeight: "400px", overflowY: "scroll" }} className="show-scroll p-2 me-3">
                     <div className="row d-flex align-items-center">
                       <div className="col-12">
                         <Form.Label
@@ -1863,7 +1863,7 @@ useEffect(() => {
                             paddingTop: "6px",
                           }}
                         >
-                          Floor
+                          Floor  {" "}
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
@@ -1909,6 +1909,7 @@ useEffect(() => {
                               ...base,
                               backgroundColor: "#f8f9fa",
                               border: "1px solid #ced4da",
+                               fontFamily: "Gilroy",
                             }),
                             menuList: (base) => ({
                               ...base,
@@ -1917,6 +1918,7 @@ useEffect(() => {
                               padding: 0,
                               scrollbarWidth: "thin",
                               overflowY: "auto",
+                               fontFamily: "Gilroy",
                             }),
                             placeholder: (base) => ({
                               ...base,
@@ -1972,7 +1974,7 @@ useEffect(() => {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Room{" "}
+                          Room {" "}
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
@@ -2085,7 +2087,7 @@ useEffect(() => {
                             fontFamily: "Gilroy",
                           }}
                         >
-                          Bed{" "}
+                          Bed {" "}
                           <span style={{ color: "red", fontSize: "20px" }}>
                             {" "}
                             *{" "}
@@ -2484,11 +2486,7 @@ useEffect(() => {
           }}
           className="m-0 p-0"
         >
-          <Modal.Body style={{ marginTop: -30 }}>
-            <div className="d-flex align-items-center">
-              <div className="container">
-                <div className="row mb-3"></div>
-
+          
                 <Modal.Header style={{ position: "relative" }}>
                   <div
                     style={{
@@ -2507,6 +2505,11 @@ useEffect(() => {
                     style={{ cursor: "pointer" }}
                   />
                 </Modal.Header>
+          <Modal.Body style={{ paddingTop:2 }}>
+            <div className="d-flex align-items-center">
+              <div className="container">
+               
+
 
                 <div className="row mb-3">
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -2630,7 +2633,7 @@ useEffect(() => {
                 </div>
 
                 <div className="row col-md-12 col-lg-12">
-                  <div className="col-md-6 col-lg-6 mb-2">
+                  <div className="col-md-6 col-lg-6">
                     <Button
                       variant="secondary"
                       className="w-100"
@@ -2700,7 +2703,7 @@ useEffect(() => {
             ></div>
           </div>}
 
-          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+         
         </Modal.Dialog>
       </Modal>
     </div>

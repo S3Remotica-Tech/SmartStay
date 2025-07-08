@@ -294,7 +294,7 @@ function UserList(props) {
     setAllFieldErrmsg("");
 
     if (!customername) {
-      setCustomerErrmsg("Customer is Required");
+      setCustomerErrmsg("Please Select Customer");
       isValid = false;
     }
 
@@ -304,12 +304,12 @@ function UserList(props) {
     }
 
     if (!invoicedate) {
-      setInvoiceDateErrmsg("Invoice Date is Required");
+      setInvoiceDateErrmsg("Please Select Invoice Date");
       isValid = false;
     }
 
     if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Due Date is Required");
+      setInvoiceDueDateErrmsg("Please Select Due Date");
       isValid = false;
     }
     if (!Array.isArray(newRows) || newRows.length === 0) {
@@ -4442,7 +4442,7 @@ function UserList(props) {
             </span>
           </div>
 
-          <div className="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+          <div className="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
               <Form.Label
                 style={{
@@ -4506,7 +4506,7 @@ function UserList(props) {
                     }}
                   >
                     {customererrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "14px", color: "red" }} />
                     )}{" "}
                     {customererrmsg}
                   </p>
@@ -4515,7 +4515,7 @@ function UserList(props) {
             </Form.Group>
           </div>
 
-          <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
               <Form.Label
                 style={{
@@ -4566,7 +4566,7 @@ function UserList(props) {
           </div>
 
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
+            <div className="col-lg-4 col-md-3 col-sm-6 col-xs-12 me-4">
               <Form.Group className="mb-2" controlId="purchaseDate">
                 <Form.Label
                   style={{
@@ -4655,7 +4655,7 @@ function UserList(props) {
               )}
             </div>
 
-            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div className="col-lg-4 col-md-3 col-sm-6 col-xs-12">
               <Form.Group className="mb-2" controlId="purchaseDate">
                 <Form.Label
                   style={{
@@ -4853,7 +4853,7 @@ function UserList(props) {
        
 
 
-          <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-2">
+          <div className="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-2">
             <Form.Select
               className="border"
               style={{
@@ -4888,7 +4888,7 @@ function UserList(props) {
                     fontSize: "12px",
                     color: "red",
                     marginTop: "5px",
-                    textAlign: "center",
+                    textAlign: "start",
                     fontWeight: 500,
                     fontFamily: "Gilroy",
                   }}

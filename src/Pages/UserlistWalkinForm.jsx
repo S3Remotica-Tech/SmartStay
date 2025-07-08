@@ -66,7 +66,7 @@ function CustomerForm({ show, handleClose, initialData }) {
     if (input.length === 0) {
       setMobileError("");
     } else if (input.length < 10) {
-      setMobileError("Invalid Mobile Number");
+      setMobileError("Please Enter Valid Mobile Number");
     } else if (input.length === 10) {
       setMobileError("");
     }
@@ -208,7 +208,7 @@ function CustomerForm({ show, handleClose, initialData }) {
         focusedRef.current = true;
       }
     } else if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
-      setMobileError('Please Enter a Valid 10-digit Mobile Number');
+      setMobileError('Please Enter  Valid  Mobile Number');
       if (!focusedRef.current && mobileRef.current) {
         mobileRef.current.focus();
         focusedRef.current = true;
@@ -516,7 +516,7 @@ useEffect(() => {
 
   return (
     <>
-      <Modal show={show} onHide={handleFormClose} centered backdrop="static">
+      <Modal show={show} onHide={handleFormClose} centered backdrop="static" dialogClassName='custom-modals-style'>
         <Modal.Header className="d-flex justify-content-between align-items-center" style={{ marginLeft: '5px', marginRight: '5px', }}>
           <div style={{ fontSize: 18, fontWeight: 600, fontFamily: 'Gilroy', color: '#222222' }}>
             {initialData ? 'Edit Walk-In' : 'Add Walk-In'}
@@ -560,7 +560,7 @@ useEffect(() => {
               </div>
             </div>
           </div>
-          <div className="row">
+          <div className="row mt-2">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
               <Form.Group controlId="formCustomerName" className="mb-3">
                 <Form.Label style={{ fontSize: '14px', color: '#222222', fontFamily: 'Gilroy', fontWeight: 500 }}>
@@ -587,7 +587,7 @@ useEffect(() => {
               </Form.Group>
               {nameError && (
                 <div className="d-flex align-items-center p-1" style={{ marginTop: "-16px" }}>
-                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px", marginBottom: "1px" }} />
+                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px", marginBottom: "1px" }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {nameError}
                   </label>
@@ -682,7 +682,7 @@ useEffect(() => {
 
               {mobileError && (
                 <div className="d-flex align-items-center p-1" style={{ marginTop: "-16px" }}>
-                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
+                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {mobileError}
                   </label>
@@ -727,16 +727,17 @@ useEffect(() => {
                     marginTop: 6
                   }}
                 />
-              </Form.Group>
-
-              {emailError && (
-                <div className="d-flex align-items-center p-1 mb-2 mt-2">
-                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                {emailError && (
+                <div className="d-flex align-items-center p-1 mb-2">
+                  <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {emailError}
                   </label>
                 </div>
               )}
+              </Form.Group>
+
+              
 
 
             </div>
@@ -776,7 +777,7 @@ useEffect(() => {
               </Form.Group>
               {house_noError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                  <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
                 </div>
               )}
@@ -815,7 +816,7 @@ useEffect(() => {
               </Form.Group>
               {streetError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                  <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
                 </div>
               )}
@@ -854,7 +855,7 @@ useEffect(() => {
               </Form.Group>
               {landmarkError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                  <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
                 </div>
               )}
@@ -896,7 +897,7 @@ useEffect(() => {
                 />
                 {pincodeError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
                     <label
                       className="mb-0"
                       style={{
@@ -948,7 +949,7 @@ useEffect(() => {
               </Form.Group>
               {cityError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                  <MdError style={{ fontSize: '14px', marginRight: "5px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                 </div>
               )}
@@ -1042,7 +1043,7 @@ useEffect(() => {
 
               {state_nameError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                   <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {state_nameError}
                   </span>
@@ -1078,7 +1079,7 @@ useEffect(() => {
               </Form.Group>
               {walkInDateError && (
                 <div className="d-flex align-items-center p-1">
-                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "12px" }} />
+                  <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {walkInDateError}
                   </label>
@@ -1086,7 +1087,7 @@ useEffect(() => {
               )}
                    {joiningDateErrmsg.trim() !== "" && (
                                                   <div className="d-flex align-items-center">
-                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
                                                     <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                                       {joiningDateErrmsg}
                                                     </label>
@@ -1097,8 +1098,8 @@ useEffect(() => {
 
             {isChangedError && (
               <div ref={noChangesRef} className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
-                <MdError style={{ color: "red", marginRight: '5px', fontSize: "13px" }} />
-                <label className="mb-0" style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
+                <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                   {isChangedError}
                 </label>
               </div>
@@ -1108,7 +1109,7 @@ useEffect(() => {
         </Modal.Body>
   {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
             </div>
             : null}
@@ -1143,7 +1144,7 @@ useEffect(() => {
         <Modal.Footer style={{ border: "none", paddingBottom: 0, }} className='pt-1' >
           {generalError && (
             <div className="d-flex align-items-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <MdError style={{ color: "red", marginRight: '5px', fontSize: "14px" }} />
               <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                 {generalError}
               </label>

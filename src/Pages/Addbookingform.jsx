@@ -608,9 +608,9 @@ useEffect(() => {
             </div>
           </div>
 
-          <Row>
+          <Row >
             <Col md={6} className="">
-              <Form.Group controlId="formFirstName" >
+              <Form.Group controlId="formFirstName">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -619,7 +619,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  First Name
+                  First Name {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>
                     {" "}
                     *{" "}
@@ -666,7 +666,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Last Name{" "}
+                  Last Name {" "}
 
                 </Form.Label>
                 <Form.Control
@@ -696,7 +696,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Mobile Number
+                  Mobile Number {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>
                     {" "}
                     *{" "}
@@ -814,7 +814,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Email ID
+                  Email ID {" "}
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -932,7 +932,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Area , Street , Sector , Village{" "}
+                  Area , Street , Sector , Village {" "}
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -970,7 +970,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Landmark{" "}
+                  Landmark {" "}
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -1013,7 +1013,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Pincode
+                  Pincode {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <Form.Control
@@ -1067,7 +1067,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Town/City{" "}
+                  Town/City {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
@@ -1110,7 +1110,7 @@ useEffect(() => {
                   lineHeight: "normal",
                 }}
               >
-                State <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                State {" "} <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
 
               <Select
@@ -1208,7 +1208,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Joining Date
+                  Joining Date {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>
                     {" "}
                     *{" "}
@@ -1268,7 +1268,7 @@ useEffect(() => {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  Booking Amount
+                  Booking Amount {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>
                     {" "}
                     *{" "}

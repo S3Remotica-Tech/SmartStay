@@ -398,7 +398,7 @@ const handleSubmitContact = () => {
     } else if (value.length === 10) {
       setPhoneError("");
     } else {
-      setPhoneError("Invalid Mobile Number");
+      setPhoneError("Please Enter Valid Mobile Number");
     }
 
     setFormError("");
@@ -468,15 +468,14 @@ useEffect(() => {
           style={{
             maxWidth: "666px",
 
-            paddingRight: "10px",
-
+           
             borderRadius: "30px",
           }}
           className="m-0 p-0"
         >
           <Modal.Body>
             <div className="d-flex align-items-center">
-              <div className="container">
+              <div >
                    <Modal.Header
                   style={{ position: "relative", paddingTop: "-0px" }}
                 >
@@ -1022,9 +1021,9 @@ useEffect(() => {
 
 
      {formError && (
-                          <div ref={nochangeRef} className=" " style={{ color: "red" ,textAlign:"center",marginTop:"-13px"}}>
-                            <MdError style={{fontSize: '12px',marginRight:"6px"}}/>
-                            <span style={{ fontSize: '14px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
+                          <div ref={nochangeRef} className=" " style={{ color: "red" ,textAlign:"center",marginTop:"2px"}}>
+                            <MdError style={{fontSize: '14px',marginRight:"6px"}}/>
+                            <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500}}>{formError}</span>
                           </div>
                         )}
 
@@ -1093,7 +1092,7 @@ useEffect(() => {
                                     }}
                                   ></div>
                                 </div>}
-          <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+         
         </Modal.Dialog>
       </Modal>
     </div>

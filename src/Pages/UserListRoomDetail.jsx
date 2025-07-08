@@ -825,16 +825,16 @@ function UserListRoomDetail(props) {
 
       switch (fieldName) {
         case "First Name":
-          setFirstnameError("First Name is Required");
+          setFirstnameError("Please Enter First Name");
           break;
         case "Phone Number":
-          setPhoneError("Phone Number is Required");
+          setPhoneError("Please Enter  Phone Number");
           break;
         case "Email":
-          setEmailError("Email is Required");
+          setEmailError("Please Enter Email");
           break;
         case "Hostel ID":
-          setHostelIdError("Hostel ID is Required");
+          setHostelIdError("Please Select Hostel ID");
           break;
         case "City":
           setCityError("Please Enter City");
@@ -936,19 +936,19 @@ function UserListRoomDetail(props) {
       setPhoneError("");
       setPhoneErrorMessage("");
     }
-  
-  const cleanedPincode = String(pincode || "").trim();
 
-if (!/^\d{6}$/.test(cleanedPincode)) {
-  setPincodeError("Pin Code Must Be Exactly 6 Digits");
-  if (!focusedRef.current && pincodeRef?.current) {
-    pincodeRef.current.focus();
-    focusedRef.current = true;
-  }
-  hasError = true;
-} else {
-  setPincodeError("");
-}
+    const cleanedPincode = String(pincode || "").trim();
+
+    if (!/^\d{6}$/.test(cleanedPincode)) {
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      if (!focusedRef.current && pincodeRef?.current) {
+        pincodeRef.current.focus();
+        focusedRef.current = true;
+      }
+      hasError = true;
+    } else {
+      setPincodeError("");
+    }
 
     if (Email && !["n/a", "na"].includes(Email.toLowerCase().trim())) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
@@ -1041,14 +1041,14 @@ if (!/^\d{6}$/.test(cleanedPincode)) {
     let hasError = false;
 
     if (!advanceDate) {
-      setAdvanceDateError("Invoice Date is Required");
+      setAdvanceDateError("Please Select Invoice Date");
       hasError = true;
     } else {
       setAdvanceDateError("");
     }
 
     if (!advanceDueDate) {
-      setAdvanceDueDateError("Due Date is Required");
+      setAdvanceDueDateError("Please Select Due Date");
       hasError = true;
     } else {
       setAdvanceDueDateError("");
@@ -1112,22 +1112,22 @@ if (!/^\d{6}$/.test(cleanedPincode)) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "Floor":
-          setfloorError("Floor is Required");
+          setfloorError("Please Select Floor");
           break;
         case "RoomId":
-          setRoomError("Room is Required");
+          setRoomError("Please Select Room ");
           break;
         case "BedId":
-          setBedError("Bed is Required");
+          setBedError("Please Select Bed ");
           break;
         case "selectedDate":
-          setDateError("date is Required");
+          setDateError("Please Select Date");
           break;
         case "AdvanceAmount":
-          setAdvanceAmountError("Advance Amount is Required");
+          setAdvanceAmountError("Please Enter Advance Amount");
           break;
         case "RoomRent":
-          setRoomRentError("Room Rent is Required");
+          setRoomRentError("Please Enter Room Rent");
           break;
         default:
           break;
@@ -1171,7 +1171,7 @@ if (!/^\d{6}$/.test(cleanedPincode)) {
     const isValidDate = (date) => !isNaN(Date.parse(date));
 
     if (!isValidDate(selectedDate)) {
-      setDateError("Joining Date is Required");
+      setDateError("Please Select Joining Date");
       return;
     } else {
       setDateError("");
@@ -1426,7 +1426,7 @@ if (!/^\d{6}$/.test(cleanedPincode)) {
     });
   };
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setLoading(false)
@@ -2605,25 +2605,25 @@ useEffect(() => {
                                                 <div>
                                                   <label className="mb-3" style={{ fontSize: 14, fontFamily: "Gilroy" }}>
                                                     Contact Info{" "}
-                                                   <img
+                                                    <img
                                                       src={editliner}
                                                       alt="Edit Icon"
                                                       width={15}
-                                                      style={{cursor:"pointer"}}
+                                                      style={{ cursor: "pointer" }}
                                                       height={15}
                                                       onClick={() =>
                                                         handleContactEdit(v)
                                                       }
                                                     />
- 
+
                                                     <img
                                                       src={trash}
                                                       alt="Trash Icon"
                                                       width={15}
-                                                       style={{cursor:"pointer"}}
+                                                      style={{ cursor: "pointer" }}
                                                       height={15}
                                                       className="ms-2"
-                                                      
+
                                                       onClick={() =>
                                                         handleContactDelete(v)
                                                       }
@@ -2719,7 +2719,7 @@ useEffect(() => {
                                                     alt="Edit Icon"
                                                     width={15}
                                                     height={15}
-                                                    style={{cursor:"pointer"}}
+                                                    style={{ cursor: "pointer" }}
                                                     onClick={() =>
                                                       handleContactEdit(v)
                                                     }
@@ -2729,7 +2729,7 @@ useEffect(() => {
                                                     alt="Trash Icon"
                                                     width={15}
                                                     height={15}
-                                                    style={{cursor:"pointer"}}
+                                                    style={{ cursor: "pointer" }}
                                                     className="ms-2"
                                                     onClick={() =>
                                                       handleContactDelete(v)
@@ -2807,7 +2807,7 @@ useEffect(() => {
                                                         className="mb-0 fw-semibold text-start"
                                                         style={{ width: "100%", wordBreak: "break-word" }}
                                                       >
-                                                        {(v.address || "" )}
+                                                        {(v.address || "")}
                                                         {v.area ? " " + v.area : ""}
                                                         {v.landmark ? ", " + v.landmark : ""}
                                                         {v.city ? ", " + v.city : ""}
@@ -2990,7 +2990,7 @@ useEffect(() => {
                                             fontWeight: 500,
                                           }}
                                         >
-                                          First Name{" "}
+                                          First Name {" "}
                                           <span
                                             style={{
                                               color: "red",
@@ -3023,7 +3023,7 @@ useEffect(() => {
                                       {firstnameError && (
                                         <div
                                           style={{
-                                            marginTop: "-15px",
+                                            marginTop: "",
                                             color: "red",
                                           }}
                                         >
@@ -3058,7 +3058,7 @@ useEffect(() => {
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Last Name{" "}
+                                          Last Name {" "}
                                         </Form.Label>
                                         <FormControl
                                           type="text"
@@ -3091,7 +3091,7 @@ useEffect(() => {
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Mobile Number{" "}
+                                          Mobile Number {" "}
                                           <span
                                             style={{
                                               color: "red",
@@ -3220,7 +3220,7 @@ useEffect(() => {
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Email ID{" "}
+                                          Email ID {" "}
                                         </Form.Label>
                                         <FormControl
                                           type="text"
@@ -3403,7 +3403,7 @@ useEffect(() => {
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Landmark{" "}
+                                          Landmark {" "}
                                         </Form.Label>
                                         <FormControl
                                           type="text"
@@ -3459,7 +3459,7 @@ useEffect(() => {
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Pincode
+                                          Pincode { " "}
                                           <span
                                             style={{
                                               color: "red",
@@ -3525,7 +3525,7 @@ useEffect(() => {
                                             fontWeight: 500,
                                           }}
                                         >
-                                          Town/City{" "}
+                                          Town/City {" "}
                                           <span
                                             style={{
                                               color: "red",
@@ -3712,7 +3712,7 @@ useEffect(() => {
                                       <MdError style={{ marginRight: "5px" }} />
                                       <span
                                         style={{
-                                          fontSize: "14px",
+                                          fontSize: "12px",
                                           color: "red",
                                           fontFamily: "Gilroy",
                                           fontWeight: 500,
@@ -3724,12 +3724,12 @@ useEffect(() => {
                                   )}
                                 </div>
 
-{state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-              </div>
-              : null}
+                                {state?.createAccount?.networkError ?
+                                  <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+                                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                  </div>
+                                  : null}
 
                                 {formLoading && <div
                                   style={{
@@ -3815,7 +3815,7 @@ useEffect(() => {
                                         fontFamily: "Gilroy",
                                       }}
                                     >
-                                      Floor{" "}
+                                      Floor {" "}
                                       <span
                                         style={{
                                           color: "red",
@@ -3930,6 +3930,7 @@ useEffect(() => {
                                   </div>
 
                                   <div className="col-12 mt-1">
+                                    <div className="mb-2">
                                     <Form.Label
                                       style={{
                                         fontSize: 14,
@@ -3937,7 +3938,7 @@ useEffect(() => {
                                         fontFamily: "Gilroy",
                                       }}
                                     >
-                                      Room
+                                      Room {" "}
                                       <span
                                         style={{
                                           color: "red",
@@ -4051,6 +4052,7 @@ useEffect(() => {
                                         </span>
                                       </div>
                                     )}
+                                    </div>
                                   </div>
 
                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -4061,7 +4063,7 @@ useEffect(() => {
                                         fontFamily: "Gilroy",
                                       }}
                                     >
-                                      Bed
+                                      Bed {" "}
                                       <span
                                         style={{
                                           color: "red",
@@ -4175,7 +4177,7 @@ useEffect(() => {
                                           fontWeight: 500,
                                         }}
                                       >
-                                        Joining Date{" "}
+                                        Joining Date {" "}
                                         <span
                                           style={{
                                             color: "red",
@@ -4259,7 +4261,7 @@ useEffect(() => {
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        Advance Amount{" "}
+                                        Advance Amount {" "}
                                         <span
                                           style={{
                                             color: "red",
@@ -4320,7 +4322,7 @@ useEffect(() => {
                                           fontFamily: "Gilroy",
                                         }}
                                       >
-                                        Rental Amount{" "}
+                                        Rental Amount {" "}
                                         <span
                                           style={{
                                             color: "red",
@@ -4378,11 +4380,11 @@ useEffect(() => {
                                   </div>
                                 </div>
                                 {state.createAccount?.networkError ?
-              <div className='d-flex  align-items-center justify-content-center mt-1 mb-2'>
-                <MdError style={{ color: "red", marginRight: '5px' }} />
-                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-              </div>
-              : null}
+                                  <div className='d-flex  align-items-center justify-content-center mt-1 mb-2'>
+                                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                                  </div>
+                                  : null}
 
                                 {formError && (
                                   <div
@@ -4462,7 +4464,7 @@ useEffect(() => {
 
 
 
-                        <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+                     
                       </Modal.Dialog>
                     </Modal>
                     <Modal
@@ -4601,7 +4603,7 @@ useEffect(() => {
                                         fontWeight: 500,
                                       }}
                                     >
-                                      Invoice Date{" "}
+                                      Invoice Date {" "}
                                       <span
                                         style={{
                                           color: "red",
@@ -4686,7 +4688,7 @@ useEffect(() => {
                                         fontWeight: 500,
                                       }}
                                     >
-                                      Due Date{" "}
+                                      Due Date {" "}
                                       <span
                                         style={{
                                           color: "red",
@@ -4779,7 +4781,7 @@ useEffect(() => {
                           </div>
                         </Modal.Body>
 
-                        <Modal.Footer style={{ border: "none" }}></Modal.Footer>
+                       
                       </Modal.Dialog>
                     </Modal>
                     <TabPanel value="2">
