@@ -1124,7 +1124,7 @@ function EBRoomReading(props) {
               fontFamily: "Gilroy",
             }}
           >
-            Edit Reading
+            Edit Room Reading
           </div>
 
           <CloseCircle size="24" color="#000" onClick={handleClose}
