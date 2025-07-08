@@ -138,7 +138,7 @@ function CreateAccountPage() {
 
     const pattern = /^\d{10}$/;
     if (input.length > 0 && !pattern.test(input)) {
-      setPhoneError('Invalid Mobile Number');
+      setPhoneError('Please Enter Valid Mobile Number');
     } else {
       setPhoneError('');
     }
@@ -156,7 +156,7 @@ function CreateAccountPage() {
     const isValidEmail = emailRegex.test(emailInput);
 
     if (emailInput && !isValidEmail) {
-      setEmailError('Invalid Email ID');
+      setEmailError('Please Enter Valid Email ID');
     } else {
       setEmailError('');
     }

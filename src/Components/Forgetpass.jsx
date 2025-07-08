@@ -67,7 +67,7 @@ function ForgetPasswordPage() {
 
 
     if (!emailRegex.test(email)) {
-      setEmailError('Please Enter a Valid Email ID');
+      setEmailError('Please Enter  Valid Email ID');
     } else {
       setEmailError('');
     }
@@ -329,7 +329,7 @@ function ForgetPasswordPage() {
                 <div className="mt-3 mb-1 "><label style={{ fontSize: 32, fontWeight: 600, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }}> Forgot Password?</label></div>
                 <div className="mt-1 mb-1 "><label style={{ fontSize: 16, fontWeight: 400, color: "rgba(75, 75, 75, 1)", fontFamily: "Montserrat" }}>Enter your email address to recover your account.</label></div>
 
-                <div className="row row-gap-3 ">
+                <div className="row ">
 
                   <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 " >
                     <Form.Group controlId="formGridEmail" className='mt-4 mb-3'>
@@ -341,34 +341,35 @@ function ForgetPasswordPage() {
                         type="email" placeholder="Enter Email ID" style={{ boxShadow: "none", border: "1px solid rgba(224, 236, 255, 1)", fontSize: 16, fontWeight: email ? 600 : 500, color: "rgba(34, 34, 34, 1)", fontFamily: "Gilroy" }} />
 
 
-                    </Form.Group>
+                    
 
 
-                    <div> {generalError ? <div className='d-flex align-items-center'>
+                    <div> {generalError ? <div className='d-flex align-items-center mt-1'>
                       <MdError style={{ color: "red", marginRight: '5px' }} />
                       <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{generalError}</label>
                     </div>
                       : null}</div>
 
-                    <div className="mb-1 p-1"> {emailError ? <div className='d-flex align-items-center p-1'>
+                    <div className="mb-1 p-1"> {emailError ? <div className='d-flex align-items-center p-1  mt-1'>
                       <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>email {emailError}</label>
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</label>
                     </div>
                       : null}</div>
 
 
-                    <div className="mb-1 p-1"> {sendEmailError ? <div className='d-flex align-items-center p-1'>
+                    <div className="mb-1 p-1"> {sendEmailError ? <div className='d-flex align-items-center p-1 mt-1'>
                       <MdError style={{ color: "red", marginRight: '5px' }} />
-                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>send email {sendEmailError}</label>
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{sendEmailError}</label>
                     </div>
                       : null}</div>
+                      </Form.Group>
 
                   </div>
 
 
 
 
-                  <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mt-4 mb-1 d-flex gap-5" >
+                  <div className="col-lg-11 col-md-12 col-xs-12 col-sm-12 mb-1 d-flex gap-5" >
                     <Button
                       onClick={handleAccountVerification}
 
