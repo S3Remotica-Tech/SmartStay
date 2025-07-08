@@ -127,14 +127,14 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
         let isValid = true;
 
         if (!startDate) {
-            setErrorStartDate('Start Date is Required');
+            setErrorStartDate('Please Select Start Date');
             isValid = false;
         } else {
             setErrorStartDate('');
         }
 
         if (!endDate) {
-            setErrorEndDate('End Date is Required');
+            setErrorEndDate('Please Select End Date');
             isValid = false;
         } else {
             setErrorEndDate('');
@@ -192,7 +192,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
 
                                     {errorStartDate && (
                                         <div className="d-flex align-items-center">
-                                            <MdError style={{ color: "red", marginRight: "5px" }} />
+                                            <MdError style={{ color: "red", marginRight: "5px", fontSize:14 }} />
                                             <span
                                                 style={{
                                                     color: "red",
@@ -230,7 +230,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
 
                                     {errorEndDate && (
                                         <div className="d-flex align-items-center">
-                                            <MdError style={{ color: "red", marginRight: "5px" }} />
+                                            <MdError style={{ color: "red", marginRight: "5px", fontSize:14  }} />
                                             <span
                                                 style={{
                                                     color: "red",
@@ -268,7 +268,7 @@ function RecurringEnable({ show, handleCloseRecurring, amenityDetails }) {
                             <div className='col-lg-4 col-md-4 col-sm-12 col-xs-12'>
                                 <Form.Select
                                     id="vendor-select"
-                                    style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}
+                                   style={{ fontFamily: "Gilroy" ,color: "#4B4B4B",fontWeight:500}}
                                     value={recurringDay}
                                     onChange={handleRecurringDayChange}
                                 >

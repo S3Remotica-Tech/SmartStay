@@ -153,7 +153,7 @@ useEffect(() => {
         fontFamily: "Gilroy,sans-serif",
       }}
     >
-      <Modal show={show} onHide={handleClose} centered backdrop="static">
+      <Modal show={show} onHide={handleClose} centered backdrop="static" >
         <Modal.Dialog
           style={{ maxWidth: "100%", width: "100%" }}
           className="m-0 p-0"
@@ -174,7 +174,7 @@ useEffect(() => {
 
             <CloseCircle size="24" color="#000" onClick={handleClose} style={{ cursor: "pointer" }} />
           </Modal.Header>
-          <Modal.Body style={{ paddingTop: 10, paddingLeft: 10, paddingRight: 10, paddingBottom: 10 }}>
+          <Modal.Body style={{ padding:"10px 15px" }}>
             <div className="row mt-1">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
@@ -188,7 +188,7 @@ useEffect(() => {
                       fontWeight: 600,
                     }}
                   >
-                    Floor Name or No
+                    Floor Name or No {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
@@ -215,7 +215,7 @@ useEffect(() => {
           </Modal.Body>
           {state.createAccount?.networkError ? 
           <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                                  <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
                                   <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                                 </div>
                                   : null}
@@ -245,8 +245,8 @@ useEffect(() => {
             ></div>
           </div>}
           {floorId && (
-            <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
+            <div className="d-flex align-items-center g-2">
+           <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
               <label
                 className="mb-0"
                 style={{
@@ -263,7 +263,7 @@ useEffect(() => {
 
           {floorError && (
             <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
+              <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
               <label
                 className="mb-0"
                 style={{
@@ -279,7 +279,7 @@ useEffect(() => {
           )}
           {state.UsersList?.alreadyFloorHere && (
             <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "15px" }} />
+           <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
               <label
                 className="mb-0"
                 style={{
@@ -295,7 +295,7 @@ useEffect(() => {
           )}
           {state.PgList?.alreadyfloorNameHere && (
             <div className="d-flex align-items-center">
-              <MdError style={{ color: "red", marginRight: "5px", marginLeft: "10px" }} />
+               <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
               <label
                 className="mb-0"
                 style={{
@@ -312,7 +312,7 @@ useEffect(() => {
 
           {isChangedError && (
             <div className="d-flex align-items-center  justify-content-center">
-              <MdError style={{ fontSize: "14px", color: "red", marginRight: "6px", marginLeft: "10px", fontFamily: "Gilroy" }} />
+              <MdError style={{ color: "red", marginLeft: "15px" ,marginRight:5,  fontSize: "14px"}} />
               <label
                 className="mb-0"
                 style={{ color: "red", fontSize: "12px", fontWeight: 500, fontFamily: "Gilroy" }}
@@ -324,10 +324,10 @@ useEffect(() => {
 
 
 
-          <Modal.Footer style={{ border: "none" }} className="mt-1 pt-1">
+          <Modal.Footer style={{ border: "none", padding:15}} className="mt-1">
             <Button
               onClick={handleCreateFloor}
-              className="w-100 mt-3"
+              className="w-100 m-0"
               style={{
                 backgroundColor: "#1E45E1",
                 fontWeight: 600,

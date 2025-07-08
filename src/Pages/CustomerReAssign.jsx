@@ -141,19 +141,19 @@ function CustomerReAssign(props) {
     if (isValueEmpty) {
       switch (fieldName) {
         case "newRoomRent":
-          setError("New Rent Amount is Required");
+          setError("Please Enter New Rent Amount");
           break;
         case "newFloor":
-          setError("New Floor is Required");
+          setError("Please Select New Floor");
           break;
         case "newRoom":
-          setError("New Room is Required");
+          setError("Please Select New Room");
           break;
         case "newBed":
-          setError("New Bed is Required");
+          setError("Please Select New Bed");
           break;
         case "selectedDate":
-          setError("Date is Required");
+          setError("Please Select Date");
           break;
         default:
           break;
@@ -289,13 +289,8 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
             }}
             className="m-0 p-0"
           >
-            <Modal.Body style={{ marginTop: -30 }}>
-              <div className="d-flex align-items-center">
-                <div className="container">
-                  <div className="row mb-3"></div>
-
-                  <Modal.Header
-                    style={{ marginBottom: "8px", position: "relative" }}
+              <Modal.Header
+                    style={{ position: "relative" }}
                   >
                     <div
                       style={{
@@ -310,9 +305,15 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                     <CloseCircle size="24" color="#000" onClick={handleCloseReAssign}
                       style={{ cursor: 'pointer' }} />
                   </Modal.Header>
+            <Modal.Body  className="pb-1 pt-0">
+              <div className="d-flex align-items-center">
+                <div >
+           
+
+                
                   <div style={{ maxHeight: "390px", overflowY: "scroll" }} className="show-scroll p-2 mt-0 me-0">
 
-                    <div className="row mb-3 d-flex align-items-center">
+                    <div className="row  d-flex align-items-center">
                       <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <Form.Group className="mb-3">
                           <Form.Label
@@ -554,10 +555,10 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
 
 
                         {floorError && (
-                          <div style={{ color: "red", marginTop: "-5px" }}>
+                          <div style={{ color: "red", marginTop: "1px" }}>
                             {" "}
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "4px" }}
+                              style={{ fontSize: "14px", marginRight: "4px" }}
                             />
                             <span
                               style={{
@@ -665,10 +666,10 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                         />
 
                         {roomError && (
-                          <div style={{ color: "red", marginTop: "-5px" }}>
+                          <div style={{ color: "red", marginTop: "1px" }}>
                             {" "}
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "4px" }}
+                              style={{ fontSize: "14px", marginRight: "4px" }}
                             />
                             <span
                               style={{
@@ -787,10 +788,10 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
 
 
                         {bedError && (
-                          <div style={{ color: "red", marginTop: "-5px" }}>
+                          <div style={{ color: "red", marginTop: "1px" }}>
                             {" "}
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "4px" }}
+                              style={{ fontSize: "14px", marginRight: "4px" }}
                             />
                             <span
                               style={{
@@ -844,14 +845,11 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                               }
                             />
                           </div>
-                        </Form.Group>
-
-
-                        {dateError && (
-                          <div style={{ color: "red", marginTop: "-10px" }}>
+                            {dateError && (
+                          <div style={{ color: "red", marginTop: "1px" }}>
                             {" "}
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "4px" }}
+                              style={{ fontSize: "14px", marginRight: "4px" }}
                             />
                             <span
                               style={{
@@ -866,6 +864,10 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                             </span>
                           </div>
                         )}
+                        </Form.Group>
+
+
+                      
                       </div>
 
 
@@ -882,7 +884,7 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                               whiteSpace: "nowrap",
                             }}
                           >
-                            New Rent Amount    <span style={{ color: "red", fontSize: "20px" }}>
+                            New Rent Amount {" "} <span style={{ color: "red", fontSize: "20px" }}>
                               *
                             </span>
                             <Form.Check
@@ -900,7 +902,7 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                                   Same as Current
                                 </span>
                               }
-                              className="ms-2"
+                              className="ms-3"
                               ref={rentRef}
                               onChange={(e) => {
                                 if (e.target.checked) {
@@ -931,13 +933,11 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                               marginTop: 8,
                             }}
                           />
-                        </Form.Group>
-
-                        {rentError && (
-                          <div style={{ color: "red", marginTop: "-20px" }}>
+                                {rentError && (
+                          <div style={{ color: "red", marginTop: "0px" }}>
                             {" "}
                             <MdError
-                              style={{ fontSize: "13px", marginRight: "4px" }}
+                              style={{ fontSize: "14px", marginRight: "4px" }}
                             />
                             <span
                               style={{
@@ -952,6 +952,9 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                             </span>
                           </div>
                         )}
+                        </Form.Group>
+
+                  
                       </div>
                     </div>
                   </div>
@@ -993,7 +996,7 @@ const formattedDate = selectedDate ? formatToISODate(selectedDate) : "";
                 <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
               </div>
               : null}
-            <Modal.Footer style={{ border: "none" }}>
+            <Modal.Footer className="pt-1" style={{ border: "none" }}>
               <Button
                 className="w-100"
                 style={{

@@ -294,7 +294,7 @@ function UserList(props) {
     setAllFieldErrmsg("");
 
     if (!customername) {
-      setCustomerErrmsg("Customer is Required");
+      setCustomerErrmsg("Please Select Customer");
       isValid = false;
     }
 
@@ -304,12 +304,12 @@ function UserList(props) {
     }
 
     if (!invoicedate) {
-      setInvoiceDateErrmsg("Invoice Date is Required");
+      setInvoiceDateErrmsg("Please Select Invoice Date");
       isValid = false;
     }
 
     if (!invoiceduedate) {
-      setInvoiceDueDateErrmsg("Due Date is Required");
+      setInvoiceDueDateErrmsg("Please Select Due Date");
       isValid = false;
     }
     if (!Array.isArray(newRows) || newRows.length === 0) {
@@ -467,10 +467,6 @@ function UserList(props) {
     }
     dispatch({ type: "UPDATE_USERSLIST_TRUE" });
   };
-
-    const selectedUser = state.UsersList.Users.find(item => item.ID === customername);
-   console.log("selectedCustomer", selectedUser);
-   
 
   const handleCreateBill = () => {
     let hasError = false;
@@ -1382,15 +1378,9 @@ function UserList(props) {
   const handleShowSearch = () => {
     setSearch(!search);
   };
- 
-
   const handleFilterd = () => {
-    setCheckInDateRange([])
-    setFilterStatus(!filterStatus); 
-    setFilteredUsers(userListDetail); 
-    setCurrentPage(1)
+    setFilterStatus(!filterStatus);
   };
-  
   const [checkInDateRange, setCheckInDateRange] = useState([]);
   const [bookingDateRange, setBookingDateRange] = useState([]);
   const [checkoutDateRange, setCheckoutDateRange] = useState([]);
@@ -4428,6 +4418,7 @@ function UserList(props) {
               top: 0,
               zIndex: 1000,
               backgroundColor: "#fff",
+              padding: "12px 20px",
               height: "60px",
             }}
           >
@@ -4451,8 +4442,7 @@ function UserList(props) {
             </span>
           </div>
 
-         <div style={{ display: "flex", flexDirection: "row" }}>
-          <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12 me-4">
+          <div className="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
               <Form.Label
                 style={{
@@ -4480,7 +4470,7 @@ function UserList(props) {
                   fontWeight: 500,
                   boxShadow: "none",
                   border: "1px solid #D9D9D9",
-                  height: 48,
+                  height: 38,
                   borderRadius: 8,
                   backgroundColor: "#E7F1FF",
                 }}
@@ -4516,7 +4506,7 @@ function UserList(props) {
                     }}
                   >
                     {customererrmsg !== " " && (
-                      <MdError style={{ fontSize: "15px", color: "red" }} />
+                      <MdError style={{ fontSize: "14px", color: "red" }} />
                     )}{" "}
                     {customererrmsg}
                   </p>
@@ -4525,7 +4515,7 @@ function UserList(props) {
             </Form.Group>
           </div>
 
-          <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
               <Form.Label
                 style={{
@@ -4546,7 +4536,6 @@ function UserList(props) {
                   color: "#4B4B4B",
                   fontFamily: "Gilroy",
                   lineHeight: "18.83px",
-                  height: 48,
                   fontWeight: 500,
                   backgroundColor: "#E7F1FF",
                 }}
@@ -4575,10 +4564,9 @@ function UserList(props) {
               )}
             </Form.Group>
           </div>
-          </div>
 
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 me-4">
+            <div className="col-lg-4 col-md-3 col-sm-6 col-xs-12 me-4">
               <Form.Group className="mb-2" controlId="purchaseDate">
                 <Form.Label
                   style={{
@@ -4667,7 +4655,7 @@ function UserList(props) {
               )}
             </div>
 
-            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div className="col-lg-4 col-md-3 col-sm-6 col-xs-12">
               <Form.Group className="mb-2" controlId="purchaseDate">
                 <Form.Label
                   style={{
@@ -4865,7 +4853,7 @@ function UserList(props) {
        
 
 
-          <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2">
+          <div className="col-lg-4 col-md-6 col-sm-12 col-xs-12 mt-2">
             <Form.Select
               className="border"
               style={{
@@ -4876,7 +4864,7 @@ function UserList(props) {
                 fontWeight: 500,
                 boxShadow: "none",
                 border: "1px solid #D9D9D9",
-                height: 48,
+                height: 38,
                 borderRadius: 8,
                 cursor: "pointer",
               }}
@@ -4900,7 +4888,7 @@ function UserList(props) {
                     fontSize: "12px",
                     color: "red",
                     marginTop: "5px",
-                    textAlign: "center",
+                    textAlign: "start",
                     fontWeight: 500,
                     fontFamily: "Gilroy",
                   }}

@@ -952,11 +952,11 @@ useEffect(() => {
               marginTop: 10,
             }}
           >
-            <MdError style={{ marginRight: "7px", color: "red" }} />
+            <MdError style={{ marginRight: "7px", color: "red" , fontSize:14}} />
             <span
               style={{
                 color: "red",
-                fontSize: 13,
+                fontSize: 12,
                 fontFamily: "Gilroy",
               }}
             >
@@ -979,8 +979,7 @@ useEffect(() => {
               fontSize: 14,
               padding: "12px 16px 12px 16px",
               fontFamily: "Montserrat, sans-serif",
-              marginBottom: 15,
-              width: "100%",
+                           width: "100%",
             }}
             onClick={handleAddComplaintType}
           >

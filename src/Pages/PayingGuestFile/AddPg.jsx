@@ -127,14 +127,14 @@ function AddPg({ show, handleClose, currentItem }) {
       setIsChangedError("");
 
       if (value === "") {
-        setMobileError("Mobile Number is Required");
+        setMobileError("Please Enter Mobile No");
       } else if (value.length < 10) {
-        setMobileError("Invalid Mobile Number");
+        setMobileError("Please Enter Valid Mobile No");
       } else if (value.length === 10) {
         setMobileError("");
       }
     } else {
-      setMobileError("Invalid Mobile Number");
+      setMobileError("Please Enter Valid Mobile No");
     }
   };
 
@@ -146,7 +146,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     if (emailValue && !emailRegex.test(emailValue)) {
-      setEmailError("Invalid Email Id");
+      setEmailError("Please Enter Valid Email Id");
     } else {
       setEmailError("");
     }
@@ -278,7 +278,7 @@ function AddPg({ show, handleClose, currentItem }) {
     }
 
     if (!mobile) {
-      setMobileError("Please Enter Mobile Number");
+      setMobileError("Please Enter Mobile No");
       if (!focused) {
         mobileRef.current?.focus();
         focused = true;
@@ -343,7 +343,7 @@ function AddPg({ show, handleClose, currentItem }) {
 
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
     if (email && !emailRegex.test(email)) {
-      setEmailError("Enter a Valid Email ID");
+      setEmailError("Please Enter Valid Email Id");
       if (!focused) {
         focused = true;
       }
@@ -752,7 +752,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Paying Guest Name{" "}
+                  Paying Guest Name {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <Form.Control
@@ -962,7 +962,7 @@ useEffect(() => {
             </div>
 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-              <Form.Group className="">
+              <Form.Group className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1015,7 +1015,7 @@ useEffect(() => {
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-              <Form.Group className="">
+              <Form.Group className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1068,7 +1068,7 @@ useEffect(() => {
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-              <Form.Group className="">
+              <Form.Group className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1132,7 +1132,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Pincode
+                  Pincode{" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <Form.Control

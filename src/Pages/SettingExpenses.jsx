@@ -262,11 +262,16 @@ function SettingExpenses({ hostelid }) {
   const addType = () => {
     dispatch({ type: 'CLEAR_ALREADY_EXPENCE_CATEGORY_ERROR' });
     if (!selectedOptions.value) {
-      setCategoryErrmsg("Please Enter a Category");
+      setCategoryErrmsg("Please Select  Category");
       return;
     }
-
-    if (isSubCategory || !isSubCategory) {
+    if (isSubCategory) {
+      if (!subType) {
+        setSubCategoryErrmsg("Please Enter  Sub-Category")
+        return;
+      }
+    }
+    if (isSubCategory) {
       dispatch({
         type: "EXPENCES-CATEGORY-ADD",
         payload: {
@@ -436,7 +441,7 @@ function SettingExpenses({ hostelid }) {
     setFormError('')
     setTotalErrmsg('')
     if (!e.target.value) {
-      setSubCategoryErrmsg("Please Enter a Sub-Category")
+      setSubCategoryErrmsg("Please Enter  Sub-Category")
     }
     else {
       setSubCategoryErrmsg("")
@@ -940,7 +945,7 @@ function SettingExpenses({ hostelid }) {
                           className='mb-3 me-2'
                           checked={isSubCategory}
                           onChange={() => setIsSubCategory(!isSubCategory)}
-                          style={{ width: '20px', height: '20px', border: '1px solid #ced4da', borderRadius: '4px' }}
+                          style={{ width: '20px', height: '20px', border: '1px solid #ced4da', borderRadius: '4px',accentColor: '#1E45E1', }}
                         />
                         <p className='' style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }}>Make Sub-Category</p>
                       </div>
@@ -951,7 +956,7 @@ function SettingExpenses({ hostelid }) {
                         <Form.Group className="mb-1" controlId="exampleForm.ControlInput2">
                           <Form.Label disabled={!isSubCategory} style={{ color: !isSubCategory ? 'grey' : '#222', opacity: !isSubCategory ? '0.5' : '1', fontSize: 14, fontWeight: 500, fontFamily: "Gilroy" }}>Sub-Category</Form.Label>
                           <Form.Control
-                            style={{ padding: '10px', marginTop: '10px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                            style={{ padding: '10px', marginTop: '3px', opacity: !isSubCategory ? '0.5' : '1', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
                             className={!isSubCategory ? 'custom-disabled' : 'white !important'}
                             type="text"
                             placeholder="Enter Sub-Category"
@@ -962,12 +967,21 @@ function SettingExpenses({ hostelid }) {
 
 
                           {subcateogoryerrmsg.trim() !== "" && (
-                            <div>
-                              <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy" }}>
-                                {subcateogoryerrmsg !== " " && <MdError style={{ fontSize: '13px', color: 'red' }} />} {subcateogoryerrmsg}
-                              </p>
+                            <div className="d-flex align-items-center gap-1 mt-1">
+                              <MdError style={{ fontSize: '14px', color: 'red' }} />
+                              <span
+                                style={{
+                                  fontSize: '12px',
+                                  color: 'red',
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {subcateogoryerrmsg}
+                              </span>
                             </div>
                           )}
+
                         </Form.Group>
                       </div>
 
@@ -979,7 +993,7 @@ function SettingExpenses({ hostelid }) {
                     {totalErrormsg.trim() !== "" && (
                       <div>
                         <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                          {totalErrormsg !== " " && <MdError style={{ fontSize: '15px', color: 'red' }} />} {totalErrormsg}
+                          {totalErrormsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {totalErrormsg}
                         </p>
                       </div>
                     )}
@@ -1016,7 +1030,7 @@ function SettingExpenses({ hostelid }) {
                 </Modal.Body>
                 {state.createAccount?.networkError ?
                   <div className='d-flex  align-items-center justify-content-center mt-2 mb-4'>
-                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                    <MdError style={{ color: "red", marginRight: '5px' ,fontSize: "14px",}} />
                     <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                   </div>
                   : null}
@@ -1051,7 +1065,7 @@ function SettingExpenses({ hostelid }) {
 
                 <Modal.Footer style={{ border: "none" }}>
                   <Button
-                    disabled={editsubcat === false}
+                    disabled={isSubCategory === false}
                     className="w-100"
                     style={{
                       backgroundColor: "#1E45E1",

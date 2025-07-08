@@ -87,12 +87,12 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
     }
 
     if (!amenity) {
-      setErrorAmenity("Amenity is Required");
+      setErrorAmenity("Please Enter Amenity");
       isValid = false;
     }
 
     if (!amount) {
-      setErrorAmount("Amount is Required");
+      setErrorAmount("Please Enter Amount");
       isValid = false;
     } else if (isNaN(amount)) {
       setErrorAmount("Amount must be a Number");
@@ -213,7 +213,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                         fontWeight: 500,
                       }}
                     >
-                      Amenity
+                      Amenity {" "}
                       <span style={{ color: "red", fontSize: "20px" }}>*</span>
                     </Form.Label>
                     <Form.Control
@@ -235,7 +235,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                   </Form.Group>
                   {errorAmenity && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <span
                         style={{
                           color: "red",
@@ -262,7 +262,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
                         fontWeight: 500,
                       }}
                     >
-                      Amount{" "}
+                      Amount {" "}
                       <span style={{ color: "red", fontSize: "20px" }}>*</span>
                     </Form.Label>
                     <Form.Control
@@ -285,7 +285,7 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
 
                   {errorAmount && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <span
                         style={{
                           color: "red",
@@ -374,10 +374,10 @@ function AddAmenities({ show, handleClose, hostelid, editDetails }) {
               </div>
             )}
 
-            <Modal.Footer style={{ border: "none" }}>
+            <Modal.Footer style={{ border: "none", paddingTop:2 }}>
               <Button
                 onClick={handleSubmit}
-                className="w-100 mt-3"
+                className="w-100"
                 style={{
                   backgroundColor: "#1E45E1",
                   fontWeight: 600,

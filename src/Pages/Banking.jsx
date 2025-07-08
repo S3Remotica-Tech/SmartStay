@@ -1884,7 +1884,7 @@ function Banking() {
                       fontWeight: 500,
                     }}
                   >
-                    Balance
+                    Balance {""}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   </Form.Label>
                   <FormControl
@@ -1903,6 +1903,10 @@ function Banking() {
                       borderRadius: "8px",
                     }}
                   />
+                     {amountError && (
+                  <div style={{ color: "red", fontSize: "14px", marginTop: "5px", fontFamily:"Gilroy" }}>
+                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
+                    {amountError}</div>)}
                 </Form.Group>
 
 
@@ -1917,10 +1921,7 @@ function Banking() {
             : null}
 
 
-                {amountError && (
-                  <div style={{ color: "red", fontSize: "14px", marginTop: "5px", textAlign: "center" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    {amountError}</div>)}
+             
                 <Button
                   className="col-12"
                   style={{

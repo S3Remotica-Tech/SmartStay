@@ -454,16 +454,21 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
         <div style={{ display: 'flex', flexDirection: 'row', marginTop: '20px' }} >
           <svg onClick={handleBackBill} style={{ fontSize: '22px', marginRight: '10px', cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-          <p className='mt-1'>{edit ? "Edit Receipt" : "New Receipt"} </p>
+          <p className='mt-1'  style={{
+                  fontWeight: 500,
+                  fontSize: "18px",
+                  fontFamily: "Gilroy",
+                  paddingLeft: "10px"
+                }}>{edit ? "Edit Receipt" : "New Receipt"} </p>
         </div>
 
 
 
-
-        <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
+<div className="row">
+        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
             <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}>
-              Customer  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+              Customer {" "} <span style={{ color: "red", fontSize: "20px" }}>*</span>
             </Form.Label>
 
 
@@ -508,21 +513,23 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                   color: "#000",
                 }),
                 control: (base) => ({
-                  ...base,
-                  fontSize: 16,
-                  borderRadius: 8,
-                  border: "1px solid #D9D9D9",
-                  backgroundColor: edit ? "#E7F1FF" : "#FFFFFF",
-                  color: "black",
-                  fontFamily: "Gilroy",
-                }),
+                    ...base,
+                   padding:"3px 5px ",
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "8px",
+                    fontSize: "16px",
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: customername ? 600 : 500,
+                    boxShadow: "none",
+                  }),
               }}
             />
 
 
 
             {customererrmsg && (
-              <div className="d-flex align-items-center  mb-2">
+              <div className="d-flex align-items-center mt-1  mb-2">
                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                 <label
                   className="mb-0"
@@ -544,13 +551,13 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
         </div>
-
-        <div className="row mb-1">
+</div>
+        <div className="row mb-1 gap-1">
           <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
               <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Reference ID</Form.Label>
               <Form.Control
-                style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, backgroundColor: "#E7F1FF", }}
+                style={{ padding: '12px 10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, backgroundColor: "#E7F1FF", }}
                 type="text"
                 placeholder="Enter Invoice Number"
                 value={reference_id || ''}
@@ -574,7 +581,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                     lineHeight: "normal",
                   }}
                 >
-                  Invoice Number  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                  Invoice Number {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
 
                 {edit ? (
@@ -591,7 +598,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                       fontWeight: 500,
                       boxShadow: "none",
                       border: "1px solid #D9D9D9",
-                      height: 38,
+                     padding: '12px 10px',
                       borderRadius: 8,
                       backgroundColor: "#E7F1FF",
                     }}
@@ -644,13 +651,14 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                         borderRadius: 8,
                         border: "1px solid #D9D9D9",
                         fontFamily: "Gilroy",
+                        padding:"3px 5px"
                       }),
                     }}
                   />
                 )}
 
                 {invoicenumbererrmsg && (
-                  <div className="d-flex align-items-center mb-2">
+                  <div className="d-flex align-items-center mb-2 mt-1">
                     <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                     <label
                       className="mb-0"
@@ -675,7 +683,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
         </div>
 
-        <div className="row mb-1">
+        <div className="row mb-1 gap-1">
 
 
 
@@ -692,11 +700,11 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                     lineHeight: 'normal',
                   }}
                 >
-                  Due Amount
+                  Due Amount {" "}
                 </Form.Label>
                 <Form.Control
                   style={{
-                    padding: '10px',
+                   padding: '12px 10px',
                     fontSize: 16,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
@@ -716,9 +724,9 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
           <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received  <span style={{ color: "red", fontSize: "20px" }}>*</span></Form.Label>
+              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received {" "}     <span style={{ color: "red", fontSize: "20px" }}>*</span></Form.Label>
               <Form.Control
-                style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                style={{ padding: '12px 10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
                 type="text"
                 placeholder="Enter Received Amount"
                 value={received_amount}
@@ -734,7 +742,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                 }}
               />
               {receivedamounterrmsg && (
-                <div className="d-flex align-items-center  mb-2">
+                <div className="d-flex align-items-center mt-1 mb-2">
                   <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                   <label
                     className="mb-0"
@@ -756,11 +764,11 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
         </div>
 
 
-        <div className="row ">
+        <div className="row mb-1 gap-1 ">
           <div className="col-lg-3 col-md-5 col-sm-12 ">
             <Form.Group controlId="invoiceDate" className="mb-1">
               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                Payment Date  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                Payment Date {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
               <div style={{ position: 'relative', width: "100%", height: 48, }}>
 
@@ -889,8 +897,8 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
               />
               {notes_errmsg.trim() !== "" && (
                 <div>
-                  <p style={{ fontSize: '12px', color: 'red', marginTop: '3px' }}>
-                    {notes_errmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {notes_errmsg}
+                  <p style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy"  }}>
+                    {notes_errmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', fontFamily:"Gilroy" }} />} {notes_errmsg}
                   </p>
                 </div>
               )}
@@ -918,7 +926,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
   {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
             </div>
             : null}
@@ -950,29 +958,28 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
             }}
           ></div>
         </div>}
-        {allfielderrmsg.trim() !== "" && (
+
+
+
+       
+
+
+
+
+
+
+
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
+
+ {allfielderrmsg.trim() !== "" && (
           <div>
-            <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', textAlign: "center", fontFamily: "Gilroy" }}>
+            <p style={{ fontSize: '12px', color: 'red', marginTop: '4px', textAlign: "start", fontFamily: "Gilroy" }}>
               {allfielderrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: 2 }} />} {allfielderrmsg}
             </p>
           </div>
         )}
 
-
-
-
-
-
-
-        <div style={{ display: "flex", flexDirection: "row", justifyContent: 'end' }}>
-
-
-
-
-
-
-
-          <div style={{ marginBottom: 30 }}></div>
+        
 
         </div>
       </div>

@@ -579,7 +579,7 @@ const Compliance = () => {
   const handleAddcomplaint = () => {
 
     if (edit && !hasChanges) {
-      setTotalErrmsg('Please make some changes before saving');
+      setTotalErrmsg('No changes detected');
       setTimeout(() => {
         setTotalErrmsg('');
       }, 10000);
@@ -828,7 +828,7 @@ const Compliance = () => {
                     marginTop: "1rem",
                   }}
                 >
-                  <MdError />
+                <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{compliancepermissionError}</span>
                 </div>
               )}
@@ -1223,8 +1223,8 @@ const Compliance = () => {
 
                         {Array.isArray(complaintList) && complaintList.length === 0 && (
                           <div className="d-flex align-items-center mb-3" style={{ marginTop: "5px" }}>
-                            <MdError style={{ color: "red", marginRight: "6px", fontSize: "15px", marginBottom: "22px" }} />
-                            <span style={{ color: "red", fontSize: "14px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                            <MdError style={{ color: "red", marginRight: "6px", fontSize: "16px", marginBottom: "22px" }} />
+                            <span style={{ color: "red", fontSize: "13px", fontFamily: "Gilroy", fontWeight: 500 }}>
                               Please Create Complaint Type in Settings Electricity before adding an complaint
                             </span>
                           </div>
@@ -1235,7 +1235,7 @@ const Compliance = () => {
                           <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12'>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                               <Form.Label style={{ fontSize: 14, color: "#222", fontFamily: "Gilroy", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}>
-                                Customer <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                Customer {" "}  <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
 
 
@@ -1333,7 +1333,8 @@ const Compliance = () => {
                               {usererrmsg.trim() !== "" && (
                                 <div>
                                   <p style={{ fontSize: '15px', color: 'red' }}>
-                                    {usererrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{usererrmsg}</span>
+                                    {usererrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />}
+                                    <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{usererrmsg}</span>
                                   </p>
                                 </div>
                               )}
@@ -1355,7 +1356,7 @@ const Compliance = () => {
                                 display: "block",
                               }}
                             >
-                              Complaint Type <span style={{ color: "red", fontSize: "16px" }}>*</span>
+                              Complaint Type {" "}   <span style={{ color: "red", fontSize: "16px" }}>*</span>
                             </label>
 
 
@@ -1453,7 +1454,7 @@ const Compliance = () => {
                           {complaint_typeerrmsg.trim() !== "" && (
                             <div>
                               <p style={{ fontSize: '15px', color: 'red' }}>
-                                {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
+                                {complaint_typeerrmsg !== " " && <MdError style={{ color: 'red', marginRight: "5px", fontSize: "14px" }} />}<span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{complaint_typeerrmsg}</span>
                               </p>
                             </div>
                           )}
@@ -1470,7 +1471,7 @@ const Compliance = () => {
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
                               >
-                                Floor<span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                Floor {" "} <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
                               <Form.Control
                                 type="text"
@@ -1486,7 +1487,7 @@ const Compliance = () => {
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
                               >
-                                Room <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                Room {" "}  <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
                               <Form.Control
                                 type="text"
@@ -1505,7 +1506,7 @@ const Compliance = () => {
                               <Form.Label
                                 style={{ fontSize: 14, color: "#222", fontFamily: "'Gilroy'", fontWeight: 500, fontStyle: 'normal', lineHeight: 'normal' }}
                               >
-                                Bed<span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                Bed {" "} <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
                               <Form.Control
                                 type="text"
@@ -1522,7 +1523,7 @@ const Compliance = () => {
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
                             <Form.Group className='' controlId="purchaseDate">
                               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500, marginBottom: '2px', }}>
-                                Complaint Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
+                                Complaint Date {" "}  <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                               </Form.Label>
 
                               <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
@@ -1542,15 +1543,15 @@ const Compliance = () => {
                               </div>
                               {dateerrmsg.trim() !== "" && (
                                 <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px"}} />
                                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {dateerrmsg}
                                   </label>
                                 </div>
                               )}
                               {joiningDateErrmsg.trim() !== "" && (
-                                <div className="d-flex align-items-center">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                <div className="d-flex align-items-center mt-1">
+                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px"}} />
                                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {joiningDateErrmsg}
                                   </label>
@@ -1615,14 +1616,14 @@ const Compliance = () => {
                       {totalErrormsg.trim() !== "" && (
                         <div>
                           <p className='text-center' style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                            {totalErrormsg !== " " && <MdError style={{ color: 'red' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {totalErrormsg}</span>
+                            {totalErrormsg !== " " && <MdError style={{ color: "red", marginRight: '5px', fontSize:14  }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {totalErrormsg}</span>
                           </p>
                         </div>
                       )}
 
                       {state.createAccount?.networkError ?
                         <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px' }} />
+                          <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
                           <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                         </div>
                         : null}

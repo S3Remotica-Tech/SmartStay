@@ -186,7 +186,7 @@ const ComplianceList = (props) => {
     if (isValueEmpty) {
       switch (fieldName) {
         case "comments":
-          setCommentError("Comments is Required");
+          setCommentError("Please Enter Comments");
           break;
 
         default:
@@ -1068,11 +1068,9 @@ const ComplianceList = (props) => {
                     }}
                     className="m-0 p-0"
                   >
-                    <Modal.Body>
-                      <div>
-                        <Modal.Header
+                      <Modal.Header
                           style={{
-                            marginBottom: "30px",
+                            marginBottom: "10px",
                             position: "relative",
                             display: "flex",
                             marginleft: "-15px"
@@ -1125,6 +1123,9 @@ const ComplianceList = (props) => {
                           <CloseCircle size="24" color="#000" onClick={handleCloseIconClick}
                             style={{ cursor: 'pointer' }} />
                         </Modal.Header>
+                    <Modal.Body>
+                      <div>
+                      
                       </div>
                       <div
                         style={{
@@ -1248,7 +1249,7 @@ const ComplianceList = (props) => {
                         )}
 
                       </div>
-                    </Modal.Body>
+                   
 
                     {commentsLoading && <div
                       style={{
@@ -1279,30 +1280,16 @@ const ComplianceList = (props) => {
 
 
 
-                    {commentError && (
-                      <div style={{ color: "red", textAlign: "center" }}>
-                        <MdError />
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {commentError}
-                        </span>
+                  
+
+                    {state.createAccount?.networkError ?
+                      <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                        <MdError style={{ color: "red", marginRight: '5px' }} />
+                        <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                       </div>
-                    )}
+                      : null}
 
-  {state.createAccount?.networkError ?
-                        <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px' }} />
-                          <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                        </div>
-                        : null}
-
-                    <Modal.Footer style={{ border: "none" }}>
+                    <Modal.Footer style={{ border: "none" }} className="p-0">
                       <div
                         style={{
                           marginTop: 15,
@@ -1357,9 +1344,26 @@ const ComplianceList = (props) => {
 
                           />
                         </div>
-
+  
                       </div>
+                     
                     </Modal.Footer>
+                     {commentError && (
+                      <div className="ms-3 mt-0 mb-3" style={{ color: "red", textAlign: "start" }}>
+                        <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            color: "red",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {commentError}
+                        </span>
+                      </div>
+                    )}
+                     </Modal.Body>
                   </Modal.Dialog>
                 </Modal>
 
@@ -1405,7 +1409,7 @@ const ComplianceList = (props) => {
 
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <Form.Group
-                            className="mb-4"
+                            className="mb-3"
                             controlId="exampleForm.ControlInput5"
                           >
                             <Form.Label className="mb-2"
@@ -1418,7 +1422,7 @@ const ComplianceList = (props) => {
                                 lineHeight: "normal",
                               }}
                             >
-                              Change Status{" "}
+                              Change Status {" "}
                               <span style={{ color: "red", fontSize: "20px" }}>
                                 *
                               </span>
@@ -1492,9 +1496,9 @@ const ComplianceList = (props) => {
                           </Form.Group>
 
                           {statusError.trim() !== "" && (
-                            <div style={{ marginTop: "20px" }}>
-                              <p className='text-center' style={{ fontSize: '15px', color: 'red' }}>
-                                {statusError !== " " && <MdError style={{ color: 'red', marginBottom: "2px" }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusError}</span>
+                            <div style={{ marginTop: "10px" }}>
+                              <p className='text-center' style={{ fontSize: '12px', color: 'red' }}>
+                                {statusError !== " " && <MdError style={{ color: 'red', marginBottom: "2px", fontSize: '14px' }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusError}</span>
                               </p>
                             </div>
                           )}
@@ -1573,38 +1577,38 @@ const ComplianceList = (props) => {
                     }}
                     className="m-0 p-0"
                   >
-                    <Modal.Body>
-                      <div>
-                        <Modal.Header
-                          style={{ position: "relative", paddingTop: 2, paddingRight: 1 }}
-                        >
-                          <div
-                            style={{
-                              fontSize: 20,
-                              fontWeight: 600,
-                              fontFamily: "Gilroy",
-                              marginLeft: "-13px",
-                              marginTop: 5
-                            }}
-                          >
-                            Assign Complaint
-                          </div>
+                    <Modal.Header
+                      style={{ position: "relative" }}
+                    >
+                      <div
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 600,
+                          fontFamily: "Gilroy",
 
-                          <CloseCircle size="24" color="#000" onClick={handleCloseAssign}
-                            style={{ cursor: 'pointer' }} />
-
-
-                        </Modal.Header>
+                        }}
+                      >
+                        Assign Complaint
                       </div>
 
-                      <div className="row mt-1" style={{ paddingTop: 2 }}>
+                      <CloseCircle size="24" color="#000" onClick={handleCloseAssign}
+                        style={{ cursor: 'pointer' }} />
+
+
+                    </Modal.Header>
+                    <Modal.Body className="pb-1">
+                      <div>
+
+                      </div>
+
+                      <div className="row">
 
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <Form.Group
-
+className="mb-2"
                             controlId="exampleForm.ControlInput5"
                           >
-                            <Form.Label className="mb-2"
+                            <Form.Label 
                               style={{
                                 fontSize: 14,
                                 color: "#222",
@@ -1614,7 +1618,7 @@ const ComplianceList = (props) => {
                                 lineHeight: "normal",
                               }}
                             >
-                              Assign Complaint{" "}
+                              Assign Complaint {" "}
                               <span style={{ color: "red", fontSize: "20px" }}>
                                 *
                               </span>
@@ -1696,8 +1700,8 @@ const ComplianceList = (props) => {
                             {statusErrorType.trim() !== "" && (
                               <div >
 
-                                <p className='text-start' style={{ fontSize: '14px', color: 'red', marginTop: '7px', fontFamily: "Gilroy", fontWeight: 500 }}>
-                                  {statusErrorType !== " " && <MdError style={{ color: 'red', marginBottom: 1 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
+                                <p className='text-start' style={{ fontSize: '12px', color: 'red', marginTop: '7px', fontFamily: "Gilroy", fontWeight: 500 }}>
+                                  {statusErrorType !== " " && <MdError style={{ color: 'red', marginBottom: 1 , fontSize:14}} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {statusErrorType}</span>
 
                                 </p>
                               </div>

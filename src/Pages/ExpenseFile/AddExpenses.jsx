@@ -59,7 +59,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
       type: "EXPENCES-CATEGORY-LIST",
       payload: { hostel_id: state.login.selectedHostel_Id },
     });
-   dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id  } })
+    dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } })
   }, []);
 
   useEffect(() => {
@@ -121,7 +121,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
   }, [currentItem]);
 
 
-  
+
 
 
 
@@ -230,8 +230,8 @@ function StaticExample({ show, currentItem, setShowModal }) {
       hasError = true;
     }
 
-     if (selectedDate ) {
-      const selectedHostel =   state?.UsersList?.hotelDetailsinPg[0]
+    if (selectedDate) {
+      const selectedHostel = state?.UsersList?.hotelDetailsinPg[0]
       if (selectedHostel) {
         const HostelCreateDate = new Date(selectedHostel.create_At);
         const ExpenseDate = new Date(selectedDate);
@@ -240,7 +240,7 @@ function StaticExample({ show, currentItem, setShowModal }) {
         if (ExpenseDateOnly < HostelCreateDateOnly) {
           setJoingDateErrmsg('Before Hostel Create date not allowed');
           hasError = true;
-      
+
         } else {
           setJoingDateErrmsg('');
         }
@@ -330,10 +330,10 @@ function StaticExample({ show, currentItem, setShowModal }) {
 
   }
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
     }
@@ -349,10 +349,10 @@ useEffect(() => {
         fontFamily: "Gilroy",
       }}
     >
-      <Modal show={show} onHide={handleClose} dialogClassName="custom-modal" backdrop="static" >
+      <Modal show={show} onHide={handleClose} dialogClassName="custom-modals-style" backdrop="static" >
         <Modal.Dialog
-                   className="m-0 p-0"
-                   style={{ minWidth: "550px", margin: "0 0px" }}
+          className="m-0 p-0"
+          style={{ margin: "0 0px" }}
         >
           <Modal.Header>
             <Modal.Title
@@ -372,8 +372,8 @@ useEffect(() => {
 
 
           {generalError && (
-            <div className="d-flex align-items-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+            <div className="d-flex align-items-center p-1 mb-2 mt-2 ms-2">
+              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
               <label
                 className="mb-0"
                 style={{
@@ -388,16 +388,16 @@ useEffect(() => {
             </div>
           )}
 
-          <Modal.Body style={{ maxHeight: "380px",overflowY: "scroll", padding: 20 }} className="show-scroll pt-1 mt-2 me-1">
-            <div className="row" style={{  }}>
+          <Modal.Body style={{ maxHeight: "380px", overflowY: "scroll", padding: 20 }} className="show-scroll pt-1 mt-2 me-1">
+            <div className="row" style={{}}>
 
               {state.Settings.Expences.data &&
                 state.Settings.Expences.data.length === 0 && (
 
                   <div className="d-flex align-items-center mb-2">
-                    <MdError style={{ color: "red", marginRight: "6px", fontSize: "16px", marginBottom: "26px" }} />
+                    <MdError style={{ color: "red", marginRight: "6px", fontSize: "16px", }} />
                     <label
-                      className="pb-1 mb-0"
+                      className=" mb-0"
                       style={{
                         fontSize: 14,
                         color: "red",
@@ -405,7 +405,7 @@ useEffect(() => {
                         fontWeight: 500,
                       }}
                     >
-                      Please add a Category option in Settings, accessible after adding an expenses.
+                      Please add a Category option in Settings, accessible after adding an expenses
                     </label>
                   </div>
 
@@ -423,7 +423,7 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Category{" "}
+                    Category {" "}
                     <span style={{ color: "#FF0000", display: "inline-block", fontSize: "20px" }}>
                       *
                     </span>
@@ -507,7 +507,7 @@ useEffect(() => {
                 </Form.Group>
                 {categoryError && (
                   <div className="d-flex align-items-center p-1">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", }} />
                     <label
                       className="mb-0"
                       style={{
@@ -535,7 +535,7 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Purchase Date{" "}
+                    Purchase Date {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
 
@@ -555,13 +555,13 @@ useEffect(() => {
                         setSelectedDate(date ? date.toDate() : null);
                       }}
                       getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
-                       
+
                     />
                   </div>
                 </Form.Group>
                 {dateError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", }} />
                     <label
                       className="mb-0"
                       style={{
@@ -576,14 +576,14 @@ useEffect(() => {
                   </div>
                 )}
 
-                  {joiningDateErrmsg.trim() !== "" && (
-                                                                  <div className="d-flex align-items-center">
-                                                                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
-                                                                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
-                                                                      {joiningDateErrmsg}
-                                                                    </label>
-                                                                  </div>
-                                                                )}
+                {joiningDateErrmsg.trim() !== "" && (
+                  <div className="d-flex align-items-center">
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", }} />
+                    <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                      {joiningDateErrmsg}
+                    </label>
+                  </div>
+                )}
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -599,7 +599,7 @@ useEffect(() => {
                       marginTop: "5px",
                     }}
                   >
-                    Unit Count{" "}
+                    Unit Count {" "}
                     <span
                       style={{
                         color: "#FF0000",
@@ -629,7 +629,7 @@ useEffect(() => {
                 </Form.Group>
                 {countError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                     <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px",  }} />
                     <label
                       className="mb-0"
                       style={{
@@ -657,7 +657,7 @@ useEffect(() => {
                       marginTop: "5px",
                     }}
                   >
-                    Per Unit Amount{" "}
+                    Per Unit Amount {" "}
                     <span
                       style={{
                         color: "#FF0000",
@@ -686,7 +686,7 @@ useEffect(() => {
                 </Form.Group>
                 {priceError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                     <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px",  }} />
                     <label
                       className="mb-0"
                       style={{
@@ -739,7 +739,7 @@ useEffect(() => {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-1"
+                  
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -751,7 +751,7 @@ useEffect(() => {
                       marginTop: "5px",
                     }}
                   >
-                    Mode Of Transaction{" "}
+                    Mode Of Transaction {" "}
                     <span
                       style={{
                         color: "#FF0000",
@@ -812,7 +812,7 @@ useEffect(() => {
                     styles={{
                       control: (base) => ({
                         ...base,
-                        fontSize: 14,
+                        fontSize: 16,
                         color: "rgba(75, 75, 75, 1)",
                         fontFamily: "Gilroy",
                         fontWeight: modeOfPayment ? 600 : 500,
@@ -863,7 +863,7 @@ useEffect(() => {
                 </Form.Group>
                 {paymentError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px",  }} />
                     <label
                       className="mb-0"
                       style={{
@@ -883,7 +883,7 @@ useEffect(() => {
 
               <div className="col-lg-12 col-md-12  col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-2"
+                 
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -917,12 +917,12 @@ useEffect(() => {
             </div>
           </Modal.Body>
 
-{state.createAccount?.networkError ? 
-          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                  <MdError style={{ color: "red", marginRight: '5px' }} />
-                                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                                </div>
-                                  : null}
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+              <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
 
           {formLoading &&
             <div
@@ -958,12 +958,12 @@ useEffect(() => {
 
           {currentItem && isChangedError && (
             <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+               <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px"  }} />
               <label
                 className="mb-0"
                 style={{
                   color: "red",
-                  fontSize: "13px",
+                  fontSize: "12px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
                 }}
@@ -976,12 +976,12 @@ useEffect(() => {
 
           {netPaymentError && (
             <div className="d-flex align-items-center justify-content-center p-1 mb-2 mt-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px"  }} />
               <label
                 className="mb-0"
                 style={{
                   color: "red",
-                  fontSize: "13px",
+                  fontSize: "12px",
                   fontFamily: "Gilroy",
                   fontWeight: 500,
                 }}

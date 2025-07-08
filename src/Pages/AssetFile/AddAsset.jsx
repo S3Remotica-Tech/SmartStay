@@ -530,8 +530,8 @@ useEffect(() => {
 
 
             {state.AssetList?.alreadyAssetNameHere && (
-              <div className="d-flex align-items-center p-1">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+              <div className="d-flex align-items-center p-1 ms-1">
+                <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                 <label
                   className="mb-0"
                   style={{
@@ -541,15 +541,15 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  {state.AssetList?.alreadyAssetNameHere}
+                   {state.AssetList?.alreadyAssetNameHere} 
                 </label>
               </div>
-            )}
+             )} 
 
             {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
               state.bankingDetails.bankingList.banks.length === 0 && (
                <div className="d-flex align-items-center pt-2 ps-2">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                 <label
                   className="mb-0"
                   style={{
@@ -605,7 +605,7 @@ useEffect(() => {
 
                   {assetError && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -655,7 +655,7 @@ useEffect(() => {
 
                   {productNameError && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "6px", fontSize: "13px", marginBottom: "1px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -684,7 +684,7 @@ useEffect(() => {
                         marginTop: 10
                       }}
                     >
-                      Vendor Name
+                      Vendor Name 
                     </Form.Label>
 
 
@@ -834,7 +834,7 @@ useEffect(() => {
 
                   {serialNumberError && (
                     <div className="d-flex align-items-center ">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -851,7 +851,7 @@ useEffect(() => {
 
                   {serial_number_duplicate_Error && (
                     <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -908,7 +908,7 @@ useEffect(() => {
                   </Form.Group>
                   {selectedDateError && (
                     <div className="d-flex align-items-center p-1">
-                      <MdError style={{ color: "red", marginRight: "5px", marginBottom: "2px", fontSize: "13px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -925,7 +925,7 @@ useEffect(() => {
 
                   {joiningDateErrmsg.trim() !== "" && (
                     <div className="d-flex align-items-center">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                         {joiningDateErrmsg}
                       </label>
@@ -968,7 +968,7 @@ useEffect(() => {
                   </Form.Group>
                   {priceError && (
                     <div className="d-flex align-items-center ">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1078,7 +1078,7 @@ useEffect(() => {
                   </Form.Group>
                   {paymentError && (
                     <div className="d-flex align-items-center p-1 mb-2"  style={{marginTop: isSelectOpen ? 25 : 0,}}>
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1095,7 +1095,7 @@ useEffect(() => {
 
                   {bankingError && (
                     <div className="d-flex align-items-center p-1" >
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 13 }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1116,12 +1116,12 @@ useEffect(() => {
             </Modal.Body>
             {isChangedError && (
               <div ref={nochangeRef} className="d-flex align-items-center justify-content-center mt-4">
-                <MdError style={{ color: "red", marginRight: "5px", fontSize: 14, marginBottom: "2px" }} />
+                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                 <label
                   className="mb-0"
                   style={{
                     color: "red",
-                    fontSize: "13px",
+                    fontSize: "12px",
                     fontFamily: "Gilroy",
                     fontWeight: 500,
                   }}
@@ -1160,7 +1160,7 @@ useEffect(() => {
             }
             {state.createAccount?.networkError ? 
                       <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                                              <MdError style={{ color: "red", marginRight: '5px' }} />
+                                              <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                                               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                                             </div>
                                               : null}

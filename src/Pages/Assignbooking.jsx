@@ -77,22 +77,22 @@ function AssignBooking(props) {
     ) {
       switch (fieldName) {
         case "floor":
-          setfloorError("Floor is Required");
+          setfloorError("Please Select Floor");
           break;
         case "room":
-          setRoomError("Room is Required");
+          setRoomError("Please Select Room");
           break;
         case "bed":
-          setBedError("Bed is Required");
+          setBedError("Please Select Bed");
           break;
         case "joiningDate":
-          setDateError("Joining Date is Required");
+          setDateError("Please Select Joining Date");
           break;
         case "advanceAmount":
-          setAdavanceError("Advance Amount is Required");
+          setAdavanceError("Please Enter Advance Amount");
           break;
         case "rentAmount":
-          setRentError("Rent Amount is Required");
+          setRentError("Please Enter Rent Amount");
           break;
 
         default:
@@ -367,7 +367,7 @@ useEffect(() => {
 
         {state.Booking?.ErrorAssignBooking && (
           <div style={{ color: "#D32F2F" }} className="ps-3 pt-3">
-            <MdError />
+            <MdError  style={{fontSize:14 , color:"red"}}/>
             <span
               style={{
                 color: "#D32F2F",
@@ -397,7 +397,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Floor
+                  Floor {" "}
                   <span
                     style={{
                       color: "red",
@@ -493,13 +493,13 @@ useEffect(() => {
                   <MdError
                     style={{
                       marginRight: "5px",
-                      fontSize: 13,
+                      fontSize: 14,
                       marginBottom: "2px",
                     }}
                   />
                   <span
                     style={{
-                      fontSize: 13,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -520,7 +520,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Room
+                  Room {" "}
                   <span
                     style={{
                       color: "red",
@@ -611,14 +611,14 @@ useEffect(() => {
                   <MdError
                     style={{
                       marginRight: "5px",
-                      fontSize: 13,
+                      fontSize: 14,
                       marginBottom: "2px",
                     }}
                   />
                   <span
                     style={{
                       color: "red",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -639,7 +639,7 @@ useEffect(() => {
                   fontFamily: "Gilroy",
                 }}
               >
-                Bed <span style={{ color: "red", fontSize: "20px" }}> * </span>
+                Bed  {" "} <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
 
               <Select
@@ -722,7 +722,7 @@ useEffect(() => {
                   <MdError
                     style={{
                       color: "red",
-                      fontSize: 13,
+                      fontSize: 14,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                       marginRight: "5px",
@@ -732,7 +732,7 @@ useEffect(() => {
                     className="mb-0"
                     style={{
                       color: "red",
-                      fontSize: "13px",
+                      fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -753,7 +753,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Joining Date{" "}
+                  Joining Date {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
 
@@ -781,14 +781,14 @@ useEffect(() => {
                   <MdError
                     style={{
                       marginRight: "5px",
-                      fontSize: 13,
+                      fontSize: 14,
                       marginBottom: "1px",
                     }}
                   />
                   <span
                     style={{
                       color: "red",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -810,7 +810,7 @@ useEffect(() => {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  Advance Amount{" "}
+                  Advance Amount {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
@@ -833,7 +833,7 @@ useEffect(() => {
               </Form.Group>
               {advanceError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginBottom: "3px" }} />
+                  <MdError style={{ marginBottom: "3px", fontSize:14 }} />
                   <span
                     style={{
                       color: "red",
@@ -856,7 +856,7 @@ useEffect(() => {
                     fontFamily: "Gilroy",
                   }}
                 >
-                  Rent Amount{" "}
+                  Rent Amount {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
 
@@ -892,11 +892,11 @@ useEffect(() => {
               </Form.Group>
               {rentError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ marginRight: "5px", fontSize: 13 }} />
+                  <MdError style={{ marginRight: "5px", fontSize: 14 }} />
                   <span
                     style={{
                       color: "red",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -913,7 +913,7 @@ useEffect(() => {
 
   {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <MdError style={{ color: "red", marginRight: '5px' , fontSize:14 }} />
               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
             </div>
             : null}
