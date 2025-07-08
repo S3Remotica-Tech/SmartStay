@@ -165,9 +165,9 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     setPhone(input);
 
     if (input.length === 0) {
-      setPhoneError("Phone Number is Required");
+      setPhoneError("Please Enter Mobile No");
     } else if (input.length < 10) {
-      setPhoneError("Invalid Mobile Number");
+      setPhoneError("Please Enter Valid Mobile No");
     } else {
       setPhoneError("");
     }
@@ -187,7 +187,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       setEmailError("");
     }
     else if (!isValidEmail) {
-      setEmailError("Invalid Email ID");
+      setEmailError("Please Enter Valid Email ID");
     } else {
       setEmailError("");
     }
@@ -277,8 +277,6 @@ function AddCustomer({ show, handleClosing, currentItem }) {
       return view.id === Hostel_Id;
     });
 
-
-
     if (!firstname) {
       setFirstNameError("Please Enter First Name");
       hasError = true;
@@ -286,14 +284,12 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
 
 
-
-
     if (!phone) {
       setPhoneError("Please Enter Phone Number");
       hasError = true;
       if (!firstInvalidRef) firstInvalidRef = phoneRef;
     } else if (phone.length < 10) {
-      setPhoneError("Phone Enter Valid Mobile No");
+      setPhoneError("Please Enter Valid Mobile No");
       hasError = true;
       if (!firstInvalidRef) firstInvalidRef = phoneRef;
     } else {
@@ -336,7 +332,7 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
 
     if (!RoomRent) {
-      setRoomRentError("Please Enter a Valid Rental Amount");
+      setRoomRentError("Please Enter  Valid Rental Amount");
       hasError = true;
       if (!firstInvalidRef) firstInvalidRef = roomRentRef;
     }
@@ -362,12 +358,12 @@ function AddCustomer({ show, handleClosing, currentItem }) {
     }
 
     if (isNaN(AdvanceAmount) || AdvanceAmount <= 0) {
-      setAdvanceAmountError("Please enter a Valid Advance Amount");
+      setAdvanceAmountError("Please Enter  Valid Advance Amount");
       return;
     }
 
     if (isNaN(RoomRent) || RoomRent <= 0) {
-      setRoomRentError("Please enter a valid Rental Amount");
+      setRoomRentError("Please Enter  Valid Rental Amount");
       return;
     }
 
@@ -454,22 +450,30 @@ function AddCustomer({ show, handleClosing, currentItem }) {
 
   }, [state.UsersList.phoneError, state.UsersList.emailError])
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
-           setTimeout(() => {
+      setTimeout(() => {
         dispatch({ type: 'CLEAR_NETWORK_ERROR' })
       }, 3000)
     }
 
   }, [state.createAccount?.networkError])
   return (
-    <div>
-      <Modal show={show} onHide={handleClosing} centered backdrop="static">
+    <div
+      className="modal show"
+      style={{
+        display: "block",
+        position: "initial",
+        fontFamily: "Gilroy,sans-serif",
+      }}
+    >
+      <Modal show={show} onHide={handleClosing} centered backdrop="static" dialogClassName="custom-modals-style" >
+
         <Modal.Dialog
           style={{
-            maxWidth: 950,
-            paddingRight: "10px",
+             minWidth: 550,
+           
             borderRadius: "30px",
           }}
           className="m-0 p-0"
@@ -566,7 +570,7 @@ useEffect(() => {
 
                   {state.UsersList.phoneError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                      <MdError style={{ color: "red", marginRight: 5, fontSize: "14px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -582,7 +586,7 @@ useEffect(() => {
                   )}
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group>
+                    <Form.Group className="mb-0">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -617,7 +621,7 @@ useEffect(() => {
                     </Form.Group>
                     {firstNameError && (
                       <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                        <MdError style={{ color: "red", marginRight: 5, fontSize: "14px" }} />
                         <label
                           className="mb-6"
                           style={{
@@ -634,7 +638,7 @@ useEffect(() => {
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-0">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -732,7 +736,7 @@ useEffect(() => {
 
                     {phoneError && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginTop: "-12px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginTop: "-12px" }} />
                         <label
                           className=""
                           style={{
@@ -788,7 +792,7 @@ useEffect(() => {
 
                     {emailError && (
                       <div className="d-flex align-items-center p-1" style={{ marginTop: "-15px" }}>
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -804,7 +808,7 @@ useEffect(() => {
                     )}
                     {state.UsersList.emailError && (
                       <div className="d-flex align-items-center p-1">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -817,13 +821,13 @@ useEffect(() => {
                           {state.UsersList.emailError}
                         </label>
                       </div>
-                    )}
+                     )}
                   </div>
 
 
 
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                    <Form.Group className="">
+                    <Form.Group className="mb-1">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -854,14 +858,14 @@ useEffect(() => {
                     </Form.Group>
                     {house_noError && (
                       <div style={{ color: "red" }}>
-                        <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                        <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
                         <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
                       </div>
                     )}
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                    <Form.Group className="">
+                    <Form.Group className="mb-1">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -892,14 +896,14 @@ useEffect(() => {
                     </Form.Group>
                     {streetError && (
                       <div style={{ color: "red" }}>
-                        <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                        <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
                         <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
                       </div>
                     )}
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                    <Form.Group className="">
+                    <Form.Group className="mb-1">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -930,14 +934,14 @@ useEffect(() => {
                     </Form.Group>
                     {landmarkError && (
                       <div style={{ color: "red" }}>
-                        <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                        <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
                         <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
                       </div>
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <Form.Group
-                      className="mb-3"
+                     
                       controlId="exampleForm.ControlInput1"
                     >
                       <Form.Label
@@ -948,7 +952,7 @@ useEffect(() => {
                           fontWeight: 500,
                         }}
                       >
-                        Pincode
+                        Pincode{" "}
                         <span style={{ color: "red", fontSize: "20px" }}>*</span>
                       </Form.Label>
                       <Form.Control
@@ -973,7 +977,7 @@ useEffect(() => {
                       />
                       {pincodeError && (
                         <div className="d-flex align-items-center p-1 mb-2">
-                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                          <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
                           <label
                             className="mb-0"
                             style={{
@@ -993,7 +997,7 @@ useEffect(() => {
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                    <Form.Group className="">
+                    <Form.Group>
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -1026,14 +1030,14 @@ useEffect(() => {
                     </Form.Group>
                     {cityError && (
                       <div style={{ color: "red" }}>
-                        <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                        <MdError style={{ fontSize: '14px', marginRight: "5px" }} />
                         <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                       </div>
                     )}
                   </div>
 
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                    <Form.Group  controlId="exampleForm.ControlInput5">
                       <Form.Label
                         style={{
                           fontFamily: "Gilroy",
@@ -1044,7 +1048,7 @@ useEffect(() => {
                           lineHeight: "normal",
                         }}
                       >
-                        State
+                        State{" "}
                         <span style={{ color: "red", fontSize: "20px" }}> * </span>
                       </Form.Label>
 
@@ -1113,7 +1117,7 @@ useEffect(() => {
 
                     {state_nameError && (
                       <div style={{ color: "red" }}>
-                        <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                        <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                         <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                           {state_nameError}
                         </span>
@@ -1123,7 +1127,7 @@ useEffect(() => {
 
 
                   <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
-                    <Form.Group className="mb-1" controlId="purchaseDate">
+                    <Form.Group  controlId="purchaseDate">
                       <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
                         Joining Date <span style={{ color: 'red', fontSize: '20px' }}>*</span>
                       </Form.Label>
@@ -1161,7 +1165,7 @@ useEffect(() => {
 
                     {dateError && (
                       <div>
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -1182,7 +1186,7 @@ useEffect(() => {
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-1">
+                    <Form.Group >
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -1217,7 +1221,7 @@ useEffect(() => {
 
                     {advanceAmountError && (
                       <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -1233,7 +1237,7 @@ useEffect(() => {
                     )}
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-1">
+                    <Form.Group >
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -1267,7 +1271,7 @@ useEffect(() => {
                     </Form.Group>
                     {roomRentError && (
                       <div className="d-flex align-items-center p-1 mb-2">
-                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                        <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
                         <label
                           className="mb-0"
                           style={{
@@ -1289,11 +1293,11 @@ useEffect(() => {
             </div>
           </Modal.Body>
 
-{state.createAccount?.networkError ? <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-                                <MdError style={{ color: "red", marginRight: '5px' }} />
-                                <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-                              </div>
-                                : null}
+          {state.createAccount?.networkError ? <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+            <MdError style={{ color: "red", marginRight: '5px', fontPalette: 14 }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+            : null}
 
 
           {formLoading && <div
@@ -1339,7 +1343,7 @@ useEffect(() => {
             </Button>
           </Modal.Footer>
         </Modal.Dialog>
-      </Modal>
+          </Modal>
     </div>
   );
 }

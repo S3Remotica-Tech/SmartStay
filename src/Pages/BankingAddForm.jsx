@@ -27,6 +27,7 @@ function BankingAddForm(props) {
   const [ifcsCodeError, setIfcsCodeError] = useState("");
   const [hostel_id, setHostel_Id] = useState("")
   const [formLoading, setFormLoading] = useState(false)
+  const [isChangedError, setIsChangedError] = useState("")
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id)
@@ -42,6 +43,7 @@ function BankingAddForm(props) {
     }
     setAccountName(value);
     setError("")
+    setIsChangedError("")
     setaccountnameError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
   };
@@ -53,6 +55,7 @@ function BankingAddForm(props) {
     }
     setAccountNo(value);
     setError("")
+    setIsChangedError("")
     setaccountNumberError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
   };
@@ -64,18 +67,21 @@ function BankingAddForm(props) {
     }
     setBankName(value);
     setError("")
+    setIsChangedError("")
     setBankNameError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
   };
   const handleIfscCode = (e) => {
     setIfscCode(e.target.value);
     setError("")
+    setIsChangedError("")
     setIfcsCodeError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
   };
   const handleDescription = (e) => {
     setDescription(e.target.value);
     setError("")
+    setIsChangedError("")
     dispatch({ type: 'REMOVE_ERROR_BOOKING' })
   };
   const [upiId, setUpiId] = useState("")
@@ -145,6 +151,7 @@ function BankingAddForm(props) {
     setIfscCode("")
     setDescription("")
     setError("")
+    setIsChangedError("")
     setaccountNumberError("")
     setaccountnameError("")
     setIfcsCodeError("")
@@ -174,11 +181,11 @@ function BankingAddForm(props) {
         description !== initialStateAssign.description;
 
       if (!isChanged) {
-        setError("No Changes Detected");
+         setIsChangedError("No Changes Detected");
         return;
       }
       else {
-        setError("");
+         setIsChangedError("");
       }
 
     }
@@ -218,11 +225,11 @@ function BankingAddForm(props) {
         description !== initialStateAssign.description;
 
       if (!isChanged) {
-        setError("No Changes Detected");
+        setIsChangedError("No Changes Detected");
         return;
       }
       else {
-        setError("");
+         setIsChangedError("");
       }
 
     }
@@ -245,6 +252,7 @@ function BankingAddForm(props) {
   const handleCardNo = (e) => {
     setCardNo(e.target.value)
     setError("")
+    setIsChangedError("")
   }
 
   const [cardType, setCardType] = useState("")
@@ -269,11 +277,11 @@ function BankingAddForm(props) {
         description !== initialStateAssign.description;
 
       if (!isChanged) {
-        setError("No Changes Detected");
+         setIsChangedError("No Changes Detected");
         return;
       }
       else {
-        setError("");
+         setIsChangedError("");
       }
 
     }
@@ -303,11 +311,11 @@ function BankingAddForm(props) {
         description !== initialStateAssign.description;
 
       if (!isChanged) {
-        setError("No Changes Detected");
+         setIsChangedError("No Changes Detected");
         return;
       }
       else {
-        setError("");
+         setIsChangedError("");
       }
 
     }
@@ -401,6 +409,7 @@ function BankingAddForm(props) {
           onSelect={(selectedKey) => {
             setActiveTab(selectedKey);
             setError("");
+            setIsChangedError("")
           }}
 
           className="justify-content-start ms-2 me-2"
@@ -442,7 +451,7 @@ function BankingAddForm(props) {
 
 
 
-        <Modal.Body>
+        <Modal.Body className="pb-0">
           {activeTab === "bank" && (
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -455,7 +464,7 @@ function BankingAddForm(props) {
                       fontWeight: 500,
                     }}
                   >
-                    Benificiary Name{" "}
+                    Benificiary Name {" "}
                     <span
                       style={{
                         color: "red",
@@ -489,6 +498,12 @@ function BankingAddForm(props) {
                   <div style={{ color: "red" }}>
                     <MdError style={{ fontSize: "14", marginRight: "5px" }} />
                     <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
+                  </div>
+                )}
+                {error && (
+                  <div style={{ color: "red", paddingBottom: "8px" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
                   </div>
                 )}
               </div>
@@ -529,6 +544,7 @@ function BankingAddForm(props) {
                     <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{bankNameError}</span>
                   </div>
                 )}
+
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -642,21 +658,21 @@ function BankingAddForm(props) {
                 </Form.Group>
 
               </div>
-              {error && (
-                <div style={{ color: "red", textAlign: "center", paddingBottom: "8px" }}>
-                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
+
+   {isChangedError && (
+                  <div className='d-flex  align-items-center justify-content-center mt-4 mb-2' style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
+                  </div>
+                )}
+
+              {state.createAccount?.networkError ?
+                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                 </div>
-              )}
+                : null}
 
-
-  {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
-              
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -675,7 +691,7 @@ function BankingAddForm(props) {
                 </Button>
               </Modal.Footer>
             </div>
-            
+
           )}
           {activeTab === "upi" && (
             <div className="row">
@@ -723,6 +739,12 @@ function BankingAddForm(props) {
                   <div style={{ color: "red" }}>
                     <MdError style={{ fontSize: "14", marginRight: "5px" }} />
                     <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
+                  </div>
+                )}
+                {error && (
+                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
                   </div>
                 )}
               </div>
@@ -793,20 +815,20 @@ function BankingAddForm(props) {
                 </Form.Group>
 
               </div>
-              {error && (
-                <div className=" " style={{ color: "red", textAlign: "center", paddingBottom: "8px" }}>
-                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                </div>
-              )}
+{isChangedError && (
+                  <div style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
+                  </div>
+                )}
 
-{state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
-              
+              {state.createAccount?.networkError ?
+                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                </div>
+                : null}
+
 
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
@@ -877,104 +899,81 @@ function BankingAddForm(props) {
                     <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
                   </div>
                 )}
+                {error && (
+                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
+                  </div>
+                )}
               </div>
-            
-<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-  <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-    <Form.Label
-      style={{
-        fontSize: 14,
-        color: "#222222",
-        fontFamily: "Gilroy",
-        fontWeight: 500,
-        paddingTop:7
-      }}
-    >
-      Card Type
-    </Form.Label>
-    <Select
-      options={[
-        { value: "credit", label: "Credit" },
-        { value: "debit", label: "Debit" },
-      ]}
-      value={[
-        { value: "credit", label: "Credit" },
-        { value: "debit", label: "Debit" },
-      ].find((option) => option.value === cardType)}
-      onChange={(selectedOption) => {
-        setCardType(selectedOption?.value || "");
-        setError("");
-      }}
-      placeholder="Select a Card Type"
-      // styles={{
-      //   control: (base) => ({
-      //     ...base,
-      //     fontSize: 16,
-      //     fontFamily: "Gilroy",
-      //     fontWeight: 500,
-      //     color: "rgba(75, 75, 75, 1)",
-      //     cursor: "pointer",
-      //     height:50,
-      //     borderRadius:8,
-          
-          
-          
 
-      //   }),
-      //     dropdownIndicator: (base) => ({
-      //                         ...base,
-      //                         color: "#555",
-      //                         display: "inline-block",
-      //                         fill: "currentColor",
-      //                         lineHeight: 1,
-      //                         stroke: "currentColor",
-      //                         strokeWidth: 0,
-      //                         cursor: "pointer",
-      //                       }),
-      //                         option: (base, state) => ({
-      //                         ...base,
-      //                         cursor: "pointer",
-      //                         backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-      //                         color: "#000",
-      //                       }),
-      // }}
-      styles={{
-  control: (base, state) => ({
-    ...base,
-    fontSize: 16,
-    fontFamily: "Gilroy",
-    fontWeight: 500,
-    color: "rgba(75, 75, 75, 1)",
-    cursor: "pointer",
-    height: 50,
-    borderRadius: 8,
-    borderColor: state.isFocused ? "#E8E8E8" : "#E8E8E8", // Light gray border always
-    boxShadow: "none", // Remove blue glow
-    "&:hover": {
-      borderColor: "#C0C0C0" // Optional: slightly darker on hover
-    }
-  }),
-  dropdownIndicator: (base) => ({
-    ...base,
-    color: "#555",
-    display: "inline-block",
-    fill: "currentColor",
-    lineHeight: 1,
-    stroke: "currentColor",
-    strokeWidth: 0,
-    cursor: "pointer",
-  }),
-  option: (base, state) => ({
-    ...base,
-    cursor: "pointer",
-    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-    color: "#000",
-  }),
-}}
+              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+                  <Form.Label
+                    style={{
+                      fontSize: 14,
+                      color: "#222222",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                      paddingTop: 7
+                    }}
+                  >
+                    Card Type
+                  </Form.Label>
+                  <Select
+                    options={[
+                      { value: "credit", label: "Credit" },
+                      { value: "debit", label: "Debit" },
+                    ]}
+                    value={[
+                      { value: "credit", label: "Credit" },
+                      { value: "debit", label: "Debit" },
+                    ].find((option) => option.value === cardType)}
+                    onChange={(selectedOption) => {
+                      setCardType(selectedOption?.value || "");
+                      setError("");
+                      setIsChangedError("")
+                    }}
+                    placeholder="Select a Card Type"
 
-    />
-  </Form.Group>
-</div>
+                    styles={{
+                      control: (base, state) => ({
+                        ...base,
+                        fontSize: 16,
+                        fontFamily: "Gilroy",
+                        fontWeight: 500,
+                        color: "rgba(75, 75, 75, 1)",
+                        cursor: "pointer",
+                        height: 50,
+                        borderRadius: 8,
+                        borderColor: state.isFocused ? "#E8E8E8" : "#E8E8E8",
+                        boxShadow: "none",
+                        "&:hover": {
+                          borderColor: "#C0C0C0"
+                        }
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        display: "inline-block",
+                        fill: "currentColor",
+                        lineHeight: 1,
+                        stroke: "currentColor",
+                        strokeWidth: 0,
+                        cursor: "pointer",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                        color: "#000",
+                         fontFamily: "Gilroy",
+                      }),
+                    }}
+
+                  />
+                </Form.Group>
+              </div>
 
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1045,20 +1044,20 @@ function BankingAddForm(props) {
                 </Form.Group>
 
               </div>
-              {error && (
-                <div className=" " style={{ color: "red", textAlign: "center", paddingBottom: "8px" }}>
-                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                </div>
-              )}
+{isChangedError && (
+                  <div style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
+                  </div>
+                )}
 
               {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
-              
+                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                </div>
+                : null}
+
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -1127,6 +1126,12 @@ function BankingAddForm(props) {
                     <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{accountNameError}</span>
                   </div>
                 )}
+                {error && (
+                  <div className=" " style={{ color: "red", paddingBottom: "8px" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
+                  </div>
+                )}
               </div>
 
 
@@ -1163,19 +1168,19 @@ function BankingAddForm(props) {
                 </Form.Group>
 
               </div>
-              {error && (
-                <div className=" " style={{ color: "red", textAlign: "center", paddingBottom: "8px" }}>
-                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                  <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{error}</span>
-                </div>
-              )}
+{isChangedError && (
+                  <div style={{ color: "red", paddingBottom: "8px", textAlign:"center" }}>
+                    <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
+                    <span style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{isChangedError}</span>
+                  </div>
+                )}
               {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
-              
+                <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
+                  <MdError style={{ color: "red", marginRight: '5px' }} />
+                  <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                </div>
+                : null}
+
               <Modal.Footer className="d-flex justify-content-center" style={{ borderTop: "none" }}>
                 <Button
                   className="col-lg-6 col-md-6 col-sm-12 col-xs-12"
@@ -1198,7 +1203,7 @@ function BankingAddForm(props) {
           )}
 
 
-  
+
 
 
 
@@ -1229,7 +1234,7 @@ function BankingAddForm(props) {
             }}
           ></div>
         </div>}
-      
+
 
       </Modal>
     </div>

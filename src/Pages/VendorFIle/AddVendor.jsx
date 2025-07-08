@@ -273,7 +273,7 @@ function AddVendor({ show, setShow, currentItem }) {
     if (input.length === 0) {
       setMobileError("");
     } else if (!/^\d{10}$/.test(numericInput)) {
-      setMobileError("Invalid Mobile Number");
+      setMobileError("Please Enter valid Mobile No");
     } else {
       setMobileError("");
     }
@@ -301,7 +301,7 @@ function AddVendor({ show, setShow, currentItem }) {
       if (isValidEmail) {
         setEmailError("");
       } else {
-        setEmailError("Invalid Email Id *");
+        setEmailError("Please Enter valid Email Id");
       }
     }
   };
@@ -375,7 +375,7 @@ function AddVendor({ show, setShow, currentItem }) {
     }
 
     if (emailInvalid) {
-      setEmailError("Enter Valid Email ID");
+      setEmailError("Please Enter valid Email Id");
       if (!focusedRef.current) {
         focusedRef.current = true;
       }
@@ -789,7 +789,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
             <div className="row mt-4">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group
+                <Form.Group  
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -823,7 +823,7 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
                 {firstNameError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                 <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -840,7 +840,8 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-3"
+                 
+                 
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -876,7 +877,8 @@ function AddVendor({ show, setShow, currentItem }) {
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
                 <Form.Group
-                  className="mb-3"
+                
+                
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -935,7 +937,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
                   {mobileError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -952,7 +954,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
                   {countryCodeError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                     <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -972,7 +974,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
                 {vendorPhoneError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -989,7 +991,8 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-3"
+                 
+                 
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -1022,7 +1025,7 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                   {emailError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px" }} />
+                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1040,7 +1043,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
                 {vendorEmailError && (
                   <div className="d-flex align-items-center p-1 mb-2">
-                    <MdError style={{ color: "red", marginRight: "5px" }} />
+                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <label
                       className="mb-0"
                       style={{
@@ -1057,7 +1060,9 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-3"
+                 
+                 
+
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -1090,7 +1095,7 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                   {businessNameError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1111,7 +1116,8 @@ function AddVendor({ show, setShow, currentItem }) {
 
 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-1">
-                <Form.Group className="">
+                <Form.Group 
+                >
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1142,14 +1148,15 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
                 {house_noError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
                   </div>
                 )}
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                <Form.Group className="">
+                <Form.Group 
+              >
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1180,14 +1187,14 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
                 {streetError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                  <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
                   </div>
                 )}
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                <Form.Group className="">
+                <Form.Group >
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1218,7 +1225,7 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
                 {landmarkError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
                   </div>
                 )}
@@ -1227,7 +1234,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-1">
-                <Form.Group className="">
+                <Form.Group>
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1236,7 +1243,7 @@ function AddVendor({ show, setShow, currentItem }) {
                       fontWeight: 500,
                     }}
                   >
-                    Town/City{" "}
+                    Town/City {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   </Form.Label>
                   <FormControl
@@ -1260,7 +1267,7 @@ function AddVendor({ show, setShow, currentItem }) {
                 </Form.Group>
                 {cityError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                   <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                   </div>
                 )}
@@ -1268,7 +1275,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className="mb-3"
+                 
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -1279,7 +1286,7 @@ function AddVendor({ show, setShow, currentItem }) {
                       fontWeight: 500,
                     }}
                   >
-                    Pincode
+                    Pincode {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
@@ -1304,7 +1311,7 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                   {pinCodeError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                     <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1324,7 +1331,7 @@ function AddVendor({ show, setShow, currentItem }) {
               </div>
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <Form.Group className="" controlId="exampleForm.ControlInput5">
+                <Form.Group  controlId="exampleForm.ControlInput5">
                   <Form.Label
                     style={{
                       fontFamily: "Gilroy",
@@ -1335,7 +1342,7 @@ function AddVendor({ show, setShow, currentItem }) {
                       lineHeight: "normal",
                     }}
                   >
-                    State    <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                    State {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
 
                   <Select
@@ -1412,7 +1419,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
                 {!state_name && state_nameError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: "13px", marginRight: "5px", marginBottom: "1px" }} />
+                    <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                     <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                       {state_nameError}
                     </span>
@@ -1424,7 +1431,7 @@ function AddVendor({ show, setShow, currentItem }) {
 
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Group
-                  className=""
+                  className="mb-0"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -1436,7 +1443,7 @@ function AddVendor({ show, setShow, currentItem }) {
                       marginBottom: '0px'
                     }}
                   >
-                    Country
+                    Country {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
@@ -1458,7 +1465,7 @@ function AddVendor({ show, setShow, currentItem }) {
                   />
                   {countryError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                     <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
                       <label
                         className="mb-0"
                         style={{
@@ -1507,7 +1514,7 @@ function AddVendor({ show, setShow, currentItem }) {
           </div>}
           {generalError && (
             <div className="d-flex align-items-center p-1 mb-2">
-              <MdError style={{ color: "red", marginRight: "5px" }} />
+              <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
               <label
                 className="mb-0"
                 style={{
@@ -1524,14 +1531,14 @@ function AddVendor({ show, setShow, currentItem }) {
 
           {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+             <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+              <label className="mb-0" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
             </div>
             : null}
           {isChangedError && (
             <div className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
-              <MdError style={{ fontSize: "13px", marginRight: "7px", marginBottom: "15px" }} />
-              <span style={{ fontSize: "14px", fontFamily: "Gilroy", marginBottom: "15px" }}>
+             <MdError style={{ color: "red", marginRight: "5px", fontSize: 14 }} />
+              <span style={{ fontSize: "13px", fontFamily: "Gilroy"}}>
                 {isChangedError}
               </span>
             </div>

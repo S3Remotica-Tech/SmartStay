@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingElectricity.css";
 
-const SettingElectricity = ({hostelid}) => {
+const SettingElectricity = ({ hostelid }) => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [isRecurring, setIsRecurring] = useState(false);
@@ -24,8 +24,8 @@ const SettingElectricity = ({hostelid}) => {
   const [recurringform, setRecurringForm] = useState(false);
   const [calculatedstartdate, setCalculatedstartdate] = useState(null);
   const [calculatedenddate, setCalculatedEnddate] = useState("");
-const [formLoading, setFormLoading] = useState(false)
-const [formRecurringLoading, setFormRecurringLoading] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
+  const [formRecurringLoading, setFormRecurringLoading] = useState(false)
 
   const [calculatedstartdateerrmsg, setCalculatedstartdateErrmsg] =
     useState("");
@@ -234,7 +234,7 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
     if (state.InvoiceList.settingsaddRecurringStatusCode === 200) {
       setCalculatedstartdate("");
       setCalculatedEnddate("");
- setFormRecurringLoading(false)
+      setFormRecurringLoading(false)
       dispatch({
         type: "EB-BILLING-UNIT-LIST",
         payload: { hostel_id: hostelid },
@@ -288,7 +288,7 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
   }, [state.Settings.EBBillingUnitlist]);
 
 
-   
+
   useEffect(() => {
     if (state.Settings?.getebStatuscode === 200) {
       setLoading(false);
@@ -324,7 +324,7 @@ const [formRecurringLoading, setFormRecurringLoading] = useState(false)
     setCalculatedEnddateErrMsg("");
   };
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -398,7 +398,7 @@ useEffect(() => {
           className="d-flex justify-content-center justify-content-md-end w-100  mt-md-0"
           style={{ marginTop: -10 }}
         >
-         
+
 
           {EbList.length > 0 ? (
             EbList.map((v, i) => (
@@ -480,7 +480,7 @@ useEffect(() => {
                           </label>
                         </div>
 
-         
+
                       </div>
                       <hr />
                       <Form>
@@ -505,7 +505,7 @@ useEffect(() => {
                             >
                               ₹ {v.amount}
                             </h6>
-                 
+
                           </Col>
 
                           <Col>
@@ -550,7 +550,7 @@ useEffect(() => {
                               onChange={() => {
                                 handleHostelBased(v);
                               }}
-                             
+
                             />
                           </Col>
                         </Row>
@@ -659,44 +659,44 @@ useEffect(() => {
             );
           })
           : !loading && (
-           
 
-             <div
-                                               className="d-flex align-items-center justify-content-center"
-                                               style={{
-                                                 width: "100%",
-                                                 margin: "0px auto",
-                                                 backgroundColor: "",
-                                                 marginTop: 120,
-                                                 justifyContent: "center", alignItems: "center"
-                                               }}
-                                             >
-                                               <div>
-                                                 <div className="d-flex  justify-content-center">
-                                                   <img
-                                                     src={EmptyState}
-                                                   
-                                                     alt="Empty state"
-                                                   />
-                                                 </div>
-                                                 <div
-                                                   className="pb-1 mt-3"
-                                                   style={{
-                                                     textAlign: "center",
-                                                     fontWeight: 600,
-                                                     fontFamily: "Gilroy",
-                                                     fontSize: 18,
-                                                     color: "rgba(75, 75, 75, 1)",
-                                                   }}
-                                                 >
-                                                   No Electricity available
-                                                 </div>
-                                               
-                       
-                                               </div>
-                                               <div></div>
-                                             </div>
-             
+
+            <div
+              className="d-flex align-items-center justify-content-center"
+              style={{
+                width: "100%",
+                margin: "0px auto",
+                backgroundColor: "",
+                marginTop: 120,
+                justifyContent: "center", alignItems: "center"
+              }}
+            >
+              <div>
+                <div className="d-flex  justify-content-center">
+                  <img
+                    src={EmptyState}
+
+                    alt="Empty state"
+                  />
+                </div>
+                <div
+                  className="pb-1 mt-3"
+                  style={{
+                    textAlign: "center",
+                    fontWeight: 600,
+                    fontFamily: "Gilroy",
+                    fontSize: 18,
+                    color: "rgba(75, 75, 75, 1)",
+                  }}
+                >
+                  No Electricity available
+                </div>
+
+
+              </div>
+              <div></div>
+            </div>
+
           )}
       </>
 
@@ -791,7 +791,7 @@ useEffect(() => {
                 />
               </Form.Group>
 
-              <div className="">
+              <div className=" d-flex align-items-center">
                 {amountErr && (
                   <p
                     style={{
@@ -804,7 +804,7 @@ useEffect(() => {
                     }}
                   >
                     <span style={{ fontSize: "20px" }}>
-                      <MdError style={{ fontSize: "14px" }} />
+                      <MdError style={{ fontSize: "14px", marginRight: 5 }} />
                     </span>
                     {amountErr}
                   </p>
@@ -815,7 +815,7 @@ useEffect(() => {
                   <p
                     style={{
                       color: "red",
-                      fontSize: 13,
+                      fontSize: 12,
                       textAlign: "center",
                       margin: 0,
                       fontFamily: "Gilroy",
@@ -823,7 +823,7 @@ useEffect(() => {
                     }}
                   >
                     <span style={{ fontSize: "20px" }}>
-                      <MdError style={{ fontSize: "14px", marginRight:"5px" }} />
+                      <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                     </span>
                     {totalErr}
                   </p>
@@ -833,14 +833,14 @@ useEffect(() => {
           </div>
         </Modal.Body>
 
-{state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+        {state.createAccount?.networkError ?
+          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+            <MdError style={{ color: "red", marginRight: '5px' }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+          : null}
 
-{formLoading && <div
+        {formLoading && <div
           style={{
             position: 'absolute',
             top: '50%',
@@ -869,7 +869,7 @@ useEffect(() => {
 
         <Modal.Footer
           className="d-flex justify-content-center"
-          style={{ borderTop: "none", marginBottom: "20px" }}
+          style={{ borderTop: "none", marginBottom: "" }}
         >
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
@@ -906,42 +906,41 @@ useEffect(() => {
             backdrop="static"
             dialogClassName="custom-modal"
           >
+            <Modal.Header
+              style={{ position: "relative" }}
+            >
+              <div
+                style={{
+                  fontSize: 20,
+                  fontWeight: 600,
+                  fontFamily: "Gilroy",
+                }}
+              >
+                Recurring Enable
+              </div>
+
+              <CloseCircle
+                size="24"
+                color="#000"
+                onClick={handleCloseRecurringForm}
+                style={{ cursor: "pointer" }}
+              />
+            </Modal.Header>
             <Modal.Dialog
               style={{
                 maxWidth: 950,
                 paddingRight: "10px",
-                borderRadius: "30px",
+
               }}
               className="m-0 p-0"
             >
-              <Modal.Body>
-                <div>
-                  <Modal.Header
-                    style={{ marginBottom: "30px", position: "relative" }}
-                  >
-                    <div
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 600,
-                        fontFamily: "Gilroy",
-                      }}
-                    >
-                      Recurring Enable
-                    </div>
+              <Modal.Body style={{ border: "none" }}>
 
-                    <CloseCircle
-                      size="24"
-                      color="#000"
-                      onClick={handleCloseRecurringForm}
-                      style={{ cursor: "pointer" }}
-                    />
-                  </Modal.Header>
-                </div>
 
                 <div className="row mt-1">
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">
+                      <label htmlFor="startDayDropdown" className="form-label" style={{ fontFamily: "Gilroy" }}>
                         EB Calculation Start Date Will Be
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
@@ -961,7 +960,13 @@ useEffect(() => {
                           control: (base) => ({
                             ...base,
                             height: "40px",
-                            border: "1px solid #ced4da",
+                            border: "1px solid #D9D9D9",
+                            borderRadius: "8px",
+                            fontSize: "16px",
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
                           }),
                           option: (provided, state) => ({
                             ...provided,
@@ -971,18 +976,21 @@ useEffect(() => {
                               : "white",
                             color: "#222",
                             cursor: "pointer",
+                            fontFamily: "Gilroy"
                           }),
                           menu: (base) => ({
                             ...base,
                             maxHeight: "120px",
                             overflowY: "auto",
                             scrollbarWidth: "thin",
+                            fontFamily: "Gilroy"
                           }),
                           menuList: (base) => ({
                             ...base,
                             maxHeight: "120px",
                             padding: 0,
                             scrollbarWidth: "thin",
+                            fontFamily: "Gilroy"
                           }),
                           valueContainer: (base) => ({
                             ...base,
@@ -1036,7 +1044,7 @@ useEffect(() => {
 
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">
+                      <label htmlFor="startDayDropdown" className="form-label" style={{ fontFamily: "Gilroy" }}>
                         EB Calculation End Date Will Be
                         <span style={{ color: "red", fontSize: "20px" }}>
                           {" "}
@@ -1059,7 +1067,13 @@ useEffect(() => {
                           control: (base) => ({
                             ...base,
                             height: "40px",
-                            border: "1px solid #ced4da",
+                            border: "1px solid #D9D9D9",
+                            borderRadius: "8px",
+                            fontSize: "16px",
+                            color: "#4B4B4B",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                            boxShadow: "none",
                           }),
                           option: (provided, state) => ({
                             ...provided,
@@ -1069,18 +1083,21 @@ useEffect(() => {
                               : "white",
                             color: "#222",
                             cursor: "pointer",
+                            fontFamily: "Gilroy"
                           }),
                           menu: (base) => ({
                             ...base,
                             maxHeight: "120px",
                             overflowY: "auto",
                             scrollbarWidth: "thin",
+                            fontFamily: "Gilroy"
                           }),
                           menuList: (base) => ({
                             ...base,
                             maxHeight: "120px",
                             padding: 0,
                             scrollbarWidth: "thin",
+                            fontFamily: "Gilroy"
                           }),
                           valueContainer: (base) => ({
                             ...base,
@@ -1134,7 +1151,7 @@ useEffect(() => {
 
                   <div className="mb-3 d-flex row">
                     <div className="col-lg-8">
-                      <label htmlFor="startDayDropdown" className="form-label">
+                      <label htmlFor="startDayDropdown" className="form-label" style={{ fontFamily: "Gilroy" }}>
                         On Every
                       </label>
                     </div>
@@ -1144,6 +1161,7 @@ useEffect(() => {
                         id="startDayDropdown"
                         value={every_recurr}
                         onChange={handlechangeEvery}
+                        style={{ fontFamily: "Gilroy" ,color: "#4B4B4B",fontWeight:500}}
                       >
                         <option value="monthly">Monthly</option>
                       </select>
@@ -1151,31 +1169,31 @@ useEffect(() => {
                   </div>
                 </div>
               </Modal.Body>
-{formRecurringLoading && <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            opacity: 0.75,
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              borderTop: '4px solid #1E45E1',
-              borderRight: '4px solid transparent',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              animation: 'spin 1s linear infinite',
-            }}
-          ></div>
-        </div>}
+              {formRecurringLoading && <div
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent',
+                  opacity: 0.75,
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  style={{
+                    borderTop: '4px solid #1E45E1',
+                    borderRight: '4px solid transparent',
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    animation: 'spin 1s linear infinite',
+                  }}
+                ></div>
+              </div>}
               <Modal.Footer style={{ borderTop: "none" }}>
                 <Button
                   className="w-100"

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { FormControl, InputGroup, Table, Form } from 'react-bootstrap';
+import { FormControl, InputGroup, Table } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import AddAsset from './AddAsset'
@@ -14,6 +14,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import Select from "react-select";
 
 
 function Asset() {
@@ -312,28 +313,36 @@ function Asset() {
 };
 
 
+const handlePriceRangeChange = (value) => {
+  setSelectedPriceRange(value);
 
-
-  const handlePriceRangeChange = (event) => {
-    const value = event.target.value;
-    setSelectedPriceRange(value);
-
-     if(value === "All"){
-        dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-       }
-      else if(value === "date"){
-         dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id } })
-         setExcelFilterDates([])
-         setSelectedDateRange([]);
-        setExcelDownloadDates([])
+  if (value === "All") {
+    dispatch({
+      type: 'ASSETLIST',
+      payload: { hostel_id: state.login.selectedHostel_Id }
+    });
+  } else if (value === "date") {
+    dispatch({
+      type: 'ASSETLIST',
+      payload: { hostel_id: state.login.selectedHostel_Id }
+    });
+    setExcelFilterDates([]);
+    setSelectedDateRange([]);
+    setExcelDownloadDates([]);
+  } else if (value) {
+    dispatch({
+      type: 'ASSETLIST',
+      payload: {
+        hostel_id: state.login.selectedHostel_Id,
+        price_range: value
       }
-     else if (value){
-        dispatch({ type: 'ASSETLIST', payload: { hostel_id: state.login.selectedHostel_Id  , price_range : value} })
-    }
-   
+    });
+  }
 
-    setCurrentPage(1);
-  };
+  setCurrentPage(1);
+};
+
+
 
   useEffect(() => {
   if (selectedPriceRange === "date" && ExcelFilterDates.length === 2) {
@@ -710,22 +719,92 @@ function Asset() {
                 {
                   showFilter &&
 
+                 
                   <div style={{ paddingRight: 30, marginTop: 10 }}>
-                    <Form.Select aria-label="Select Price Range"
-                      value={selectedPriceRange}
-                      onChange={handlePriceRangeChange}
-                      className='' id="vendor-select" style={{
-                        color: "rgba(34, 34, 34, 1)", fontWeight: 600,
-                        fontFamily: "Gilroy", height: "40px", cursor: "pointer"
-                      }}>
-                      <option value="All">All</option>
-                      <option value="0-100">0-100</option>
-                      <option value="100-500">100-500</option>
-                      <option value="500-1000">500-1000</option>
-                      <option value="1000+">1000+</option>
-                      <option value="date">Date</option>
-                    </Form.Select>
-                  </div>
+  <Select
+   
+    value={{
+      value: selectedPriceRange,
+      label: selectedPriceRange === "date" ? "Date" : selectedPriceRange
+    }}
+    onChange={(selectedOption) => handlePriceRangeChange(selectedOption?.value)}
+    options={[
+      { value: "All", label: "All" },
+      { value: "0-100", label: "0-100" },
+      { value: "100-500", label: "100-500" },
+      { value: "500-1000", label: "500-1000" },
+      { value: "1000+", label: "1000+" },
+      { value: "date", label: "Date" }
+    ]}
+   styles={{
+    control: (base) => ({
+      ...base,
+      height: "40px",
+      borderRadius: "6px",
+      boxShadow: "none !important",   
+      outline: "none !important",    
+      backgroundColor: "#fff",
+      minHeight: "unset",
+       minWidth: "140px",
+      '&:hover': {
+        borderColor: "#ccc"
+      }
+    }),
+      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "150px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy",
+                        
+  minWidth: "140px",
+  zIndex: 9999
+                      }),
+    indicatorSeparator: () => ({
+      display: "none" ,
+       
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      padding: "0 8px",
+      cursor:"pointer"  
+    }),
+    valueContainer: (base) => ({
+      ...base,
+      padding: "0 12px"
+    }),
+    input: (base) => ({
+      ...base,
+      margin: 0,
+      padding: 0,
+      border: "none",
+      boxShadow: "none",     
+      outline: "none"       
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "#222",
+      fontWeight: 600,
+      fontFamily: "Gilroy"
+    }),
+    
+    option: (base, state) => ({
+  ...base,
+  backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
+  color: "#222",
+  fontFamily: "Gilroy",
+  whiteSpace: "nowrap",        
+  overflow: "hidden",         
+  textOverflow: "ellipsis",   
+  fontSize: "14px",
+  cursor:"pointer"             
+})
+  }}
+    placeholder="Select Price Range"
+  />
+</div>
                 }
 
                 {showFilter && selectedPriceRange === 'date' && (

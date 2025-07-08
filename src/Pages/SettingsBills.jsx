@@ -583,7 +583,7 @@ function SettingsBills() {
     }
   }, [recurring_bills]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -730,7 +730,7 @@ useEffect(() => {
 
                   <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
                     <Form.Group
-                      className="mb-1"
+                      className="mb-2"
                       controlId="exampleForm.ControlInput1"
                     >
                       <Form.Label
@@ -760,31 +760,28 @@ useEffect(() => {
                         value={recurring_name}
                         onChange={(e) => handleRecurrName(e)}
                       />
+
+
+
+                      {recurr_nameerrormsg?.trim() !== "" && (
+                        <div className="d-flex align-items-center gap-1 mt-1">
+                          <MdError style={{ fontSize: "14px", color: "red", marginBottom: "2px" }} />
+                          <span
+                            style={{
+                              fontSize: "12px",
+                              color: "red",
+                              fontFamily: "Gilroy",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {recurr_nameerrormsg}
+                          </span>
+                        </div>
+                      )}
+
                     </Form.Group>
 
-                    {recurr_nameerrormsg.trim() !== "" && (
-                      <div>
-                        <p
-                          style={{
-                            fontSize: "12px",
-                            color: "red",
-                            fontFamily: "Gilroy",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {recurr_nameerrormsg !== " " && (
-                            <MdError
-                              style={{
-                                fontSize: "14px",
-                                color: "red",
-                                marginBottom: "3px",
-                              }}
-                            />
-                          )}{" "}
-                          {recurr_nameerrormsg}
-                        </p>
-                      </div>
-                    )}
+
                   </div>
 
                   <div className="col-lg-12 col-md-12 col-sm-11 col-xs-11">
@@ -880,29 +877,21 @@ useEffect(() => {
                       />
 
                       {billingfreuencyerrormsg.trim() !== "" && (
-                        <div>
-                          <p
+                        <div className="d-flex align-items-center gap-1 mt-1">
+                          <MdError style={{ fontSize: "14px", color: "red", marginBottom: "2px" }} />
+                          <span
                             style={{
                               fontSize: "12px",
                               color: "red",
-                              marginTop: "3px",
                               fontFamily: "Gilroy",
                               fontWeight: 500,
                             }}
                           >
-                            {billingfreuencyerrormsg !== " " && (
-                              <MdError
-                                style={{
-                                  fontSize: "14px",
-                                  color: "red",
-                                  marginBottom: "3px",
-                                }}
-                              />
-                            )}{" "}
                             {billingfreuencyerrormsg}
-                          </p>
+                          </span>
                         </div>
                       )}
+
                     </Form.Group>
                   </div>
 
@@ -922,7 +911,7 @@ useEffect(() => {
                   </div>
                   <div className="row">
                     <div className="col-6 position-relative mb-4" style={{ zIndex: isFromOpen ? 20 : 10 }}>
-                      <label
+                      <label className="mb-1"
                         style={{
                           fontFamily: "Gilroy",
                           fontSize: 14,
@@ -936,7 +925,8 @@ useEffect(() => {
                       </label>
                       <button
                         onClick={() => setIsFromOpen(!isFromOpen)}
-                        className="btn btn-white border w-100 d-flex justify-content-between align-items-center"
+                        style={{ fontFamily: "Gilroy", }}
+                        className="btn btn-white border w-100 d-flex justify-content-between align-items-center mt-1"
                       >
                         {selectedFrom ? selectedFrom : "Select a date"}
 
@@ -946,12 +936,13 @@ useEffect(() => {
                       {isFromOpen && (
                         <div className="date-picker-container">
                           <div className="d-flex justify-content-center">
-                            <h3>Select date</h3>
+                            <h3 style={{ fontFamily: "Gilroy", }}>Select date</h3>
                           </div>
 
-                          <div className="date-grid">
+                          <div className="date-grid" >
                             {dates.map((date, index) => (
                               <div
+                                style={{ fontFamily: "Gilroy", }}
                                 key={index}
                                 className={`date-cell ${date === selectedFrom ? "selected" : ""
                                   }`}
@@ -1335,26 +1326,21 @@ useEffect(() => {
                     )}
 
                     {selectedremainderdayserrmsg.trim() !== "" && (
-                      <div className="text-left">
-                        <p
+                      <div className="d-flex align-items-center gap-1 mt-2 text-left">
+                        <MdError style={{ fontSize: 14, color: "red", marginBottom: "2px" }} />
+                        <span
                           style={{
                             fontSize: 12,
                             color: "red",
-                            marginTop: "13px",
                             fontFamily: "Gilroy",
                             fontWeight: 500,
                           }}
                         >
-                          <MdError
-                            style={{
-                              color: "red",
-                              marginBottom: "2px",
-                            }}
-                          />
                           {selectedremainderdayserrmsg}
-                        </p>
+                        </span>
                       </div>
                     )}
+
                   </div>
 
                   <div className="col-lg-12 col-md-12 col-sm-12">
@@ -1458,12 +1444,12 @@ useEffect(() => {
                     </div>
                   )}
 
-{state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+                  {state.createAccount?.networkError ?
+                    <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                      <MdError style={{ color: "red", marginRight: '5px' }} />
+                      <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                    </div>
+                    : null}
 
                   <div className="d-flex justify-content-end flex-wrap mt-3 ">
                     <button

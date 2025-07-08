@@ -137,6 +137,7 @@ useEffect(() => {
 
 
 
+
   useEffect(() => {
     if (stateData.statusCodeForAccountList === 200) {
       const loginInfo = stateData.accountList[0].user_details;
@@ -530,6 +531,7 @@ useEffect(() => {
 
                   {isDropdownOpen && (
                     <div
+                    className="show-scrolls"
                       style={{
                         position: "absolute",
                         top: "100%",
@@ -540,6 +542,10 @@ useEffect(() => {
                         borderRadius: "4px",
                         width: "100%",
                         zIndex: 10,
+                         maxHeight: "200px",        
+      overflowY: "auto",          
+      overflowX: "hidden", 
+                       
                       }}
                     >
                       <ul style={{ margin: 0, padding: 0 }}>

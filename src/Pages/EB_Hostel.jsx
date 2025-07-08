@@ -464,17 +464,17 @@ function EB_Hostel() {
     if (isValueEmpty) {
       switch (fieldName) {
         case "Floor":
-          setfloorError("Floor Required");
+          setfloorError("Please Select Floor");
           break;
         case "Rooms":
-          setRoomError("Room Required");
+          setRoomError("Please Select Room");
           break;
 
         case "selectedDate":
-          setDateErrorMesg("Date Required");
+          setDateErrorMesg("Please Select Date");
           break;
         case "endmeter":
-          setendMeterError("Reading Required");
+          setendMeterError("Please Enter Reading");
           break;
         default:
           break;
@@ -525,7 +525,7 @@ function EB_Hostel() {
     const isDatevalid = validateAssignField(selectedDate, "selectedDate");
 
     if (Floor === "Select Floor" || !isFloorValid) {
-      setfloorError("Please Select Valid Floor");
+      setfloorError("Please Select Floor");
       return;
     } else {
       setfloorError("");
@@ -1745,15 +1745,15 @@ function EB_Hostel() {
               style={{ cursor: 'pointer' }} />
           </Modal.Header>
           <Modal.Body className="pt-2">
-            {dateError && (
+           {dateError && ( 
               <div
-                className="d-flex justify-content-center align-items-center mt-2 mb-2"
+                className="d-flex justify-content-start align-items-center mt-2 mb-2"
                 style={{ color: "red" }}
               >
-                <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
+                <MdError style={{ fontSize: "14px", marginRight: "5px"}} />
                 <span
                   style={{
-                    fontSize: "14px",
+                    fontSize: "12px",
                     fontFamily: "Gilroy",
                     fontWeight: 5005
                   }}
@@ -1761,7 +1761,7 @@ function EB_Hostel() {
                   {dateError}
                 </span>
               </div>
-            )}
+             )} 
             <div className="row ">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
@@ -1772,7 +1772,7 @@ function EB_Hostel() {
                     fontWeight: 500,
                   }}
                 >
-                  Floor{" "}
+                  Floor {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
 
@@ -1854,7 +1854,7 @@ function EB_Hostel() {
                     <MdError
                       style={{
                         color: "red",
-                        fontSize: "13px",
+                        fontSize: "14px",
                         marginBottom: "2px",
                       }}
                     />
@@ -1881,7 +1881,7 @@ function EB_Hostel() {
                     fontWeight: 500,
                   }}
                 >
-                  Room{" "}
+                  Room {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
 
@@ -1963,7 +1963,7 @@ function EB_Hostel() {
                     <MdError
                       style={{
                         color: "red",
-                        fontSize: "13px",
+                        fontSize: "14px",
                         marginBottom: "2px",
                       }}
                     />
@@ -1992,7 +1992,7 @@ function EB_Hostel() {
                       fontWeight: 500,
                     }}
                   >
-                    Reading{" "}
+                    Reading {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   </Form.Label>
                   <FormControl
@@ -2015,7 +2015,7 @@ function EB_Hostel() {
                 </Form.Group>
                 {endMeterError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red", fontSize: "13px" }} />
+                    <MdError style={{ color: "red", fontSize: "14px" }} />
                     <span
                       style={{
                         fontSize: "12px",
@@ -2041,7 +2041,7 @@ function EB_Hostel() {
                       fontWeight: 500,
                     }}
                   >
-                    Date{" "}
+                    Date {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
 
@@ -2077,7 +2077,7 @@ function EB_Hostel() {
                 </Form.Group>
                 {dateErrorMesg && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ color: "red", fontSize: "13px" }} />
+                    <MdError style={{ color: "red", fontSize: "14px" }} />
                     <span
                       style={{
                         fontSize: "12px",

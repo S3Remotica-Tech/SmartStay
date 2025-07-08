@@ -79,11 +79,11 @@ function CustomerCheckout(props) {
 
     if (!selectedDate || !requestDate) {
       if (!selectedDate) {
-        setCheckOutDateError('Please Select a Check-Out Date');
+        setCheckOutDateError('Please Select  Check-Out Date');
       }
 
       if (!requestDate) {
-        setCheckOutRequestDateError('Please Select a Request Date');
+        setCheckOutRequestDateError('Please Select  Request Date');
       }
       return
     }
@@ -383,8 +383,7 @@ useEffect(() => {
               </div>
             </Modal.Body>
 
-            <Modal.Footer style={{ border: "none" }}></Modal.Footer>
-          </Modal.Dialog>
+                     </Modal.Dialog>
         </Modal>
       </div>
     </>

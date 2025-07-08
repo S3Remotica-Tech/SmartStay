@@ -251,7 +251,7 @@ const CheckOutForm = ({
   const [checkoUtrequestDateError, setCheckOutRequestDateError] = useState("");
   const [isChangedError, setIsChangedError] = useState("");
 
-  console.log("selectedCustomer", selectedCustomer)
+
 
 
   const handleCheckOutCustomer = () => {
@@ -268,19 +268,19 @@ const CheckOutForm = ({
 
 
     if (!selectedCustomer) {
-      setCustomerError("Please Select a Customer");
+      setCustomerError("Please Select Customer");
 
     }
 
 
 
     if (!checkOutDate) {
-      setCheckOutDateError("Please Select a Check-Out Date");
+      setCheckOutDateError("Please Select  Check-Out Date");
 
     }
 
     if (!checkOutrequestDate) {
-      setCheckOutRequestDateError("Please Select a Request Date");
+      setCheckOutRequestDateError("Please Select  Request Date");
 
     }
 
@@ -869,6 +869,15 @@ const CheckOutForm = ({
   }, [state.UsersList.addCheckoutCustomerStatusCode]);
 
 
+  useEffect(() => {
+    if (state.createAccount?.networkError) {
+      setFormLoading(false)
+      setTimeout(() => {
+        dispatch({ type: 'CLEAR_NETWORK_ERROR' })
+      }, 3000)
+    }
+
+  }, [state.createAccount?.networkError])
   return (
     <>
       <Modal show={show} onHide={handlecloseform} centered backdrop="static"
@@ -918,7 +927,7 @@ const CheckOutForm = ({
                             fontWeight: 500,
                           }}
                         >
-                          Customer{" "}
+                          Customer {" "}
                           <span style={{ color: "red", fontSize: "20px" }}>*</span>
                         </label>
                         <Select
@@ -941,7 +950,7 @@ const CheckOutForm = ({
                               style={{
                                 color: "red",
                                 marginRight: "5px",
-                                fontSize: "12px",
+                                fontSize: "14px",
                               }}
                             />
                             <label
@@ -962,7 +971,7 @@ const CheckOutForm = ({
                   )}
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-2">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -971,7 +980,7 @@ const CheckOutForm = ({
                           fontWeight: 500,
                         }}
                       >
-                        Current Floor{" "}
+                        Current Floor {" "}
 
                       </Form.Label>
                       <FormControl
@@ -996,7 +1005,7 @@ const CheckOutForm = ({
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-2">
                       <Form.Label
                         style={{
                           fontSize: 14,
@@ -1005,7 +1014,7 @@ const CheckOutForm = ({
                           fontWeight: 500,
                         }}
                       >
-                        Current Bed{" "}
+                        Current Bed {" "}
                       </Form.Label>
                       <FormControl
                         id="form-controls"
@@ -1040,7 +1049,7 @@ const CheckOutForm = ({
                           fontWeight: 500,
                         }}
                       >
-                        Request Date{" "}
+                        Request Date {" "}
                         <span style={{ color: "red", fontSize: "20px" }}>*</span>
                       </Form.Label>
 
@@ -1086,7 +1095,7 @@ const CheckOutForm = ({
                           style={{
                             color: "red",
                             marginRight: "5px",
-                            fontSize: "12px",
+                            fontSize: "14px",
                           }}
                         />
                         <label
@@ -1114,14 +1123,14 @@ const CheckOutForm = ({
                           fontWeight: 500,
                         }}
                       >
-                        Check-Out Date{" "}
+                        Check-Out Date {" "}
                         <span style={{ color: "red", fontSize: "20px" }}>*</span>
                       </Form.Label>
 
 
 
                       <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
-                      
+
                         <DatePicker
                           style={{
                             width: "100%",
@@ -1162,7 +1171,7 @@ const CheckOutForm = ({
                           style={{
                             color: "red",
                             marginRight: "5px",
-                            fontSize: "12px",
+                            fontSize: "14px",
                           }}
                         />
                         <label
@@ -1233,23 +1242,7 @@ const CheckOutForm = ({
                     </div>
                   )}
                 </div>
-                {/* {state.UsersList.errorMessageAddCheckOut && (
-                  <div className="d-flex align-items-center p-1 mt-6">
-                    <MdError style={{ color: "red", marginRight: "5px", }} />
-                    <label
-                      className="mb-0"
-                      style={{
-                        color: "red",
-                        fontSize: "12px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-
-                      }}
-                    >
-                      {state.UsersList.errorMessageAddCheckOut}
-                    </label>
-                  </div>
-                )} */}
+              
             </div>
 
             </div>
@@ -1275,6 +1268,14 @@ const CheckOutForm = ({
 
 
           </Modal.Body>
+
+
+          {state.createAccount?.networkError ?
+            <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+              <MdError style={{ color: "red", marginRight: '5px' , fontSize:14}} />
+              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+            </div>
+            : null}
 
           {formLoading &&
             <div
@@ -1304,11 +1305,11 @@ const CheckOutForm = ({
             </div>
           }
           <Modal.Footer
-            className="d-flex align-items-center justify-content-center"
+            className="d-flex align-items-center justify-content-center pt-0"
             style={{ border: "none" }}
           >
             <Button
-              className="mt-3"
+              className=""
               style={{
                 borderRadius: "8px",
                 fontFamily: "Gilroy",
@@ -1371,7 +1372,7 @@ const CheckOutForm = ({
 
 
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-2">
                     <Form.Label
                       style={{
                         fontSize: 14,
@@ -1405,7 +1406,7 @@ const CheckOutForm = ({
                 </div>
 
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-2">
                     <Form.Label
                       style={{
                         fontSize: 14,
@@ -1485,7 +1486,7 @@ const CheckOutForm = ({
                         style={{
                           color: "red",
                           marginRight: "5px",
-                          fontSize: "12px",
+                          fontSize: "14px",
                         }}
                       />
                       <label
@@ -1544,7 +1545,7 @@ const CheckOutForm = ({
                 </div>
 
 
-                <h6>Advance Deduction</h6>
+                <h6 style={{fontSize:16, fontFamily:"Gilroy",fontWeight:600}}>Advance Deduction</h6>
 
                 <div className="row align-items-center">
 
@@ -1758,7 +1759,7 @@ const CheckOutForm = ({
                         className="d-flex justify-content-start align-items-start"
                         style={{ color: "red", marginTop: 5, }}
                       >
-                        <MdError style={{ fontSize: "14px", marginRight: "6px",marginTop:"1px" }} />
+                        <MdError style={{ fontSize: "14px", marginRight: "6px", marginTop: "1px" }} />
                         <span
                           style={{
                             fontSize: "12px",
@@ -1830,25 +1831,7 @@ const CheckOutForm = ({
                   </div>
                 )}
               </div>
-              {/* {state.UsersList.errorMessageAddCheckOut && (
-                <div ref={errorRef} className="d-flex align-items-center p-1 mt-6">
-                  <MdError style={{ color: "red", marginRight: "5px", }} />
-                  <label
-                    className="mb-0"
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Gilroy",
-                      fontWeight: 500,
-
-                    }}
-                  >
-                    {state.UsersList.errorMessageAddCheckOut}
-                  </label>
-                </div>
-              )} */}
-
-
+            
 
               {isChangedError && (
                 <div
@@ -1858,7 +1841,7 @@ const CheckOutForm = ({
                   <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
                   <span
                     style={{
-                      fontSize: "14px",
+                      fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}
@@ -1895,7 +1878,7 @@ const CheckOutForm = ({
                   <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
                   <span
                     style={{
-                      fontSize: "14px",
+                      fontSize: "12px",
                       fontFamily: "Gilroy",
                       fontWeight: 500,
                     }}

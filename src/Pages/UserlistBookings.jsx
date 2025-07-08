@@ -288,7 +288,7 @@ function Booking(props) {
 
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
-      setEmailError("Invalid Email ID");
+      setEmailError("Please Enter Valid Email ID");
     } else {
       setEmailError("");
       setEmailErrorMessage("");
@@ -331,7 +331,7 @@ function Booking(props) {
     if (input.length === 0) {
       setPhoneError("");
     } else if (input.length < 10) {
-      setPhoneError("Invalid Mobile Number");
+      setPhoneError("Please Enter Valid Mobile Number");
     } else if (input.length === 10) {
       setPhoneError("");
     }
@@ -513,7 +513,7 @@ if (pincode && String(pincode).length !== 6) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       const isValidEmail = emailRegex.test(Email.toLowerCase());
       if (!isValidEmail) {
-        setEmailError("Please Enter a Valid Email ID");
+        setEmailError("Please Enter  Valid Email ID");
         hasError = true;
       } else {
         setEmailError("");
@@ -908,7 +908,7 @@ useEffect(() => {
                   marginTop: "1rem",
                 }}
               >
-                <MdError />
+                <MdError  style={{ marginRight: "5px", fontSize: 14 }}/>
                 <span
                   style={{
                     fontSize: "12px",
@@ -1788,7 +1788,7 @@ useEffect(() => {
             </div>
             <Row className="">
               <Col md={6}>
-                <Form.Group controlId="formFirstName">
+                <Form.Group controlId="formFirstName" className="mb-2">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1797,14 +1797,14 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    First Name{" "}
+                    First Name {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter First Name"
                     style={{
-                      fontSize: 14,
+                      fontSize: 16,
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       height: "50px",
@@ -1812,18 +1812,19 @@ useEffect(() => {
                     value={firstName}
                     onChange={(e) => handleFirstName(e)}
                   />
-                </Form.Group>
-                {firstNameError && (
+                   {firstNameError && (
 
                   <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: 13 }} />
-                    <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError}</span>
+                    <MdError style={{ marginRight: "5px", fontSize: 14 }} />
+                    <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{firstNameError}</span>
                   </div>
                 )}
+                </Form.Group>
+               
               </Col>
 
               <Col md={6} className="">
-                <Form.Group controlId="formLastName" >
+                <Form.Group controlId="formLastName" className="mb-2" >
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1832,14 +1833,14 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Last Name{" "}
+                    Last Name {" "}
 
                   </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter Last Name"
                     style={{
-                      fontSize: 14,
+                      fontSize: 16,
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       height: "50px",
@@ -1853,8 +1854,8 @@ useEffect(() => {
             </Row>
 
             <Row className="mb-0">
-              <Col md={6} className="mb-0">
-                <Form.Group controlId="exampleForm.ControlInput1">
+              <Col md={6} >
+                <Form.Group controlId="exampleForm.ControlInput1" className="mb-2">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1863,7 +1864,7 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Mobile Number{" "}
+                    Mobile Number {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   </Form.Label>
 
@@ -1917,20 +1918,20 @@ useEffect(() => {
 
                     <div style={{ color: "red", marginTop: "-15px" }}>
                       <MdError style={{ marginRight: "5px", fontSize: 13 }} />
-                      <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>
+                      <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{phoneError}</span>
                     </div>
 
                   )}
 
                   {phoneErrorMessage && (
                     <div style={{ color: "red", marginTop: "-10px" }}>
-                      <MdError style={{ marginRight: "5px", fontSize: 13 }} />
-                      <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
+                      <MdError style={{ marginRight: "5px", fontSize: 14 }} />
+                      <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{phoneErrorMessage}</span>
                     </div>
                   )}
                   {state?.Booking?.bookingPhoneError && (
                     <div style={{ color: "red" }}>
-                      <MdError />
+                      <MdError  style={{ marginRight: "5px", fontSize: 14 }}/>
                       <span
                         style={{
                           fontSize: "12px",
@@ -1946,7 +1947,7 @@ useEffect(() => {
                 </Form.Group>
               </Col>
               <Col md={6}>
-                <Form.Group controlId="formLastName" className="mb-0">
+                <Form.Group controlId="formLastName" className="mb-2">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -1955,14 +1956,14 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Email ID{" "}
+                    Email ID {" "}
 
                   </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter Email"
                     style={{
-                      fontSize: 14,
+                      fontSize: 16,
                       color: "rgba(75, 75, 75, 1)",
                       fontFamily: "Gilroy",
                       height: "50px",
@@ -1971,10 +1972,9 @@ useEffect(() => {
                     value={Email}
                     onChange={(e) => handleEmail(e)}
                   />
-                </Form.Group>
-                {emailError && (
+                   {emailError && (
                   <div style={{ color: "red" }}>
-                    <MdError />
+                    <MdError style={{ marginRight: "5px", fontSize: 14 }} />
                     <span
                       style={{
                         fontSize: "12px",
@@ -1990,7 +1990,7 @@ useEffect(() => {
 
                 {emailErrorMessage && (
                   <div style={{ color: "red" }}>
-                    <MdError />
+                    <MdError  style={{ marginRight: "5px", fontSize: 14 }}/>
                     <span
                       style={{
                         fontSize: "12px",
@@ -2006,7 +2006,7 @@ useEffect(() => {
                 )}
                 {state?.Booking?.bookingEmailError && (
                   <div style={{ color: "red" }}>
-                    <MdError />
+                    <MdError  style={{ marginRight: "5px", fontSize: 14 }}/>
                     <span
                       style={{
                         fontSize: "12px",
@@ -2020,11 +2020,13 @@ useEffect(() => {
                     </span>
                   </div>
                 )}
+                </Form.Group>
+               
               </Col>
             </Row>
             <Col md={12}>
 
-              <Form.Group className="">
+              <Form.Group className="mb-2">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -2052,19 +2054,20 @@ useEffect(() => {
                     borderRadius: 8,
                   }}
                 />
-              </Form.Group>
-              {house_noError && (
+                 {house_noError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                  <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{house_noError}</span>
                 </div>
               )}
+              </Form.Group>
+             
 
             </Col>
 
             <Row>
               <Col md={6}>
-                <Form.Group className="">
+                <Form.Group className="mb-2">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -2073,7 +2076,7 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Area , Street , Sector , Village{" "}
+                    Area , Street , Sector , Village {" "}
                   </Form.Label>
                   <FormControl
                     type="text"
@@ -2092,17 +2095,18 @@ useEffect(() => {
                       borderRadius: 8,
                     }}
                   />
-                </Form.Group>
-                {streetError && (
+                    {streetError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                    <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
                     <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{streetError}</span>
                   </div>
                 )}
+                </Form.Group>
+              
               </Col>
 
               <Col md={6}>
-                <Form.Group className="">
+                <Form.Group className="mb-2">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -2111,7 +2115,7 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Landmark{" "}
+                    Landmark {" "}
                   </Form.Label>
                   <FormControl
                     type="text"
@@ -2130,13 +2134,14 @@ useEffect(() => {
                       borderRadius: 8,
                     }}
                   />
-                </Form.Group>
-                {landmarkError && (
+                    {landmarkError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontFamily: "Gilroy", fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
+                    <MdError style={{ fontFamily: "Gilroy", fontSize: '14px', marginRight: "5px", marginBottom: "1px" }} />
                     <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{landmarkError}</span>
                   </div>
                 )}
+                </Form.Group>
+              
               </Col>
             </Row>
 
@@ -2144,7 +2149,7 @@ useEffect(() => {
             <Row>
               <Col md={6}>
                 <Form.Group
-                  className=""
+                  className="mb-2"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label
@@ -2155,7 +2160,7 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Pincode
+                    Pincode {" "}
                     <span style={{ color: "red", fontSize: "20px" }}>*</span>
                   </Form.Label>
                   <Form.Control
@@ -2179,7 +2184,7 @@ useEffect(() => {
                   />
                   {pincodeError && (
                     <div className="d-flex align-items-center p-1 mb-2">
-                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
                         style={{
@@ -2199,7 +2204,7 @@ useEffect(() => {
               </Col>
 
               <Col md={6}>
-                <Form.Group className="">
+                <Form.Group className="mb-2">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -2208,7 +2213,7 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Town/City{" "}
+                    Town/City {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   </Form.Label>
                   <FormControl
@@ -2228,13 +2233,14 @@ useEffect(() => {
                       borderRadius: 8,
                     }}
                   />
-                </Form.Group>
-                {cityError && (
+                    {cityError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ fontSize: '13px', marginRight: "5px" }} />
+                    <MdError style={{ fontSize: '14px', marginRight: "5px" }} />
                     <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                   </div>
                 )}
+                </Form.Group>
+              
               </Col>
             </Row>
 
@@ -2244,7 +2250,7 @@ useEffect(() => {
 
 
             <div className="col-lg-12 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group className="" controlId="exampleForm.ControlInput5">
+              <Form.Group className="mb-2" controlId="exampleForm.ControlInput5">
                 <Form.Label
                   style={{
                     fontFamily: "Gilroy",
@@ -2255,7 +2261,7 @@ useEffect(() => {
                     lineHeight: "normal",
                   }}
                 >
-                  State
+                  State {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
 
@@ -2328,15 +2334,19 @@ useEffect(() => {
                     }),
                   }}
                 />
-              </Form.Group>
-              {!state_name && state_nameError && (
+              
+              
+                {!state_name && state_nameError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: "13px", marginRight: "5px" }} />
+                  <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                   <span style={{ fontSize: "12px", color: "red", fontFamily: "Gilroy", fontWeight: 500 }}>
                     {state_nameError}
                   </span>
                 </div>
               )}
+              
+              </Form.Group>
+            
 
             </div>
 
@@ -2352,14 +2362,14 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Joining Date{" "}
+                    Joining Date {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
 
                   </Form.Label>
 
                   <div className="datepicker-wrapper" style={{ position: 'relative', width: "100%" }}>
                     <DatePicker
-                      style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", }}
+                      style={{ width: "100%", height: 48, cursor: "pointer", fontFamily: "Gilroy", fontSize:16}}
                       format="DD/MM/YYYY"
                       placeholder="DD/MM/YYYY"
                       value={joiningDate ? dayjs(joiningDate) : null}
@@ -2372,10 +2382,9 @@ useEffect(() => {
                       getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
                     />
                   </div>
-                </Form.Group>
-                {dateError && (
+                    {dateError && (
                   <div style={{ color: "red" }}>
-                    <MdError />
+                    <MdError  style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }}/>
                     <span
                       style={{
                         fontSize: "12px",
@@ -2392,15 +2401,17 @@ useEffect(() => {
                 
                                 {joiningDateErrmsg.trim() !== "" && (
                                       <div className="d-flex align-items-center">
-                                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                      <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px", marginBottom: "2px" }} />
                                       <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                       {joiningDateErrmsg}
                                         </label>
                                           </div>
                                        )}
+                </Form.Group>
+              
               </Col>
-              <Col md={6} className="mb-3">
-                <Form.Group >
+              <Col md={6} >
+                <Form.Group  className="mb-2">
                   <Form.Label
                     style={{
                       fontSize: 14,
@@ -2408,7 +2419,7 @@ useEffect(() => {
                       fontFamily: "Gilroy",
                     }}
                   >
-                    Booking Amount{" "}
+                    Booking Amount {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
 
                   </Form.Label>
@@ -2429,21 +2440,22 @@ useEffect(() => {
                       borderRadius: 8,
                     }}
                   />
-                </Form.Group>
-                {amountError && (
+                    {amountError && (
                   <div style={{ color: "red" }}>
-                    <MdError style={{ marginRight: "5px", fontSize: 13 }} />
-                    <span style={{ fontSize: 13, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
+                    <MdError style={{ marginRight: "5px", fontSize: 14 }} />
+                    <span style={{ fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{amountError}</span>
                   </div>
                 )}
+                </Form.Group>
+              
               </Col>
             </Row>
 
 
             {formError && (
-              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center" style={{ color: "red" }}>
+              <div ref={nochangeRef} className="d-flex align-items-center justify-content-center" style={{ color: "red", fontFamily:"Gilroy" }}>
                 <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
-                <span style={{ fontSize: "14px" }}>{formError}</span>
+                <span style={{ fontSize: "12px" }}>{formError}</span>
               </div>
             )}
 
@@ -2454,7 +2466,7 @@ useEffect(() => {
 
 {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-4'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <MdError style={{ marginRight: "5px", fontSize: 14 }} />
               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
             </div>
             : null}

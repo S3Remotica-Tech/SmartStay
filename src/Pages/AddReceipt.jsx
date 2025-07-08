@@ -39,6 +39,7 @@ const AddReceiptForm = (props) => {
   const [payment_dateerrmsg, setPaymentDateErrmsg] = useState('')
   const [notes_errmsg, setNotes_Errmsg] = useState('')
   const [paymentError, setPaymentError] = useState("");
+  const [bankking, setBanking] = useState("")
 
   const [allfielderrmsg, setAllFieldErrmsg] = useState('')
 
@@ -48,34 +49,7 @@ const AddReceiptForm = (props) => {
   const [edit, setEdit] = useState(false)
 
 
-  useEffect(() => {
-    if (props.editvalue && props.receiptedit) {
-      setEdit(true)
-      setEdit_Id(props.editvalue.user_id)
-      setCustomerName(props.editvalue.user_id);
-      setInvoiceNumber(props.editvalue.invoice_number || '');
-
-      if (props.editvalue.payment_date) {
-        const parsedDate = new Date(props.editvalue.payment_date);
-        if (!isNaN(parsedDate.getTime())) {
-          setPaymentDate(parsedDate);
-          const formattedDate = formatDateForReceipt(parsedDate);
-          setFormatPaymentDate(formattedDate)
-        }
-
-      }
-
-
-
-      setReferenceId(props.editvalue.reference_id || '');
-      setDueAmount(props.editvalue.BalanceDue || 0);
-      setInitial_DueAmount(props.editvalue.BalanceDue)
-      setReceivedAmount(props.editvalue.amount_received || '')
-      setAccount(props.editvalue.bank_id || '');
-      setModeOfPayment(props.editvalue.payment_mode || '')
-      setNotes(props.editvalue.notes ? props.editvalue.notes : '');
-    }
-  }, [props.editvalue, props.receiptedit]);
+ 
 
 
 
@@ -186,25 +160,63 @@ const AddReceiptForm = (props) => {
 
 
 
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
 
-
-
-
-
-
-
-  const handleModeOfPaymentChange = (e) => {
-    setModeOfPayment(e.target.value);
-    setAllFieldErrmsg("")
-    if (!e.target.value) {
-      setPaymentError("Please Select Payment Method")
-    }
-    else {
-      setPaymentError('')
-
-    }
-
+   const handleModeOfPaymentChange = (selectedOption) => {
+    if (!selectedOption) return;
+    setAllFieldErrmsg("");
+    setPaymentError("");
+    setModeOfPayment(selectedOption);
   };
+
+
+const labelMap = {
+  bank: "Bank",
+  upi: "UPI",
+  card: "Card",
+  cash: "Cash",
+};
+
+const paymentOptions = Array.isArray(bankking)
+  ? bankking.map((item) => ({
+      value: String(item.id), 
+      label: `${item.benificiary_name} - ${labelMap[item.type] || ""}`,
+    }))
+  : [];
+
+
+   useEffect(() => {
+    if (props.editvalue && props.receiptedit) {
+      setEdit(true)
+      setEdit_Id(props.editvalue.user_id)
+      setCustomerName(props.editvalue.user_id);
+      setInvoiceNumber(props.editvalue.invoice_number || '');
+
+      if (props.editvalue.payment_date) {
+        const parsedDate = new Date(props.editvalue.payment_date);
+        if (!isNaN(parsedDate.getTime())) {
+          setPaymentDate(parsedDate);
+          const formattedDate = formatDateForReceipt(parsedDate);
+          setFormatPaymentDate(formattedDate)
+        }
+
+      }
+
+
+
+      setReferenceId(props.editvalue.reference_id || '');
+      setDueAmount(props.editvalue.BalanceDue || 0);
+      setInitial_DueAmount(props.editvalue.BalanceDue)
+      setReceivedAmount(props.editvalue.amount_received || '')
+      setAccount(props.editvalue.bank_id || '');
+      setModeOfPayment(props.editvalue.payment_mode || '')
+      setNotes(props.editvalue.notes ? props.editvalue.notes : '');
+    }
+  }, [props.editvalue, props.receiptedit]);
+
+
+
+ 
 
 
 
@@ -313,7 +325,6 @@ const AddReceiptForm = (props) => {
           String(props.editvalue.reference_id) !== String(reference_id) ||
           Number(props.editvalue.amount_received) !== Number(received_amount) ||
           String(props.editvalue.invoice_number) !== String(invoicenumber) ||
-          String(props.editvalue.payment_mode) !== String(modeOfPayment) ||
           String(props.editvalue.bank_id) !== String(account) ||
           (props.editvalue.notes ? String(props.editvalue.notes) !== String(notes) : notes !== "")
         );
@@ -377,6 +388,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
   useEffect(() => {
+    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
     dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } })
   }, [])
 
@@ -410,7 +422,15 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
   }, [state.InvoiceList.ReceiptAddErrorStatuscode]);
 
 
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForGetBanking === 200) {
 
+      setBanking(state.bankingDetails.bankingList.banks)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BANKING_LIST" });
+      }, 200);
+    }
+  }, [state.bankingDetails.statusCodeForGetBanking]);
 
 
   useEffect(() => {
@@ -454,16 +474,21 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
         <div style={{ display: 'flex', flexDirection: 'row', marginTop: '20px' }} >
           <svg onClick={handleBackBill} style={{ fontSize: '22px', marginRight: '10px', cursor: 'pointer' }} xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"><path fill="#000000" d="M9.57 18.82c-.19 0-.38-.07-.53-.22l-6.07-6.07a.754.754 0 010-1.06L9.04 5.4c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06L4.56 12l5.54 5.54c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22z"></path><path fill="#000000" d="M20.5 12.75H3.67c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H20.5c.41 0 .75.34.75.75s-.34.75-.75.75z"></path></svg>
-          <p className='mt-1'>{edit ? "Edit Receipt" : "New Receipt"} </p>
+          <p className='mt-1'  style={{
+                  fontWeight: 500,
+                  fontSize: "18px",
+                  fontFamily: "Gilroy",
+                  paddingLeft: "10px"
+                }}>{edit ? "Edit Receipt" : "New Receipt"} </p>
         </div>
 
 
 
-
-        <div className='col-lg-7 col-md-6 col-sm-12 col-xs-12'>
+<div className="row">
+        <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12'>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
             <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222" }}>
-              Customer  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+              Customer {" "} <span style={{ color: "red", fontSize: "20px" }}>*</span>
             </Form.Label>
 
 
@@ -508,21 +533,23 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                   color: "#000",
                 }),
                 control: (base) => ({
-                  ...base,
-                  fontSize: 16,
-                  borderRadius: 8,
-                  border: "1px solid #D9D9D9",
-                  backgroundColor: edit ? "#E7F1FF" : "#FFFFFF",
-                  color: "black",
-                  fontFamily: "Gilroy",
-                }),
+                    ...base,
+                   padding:"3px 5px ",
+                    border: "1px solid #D9D9D9",
+                    borderRadius: "8px",
+                    fontSize: "16px",
+                    color: "#4B4B4B",
+                    fontFamily: "Gilroy",
+                    fontWeight: customername ? 600 : 500,
+                    boxShadow: "none",
+                  }),
               }}
             />
 
 
 
             {customererrmsg && (
-              <div className="d-flex align-items-center  mb-2">
+              <div className="d-flex align-items-center mt-1  mb-2">
                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                 <label
                   className="mb-0"
@@ -544,13 +571,13 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
         </div>
-
-        <div className="row mb-1">
+</div>
+        <div className="row mb-1 gap-1">
           <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
               <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Reference ID</Form.Label>
               <Form.Control
-                style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, backgroundColor: "#E7F1FF", }}
+                style={{ padding: '12px 10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500, backgroundColor: "#E7F1FF", }}
                 type="text"
                 placeholder="Enter Invoice Number"
                 value={reference_id || ''}
@@ -574,7 +601,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                     lineHeight: "normal",
                   }}
                 >
-                  Invoice Number  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                  Invoice Number {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
 
                 {edit ? (
@@ -591,7 +618,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                       fontWeight: 500,
                       boxShadow: "none",
                       border: "1px solid #D9D9D9",
-                      height: 38,
+                     padding: '12px 10px',
                       borderRadius: 8,
                       backgroundColor: "#E7F1FF",
                     }}
@@ -644,13 +671,14 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                         borderRadius: 8,
                         border: "1px solid #D9D9D9",
                         fontFamily: "Gilroy",
+                        padding:"3px 5px"
                       }),
                     }}
                   />
                 )}
 
                 {invoicenumbererrmsg && (
-                  <div className="d-flex align-items-center mb-2">
+                  <div className="d-flex align-items-center mb-2 mt-1">
                     <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                     <label
                       className="mb-0"
@@ -675,7 +703,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
         </div>
 
-        <div className="row mb-1">
+        <div className="row mb-1 gap-1">
 
 
 
@@ -692,11 +720,11 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                     lineHeight: 'normal',
                   }}
                 >
-                  Due Amount
+                  Due Amount {" "}
                 </Form.Label>
                 <Form.Control
                   style={{
-                    padding: '10px',
+                   padding: '12px 10px',
                     fontSize: 16,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
@@ -716,9 +744,9 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
           <div className='col-lg-3 col-md-6 col-sm-12 col-xs-12'>
             <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
-              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received  <span style={{ color: "red", fontSize: "20px" }}>*</span></Form.Label>
+              <Form.Label style={{ fontFamily: 'Gilroy', fontSize: 14, fontWeight: 500, color: "#222", fontStyle: 'normal', lineHeight: 'normal' }} >Amount Received {" "}     <span style={{ color: "red", fontSize: "20px" }}>*</span></Form.Label>
               <Form.Control
-                style={{ padding: '10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
+                style={{ padding: '12px 10px', fontSize: 16, color: "#4B4B4B", fontFamily: "Gilroy", lineHeight: '18.83px', fontWeight: 500 }}
                 type="text"
                 placeholder="Enter Received Amount"
                 value={received_amount}
@@ -734,7 +762,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                 }}
               />
               {receivedamounterrmsg && (
-                <div className="d-flex align-items-center  mb-2">
+                <div className="d-flex align-items-center mt-1 mb-2">
                   <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                   <label
                     className="mb-0"
@@ -756,11 +784,11 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
         </div>
 
 
-        <div className="row ">
+        <div className="row mb-1 gap-1 ">
           <div className="col-lg-3 col-md-5 col-sm-12 ">
             <Form.Group controlId="invoiceDate" className="mb-1">
               <Form.Label style={{ fontSize: 14, color: "#222222", fontFamily: "Gilroy", fontWeight: 500 }}>
-                Payment Date  <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                Payment Date {" "}  <span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
               <div style={{ position: 'relative', width: "100%", height: 48, }}>
 
@@ -812,45 +840,75 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                 Mode of Transaction{" "}
                 <span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                value={modeOfPayment}
-                onChange={handleModeOfPaymentChange}
-                className=""
-                id="vendor-select"
-                style={{
-                  fontSize: 16,
-                  color: "rgba(75, 75, 75, 1)",
-                  fontFamily: "Gilroy",
-                  fontWeight: modeOfPayment ? 600 : 500,
-                  cursor: "pointer"
-                }}
-              >
-
-                <option value="">Select Mode Of Payment</option>
-                {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
-                  state.bankingDetails?.bankingList?.banks.map((item) => {
-                    let label = "";
-                    if (item.type === "bank") label = 'Bank';
-                    else if (item.type === "upi") label = "UPI";
-                    else if (item.type === "card") label = "Card";
-                    else if (item.type === "cash") label = "Cash";
-
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {`${item.benificiary_name} - ${label}`}
-                      </option>
-                    );
-                  })}
-
-              </Form.Select>
+             <Select
+               options={paymentOptions}
+               value={
+                 paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+               }
+               onChange={(selectedOption) =>
+                 handleModeOfPaymentChange(selectedOption?.value)
+               }
+                onMenuOpen={() => setIsSelectOpen(true)}      
+               onMenuClose={() => setIsSelectOpen(false)} 
+               placeholder="Select Payment"
+               isDisabled={props.receiptedit}
+               
+                 styles={{
+                                   control: (base) => ({
+                                     ...base,
+                                     fontSize: 14,
+                                     color: "rgba(75, 75, 75, 1)",
+                                     fontFamily: "Gilroy",
+                                     fontWeight: modeOfPayment ? 600 : 500,
+                                     border: "1px solid #D9D9D9",
+                                     borderRadius: "8px",
+                                     boxShadow: "none",
+                                     height: 48,
+                                     cursor: "pointer",
+                                   }),
+                                   menu: (base) => ({
+                                     ...base,
+                                     backgroundColor: "#f8f9fa",
+                                     border: "1px solid #ced4da",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   menuList: (base) => ({
+                                     ...base,
+                                     backgroundColor: "#f8f9fa",
+                                     maxHeight: "80px",
+                                     padding: 0,
+                                     scrollbarWidth: "thin",
+                                     overflowY: "auto",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   placeholder: (base) => ({
+                                     ...base,
+                                     color: "#555",
+                                   }),
+                                   dropdownIndicator: (base) => ({
+                                     ...base,
+                                     color: "#555",
+                                     cursor: "pointer",
+                                   }),
+                                   option: (base, state) => ({
+                                     ...base,
+                                     cursor: "pointer",
+                                     backgroundColor: state.isFocused ? "lightblue" : "white",
+                                     color: "#000",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   indicatorSeparator: () => ({
+                                     display: "none",
+                                   }),
+                                 }}
+             />
 
 
 
 
             </Form.Group>
             {paymentError && (
-              <div className="d-flex align-items-center  mb-2">
+              <div className="d-flex align-items-center  mb-2" style={{marginTop: isSelectOpen ? 25 : 0,}}>
                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                 <label
                   className="mb-0"
@@ -889,8 +947,8 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
               />
               {notes_errmsg.trim() !== "" && (
                 <div>
-                  <p style={{ fontSize: '12px', color: 'red', marginTop: '3px' }}>
-                    {notes_errmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red' }} />} {notes_errmsg}
+                  <p style={{ fontSize: '12px', color: 'red', marginTop: '3px',fontFamily:"Gilroy"  }}>
+                    {notes_errmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', fontFamily:"Gilroy" }} />} {notes_errmsg}
                   </p>
                 </div>
               )}
@@ -918,7 +976,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
   {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-4 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
+              <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
             </div>
             : null}
@@ -950,29 +1008,28 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
             }}
           ></div>
         </div>}
-        {allfielderrmsg.trim() !== "" && (
+
+
+
+       
+
+
+
+
+
+
+
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
+
+ {allfielderrmsg.trim() !== "" && (
           <div>
-            <p style={{ fontSize: '12px', color: 'red', marginTop: '3px', textAlign: "center", fontFamily: "Gilroy" }}>
+            <p style={{ fontSize: '12px', color: 'red', marginTop: '4px', textAlign: "start", fontFamily: "Gilroy" }}>
               {allfielderrmsg !== " " && <MdError style={{ fontSize: '14px', color: 'red', marginBottom: 2 }} />} {allfielderrmsg}
             </p>
           </div>
         )}
 
-
-
-
-
-
-
-        <div style={{ display: "flex", flexDirection: "row", justifyContent: 'end' }}>
-
-
-
-
-
-
-
-          <div style={{ marginBottom: 30 }}></div>
+        
 
         </div>
       </div>

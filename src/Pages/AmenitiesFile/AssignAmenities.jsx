@@ -181,24 +181,34 @@ function AssignAmenities({ show, handleClose, assignAmenitiesDetails }) {
           </Modal.Header>
           <Modal.Body style={{ border: "none" }}>
             {errorAssign && (
-              <div className="d-flex align-items-center mb-3 ms-5">
-                <MdError style={{ color: 'red', marginRight: '5px', fontSize: '13px', marginBottom: '2px' }} />
-                <span style={{
-                  color: 'red', fontSize: '12px', fontFamily: 'Gilroy',
-                  fontWeight: 500
-                }}>
-                  {errorAssign}</span>
+              <div className="d-flex align-items-center gap-1 mb-3 ms-5">
+                <MdError style={{ color: 'red', fontSize: '14px', marginBottom: '2px' }} />
+                <span
+                  style={{
+                    color: 'red',
+                    fontSize: '12px',
+                    fontFamily: 'Gilroy',
+                    fontWeight: 500,
+                  }}
+                >
+                  {errorAssign}
+                </span>
               </div>
             )}
 
             {errorUnAssign && (
-              <div className="d-flex align-items-center mt-1 mb-2">
-                <MdError style={{ color: 'red', marginRight: '5px', fontSize: '13px' }} />
-                <span style={{
-                  color: 'red', fontSize: '12px', fontFamily: 'Gilroy',
-                  fontWeight: 500
-                }}>
-                  {errorUnAssign}</span>
+              <div className="d-flex align-items-center gap-1 mb-3 ms-5">
+                <MdError style={{ color: 'red', fontSize: '14px', marginBottom: '2px' }} />
+                <span
+                  style={{
+                    color: 'red',
+                    fontSize: '12px',
+                    fontFamily: 'Gilroy',
+                    fontWeight: 500,
+                  }}
+                >
+                  {errorUnAssign}
+                </span>
               </div>
             )}
 

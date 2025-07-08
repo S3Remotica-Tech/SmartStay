@@ -318,7 +318,7 @@ function SettingGeneral() {
     if (isValidMobileNo) {
       setPhoneError("");
     } else {
-      setPhoneError("Invalid Mobile Number");
+      setPhoneError("Please Enter Valid Mobile Number");
     }
 
     setPhoneErrorMessage("");
@@ -338,7 +338,7 @@ function SettingGeneral() {
       setEmailErrorMessage("");
     } else if (!isValidEmail) {
       setEmailErrorMessage("");
-      setEmailError("Invalid Email Id");
+      setEmailError("Please Enter Valid Email Id");
     } else {
       setEmailError("");
       setEmailErrorMessage("");
@@ -547,7 +547,7 @@ function SettingGeneral() {
     if (emilId) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
       if (!emailRegex.test(emilId.toLowerCase())) {
-        setEmailError("Please Enter a Valid Email ID"); hasError = true;
+        setEmailError("Please Enter Valid Email Id"); hasError = true;
       } else setEmailError("");
     }
 
@@ -776,7 +776,7 @@ function SettingGeneral() {
     }
   }, [state.Settings.StatusCodeforGeneralPassword]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -1120,7 +1120,7 @@ useEffect(() => {
                       {item && String(item.mobileNo).slice(-10)}
                     </p>
                   </div>
-                
+
                   <div className="col-12">
                     <p
                       className="mb-1"
@@ -1142,7 +1142,7 @@ useEffect(() => {
                     >
                       {(item.Address ? item.Address : '') +
                         (item.area ? ' ' + item.area : '') +
-                         (item.landmark ? ', ' + item.landmark : '') +
+                        (item.landmark ? ', ' + item.landmark : '') +
                         (item.city ? ', ' + item.city : '') +
                         (item.state ? ', ' + item.state : '')}
                       <br />
@@ -1156,40 +1156,40 @@ useEffect(() => {
             );
           })
         ) : !loading && (
-<div
-  style={{
-    textAlign: "center",
-    marginTop: 90,
-    height: '35vh',
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  }}
->
-  <img src={EmptyState} alt="emptystate" />
-  <div
-    className="pb-1"
-    style={{
-      fontWeight: 600,
-      fontFamily: "Gilroy",
-      fontSize: 18,
-      color: "rgba(75, 75, 75, 1)",
-    }}
-  >
-    No Profile
-  </div>
-  <div
-    className="pb-1"
-    style={{
-      fontWeight: 500,
-      fontFamily: "Gilroy",
-      fontSize: 14,
-      color: "rgba(75, 75, 75, 1)",
-    }}
-  >
-    There are no Profile available.
-  </div>
-</div>
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: 90,
+              height: '35vh',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img src={EmptyState} alt="emptystate" />
+            <div
+              className="pb-1"
+              style={{
+                fontWeight: 600,
+                fontFamily: "Gilroy",
+                fontSize: 18,
+                color: "rgba(75, 75, 75, 1)",
+              }}
+            >
+              No Profile
+            </div>
+            <div
+              className="pb-1"
+              style={{
+                fontWeight: 500,
+                fontFamily: "Gilroy",
+                fontSize: 14,
+                color: "rgba(75, 75, 75, 1)",
+              }}
+            >
+              There are no Profile available.
+            </div>
+          </div>
 
 
         )}
@@ -1393,7 +1393,7 @@ useEffect(() => {
             </div>
           </div>
         </div>
-        <Modal.Body style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll mt-3 me-3">
+        <Modal.Body style={{ maxHeight: "300px", overflowY: "scroll" }} className="show-scroll mt-0 me-3">
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
               <Form.Group>
@@ -1405,7 +1405,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  First Name{" "}
+                  First Name {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
@@ -1444,7 +1444,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Last Name{" "}
+                  Last Name {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> </span>
                 </Form.Label>
                 <FormControl
@@ -1478,7 +1478,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Mobile Number{" "}
+                  Mobile Number {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <InputGroup className="d-flex">
@@ -1559,7 +1559,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Email ID{" "}
+                  Email ID {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
@@ -1583,7 +1583,7 @@ useEffect(() => {
                 />
               </Form.Group>
               {emailError && (
-                <div style={{ color: "red", fontSize: "13px",marginTop: "4px" }}>
+                <div style={{ color: "red", fontSize: "13px", marginTop: "4px" }}>
                   <MdError style={{ marginRight: "5px", marginBottom: "3px" }} />
                   <span style={{ fontSize: '12px', fontFamily: "Gilroy", fontWeight: 500 }}>{emailError}</span>
                 </div>
@@ -1615,7 +1615,7 @@ useEffect(() => {
                       fontWeight: 500,
                     }}
                   >
-                    Password{" "}
+                    Password {" "}
                     <span style={{ color: "red", fontSize: "20px" }}> * </span>
                   </Form.Label>
                   <InputGroup>
@@ -1728,7 +1728,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Area , Street , Sector , Village{" "}
+                  Area , Street , Sector , Village {" "}
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -1766,7 +1766,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Landmark{" "}
+                  Landmark {" "}
                 </Form.Label>
                 <FormControl
                   type="text"
@@ -1807,7 +1807,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Pincode
+                  Pincode {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
                 <Form.Control
@@ -1860,7 +1860,7 @@ useEffect(() => {
                     fontWeight: 500,
                   }}
                 >
-                  Town/City{" "}
+                  Town/City {" "}
                   <span style={{ color: "red", fontSize: "20px" }}> * </span>
                 </Form.Label>
                 <FormControl
@@ -1884,7 +1884,7 @@ useEffect(() => {
               </Form.Group>
               {cityError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '13px', marginRight: "5px",marginBottom:"1px" }} />
+                  <MdError style={{ fontSize: '13px', marginRight: "5px", marginBottom: "1px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{cityError} </span>
                 </div>
               )}
@@ -1903,7 +1903,7 @@ useEffect(() => {
                     lineHeight: "normal",
                   }}
                 >
-                  State
+                  State {" "}
                   <span style={{ color: "red", fontSize: "20px" }}>*</span>
                 </Form.Label>
 
@@ -1945,6 +1945,7 @@ useEffect(() => {
                       ...base,
                       backgroundColor: "#f8f9fa",
                       border: "1px solid #ced4da",
+                      fontFamily: "Gilroy",
                     }),
                     menuList: (base) => ({
                       ...base,
@@ -1953,6 +1954,7 @@ useEffect(() => {
                       padding: 0,
                       scrollbarWidth: "thin",
                       overflowY: "auto",
+                      fontFamily: "Gilroy",
                     }),
                     placeholder: (base) => ({
                       ...base,
@@ -1992,12 +1994,12 @@ useEffect(() => {
           </div>
         </Modal.Body>
 
-{state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+        {state.createAccount?.networkError ?
+          <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+            <MdError style={{ color: "red", marginRight: '5px' }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+          : null}
 
 
         {formLoading && <div
@@ -2032,7 +2034,7 @@ useEffect(() => {
           {formError && (
             <div style={{ color: "red" }}>
               <MdError style={{ fontSize: '14px', marginRight: "6px" }} />
-              <span style={{ fontSize: '13px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
+              <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{formError}</span>
             </div>
           )}
 
@@ -2183,7 +2185,7 @@ useEffect(() => {
             style={{ cursor: 'pointer' }} />
 
         </Modal.Header>
-        <Modal.Body style={{ marginTop: '0px' }}>
+        <Modal.Body style={{ marginTop: '0px', paddingTop: 2 }}>
 
           <Form.Group className="">
             <Form.Label
@@ -2196,7 +2198,7 @@ useEffect(() => {
                 paddingTop: 0,
               }}
             >
-              Current Password{" "}
+              Current Password {" "}
               <span style={{ color: "red", fontSize: "20px" }}> * </span>
             </Form.Label>
             <InputGroup>
@@ -2245,8 +2247,8 @@ useEffect(() => {
             </InputGroup>
           </Form.Group>
           {passError && (
-            <div style={{ color: "red" }}>
-              <MdError style={{ marginRight: "5px",fontSize:'14px', marginBottom:"3px"}} />
+            <div className="d-flex align-items-center mt-1" style={{ color: "red" }}>
+              <MdError style={{ marginRight: "5px", fontSize: '14px', marginBottom: "3px" }} />
 
               <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{passError}</span>
             </div>
@@ -2279,7 +2281,7 @@ useEffect(() => {
             }}
           ></div>
         </div>}
-        <Modal.Footer className="d-flex justify-content-center" style={{ border: "none" }}>
+        <Modal.Footer className="d-flex justify-content-center m-0 pt-1" style={{ border: "none" }}>
           <Button
 
             className="w-100 custom-button mt-2"
@@ -2322,7 +2324,7 @@ useEffect(() => {
           <CloseCircle size="24" color="#000" onClick={handleCloseConfirmPass}
             style={{ cursor: 'pointer' }} />
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="pt-2">
           <div className="col-lg-12 
            col-md-12 col-sm-12 col-xs-12"
           >
@@ -2336,7 +2338,7 @@ useEffect(() => {
                   fontWeight: 500,
                 }}
               >
-                New Password{" "}
+                New Password {" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
               <InputGroup>
@@ -2383,13 +2385,27 @@ useEffect(() => {
                   )}
                 </InputGroup.Text>
               </InputGroup>
+              {newPassError && (
+                <div className="d-flex align-items-center pt-1">
+                  <MdError style={{ color: "red", marginRight: 5, fontSize: "14px" }} />
+                  <label
+                    className="mb-0"
+                    style={{
+                      color: "red",
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {newPassError}
+                  </label>
+                </div>
+
+              )}
+
+
             </Form.Group>
-            {newPassError && (
-              <div className="text-danger" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy" }}>
-                <MdError /> {''}
-                {newPassError}
-              </div>
-            )}
+
 
           </div>
           <div className="col-lg-12 
@@ -2404,7 +2420,7 @@ useEffect(() => {
                   fontWeight: 500,
                 }}
               >
-                Confirm Password{" "}
+                Confirm Password {" "}
                 <span style={{ color: "red", fontSize: "20px" }}> * </span>
               </Form.Label>
               <InputGroup>
@@ -2452,13 +2468,27 @@ useEffect(() => {
                   )}
                 </InputGroup.Text>
               </InputGroup>
+              {conformPasswordError && (
+                <div className="d-flex align-items-center pt-1">
+                  <MdError style={{ color: "red", marginRight: 5, fontSize: "14px" }} />
+                  <label
+                    className="mb-0"
+                    style={{
+                      color: "red",
+                      fontSize: "12px",
+                      fontFamily: "Gilroy",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {conformPasswordError}
+                  </label>
+                </div>
+              )}
+
             </Form.Group>
-            {conformPasswordError && (
-              <div className="text-danger" style={{ color: "red", fontSize: 13, fontFamily: "Gilroy" }}>
-                <MdError /> {' '}
-                {conformPasswordError}
-              </div>
-            )}
+
+
+
 
           </div>
         </Modal.Body>
@@ -2487,7 +2517,7 @@ useEffect(() => {
             }}
           ></div>
         </div>}
-        <Modal.Footer className="d-flex justify-content-center">
+        <Modal.Footer className="d-flex justify-content-center " style={{border:"done"}}>
           <Button
             className="col-12"
             style={{

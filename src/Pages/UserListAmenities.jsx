@@ -107,7 +107,7 @@ function UserListAmenities(props) {
     if (!value || value === "Select Status") {
       switch (fieldName) {
         case "statusAmni":
-          setSelectError("Status is Required");
+          setSelectError("Please Select Status");
           break;
 
         default:
@@ -391,7 +391,7 @@ useEffect(() => {
           />
         </Modal.Header>
 
-        <Modal.Body>
+        <Modal.Body className="pb-1">
           <div className="mb-3 ps-2 pe-2">
             <label
               className="mb-1"
@@ -406,8 +406,8 @@ useEffect(() => {
               aria-describedby="basic-addon2"
               value={createby[0]?.Amnities_Name}
               style={{
-                fontSize: 14,
-                fontWeight: "530",
+                fontSize: 16,
+                fontWeight: "500",
                 opacity: 1,
                 borderRadius: "8px",
                 height: 45,
@@ -415,6 +415,7 @@ useEffect(() => {
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
+              disabled
             />
           </div>
           {amnityError && (
@@ -447,8 +448,8 @@ useEffect(() => {
               aria-describedby="basic-addon2"
               value={props.hostelName}
               style={{
-                fontSize: 14,
-                fontWeight: "530",
+                fontSize: 16,
+                fontWeight: "500",
                 height: 45,
                 opacity: 1,
                  fontFamily: "Gilroy",
@@ -456,6 +457,7 @@ useEffect(() => {
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
+               disabled
             />
           </div>
 
@@ -473,8 +475,8 @@ useEffect(() => {
               aria-describedby="basic-addon2"
               value={createby[0]?.Amount}
               style={{
-                fontSize: 14,
-                fontWeight: "530",
+                fontSize: 16,
+                fontWeight: "500",
                  fontFamily: "Gilroy",
                 opacity: 1,
                 borderRadius: "8px",
@@ -482,6 +484,7 @@ useEffect(() => {
                 color: "gray",
                 "::placeholder": { color: "gray", fontSize: 12 },
               }}
+               disabled
             />
           </div>
           {statusShow && (
@@ -502,12 +505,12 @@ useEffect(() => {
                 className="border"
                 onChange={(e) => handleStatusAmnities(e)}
                 style={{
-                  fontSize: 14,
+                  fontSize: 16,
                   backgroundColor: "transparent",
                   height: 45,
                   borderRadius: 8,
                   opacity: 1,
-                  fontWeight: 530,
+                  fontWeight: 500,
                   fontFamily: "Gilroy",
                   color:"grey",
                   cursor:"pointer"
@@ -516,8 +519,8 @@ useEffect(() => {
               >
                 <option
                   style={{
-                    fontSize: 14,
-                    fontWeight: 530,
+                    fontSize: 16,
+                    fontWeight: 500,
                     fontFamily: "Gilroy",
                     opacity:1
                   }}
@@ -526,16 +529,16 @@ useEffect(() => {
                 </option>
 
                 <option value="1"   style={{
-                    fontSize: 14,
-                    fontWeight: 530,
+                    fontSize: 16,
+                    fontWeight: 500,
                     fontFamily: "Gilroy",
                     opacity:1,
                     color: "gray",
                     cursor:"pointer"
                   }}>Active</option>
                 <option value="0"  style={{
-                    fontSize: 14,
-                    fontWeight: 530,
+                    fontSize: 16,
+                    fontWeight: 500,
                     fontFamily: "Gilroy",
                     opacity:1,
                     color: "gray",
@@ -599,7 +602,7 @@ useEffect(() => {
 
 
 
-        <Modal.Footer className="d-flex justify-content-center" style={{borderTop:"none"}}>
+        <Modal.Footer className="d-flex justify-content-center pt-0" style={{borderTop:"none"}}>
           <Button
             className="col-lg-12 col-md-12 col-sm-12 col-xs-12"
             style={{
@@ -609,7 +612,7 @@ useEffect(() => {
               borderRadius: 12,
               fontSize: 16,
               fontFamily: "Gilroy",
-              marginTop: 10,
+              
             }}
             onClick={() => {
               if (statusShow) {
