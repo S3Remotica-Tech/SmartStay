@@ -39,6 +39,7 @@ const AddReceiptForm = (props) => {
   const [payment_dateerrmsg, setPaymentDateErrmsg] = useState('')
   const [notes_errmsg, setNotes_Errmsg] = useState('')
   const [paymentError, setPaymentError] = useState("");
+  const [bankking, setBanking] = useState("")
 
   const [allfielderrmsg, setAllFieldErrmsg] = useState('')
 
@@ -48,34 +49,7 @@ const AddReceiptForm = (props) => {
   const [edit, setEdit] = useState(false)
 
 
-  useEffect(() => {
-    if (props.editvalue && props.receiptedit) {
-      setEdit(true)
-      setEdit_Id(props.editvalue.user_id)
-      setCustomerName(props.editvalue.user_id);
-      setInvoiceNumber(props.editvalue.invoice_number || '');
-
-      if (props.editvalue.payment_date) {
-        const parsedDate = new Date(props.editvalue.payment_date);
-        if (!isNaN(parsedDate.getTime())) {
-          setPaymentDate(parsedDate);
-          const formattedDate = formatDateForReceipt(parsedDate);
-          setFormatPaymentDate(formattedDate)
-        }
-
-      }
-
-
-
-      setReferenceId(props.editvalue.reference_id || '');
-      setDueAmount(props.editvalue.BalanceDue || 0);
-      setInitial_DueAmount(props.editvalue.BalanceDue)
-      setReceivedAmount(props.editvalue.amount_received || '')
-      setAccount(props.editvalue.bank_id || '');
-      setModeOfPayment(props.editvalue.payment_mode || '')
-      setNotes(props.editvalue.notes ? props.editvalue.notes : '');
-    }
-  }, [props.editvalue, props.receiptedit]);
+ 
 
 
 
@@ -186,25 +160,63 @@ const AddReceiptForm = (props) => {
 
 
 
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
 
-
-
-
-
-
-
-  const handleModeOfPaymentChange = (e) => {
-    setModeOfPayment(e.target.value);
-    setAllFieldErrmsg("")
-    if (!e.target.value) {
-      setPaymentError("Please Select Payment Method")
-    }
-    else {
-      setPaymentError('')
-
-    }
-
+   const handleModeOfPaymentChange = (selectedOption) => {
+    if (!selectedOption) return;
+    setAllFieldErrmsg("");
+    setPaymentError("");
+    setModeOfPayment(selectedOption);
   };
+
+
+const labelMap = {
+  bank: "Bank",
+  upi: "UPI",
+  card: "Card",
+  cash: "Cash",
+};
+
+const paymentOptions = Array.isArray(bankking)
+  ? bankking.map((item) => ({
+      value: String(item.id), 
+      label: `${item.benificiary_name} - ${labelMap[item.type] || ""}`,
+    }))
+  : [];
+
+
+   useEffect(() => {
+    if (props.editvalue && props.receiptedit) {
+      setEdit(true)
+      setEdit_Id(props.editvalue.user_id)
+      setCustomerName(props.editvalue.user_id);
+      setInvoiceNumber(props.editvalue.invoice_number || '');
+
+      if (props.editvalue.payment_date) {
+        const parsedDate = new Date(props.editvalue.payment_date);
+        if (!isNaN(parsedDate.getTime())) {
+          setPaymentDate(parsedDate);
+          const formattedDate = formatDateForReceipt(parsedDate);
+          setFormatPaymentDate(formattedDate)
+        }
+
+      }
+
+
+
+      setReferenceId(props.editvalue.reference_id || '');
+      setDueAmount(props.editvalue.BalanceDue || 0);
+      setInitial_DueAmount(props.editvalue.BalanceDue)
+      setReceivedAmount(props.editvalue.amount_received || '')
+      setAccount(props.editvalue.bank_id || '');
+      setModeOfPayment(props.editvalue.payment_mode || '')
+      setNotes(props.editvalue.notes ? props.editvalue.notes : '');
+    }
+  }, [props.editvalue, props.receiptedit]);
+
+
+
+ 
 
 
 
@@ -313,7 +325,6 @@ const AddReceiptForm = (props) => {
           String(props.editvalue.reference_id) !== String(reference_id) ||
           Number(props.editvalue.amount_received) !== Number(received_amount) ||
           String(props.editvalue.invoice_number) !== String(invoicenumber) ||
-          String(props.editvalue.payment_mode) !== String(modeOfPayment) ||
           String(props.editvalue.bank_id) !== String(account) ||
           (props.editvalue.notes ? String(props.editvalue.notes) !== String(notes) : notes !== "")
         );
@@ -377,6 +388,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
 
   useEffect(() => {
+    dispatch({ type: "BANKINGLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
     dispatch({ type: "USERLIST", payload: { hostel_id: state.login.selectedHostel_Id } })
   }, [])
 
@@ -410,7 +422,15 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
   }, [state.InvoiceList.ReceiptAddErrorStatuscode]);
 
 
+  useEffect(() => {
+    if (state.bankingDetails.statusCodeForGetBanking === 200) {
 
+      setBanking(state.bankingDetails.bankingList.banks)
+      setTimeout(() => {
+        dispatch({ type: "CLEAR_BANKING_LIST" });
+      }, 200);
+    }
+  }, [state.bankingDetails.statusCodeForGetBanking]);
 
 
   useEffect(() => {
@@ -820,45 +840,75 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
                 Mode of Transaction{" "}
                 <span style={{ color: "red", fontSize: "20px" }}>*</span>
               </Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                value={modeOfPayment}
-                onChange={handleModeOfPaymentChange}
-                className=""
-                id="vendor-select"
-                style={{
-                  fontSize: 16,
-                  color: "rgba(75, 75, 75, 1)",
-                  fontFamily: "Gilroy",
-                  fontWeight: modeOfPayment ? 600 : 500,
-                  cursor: "pointer"
-                }}
-              >
-
-                <option value="">Select Mode Of Payment</option>
-                {Array.isArray(state.bankingDetails?.bankingList?.banks) &&
-                  state.bankingDetails?.bankingList?.banks.map((item) => {
-                    let label = "";
-                    if (item.type === "bank") label = 'Bank';
-                    else if (item.type === "upi") label = "UPI";
-                    else if (item.type === "card") label = "Card";
-                    else if (item.type === "cash") label = "Cash";
-
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {`${item.benificiary_name} - ${label}`}
-                      </option>
-                    );
-                  })}
-
-              </Form.Select>
+             <Select
+               options={paymentOptions}
+               value={
+                 paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+               }
+               onChange={(selectedOption) =>
+                 handleModeOfPaymentChange(selectedOption?.value)
+               }
+                onMenuOpen={() => setIsSelectOpen(true)}      
+               onMenuClose={() => setIsSelectOpen(false)} 
+               placeholder="Select Payment"
+               isDisabled={props.receiptedit}
+               
+                 styles={{
+                                   control: (base) => ({
+                                     ...base,
+                                     fontSize: 14,
+                                     color: "rgba(75, 75, 75, 1)",
+                                     fontFamily: "Gilroy",
+                                     fontWeight: modeOfPayment ? 600 : 500,
+                                     border: "1px solid #D9D9D9",
+                                     borderRadius: "8px",
+                                     boxShadow: "none",
+                                     height: 48,
+                                     cursor: "pointer",
+                                   }),
+                                   menu: (base) => ({
+                                     ...base,
+                                     backgroundColor: "#f8f9fa",
+                                     border: "1px solid #ced4da",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   menuList: (base) => ({
+                                     ...base,
+                                     backgroundColor: "#f8f9fa",
+                                     maxHeight: "80px",
+                                     padding: 0,
+                                     scrollbarWidth: "thin",
+                                     overflowY: "auto",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   placeholder: (base) => ({
+                                     ...base,
+                                     color: "#555",
+                                   }),
+                                   dropdownIndicator: (base) => ({
+                                     ...base,
+                                     color: "#555",
+                                     cursor: "pointer",
+                                   }),
+                                   option: (base, state) => ({
+                                     ...base,
+                                     cursor: "pointer",
+                                     backgroundColor: state.isFocused ? "lightblue" : "white",
+                                     color: "#000",
+                                     fontFamily: "Gilroy",
+                                   }),
+                                   indicatorSeparator: () => ({
+                                     display: "none",
+                                   }),
+                                 }}
+             />
 
 
 
 
             </Form.Group>
             {paymentError && (
-              <div className="d-flex align-items-center  mb-2">
+              <div className="d-flex align-items-center  mb-2" style={{marginTop: isSelectOpen ? 25 : 0,}}>
                 <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                 <label
                   className="mb-0"
