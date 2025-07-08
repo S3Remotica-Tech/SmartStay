@@ -283,7 +283,7 @@ function UserlistForm(props) {
           setBedError("Please Select Bed");
           break;
         case "selectedDate":
-          setDateError("Please Select Joning Date");
+          setDateError("Please Select Joining Date");
           break;
         case "AdvanceAmount":
           setAdvanceAmountError("Please Enter Advance Amount");
