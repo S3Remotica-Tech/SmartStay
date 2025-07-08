@@ -34,9 +34,7 @@ function ExpensesListTable(props) {
 
   }
   const [showAbove, setShowAbove] = useState(false);
- showAbove
-  ? popupPosition.top - popupRef.current?.offsetHeight - 10
-  : popupPosition.top - 25,
+
 useEffect(() => {
   if (popupRef.current) {
     const popupHeight = popupRef.current.offsetHeight;
