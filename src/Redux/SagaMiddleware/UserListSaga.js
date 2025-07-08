@@ -133,8 +133,7 @@ function* handleNumberOfRooms(ID) {
    }
   catch (err) {
   const error = err || {};
- console.log("roomerror", err)
-  yield put({
+   yield put({
     type: 'NETWORK_ERROR',
     payload:
       error?.code === 'ERR_NETWORK'
@@ -160,7 +159,8 @@ function* handlehosteliddetail(data) {
 }
 catch (err) {
   const error = err || {};
- console.log("hosteerror", err)
+
+  
   yield put({
     type: 'NETWORK_ERROR',
     payload:
@@ -602,7 +602,7 @@ function* handlebedNumberDetails(bedDetails) {
    }
 }
 catch (err) {
-   console.log("bed error", err)
+  
   const error = err || {};
  
   yield put({
@@ -1391,7 +1391,7 @@ function* handleCustomerAllDetails(action) {
 }
  catch (err) {
   const error = err || {};
- console.log("errrrrrrrrrr",err)
+
   yield put({
     type: 'NETWORK_ERROR',
     payload:
@@ -1771,7 +1771,7 @@ function* handleCustomerDetailsKyc(action) {
       }
    }
   catch (err) {
-   console.log("kyc error",err)
+   
   const error = err || {};
  
   yield put({
