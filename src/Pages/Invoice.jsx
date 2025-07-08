@@ -1737,7 +1737,7 @@ const InvoicePage = () => {
 
       setTimeout(() => {
         dispatch({ type: "CLEAR_INVOICE_UPDATE_LIST" });
-      }, 2000);
+      }, 300);
     }
   }, [state.InvoiceList.UpdateInvoiceStatusCode]);
 
@@ -2058,7 +2058,7 @@ const InvoicePage = () => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_ADD" });
         setLoading(false);
 
-      }, 1000);
+      }, 300);
     }
   }, [state.InvoiceList.manualInvoiceAddStatusCode]);
 
@@ -2090,7 +2090,7 @@ const InvoicePage = () => {
         setLoading(false);
 
         setBills(state.InvoiceList.ManualInvoices);
-      }, 1000);
+      }, 100);
     }
   }, [
     state.InvoiceList.manualInvoiceEditStatusCode,
@@ -2108,7 +2108,7 @@ const InvoicePage = () => {
         dispatch({ type: "REMOVE_STATUS_CODE_MANUAL_INVOICE_DELETE" });
 
         setBills(state.InvoiceList.ManualInvoices);
-      }, 1000);
+      }, 100);
     }
   }, [
     state.InvoiceList.manualInvoiceDeleteStatusCode,
