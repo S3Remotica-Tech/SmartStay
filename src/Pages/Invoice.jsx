@@ -395,7 +395,7 @@ const InvoicePage = () => {
 
 
   useEffect(() => {
-    let filtered = originalBillsFilter;
+    let filtered = originalBillsFilter;    
 
     if (statusfilter === "All") {
       filtered = originalBillsFilter;
@@ -404,15 +404,22 @@ const InvoicePage = () => {
         (user) =>
           user.status?.trim().toLowerCase() === statusfilter.trim().toLowerCase()
       );
-    } else if (statusfilter === "date" && startDate && endDate) {
-      filtered = filtered.filter((user) => {
-        const invoiceDate = new Date(user.Date);
-        return (
-          invoiceDate >= startDate &&
-          invoiceDate <= endDate
-        );
-      });
     }
+    else if (statusfilter === "date" && startDate && endDate) {
+  filtered = filtered.filter((user) => {
+    const invoiceDate = new Date(user.Date);
+    
+    const invoiceOnlyDate = new Date(invoiceDate.setHours(0, 0, 0, 0));
+    const startOnlyDate = new Date(startDate).setHours(0, 0, 0, 0);
+    const endOnlyDate = new Date(endDate).setHours(0, 0, 0, 0);
+
+    return (
+      invoiceOnlyDate >= startOnlyDate &&
+      invoiceOnlyDate <= endOnlyDate
+    );
+  });
+}
+
 
     setBills(filtered);
     setCurrentPage(1)
@@ -2891,7 +2898,7 @@ const InvoicePage = () => {
                           }
                         }}
                         value={dateRange}
-                        format="YYYY-MM-DD"
+                        format="DD-MM-YYYY"
                         className="w-100"
                       />
 
