@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { FormControl, InputGroup, Table, Form } from 'react-bootstrap';
+import { FormControl, InputGroup, Table } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import AddAsset from './AddAsset'
@@ -737,7 +737,7 @@ const handlePriceRangeChange = (value) => {
       { value: "date", label: "Date" }
     ]}
    styles={{
-    control: (base, state) => ({
+    control: (base) => ({
       ...base,
       height: "40px",
       borderRadius: "6px",
