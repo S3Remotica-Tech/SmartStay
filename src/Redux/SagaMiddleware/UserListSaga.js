@@ -1725,20 +1725,7 @@ function* handleCustomerDetailsKyc(action) {
       const response = yield call(handlegetCustomerDetailsKyc, action.payload);
 
 
-     const toastStyle = {
-         backgroundColor: "#E6F6E6",
-         color: "black",
-         width: "100%",
-         borderRadius: "60px",
-         height: "20px",
-         fontFamily: "Gilroy",
-         fontWeight: 600,
-         fontSize: 14,
-         textAlign: "start",
-         display: "flex",
-         alignItems: "center",
-         padding: "10px",
-      };
+  
 
       if (response.status === 200) {
          yield put({
@@ -1749,17 +1736,7 @@ function* handleCustomerDetailsKyc(action) {
             },
          });
 
-         toast.success(`${response?.data?.result?.message || 'KYC successful'}`, {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeButton: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: toastStyle,
-         });
+      
 
          yield call(refreshToken, response);
       }
