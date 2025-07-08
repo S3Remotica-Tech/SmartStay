@@ -291,7 +291,7 @@ function BookingModal(props) {
           setError("Please Enter Mobile Number");
           break;
         case "joiningDate":
-          setError("Please Enter Joining Date");
+          setError("Please Select Joining Date");
           break;
         case "amount":
           setError("Please Enter Amount");

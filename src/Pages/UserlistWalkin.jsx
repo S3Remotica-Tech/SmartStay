@@ -73,17 +73,19 @@ function UserlistWalkin(props) {
 
   
   
-  useEffect(() => {
-       if(state.login.selectedHostel_Id) {
-        setWalkingLoader(true);
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
-   
-       }
-        
-  }, [state.login.selectedHostel_Id]);
+ 
+  const calledOnceRef = useRef(false);
+
+useEffect(() => {
+  if (state.login.selectedHostel_Id && !calledOnceRef.current) {
+    calledOnceRef.current = true;
+    setWalkingLoader(true);
+    dispatch({
+      type: "WALKINCUSTOMERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }
+}, [state.login.selectedHostel_Id]);
 
   useEffect(() => {
     if (state.UsersList.getWalkInStatusCode === 200) {
@@ -193,6 +195,7 @@ function UserlistWalkin(props) {
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1);
   };
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -333,7 +336,7 @@ function UserlistWalkin(props) {
                     style={{
                       height:
                         sortedData.length >= 5 || sortedData.length >= 5
-                          ? "350px"
+                          ? "365px"
                           : "auto",
                       overflow: "auto",
                       marginBottom: 20,
@@ -742,7 +745,7 @@ function UserlistWalkin(props) {
                                             backgroundColor: "#F9F9F9",
                                             position: "fixed",
                                             top: popupPosition.top - 15,
-                                            left: popupPosition.left,
+                                            left: popupPosition.left-10,
                                             width: 140,
                                             border: "1px solid #EBEBEB",
                                             borderRadius: 10,

@@ -113,7 +113,7 @@ function UserListRoomDetail(props) {
   const [advanceDateError, setAdvanceDateError] = useState("");
   const [advanceDueDateError, setAdvanceDueDateError] = useState("");
   const [customerDetails, setCustomerDetails] = useState([])
-
+  const [joiningDateErrmsg, setJoingDateErrmsg] = useState('');
 
 
 
@@ -791,6 +791,7 @@ function UserListRoomDetail(props) {
     setDateError("");
     setActiveRow(null);
     setEmailErrorMessage("");
+    setJoingDateErrmsg("")
     dispatch({ type: "CLEAR_EMAIL_ERROR" });
   };
 
@@ -1161,6 +1162,10 @@ function UserListRoomDetail(props) {
     return true;
   };
 
+  
+
+  
+
   const handleSaveUserlistAddUser = () => {
     if (!validateAssignField(Floor, "Floor"));
     if (!validateAssignField(RoomId, "RoomId"));
@@ -1175,6 +1180,22 @@ function UserListRoomDetail(props) {
       return;
     } else {
       setDateError("");
+    }
+
+     if (selectedDate && props.userDetails[0].User_Id) {
+      const selectedUser = state.UsersList.Users.find(item => item.User_Id === props.userDetails[0].User_Id);
+      if (selectedUser) {
+        const CreateDate = new Date(selectedUser.createdAt);
+        const AssignDate = new Date(selectedDate);
+        const CreaeteDateOnly = new Date(CreateDate.toDateString());
+        const AssignDateOnly = new Date(AssignDate.toDateString());
+        if (AssignDateOnly < CreaeteDateOnly) {
+          setJoingDateErrmsg('Before Create Date Not Allowed');
+         return
+        } else {
+          setJoingDateErrmsg('');
+        }
+      }
     }
 
     if (Number(RoomRent) <= 0) {
@@ -1930,30 +1951,40 @@ function UserListRoomDetail(props) {
                                   </div>
 
                                   <div className="row">
-                                    <div className="col-sm-4 d-flex flex-column align-items-start">
-                                      <p
-                                        style={{
-                                          fontSize: 12,
-                                          fontWeight: 500,
-                                          fontFamily: "Gilroy",
-                                        }}
-                                      >
-                                        Email ID
-                                      </p>
-                                      <p style={{ marginTop: "-10px" }}>
-                                        <Sms size="16" color="#1E45E1" />
-                                        <span
-                                          style={{
-                                            marginLeft: 5,
-                                            fontSize: 14,
-                                            fontWeight: 600,
-                                            fontFamily: "Gilroy",
-                                          }}
-                                        >
-                                          {item.Email}
-                                        </span>
-                                      </p>
-                                    </div>
+                                  <div className="col-sm-4 d-flex flex-column align-items-start">
+  <p
+    style={{
+      fontSize: 12,
+      fontWeight: 500,
+      fontFamily: "Gilroy",
+    }}
+  >
+    Email ID
+  </p>
+  <div
+    style={{
+      display: "flex",
+      marginTop: "-10px",
+      gap: "6px",
+      width: "100%",
+    }}
+  >
+    <Sms size="16" color="#1E45E1" style={{ flexShrink: 0 }} />
+    <span
+      style={{
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: "Gilroy",
+        wordBreak: "break-word",
+        overflowWrap: "break-word",
+        minWidth: 0,
+        marginTop:-3
+      }}
+    >
+      {item.Email}
+    </span>
+  </div>
+</div>
                                     <div
                                       className="col-sm-4 d-flex flex-column align-items-center"
                                       style={{ whiteSpace: "nowrap" }}
@@ -4211,6 +4242,7 @@ function UserListRoomDetail(props) {
                                           onChange={(date) => {
                                             setDateError("");
                                             setFormError("");
+                                            setJoingDateErrmsg('');
                                             setSelectedDate(
                                               date ? date.toDate() : null
                                             );
@@ -4250,6 +4282,16 @@ function UserListRoomDetail(props) {
                                         </span>
                                       </div>
                                     )}
+
+
+                                       {joiningDateErrmsg.trim() !== "" && (
+                                                                                            <div className="d-flex align-items-center">
+                                                                                              <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
+                                                                                              <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
+                                                                                                {joiningDateErrmsg}
+                                                                                              </label>
+                                                                                            </div>
+                                                                                          )}
                                   </div>
 
                                   <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">

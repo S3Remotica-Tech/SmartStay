@@ -274,7 +274,7 @@ const AddReceiptForm = (props) => {
       setCustomerErrmsg('Please Select  Customer')
     }
 
-    if (!formatpaymentdate) {
+    if (!payment_date) {
       setPaymentDateErrmsg('Please Select  Date')
     }
 
@@ -295,7 +295,7 @@ const AddReceiptForm = (props) => {
     }
 
 
-    if (!customername && !invoicenumber && !formatpaymentdate && !reference_id && !modeOfPayment && !received_amount) {
+    if (!customername && !invoicenumber && !payment_date && !reference_id && !modeOfPayment && !received_amount) {
       setAllFieldErrmsg('Please Enter All Field')
       return;
     }
@@ -330,7 +330,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
     if (selectedUser) {
       const joiningDate = dayjs(selectedUser.user_join_date).format("YYYY-MM-DD");
-      const formattedPaymentDate = dayjs(formatpaymentdate).format("YYYY-MM-DD");
+      const formattedPaymentDate = dayjs(payment_date).format("YYYY-MM-DD");
 
       if (dayjs(formattedPaymentDate).isBefore(joiningDate)) {
         setPaymentDateErrmsg("Before join date not allowed");
@@ -339,7 +339,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
     }
 
 
-    if (!edit && customername && invoicenumber && formatpaymentdate && reference_id && received_amount && modeOfPayment) {
+    if (!edit && customername && invoicenumber && payment_date && reference_id && received_amount && modeOfPayment) {
       dispatch({
         type: 'ADD_RECEIPT',
         payload: {
@@ -352,7 +352,7 @@ const selectedUser = state.UsersList.Users.find(item => item.ID === customername
 
     }
 
-    else if (edit && isChanged && props.editvalue && props.receiptedit && edit_Id && customername && invoicenumber && formatpaymentdate && reference_id && received_amount && modeOfPayment && account) {
+    else if (edit && isChanged && props.editvalue && props.receiptedit && edit_Id && customername && invoicenumber && payment_date && reference_id && received_amount && modeOfPayment && account) {
       dispatch({
         type: 'EDIT_RECEIPTS',
         payload: {

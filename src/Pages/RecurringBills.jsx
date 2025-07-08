@@ -410,7 +410,7 @@ useEffect(() => {
 
 
 
-        <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 mt-2">
+        <div className="col-lg-7 col-md-12 col-sm-12 col-xs-12 mt-3">
           <Table
             responsive
             className="Table_Design"

@@ -389,16 +389,19 @@ function CustomerForm({ show, handleClose, initialData }) {
   const handleHouseNo = (e) => {
     setHouseNo(e.target.value);
     setHouse_NoError("")
+    setIsChangedError("")
   };
 
   const handleStreetName = (e) => {
     setStreet(e.target.value);
     setStreetError("");
+    setIsChangedError("")
   }
 
   const handleLandmark = (e) => {
     setLandmark(e.target.value);
     setLandmarkError("");
+    setIsChangedError("")
   }
 
 
@@ -416,6 +419,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       setPincodeError("");
       
     }
+    setIsChangedError("")
 
   };
 
@@ -426,6 +430,7 @@ function CustomerForm({ show, handleClose, initialData }) {
       setCity(value);
       setCityError("");
     }
+    setIsChangedError("")
   }
 
 
@@ -447,31 +452,44 @@ function CustomerForm({ show, handleClose, initialData }) {
         console.error("Image compression error:", error);
       }
     }
+    setIsChangedError("")
   };
 
-  useEffect(() => {
-    if (
-      state.UsersList.addWalkInCustomerStatusCode === 200
-    ) {
-      setFormLoading(false)
-      handleFormClose()
-      setJoingDateErrmsg("")
-      setPincodeError("")
-      dispatch({
-        type: "WALKINCUSTOMERLIST",
-        payload: { hostel_id: state.login.selectedHostel_Id },
-      });
+  const hasFetchedRef = useRef(false);
+
+useEffect(() => {
+  if (
+    state.UsersList.addWalkInCustomerStatusCode === 200 &&
+    !hasFetchedRef.current
+  ) {
+    hasFetchedRef.current = true;
+
+   
+
+    setFormLoading(false);
+    handleFormClose();
+    setJoingDateErrmsg("");
+    setPincodeError("");
+
+    setTimeout(() => {
+      dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
+      hasFetchedRef.current = false; 
+    }, 1000);
+  }
+}, [state.UsersList.addWalkInCustomerStatusCode]);
 
 
-      setTimeout(() => {
-        dispatch({ type: "CLEAR_ADD_WALK_IN_CUSTOMER" });
-      }, 1000);
+useEffect(()=>{
+  if(!show){
+dispatch({
+      type: "WALKINCUSTOMERLIST",
+      payload: { hostel_id: state.login.selectedHostel_Id },
+    });
+  }
+  
+},[])
 
-    }
-  }, [
-    state.UsersList.addWalkInCustomerStatusCode
 
-  ]);
 
 
   const handleFormClose = () => {
@@ -974,6 +992,7 @@ useEffect(() => {
                   options={indianStates}
                   onChange={(selectedOption) => {
                     setStateName(selectedOption?.value);
+                    setIsChangedError("")
                   }}
                   value={
                     state_name ? { value: state_name, label: state_name } : null

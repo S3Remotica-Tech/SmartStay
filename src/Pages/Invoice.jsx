@@ -5467,7 +5467,8 @@ const InvoicePage = () => {
             </div>
           </div>
 
-          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          <div style={{display:'flex', flexDirection:'row'}}>
+          <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12 me-4">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
               <Form.Label
                 style={{
@@ -5594,7 +5595,7 @@ const InvoicePage = () => {
           </div>
 
           <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-1 mt-1" controlId="exampleForm.ControlInput1">
               <Form.Label
                 style={{
                   fontFamily: "Gilroy",
@@ -5615,6 +5616,7 @@ const InvoicePage = () => {
                   fontFamily: "Gilroy",
                   lineHeight: "18.83px",
                   fontWeight: 500,
+                  height:48
                 }}
                 type="text"
                 placeholder="Enter Invoice Number"
@@ -5645,6 +5647,7 @@ const InvoicePage = () => {
                 </div>
               )}
             </Form.Group>
+          </div>
           </div>
 
           <div className="mb-4" style={{ display: "flex", flexDirection: "row", height: "100px" }}>
