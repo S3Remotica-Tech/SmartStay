@@ -1443,7 +1443,6 @@ const Compliance = () => {
                                   ...base,
                                   cursor: "pointer",
                                   color: state.isSelected ? "#fff" : "#000",
-                                  fontSize: "14px",
                                   fontFamily: "Gilroy",
                                 }),
                               }}
