@@ -559,6 +559,7 @@ useEffect(() => {
 
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(Number(event.target.value));
+    setCurrentPage(1)
   };
 
   const handlePageChange = (pageNumber) => {
@@ -958,7 +959,7 @@ useEffect(() => {
                         Category
                         {showCategory && (
                           <ListGroup
-                            className="show-scroll-category submenu"
+                            className="show-scrolls-Expense submenu"
                             style={{
                               position: "absolute",
                               right: 200,
@@ -967,6 +968,10 @@ useEffect(() => {
                               maxHeight: "200px",
                               overflowY: "auto",
                               zIndex: 20,
+                                 border: "1px solid #ccc",
+    backgroundColor: "#fff",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    boxSizing: "content-box", 
                             }}
                             value={categoryValue}
                             onClick={handleCatogoryChange}
@@ -994,16 +999,22 @@ useEffect(() => {
                         Payment Mode
                         {showPaymentMode && (
                           <ListGroup
-                            className="show-scroll-category"
-                            style={{
-                              position: "absolute",
-                              right: 200,
-                              top: 0,
-                              borderRadius: "8px",
-                              maxHeight: "200px",
-                              overflowY: "auto",
-                              zIndex: 20,
-                            }}
+                            className="show-scrolls-Expense"
+
+ style={{
+    position: "absolute",
+    right: 200,
+    top: 0,
+    borderRadius: "8px",
+    maxHeight: "200px",
+    overflowY: "auto",
+    zIndex: 20,
+    border: "1px solid #ccc",
+    backgroundColor: "#fff",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    boxSizing: "content-box", 
+        
+  }}
                             value={modeValue}
                             onClick={handleModeValueChange}
                           >
@@ -1317,7 +1328,7 @@ useEffect(() => {
 
                 style={{
 
-                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "400px" : "auto",
+                  height: currentItems.length >= 8 || sortedData.length >= 8 ? "440px" : "auto",
                   overflow: "auto",
                   marginBottom: 20,
                   marginTop: "20px"
