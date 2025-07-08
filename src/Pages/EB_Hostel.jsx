@@ -229,7 +229,7 @@ function EB_Hostel() {
         payload: { hostel_id: state.login.selectedHostel_Id },
       });
 
-      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id}});
+      dispatch({ type: "ALL_HOSTEL_DETAILS", payload: { hostel_id: state.login.selectedHostel_Id } });
 
 
     }
@@ -577,7 +577,7 @@ function EB_Hostel() {
   }, [state.PgList?.AddEBstatusCode]);
 
 
-  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
+  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
   const indexOfFirstRowelectricity =
@@ -649,7 +649,7 @@ function EB_Hostel() {
     dispatch({ type: "CLEAR_EB_ERROR" });
   };
 
- 
+
 
   const handleSearch = () => {
     setSearch(!search);
@@ -810,7 +810,7 @@ function EB_Hostel() {
 
   };
 
- useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -821,7 +821,7 @@ function EB_Hostel() {
   }, [state.createAccount?.networkError])
 
 
-  
+
 
   return (
     <div >
@@ -1168,7 +1168,7 @@ function EB_Hostel() {
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop:90
+                    marginTop: 90
 
                   }}
                 >
@@ -1176,7 +1176,7 @@ function EB_Hostel() {
                   <img
                     src={Emptystate}
                     alt="Empty State"
-                    
+
                   />
 
 
@@ -1187,7 +1187,7 @@ function EB_Hostel() {
                         display: "flex",
                         alignItems: "center",
                         gap: "0.5rem",
-                         marginTop: "10px",
+                        marginTop: "10px",
                       }}
                     >
                       <MdError />
@@ -1583,20 +1583,19 @@ function EB_Hostel() {
                     </div>
                   )}
 
-                {electricityFilterddata?.length >= 7 && (
+                {electricityFilterddata?.length >= 5 && (
                   <nav
-
                     style={{
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "end",
                       padding: "10px",
                       position: "fixed",
-                      bottom: "10px",
-                      right: "10px",
-
+                      bottom: "0px",
+                      right: "0px",
+                      left: 0,
+                      backgroundColor: "#fff",
                       borderRadius: "5px",
-
                       zIndex: 1000,
                     }}
                   >
@@ -1614,9 +1613,10 @@ function EB_Hostel() {
                           cursor: "pointer",
                           outline: "none",
                           boxShadow: "none",
+                          fontFamily:"Gilroy"
                         }}
                       >
-
+                        <option value={5}>5</option>
                         <option value={10}>10</option>
                         <option value={50}>50</option>
                         <option value={100}>100</option>
@@ -1745,12 +1745,12 @@ function EB_Hostel() {
               style={{ cursor: 'pointer' }} />
           </Modal.Header>
           <Modal.Body className="pt-2">
-           {dateError && ( 
+            {dateError && (
               <div
                 className="d-flex justify-content-start align-items-center mt-2 mb-2"
                 style={{ color: "red" }}
               >
-                <MdError style={{ fontSize: "14px", marginRight: "5px"}} />
+                <MdError style={{ fontSize: "14px", marginRight: "5px" }} />
                 <span
                   style={{
                     fontSize: "12px",
@@ -1761,7 +1761,7 @@ function EB_Hostel() {
                   {dateError}
                 </span>
               </div>
-             )} 
+            )}
             <div className="row ">
               <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <Form.Label
@@ -2064,7 +2064,7 @@ function EB_Hostel() {
                         const Hostel = state.UsersList?.hotelDetailsinPg?.find(
                           (u) => Number(u.id) === Number(state.login.selectedHostel_Id)
                         );
-                        if (!Hostel || !Hostel.create_At) return false; 
+                        if (!Hostel || !Hostel.create_At) return false;
 
                         const createDate = moment(Hostel.create_At, "YYYY-MM-DD");
                         if (!createDate.isValid()) return false;
@@ -2095,7 +2095,7 @@ function EB_Hostel() {
             </div>
           </Modal.Body>
 
-{state.createAccount?.networkError ?
+          {state.createAccount?.networkError ?
             <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
               <MdError style={{ color: "red", marginRight: '5px' }} />
               <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
