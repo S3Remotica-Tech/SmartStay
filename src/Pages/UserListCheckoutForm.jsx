@@ -1072,10 +1072,12 @@ const CheckOutForm = ({
                             setIsChangedError("");
                             setCheckOutRequestDate(date ? date.toDate() : null);
                           }}
+
                          
                           getPopupContainer={(triggerNode) =>
                             triggerNode.closest(".show-scroll") || document.body
                           }
+
                         />
 
                       </div>
@@ -1140,10 +1142,12 @@ const CheckOutForm = ({
                             setIsChangedError("");
                             setCheckOutDate(date ? date.toDate() : null);
                           }}
+
                      
                           getPopupContainer={(triggerNode) =>
                             triggerNode.closest(".show-scroll") || document.body
                           }
+
                         />
 
                       </div>
@@ -1197,7 +1201,7 @@ const CheckOutForm = ({
                       id="comments"
                       value={comments}
                       onChange={handleCommentsChange}
-                      className="form-control mt-2"
+                      className="form-control mt-2 mb-3"
                       placeholder="Add Comments"
                       required
                       style={{
@@ -1212,9 +1216,6 @@ const CheckOutForm = ({
                       }}
                     />
                   </div>
-
-               
-
 
                   {dateDifference !== null && (
                     <div className="col-12 mt-3">
@@ -1232,17 +1233,13 @@ const CheckOutForm = ({
                   )}
                 </div>
               
-
-
-
-
-              </div>
+            </div>
 
             </div>
 
             {isChangedError && (
               <div
-                className="d-flex justify-content-center align-items-center mt-4"
+                className="d-flex justify-content-center align-items-center"
                 style={{ color: "red", }}
               >
                 <MdError style={{ fontSize: "14px", marginRight: "6px" }} />
@@ -1772,6 +1769,7 @@ const CheckOutForm = ({
 
                 </div>
 
+
                 <div className="col-lg-12 col-md-12 col-sm-12 colxs-12">
                   <label
                     htmlFor="comments"
@@ -1968,3 +1966,4 @@ CheckOutForm.propTypes = {
 };
 
 export default CheckOutForm;
+                                          

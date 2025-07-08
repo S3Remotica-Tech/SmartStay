@@ -379,7 +379,7 @@ function EBHostelReading(props) {
 
 
 
-  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
+  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
@@ -938,8 +938,9 @@ function EBHostelReading(props) {
             justifyContent: "end",
             padding: "10px",
             position: "fixed",
-            bottom: "10px",
-            right: "10px",
+            bottom: "0px",
+            right: "0px",
+            left:0,
             backgroundColor: "#fff",
             borderRadius: "5px",
             zIndex: 1000,
@@ -959,6 +960,7 @@ function EBHostelReading(props) {
                 cursor: "pointer",
                 outline: "none",
                 boxShadow: "none",
+                fontFamily:"Gilroy"
 
               }}
             >
