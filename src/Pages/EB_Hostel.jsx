@@ -1738,7 +1738,7 @@ function EB_Hostel() {
                 fontFamily: "Gilroy",
               }}
             >
-              Add a Reading
+              Add Room Reading
             </div>
 
             <CloseCircle size="24" color="#000" onClick={handleClose}
