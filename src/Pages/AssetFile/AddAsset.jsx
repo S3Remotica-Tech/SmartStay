@@ -187,14 +187,34 @@ function StaticExample({ show, setShow, currentItem }) {
     }
   }, [state.AssetList.addAssetStatusCode]);
 
-  const handleModeOfPaymentChange = (e) => {
-    setModeOfPayment(e.target.value);
-    setIsChangedError("");
+ 
+
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
+
+   const handleModeOfPaymentChange = (selectedOption) => {
+    if (!selectedOption) return;
+ setIsChangedError("");
     setPaymentError("");
     setBankingError("")
+    setModeOfPayment(selectedOption);
+   
+   
     dispatch({ type: "CLEAR_BANK_AMOUNT_ERROR" });
   };
 
+const labelMap = {
+  bank: "Bank",
+  upi: "UPI",
+  card: "Card",
+  cash: "Cash",
+};
+
+const paymentOptions = Array.isArray(bankking)
+  ? bankking.map((item) => ({
+      value: String(item.id), 
+      label: `${item.benificiary_name} - ${labelMap[item.type] || ""}`,
+    }))
+  : [];
 
   const handleAssetNameChange = (e) => {
     const value = e.target.value;
@@ -963,7 +983,7 @@ useEffect(() => {
                     </div>
                   )}
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-2">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
                   <Form.Group
                     className=""
                     controlId="exampleForm.ControlInput1"
@@ -988,46 +1008,76 @@ useEffect(() => {
                       </span>
                     </Form.Label>
 
-                    <Form.Select className="border"
-                      aria-label="Select Mode Of Payment"
-                      value={modeOfPayment}
-                      ref={paymentRef}
-                      onChange={handleModeOfPaymentChange}
-                      disabled={currentItem}
-                      style={{
-                        fontSize: 16,
+                  
+
+
+<Select
+  options={paymentOptions}
+  value={
+    paymentOptions.find((opt) => opt.value === String(modeOfPayment)) || null
+  }
+  onChange={(selectedOption) =>
+    handleModeOfPaymentChange(selectedOption?.value)
+  }
+   onMenuOpen={() => setIsSelectOpen(true)}      
+  onMenuClose={() => setIsSelectOpen(false)} 
+  placeholder="Select Payment"
+  isDisabled={currentItem}
+  
+    styles={{
+                      control: (base) => ({
+                        ...base,
+                        fontSize: 14,
                         color: "rgba(75, 75, 75, 1)",
                         fontFamily: "Gilroy",
                         fontWeight: modeOfPayment ? 600 : 500,
-                        cursor: "pointer",
+                        border: "1px solid #D9D9D9",
+                        borderRadius: "8px",
+                        boxShadow: "none",
                         height: 48,
-                        borderRadius: 8,
-                      }}
-                    >
-                      <option value="">Select Mode Of Payment</option>
-                      {Array.isArray(bankking) &&
-                        bankking?.map((item) => {
-                          let label = "";
-                          if (item.type === "bank") label = "Bank";
-                          else if (item.type === "upi") label = "UPI";
-                          else if (item.type === "card") label = "Card";
-                          else if (item.type === "cash") label = "Cash";
-
-                          return (
-                            <option key={item.id} value={item.id}>
-                              {`${item.benificiary_name} - ${label}`}
-                            </option>
-                          );
-                        })}
-
-                    </Form.Select>
-
-
+                        cursor: "pointer",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "80px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#555",
+                        cursor: "pointer",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "lightblue" : "white",
+                        color: "#000",
+                        fontFamily: "Gilroy",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                    }}
+/>
 
 
                   </Form.Group>
                   {paymentError && (
-                    <div className="d-flex align-items-center p-1 mb-2">
+                    <div className="d-flex align-items-center p-1 mb-2"  style={{marginTop: isSelectOpen ? 25 : 0,}}>
                       <MdError style={{ color: "red", marginRight: "5px", fontSize: "13px", marginBottom: "2px" }} />
                       <label
                         className="mb-0"
@@ -1044,7 +1094,7 @@ useEffect(() => {
                   )}
 
                   {bankingError && (
-                    <div className="d-flex align-items-center p-1">
+                    <div className="d-flex align-items-center p-1" >
                       <MdError style={{ color: "red", marginRight: "5px", fontSize: 13 }} />
                       <label
                         className="mb-0"
@@ -1118,7 +1168,7 @@ useEffect(() => {
            
 
 
-<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-3" style={{paddingBottom:20}} >
+<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 px-3" style={{paddingBottom:20,  paddingTop: isSelectOpen ? 20 : 0, }}>
 
               <Button
                 onClick={handleAddAsset}
