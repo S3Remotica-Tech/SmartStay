@@ -22,14 +22,14 @@
 }
 
 .list-group-item.active {
-  /* background-color: #E7F1FF;  */
+ 
   color: #fff;
 }
 
 
 .list-group-item .sub_item {
   width: 150px !important;
-  /* background-color: #E7F1FF;  */
+ 
   color: #000;
 }
 
@@ -47,11 +47,11 @@
 
 .list-group {
   --bs-list-group-color: var(--bs-body-color);
-  /* --bs-list-group-bg: #E7F1FF !important; */
+  
   --bs-list-group-border-color: var(--bs-border-color);
   --bs-list-group-border-width: var(--bs-border-width);
   --bs-list-group-border-radius: var(--bs-border-radius);
-  /* --bs-list-group-item-padding-x: 1rem; */
+ 
   --bs-list-group-item-padding-y: 0.5rem;
   --bs-list-group-action-color: var(--bs-secondary-color);
   --bs-list-group-action-hover-color: var(--bs-emphasis-color);
@@ -81,7 +81,7 @@
 }
 
 
-/* show-scroll-category */
+
 
 
 .show-scroll-category::-webkit-scrollbar {
@@ -91,14 +91,14 @@
 
 .show-scroll-category::-webkit-scrollbar-track {
   background: #dcdcdc !important;
-  /* border-radius: 8px !important; */
+ 
 
 }
 
 .show-scroll-category::-webkit-scrollbar-thumb {
   background: #bcd4f5 !important;
   border: 3px solid #bcd4f5 !important;
-  /* border-radius: 8px; */
+ 
   min-height: 20px !important;
 }
 
@@ -207,13 +207,7 @@
   }
 }
 
-/* .range-picker {
-  height: 40px !important;
-  margin-left: 7px !important;
-  margin-top: 5px !important;
-  cursor: pointer !important;
-  width: 250px !important;
-} */
+
 
 @media (max-width: 380px) {
   .range-picker {
@@ -233,7 +227,7 @@
   }
 }
 
-/* Media Query (optional, for smaller screens) */
+
 @media (max-width: 768px) {
   .filter-dropdown {
     right: 40px;
@@ -245,6 +239,9 @@
     left: 100%;
     top: 0;
     width: 100px;
+  }
+   .show-scrolls-Expense {
+    padding-left: 0;
   }
 }
 
@@ -280,4 +277,35 @@
     margin-left: 60px;
     transform: translate(-50%, -50%);
   }
+}
+
+
+
+.show-scrolls-Expense {
+  scrollbar-width: thin;
+  scrollbar-color:rgb(200, 220, 250) #F1F1F1; 
+  overflow-y: auto;
+
+ 
+  height: 100vh; 
+  position: relative;
+}
+
+
+.show-scrolls-Expense::-webkit-scrollbar {
+  width: 8px; 
+}
+
+.show-scrolls-Expense::-webkit-scrollbar-track {
+  background: #F1F1F1;
+  border-radius: 8px;
+}
+
+.show-scrolls-Expense::-webkit-scrollbar-thumb {
+  background: #df2626;
+  border-radius: 8px;
+}
+
+.show-scrolls-Expense::-webkit-scrollbar-thumb:hover {
+  background: rgb(18, 130, 241);
 }

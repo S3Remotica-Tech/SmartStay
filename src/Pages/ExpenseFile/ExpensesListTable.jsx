@@ -33,6 +33,18 @@ function ExpensesListTable(props) {
 
 
   }
+  const [showAbove, setShowAbove] = useState(false);
+
+useEffect(() => {
+  if (popupRef.current) {
+    const popupHeight = popupRef.current.offsetHeight;
+    const windowHeight = window.innerHeight;
+    const spaceBelow = windowHeight - popupPosition.top;
+    
+   
+    setShowAbove(spaceBelow < popupHeight + 20);
+  }
+}, [popupPosition]);
 
   const handleEditExpense = (item) => {
     props.OnEditExpense(item)
@@ -197,7 +209,9 @@ function ExpensesListTable(props) {
                   cursor: "pointer",
                   backgroundColor: "#F9F9F9",
                   position: "fixed",
-                  top: popupPosition.top,
+                   top: showAbove
+    ? popupPosition.top - (popupRef.current?.offsetHeight || 200) - 20
+    : popupPosition.top - 35,
                   left: popupPosition.left,
                   width: 160,
                   height: "auto",
