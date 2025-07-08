@@ -543,6 +543,17 @@ function SettingGeneral() {
       setPhoneError("Please Enter Valid Mobile Number"); hasError = true;
     } else setPhoneError("");
 
+    if(!pincode){
+    setPincodeError("Please Enter Pincode");
+}
+    else if(!/^\d{6}$/.test(pincode)) {
+
+      setPincodeError("Pin Code Must Be Exactly 6 Digits");
+      hasError = true;
+    } else {
+      setPincodeError("");
+    }
+
 
     if (emilId) {
       const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(com|org|net|in)$/;
@@ -550,6 +561,8 @@ function SettingGeneral() {
         setEmailError("Please Enter Valid Email Id"); hasError = true;
       } else setEmailError("");
     }
+
+    
 
     if (hasError || validations.includes(false) || !isValidEmail(emilId)) return;
 
