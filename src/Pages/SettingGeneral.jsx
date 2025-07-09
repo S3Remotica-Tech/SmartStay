@@ -27,6 +27,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { CloseCircle } from "iconsax-react";
 import './SettingGeneral.css';
 
+
 function SettingGeneral() {
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -130,6 +131,14 @@ function SettingGeneral() {
     { value: "Puducherry", label: "Puducherry" },
   ];
 
+
+  const options = [
+    { value: 2, label: "2" },
+    { value: 5, label: "5" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
   const handleNewPassword = (e) => {
     setNewPassword(e.target.value);
@@ -543,10 +552,10 @@ function SettingGeneral() {
       setPhoneError("Please Enter Valid Mobile Number"); hasError = true;
     } else setPhoneError("");
 
-    if(!pincode){
-    setPincodeError("Please Enter Pincode");
-}
-    else if(!/^\d{6}$/.test(pincode)) {
+    if (!pincode) {
+      setPincodeError("Please Enter Pincode");
+    }
+    else if (!/^\d{6}$/.test(pincode)) {
 
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
       hasError = true;
@@ -562,7 +571,7 @@ function SettingGeneral() {
       } else setEmailError("");
     }
 
-    
+
 
     if (hasError || validations.includes(false) || !isValidEmail(emilId)) return;
 
@@ -714,10 +723,12 @@ function SettingGeneral() {
     setGeneralcurrentPage(generalpageNumber);
   };
 
-  const handleItemsPerPageChange = (event) => {
-    setGeneralrowsPerPage(Number(event.target.value));
+  const handleItemsPerPageChange = (selectedOption) => {
+    setGeneralrowsPerPage(selectedOption.value);
     setGeneralcurrentPage(1);
   };
+
+
 
   const totalPagesGeneral = Math.ceil(
     generalFilterddata?.length / generalrowsPerPage
@@ -1208,33 +1219,82 @@ function SettingGeneral() {
         )}
       </div>
 
-      {generalFilterddata?.length >= 3 && (
+      {generalFilterddata?.length >= 2 && (
         <nav
-          className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
+           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end",
+            padding: "10px",
+            position: "fixed",
+            bottom: "0px",
+            right: "0px",
+            backgroundColor: "#fff",
+            borderRadius: "5px",
+            zIndex: 1000,
+          }}
 
         >
 
           <div>
-            <select
-              value={generalrowsPerPage}
+            <Select
+              value={options.find((opt) => opt.value === generalrowsPerPage)}
               onChange={handleItemsPerPageChange}
-              style={{
-                padding: "5px",
-                border: "1px solid #1E45E1",
-                borderRadius: "5px",
-                color: "#1E45E1",
-                fontWeight: "bold",
-                cursor: "pointer",
-                outline: "none",
-                boxShadow: "none",
+              options={options}
+              placeholder="Items per page"
+              classNamePrefix="custom"
+              menuPlacement="auto"
+              noOptionsMessage={() => "No options"}
+
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  height: "40px",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  color: "#1E45E1",
+                  fontFamily: "Gilroy",
+                  fontWeight: 600,
+                  border: "1px solid #1E45E1",
+                  boxShadow: "0 0 0 1px #1E45E1",
+                  cursor: "pointer",
+                  width: 90,
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  border: "1px solid #ced4da",
+                  fontFamily: "Gilroy",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  maxHeight: "200px",
+                  padding: 0,
+                  scrollbarWidth: "thin",
+                  overflowY: "auto",
+                  fontFamily: "Gilroy",
+                }),
+                placeholder: (base) => ({
+                  ...base,
+                  color: "#555",
+                }),
+                dropdownIndicator: (base) => ({
+                  ...base,
+                  color: "#1E45E1",
+                  cursor: "pointer",
+                }),
+                indicatorSeparator: () => ({
+                  display: "none",
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  cursor: "pointer",
+                  backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                  color: state.isFocused ? "#fff" : "#000",
+                }),
               }}
-            >
-              <option value={2}>2</option>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
+            />
           </div>
 
           <ul
@@ -2530,7 +2590,7 @@ function SettingGeneral() {
             }}
           ></div>
         </div>}
-        <Modal.Footer className="d-flex justify-content-center " style={{border:"done"}}>
+        <Modal.Footer className="d-flex justify-content-center " style={{ border: "done" }}>
           <Button
             className="col-12"
             style={{

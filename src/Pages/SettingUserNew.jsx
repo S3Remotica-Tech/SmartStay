@@ -11,6 +11,7 @@ import Edit from "../Assets/Images/Edit-blue.png";
 import Delete from "../Assets/Images/Delete_red.png";
 import AddUser from "../Pages/UserFile/AddUser";
 import "./SettingUsers.css";
+import Select from "react-select";
 
 function SettingNewUser() {
   const state = useSelector((state) => state);
@@ -141,10 +142,16 @@ function SettingNewUser() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
-  };
+  const handleItemsPerPageChange = (selectedOption) => {
+  setItemsPerPage(selectedOption.value);
+  setCurrentPage(1);
+};
+
+const options = [
+  { value: 10, label: "10" },
+  { value: 50, label: "50" },
+  { value: 100, label: "100" },
+];
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
@@ -291,7 +298,7 @@ function SettingNewUser() {
               style={{
                 height:
                   sortedData?.length >= 5 || sortedData?.length >= 5
-                    ? "400px"
+                    ? "450px"
                     : "auto",
                 overflow: "auto",
                 overflowX:'hidden',
@@ -756,29 +763,68 @@ function SettingNewUser() {
         )}
       </div>
 
-      {usersFilterddata?.length >= 5 && (
-        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
-          <div>
-            <select
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-              style={{
-                padding: "5px",
-                border: "1px solid #1E45E1",
-                borderRadius: "5px",
-                color: "#1E45E1",
-                fontWeight: "bold",
-                cursor: "pointer",
-                outline: "none",
-                boxShadow: "none",
-              }}
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
-          </div>
+      {usersFilterddata?.length >= 10 && (
+        <nav 
+        className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{ backgroundColor: "white" , zIndex:1000}}>
+         <div>
+              <Select
+                value={options.find((opt) => opt.value === itemsPerPage)}
+                onChange={handleItemsPerPageChange}
+                options={options}
+                placeholder="Items per page"
+                classNamePrefix="custom"
+                menuPlacement="auto"
+                noOptionsMessage={() => "No options"}
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    height: "40px",
+                    borderRadius: "6px",
+                    fontSize: "14px",
+                    color: "#1E45E1",
+                    fontFamily: "Gilroy",
+                    fontWeight: 600,
+                    border: "1px solid #1E45E1",
+                    boxShadow: "0 0 0 1px #1E45E1",
+                    cursor: "pointer",
+                    width: 90,
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #ced4da",
+                    fontFamily: "Gilroy",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    backgroundColor: "#f8f9fa",
+                    maxHeight: "200px",
+                    padding: 0,
+                    scrollbarWidth: "thin",
+                    overflowY: "auto",
+                    fontFamily: "Gilroy",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "#555",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "#1E45E1",
+                    cursor: "pointer",
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    cursor: "pointer",
+                    backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                    color: state.isFocused ? "#fff" : "#000",
+                  }),
+                }}
+              />
+            </div>
 
           <ul
             style={{

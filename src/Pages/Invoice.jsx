@@ -395,7 +395,7 @@ const InvoicePage = () => {
 
 
   useEffect(() => {
-    let filtered = originalBillsFilter;    
+    let filtered = originalBillsFilter;
 
     if (statusfilter === "All") {
       filtered = originalBillsFilter;
@@ -406,19 +406,19 @@ const InvoicePage = () => {
       );
     }
     else if (statusfilter === "date" && startDate && endDate) {
-  filtered = filtered.filter((user) => {
-    const invoiceDate = new Date(user.Date);
-    
-    const invoiceOnlyDate = new Date(invoiceDate.setHours(0, 0, 0, 0));
-    const startOnlyDate = new Date(startDate).setHours(0, 0, 0, 0);
-    const endOnlyDate = new Date(endDate).setHours(0, 0, 0, 0);
+      filtered = filtered.filter((user) => {
+        const invoiceDate = new Date(user.Date);
 
-    return (
-      invoiceOnlyDate >= startOnlyDate &&
-      invoiceOnlyDate <= endOnlyDate
-    );
-  });
-}
+        const invoiceOnlyDate = new Date(invoiceDate.setHours(0, 0, 0, 0));
+        const startOnlyDate = new Date(startDate).setHours(0, 0, 0, 0);
+        const endOnlyDate = new Date(endDate).setHours(0, 0, 0, 0);
+
+        return (
+          invoiceOnlyDate >= startOnlyDate &&
+          invoiceOnlyDate <= endOnlyDate
+        );
+      });
+    }
 
 
     setBills(filtered);
@@ -1467,6 +1467,14 @@ const InvoicePage = () => {
     }
   };
 
+  const pageSizeOptions = [
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
+
+
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -1481,9 +1489,12 @@ const InvoicePage = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
+
+  const handleItemsPerPageChange = (selectedOption) => {
+    if (selectedOption) {
+      setItemsPerPage(Number(selectedOption.value));
+      setCurrentPage(1);
+    }
   };
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -1531,10 +1542,14 @@ const InvoicePage = () => {
   const handlePageChangeRecure = (pageNumber) => {
     setCurrentRecurePage(pageNumber);
   };
-  const handleItemsPerPage = (event) => {
-    setItemsPage(Number(event.target.value));
+  const handleItemsPerPage = (selectedOption) => {
+    setItemsPage(Number(selectedOption.value));
     setCurrentRecurePage(1);
   };
+
+
+
+
   const [sortConfigRecure, setSortConfigRecure] = useState({ key: null, direction: null });
 
   const sortedDataRecure = React.useMemo(() => {
@@ -1613,10 +1628,17 @@ const InvoicePage = () => {
   const handleSortReceipt = (key, direction) => {
     setSortConfigReceipt({ key, direction });
   };
-  const handleItemsPerPageReceipt = (event) => {
-    setItemsPERPage(Number(event.target.value));
+
+  const handleItemsPerPageReceipt = (selectedOption) => {
+    setItemsPERPage(Number(selectedOption.value));
     setCurrentReceiptPage(1);
   };
+  const receiptPageOptions = [
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
+
   const ReceipttotalPages = Math.ceil(receiptdata.length / itemsperPage);
 
 
@@ -3299,7 +3321,7 @@ const InvoicePage = () => {
                               <div className="row">
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                
+
                                     controlId="exampleForm.ControlInput1"
                                   >
                                     <Form.Label
@@ -3318,7 +3340,7 @@ const InvoicePage = () => {
                                         fontSize: 16,
                                         color: "#4B4B4B",
                                         fontFamily: "Gilroy",
-                                        fontWeight:  500 ,
+                                        fontWeight: 500,
                                         boxShadow: "none",
                                         border: "1px solid #D9D9D9",
                                         height: 50,
@@ -3333,7 +3355,7 @@ const InvoicePage = () => {
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                   
+
                                     controlId="exampleForm.ControlInput3"
                                   >
                                     <Form.Label
@@ -3342,7 +3364,7 @@ const InvoicePage = () => {
                                         color: "#222222",
                                         fontFamily: "Gilroy",
                                         fontWeight: 500,
-                                        marginBottom:2
+                                        marginBottom: 2
 
 
                                       }}
@@ -3366,12 +3388,12 @@ const InvoicePage = () => {
                                         fontSize: 16,
                                         color: "#4B4B4B",
                                         fontFamily: "Gilroy",
-                                        fontWeight:  500,
+                                        fontWeight: 500,
                                         boxShadow: "none",
                                         border: "1px solid #D9D9D9",
                                         height: 50,
                                         borderRadius: 8,
-                                      
+
                                       }}
                                       placeholder="Enter Amount"
                                       className="no-spinner"
@@ -3388,7 +3410,7 @@ const InvoicePage = () => {
                                       <div>
                                         <p
                                           style={{
-                                             marginBottom:0,
+                                            marginBottom: 0,
                                             fontSize: "12px",
                                             color: "red",
                                             marginTop: "3px",
@@ -3414,7 +3436,7 @@ const InvoicePage = () => {
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <Form.Group
-                                                                       controlId="purchaseDate"
+                                    controlId="purchaseDate"
                                   >
                                     <Form.Label
                                       style={{
@@ -3470,36 +3492,36 @@ const InvoicePage = () => {
 
                                       </div>
                                     </div>
-                                     {dateerrmsg.trim() !== "" && (
-                                    <div>
-                                      <p
-                                        style={{
-                                          fontSize: "12px",
-                                          color: "red",
-                                          marginTop: "3px",
-                                          fontFamily: "Gilroy",
-                                          fontWeight: 500,
-                                           marginBottom:0,
-                                        }}
-                                      >
-                                        {dateerrmsg !== "" && (
-                                          <MdError
-                                            style={{
-                                              fontSize: "14px",
-                                              color: "red",
-                                              marginBottom: "2px",
-                                            }}
-                                          />
-                                        )} {" "}
-                                        {dateerrmsg}
-                                      </p>
-                                    </div>
-                                  )}
+                                    {dateerrmsg.trim() !== "" && (
+                                      <div>
+                                        <p
+                                          style={{
+                                            fontSize: "12px",
+                                            color: "red",
+                                            marginTop: "3px",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 500,
+                                            marginBottom: 0,
+                                          }}
+                                        >
+                                          {dateerrmsg !== "" && (
+                                            <MdError
+                                              style={{
+                                                fontSize: "14px",
+                                                color: "red",
+                                                marginBottom: "2px",
+                                              }}
+                                            />
+                                          )} {" "}
+                                          {dateerrmsg}
+                                        </p>
+                                      </div>
+                                    )}
                                   </Form.Group>
 
 
 
-                                 
+
                                 </div>
 
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -3513,7 +3535,7 @@ const InvoicePage = () => {
                                         color: "#222222",
                                         fontFamily: "'Gilroy', sans-serif",
                                         fontWeight: 500,
-                                        
+
                                       }}
                                     >
                                       Mode of Transaction {" "}
@@ -3550,7 +3572,7 @@ const InvoicePage = () => {
                                           fontFamily: "Gilroy, sans-serif",
                                           fontWeight: 500,
                                           boxShadow: "none",
-                                                                                }),
+                                        }),
                                         menu: (base) => ({
                                           ...base,
                                           backgroundColor: "#f8f9fa",
@@ -3596,7 +3618,7 @@ const InvoicePage = () => {
                                             fontSize: "12px",
                                             color: "red",
                                             marginTop: "3px",
-                                            marginBottom:0,
+                                            marginBottom: 0,
                                             fontFamily: "Gilroy",
                                             fontWeight: 500,
                                           }}
@@ -3984,10 +4006,9 @@ const InvoicePage = () => {
                                     className='show-scrolls'
                                     style={{
 
-                                      height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "360px" : "auto",
+                                      height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "430px" : "auto",
                                       overflow: "auto",
                                       borderTop: "1px solid #E8E8E8",
-                                      marginBottom: 20,
                                       marginTop: "20px",
                                       paddingRight: 0,
                                       paddingLeft: 0
@@ -4003,6 +4024,7 @@ const InvoicePage = () => {
                                         zIndex: 1,
                                         borderRadius: 0
                                       }}
+                                      className="mb-0"
                                     >
                                       <thead style={{
                                         fontFamily: "Gilroy", backgroundColor: "rgba(231, 241, 255, 1)", color: "rgba(34, 34, 34, 1)", fontSize: 14, fontStyle: "normal", fontWeight: 500, position: "sticky",
@@ -4234,7 +4256,7 @@ const InvoicePage = () => {
                                 )
                               )}
 
-                              {bills?.length >= 5 && (
+                              {bills?.length > 10 && (
                                 <nav
                                   style={{
                                     display: "flex",
@@ -4242,36 +4264,72 @@ const InvoicePage = () => {
                                     justifyContent: "end",
                                     padding: "10px",
                                     position: "fixed",
-                                    bottom: "1px",
-                                    right: "10px",
+                                    bottom: "0px",
+                                    right: "0px",
+                                    left: 0,
                                     backgroundColor: "#fff",
                                     borderRadius: "5px",
-                                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                                     zIndex: 1000,
                                   }}
                                 >
 
 
                                   <div>
-                                    <select
-                                      value={itemsPerPage}
+                                    <Select
+                                      options={pageSizeOptions}
+                                      value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
                                       onChange={handleItemsPerPageChange}
-                                      style={{
-                                        padding: "5px",
-                                        border: "1px solid #1E45E1",
-                                        borderRadius: "5px",
-                                        color: "#1E45E1",
-                                        fontWeight: "bold",
-                                        cursor: "pointer",
-                                        outline: "none",
-                                        boxShadow: "none",
+                                      placeholder="Items per page"
+                                      classNamePrefix="custom"
+                                      menuPlacement="auto"
+                                      noOptionsMessage={() => "No options"}
+                                      styles={{
+                                        control: (base, state) => ({
+                                          ...base,
+                                          height: "40px",
+                                          border: "1px solid #1E45E1",
+                                          borderRadius: "5px",
+                                          fontSize: "14px",
+                                          color: "#1E45E1",
+                                          fontWeight: 600,
+                                          cursor: "pointer",
+                                          fontFamily: "Gilroy",
+                                          boxShadow: "0 0 0 1px #1E45E1",
+                                          width:90,
+                                        }),
+                                        menu: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          border: "1px solid #ced4da",
+                                          fontFamily: "Gilroy",
+                                        }),
+                                        menuList: (base) => ({
+                                          ...base,
+                                          backgroundColor: "#f8f9fa",
+                                          maxHeight: "200px",
+                                          padding: 0,
+                                          overflowY: "auto",
+                                        }),
+                                        placeholder: (base) => ({
+                                          ...base,
+                                          color: "#555",
+                                        }),
+                                        dropdownIndicator: (base) => ({
+                                          ...base,
+                                          color: "#1E45E1",
+                                          cursor: "pointer",
+                                        }),
+                                        indicatorSeparator: () => ({
+                                          display: "none",
+                                        }),
+                                        option: (base, state) => ({
+                                          ...base,
+                                          cursor: "pointer",
+                                          backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                                          color: state.isFocused ? "#fff" : "#000",
+                                        }),
                                       }}
-                                    >
-                                      <option value={5}>5</option>
-                                      <option value={10}>10</option>
-                                      <option value={50}>50</option>
-                                      <option value={100}>100</option>
-                                    </select>
+                                    />
                                   </div>
 
 
@@ -4528,7 +4586,7 @@ const InvoicePage = () => {
                         className='show-scrolls '
                         style={{
 
-                          height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "350px" : "auto",
+                          height: sortedDataRecure?.length >= 5 || sortedDataRecure?.length >= 5 ? "450px" : "auto",
                           overflow: "auto",
                           borderTop: "1px solid #E8E8E8",
                           marginBottom: 20,
@@ -4691,7 +4749,7 @@ const InvoicePage = () => {
 
 
 
-                  {recurringbills && recurringbills.length >= 5 && (
+                  {recurringbills && recurringbills.length > 10 && (
                     <nav
                       style={{
                         display: "flex",
@@ -4699,8 +4757,9 @@ const InvoicePage = () => {
                         justifyContent: "end",
                         padding: "10px",
                         position: "fixed",
-                        bottom: "10px",
-                        right: "10px",
+                        bottom: "0px",
+                        right: "0px",
+                        left: 0,
                         backgroundColor: "#fff",
                         borderRadius: "5px",
                         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
@@ -4710,25 +4769,63 @@ const InvoicePage = () => {
 
 
                       <div>
-                        <select
-                          value={itemsPage}
+                        <Select
+                          options={pageSizeOptions}
+                          value={
+                            itemsPage ? { value: itemsPage, label: `${itemsPage}` } : null
+                          }
                           onChange={handleItemsPerPage}
-                          style={{
-                            padding: "5px",
-                            border: "1px solid #1E45E1",
-                            borderRadius: "5px",
-                            color: "#1E45E1",
-                            fontWeight: "bold",
-                            cursor: "pointer",
-                            outline: "none",
-                            boxShadow: "none",
+                          placeholder="Items per page"
+                          classNamePrefix="custom"
+                          menuPlacement="auto"
+                          noOptionsMessage={() => "No options"}
+                          styles={{
+                            control: (base, state) => ({
+                              ...base,
+                              height: "40px",
+                              border: "1px solid #1E45E1",
+                              borderRadius: "5px",
+                              fontSize: "14px",
+                              color: "#1E45E1",
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              fontFamily: "Gilroy",
+                              boxShadow: "0 0 0 1px #1E45E1",
+                               width:90,
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "200px",
+                              padding: 0,
+                              overflowY: "auto",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#1E45E1",
+                              cursor: "pointer",
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                              color: state.isFocused ? "#fff" : "#000",
+                            }),
                           }}
-                        >
-                          <option value={5}>5</option>
-                          <option value={10}>10</option>
-                          <option value={50}>50</option>
-                          <option value={100}>100</option>
-                        </select>
+                        />
                       </div>
 
 
@@ -5024,7 +5121,7 @@ const InvoicePage = () => {
                                     className='show-scrolls'
                                     style={{
 
-                                      height: sortedDataReceipt?.length >= 5 || sortedDataReceipt?.length >= 5 ? "330px" : "auto",
+                                      height: sortedDataReceipt?.length >= 5 || sortedDataReceipt?.length >= 5 ? "450px" : "auto",
                                       overflow: "auto",
                                       borderTop: "1px solid #E8E8E8",
                                       marginBottom: 20,
@@ -5225,43 +5322,85 @@ const InvoicePage = () => {
                                 </div>
                               )}
 
-                            {receiptdata.length >= 5 && (
+                            {receiptdata.length > 10 && (
                               <nav
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "end",
-                                  padding: "10px",
-                                  position: "fixed",
-                                  bottom: "10px",
-                                  right: "10px",
-                                  backgroundColor: "#fff",
-                                  borderRadius: "5px",
-                                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                                  zIndex: 1000,
-                                }}
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "end",
+                                      padding: "10px",
+                                      position: "fixed",
+                                      bottom: "0px",
+                                      right: "0px",
+                                      left: 0,
+                                      backgroundColor: "#fff",
+                                      borderRadius: "5px",
+                                      zIndex: 1000,
+                                    }}
                               >
 
                                 <div>
-                                  <select
-                                    value={itemsperPage}
-                                    onChange={handleItemsPerPageReceipt}
-                                    style={{
-                                      padding: "5px",
-                                      border: "1px solid #1E45E1",
-                                      borderRadius: "5px",
-                                      color: "#1E45E1",
-                                      fontWeight: "bold",
-                                      cursor: "pointer",
-                                      outline: "none",
-                                      boxShadow: "none",
+                                  <Select
+                                    options={receiptPageOptions}
+                                    value={
+                                      itemsperPage
+                                        ? { value: itemsperPage, label: `${itemsperPage}` }
+                                        : null
+                                    }
+                                        onChange={handleItemsPerPageReceipt}
+                                        placeholder="Rows per page"
+                                        classNamePrefix="custom"
+                                        menuPlacement="auto"
+                                        noOptionsMessage={() => "No options"}
+                                        styles={{
+                                          control: (base, state) => ({
+                                            ...base,
+                                            height: "40px",
+                                            borderRadius: "6px",
+                                            fontSize: "14px",
+                                            color: "#1E45E1",
+                                            fontFamily: "Gilroy",
+                                            fontWeight: 600,
+                                            border: "1px solid #1E45E1",
+                                            boxShadow: "0 0 0 1px #1E45E1",
+                                            cursor: "pointer",
+                                             width:90,
+                                      }),
+                                      menu: (base) => ({
+                                        ...base,
+                                        backgroundColor: "#f8f9fa",
+                                        border: "1px solid #ced4da",
+                                        fontFamily: "Gilroy",
+                                      }),
+                                      menuList: (base) => ({
+                                        ...base,
+                                        backgroundColor: "#f8f9fa",
+                                        maxHeight: "200px",
+                                        padding: 0,
+                                        scrollbarWidth: "thin",
+                                        overflowY: "auto",
+                                        fontFamily: "Gilroy",
+                                      }),
+                                      placeholder: (base) => ({
+                                        ...base,
+                                        color: "#555",
+                                      }),
+                                      dropdownIndicator: (base) => ({
+                                        ...base,
+                                        color: "#1E45E1",
+                                        cursor: "pointer",
+                                      }),
+                                      indicatorSeparator: () => ({
+                                        display: "none",
+                                      }),
+                                      option: (base, state) => ({
+                                        ...base,
+                                        cursor: "pointer",
+                                        backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                                        color: state.isFocused ? "#fff" : "#000",
+                                      }),
                                     }}
-                                  >
-                                    <option value={5}>5</option>
-                                    <option value={10}>10</option>
-                                    <option value={50}>50</option>
-                                    <option value={100}>100</option>
-                                  </select>
+                                  />
                                 </div>
 
                                 <ul
@@ -5474,187 +5613,187 @@ const InvoicePage = () => {
             </div>
           </div>
 
-          <div style={{display:'flex', flexDirection:'row'}}>
-          <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12 me-4">
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
-              <Form.Label
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: "#222",
-                  fontStyle: "normal",
-                  lineHeight: "normal",
-                }}
-              >
-                Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
-              </Form.Label>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <div className="col-lg-3 col-md-4 col-sm-12 col-xs-12 me-4">
+              <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
+                <Form.Label
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: "#222",
+                    fontStyle: "normal",
+                    lineHeight: "normal",
+                  }}
+                >
+                  Customer <span style={{ color: "red", fontSize: "20px" }}>*</span>
+                </Form.Label>
 
 
-              <Select
-                options={
-                  state.UsersList?.Users?.length > 0
-                    ? state.UsersList.Users.filter(
-                      (u) =>
-                        u.Bed !== "undefined" &&
-                        u.Bed !== "0" &&
-                        typeof u.Bed === "string" &&
-                        u.Bed.trim() !== "" &&
-                        u.Rooms !== "undefined" &&
-                        u.Rooms !== "0" &&
-                        typeof u.Rooms === "string" &&
-                        u.Rooms.trim() !== ""
-                    ).map((u) => ({
-                      value: u.ID,
-                      label: u.Name,
-                    }))
-                    : []
-                }
-                onChange={handleCustomerName}
-                value={
-                  customername
-                    ? {
-                      value: customername,
-                      label:
-                        state.UsersList?.Users?.find((u) => u.ID === customername)?.Name ||
-                        "Select Customer",
-                    }
-                    : null
-                }
-                isDisabled={isEditing}
-                placeholder="Select Customer"
-                classNamePrefix="custom"
-                menuPlacement="auto"
-                noOptionsMessage={() => "No customers available"}
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                   padding:"3px 5px ",
-                    border: "1px solid #D9D9D9",
-                    borderRadius: "8px",
-                    fontSize: "16px",
+                <Select
+                  options={
+                    state.UsersList?.Users?.length > 0
+                      ? state.UsersList.Users.filter(
+                        (u) =>
+                          u.Bed !== "undefined" &&
+                          u.Bed !== "0" &&
+                          typeof u.Bed === "string" &&
+                          u.Bed.trim() !== "" &&
+                          u.Rooms !== "undefined" &&
+                          u.Rooms !== "0" &&
+                          typeof u.Rooms === "string" &&
+                          u.Rooms.trim() !== ""
+                      ).map((u) => ({
+                        value: u.ID,
+                        label: u.Name,
+                      }))
+                      : []
+                  }
+                  onChange={handleCustomerName}
+                  value={
+                    customername
+                      ? {
+                        value: customername,
+                        label:
+                          state.UsersList?.Users?.find((u) => u.ID === customername)?.Name ||
+                          "Select Customer",
+                      }
+                      : null
+                  }
+                  isDisabled={isEditing}
+                  placeholder="Select Customer"
+                  classNamePrefix="custom"
+                  menuPlacement="auto"
+                  noOptionsMessage={() => "No customers available"}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      padding: "3px 5px ",
+                      border: "1px solid #D9D9D9",
+                      borderRadius: "8px",
+                      fontSize: "16px",
+                      color: "#4B4B4B",
+                      fontFamily: "Gilroy",
+                      fontWeight: customername ? 600 : 500,
+                      boxShadow: "none",
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      border: "1px solid #ced4da",
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      maxHeight: "120px",
+                      padding: 0,
+                      scrollbarWidth: "thin",
+                      overflowY: "auto",
+                      fontFamily: "Gilroy"
+                    }),
+                    placeholder: (base) => ({
+                      ...base,
+                      color: "#555",
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#555",
+                      cursor: "pointer",
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      cursor: "pointer",
+                      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+                      color: "#000",
+                    }),
+                  }}
+                />
+
+
+                {customererrmsg.trim() !== "" && (
+                  <div>
+                    <p
+                      style={{
+                        fontSize: "12px", color: "red", marginTop: "5px", fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {customererrmsg !== " " && (
+                        <MdError
+                          style={{
+                            fontSize: "14px",
+                            color: "red",
+                            marginRight: "3px",
+                            marginBottom: "3px",
+                            fontFamily: "Gilroy",
+                            fontWeight: 500,
+                          }}
+                        />
+                      )}{" "}
+                      {customererrmsg}
+                    </p>
+                  </div>
+                )}
+              </Form.Group>
+            </div>
+
+            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <Form.Group className="mb-1 mt-1" controlId="exampleForm.ControlInput1">
+                <Form.Label
+                  style={{
+                    fontFamily: "Gilroy",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: "#222",
+                    fontStyle: "normal",
+                    lineHeight: "normal",
+                  }}
+                >
+                  Invoice Number
+                </Form.Label>
+                <Form.Control
+                  style={{
+                    padding: "12px 10px",
+                    fontSize: 16,
                     color: "#4B4B4B",
                     fontFamily: "Gilroy",
-                    fontWeight: customername ? 600 : 500,
-                    boxShadow: "none",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    border: "1px solid #ced4da",
-                  }),
-                  menuList: (base) => ({
-                    ...base,
-                    backgroundColor: "#f8f9fa",
-                    maxHeight: "120px",
-                    padding: 0,
-                    scrollbarWidth: "thin",
-                    overflowY: "auto",
-                    fontFamily: "Gilroy"
-                  }),
-                  placeholder: (base) => ({
-                    ...base,
-                    color: "#555",
-                  }),
-                  dropdownIndicator: (base) => ({
-                    ...base,
-                    color: "#555",
-                    cursor: "pointer",
-                  }),
-                  indicatorSeparator: () => ({
-                    display: "none",
-                  }),
-                  option: (base, state) => ({
-                    ...base,
-                    cursor: "pointer",
-                    backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-                    color: "#000",
-                  }),
-                }}
-              />
+                    lineHeight: "18.83px",
+                    fontWeight: 500,
+                    height: 48
+                  }}
+                  type="text"
+                  placeholder="Enter Invoice Number"
+                  value={invoicenumber || ""}
+                  readOnly
+                />
+                {invoicenumbererrmsg.trim() !== "" && (
+                  <div>
+                    <p
+                      style={{
+                        fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {invoicenumbererrmsg !== " " && (
+                        <MdError
+                          style={{
+                            fontSize: "14px",
+                            color: "red",
+                            marginRight: "3px",
+                            marginBottom: "2px",
 
-
-              {customererrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{
-                      fontSize: "12px", color: "red", marginTop: "5px", fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {customererrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "14px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "3px",
-                          fontFamily: "Gilroy",
-                          fontWeight: 500,
-                        }}
-                      />
-                    )}{" "}
-                    {customererrmsg}
-                  </p>
-                </div>
-              )}
-            </Form.Group>
-          </div>
-
-          <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <Form.Group className="mb-1 mt-1" controlId="exampleForm.ControlInput1">
-              <Form.Label
-                style={{
-                  fontFamily: "Gilroy",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: "#222",
-                  fontStyle: "normal",
-                  lineHeight: "normal",
-                }}
-              >
-                Invoice Number
-              </Form.Label>
-              <Form.Control
-                style={{
-                  padding: "12px 10px",
-                  fontSize: 16,
-                  color: "#4B4B4B",
-                  fontFamily: "Gilroy",
-                  lineHeight: "18.83px",
-                  fontWeight: 500,
-                  height:48
-                }}
-                type="text"
-                placeholder="Enter Invoice Number"
-                value={invoicenumber || ""}
-                readOnly
-              />
-              {invoicenumbererrmsg.trim() !== "" && (
-                <div>
-                  <p
-                    style={{
-                      fontSize: "12px", color: "red", marginTop: "3px", fontFamily: "Gilroy",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {invoicenumbererrmsg !== " " && (
-                      <MdError
-                        style={{
-                          fontSize: "14px",
-                          color: "red",
-                          marginRight: "3px",
-                          marginBottom: "2px",
-
-                        }}
-                      />
-                    )}{" "}
-                    {invoicenumbererrmsg}
-                  </p>
-                </div>
-              )}
-            </Form.Group>
-          </div>
+                          }}
+                        />
+                      )}{" "}
+                      {invoicenumbererrmsg}
+                    </p>
+                  </div>
+                )}
+              </Form.Group>
+            </div>
           </div>
 
           <div className="mb-4" style={{ display: "flex", flexDirection: "row", height: "100px" }}>
@@ -5840,7 +5979,7 @@ const InvoicePage = () => {
                 fontWeight: 500,
                 boxShadow: "none",
                 border: "1px solid #D9D9D9",
-                padding:"12px 10px ",
+                padding: "12px 10px ",
                 borderRadius: 8,
                 cursor: "pointer"
               }}

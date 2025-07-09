@@ -15,7 +15,7 @@ import moment from "moment";
 import { MdError } from "react-icons/md";
 import { ArrowUp2, ArrowDown2 } from "iconsax-react";
 import PropTypes from "prop-types";
-
+import Select from "react-select";
 function UserlistWalkin(props) {
   const state = useSelector((state) => state);
 
@@ -63,7 +63,7 @@ function UserlistWalkin(props) {
   }, [props.customerrolePermission]);
 
   const popupRef = useRef(null);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [customerToDelete, setCustomerToDelete] = useState(null);
 
@@ -193,10 +193,16 @@ useEffect(() => {
     }
   }, [props.resetPage]);
 
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
+ const handleItemsPerPageChange = (selectedOption) => {
+    setItemsPerPage(Number(selectedOption.value));
     setCurrentPage(1);
   };
+
+const pageOptions = [
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
@@ -336,7 +342,7 @@ useEffect(() => {
                     style={{
                       height:
                         sortedData.length >= 5 || sortedData.length >= 5
-                          ? "365px"
+                          ? "430px"
                           : "auto",
                       overflow: "auto",
                       marginBottom: 20,
@@ -677,37 +683,37 @@ useEffect(() => {
                                     </span>
                                   </td>
 
-  <td
-  style={{
-    fontSize: 13,
-    fontWeight: 500,
-    fontFamily: "Gilroy",
-    textAlign: "start",
-    verticalAlign: "middle",
-    borderBottom: "1px solid #E8E8E8",
-  }}
-  className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
->
- {(v.comments || v.area || v.landmark || v.city || v.state || v.pin_code)
-  ? (
-    <>
-      {(v.comments || v.area || v.landmark) && (
-        <>
-          {v.comments && `${v.comments} , `}
-          
-          {v.area && `${v.area} `}
+                                  <td
+                                    style={{
+                                      fontSize: 13,
+                                      fontWeight: 500,
+                                      fontFamily: "Gilroy",
+                                      textAlign: "start",
+                                      verticalAlign: "middle",
+                                      borderBottom: "1px solid #E8E8E8",
+                                    }}
+                                    className="ps-4 ps-sm-2 ps-md-3 ps-lg-4"
+                                  >
+                                    {(v.comments || v.area || v.landmark || v.city || v.state || v.pin_code)
+                                      ? (
+                                        <>
+                                          {(v.comments || v.area || v.landmark) && (
+                                            <>
+                                              {v.comments && `${v.comments} , `}
 
-          {v.landmark || ""}
-          <br />
-        </>
-      )}
-     {v.city || ""} {v.state || ""} {(v.pin_code && `- ${v.pin_code}`) || ""}
+                                              {v.area && `${v.area} `}
 
-    </>
-  )
-  : "N/A"}
+                                              {v.landmark || ""}
+                                              <br />
+                                            </>
+                                          )}
+                                          {v.city || ""} {v.state || ""} {(v.pin_code && `- ${v.pin_code}`) || ""}
 
-</td>
+                                        </>
+                                      )
+                                      : "N/A"}
+
+                                  </td>
 
 
                                   <td
@@ -890,7 +896,7 @@ useEffect(() => {
           </div>
           {(props.search || props.filterStatus
             ? props.filteredUsers?.length
-            : walkInCustomer?.length) >= 5 && (
+            : walkInCustomer?.length) > 10 && (
               <nav
                 style={{
                   display: "flex",
@@ -898,34 +904,74 @@ useEffect(() => {
                   justifyContent: "end",
                   padding: "10px",
                   position: "fixed",
-                  bottom: "10px",
-                  right: "10px",
+                  bottom: "0px",
+                  right: "0px",
+                  left:0,
                   backgroundColor: "#fff",
                   borderRadius: "5px",
                   zIndex: 1000,
                 }}
               >
-                <div>
-                  <select
-                    value={itemsPerPage}
-                    onChange={handleItemsPerPageChange}
-                    style={{
-                      padding: "5px",
-                      border: "1px solid #1E45E1",
-                      borderRadius: "5px",
-                      color: "#1E45E1",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                      outline: "none",
-                      boxShadow: "none",
-                    }}
-                  >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
-                </div>
+             <div>
+                    <Select
+                      options={pageOptions}
+                      value={
+                        itemsPerPage
+                          ? { value: itemsPerPage, label: `${itemsPerPage}` }
+                          : null
+                      }
+                      onChange={handleItemsPerPageChange}
+                      classNamePrefix="custom"
+                      menuPlacement="auto"
+                      noOptionsMessage={() => "No options"}
+                      styles={{
+                        control: (base, state) => ({
+                          ...base,
+                          height: "40px",
+                          padding: "0 5px",
+                          border: "1px solid #1E45E1",
+                          borderRadius: "5px",
+                          fontSize: "14px",
+                          color: "#1E45E1",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          fontFamily: "Gilroy",
+                          boxShadow: "0 0 0 1px #1E45E1",
+                          width: 100,
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          border: "1px solid #ced4da",
+                          fontFamily: "Gilroy",
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          maxHeight: "200px",
+                          overflowY: "auto",
+                          padding: 0,
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#555",
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#1E45E1",
+                          cursor: "pointer",
+                        }),
+                        indicatorSeparator: () => ({
+                          display: "none",
+                        }),
+                        option: (base, state) => ({
+                          ...base,
+                          backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                          color: state.isFocused ? "#fff" : "#000",
+                          cursor: "pointer",
+                        }),
+                      }}
+                    />
+                  </div>
 
                 <ul
                   style={{

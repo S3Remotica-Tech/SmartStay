@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import "./vendor.css";
 import './VendorListMap.css';
 import { useMediaQuery, useTheme } from '@mui/material'
+import Select from "react-select";
 
 function Vendor() {
 
@@ -23,7 +24,7 @@ function Vendor() {
   const dispatch = useDispatch();
   const [filteredData, setFilteredData] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(4)
+  const [itemsPerPage, setItemsPerPage] = useState(4)
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
 
@@ -37,6 +38,12 @@ function Vendor() {
   const [vendorEditPermission, setVendorEditPermission] = useState("")
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
+  const pageSizeOptions = [
+    { value: 4, label: "4" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
 
   useEffect(() => {
@@ -208,7 +215,7 @@ function Vendor() {
     setCurrentItem('')
 
   }
- 
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -218,14 +225,17 @@ function Vendor() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1)
-  };
+ const handleItemsPerPageChange = (selectedOption) => {
+  if (selectedOption) {
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
+  }
+};
+
 
   const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
 
-  
+
 
 
 
@@ -243,7 +253,7 @@ function Vendor() {
   const handleDeleteVendor = (item) => {
     setShowDeleteVendor(true)
     setShowDeleteVendorDetails(item)
-  
+
   };
 
   const handleCloseForDeleteVendor = () => {
@@ -311,14 +321,14 @@ function Vendor() {
 
               }}
             >
-            
+
               <img
                 src={EmptyState}
                 alt="Empty State"
                 style={{ maxWidth: "100%", height: "auto" }}
               />
 
-             
+
               {vendorpermissionError && (
                 <div
                   style={{
@@ -400,7 +410,7 @@ function Vendor() {
 
                             style={{
                               width: 'auto', boxShadow: "none", borderColor: "lightgray", borderRight: "none", fontSize: 15, fontWeight: 500, color: "#222",
-                              
+
                             }}
                             placeholder="Search..."
                           />
@@ -474,7 +484,7 @@ function Vendor() {
 
 
 
-                 
+
 
                   <div >
                     <Button disabled={vendorAddPermission} onClick={handleShow} className="vendor-button"
@@ -511,12 +521,12 @@ function Vendor() {
             )}
 
             <div className='container show-scrolls-sidebar'
-            style={{
-               height: "500px",
+              style={{
+                height: "500px",
                 overflowY: "auto",
-                               position: "relative",
-                               paddingRight:20
-                              
+                position: "relative",
+                paddingRight: 20
+
               }}
             >
               {loading && (
@@ -545,71 +555,118 @@ function Vendor() {
                   ></div>
                 </div>
               )}
-           
 
-                <div className='row row-gap-3 '>
-                  {currentItems && currentItems.length > 0 && currentItems.map((vendor) => (
-                    <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
-                      <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
-                        onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
-                      />
-                    </div>
-                  ))
-                  }
-               
-                  {!loading && filteredData.length === 0 && (
-                    <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
-                      <div>
-                        <div className='d-flex justify-content-center'>
-                          <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
-                        </div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
-                          No vendor available
-                        </div>
-                        <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
-                          There are no Vendors added.
-                        </div>
+
+              <div className='row row-gap-3 '>
+                {currentItems && currentItems.length > 0 && currentItems.map((vendor) => (
+                  <div key={vendor.id} className='col-lg-6 col-md-6 col-xs-12 col-sm-12 col-12'>
+                    <VendorListMap vendor={vendor} onEditVendor={handleEditVendor}
+                      onDeleteVendor={handleDeleteVendor} vendorDeletePermission={vendorDeletePermission} vendorAddPermission={vendorAddPermission} vendorEditPermission={vendorEditPermission}
+                    />
+                  </div>
+                ))
+                }
+
+                {!loading && filteredData.length === 0 && (
+                  <div className='d-flex align-items-center justify-content-center fade-in' style={{ width: "100%", height: "70vh", margin: "0px auto" }}>
+                    <div>
+                      <div className='d-flex justify-content-center'>
+                        <img src={EmptyState} style={{ height: 240, width: 240 }} alt="Empty state" />
+                      </div>
+                      <div className="pb-1" style={{ textAlign: "center", fontWeight: 600, fontFamily: "Gilroy", fontSize: 18, color: "rgba(75, 75, 75, 1)" }}>
+                        No vendor available
+                      </div>
+                      <div className="pb-1" style={{ textAlign: "center", fontWeight: 500, fontFamily: "Gilroy", fontSize: 14, color: "rgba(75, 75, 75, 1)" }}>
+                        There are no Vendors added.
                       </div>
                     </div>
-                  )}
+                  </div>
+                )}
 
 
 
 
 
-                </div>
-             
+              </div>
+
             </div>
-          
+
             {
-              filteredData.length >= 5 &&
-              <nav className='position-fixed bottom-0 end-0 mb-3 me-3 d-flex justify-content-end align-items-centers'>
-             
+              filteredData.length >= 4 &&
+              <nav style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "end",
+                padding: "10px",
+                borderRadius: "5px",
+                position: "fixed",
+                zIndex: 1000,
+                width: '83%',
+                bottom: 0,
+                left: '17%',
+                right: '16px',
+                backgroundColor: "#fff"
+              }}>
+
                 <div>
-                  <select className="selectoption"
-                    value={itemsPerPage}
+                  <Select
+                    options={pageSizeOptions}
+                    value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
                     onChange={handleItemsPerPageChange}
-                    style={{
-                      padding: "2px",
-                      border: "1px solid #1E45E1",
-                      borderRadius: "5px",
-                      color: "#1E45E1",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                      outline: "none",
-                      boxShadow: "none",
-
-
-                    }}
-                  >
-                    <option value={4}>4</option>
-                    <option value={10}>10</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
+                    placeholder="Items per page"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    noOptionsMessage={() => "No options"}
+                   styles={{
+                            control: (base, state) => ({
+                              ...base,
+                              height: "40px",
+                              border: "1px solid #1E45E1",
+                              borderRadius: "5px",
+                              fontSize: "14px",
+                              color: "#1E45E1",
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              fontFamily: "Gilroy",
+                              boxShadow:  "0 0 0 1px #1E45E1",
+                               width:90,
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              border: "1px solid #ced4da",
+                              fontFamily: "Gilroy",
+                            }),
+                            menuList: (base) => ({
+                              ...base,
+                              backgroundColor: "#f8f9fa",
+                              maxHeight: "200px",
+                              padding: 0,
+                              overflowY: "auto",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              color: "#555",
+                            }),
+                            dropdownIndicator: (base) => ({
+                              ...base,
+                              color: "#1E45E1",
+                              cursor: "pointer",
+                            }),
+                            indicatorSeparator: () => ({
+                              display: "none",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              cursor: "pointer",
+                              backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                              color: state.isFocused ? "#fff" : "#000",
+                            }),
+                          }}
+                  />
                 </div>
 
-                
+
                 <ul className="selectoption"
                   style={{
                     display: "flex",
@@ -619,7 +676,7 @@ function Vendor() {
                     padding: 0,
                   }}
                 >
-                  
+
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -641,12 +698,12 @@ function Vendor() {
                     </button>
                   </li>
 
-                  
+
                   <li style={{ margin: "0 10px", fontSize: "14px", fontWeight: "bold" }}>
                     {currentPage} of {totalPages}
                   </li>
 
-                 
+
                   <li style={{ margin: "0 10px" }}>
                     <button
                       style={{
@@ -674,7 +731,7 @@ function Vendor() {
               </nav>
             }
 
-           
+
 
             {show &&
               <AddVendor show={show} currentItem={currentItem} setShow={setShow} />
@@ -690,7 +747,7 @@ function Vendor() {
                   style={{
                     fontSize: "18px", fontFamily: "Gilroy", fontWeight: 600, color: "#222222",
                   }}>Delete Vendor?</Modal.Title>
-                
+
               </Modal.Header>
 
               <Modal.Body

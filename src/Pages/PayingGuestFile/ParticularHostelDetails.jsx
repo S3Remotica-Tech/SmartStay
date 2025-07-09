@@ -18,7 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import EmptyState from '../../Assets/Images/New_images/empty_image.png';
 import { ArrowLeft2, ArrowRight2, Edit, Trash } from 'iconsax-react';
 import PropTypes from "prop-types"
-
+import Select from "react-select";
 
 
 
@@ -197,10 +197,17 @@ function ParticularHostelDetails(props) {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = roomCountData.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(roomCountData.length / itemsPerPage);
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1);
-  };
+ const handleItemsPerPageChange = (selectedOption) => {
+  setItemsPerPage(Number(selectedOption.value));
+  setCurrentPage(1);
+};
+const pageSizeOptions = [
+  { value: 4, label: "4" },
+  { value: 10, label: "10" },
+  { value: 50, label: "50" },
+  { value: 100, label: "100" },
+];
+
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -374,7 +381,7 @@ function ParticularHostelDetails(props) {
           </div>}
         </div>
 
-        <div className='container'
+        <div className='container show-scroll'
           style={{ maxHeight: "400px", overflowY: "auto" }}>
           <div className='row mt-4 mb-2  row-gap-4' style={{ backgroundColor: "", fontFamily: "Gilroy" }}>
             {currentItems.length > 0 && currentItems.map((room) => (
@@ -631,8 +638,6 @@ function ParticularHostelDetails(props) {
         {
           roomCountData.length >= 4 &&
 
-
-
            <nav
            
             className="pagination-container"
@@ -650,29 +655,66 @@ function ParticularHostelDetails(props) {
               zIndex: 1000,
             }}
           >
-            <div>
-              <select
-                value={itemsPerPage}
-                onChange={handleItemsPerPageChange}
-                style={{
-                  padding: "5px",
-                  border: "1px solid #1E45E1",
-                  borderRadius: "5px",
-                  color: "#1E45E1",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  outline: "none",
-                  boxShadow: "none",
-
-                }}
-              >
-
-                <option value={4}>4</option>
-                <option value={10}>10</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-            </div>
+              <div>
+                <Select
+                  options={pageSizeOptions}
+                  value={
+                    itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null
+                  }
+                  onChange={handleItemsPerPageChange}
+                  placeholder="Items per page"
+                  classNamePrefix="custom"
+                   menuPlacement="auto"
+                      noOptionsMessage={() => "No options"}
+                  styles={{
+                    control: (base, state) => ({
+                      ...base,
+                      padding: "0 5px",
+                      height: "40px",
+                      borderRadius: "5px",
+                      fontSize: "14px",
+                      color: "#1E45E1",
+                      fontWeight: "bold",
+                      fontFamily: "Gilroy",
+                      border: "1px solid #1E45E1",
+                      boxShadow: "0 0 0 1px #1E45E1",
+                      cursor: "pointer",
+                      width: 90,
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      border: "1px solid #ced4da",
+                      fontFamily: "Gilroy",
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      backgroundColor: "#f8f9fa",
+                      maxHeight: "200px",
+                      padding: 0,
+                      overflowY: "auto",
+                    }),
+                    placeholder: (base) => ({
+                      ...base,
+                      color: "#555",
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+                      color: "#1E45E1",
+                      cursor: "pointer",
+                    }),
+                    indicatorSeparator: () => ({
+                      display: "none",
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                      color: state.isFocused ? "#fff" : "#000",
+                      cursor: "pointer",
+                    }),
+                  }}
+                />
+              </div>
 
           
             <ul

@@ -13,6 +13,7 @@ import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import PropTypes from "prop-types";
 import { CloseCircle } from "iconsax-react";
 import "./SettingCompliance.css";
+import Select from "react-select";
 
 function SettingCompliance({ hostelid }) {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ function SettingCompliance({ hostelid }) {
   const [compliancecurrentPage, setCompliancecurrentPage] = useState(1);
   const [planExpiredCompliance, setPlanExpiredCompliance] = useState("");
   const [formLoading, setFormLoading] = useState(false)
-  
+
 
   const handleDeleteClick = () => {
     setShowPopup(true);
@@ -130,9 +131,9 @@ function SettingCompliance({ hostelid }) {
   };
 
   const handleAddComplaintType = () => {
-     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
+    dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
     dispatch({ type: "CLEAR_PLAN-EXPIRED" })
-    
+
 
     if (!complaintTypeName) {
       setComplaintError("Please Enter Complaint Type");
@@ -147,7 +148,7 @@ function SettingCompliance({ hostelid }) {
   };
 
   const handleEditType = () => {
-     dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
+    dispatch({ type: "CLEAR_ALREADY_COMPLAINTTYPE_ERROR" });
     dispatch({ type: "CLEAR_PLAN-EXPIRED" })
 
     if (complaintTypeName === originalComplaintTypeName) {
@@ -161,7 +162,7 @@ function SettingCompliance({ hostelid }) {
           id: id,
         },
       });
-       setFormLoading(true)
+      setFormLoading(true)
       setIsChangedError("");
     }
   };
@@ -201,12 +202,12 @@ function SettingCompliance({ hostelid }) {
   }, [state.Settings.errorCompliants]);
 
 
-  useEffect(()=>{
-    if(state.Settings.alreadytypeerror){
+  useEffect(() => {
+    if (state.Settings.alreadytypeerror) {
       setFormLoading(false)
     }
 
-  },[state.Settings.alreadytypeerror])
+  }, [state.Settings.alreadytypeerror])
 
 
 
@@ -271,10 +272,16 @@ function SettingCompliance({ hostelid }) {
     setCompliancecurrentPage(generalpageNumber);
   };
 
-  const handleItemsPerPageChange = (event) => {
-    setCompliancerowsPerPage(Number(event.target.value));
-    setCompliancecurrentPage(1)
+  const handleItemsPerPageChange = (selectedOption) => {
+    setCompliancerowsPerPage(selectedOption.value);
+    setCompliancecurrentPage(1);
   };
+
+  const complianceOptions = [
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
   const totalPagesGeneral = Math.ceil(
     complianceFilterddata?.length / compliancerowsPerPage
@@ -290,7 +297,7 @@ function SettingCompliance({ hostelid }) {
     }
   }, [complianceFilterddata]);
 
-useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -477,12 +484,12 @@ useEffect(() => {
                             borderRadius: 10,
                             display: "flex",
                             flexDirection: "column",
-                                                       alignItems: "flex-start",
+                            alignItems: "flex-start",
                             zIndex: 1000,
                             boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
                           }}
                         >
-                                                  <div
+                          <div
                             className="d-flex align-items-center gap-2 w-100 px-3 py-2"
                             onClick={() => handleEdit(u)}
                             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#EDF2FF")}
@@ -490,8 +497,8 @@ useEffect(() => {
                             style={{
                               cursor: "pointer",
                               transition: "background-color 0.2s ease",
-                               borderTopLeftRadius: 10,
-                                            borderTopRightRadius: 10,
+                              borderTopLeftRadius: 10,
+                              borderTopRightRadius: 10,
                             }}
                           >
                             <img src={Edit} alt="edit" style={{ height: 16, width: 16 }} />
@@ -509,10 +516,10 @@ useEffect(() => {
                             </label>
                           </div>
 
-                         
+
                           <div style={{ width: "100%", height: 1, backgroundColor: "#E6E6E6" }} />
 
-                        
+
                           <div
                             className="d-flex align-items-center gap-2 w-100 px-3 py-2"
                             onClick={handleDeleteClick}
@@ -521,8 +528,8 @@ useEffect(() => {
                             style={{
                               cursor: "pointer",
                               transition: "background-color 0.2s ease",
-                               borderBottomLeftRadius: 10,
-                                            borderBottomRightRadius: 10,
+                              borderBottomLeftRadius: 10,
+                              borderBottomRightRadius: 10,
                             }}
                           >
                             <img src={Delete} alt="delete" style={{ height: 16, width: 16 }} />
@@ -555,7 +562,7 @@ useEffect(() => {
           <div className="d-flex justify-content-center">
             <img
               src={EmptyState}
-            
+
               alt="Empty state"
             />
           </div>
@@ -574,29 +581,77 @@ useEffect(() => {
         </div>
       )}
 
-      {complianceFilterddata.length > 10 && (
-        <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+      {complianceFilterddata.length >= 10 && (
+        <nav style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "end",
+          padding: "10px",
+          position: "fixed",
+          bottom: "0px",
+          right: "0px",
+          backgroundColor: "#fff",
+          borderRadius: "5px",
+          zIndex: 1000,
+        }}>
           <div>
-            <select
-              value={compliancerowsPerPage}
+            <Select
+              value={complianceOptions.find((opt) => opt.value === compliancerowsPerPage)}
               onChange={handleItemsPerPageChange}
-              style={{
-                padding: "5px",
-                border: "1px solid #1E45E1",
-                borderRadius: "5px",
-                color: "#1E45E1",
-                fontWeight: "bold",
-                cursor: "pointer",
-                outline: "none",
-                boxShadow: "none",
+              options={complianceOptions}
+              placeholder="Items per page"
+              classNamePrefix="custom"
+              menuPlacement="auto"
+              noOptionsMessage={() => "No options"}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  height: "40px",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  color: "#1E45E1",
+                  fontFamily: "Gilroy",
+                  fontWeight: 600,
+                  border: "1px solid #1E45E1",
+                  boxShadow: "0 0 0 1px #1E45E1",
+                  cursor: "pointer",
+                  width: 90,
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  border: "1px solid #ced4da",
+                  fontFamily: "Gilroy",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  backgroundColor: "#f8f9fa",
+                  maxHeight: "200px",
+                  padding: 0,
+                  scrollbarWidth: "thin",
+                  overflowY: "auto",
+                  fontFamily: "Gilroy",
+                }),
+                placeholder: (base) => ({
+                  ...base,
+                  color: "#555",
+                }),
+                dropdownIndicator: (base) => ({
+                  ...base,
+                  color: "#1E45E1",
+                  cursor: "pointer",
+                }),
+                indicatorSeparator: () => ({
+                  display: "none",
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  cursor: "pointer",
+                  backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                  color: state.isFocused ? "#fff" : "#000",
+                }),
               }}
-            >
-              <option value={2}>2</option>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
+            />
           </div>
 
           <ul
@@ -740,7 +795,7 @@ useEffect(() => {
               >
                 {isChangedError && (
                   <>
-                    <MdError style={{ marginRight: "7px", color: "red", fontSize:"13px" }} />
+                    <MdError style={{ marginRight: "7px", color: "red", fontSize: "13px" }} />
                     <span
                       style={{
                         color: "red",
@@ -755,13 +810,13 @@ useEffect(() => {
                 )}
 
 
-                
- {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+
+                {state.createAccount?.networkError ?
+                  <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                  </div>
+                  : null}
               </div>
             </div>
           </div>
@@ -792,32 +847,32 @@ useEffect(() => {
 
 
         {formLoading &&
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: 'transparent',
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderTop: '4px solid #1E45E1',
-                                    borderRight: '4px solid transparent',
-                                    borderRadius: '50%',
-                                    width: '40px',
-                                    height: '40px',
-                                    animation: 'spin 1s linear infinite',
-                                }}
-                            ></div>
-                        </div>
-                    }
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
       </Modal>
 
       <Modal
@@ -906,41 +961,41 @@ useEffect(() => {
           </div>
         </Modal.Body>
 
- {state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+        {state.createAccount?.networkError ?
+          <div className='d-flex  align-items-center justify-content-center mt-1 mb-1'>
+            <MdError style={{ color: "red", marginRight: '5px' }} />
+            <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+          </div>
+          : null}
 
 
- {formLoading &&
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                backgroundColor: 'transparent',
-                                opacity: 0.75,
-                                zIndex: 10,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderTop: '4px solid #1E45E1',
-                                    borderRight: '4px solid transparent',
-                                    borderRadius: '50%',
-                                    width: '40px',
-                                    height: '40px',
-                                    animation: 'spin 1s linear infinite',
-                                }}
-                            ></div>
-                        </div>
-                    }
+        {formLoading &&
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'transparent',
+              opacity: 0.75,
+              zIndex: 10,
+            }}
+          >
+            <div
+              style={{
+                borderTop: '4px solid #1E45E1',
+                borderRight: '4px solid transparent',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                animation: 'spin 1s linear infinite',
+              }}
+            ></div>
+          </div>
+        }
 
 
         {planExpiredCompliance && (
@@ -952,7 +1007,7 @@ useEffect(() => {
               marginTop: 10,
             }}
           >
-            <MdError style={{ marginRight: "7px", color: "red" , fontSize:14}} />
+            <MdError style={{ marginRight: "7px", color: "red", fontSize: 14 }} />
             <span
               style={{
                 color: "red",
@@ -979,7 +1034,7 @@ useEffect(() => {
               fontSize: 14,
               padding: "12px 16px 12px 16px",
               fontFamily: "Montserrat, sans-serif",
-                           width: "100%",
+              width: "100%",
             }}
             onClick={handleAddComplaintType}
           >

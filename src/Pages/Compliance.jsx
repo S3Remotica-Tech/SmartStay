@@ -71,7 +71,12 @@ const Compliance = () => {
 
 
 
-
+  const pageSizeOptions = [
+    { value: 6, label: "6" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
   const complaintList = useSelector((state) => state.Settings.Complainttypelist);
 
 
@@ -320,10 +325,13 @@ const Compliance = () => {
 
 
 
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1)
-  };
+  const handleItemsPerPageChange = (selectedOption) => {
+  if (selectedOption) {
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
+  }
+};
+
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -381,20 +389,20 @@ const Compliance = () => {
 
     const value = event.target.value;
     setStatusfilter(value);
-        
-    if (value === "All"  ) {
+
+    if (value === "All") {
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
     }
 
-    else if(value === "date"){
-        dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+    else if (value === "date") {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
     }
 
-    else if(value){
-        dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId , status:value ,} })
+    else if (value) {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId, status: value, } })
     }
 
-     setCurrentPage(1)
+    setCurrentPage(1)
   };
 
   const [selectedDateRange, setSelectedDateRange] = useState([]);
@@ -437,15 +445,18 @@ const Compliance = () => {
   }, [filterStatus]);
 
 
-  
- useEffect(() => {
-      
 
-      if (statusfilter === "date" &&  ExcelFilterDates.length === 2) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId  , 
-          from_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-          to_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")} 
-           })
+  useEffect(() => {
+
+
+    if (statusfilter === "date" && ExcelFilterDates.length === 2) {
+      dispatch({
+        type: 'COMPLIANCE-LIST', payload: {
+          hostel_id: hosId,
+          from_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+          to_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
+        }
+      })
     }
   }, [ExcelFilterDates]);
 
@@ -828,7 +839,7 @@ const Compliance = () => {
                     marginTop: "1rem",
                   }}
                 >
-                <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px" }} />
+                  <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{compliancepermissionError}</span>
                 </div>
               )}
@@ -1062,7 +1073,7 @@ const Compliance = () => {
 
                 <div className='row row-gap-3 p-4'
                   style={{
-                    maxHeight: "470px",
+                    maxHeight: "500px",
                     overflowY: "auto",
                   }}>
                   {currentItems.length > 0 && currentItems.map((complaints) => (
@@ -1112,26 +1123,64 @@ const Compliance = () => {
                   >
 
                     <div>
-                      <select
-                        value={itemsPerPage}
-                        onChange={handleItemsPerPageChange}
-                        style={{
-                          padding: "5px",
-                          border: "1px solid #1E45E1",
-                          borderRadius: "5px",
-                          color: "#1E45E1",
-                          fontWeight: "bold",
-                          cursor: "pointer",
-                          outline: "none",
-                          boxShadow: "none",
 
+                      <Select
+                        options={pageSizeOptions}
+                        value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
+                       onChange={handleItemsPerPageChange}
+                        placeholder="Items per page"
+                        classNamePrefix="custom"
+                        menuPlacement="auto"
+                        noOptionsMessage={() => "No options"}
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            height: "40px",
+                            borderRadius: "6px",
+                            fontSize: "14px",
+                            color: "#1E45E1",
+                            fontFamily: "Gilroy",
+                            fontWeight: 600,
+                            border: "1px solid #1E45E1",
+                            boxShadow: "0 0 0 1px #1E45E1",
+                            cursor: "pointer",
+                             width:90,
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            border: "1px solid #ced4da",
+                            fontFamily: "Gilroy",
+                          }),
+                          menuList: (base) => ({
+                            ...base,
+                            backgroundColor: "#f8f9fa",
+                            maxHeight: "200px",
+                            padding: 0,
+                            scrollbarWidth: "thin",
+                            overflowY: "auto",
+                            fontFamily: "Gilroy",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            color: "#555",
+                          }),
+                          dropdownIndicator: (base) => ({
+                            ...base,
+                            color: "#1E45E1",
+                            cursor: "pointer",
+                          }),
+                          indicatorSeparator: () => ({
+                            display: "none",
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            cursor: "pointer",
+                            backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                            color: state.isFocused ? "#FFF" : "#000",
+                          }),
                         }}
-                      >
-                        <option value={6}>6</option>
-                        <option value={10}>10</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                      </select>
+                      />
                     </div>
 
                     <ul
@@ -1543,7 +1592,7 @@ const Compliance = () => {
                               </div>
                               {dateerrmsg.trim() !== "" && (
                                 <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px"}} />
+                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {dateerrmsg}
                                   </label>
@@ -1551,7 +1600,7 @@ const Compliance = () => {
                               )}
                               {joiningDateErrmsg.trim() !== "" && (
                                 <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px"}} />
+                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {joiningDateErrmsg}
                                   </label>
@@ -1616,14 +1665,14 @@ const Compliance = () => {
                       {totalErrormsg.trim() !== "" && (
                         <div>
                           <p className='text-center' style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                            {totalErrormsg !== " " && <MdError style={{ color: "red", marginRight: '5px', fontSize:14  }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {totalErrormsg}</span>
+                            {totalErrormsg !== " " && <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {totalErrormsg}</span>
                           </p>
                         </div>
                       )}
 
                       {state.createAccount?.networkError ?
                         <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
+                          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
                           <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                         </div>
                         : null}

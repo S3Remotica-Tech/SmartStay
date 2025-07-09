@@ -21,6 +21,7 @@ import {
 } from "react-bootstrap";
 import PropTypes from "prop-types";
 import './UserlistCheckout.css';
+import Select from "react-select";
 
 function CheckOut(props) {
 
@@ -34,7 +35,7 @@ function CheckOut(props) {
   const [activeDotsId, setActiveDotsId] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const [checkOutCustomer, setCheckOutCustomer] = useState([]);
   const [checkOutPermissionError, setcheckOutPermissionError] = useState("");
@@ -189,10 +190,19 @@ function CheckOut(props) {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1)
+ const handleItemsPerPageChange = (selectedOption) => {
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
   };
+
+
+
+
+const pageOptions = [
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const sortedData = React.useMemo(() => {
@@ -417,7 +427,7 @@ function CheckOut(props) {
                     className='show-scrolls'
                     style={{
 
-                      height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "365px" : "auto",
+                      height: sortedData?.length >= 5 || sortedData?.length >= 5 ? "430px" : "auto",
                       overflow: "auto",
                       borderTop: "1px solid #E8E8E8",
                       marginBottom: 20,
@@ -961,7 +971,7 @@ function CheckOut(props) {
                       </tbody>
                     </Table>
                   </div>
-                  {((props.search || props.filterStatus) ? props.filteredUsers?.length : checkOutCustomer?.length) >= 5 && (
+                  {((props.search || props.filterStatus) ? props.filteredUsers?.length : checkOutCustomer?.length) > 10 && (
 
 
 
@@ -972,34 +982,74 @@ function CheckOut(props) {
                         justifyContent: "end",
                         padding: "10px",
                         position: "fixed",
-                        bottom: "10px",
-                        right: "10px",
+                        bottom: "0px",
+                        right: "0px",
+                        left:0,
                         backgroundColor: "#fff",
                         borderRadius: "5px",
                         zIndex: 1000,
                       }}
                     >
-                      <div>
-                        <select
-                          value={itemsPerPage}
-                          onChange={handleItemsPerPageChange}
-                          style={{
-                            padding: "5px",
-                            border: "1px solid #1E45E1",
-                            borderRadius: "5px",
-                            color: "#1E45E1",
-                            fontWeight: "bold",
-                            cursor: "pointer",
-                            outline: "none",
-                            boxShadow: "none",
-                          }}
-                        >
-                          <option value={5}>5</option>
-                          <option value={10}>10</option>
-                          <option value={50}>50</option>
-                          <option value={100}>100</option>
-                        </select>
-                      </div>
+                        <div>
+                    <Select
+                      options={pageOptions}
+                      value={
+                        itemsPerPage
+                          ? { value: itemsPerPage, label: `${itemsPerPage}` }
+                          : null
+                      }
+                      onChange={handleItemsPerPageChange}
+                      classNamePrefix="custom"
+                      menuPlacement="auto"
+                      noOptionsMessage={() => "No options"}
+                      styles={{
+                        control: (base, state) => ({
+                          ...base,
+                          height: "40px",
+                          padding: "0 5px",
+                          border: "1px solid #1E45E1",
+                          borderRadius: "5px",
+                          fontSize: "14px",
+                          color: "#1E45E1",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          fontFamily: "Gilroy",
+                          boxShadow: "0 0 0 1px #1E45E1",
+                          width: 100,
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          border: "1px solid #ced4da",
+                          fontFamily: "Gilroy",
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          maxHeight: "200px",
+                          overflowY: "auto",
+                          padding: 0,
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          color: "#555",
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          color: "#1E45E1",
+                          cursor: "pointer",
+                        }),
+                        indicatorSeparator: () => ({
+                          display: "none",
+                        }),
+                        option: (base, state) => ({
+                          ...base,
+                          backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                          color: state.isFocused ? "#fff" : "#000",
+                          cursor: "pointer",
+                        }),
+                      }}
+                    />
+                  </div>
 
                       <ul
                         style={{

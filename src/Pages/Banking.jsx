@@ -26,7 +26,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import transArrow from "../Assets/Images/New_images/arrow-transfer.png";
 import banklogo from "../Assets/Images/New_images/bank_loga.png";
-
+import Select from "react-select";
 
 
 
@@ -46,7 +46,7 @@ function Banking() {
   const [showAddBalance, setshowAddBalance] = useState(false);
   const [defaltType, setDefaultType] = useState("");
   const [selectedAccountType, setSelectedAccountType] = useState("");
-   const [openMenuId, setOpenMenuId] = useState(null);
+  const [openMenuId, setOpenMenuId] = useState(null);
   const [editAddBank, setEditAddBank] = useState("");
   const [edit, setEdit] = useState(false);
   const [AddBankName, setAddBankName] = useState("");
@@ -67,8 +67,17 @@ function Banking() {
   const [transactionFilterddata, settransactionFilterddata] = useState([]);
   const [bankking, setBanking] = useState("")
   const [selfTranfer, setSelfTransfer] = useState(false)
- const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState("");
   const [formLoading, setFormLoading] = useState(false)
+
+
+  const transactionPageOptions = [
+    { value: 5, label: "5" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
+
 
   useEffect(() => {
     setHostel_Id(state.login.selectedHostel_Id);
@@ -198,9 +207,9 @@ function Banking() {
     };
   }, []);
 
- const handleChange = (e) => {
+  const handleChange = (e) => {
     const value = e.target.value;
-        if (/^\d*$/.test(value)) {
+    if (/^\d*$/.test(value)) {
       setAmount(value);
     }
   };
@@ -294,14 +303,14 @@ function Banking() {
 
   };
 
-  
 
 
-  
- 
+
+
+
 
   const handleCloseTransactionDelete = () => {
-   
+
   };
 
   useEffect(() => {
@@ -407,10 +416,11 @@ function Banking() {
   const handleSort = (key, direction) => {
     setSortConfig({ key, direction });
   };
-  const handleItemsPerPageChange = (event) => {
-    setTransactionrowsPerPage(Number(event.target.value));
-    settransactioncurrentPage(1)
+  const handleItemsPerPageChange = (selectedOption) => {
+    setTransactionrowsPerPage(Number(selectedOption.value));
+    settransactioncurrentPage(1);
   };
+
 
   const totalPagesTransaction = Math.ceil(
     transactionFilterddata?.length / transactionrowsPerPage
@@ -534,7 +544,7 @@ function Banking() {
     }
   }, [transactionFilterddata]);
 
- useEffect(() => {
+  useEffect(() => {
     if (state.createAccount?.networkError) {
       setFormLoading(false)
       setTimeout(() => {
@@ -1516,7 +1526,7 @@ function Banking() {
                               </span>
                             </td>
 
-                      
+
                           </tr>
                         );
                       })}
@@ -1599,41 +1609,82 @@ function Banking() {
 
             {transactionFilterddata?.length >= 5 && (
               <nav
-               style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "end",
-                      padding: "10px",
-                      borderRadius: "5px",
-                      position: "fixed",
-                      zIndex: 1000,
-                      width: '83%',
-                      bottom: 0,
-                      left: '17%',
-                      right: '16px',
-                      backgroundColor:"#fff"
-                    }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "end",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  position: "fixed",
+                  zIndex: 1000,
+                  width: '83%',
+                  bottom: 0,
+                  left: '17%',
+                  right: '16px',
+                  backgroundColor: "#fff"
+                }}
               >
                 <div>
-                  <select className="selectoption"
-                    value={transactionrowsPerPage}
+                  <Select
+                    options={transactionPageOptions}
+                    value={
+                      transactionrowsPerPage
+                        ? { value: transactionrowsPerPage, label: `${transactionrowsPerPage}` }
+                        : null
+                    }
                     onChange={handleItemsPerPageChange}
-                    style={{
-                      padding: "5px",
-                      border: "1px solid #1E45E1",
-                      borderRadius: "5px",
-                      color: "#1E45E1",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                      outline: "none",
-                      boxShadow: "none",
+                    placeholder="Rows per page"
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    noOptionsMessage={() => "No options"}
+                    styles={{
+                      control: (base, state) => ({
+                        ...base,
+                        height: "40px",
+                        border: "1px solid #1E45E1",
+                        borderRadius: "5px",
+                        fontSize: "14px",
+                        color: "#1E45E1",
+                       fontWeight: 600,
+                        fontFamily: "Gilroy",
+                        boxShadow: "0 0 0 1px #1E45E1",
+                        cursor: "pointer",
+                         width:90,
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "200px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#1E45E1",
+                        cursor: "pointer",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                        color: state.isFocused ? "#fff" : "#000",
+                      }),
                     }}
-                  >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
+                  />
                 </div>
 
                 <ul className="selectoption"
@@ -1903,25 +1954,25 @@ function Banking() {
                       borderRadius: "8px",
                     }}
                   />
-                     {amountError && (
-                  <div style={{ color: "red", fontSize: "14px", marginTop: "5px", fontFamily:"Gilroy" }}>
-                    <MdError style={{ fontSize: "14", marginRight: "5px" }} />
-                    {amountError}</div>)}
+                  {amountError && (
+                    <div style={{ color: "red", fontSize: "14px", marginTop: "5px", fontFamily: "Gilroy" }}>
+                      <MdError style={{ fontSize: "14", marginRight: "5px" }} />
+                      {amountError}</div>)}
                 </Form.Group>
 
 
 
 
 
-{state.createAccount?.networkError ?
-            <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-              <MdError style={{ color: "red", marginRight: '5px' }} />
-              <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
-            </div>
-            : null}
+                {state.createAccount?.networkError ?
+                  <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
+                    <MdError style={{ color: "red", marginRight: '5px' }} />
+                    <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
+                  </div>
+                  : null}
 
 
-             
+
                 <Button
                   className="col-12"
                   style={{
@@ -1942,7 +1993,7 @@ function Banking() {
             </Modal.Body>
 
 
- 
+
 
 
 
@@ -1973,7 +2024,7 @@ function Banking() {
             </div>}
           </Modal>
 
-        
+
 
 
           <Modal show={selfTranfer} onHide={handleCloseSElfTransfer} centered backdrop="static">
@@ -2091,9 +2142,9 @@ function Banking() {
                   type="text"
                   className="form-control border-start-0 rounded-end"
                   placeholder="Enter amount"
-                   value={amount}
-      onChange={handleChange}
-                  style={{ boxShadow: 'none', outline: "none", fontFamily:"Gilroy" }}
+                  value={amount}
+                  onChange={handleChange}
+                  style={{ boxShadow: 'none', outline: "none", fontFamily: "Gilroy" }}
                 />
               </div>
 
@@ -2108,7 +2159,7 @@ function Banking() {
 
 
 
-        
+
 
           {showForm === true ? (
             <BankingAddForm
@@ -2119,8 +2170,8 @@ function Banking() {
               setEditAddBank={setEditAddBank}
               setEdit={setEdit}
               edit={edit}
-             
-              
+
+
             />
           ) : null}
         </div>

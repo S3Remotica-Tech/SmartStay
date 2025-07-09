@@ -53,55 +53,55 @@ function Asset() {
     }
   }, [state.UsersList?.exportAssetsDetail?.response?.fileUrl]);
 
-  
+
 
   const handleAssetsExcel = () => {
-    
-  if (ExcelDownloadDates.length === 2) {
+
+    if (ExcelDownloadDates.length === 2) {
+      dispatch({
+        type: "EXPORTASSETSDETAILS",
+        payload: {
+          type: "assets",
+          hostel_id: state.login.selectedHostel_Id,
+          start_date: ExcelDownloadDates[0]?.format("YYYY-MM-DD"),
+          end_date: ExcelDownloadDates[1]?.format("YYYY-MM-DD"),
+        },
+      });
+
+      setExcelDownloadDates([]);
+      setFilterExcelPrice("");
+      setIsDownloadTriggered(true);
+      return;
+    }
+
+    if (
+      filterexcelprice &&
+      filterexcelprice !== "date" &&
+      filterexcelprice !== "All"
+    ) {
+      dispatch({
+        type: "EXPORTASSETSDETAILS",
+        payload: {
+          type: "assets",
+          hostel_id: state.login.selectedHostel_Id,
+          price_range: filterexcelprice,
+        },
+      });
+
+      setExcelDownloadDates([]);
+      setFilterExcelPrice("");
+      setIsDownloadTriggered(true);
+      return;
+    }
+
+
     dispatch({
       type: "EXPORTASSETSDETAILS",
-      payload: {
-        type: "assets",
-        hostel_id: state.login.selectedHostel_Id,
-        start_date: ExcelDownloadDates[0]?.format("YYYY-MM-DD"),
-        end_date: ExcelDownloadDates[1]?.format("YYYY-MM-DD"),
-      },
+      payload: { type: "assets", hostel_id: state.login.selectedHostel_Id },
     });
 
-    setExcelDownloadDates([]);
-    setFilterExcelPrice("");
     setIsDownloadTriggered(true);
-    return; 
-  }
-
-  if (
-    filterexcelprice &&
-    filterexcelprice !== "date" &&
-    filterexcelprice !== "All"
-  ) {
-    dispatch({
-      type: "EXPORTASSETSDETAILS",
-      payload: {
-        type: "assets",
-        hostel_id: state.login.selectedHostel_Id,
-        price_range: filterexcelprice,
-      },
-    });
-
-    setExcelDownloadDates([]);
-    setFilterExcelPrice("");
-    setIsDownloadTriggered(true);
-    return; 
-  }
-
-  
-  dispatch({
-    type: "EXPORTASSETSDETAILS",
-    payload: { type: "assets", hostel_id: state.login.selectedHostel_Id },
-  });
-
-  setIsDownloadTriggered(true);
-};
+  };
 
 
   useEffect(() => {
@@ -246,7 +246,7 @@ function Asset() {
 
   }, [state.AssetList.addAssetStatusCode, state.AssetList.deleteAssetStatusCode, state.AssetList.addAssignAssetStatusCode])
 
-   
+
 
   useEffect(() => {
     if (state.AssetList.getAssetStatusCode === 200) {
@@ -260,12 +260,12 @@ function Asset() {
   }, [state.AssetList.getAssetStatusCode])
 
 
-  useEffect(()=> {
-    if(state.AssetList.assetList && state.AssetList.assetList.length > 0){
-        setGetData(state.AssetList.assetList)
+  useEffect(() => {
+    if (state.AssetList.assetList && state.AssetList.assetList.length > 0) {
+      setGetData(state.AssetList.assetList)
     }
 
-  },[state.AssetList.assetList])
+  }, [state.AssetList.assetList])
 
 
   useEffect(() => {
@@ -313,75 +313,75 @@ function Asset() {
   };
 
 
- const handleDateChange = (dates) => {
-  if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
-    setSelectedDateRange([]);
-    setSelectedPriceRange("All");
+  const handleDateChange = (dates) => {
+    if (!dates || dates.length < 2 || !dates[0] || !dates[1]) {
+      setSelectedDateRange([]);
+      setSelectedPriceRange("All");
 
-    dispatch({
-      type: 'ASSETLIST',
-      payload: { hostel_id: state.login.selectedHostel_Id },
-    });
-    return;
-  }
+      dispatch({
+        type: 'ASSETLIST',
+        payload: { hostel_id: state.login.selectedHostel_Id },
+      });
+      return;
+    }
 
-  setSelectedDateRange(dates);
+    setSelectedDateRange(dates);
 
-  const newStartDate = dayjs(dates[0]).startOf("day");
-  const newEndDate = dayjs(dates[1]).endOf("day");
-  setExcelFilterDates([newStartDate, newEndDate]);
-  setExcelDownloadDates([newStartDate, newEndDate])
+    const newStartDate = dayjs(dates[0]).startOf("day");
+    const newEndDate = dayjs(dates[1]).endOf("day");
+    setExcelFilterDates([newStartDate, newEndDate]);
+    setExcelDownloadDates([newStartDate, newEndDate])
 
-  setSelectedPriceRange("date");
+    setSelectedPriceRange("date");
 
-  setCurrentPage(1);
-};
+    setCurrentPage(1);
+  };
 
 
-const handlePriceRangeChange = (value) => {
-  setSelectedPriceRange(value);
-  setFilterExcelPrice(value)
+  const handlePriceRangeChange = (value) => {
+    setSelectedPriceRange(value);
+    setFilterExcelPrice(value)
 
-  if (value === "All") {
-    dispatch({
-      type: 'ASSETLIST',
-      payload: { hostel_id: state.login.selectedHostel_Id }
-    });
-  } else if (value === "date") {
-    dispatch({
-      type: 'ASSETLIST',
-      payload: { hostel_id: state.login.selectedHostel_Id }
-    });
-    setExcelFilterDates([]);
-    setSelectedDateRange([]);
-    setExcelDownloadDates([]);
-  } else if (value) {
-    dispatch({
-      type: 'ASSETLIST',
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        price_range: value
-      }
-    });
-  }
+    if (value === "All") {
+      dispatch({
+        type: 'ASSETLIST',
+        payload: { hostel_id: state.login.selectedHostel_Id }
+      });
+    } else if (value === "date") {
+      dispatch({
+        type: 'ASSETLIST',
+        payload: { hostel_id: state.login.selectedHostel_Id }
+      });
+      setExcelFilterDates([]);
+      setSelectedDateRange([]);
+      setExcelDownloadDates([]);
+    } else if (value) {
+      dispatch({
+        type: 'ASSETLIST',
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          price_range: value
+        }
+      });
+    }
 
-  setCurrentPage(1);
-};
+    setCurrentPage(1);
+  };
 
 
 
   useEffect(() => {
-  if (selectedPriceRange === "date" && ExcelFilterDates.length === 2) {
-    dispatch({
-      type: 'ASSETLIST',
-      payload: {
-        hostel_id: state.login.selectedHostel_Id,
-        start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-        end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
-      }
-    });
-  }
-}, [selectedPriceRange, ExcelFilterDates]); 
+    if (selectedPriceRange === "date" && ExcelFilterDates.length === 2) {
+      dispatch({
+        type: 'ASSETLIST',
+        payload: {
+          hostel_id: state.login.selectedHostel_Id,
+          start_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+          end_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
+        }
+      });
+    }
+  }, [selectedPriceRange, ExcelFilterDates]);
 
 
   useEffect(() => {
@@ -396,26 +396,26 @@ const handlePriceRangeChange = (value) => {
 
   const handleFilterByPrice = () => {
 
-  const newShowFilter = !showFilter;
-  setShowFilter(newShowFilter);
+    const newShowFilter = !showFilter;
+    setShowFilter(newShowFilter);
 
-  if (!showFilter) {
-    setSelectedPriceRange("All");
-    setSelectedDateRange([]);
-    setExcelFilterDates([]);
-    setExcelDownloadDates([])
-    setGetData(state.AssetList.assetList)
-   
-  }
-};
+    if (!showFilter) {
+      setSelectedPriceRange("All");
+      setSelectedDateRange([]);
+      setExcelFilterDates([]);
+      setExcelDownloadDates([])
+      setGetData(state.AssetList.assetList)
 
-
+    }
+  };
 
 
 
 
 
- 
+
+
+
 
 
 
@@ -466,10 +466,16 @@ const handlePriceRangeChange = (value) => {
 
 
 
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
-    setCurrentPage(1)
+  const handleItemsPerPageChange = (selectedOption) => {
+    setItemsPerPage(Number(selectedOption.value));
+    setCurrentPage(1);
   };
+
+  const pageOptions = [
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -614,7 +620,7 @@ const handlePriceRangeChange = (value) => {
                 </div>
               )}
             </div>
-            </>
+          </>
         ) :
           <div className='container p-0 ' style={{ marginTop: 7 }}>
             <div className="container d-flex justify-content-between align-items-center  flex-wrap h-auto"
@@ -679,9 +685,9 @@ const handlePriceRangeChange = (value) => {
                     {
                       getData.length > 0 && searchQuery !== '' && showDropDown && (
 
-                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0,padding:5, zIndex: 1000, borderRadius: 8, backgroundColor: "#fff" }}>
-                          <ul className='show-scroll' style={{       
-                         width:263,
+                        <div style={{ border: '1px solid #d9d9d9 ', position: "absolute", top: 50, left: 0, padding: 5, zIndex: 1000, borderRadius: 8, backgroundColor: "#fff" }}>
+                          <ul className='show-scroll' style={{
+                            width: 263,
                             backgroundColor: '#fff',
                             maxHeight: "174px",
                             minHeight: getData?.length > 1 ? "100px" : "auto",
@@ -706,7 +712,7 @@ const handlePriceRangeChange = (value) => {
                                   style={{
                                     padding: '10px',
                                     cursor: 'pointer',
-                                    
+
                                     borderBottom: getData.length > 1 ? '1px solid #dcdcdc' : 'none',
                                     fontSize: '14px',
                                     fontFamily: 'Gilroy',
@@ -745,92 +751,92 @@ const handlePriceRangeChange = (value) => {
                 {
                   showFilter &&
 
-                 
+
                   <div style={{ paddingRight: 30, marginTop: 10 }}>
-  <Select
-   
-    value={{
-      value: selectedPriceRange,
-      label: selectedPriceRange === "date" ? "Date" : selectedPriceRange
-    }}
-    onChange={(selectedOption) => handlePriceRangeChange(selectedOption?.value)}
-    options={[
-      { value: "All", label: "All" },
-      { value: "0-100", label: "0-100" },
-      { value: "100-500", label: "100-500" },
-      { value: "500-1000", label: "500-1000" },
-      { value: "1000+", label: "1000+" },
-      { value: "date", label: "Date" }
-    ]}
-   styles={{
-    control: (base) => ({
-      ...base,
-      height: "40px",
-      borderRadius: "6px",
-      boxShadow: "none !important",   
-      outline: "none !important",    
-      backgroundColor: "#fff",
-      minHeight: "unset",
-       minWidth: "140px",
-      '&:hover': {
-        borderColor: "#ccc"
-      }
-    }),
-      menuList: (base) => ({
-                        ...base,
-                        backgroundColor: "#f8f9fa",
-                        maxHeight: "150px",
-                        padding: 0,
-                        scrollbarWidth: "thin",
-                        overflowY: "auto",
-                        fontFamily: "Gilroy",
-                        
-  minWidth: "140px",
-  zIndex: 9999
-                      }),
-    indicatorSeparator: () => ({
-      display: "none" ,
-       
-    }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      padding: "0 8px",
-      cursor:"pointer"  
-    }),
-    valueContainer: (base) => ({
-      ...base,
-      padding: "0 12px"
-    }),
-    input: (base) => ({
-      ...base,
-      margin: 0,
-      padding: 0,
-      border: "none",
-      boxShadow: "none",     
-      outline: "none"       
-    }),
-    singleValue: (base) => ({
-      ...base,
-      color: "#222",
-      fontWeight: 600,
-      fontFamily: "Gilroy"
-    }),
-    
-    option: (base, state) => ({
-  ...base,
-  backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
-  color: "#222",
-  fontFamily: "Gilroy",
-  whiteSpace: "nowrap",        
-  overflow: "hidden",         
-  textOverflow: "ellipsis",   
-  fontSize: "14px",
-  cursor:"pointer"             
-})
-  }}
-    placeholder="Select Price Range"
-  />
-</div>
+                    <Select
+
+                      value={{
+                        value: selectedPriceRange,
+                        label: selectedPriceRange === "date" ? "Date" : selectedPriceRange
+                      }}
+                      onChange={(selectedOption) => handlePriceRangeChange(selectedOption?.value)}
+                      options={[
+                        { value: "All", label: "All" },
+                        { value: "0-100", label: "0-100" },
+                        { value: "100-500", label: "100-500" },
+                        { value: "500-1000", label: "500-1000" },
+                        { value: "1000+", label: "1000+" },
+                        { value: "date", label: "Date" }
+                      ]}
+                      styles={{
+                        control: (base) => ({
+                          ...base,
+                          height: "40px",
+                          borderRadius: "6px",
+                          boxShadow: "none !important",
+                          outline: "none !important",
+                          backgroundColor: "#fff",
+                          minHeight: "unset",
+                          minWidth: "140px",
+                          '&:hover': {
+                            borderColor: "#ccc"
+                          }
+                        }),
+                        menuList: (base) => ({
+                          ...base,
+                          backgroundColor: "#f8f9fa",
+                          maxHeight: "150px",
+                          padding: 0,
+                          scrollbarWidth: "thin",
+                          overflowY: "auto",
+                          fontFamily: "Gilroy",
+
+                          minWidth: "140px",
+                          zIndex: 9999
+                        }),
+                        indicatorSeparator: () => ({
+                          display: "none",
+
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          padding: "0 8px",
+                          cursor: "pointer"
+                        }),
+                        valueContainer: (base) => ({
+                          ...base,
+                          padding: "0 12px"
+                        }),
+                        input: (base) => ({
+                          ...base,
+                          margin: 0,
+                          padding: 0,
+                          border: "none",
+                          boxShadow: "none",
+                          outline: "none"
+                        }),
+                        singleValue: (base) => ({
+                          ...base,
+                          color: "#222",
+                          fontWeight: 600,
+                          fontFamily: "Gilroy"
+                        }),
+
+                        option: (base, state) => ({
+                          ...base,
+                          backgroundColor: state.isFocused ? "#f0f0f0" : "#fff",
+                          color: "#222",
+                          fontFamily: "Gilroy",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          fontSize: "14px",
+                          cursor: "pointer"
+                        })
+                      }}
+                      placeholder="Select Price Range"
+                    />
+                  </div>
                 }
 
                 {showFilter && selectedPriceRange === 'date' && (
@@ -935,9 +941,9 @@ const handlePriceRangeChange = (value) => {
                 <div
                   className='show-scrolls'
                   style={{
-                    height: currentItems.length >= 8 || sortedData.length >= 8 ? "430px" : "auto",
+                    height: currentItems.length >= 8 || sortedData.length >= 8 ? "460px" : "auto",
                     overflow: "auto",
-                    marginBottom: 20,
+                    // marginBottom: 20,
                     marginTop: "20px"
                   }}>
 
@@ -1050,7 +1056,7 @@ const handlePriceRangeChange = (value) => {
 
 
 
-            {filteredData.length >= 5 &&
+            {filteredData.length > 10 &&
 
 
               <nav
@@ -1065,31 +1071,69 @@ const handlePriceRangeChange = (value) => {
                   right: "10px",
                   backgroundColor: "white",
                   borderRadius: "5px",
-                
+
                   zIndex: "1000",
                 }}
               >
                 <div>
-                  <select
-                    value={itemsPerPage}
+                  <Select
+                    options={pageOptions}
+                    value={
+                      itemsPerPage
+                        ? { value: itemsPerPage, label: `${itemsPerPage}` }
+                        : null
+                    }
                     onChange={handleItemsPerPageChange}
-                    style={{
-                      padding: "5px",
-                      border: "1px solid #1E45E1",
-                      borderRadius: "5px",
-                      color: "#1E45E1",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                      outline: "none",
-                      boxShadow: "none",
-
+                    classNamePrefix="custom"
+                    menuPlacement="auto"
+                    noOptionsMessage={() => "No options"}
+                    styles={{
+                      control: (base, state) => ({
+                        ...base,
+                        height: "40px",
+                        padding: "0 5px",
+                        border: "1px solid #1E45E1",
+                        borderRadius: "5px",
+                        fontSize: "14px",
+                        color: "#1E45E1",
+                       fontWeight: 600,
+                        cursor: "pointer",
+                        fontFamily: "Gilroy",
+                        boxShadow: "0 0 0 1px #1E45E1",
+                         width:90,
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        border: "1px solid #ced4da",
+                        fontFamily: "Gilroy",
+                      }),
+                      menuList: (base) => ({
+                        ...base,
+                        maxHeight: "200px",
+                        overflowY: "auto",
+                        padding: 0,
+                      }),
+                      placeholder: (base) => ({
+                        ...base,
+                        color: "#555",
+                      }),
+                      dropdownIndicator: (base) => ({
+                        ...base,
+                        color: "#1E45E1",
+                        cursor: "pointer",
+                      }),
+                      indicatorSeparator: () => ({
+                        display: "none",
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                        color: state.isFocused ? "#fff" : "#000",
+                        cursor: "pointer",
+                      }),
                     }}
-                  >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
+                  />
                 </div>
 
                 <ul
