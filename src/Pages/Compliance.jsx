@@ -1452,7 +1452,6 @@ const filterOptions = useSelector((state) => state.ComplianceList.filterOptions)
                                   ...base,
                                   cursor: "pointer",
                                   color: state.isSelected ? "#fff" : "#000",
-                                  fontSize: "14px",
                                   fontFamily: "Gilroy",
                                 }),
                               }}
