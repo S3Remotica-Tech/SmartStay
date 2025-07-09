@@ -1003,7 +1003,7 @@ const pageOptions = [
                       menuPlacement="auto"
                       noOptionsMessage={() => "No options"}
                       styles={{
-                        control: (base, state) => ({
+                        control: (base) => ({
                           ...base,
                           height: "40px",
                           padding: "0 5px",
@@ -1014,7 +1014,7 @@ const pageOptions = [
                           fontWeight: 600,
                           cursor: "pointer",
                           fontFamily: "Gilroy",
-                          boxShadow: "0 0 0 1px #1E45E1",
+                          boxShadow: "0 0 0 1pxrgb(6, 8, 14)",
                           width: 100,
                         }),
                         menu: (base) => ({
