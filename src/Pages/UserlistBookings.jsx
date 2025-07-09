@@ -1590,7 +1590,7 @@ const pageOptions = [
                       menuPlacement="auto"
                       noOptionsMessage={() => "No options"}
                       styles={{
-                        control: (base, state) => ({
+                        control: (base) => ({
                           ...base,
                           height: "40px",
                           padding: "0 5px",

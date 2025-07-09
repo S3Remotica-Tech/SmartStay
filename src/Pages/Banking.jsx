@@ -1638,7 +1638,7 @@ function Banking() {
                     menuPlacement="auto"
                     noOptionsMessage={() => "No options"}
                     styles={{
-                      control: (base, state) => ({
+                      control: (base) => ({
                         ...base,
                         height: "40px",
                         border: "1px solid #1E45E1",
