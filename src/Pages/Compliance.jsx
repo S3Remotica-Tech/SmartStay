@@ -77,6 +77,11 @@ const Compliance = () => {
   const complaintList = useSelector((state) => state.Settings.Complainttypelist);
 
 
+const filterOptions = useSelector((state) => state.ComplianceList.filterOptions);
+
+
+
+
   useEffect(() => {
     if (state.login.selectedHostel_Id) {
       setHosId(state.login.selectedHostel_Id)
@@ -313,13 +318,11 @@ const Compliance = () => {
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
   const currentItems =
     filterInput.length > 0
       ? filteredUsers
       : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
-
-
-
 
 
   const handleItemsPerPageChange = (event) => {
@@ -940,7 +943,7 @@ const Compliance = () => {
                                 boxSizing: "border-box",
                                 width: "100%",
                               }}>
-                                {Array.isArray(currentItems) && currentItems.map((user, index) => {
+                                {Array.isArray(filterOptions) && filterOptions.map((user, index) => {
                                   const imagedrop = user.profile || Profile;
                                   return (
                                     <li
