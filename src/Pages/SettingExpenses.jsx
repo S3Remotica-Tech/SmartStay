@@ -617,7 +617,8 @@ const expenseOptions = [
       )}
 
 
-      <div className="mt-4 d-flex flex-wrap justify-content-between scroll-issue" style={{ gap: "20px", alignItems: "flex-start" }}>
+      <div className="mt-4 pe-4 d-flex flex-wrap justify-content-between show-scrolls" style={{ gap: "20px", alignItems: "flex-start",   maxHeight: "470px",
+                overflowY: "auto" }}>
 
         {currentRowExpense && currentRowExpense.length > 0 ? (
           currentRowExpense.map((category) => (

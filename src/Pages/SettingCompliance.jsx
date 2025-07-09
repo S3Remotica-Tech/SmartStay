@@ -411,8 +411,9 @@ function SettingCompliance({ hostelid }) {
 
       <div className="complainttype">
         {currentRowCompliance && currentRowCompliance.length > 0 && (
-          <div className="container">
-            <div className="row scroll-issue">
+          <div className="container show-scrolls" style={{ position: "relative" , maxHeight: "475px",
+                overflowY: "auto"}}>
+            <div className="row ">
               {currentRowCompliance.map((u, i) => {
                 return (
                   <>

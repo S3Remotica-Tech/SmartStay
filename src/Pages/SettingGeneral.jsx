@@ -884,9 +884,10 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <div className="container scroll-issue mt-0" style={{
+      <div className="container show-scrolls mt-0" style={{
         position: "relative",
         overflowY: "auto",
+        maxHeight:500,
       }}>
 
         {loading &&
@@ -1226,13 +1227,14 @@ function SettingGeneral() {
             alignItems: "center",
             justifyContent: "end",
             padding: "10px",
-            position: "fixed",
+            position: "sticky",
             bottom: "0px",
             right: "0px",
+            left:0,
             backgroundColor: "#fff",
             borderRadius: "5px",
             zIndex: 1000,
-          }}
+                      }}
 
         >
 

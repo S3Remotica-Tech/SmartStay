@@ -333,9 +333,8 @@ function SettingAmenities({ hostelid }) {
     return (
         <div
             style={{
-                position: "relative", maxHeight: "500px",
-                overflowY: "auto",
-                paddingRight: 11, paddingLeft: 10
+                position: "relative",
+                paddingRight: 11, paddingLeft: 10,
             }}>
 
             <div
@@ -396,17 +395,18 @@ function SettingAmenities({ hostelid }) {
 
             )}
 
-            <div className='container mt-4 mb-3' style={{ position: "relative" }}>
+            <div className='container mt-4 mb-3 show-scrolls' style={{ position: "relative" , maxHeight: "460px",
+                overflowY: "auto",backgroundColor:""}}>
 
 
-                <div className='row row-gap-3 scroll-issue'>
+                <div className='row row-gap-3'>
 
 
 
                     {currentRowAmenities && currentRowAmenities.length > 0 ? (
                         currentRowAmenities.map((amenity, index) => (
 
-                            <div key={index} className='col-lg-8 col-md-8 col-xs-12 col-sm-12 col-12 p-0' >
+                            <div key={index} className='col-lg-10 col-md-12 col-xs-12 col-sm-12 col-12 p-0' >
                                 <Card style={{ border: "1px solid #dcdcdc", borderRadius: 16, }}>
                                     <Card.Body>
                                         <div className='d-flex justify-content-between align-items-center'>

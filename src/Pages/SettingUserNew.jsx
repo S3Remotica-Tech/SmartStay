@@ -765,7 +765,7 @@ const options = [
 
       {usersFilterddata?.length >= 10 && (
         <nav 
-        className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center" style={{ backgroundColor: "white" , zIndex:1000}}>
+        className="position-fixed bottom-0 end-0 d-flex justify-content-end align-items-center" style={{ padding: "10px", backgroundColor: "white" , zIndex:1000}}>
          <div>
               <Select
                 value={options.find((opt) => opt.value === itemsPerPage)}

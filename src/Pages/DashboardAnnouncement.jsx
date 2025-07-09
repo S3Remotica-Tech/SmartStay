@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Ellipse5 from "../Assets/Images/Profile.jpg";
 import like from "../Assets/Images/like.png";
 import message from "../Assets/Images/message.png";
-
+import Select from "react-select";
 import { MdError } from "react-icons/md";
 import Emptystate from "../Assets/Images/Empty-State.jpg";
 import { Modal, Button, Form, FormControl, Image } from "react-bootstrap";
@@ -64,10 +64,20 @@ function DashboardAnnouncement() {
     setCurrentPage(pageNumber);
   };
 
-  const handleItemsPerPageChange = (event) => {
-    setItemsPerPage(Number(event.target.value));
+const pageSizeOptions = [
+    { value: 6, label: "6" },
+    { value: 10, label: "10" },
+    { value: 50, label: "50" },
+    { value: 100, label: "100" },
+  ];
+
+ const handleItemsPerPageChange = (selectedOption) => {
+  if (selectedOption) {
+    setItemsPerPage(Number(selectedOption.value));
     setCurrentPage(1);
-  };
+  }
+};
+
   const handleCommentsChange = (e) => {
     setComments(e.target.value)
     setDisplayError('')
@@ -476,10 +486,8 @@ function DashboardAnnouncement() {
         <LoaderComponent />
 
       ) : currentItems?.length > 0 ? (
-
-
-        <div
-          style={{ maxHeight: "400px", overflowY: "auto", overflowX: 'hidden' }}
+        <div className="show-scrolls pe-4"
+          style={{ maxHeight: "440px", overflowY: "auto", overflowX: 'hidden' }}
         >
           <div className="row announcement-card" >
             {currentItems?.length > 0 ? (
@@ -830,29 +838,65 @@ function DashboardAnnouncement() {
 
       <div>
         {filteredData.length >= 6 && (
-          <nav className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center">
+          <nav className="position-fixed bottom-0 end-0 left-0 d-flex justify-content-end align-items-center" style={{padding:12, backgroundColor:"white"}}>
 
-            <div>
-              <select
-                value={itemsPerPage}
-                onChange={handleItemsPerPageChange}
-                style={{
-                  padding: "5px",
-                  border: "1px solid #1E45E1",
-                  borderRadius: "5px",
-                  color: "#1E45E1",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  outline: "none",
-                  boxShadow: "none",
-                }}
-              >
-                <option value={6}>6</option>
-                <option value={10}>10</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-            </div>
+             <div>
+                             <Select
+                               options={pageSizeOptions}
+                               value={itemsPerPage ? { value: itemsPerPage, label: `${itemsPerPage}` } : null}
+                               onChange={handleItemsPerPageChange}
+                               placeholder="Items per page"
+                               classNamePrefix="custom"
+                               menuPlacement="auto"
+                               noOptionsMessage={() => "No options"}
+                              styles={{
+                                       control: (base, state) => ({
+                                         ...base,
+                                         height: "40px",
+                                         border: "1px solid #1E45E1",
+                                         borderRadius: "5px",
+                                         fontSize: "14px",
+                                         color: "#1E45E1",
+                                         fontWeight: 600,
+                                         cursor: "pointer",
+                                         fontFamily: "Gilroy",
+                                         boxShadow:  "0 0 0 1px #1E45E1",
+                                          width:90,
+                                       }),
+                                       menu: (base) => ({
+                                         ...base,
+                                         backgroundColor: "#f8f9fa",
+                                         border: "1px solid #ced4da",
+                                         fontFamily: "Gilroy",
+                                       }),
+                                       menuList: (base) => ({
+                                         ...base,
+                                         backgroundColor: "#f8f9fa",
+                                         maxHeight: "200px",
+                                         padding: 0,
+                                         overflowY: "auto",
+                                       }),
+                                       placeholder: (base) => ({
+                                         ...base,
+                                         color: "#555",
+                                       }),
+                                       dropdownIndicator: (base) => ({
+                                         ...base,
+                                         color: "#1E45E1",
+                                         cursor: "pointer",
+                                       }),
+                                       indicatorSeparator: () => ({
+                                         display: "none",
+                                       }),
+                                       option: (base, state) => ({
+                                         ...base,
+                                         cursor: "pointer",
+                                         backgroundColor: state.isFocused ? "#1E45E1" : "white",
+                                         color: state.isFocused ? "#fff" : "#000",
+                                       }),
+                                     }}
+                             />
+                           </div>
 
 
             <ul
