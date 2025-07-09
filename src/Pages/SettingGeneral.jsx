@@ -132,13 +132,37 @@ function SettingGeneral() {
 
 
   const handleNewPassword = (e) => {
+    const newPassword = e.target.value
     setNewPassword(e.target.value);
     setNewPassError("")
+
+    
+    const hasUppercase = /[A-Z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
+    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setNewPassError("Password must include a capital letter, a number, and a special character.");
+    } else {
+      setNewPassError("");
+    }
   };
 
   const handleConfirmPassword = (e) => {
+    const ConfirmPassword = e.target.value
     setConfirmPassword(e.target.value);
     setConformPasswordError("")
+
+     
+    const hasUppercase = /[A-Z]/.test(ConfirmPassword);
+    const hasNumber = /[0-9]/.test(ConfirmPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(ConfirmPassword);
+
+    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setConformPasswordError("Password must include a capital letter, a number, and a special character.");
+    } else {
+      setConformPasswordError("");
+    }
     dispatch({ type: "CLEAR_CONFORM_PASSWORD_MATCHES" });
   };
 
@@ -319,6 +343,7 @@ function SettingGeneral() {
       setPhoneError("");
     } else {
       setPhoneError("Please Enter Valid Mobile Number");
+       setFormError("");
     }
 
     setPhoneErrorMessage("");
@@ -378,11 +403,13 @@ function SettingGeneral() {
       return;
     }
 
+     setFormError("");
     setPincode(value);
     if (value.length > 0 && value.length < 6) {
       setPincodeError("Pin Code Must Be Exactly 6 Digits");
     } else {
       setPincodeError("");
+       setFormError("");
     }
 
 
@@ -404,6 +431,7 @@ function SettingGeneral() {
     const newPassword = e.target.value;
     setPassword(newPassword);
     setPasswordError("");
+   
 
     const hasUppercase = /[A-Z]/.test(newPassword);
     const hasNumber = /[0-9]/.test(newPassword);
@@ -415,6 +443,7 @@ function SettingGeneral() {
       );
     } else {
       setPasswordError("");
+      setFormError("");
     }
   };
 
@@ -543,6 +572,25 @@ function SettingGeneral() {
       setPhoneError("Please Enter Valid Mobile Number"); hasError = true;
     } else setPhoneError("");
 
+     const hasUppercase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+
+
+     if (!edit) {
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setPasswordError("Password must include a capital letter, a number, and a special character.");
+      hasError = true;
+    } else {
+      setPasswordError("");
+    }
+  }
+
     if(!pincode){
     setPincodeError("Please Enter Pincode");
 }
@@ -561,6 +609,7 @@ function SettingGeneral() {
         setEmailError("Please Enter Valid Email Id"); hasError = true;
       } else setEmailError("");
     }
+
 
     
 
@@ -584,6 +633,8 @@ function SettingGeneral() {
     if (edit && editId) payload.id = editId;
 
 
+
+         
     if (edit && editId) {
       const isChanged =
         firstName !== initialStateAssign.firstName ||
@@ -598,6 +649,9 @@ function SettingGeneral() {
         state_name !== initialStateAssign.state ||
         file !== initialStateAssign.file ||
         (!file && initialStateAssign.file);
+
+  
+        
 
       if (!isChanged) { setFormError("No Changes Detected"); return; }
       setFormError("");
@@ -759,9 +813,35 @@ function SettingGeneral() {
   };
 
   const handleSavePassword = () => {
+
     dispatch({ type: 'CLEAR_CONFORM_PASSWORD_MATCHES' })
     if (!ConformvalidateField(newPassword, "newPassword"));
     if (!ConformvalidateField(confirmPassword, "confirmPassword"));
+
+    const hasUppercase = /[A-Z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+
+    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setNewPassError("Password must include a capital letter, a number, and a special character.");
+      return
+    } else {
+      setNewPassError("");
+    }
+
+
+    const hasUpperCase = /[A-Z]/.test(confirmPassword);
+    const hAsNumber = /[0-9]/.test(confirmPassword);
+    const hasSpecialCHar = /[!@#$%^&*(),.?":{}|<>]/.test(confirmPassword);
+
+    if (!hasUpperCase || !hAsNumber || !hasSpecialCHar) {
+      setConformPasswordError("Password must include a capital letter, a number, and a special character.");
+      return
+    } else {
+      setConformPasswordError("");
+    }
+
+
 
     if (newPassword && confirmPassword) {
       dispatch({
@@ -771,7 +851,8 @@ function SettingGeneral() {
       setChangeLoading(true)
     }
 
-  };
+  }
+
   useEffect(() => {
     if (state.Settings.conformPassNotmatch) {
       setChangeLoading(false)
@@ -873,9 +954,10 @@ function SettingGeneral() {
         </div>
       </div>
 
-      <div className="container scroll-issue mt-0" style={{
+      <div className="container show-scrolls-sidebar mt-0" style={{
         position: "relative",
         overflowY: "auto",
+        maxHeight:480
       }}>
 
         {loading &&
@@ -918,10 +1000,11 @@ function SettingGeneral() {
 
 
               <div
-                className="card p-3 settingGreneral mt-3"
+                className="card p-3 settingGreneral mt-2"
                 style={{
                   borderRadius: 16,
-
+                  height:230,
+                  overflow:'hidden'
                 }}
                 key={item.id}
               >
@@ -1085,7 +1168,7 @@ function SettingGeneral() {
                 <div className="row">
                   <div className="col-md-6">
                     <p
-                      className="mb-1"
+                      className="mb-0"
                       style={{
                         fontSize: 12,
                         fontFamily: "Gilroy",
@@ -1107,7 +1190,7 @@ function SettingGeneral() {
                   </div>
                   <div className="col-md-6">
                     <p
-                      className="mb-1"
+                      className="mb-0"
                       style={{
                         fontSize: 12,
                         fontFamily: "Gilroy",
@@ -1136,7 +1219,7 @@ function SettingGeneral() {
 
                   <div className="col-12">
                     <p
-                      className="mb-1"
+                      className="mb-0"
                       style={{
                         fontSize: 12,
                         fontFamily: "Gilroy",
@@ -1146,21 +1229,22 @@ function SettingGeneral() {
                     >
                       Address
                     </p>
-                    <p
-                      style={{
-                        fontSize: 16,
-                        fontFamily: "Gilroy",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {(item.Address ? item.Address : '') +
-                        (item.area ? ' ' + item.area : '') +
-                        (item.landmark ? ', ' + item.landmark : '') +
-                        (item.city ? ', ' + item.city : '') +
-                        (item.state ? ', ' + item.state : '')}
-                      <br />
-                      {item.pin_code ? item.pin_code : ''}
-                    </p>
+                  <p
+  style={{
+    fontSize: 16,
+    fontFamily: "Gilroy",
+    fontWeight: 600,
+  }}
+>
+  {(item.Address ? item.Address : '') +
+    (item.area ? ' ' + item.area : '') +
+    (item.landmark ? ', ' + item.landmark : '')}
+  <br />
+  {(item.city ? item.city + ', ' : '') +
+    (item.state ? item.state + ' ' : '') +
+    (item.pin_code ? item.pin_code : '')}
+</p>
+
                   </div>
 
                 </div>
@@ -1210,7 +1294,7 @@ function SettingGeneral() {
 
       {generalFilterddata?.length >= 3 && (
         <nav
-          className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center"
+          className="position-fixed bottom-0 end-0 mb-4 me-3 d-flex justify-content-end align-items-center bg-white "
 
         >
 
