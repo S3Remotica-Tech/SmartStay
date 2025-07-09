@@ -53,31 +53,56 @@ function Asset() {
     }
   }, [state.UsersList?.exportAssetsDetail?.response?.fileUrl]);
 
+  
+
   const handleAssetsExcel = () => {
-
     
+  if (ExcelDownloadDates.length === 2) {
+    dispatch({
+      type: "EXPORTASSETSDETAILS",
+      payload: {
+        type: "assets",
+        hostel_id: state.login.selectedHostel_Id,
+        start_date: ExcelDownloadDates[0]?.format("YYYY-MM-DD"),
+        end_date: ExcelDownloadDates[1]?.format("YYYY-MM-DD"),
+      },
+    });
 
-    if( ExcelDownloadDates.length === 2){
-        dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id  ,
-          start_date:ExcelDownloadDates[0]?.format("YYYY-MM-DD"),end_date:ExcelDownloadDates[1]?.format("YYYY-MM-DD")
-        }})
-            setExcelFilterDates([])
-            setExcelDownloadDates([])
-            setSelectedPriceRange("")
-            setFilterExcelPrice("")
-    }
-     else if (filterexcelprice && filterexcelprice !== "date" && filterexcelprice !== "All") {
-     dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id , price_range :  filterexcelprice }});
-         setExcelFilterDates([]);
-         setExcelDownloadDates([])
-         setSelectedPriceRange("");
-         setFilterExcelPrice("")
-       }
-
-    dispatch({ type: "EXPORTASSETSDETAILS", payload: { type: "assets", hostel_id: state.login.selectedHostel_Id }})
-
+    setExcelDownloadDates([]);
+    setFilterExcelPrice("");
     setIsDownloadTriggered(true);
+    return; 
   }
+
+  if (
+    filterexcelprice &&
+    filterexcelprice !== "date" &&
+    filterexcelprice !== "All"
+  ) {
+    dispatch({
+      type: "EXPORTASSETSDETAILS",
+      payload: {
+        type: "assets",
+        hostel_id: state.login.selectedHostel_Id,
+        price_range: filterexcelprice,
+      },
+    });
+
+    setExcelDownloadDates([]);
+    setFilterExcelPrice("");
+    setIsDownloadTriggered(true);
+    return; 
+  }
+
+  
+  dispatch({
+    type: "EXPORTASSETSDETAILS",
+    payload: { type: "assets", hostel_id: state.login.selectedHostel_Id },
+  });
+
+  setIsDownloadTriggered(true);
+};
+
 
   useEffect(() => {
     if (excelDownload && isDownloadTriggered) {
@@ -315,6 +340,7 @@ function Asset() {
 
 const handlePriceRangeChange = (value) => {
   setSelectedPriceRange(value);
+  setFilterExcelPrice(value)
 
   if (value === "All") {
     dispatch({

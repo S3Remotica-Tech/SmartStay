@@ -334,10 +334,10 @@ function EBRoomReading(props) {
 
 
 
-    
-     if (!isreadingValid || !isDatevalid || !isFloorValid || !isRoomValid) {
-    return;
-  }
+
+    if (!isreadingValid || !isDatevalid || !isFloorValid || !isRoomValid) {
+      return;
+    }
 
     const isChangedBed =
       String(Floor).toLowerCase() !== String(initialStateAssign.Floor).toLowerCase() ||
@@ -373,7 +373,7 @@ function EBRoomReading(props) {
   };
 
 
-  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
+  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
@@ -1007,8 +1007,9 @@ function EBRoomReading(props) {
                   justifyContent: "end",
                   padding: "10px",
                   position: "fixed",
-                  bottom: "10px",
-                  right: "10px",
+                  bottom: "0px",
+                  right: "0px",
+                  left: 0,
                   backgroundColor: "#fff",
                   borderRadius: "5px",
                   zIndex: 1000,
@@ -1028,6 +1029,7 @@ function EBRoomReading(props) {
                       cursor: "pointer",
                       outline: "none",
                       boxShadow: "none",
+                      fontFamily: "Gilroy"
 
                     }}
                   >
@@ -1122,7 +1124,7 @@ function EBRoomReading(props) {
               fontFamily: "Gilroy",
             }}
           >
-            Edit Reading
+            Edit Room Reading
           </div>
 
           <CloseCircle size="24" color="#000" onClick={handleClose}
@@ -1222,7 +1224,7 @@ function EBRoomReading(props) {
 
               {floorError && (
                 <div style={{ color: "red" }}>
-                  <MdError style={{ fontSize: '14px', marginRight: "5px",}} />
+                  <MdError style={{ fontSize: '14px', marginRight: "5px", }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500, }}>{floorError}</span>
                 </div>
               )}
@@ -1428,7 +1430,7 @@ function EBRoomReading(props) {
         )}
         {state.createAccount?.networkError ?
           <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
+            <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
           </div>
           : null}

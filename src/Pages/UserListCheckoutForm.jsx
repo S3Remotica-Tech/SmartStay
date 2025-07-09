@@ -293,10 +293,18 @@ const CheckOutForm = ({
     );
 
     const joining_Date = filteruserlist[0].user_join_date
+
+    if (moment(checkOutrequestDate, "DD-MM-YYYY").isBefore(moment(joining_Date, "YYYY-MM-DD"))) {
+      setCheckOutRequestDateError("Before joining Date is not allowed");
+      return;
+    }
+
     if (moment(checkOutDate, "DD-MM-YYYY").isBefore(moment(joining_Date, "YYYY-MM-DD"))) {
       setCheckOutDateError("Before joining Date is not allowed");
       return;
     }
+
+    
 
     const formatDateTocheckoutDate = (startdate) => {
       if (!startdate) return "";
@@ -785,12 +793,6 @@ const CheckOutForm = ({
     }
   }, [conformcheckErr]);
 
-  // useEffect(() => {
-  //   if (state.UsersList.errorMessageAddCheckOut) {
-  //     setFormLoading(false)
-  //     setFormCheckoutLoading(false)
-  //   }
-  // }, [state.UsersList.errorMessageAddCheckOut])
 
   useEffect(() => {
 
@@ -1070,18 +1072,12 @@ const CheckOutForm = ({
                             setIsChangedError("");
                             setCheckOutRequestDate(date ? date.toDate() : null);
                           }}
-                          disabledDate={(current) => {
-                            if (!selectedCustomer) return false;
 
-                            const filteruserlist = state.UsersList.Users?.filter(
-                              (u) => u.ID === selectedCustomer
-                            );
-                            if (!filteruserlist?.length) return false;
 
-                            const joining_Date = moment(filteruserlist[0].user_join_date, "YYYY-MM-DD");
-                            return current && current.isBefore(joining_Date, "day");
-                          }}
-                          getPopupContainer={() => document.body}
+                         getPopupContainer={() =>
+                            document.body
+                          }
+
                         />
 
                       </div>
@@ -1470,9 +1466,7 @@ const CheckOutForm = ({
                           setIsChangedError("");
                           setCheckOutDate(date ? date.toDate() : null);
                         }}
-                        getPopupContainer={(triggerNode) =>
-                          triggerNode.closest(".show-scroll") || document.body
-                        }
+                       getPopupContainer={() => document.body}
                         disabled={conformEdit}
                       />
                     </div>
@@ -1651,7 +1645,7 @@ const CheckOutForm = ({
                             setNoChangeMessage("")
                             setPaymentDate(date ? date.toDate() : null);
                           }}
-                          getPopupContainer={(triggerNode) => triggerNode.closest('.datepicker-wrapper')}
+                          getPopupContainer={() => document.body}
                         />
                       </div>
                     </Form.Group>

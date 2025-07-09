@@ -37,8 +37,7 @@ function EBHostelReading(props) {
   const [formLoading, setFormLoading] = useState(false)
   const [editId, setEditId] = useState("");
   const [deleteForm, setDeleteForm] = useState(false);
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-  const [dateErrorMesg, setDateErrorMesg] = useState("")
+   const [dateErrorMesg, setDateErrorMesg] = useState("")
   const [hostelEbList, setHostelEbList] = useState("")
 
   useEffect(() => {
@@ -81,19 +80,18 @@ function EBHostelReading(props) {
     }
   }, [state.PgList.nostatusCodeforEbHostelBased]);
 
-  const handleShowActive = (eb_Id, event) => {
+  const handleShowActive = (eb_Id) => {
     if (activeRow === eb_Id) {
       setActiveRow(null);
     } else {
       setActiveRow(eb_Id);
     }
-
-    const { top, left, height } = event.target.getBoundingClientRect();
-    const popupTop = top + (height / 2);
-    const popupLeft = left - 150;
-
-    setPopupPosition({ top: popupTop, left: popupLeft });
-
+    setTimeout(() => {
+      if (popupRef.current) {
+        popupRef.current.focus();
+      }
+    }, 0);
+   
   };
 
   useEffect(() => {
@@ -103,26 +101,22 @@ function EBHostelReading(props) {
       }
     };
 
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setActiveRow(null);
+      }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
-
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-  const [showAbove, setShowAbove] = useState(false);
 
-  useEffect(() => {
-    if (popupRef.current) {
-      const popupHeight = popupRef.current.offsetHeight;
-      const windowHeight = window.innerHeight;
-      const spaceBelow = windowHeight - popupPosition.top;
-
-
-      setShowAbove(spaceBelow < popupHeight + 20);
-    }
-  }, [popupPosition]);
+  
 
 
 
@@ -379,7 +373,7 @@ function EBHostelReading(props) {
 
 
 
-  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(10);
+  const [electricityrowsPerPage, setElectricityrowsPerPage] = useState(5);
   const [electricitycurrentPage, setelectricitycurrentPage] = useState(1);
   const indexOfLastRowelectricity =
     electricitycurrentPage * electricityrowsPerPage;
@@ -535,6 +529,7 @@ function EBHostelReading(props) {
 
                       <Table
                         responsive="md"
+                        style={{ overflow: "visible" }}
                       >
 
                         <thead style={{
@@ -718,7 +713,9 @@ function EBHostelReading(props) {
                                       color: "#939393",
                                       fontSize: 13,
                                       fontWeight: 500,
-                                      fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8"
+                                      fontFamily: "Gilroy", borderBottom: "1px solid #E8E8E8",
+                                      position: "relative",
+                                      zIndex: 0,
                                     }}
 
                                     >
@@ -732,7 +729,7 @@ function EBHostelReading(props) {
                                           display: "flex",
                                           justifyContent: "center",
                                           alignItems: "center",
-                                          position: "relative",
+                                          zIndex: 15,
 
                                           backgroundColor: activeRow === v.eb_Id ? "#E7F1FF" : "white",
                                         }}
@@ -744,26 +741,23 @@ function EBHostelReading(props) {
                                         {activeRow === v.eb_Id && (
                                           <div
                                             ref={popupRef}
+                                            tabIndex={-1}
                                             style={{
                                               cursor: "pointer",
                                               backgroundColor: "#f9f9f9",
-                                              position: "fixed",
-
-                                              top: showAbove
-                                                ? popupPosition.top - (popupRef.current?.offsetHeight || 200) - 10
-                                                : popupPosition.top - 25,
-                                              left: popupPosition.left,
-
+                                              position: "absolute",
+                                              right: 120,
+                                              top: "20%",
                                               width: 120,
                                               height: "auto",
                                               border: "1px solid #EBEBEB",
                                               borderRadius: 10,
                                               display: "flex",
                                               justifyContent: "start",
-
                                               alignItems: "center",
-                                              zIndex: 1000,
+                                              zIndex: 999,
                                             }}
+
                                           >
                                             <div style={{ width: "100%", }}>
                                               <div
@@ -838,7 +832,6 @@ function EBHostelReading(props) {
                                               </div>
                                             </div>
                                           </div>
-
                                         )}
                                       </div>
                                     </td>
@@ -938,8 +931,9 @@ function EBHostelReading(props) {
             justifyContent: "end",
             padding: "10px",
             position: "fixed",
-            bottom: "10px",
-            right: "10px",
+            bottom: "0px",
+            right: "0px",
+            left: 0,
             backgroundColor: "#fff",
             borderRadius: "5px",
             zIndex: 1000,
@@ -959,6 +953,7 @@ function EBHostelReading(props) {
                 cursor: "pointer",
                 outline: "none",
                 boxShadow: "none",
+                fontFamily: "Gilroy"
 
               }}
             >
@@ -1112,7 +1107,7 @@ function EBHostelReading(props) {
             </div>
 
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <Form.Group  className="mb-1">
+              <Form.Group className="mb-1">
                 <Form.Label
                   style={{
                     fontSize: 14,
@@ -1243,7 +1238,7 @@ function EBHostelReading(props) {
 
         {state.createAccount?.networkError ?
           <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-            <MdError style={{ color: "red", marginRight: '5px',fontSize: '14px', }} />
+            <MdError style={{ color: "red", marginRight: '5px', fontSize: '14px', }} />
             <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
           </div>
           : null}

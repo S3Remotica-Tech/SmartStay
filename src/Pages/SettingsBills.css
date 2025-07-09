@@ -156,4 +156,54 @@
     border-color: rgba(30, 69, 225, 1);
   }
   
+
+  .custom-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.custom-toggle-label {
+  margin-right: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  transition: color 0.3s;
+}
+
+.custom-toggle-label.active {
+ color: rgba(30, 69, 225, 1);
+}
+
+.custom-toggle-switch {
+  width: 35px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 12px;
+  position: relative;
+  transition: background-color 0.3s;
+}
+
+.custom-toggle-switch.on {
+  background-color: #1E45E1;
+}
+
+.custom-toggle-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.3s;
+}
+
+.custom-toggle-switch.on .custom-toggle-thumb {
+  left: 17px;
+}
+
   

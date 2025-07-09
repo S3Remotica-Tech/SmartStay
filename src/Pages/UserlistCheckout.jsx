@@ -88,8 +88,6 @@ function CheckOut(props) {
       setCheckOutLoader(true)
       dispatch({ type: "CHECKOUTCUSTOMERLIST", payload: { hostel_id: state.login.selectedHostel_Id } });
       }
-     
-
   }, [state.login.selectedHostel_Id]);
 
 
@@ -100,13 +98,15 @@ function CheckOut(props) {
 
   }, [state.login.selectedHostel_Id])
 
+  
+
   useEffect(() => {
     if (state.UsersList.GetCheckOutCustomerStatusCode === 200) {
       setCheckOutLoader(false)
       setCheckOutCustomer(state.UsersList.CheckOutCustomerList);
       setTimeout(() => {
         dispatch({ type: "CLEAR_CHECKOUT_CUSTOMER_LIST" });
-      }, 1000);
+      }, 10);
     }
   }, [state.UsersList.GetCheckOutCustomerStatusCode]);
 

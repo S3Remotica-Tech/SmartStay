@@ -9,8 +9,9 @@ import closeicon from '../../Assets/Images/close.svg';
 import { Modal, Button } from "react-bootstrap";
 import { MdError } from "react-icons/md";
 import './Expenses.css'
-import { FormControl, Select, MenuItem } from '@mui/material';
+
 import PropTypes from "prop-types";
+import Select from "react-select";
 function ExpensesListTable(props) {
 
 
@@ -97,11 +98,11 @@ useEffect(() => {
   const [assetnameerror, setAssetNameError] = useState('')
 
 
-  const handleAssetname = (event) => {
-    const { value } = event.target;
-    setAssetName(value);
-    setAssetNameError(value ? '' : 'Please select an asset');
-  };
+
+  const handleAssetname = (selectedValue) => {
+  setAssetName(selectedValue);
+  setAssetNameError(selectedValue ? '' : 'Please select an asset');
+};
 
 
 
@@ -160,6 +161,13 @@ useEffect(() => {
     }
 
   }, [state.createAccount?.networkError])
+
+
+
+const options = state.AssetList.assetList.map((view) => ({
+  value: view.asset_name,
+  label: view.asset_name,
+}));
 
 
   return (<>
@@ -402,86 +410,86 @@ useEffect(() => {
           <div style={{ marginTop: 10, width: "100%" }}>
 
 
-            <FormControl
-              fullWidth
-              variant="outlined"
-              className="mb-2"
-              sx={{
-
-                "& #vendor-select": { height: "auto" },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": { borderColor: "#D9D9D9" },
-                  "&:hover fieldset": { borderColor: "#40a9ff" },
-                  "&.Mui-focused fieldset": { borderColor: "#40a9ff" },
-                },
-                "& .MuiSelect-select": {
-                  paddingTop: "10px",
-                  paddingBottom: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  color: "#000",
-                },
-                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-              }}
-            >
-              <Select
-                labelId="asset-select-label"
-                id="vendor-select"
-                value={assetname}
-                onChange={handleAssetname}
-                displayEmpty
-                renderValue={(selected) =>
-                  !selected ? <span style={{ color: "#BDBDBD" }}>Select Asset</span> : selected
-                }
-                MenuProps={{
-                  PaperProps: {
-                    sx: {
-                      backgroundColor: "#f8f9fa",
-                      maxHeight: 150,
-                      marginTop: 1,
-                      fontSize:16,
-                      overflowY: "auto",
-                      border: "2px solid #D9D9D9",
-                      "& .MuiMenuItem-root:hover": {
-                        backgroundColor: "#1E45E1",
-                        color: "#fff",
-                      },
-                      "& .Mui-selected": {
-                        backgroundColor: "#D9E6FC !important",
-                        color: "#000",
-                      },
-                      "& .Mui-selected:hover": {
-                        backgroundColor: "#1E45E1 !important",
-                        color: "#fff",
-                      },
-                      "&::-webkit-scrollbar": { width: "6px" },
-                      "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: "#1E45E1",
-                        borderRadius: "4px",
-                        border: "1px solid #D9D9D9",
-                      },
-                      "&::-webkit-scrollbar-track": { backgroundColor: "#f0f0f0" },
-                    },
-                    style: { scrollbarWidth: "thin" },
-                  },
-                }}
-              >
-                {state.AssetList.assetList.length > 0 ? (
-                  state.AssetList.assetList.map((view) => (
-                    <MenuItem key={view.asset_id} value={view.asset_name} style={{ fontFamily: "Gilroy" }}>
-                      {view.asset_name}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem value="" disabled>
-                    No assets available
-                  </MenuItem>
-                )}
-              </Select>
-            </FormControl>
+           
 
 
-
+<Select
+  options={options}
+  placeholder="Select Asset"
+  value={options.find((opt) => opt.value === assetname) || null}
+  onChange={(selectedOption) => handleAssetname(selectedOption?.value)}
+  styles={{
+    control: (base, state) => ({
+      ...base,
+      fontSize: "16px",
+      color: "rgba(75, 75, 75, 1)",
+      fontFamily: "Gilroy",
+      fontWeight: assetname ? 600 : 500,
+      border: state.isFocused ? "1px solid #40a9ff" : "2px solid #D9D9D9",
+      borderRadius: "8px",
+      boxShadow: "none",
+      borderBottomLeftRadius:8,
+      height: "50px",
+      "&:hover": {
+        borderColor: "lightgrey",
+      },
+      
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#BDBDBD",
+      fontFamily: "Gilroy",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "#000",
+      fontFamily: "Gilroy",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: "#555",
+      cursor: "pointer",
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "#f8f9fa",
+      border: "1px solid #D9D9D9",
+      borderRadius: "8px",
+      marginTop: 4,
+      fontFamily: "Gilroy",
+      fontSize: 16,
+    }),
+     menuList: (base) => ({
+                        ...base,
+                        backgroundColor: "#f8f9fa",
+                        maxHeight: "120px",
+                        padding: 0,
+                        scrollbarWidth: "thin",
+                        overflowY: "auto",
+                        fontFamily: "Gilroy",
+                      }),
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer",
+      backgroundColor: state.isSelected
+        ? "#D9E6FC"
+        : state.isFocused
+        ? "#D9E6FC"
+        : "#fff",
+      color: state.isSelected
+        ? "#000"
+        : state.isFocused
+        ? "#000000"
+        : "#000",
+      fontFamily: "Gilroy",
+      padding: "8px 12px",
+    }),
+  }}
+  isClearable={false}
+/>
 
 
 
