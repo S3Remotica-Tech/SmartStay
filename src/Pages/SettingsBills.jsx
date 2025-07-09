@@ -12,6 +12,7 @@ import leftarrow from "../Assets/Images/arrow-left.png";
 import { MdError } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
 import Billsimage from "../Assets/Images/bill_settings.png";
+import EditICon from '../Assets/Images/edit_whiteicon.png'
 import Select from "react-select";
 import PropTypes from "prop-types";
 import "./SettingInvoice.css";
@@ -79,50 +80,30 @@ function SettingsBills() {
 
 
 
-  const getDaysInCurrentMonth = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const totalDays = new Date(year, month + 1, 0).getDate();
-    return Array.from({ length: totalDays }, (_, i) => i + 1);
-  };
 
 
-  const [dates, setDates] = useState([]);
+    const [dates, setDates] = useState([]);
 
-  useEffect(() => {
-    setDates(getDaysInCurrentMonth());
-  }, []);
+     const getFixed30Days = () => {
+     return Array.from({ length: 30 }, (_, i) => i + 1);
+      };
 
 
-
-  const getDaysInMonth = (year, month) => {
-    const totalDays = new Date(year, month + 1, 0).getDate();
-    return Array.from({ length: totalDays }, (_, i) => i + 1);
-  };
+    useEffect(() => {
+      setDates(getFixed30Days());
+      }, []);
 
 
 
-  useEffect(() => {
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
 
-    if (edit && recurring_bills) {
-      const editDate = new Date(recurring_bills.created_at);
-      const editMonth = editDate.getMonth();
-      const editYear = editDate.getFullYear();
-
-      const fromMaxDay = getDaysInMonth(editYear, editMonth);
-      setDates(fromMaxDay);
-
-
-
-      setSelectedFrom(Number(recurring_bills.calculationFromDate));
-    } else {
-      setDates(getDaysInMonth(currentYear, currentMonth));
-    }
-  }, [edit, recurring_bills]);
+ useEffect(() => {
+  if (edit && recurring_bills) {
+    setDates(getFixed30Days());
+    setSelectedFrom(Number(recurring_bills.calculationFromDate));
+  } else {
+    setDates(getFixed30Days());
+  }
+}, [edit, recurring_bills]);
 
 
 
@@ -910,7 +891,7 @@ function SettingsBills() {
                     </p>
                   </div>
                   <div className="row">
-                    <div className="col-6 position-relative mb-4" style={{ zIndex: isFromOpen ? 20 : 10 }}>
+                    <div className="col-12 position-relative mb-4" style={{ zIndex: isFromOpen ? 20 : 10 }}>
                       <label className="mb-1"
                         style={{
                           fontFamily: "Gilroy",
@@ -1394,30 +1375,7 @@ function SettingsBills() {
                   </div>
 
 
-                  {/* {editErrmsg.trim() !== "" && (
-                  <div className="text-lef">
-                    <p
-                      style={{
-                        fontSize: 12,
-                        color: "red",
-                        marginTop: "13px",
-                        fontFamily: "Gilroy",
-                        fontWeight: 500,
-                        marginLeft: "10px",
-                    
-                      }}
-                    >
-                      <MdError
-                        style={{
-                          color: "red",
-                          marginBottom: "2px",
-                          
-                        }}
-                      />
-                      {editErrmsg}
-                    </p>
-                  </div>
-                )} */}
+                
 
                   {editErrmsg.trim() !== "" && (
                     <div className="text-lef">
@@ -1528,7 +1486,7 @@ function SettingsBills() {
       ) : (
         <div className="col-12 mt-2">
           <Card
-            className="h-100 fade-in mb-4 p-3"
+            className="h-100 fade-in mb-4 pt-2 pb-2 ps-4 pe-4"
             style={{
               borderRadius: 16,
               border: "1px solid #E6E6E6",
@@ -1548,7 +1506,7 @@ function SettingsBills() {
                     <label
                       style={{
                         fontFamily: "Gilroy",
-                        fontSize: 16,
+                        fontSize: 15,
                         color: "#222",
                         fontWeight: 600,
                       }}
@@ -1558,8 +1516,8 @@ function SettingsBills() {
                     <p
                       style={{
                         fontFamily: "Gilroy",
-                        fontSize: 11,
-                        color: "#222",
+                        fontSize: 12,
+                        color: "rgba(156, 156, 156, 1)",
                         fontWeight: 400,
                         marginBottom: 0,
                       }}
@@ -1587,12 +1545,17 @@ function SettingsBills() {
                       >
                         Automation Status
                       </label>
-                      <Form.Check
-                        type="switch"
-                        className="custom-switch-pointer"
-                        checked={isChecked}
-                        onChange={handleToggleStatus}
-                      />
+              <div className="custom-toggle-wrapper" onClick={handleToggleStatus}>
+                 <span className={`custom-toggle-label ${isChecked ? "active" : ""}`}>
+                  {isChecked ? "On" : "Off"}
+                 </span>
+              <div className={`custom-toggle-switch ${isChecked ? "on" : "off"}`}>
+                 <div className="custom-toggle-thumb">
+                  {isChecked && <FaCheck size={10} color="#1E1E1E" />}
+                  </div>
+                      </div>
+                        </div>
+
                     </div>
                   ) : (
                     <button
@@ -1627,15 +1590,18 @@ function SettingsBills() {
         }
       `}
                 </style>
+
+                
               </div>
+              <hr></hr>
 
               {recurring_bills && Object.keys(recurring_bills).length > 0 && (
                 <>
 
                   <div >
-                    <div className="d-flex justify-content-between flex-wrap mb-3 mt-4">
+                    <div className="d-flex flex-row flex-wrap mb-2 mt-4">
                       <div className="row col-12">
-                        <div className="col-lg-9 col-md-6 mb-3">
+                        <div className="col-lg-4 col-md-6 mb-3">
                           <label style={labelStyle}>Recurring Name</label>
                           <div>
                             <label style={valueStyle}>
@@ -1644,7 +1610,7 @@ function SettingsBills() {
                           </div>
                         </div>
 
-                        <div className="col-lg-3 col-md-6 mb-3 d-flex  justify-content-center">
+                        <div className="col-lg-4 col-md-6 mb-3 d-flex  justify-content-center">
                           <div className="d-flex flex-column me-3">
                             <label style={labelStyle}>Frequency</label>
                             <div>
@@ -1657,16 +1623,11 @@ function SettingsBills() {
                       </div>
                     </div>
 
-                    <div className="row mt-3 col-12">
-                      <div className="col-6 col-md-4 mb-3">
-                        <label style={labelStyle}>Billing Period</label>
-                        <div>
-                          <label style={valueStyle}>{recurring_bills.calculationFromDate} to {recurring_bills.calculationToDate} </label>
-                        </div>
-                      </div>
+                    <div className=" d-flex flex-row flex-wrap  mt-2">
+                     
 
-                      <div className="col-3 col-md-4 mb-3 d-flex  justify-content-center">
-                        <div className="d-flex flex-column ms-3">
+                      <div className="col-lg-5 col-md-4 mb-3 ">
+                        <div className="d-flex flex-column ">
                           <label style={labelStyle}>Bill Generate</label>
                           <div>
                             <label style={valueStyle}>
@@ -1676,21 +1637,19 @@ function SettingsBills() {
                         </div>
                       </div>
 
-                      <div className="col-3 col-md-4 mb-3 d-flex  justify-content-end">
-                        <div className="d-flex flex-column ms-3">
+                      <div className="col-lg-4 col-md-4 mb-3 ">
+                        <div className="d-flex flex-column ms-2">
                           <label style={labelStyle}>Due date of Month</label>
                           <div>
                             <label style={valueStyle}>
-                              {recurring_bills.dueDateOfMonth}
+                              {recurring_bills.dueDateOfMonth}th of every month
                             </label>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="d-flex justify-content-end flex-wrap mt-3 ">
-
-
+                      <div className="col-lg-2 ms-4">
+                        
                       <button
                         style={{
                           fontFamily: "Gilroy",
@@ -1700,14 +1659,20 @@ function SettingsBills() {
                           fontWeight: 600,
                           borderRadius: "8px",
                           width: 146,
-                          height: 45,
+                          height: 40,
                           border: "2px solid #1E45E1",
                         }}
                         onClick={handleEdit}
                       >
+                      <img src={EditICon} alt="edit" style={{ height: 18 }}  className="me-2"/>
                         Edit Recurring
                       </button>
+                      </div>
+
+
                     </div>
+
+                    
                   </div>
 
                 </>
