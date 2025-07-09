@@ -68,11 +68,18 @@ const Compliance = () => {
   const [complianceEditPermission, setComplianceEditPermission] = useState("")
   const [excelDownload, setExcelDownload] = useState("")
   const [isDownloadTriggered, setIsDownloadTriggered] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
 
 
 
 
   const complaintList = useSelector((state) => state.Settings.Complainttypelist);
+
+
+const filterOptions = useSelector((state) => state.ComplianceList.filterOptions);
+
+
 
 
   useEffect(() => {
@@ -311,13 +318,11 @@ const Compliance = () => {
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
   const currentItems =
     filterInput.length > 0
       ? filteredUsers
       : filteredUsers?.slice(indexOfFirstItem, indexOfLastItem);
-
-
-
 
 
   const handleItemsPerPageChange = (event) => {
@@ -335,6 +340,7 @@ const Compliance = () => {
   const [usererrmsg, setUserErrmsg] = useState('');
   const [complaint_typeerrmsg, setComplaintTypeErrmsg] = useState('')
   const [totalErrormsg, setTotalErrmsg] = useState('')
+
 
 
 
@@ -381,20 +387,20 @@ const Compliance = () => {
 
     const value = event.target.value;
     setStatusfilter(value);
-        
-    if (value === "All"  ) {
+
+    if (value === "All") {
       dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
     }
 
-    else if(value === "date"){
-        dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
+    else if (value === "date") {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId } })
     }
 
-    else if(value){
-        dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId , status:value ,} })
+    else if (value) {
+      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId, status: value, } })
     }
 
-     setCurrentPage(1)
+    setCurrentPage(1)
   };
 
   const [selectedDateRange, setSelectedDateRange] = useState([]);
@@ -437,15 +443,18 @@ const Compliance = () => {
   }, [filterStatus]);
 
 
-  
- useEffect(() => {
-      
 
-      if (statusfilter === "date" &&  ExcelFilterDates.length === 2) {
-      dispatch({ type: 'COMPLIANCE-LIST', payload: { hostel_id: hosId  , 
-          from_date:ExcelFilterDates[0]?.format("YYYY-MM-DD"),
-          to_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")} 
-           })
+  useEffect(() => {
+
+
+    if (statusfilter === "date" && ExcelFilterDates.length === 2) {
+      dispatch({
+        type: 'COMPLIANCE-LIST', payload: {
+          hostel_id: hosId,
+          from_date: ExcelFilterDates[0]?.format("YYYY-MM-DD"),
+          to_date: ExcelFilterDates[1]?.format("YYYY-MM-DD")
+        }
+      })
     }
   }, [ExcelFilterDates]);
 
@@ -828,7 +837,7 @@ const Compliance = () => {
                     marginTop: "1rem",
                   }}
                 >
-                <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px" }} />
+                  <MdError style={{ color: 'red', marginRight: "5px", fontSize: "13px" }} />
                   <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}>{compliancepermissionError}</span>
                 </div>
               )}
@@ -924,37 +933,35 @@ const Compliance = () => {
                                 width: "100%",
                               }}
                             >
-                              <ul
-                                className="show-scroll p-0"
-                                style={{
-                                  backgroundColor: "#fff",
-                                  maxHeight:
-                                    filteredUsers?.length > 1 ? "174px" : "auto",
-                                  minHeight: 50,
-                                  overflowY:
-                                    filteredUsers?.length > 1 ? "auto" : "hidden",
 
-                                  margin: "0",
-                                  listStyleType: "none",
-                                  borderRadius: 8,
-                                  boxSizing: "border-box",
-                                }}
-                              >
-                                {currentItems?.map((user, index) => {
+                              <ul className="show-scroll p-0 m-0" style={{
+                                listStyleType: "none",
+                                borderRadius: 8,
+                                maxHeight: "174px",
+                                overflowY: "auto",
+                                backgroundColor: "#fff",
+                                boxSizing: "border-box",
+                                width: "100%",
+                              }}>
+                                {Array.isArray(filterOptions) && filterOptions.map((user, index) => {
                                   const imagedrop = user.profile || Profile;
                                   return (
                                     <li
                                       key={index}
-                                      className="list-group-item d-flex align-items-center"
+                                      className="d-flex align-items-center"
                                       style={{
+                                        width: "100%",
+                                        padding: "10px",
+                                        borderRadius: 8,
+                                        backgroundColor: hoveredIndex === index ? "#1E45E1" : "#fff",
+                                        color: hoveredIndex === index ? "#fff" : "#000",
                                         cursor: "pointer",
-                                        padding: "10px 5px",
-                                        borderBottom:
-                                          index !== filteredUsers.length - 1
-                                            ? "1px solid #eee"
-                                            : "none",
+                                        boxSizing: "border-box",
+                                        fontFamily: "Gilroy",
                                       }}
                                       onClick={() => handleUserSelect(user)}
+                                      onMouseEnter={() => setHoveredIndex(index)}
+                                      onMouseLeave={() => setHoveredIndex(null)}
                                     >
                                       <Image
                                         src={imagedrop}
@@ -964,17 +971,19 @@ const Compliance = () => {
                                           height: "30px",
                                           width: "30px",
                                           marginRight: "10px",
+                                          flexShrink: 0,
                                         }}
                                         onError={(e) => {
                                           e.target.onerror = null;
                                           e.target.src = Profile;
                                         }}
                                       />
-                                      <span>{user.Name}</span>
+                                      <div style={{ flexGrow: 1 }}>{user.Name || "Unnamed"}</div>
                                     </li>
                                   );
                                 })}
                               </ul>
+
                             </div>
                           )}
                         </div>
@@ -1543,7 +1552,7 @@ const Compliance = () => {
                               </div>
                               {dateerrmsg.trim() !== "" && (
                                 <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px"}} />
+                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {dateerrmsg}
                                   </label>
@@ -1551,7 +1560,7 @@ const Compliance = () => {
                               )}
                               {joiningDateErrmsg.trim() !== "" && (
                                 <div className="d-flex align-items-center mt-1">
-                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px"}} />
+                                  <MdError style={{ color: "red", marginRight: "5px", fontSize: "14px" }} />
                                   <label className="mb-0" style={{ color: "red", fontSize: "12px", fontFamily: "Gilroy", fontWeight: 500 }}>
                                     {joiningDateErrmsg}
                                   </label>
@@ -1616,14 +1625,14 @@ const Compliance = () => {
                       {totalErrormsg.trim() !== "" && (
                         <div>
                           <p className='text-center' style={{ fontSize: '15px', color: 'red', marginTop: '3px' }}>
-                            {totalErrormsg !== " " && <MdError style={{ color: "red", marginRight: '5px', fontSize:14  }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {totalErrormsg}</span>
+                            {totalErrormsg !== " " && <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />} <span style={{ fontSize: '12px', color: 'red', fontFamily: "Gilroy", fontWeight: 500 }}> {totalErrormsg}</span>
                           </p>
                         </div>
                       )}
 
                       {state.createAccount?.networkError ?
                         <div className='d-flex  align-items-center justify-content-center mt-2 mb-2'>
-                          <MdError style={{ color: "red", marginRight: '5px', fontSize:14 }} />
+                          <MdError style={{ color: "red", marginRight: '5px', fontSize: 14 }} />
                           <label className="mb-0" style={{ color: "red", fontSize: 12, fontFamily: "Gilroy", fontWeight: 500 }}>{state.createAccount?.networkError}</label>
                         </div>
                         : null}

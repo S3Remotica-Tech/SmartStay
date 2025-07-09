@@ -7,9 +7,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function* handlecompliancelist(action) {
    const response = yield call(compliance, action.payload);
+ 
 
    if (response.status === 200 || response.data.statusCode === 200) {
-      yield put({ type: 'COMPLIANCE_LIST', payload: { response: response.data.hostelData, statusCode: response.status || response.data.statusCode } })
+      yield put({ type: 'COMPLIANCE_LIST', payload: { response: response.data.hostelData, filterOptions: response.data.filterOptions, statusCode: response.status || response.data.statusCode } })
    }
    else {
       yield put({ type: 'ERROR', payload: response.data.message })

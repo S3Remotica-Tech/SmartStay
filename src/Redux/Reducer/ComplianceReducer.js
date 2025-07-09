@@ -2,6 +2,7 @@
 
 export const initialState = {
     Compliance: [],
+    filterOptions: [],
     message: [],
     statusCodeForAddCompliance: 0,
     messageShow: false,
@@ -36,7 +37,7 @@ const ComplianceReducer = (state = initialState, action) => {
         case 'RESET_ALL':
               return initialState;
         case 'COMPLIANCE_LIST':
-            return { ...state, Compliance: action.payload.response, statusCodeCompliance: action.payload.statusCode }
+            return { ...state, Compliance: action.payload.response, filterOptions: action.payload.filterOptions, statusCodeCompliance: action.payload.statusCode }
         case 'CLEAR_COMPLIANCE_LIST':
             return { ...state, statusCodeCompliance: 0 }
 
