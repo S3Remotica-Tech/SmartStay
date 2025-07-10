@@ -636,7 +636,7 @@ const pageSizeOptions = [
 
 
         {
-          roomCountData.length >= 4 &&
+          roomCountData.length > 4 &&
 
            <nav
            

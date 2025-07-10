@@ -1607,7 +1607,7 @@ function Banking() {
               </div>
             )}
 
-            {transactionFilterddata?.length >= 5 && (
+            {transactionFilterddata?.length > 5 && (
               <nav
                 style={{
                   display: "flex",

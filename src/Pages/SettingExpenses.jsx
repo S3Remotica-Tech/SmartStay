@@ -733,7 +733,7 @@ const expenseOptions = [
         )}
 
 
-        {expensesFilterddata?.length >= 10 && (
+        {expensesFilterddata?.length > 10 && (
           <nav  style={{
             display: "flex",
             alignItems: "center",

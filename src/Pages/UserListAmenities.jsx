@@ -1039,7 +1039,7 @@ useEffect(() => {
         </div>
           )}
       </div>
-      {amnitiesFilterddata?.length >= 2 && (
+      {amnitiesFilterddata?.length > 2 && (
         <>
           <nav style={{
             display: "flex",

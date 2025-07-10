@@ -582,7 +582,7 @@ function SettingCompliance({ hostelid }) {
         </div>
       )}
 
-      {complianceFilterddata.length >= 10 && (
+      {complianceFilterddata.length > 10 && (
         <nav style={{
           display: "flex",
           alignItems: "center",

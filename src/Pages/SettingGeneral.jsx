@@ -1220,7 +1220,7 @@ function SettingGeneral() {
         )}
       </div>
 
-      {generalFilterddata?.length >= 2 && (
+      {generalFilterddata?.length > 2 && (
         <nav
            style={{
             display: "flex",

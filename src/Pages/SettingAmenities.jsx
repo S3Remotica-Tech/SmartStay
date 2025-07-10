@@ -692,7 +692,7 @@ function SettingAmenities({ hostelid }) {
             </div>
 
 
-            {amenitiesFilterddata.length >= 2 && (
+            {amenitiesFilterddata.length > 2 && (
                 <nav
                     style={{
                         display: "flex",

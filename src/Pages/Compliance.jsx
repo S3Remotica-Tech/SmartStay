@@ -1104,7 +1104,7 @@ const Compliance = () => {
                   }
 
                 </div>
-                {filteredUsers && filteredUsers?.length >= 6 && (
+                {filteredUsers && filteredUsers?.length > 6 && (
 
                   <nav className=" mb-0"
                     style={{

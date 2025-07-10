@@ -592,7 +592,7 @@ function Vendor() {
             </div>
 
             {
-              filteredData.length >= 4 &&
+              filteredData.length > 4 &&
               <nav style={{
                 display: "flex",
                 alignItems: "center",

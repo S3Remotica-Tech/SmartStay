@@ -837,7 +837,7 @@ const pageSizeOptions = [
 
 
       <div>
-        {filteredData.length >= 6 && (
+        {filteredData.length > 6 && (
           <nav className="position-fixed bottom-0 end-0 left-0 d-flex justify-content-end align-items-center" style={{padding:12, backgroundColor:"white"}}>
 
              <div>
